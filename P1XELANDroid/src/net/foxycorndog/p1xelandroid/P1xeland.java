@@ -234,7 +234,7 @@ public class P1xeland
 				}
 //			}
 			
-			tick(targetFps / (float)Frame.getFps(), Frame.getDFps());
+			tick(targetFps * 2 * 2 * 4 / (float)Frame.getFps(), Frame.getDFps());
 			
 			if (frozen)
 			{
