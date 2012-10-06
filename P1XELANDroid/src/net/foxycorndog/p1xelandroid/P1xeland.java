@@ -3,6 +3,7 @@ package net.foxycorndog.p1xelandroid;
 import static net.foxycorndog.jdooglandroid.GL.scalef;
 import static net.foxycorndog.jdooglandroid.GL.translatef;
 
+// new comment,
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
