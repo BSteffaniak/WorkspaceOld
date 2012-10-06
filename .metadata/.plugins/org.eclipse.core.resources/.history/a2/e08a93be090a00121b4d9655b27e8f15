@@ -1,0 +1,960 @@
+package net.foxycorndog.jdooglandroid.components;
+
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
+
+import static net.foxycorndog.jdooglandroid.GL.beginTextureDraw;
+import static net.foxycorndog.jdooglandroid.GL.beginVertexDraw;
+import static net.foxycorndog.jdooglandroid.GL.endTextureDraw;
+import static net.foxycorndog.jdooglandroid.GL.endVertexDraw;
+import static net.foxycorndog.jdooglandroid.components.Frame.Alignment.BOTTOM;
+import static net.foxycorndog.jdooglandroid.components.Frame.Alignment.CENTER;
+import static net.foxycorndog.jdooglandroid.components.Frame.Alignment.LEFT;
+import static net.foxycorndog.jdooglandroid.components.Frame.Alignment.RIGHT;
+import static net.foxycorndog.jdooglandroid.components.Frame.Alignment.TOP;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.ArrayList;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
+import net.foxycorndog.jdobaseandroid.Base;
+//import net.foxycorndog.jdooglandroid.Color;
+import net.foxycorndog.jdooglandroid.Color;
+import net.foxycorndog.jdooglandroid.GL;
+import net.foxycorndog.jdooglandroid.R;
+import net.foxycorndog.jdooglandroid.fonts.TTFont;
+import net.foxycorndog.jdooglandroid.image.imagemap.SpriteSheet;
+import net.foxycorndog.jdooglandroid.image.imagemap.Texture;
+//import net.foxycorndog.jdooglandroid.input.KeyboardInput;
+import net.foxycorndog.jdooglandroid.input.TouchInput;
+import net.foxycorndog.jdooglandroid.listeners.ActionListener;
+import net.foxycorndog.jdooglandroid.listeners.KeyListener;
+import net.foxycorndog.jdooglandroid.listeners.MouseListener;
+//import net.foxycorndog.jdoutilandroid.FrameLoop;
+import net.foxycorndog.jdoutilandroid.FrameTask;
+import net.foxycorndog.jdoutilandroid.Intersects;
+import net.foxycorndog.jdoutilandroid.LightBuffer;
+import net.foxycorndog.jdoutilandroid.Util;
+import net.foxycorndog.jdoutilandroid.VerticesBuffer;
+import android.view.View.OnTouchListener;
+import android.app.Activity;
+import android.opengl.GLSurfaceView;
+import android.util.*;
+
+public abstract class Frame
+{
+	private static boolean     resized;
+	private static boolean     stream;
+	
+	private static short       dfps, fps;
+	private static short       leftBuffer, rightBuffer, topBuffer, bottomBuffer;
+	
+//	private static int         oldX, oldY;
+	private static int         width, height;
+	
+	private static float       scaleX, scaleY;
+	
+	private static long        newTime, oldTime;
+	
+	private static String      fileSeparator = System.getProperty("file.separator");
+	
+	private static Dimension   originalDimensions, resizedDimensions;
+	
+	private static TTFont      font;
+	
+	private static Cursor      cursor;
+	
+	private static GameRenderer renderer;
+	
+	private static Activity    activity;
+	
+//	private static FrameLoop   loop;
+	
+//	private static DisplayMode oldDisplay;
+	
+	private static boolean     keysPressed[];
+	private static boolean     buttonsPressed[];
+	
+	private static ArrayList<MouseListener>  mouseListeners;
+//	private static ArrayList<ActionListener> actionListeners;
+//	private static ArrayList<KeyListener>    keyListeners;
+	
+	private static ArrayList<Component>      components;
+	
+//	private ArrayList<Font>  fonts;
+	
+	public static enum Alignment
+	{
+		LEFT, RIGHT, CENTER, TOP, BOTTOM
+	}
+	
+	private static class Dimension
+	{
+		private int width, height;
+		
+		public Dimension(int width, int height)
+		{
+			this.width  = width;
+			this.height = height;
+		}
+	}
+	
+	public static void init(GameRenderer renderer, Activity activity)
+	{
+		init("", renderer, activity);
+	}
+	
+	/**
+	* The initialization method for the Frame class. Creates a
+	* frame.
+	* 
+	* @param width 
+	* @param height 
+	* @param title 
+	* @param renderer 
+	* @param activity 
+	*/
+	public static void init(String title, GameRenderer renderer, Activity activity)
+	{
+		keysPressed    = new boolean[1024];
+//		buttonsPressed = new boolean[3];
+
+//		File f = new File("");
+//		System.out.println("Path: " + f.getAbsolutePath());
+//		GL.initGL();
+
+		mouseListeners     = new ArrayList<MouseListener>();
+//		actionListeners    = new ArrayList<ActionListener>();
+//		keyListeners       = new ArrayList<KeyListener>();
+
+		components         = new ArrayList<Component>();
+
+		originalDimensions = new Dimension(width, height);
+		resizedDimensions  = new Dimension(width, height);
+
+		scaleX = 1;
+		scaleY = 1;
+
+//		oldX   = -1;
+//		oldY   = -1;
+		
+		Frame.width    = renderer.width;
+		Frame.height   = renderer.height;
+		
+		Frame.activity = activity;
+		
+		Frame.renderer     = renderer;
+		
+		setTitle(title);
+		
+//		GL.createFrame(width, height, title);
+		
+		GL.initBasicView(width, height);
+		
+//		GL.WHITE = new SpriteSheet("res" + fileSeparator + "images" + fileSeparator + "White.png", "PNG", 1, 1, false);
+		GL.white = new Texture(activity.getResources(), R.drawable.white);
+		
+		newTime = System.currentTimeMillis();
+		oldTime = newTime;
+		
+		dfps    = 0;
+		fps     = 0;
+		
+		leftBuffer   = (short)(width  / 4);
+		rightBuffer  = (short)(width  / 4);
+		topBuffer    = (short)(height / 4);
+		bottomBuffer = (short)(height / 4);
+	}
+	
+	public static class Cursor
+	{
+		private int            width, height;
+		
+		private VerticesBuffer verticesBuffer;
+		private LightBuffer    texturesBuffer;
+		
+		private Texture        cursorSprites;
+		
+		public Cursor(int width, int height, String location, boolean flipped)
+		{
+			this.width  = width;
+			this.height = height;
+			
+			cursorSprites = new Texture(null, 0);
+			
+			verticesBuffer = new VerticesBuffer(4 * 2, 2);
+			texturesBuffer = new LightBuffer(4 * 2, 2);
+			
+			verticesBuffer.addData(GL.addRectVertexArrayf(0, 0, width, height, 0, null));
+			texturesBuffer.addData(GL.addRectTextureArrayf(cursorSprites, 0, null));
+		}
+		
+		public void render()
+		{
+			GL.beginManipulation();
+			{
+				GL.beginInvertingBackground();
+				
+				float offset = 10;
+				
+//				glTranslatef(Mouse.getX(), Mouse.getY() - height + 1, offset);
+				
+				GL.renderQuads(verticesBuffer, texturesBuffer, cursorSprites, 0, 1);
+				
+				GL.endInverting();
+			}
+			GL.endManipulation();
+		}
+		
+		public int getWidth()
+		{
+			return width;
+		}
+		
+		public int getHeight()
+		{
+			return height;
+		}
+	}
+	
+	public static void setCursor(Cursor cursor)
+	{
+		Frame.cursor = cursor;
+	}
+	
+	/**
+	* Start the main game loop that runs at all times.
+	*/
+	public void startLoop(int targetFps)
+	{
+		init();
+		
+//		loop = new FrameLoop();
+		Thread loop;
+		
+//		loop.start(targetFps, new FrameTask()
+//		{
+		loop = new Thread()
+		{
+			public void run()
+			{
+				Util.nanoTime = System.nanoTime();
+				
+				GL.beginManipulation();
+				
+//				if (Display.wasResized())
+//				{
+//					resized = true;
+//					
+//					GL.resetBasicView();
+//					
+//					resizedDimensions = new Dimension(Display.getWidth(), Display.getHeight());
+//					
+//					scaleX = (float)resizedDimensions.width  / (float)originalDimensions.width;
+//					scaleY = (float)resizedDimensions.height / (float)originalDimensions.height;
+//				}
+				
+				loop();
+				
+				listenTouch();
+				listenKeys();
+				
+				render();
+				
+				updateFps();
+				
+				if (cursor != null)
+				{
+					cursor.render();
+				}
+				
+				GL.endManipulation();
+
+				resized = false;
+			}
+		};
+		
+		loop.start();
+	}
+	
+	private void listenKeys()
+	{
+		boolean keys[] = new boolean[1];//KeyboardInput.getKeys();
+		
+		synchronized (components)
+		{
+			for (int i = components.size() - 1; i >= 0; i --)
+			{
+				synchronized (components)
+				{
+					try
+					{
+						Component component = components.get(i);
+						
+						ArrayList<KeyListener> keyListeners = component.getKeyListeners();
+						
+						if (keyListeners == null || keyListeners.size() <= 0)
+						{
+							continue;
+						}
+						
+						for (int d = 0; d < keys.length; d ++)
+						{
+							if (keys[d])
+							{
+								synchronized (keyListeners)
+								{
+									for (int j = keyListeners.size() - 1; j >= 0; j --)
+									{
+										synchronized (keyListeners)
+										{
+											keyListeners.get(j).onKeyPressed(d);
+										}
+									}
+								}
+							}
+							else if (keysPressed[d])
+							{
+								synchronized (keyListeners)
+								{
+									for (int j = keyListeners.size() - 1; j >= 0; j --)
+									{
+										synchronized (keyListeners)
+										{
+											keyListeners.get(j).onKeyReleased(d);
+											keyListeners.get(j).onKeyTyped(d);
+										}
+									}
+								}
+							}
+						}
+					}
+					catch (IndexOutOfBoundsException ex)
+					{
+						ex.printStackTrace();
+					}
+				}
+			}
+			
+			keysPressed = keys.clone();
+		}
+		
+//		synchronized (Frame.keyListeners)
+//		{
+//			for (int i = 0; i < Frame.keyListeners.size(); i ++)
+//			{
+//				synchronized (Frame.keyListeners)
+//				{
+//					for (int d = 0; d < keys.length; d ++)
+//					{
+//						if (keys[d])
+//						{
+//							Frame.keyListeners.get(i).onKeyPressed(d);
+//						}
+//					}
+//				}
+//			}
+//		}
+	}
+	
+	private void listenTouch()
+	{
+		boolean buttons[] = new boolean[1];//KeyboardInput.getButtons();
+		
+		int dx = TouchInput.getX();
+		int dy = TouchInput.getY();
+		
+		dx    -= TouchInput.getDX();
+		dy    -= TouchInput.getDY();
+		
+		synchronized (components)
+		{
+			for (int i = components.size() - 1; i >= 0; i --)
+			{
+				synchronized (components)
+				{
+					try
+					{
+						Component component = components.get(i);
+						
+						if (Intersects.rectangles(TouchInput.getX(), TouchInput.getY(), 1, 1, component.getMouseX(), component.getMouseY(), component.getScreenWidth(), component.getScreenHeight()))
+						{
+							ArrayList<ActionListener> actionListeners = component.getActionListeners();
+							
+							synchronized (actionListeners)
+							{
+								for (int j = actionListeners.size() - 1; j >= 0; j --)
+								{
+									synchronized (actionListeners)
+									{
+										try
+										{
+											if (buttons[0] && !buttonsPressed[0])
+											{
+												synchronized (components)
+												{
+													for (int f = components.size() - 1; f >= 0; f --)
+													{
+														synchronized (components)
+														{
+															components.get(f).setFocused(false);
+														}
+													}
+												}
+												
+												component.setFocused(true);
+												
+												actionListeners.get(j).onActionPerformed(component);
+											}
+											
+											actionListeners.get(j).onHover(component);
+											
+											component.setHovering(true);
+										}
+										catch (IndexOutOfBoundsException ex)
+										{
+											
+										}
+									}
+								}
+							}
+						}
+						else
+						{
+							component.setHovering(false);
+						}
+						
+						ArrayList<MouseListener> mouseListeners = component.getMouseListeners();
+						
+						if (mouseListeners != null)
+						{
+							for (int b = 0; b < buttons.length; b ++)
+							{
+								synchronized (mouseListeners)
+								{
+									for (int f = mouseListeners.size() - 1; f >= 0; f --)
+									{
+										synchronized (mouseListeners)
+										{
+											if (buttons[b])
+											{
+												mouseListeners.get(f).onMousePressed(b);
+											}
+											else if (!buttons[b] && buttonsPressed[b])
+											{
+												mouseListeners.get(f).onMouseClicked(b);
+											}
+											if (!buttons[b])
+											{
+												mouseListeners.get(f).onMouseReleased(0);
+											}
+											
+											if (dx != 0 || dy != 0)
+											{
+												mouseListeners.get(f).onMouseMoved();
+												
+												if (buttons[b])
+												{
+													mouseListeners.get(f).onMouseDragged(b);
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					catch (IndexOutOfBoundsException ex)
+					{
+						if (Base.debug)
+						{
+							ex.printStackTrace();
+						}
+					}
+				}
+			}
+		}
+		
+		synchronized (mouseListeners)
+		{
+			for (int i = mouseListeners.size() - 1; i >= 0; i --)
+			{
+				synchronized (mouseListeners)
+				{
+					for (int b = 0; b < 2; b ++)
+					{
+						if (buttons[b])
+						{
+							mouseListeners.get(i).onMousePressed(b);
+						}
+						else if (!buttons[b])
+						{
+							mouseListeners.get(i).onMouseClicked(b);
+						}
+						if (!buttons[b])
+						{
+							mouseListeners.get(i).onMouseReleased(b);
+						}
+						
+						if (dx != 0 || dy != 0)
+						{
+							mouseListeners.get(i).onMouseMoved();
+							
+							if (buttons[b])
+							{
+								mouseListeners.get(i).onMouseDragged(b);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		buttonsPressed = buttons.clone();
+		
+//		oldX = Mouse.getX();
+//		oldY = Mouse.getY();
+	}
+	
+	public static void addMouseListener(MouseListener mouseListener)
+	{
+		mouseListeners.add(mouseListener);
+	}
+	
+	public static void removeMouseListener(MouseListener mouseListener)
+	{
+		mouseListeners.remove(mouseListener);
+	}
+	
+//	public static void addActionListener(ActionListener actionListener)
+//	{
+//		actionListeners.add(actionListener);
+//	}
+//	
+//	public static void addKeyListener(KeyListener keyListener)
+//	{
+//		keyListeners.add(keyListener);
+//	}
+	
+	public static void setFocused(Component component, boolean focused)
+	{
+		if (focused)
+		{
+			synchronized (components)
+			{
+				for (int f = components.size() - 1; f >= 0; f --)
+				{
+					synchronized (components)
+					{
+						if (component != components.get(f))
+						{
+							components.get(f).setFocused(false);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	* Abstract void that is used to initialize stuff.
+	*/
+	public abstract void init();
+	
+	/**
+	* Abstract void that is used for the loop.
+	*/
+	public abstract void loop();
+	
+	/**
+	* Abstract void that is used to render objects.
+	*/
+	public abstract void render();
+	
+	/**
+	* Updates the FPS of the screen.
+	*/
+	public static void updateFps()
+	{
+		dfps ++;
+		
+		newTime = System.currentTimeMillis();
+		
+		if (newTime > oldTime + 1000)
+		{
+			
+			
+			fps = dfps;
+			
+			dfps = 0;
+			
+			oldTime = newTime;
+		}
+	}
+	
+	/**
+	* Get the left buffer amount of where the player can reach.
+	* 
+	* @return The left buffer.
+	*/
+	public static short getLeftBuffer()
+	{
+		return leftBuffer;
+	}
+
+	/**
+	* Set the left buffer amount of where the player can reach.
+	*/
+	public static void setLeftBuffer(short buffer)
+	{
+		leftBuffer = buffer;
+	}
+
+	/**
+	* Get the right buffer amount of where the player can reach.
+	* 
+	* @return The right buffer.
+	*/
+	public static short getRightBuffer()
+	{
+		return rightBuffer;
+	}
+
+	/**
+	* Set the right buffer amount of where the player can reach.
+	*/
+	public static void setRightBuffer(short buffer)
+	{
+		rightBuffer = buffer;
+	}
+
+	/**
+	* Get the top buffer amount of where the player can reach.
+	* 
+	* @return The top buffer.
+	*/
+	public static short getTopBuffer()
+	{
+		return topBuffer;
+	}
+
+	/**
+	* Set the top buffer amount of where the player can reach.
+	*/
+	public static void setTopBuffer(short buffer)
+	{
+		topBuffer = buffer;
+	}
+
+	/**
+	* Get the bottom buffer amount of where the player can reach.
+	* 
+	* @return The bottom buffer.
+	*/
+	public static short getBottomBuffer()
+	{
+		return bottomBuffer;
+	}
+
+	/**
+	* Set the bottom buffer amount of where the player can reach.
+	* 
+	* @return The bottom buffer.
+	*/
+	public static void setBottomBuffer(short buffer)
+	{
+		bottomBuffer = buffer;
+	}
+	
+	public static float getCenterX()
+	{
+		return renderer.getWidth() / 2f;
+	}
+	
+	public static float getCenterY()
+	{
+		return renderer.getHeight() / 2f;
+	}
+	
+	public static int getFps()
+	{
+		return fps;
+	}
+	
+	public static int getDFps()
+	{
+		return dfps;
+	}
+	
+	public static void renderTextBox(float x, float y, String text, Color color, float scale)
+	{
+		int beginIndex = 0;
+		int yoff = 0;
+		
+		int len = text.length();
+		
+		int height = font.getHeight(text);
+		
+//		for (int i = 0; i < len + 1; i ++)
+//		{
+//			if (font.getWidth(text.substring(beginIndex, i)) * scale2 > 300 || i == len)
+//			{
+//				String substr = text.substring(beginIndex, i);
+//				
+//				renderText(x, y + yoff * height * scale2, substr, color, scale);
+//				
+//				yoff ++;
+//				beginIndex = i;
+//			}
+//		}
+		
+		for (int i = 0; i < len; i ++)
+		{
+			
+		}
+	}
+	
+	/**
+	* Render text to the screen at the specified place with the
+	* specified Color.
+	* 
+	* @param x The x position.
+	* @param y The y position.
+	* @param text The text to be rendered.
+	* @param color The color to render the text in.
+	* @param size The size of the text to be rendered.
+	* @param beginIndex The index to start drawing the string at.
+	* @param endIndex The index of the String to stop drawing it at.
+	*/
+	public static void renderText(float x, float y, String text, Color color, float scale, int beginIndex, int endIndex)
+	{
+		if (text == null || text.equals(""))
+		{
+			return;// null;
+		}
+		
+		float scaleX = (float)GL.getAmountScaled()[0];
+		float scaleY = (float)GL.getAmountScaled()[1];
+		
+//		DisplayList d = null;
+		
+		GL.flipView();
+		
+//		y = Frame.getHeight() - y - 1;
+		
+		GL.beginManipulation();
+		{
+			GL.scalef(scale, scale, 1);
+			
+			//font.drawString(x / scale2, y / scale2 + Idk.offsetY / scale2, text, color, beginIndex, endIndex);
+//			d = font.drawDisplayList(0, 0, text, color, beginIndex, endIndex);
+//			font.drawString(x / scale, y / scale, text, color, beginIndex, endIndex);
+//			font.drawString(x / scale, y / scale, text, color, beginIndex, endIndex);
+		}
+		GL.endManipulation();
+		
+		GL.flipView();
+		
+		GL.setClearColorf(1, 1, 1, 1);
+		
+		//return new short[] { d.width, d.height };
+	}
+	
+	/**
+	* Render text to the screen at the specified place with the
+	* specified Color.
+	* 
+	* @param x The x position.
+	* @param y The y position.
+	* @param text The text to be rendered.
+	* @param color The color to render the text in.
+	* @param size The size of the text to be rendered.
+	*/
+	public static float[] renderText(float x, float y, String text, Color color, float scale)
+	{
+		if (text == null || text.equals(""))
+		{
+			return null;
+		}
+		
+		renderText(x, y, text, color, scale, 0, text.length());
+		
+		return new float[] { x, y };
+	}
+	
+	/**
+	* Render text to the screen at the specified place with the
+	* specified Color.
+	* 
+	* @param xo The x offset position.
+	* @param yo The y offset position.
+	* @param text The text to be rendered.
+	* @param color The color to render the text in.
+	* @param size The size of the text to be rendered.
+	* @param halign The horizontal alignment of the text to be
+	* 		rendered in the Display.
+	*/
+	public static float[] renderText(float xo, float yo, String text, Color color, float scale, Alignment halign)
+	{
+//		if (halign == LEFT)
+//		{
+//			
+//		}
+//		else if (halign == CENTER)
+//		{
+//			xo += (int)getCenterX() - ((font.getLegitWidth(text) * scale) / 2);
+//		}
+//		else if (halign == RIGHT)
+//		{
+//			xo += view.getWidth() - (font.getLegitWidth(text) * scale);
+//		}
+		
+		return renderText(xo, yo, text, color, scale);
+	}
+	
+	/**
+	* Render text to the screen at the specified place with the
+	* specified Color.
+	* 
+	* @param xo The x offset position.
+	* @param yo The y offset position.
+	* @param text The text to be rendered.
+	* @param color The color to render the text in.
+	* @param size The size of the text to be rendered.
+	* @param halign The horizontal alignment of the text to be
+	* 		rendered in the Display.
+	*/
+	public static float[] renderText(float xo, float yo, String text, Color color, float scale, Alignment halign, Alignment valign)
+	{
+//		if (valign == TOP)
+//		{
+//			
+//		}
+//		else if (valign == CENTER)
+//		{
+//			yo += (int)getCenterY() - ((font.getLegitHeight(text) * scale) / 2);
+//		}
+//		else if (valign == BOTTOM)
+//		{
+//			yo += view.getHeight() - (font.getLegitHeight(text) * scale);
+//		}
+		
+		return renderText(xo, yo, text, color, scale, halign);
+	}
+	
+	public static boolean wasResized()
+	{
+		return resized;
+	}
+	
+	public static int getWidth()
+	{
+		return renderer.getWidth();
+	}
+	
+	public static int getHeight()
+	{
+		return renderer.getHeight();
+	}
+	
+	public static TTFont getFont()
+	{
+		return font;
+	}
+	
+	public static void add(Component component)
+	{
+		components.add(component);
+	}
+	
+	public static void remove(Component component)
+	{
+		components.remove(component);
+	}
+	
+	public static float getScaleX()
+	{
+		return scaleX;
+	}
+	
+	public static float getScaleY()
+	{
+		return scaleY;
+	}
+	
+	public static Cursor getCursor()
+	{
+		return cursor;
+	}
+	
+	public static void setTitle(String title)
+	{
+		activity.setTitle(title);
+	}
+	
+	public static boolean usingStream()
+	{
+		return stream;
+	}
+	
+	public static abstract class GameRenderer implements GLSurfaceView.Renderer
+	{
+		private int width, height;
+		
+		public GameRenderer()
+		{
+			
+		}
+
+		public void onDrawFrame(GL10 gl)
+		{
+			gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT);
+			System.out.println("first");
+			loop(gl);
+			
+			render(gl);
+			
+			Frame.updateFps();
+			
+			TouchInput.next();
+		}
+
+		public final void onSurfaceChanged(GL10 gl, int width, int height)
+		{
+			this.width   = width;
+			this.height  = height;
+			
+			Frame.width  = width;
+			Frame.height = height;
+			
+			onSurfaceChanged(gl);
+		}
+
+		public abstract void onSurfaceCreated(GL10 gl, EGLConfig config);
+		
+		public abstract void render(GL10 gl);
+		
+		public abstract void loop(GL10 gl);
+		
+		public abstract void onSurfaceChanged(GL10 gl);
+		
+		public int getWidth()
+		{
+			return width;
+		}
+		
+		public int getHeight()
+		{
+			return height;
+		}
+	}
+}

@@ -1,0 +1,51 @@
+
+**** Build of configuration Debug for project P1XELANDC++ ****
+
+**** Internal Builder is used for build               ****
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o net\foxycorndog\p1xeland\actors\Actor.o ..\net\foxycorndog\p1xeland\actors\Actor.cpp
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:26:3: error: 'Direction' does not name a type
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:28:3: error: 'Map' does not name a type
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:30:3: error: 'Inventory' does not name a type
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:33:4: error: 'final' was not declared in this scope
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:33:4: error: ISO C++ forbids declaration of 'type name' with no type [-fpermissive]
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:33:4: error: static member '<anonymous>' cannot be a bit-field
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:33:4: error: expected ';' at end of member declaration
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:33:30: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11 [enabled by default]
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:35:9: error: expected ':' before 'static'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:38:14: error: expected '}' before ';' token
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:38:14: error: a storage class can only be specified for objects and functions
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:40:10: error: expected ':' before 'static'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:70:10: error: expected ':' before 'static'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:99:2: error: expected ';' after class definition
+..\net\foxycorndog\p1xeland\actors\Actor.cpp: In static member function 'static Actor::Direction Actor::getOpposite(Actor::Direction)':
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:67:11: error: 'null' was not declared in this scope
+..\net\foxycorndog\p1xeland\actors\Actor.cpp: At global scope:
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:101:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:146:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:151:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:156:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:161:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:166:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:171:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:176:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:181:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:186:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:191:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:196:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:201:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:206:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:211:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:216:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:221:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:226:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:231:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:236:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:241:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:246:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:251:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:256:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:268:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:273:2: error: expected unqualified-id before 'public'
+..\net\foxycorndog\p1xeland\actors\Actor.cpp:287:2: error: expected unqualified-id before 'public'
+Build error occurred, build is stopped
+Time consumed: 324  ms.  

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/P1XELAND/src/net/foxycorndog/p1xeland/P1xeland.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="net.foxycorndog.p1xeland.P1xeland"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="P1XELAND"/>
+</launchConfiguration>

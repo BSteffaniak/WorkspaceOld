@@ -1,0 +1,139 @@
+package net.foxycorndog.jdooglandroid.components;
+
+import net.foxycorndog.jdooglandroid.GL;
+import net.foxycorndog.jdooglandroid.image.imagemap.Texture;
+import net.foxycorndog.jdooglandroid.input.TouchInput;
+import net.foxycorndog.jdoutilandroid.LightBuffer;
+import net.foxycorndog.jdoutilandroid.VerticesBuffer;
+
+public class Joystick extends Component
+{
+	private int            bigWidth, bigHeight;
+	
+	private float          topX, topY;
+	
+	private double         degrees;
+	private double         distance, maxDistance;
+	
+	private VerticesBuffer verticesBuffer;
+	private LightBuffer    texturesBuffer;
+	
+	private Texture        topTexture, bottomTexture;
+	
+	public Joystick(Texture top, Texture bottom)
+	{
+		verticesBuffer = new VerticesBuffer(4 * 2 * 2, 2);
+		texturesBuffer = new LightBuffer(4 * 2 * 2, 2);
+		
+		int bigWidth  = bottom.getWidth() > top.getWidth() ? bottom.getWidth() : top.getWidth();
+		int bigHeight = bottom.getHeight() > top.getHeight() ? bottom.getHeight() : top.getHeight();
+
+		verticesBuffer.setData(4 * 2 * 0, GL.addRectVertexArrayf(0, 0, bottom.getWidth(), bottom.getHeight(), 0, null));
+		verticesBuffer.setData(4 * 2 * 1, GL.addRectVertexArrayf(0, 0, top.getWidth(), top.getHeight(), 0, null));
+
+		texturesBuffer.setData(4 * 2 * 0, GL.addRectTextureArrayf(bottom, 0, null));
+		texturesBuffer.setData(4 * 2 * 1, GL.addRectTextureArrayf(top, 0, null));
+		
+		this.bottomTexture = bottom;
+		this.topTexture    = top;
+		
+		this.maxDistance   = 25;
+		
+		this.bigWidth      = bigWidth;
+		this.bigHeight     = bigHeight;
+		
+		setWidth(bigWidth);
+		setHeight(bigHeight);
+	}
+	
+	public void render()
+	{
+		super.render();
+		
+		GL.beginManipulation();
+		{
+			float renderX = getX() + getOffsetX();
+			float renderY = getY() + getOffsetY();
+			
+			GL.translatef(renderX, renderY, 0);
+			
+			GL.renderQuad(verticesBuffer, texturesBuffer, topTexture, 1);
+			GL.renderQuad(verticesBuffer, texturesBuffer, bottomTexture, 0);
+		}
+		GL.endManipulation();
+	}
+	
+	public void update()
+	{
+		double renderX = getX() + getOffsetX() + ((bigWidth / 2f)  * getScaleWidth());
+		double renderY = getY() + getOffsetY() + ((bigHeight / 2f) * getScaleHeight());
+		
+		double x = TouchInput.getX();
+		double y = TouchInput.getY();
+		
+		double degrees  = 0;
+		double distance = 0;
+		
+		distance = Math.sqrt(Math.pow(x - renderX, 2) + Math.pow(y - renderY, 2));
+		
+		x = renderX - x;
+		y = renderY - y;
+		
+		int quadrant = 0;
+		
+		if (x < 0)
+		{
+			if (y < 0)
+			{
+				quadrant = 2;
+			}
+			else
+			{
+				quadrant = 1;
+			}
+		}
+		else
+		{
+			if (y < 0)
+			{
+				quadrant = 3;
+			}
+			else
+			{
+				quadrant = 0;
+			}
+		}
+		
+		x = Math.abs(x);
+		y = Math.abs(y);
+		
+		degrees = Math.toDegrees(Math.asin(x / y));
+		
+		degrees += 90 * quadrant;
+		
+		degrees %= 360;
+		
+		this.degrees  = degrees;
+		this.distance = distance;
+	}
+	
+	public double getDegrees()
+	{
+		return degrees;
+	}
+	
+	public double getDistance()
+	{
+		return distance;
+	}
+	
+	public double getMaxDistance()
+	{
+		return maxDistance;
+	}
+	
+	public void setMaxDistance(double maxDistance)
+	{
+		this.maxDistance = maxDistance;
+	}
+}

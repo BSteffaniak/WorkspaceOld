@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 3 packages to &apos;jDoutilAndroid/src&apos;&#x0D;&#x0A;- Original project: &apos;jDoutil&apos;&#x0D;&#x0A;- Destination element: &apos;jDoutilAndroid/src&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     jDoutil/src/net.foxycorndog.jdoutil.web&#x0D;&#x0A;     jDoutil/src/net.foxycorndog.jdoutil.zip&#x0D;&#x0A;     jDoutil/src/net.foxycorndog.jdoutil" description="Copy packages" destination="=jDoutilAndroid/src" element1="/src&lt;net.foxycorndog.jdoutil.web" element2="/src&lt;net.foxycorndog.jdoutil.zip" element3="/src&lt;net.foxycorndog.jdoutil" flags="589830" fragments="3" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyPackages" stamp="1347764684901" version="1.0"/>
+</session>

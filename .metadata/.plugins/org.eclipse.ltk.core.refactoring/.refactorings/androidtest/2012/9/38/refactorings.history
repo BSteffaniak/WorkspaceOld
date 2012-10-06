@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;AwesomeGameRenderer.java&apos; to &apos;androidopengl/src/com.example.androidopengl&apos;&#x0D;&#x0A;- Original project: &apos;androidtest&apos;&#x0D;&#x0A;- Destination element: &apos;androidopengl/src/com.example.androidopengl&apos;&#x0D;&#x0A;- Original element: &apos;net.foxycorndog.androidtest.AwesomeGameRenderer.java&apos;" description="Copy compilation unit" destination="=androidopengl/src&lt;com.example.androidopengl" element1="/src&lt;net.foxycorndog.androidtest{AwesomeGameRenderer.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1348019089457" units="1" version="1.0"/>
+</session>

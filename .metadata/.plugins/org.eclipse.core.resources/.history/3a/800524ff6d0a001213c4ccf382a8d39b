@@ -1,0 +1,191 @@
+package net.foxycorndog.jdooglandroid.input;
+
+import android.text.method.QwertyKeyListener;
+
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnKeyListener;
+
+public class KeyboardInput
+{
+	
+	
+//	public static final int KEY_ESCAPE        = KeyEvent.KEYCODE_ESCAPE;
+//	public static final int KEY_F1            = KeyEvent.KEYCODE_F1;
+//	public static final int KEY_F2            = KeyEvent.KEYCODE_F2;
+//	public static final int KEY_F3            = KeyEvent.KEYCODE_F3;
+//	public static final int KEY_F4            = KeyEvent.KEYCODE_F4;
+//	public static final int KEY_F5            = KeyEvent.KEYCODE_F5;
+//	public static final int KEY_F6            = KeyEvent.KEYCODE_F6;
+//	public static final int KEY_F7            = KeyEvent.KEYCODE_F7;
+//	public static final int KEY_F8            = KeyEvent.KEYCODE_F8;
+//	public static final int KEY_F9            = KeyEvent.KEYCODE_F9;
+//	public static final int KEY_F10           = KeyEvent.KEYCODE_F10;
+//	public static final int KEY_F11           = KeyEvent.KEYCODE_F11;
+//	public static final int KEY_F12           = KeyEvent.KEYCODE_F12;
+	public static final int KEY_TICK          = KeyEvent.KEYCODE_GRAVE;
+	public static final int KEY_1             = KeyEvent.KEYCODE_1;
+	public static final int KEY_2             = KeyEvent.KEYCODE_2;
+	public static final int KEY_3             = KeyEvent.KEYCODE_3;
+	public static final int KEY_4             = KeyEvent.KEYCODE_4;
+	public static final int KEY_5             = KeyEvent.KEYCODE_5;
+	public static final int KEY_6             = KeyEvent.KEYCODE_6;
+	public static final int KEY_7             = KeyEvent.KEYCODE_7;
+	public static final int KEY_8             = KeyEvent.KEYCODE_8;
+	public static final int KEY_9             = KeyEvent.KEYCODE_9;
+	public static final int KEY_0             = KeyEvent.KEYCODE_0;
+//	public static final int KEY_NUMPAD1       = KeyEvent.KEYCODE_NUMPAD_1;
+//	public static final int KEY_NUMPAD2       = KeyEvent.KEYCODE_NUMPAD_2;
+//	public static final int KEY_NUMPAD3       = KeyEvent.KEYCODE_NUMPAD_3;
+//	public static final int KEY_NUMPAD4       = KeyEvent.KEYCODE_NUMPAD_4;
+//	public static final int KEY_NUMPAD5       = KeyEvent.KEYCODE_NUMPAD_5;
+//	public static final int KEY_NUMPAD6       = KeyEvent.KEYCODE_NUMPAD_6;
+//	public static final int KEY_NUMPAD7       = KeyEvent.KEYCODE_NUMPAD_7;
+//	public static final int KEY_NUMPAD8       = KeyEvent.KEYCODE_NUMPAD_8;
+//	public static final int KEY_NUMPAD9       = KeyEvent.KEYCODE_NUMPAD_9;
+//	public static final int KEY_NUMPAD0       = KeyEvent.KEYCODE_NUMPAD_0;
+	public static final int KEY_MINUS         = KeyEvent.KEYCODE_MINUS;
+	public static final int KEY_EQUALS        = KeyEvent.KEYCODE_EQUALS;
+	public static final int KEY_BACKSPACE     = KeyEvent.KEYCODE_BACK;
+	public static final int KEY_TAB           = KeyEvent.KEYCODE_TAB;
+	public static final int KEY_Q             = KeyEvent.KEYCODE_Q;
+	public static final int KEY_W             = KeyEvent.KEYCODE_W;
+	public static final int KEY_E             = KeyEvent.KEYCODE_E;
+	public static final int KEY_R             = KeyEvent.KEYCODE_R;
+	public static final int KEY_T             = KeyEvent.KEYCODE_T;
+	public static final int KEY_Y             = KeyEvent.KEYCODE_Y;
+	public static final int KEY_U             = KeyEvent.KEYCODE_U;
+	public static final int KEY_I             = KeyEvent.KEYCODE_I;
+	public static final int KEY_O             = KeyEvent.KEYCODE_O;
+	public static final int KEY_P             = KeyEvent.KEYCODE_P;
+	public static final int KEY_LEFT_BRACKET  = KeyEvent.KEYCODE_LEFT_BRACKET;
+	public static final int KEY_RIGHT_BRACKET = KeyEvent.KEYCODE_RIGHT_BRACKET;
+	public static final int KEY_BACKSLASH     = KeyEvent.KEYCODE_BACKSLASH;
+//	public static final int KEY_CAPS_LOCK     = KeyEvent.KEYCODE_CAPS_LOCK;
+	public static final int KEY_A             = KeyEvent.KEYCODE_A;
+	public static final int KEY_S             = KeyEvent.KEYCODE_S;
+	public static final int KEY_D             = KeyEvent.KEYCODE_D;
+	public static final int KEY_F             = KeyEvent.KEYCODE_F;
+	public static final int KEY_G             = KeyEvent.KEYCODE_G;
+	public static final int KEY_H             = KeyEvent.KEYCODE_H;
+	public static final int KEY_J             = KeyEvent.KEYCODE_J;
+	public static final int KEY_K             = KeyEvent.KEYCODE_K;
+	public static final int KEY_L             = KeyEvent.KEYCODE_L;
+	public static final int KEY_SEMICOLON     = KeyEvent.KEYCODE_SEMICOLON;
+	public static final int KEY_APOSTROPHE    = KeyEvent.KEYCODE_APOSTROPHE;
+	public static final int KEY_ENTER         = KeyEvent.KEYCODE_ENTER;
+	public static final int KEY_RETURN        = KEY_ENTER;
+	public static final int KEY_LEFT_SHIFT    = KeyEvent.KEYCODE_SHIFT_LEFT;
+	public static final int KEY_Z             = KeyEvent.KEYCODE_Z;
+	public static final int KEY_X             = KeyEvent.KEYCODE_X;
+	public static final int KEY_C             = KeyEvent.KEYCODE_C;
+	public static final int KEY_V             = KeyEvent.KEYCODE_V;
+	public static final int KEY_B             = KeyEvent.KEYCODE_B;
+	public static final int KEY_N             = KeyEvent.KEYCODE_N;
+	public static final int KEY_M             = KeyEvent.KEYCODE_M;
+	public static final int KEY_COMMA         = KeyEvent.KEYCODE_COMMA;
+	public static final int KEY_PERIOD        = KeyEvent.KEYCODE_PERIOD;
+	public static final int KEY_SLASH         = KeyEvent.KEYCODE_SLASH;
+	public static final int KEY_RIGHT_SHIFT   = KeyEvent.KEYCODE_SHIFT_RIGHT;
+//	public static final int KEY_FUNCTION      = KeyEvent.KEYCODE_KEY;
+//	public static final int KEY_LEFT_CONTROL  = KeyEvent.KEYCODE_c;
+//	public static final int KEY_RIGHT_CONTROL = KeyEvent.KEYCODE_CTRL_RIGHT;
+	public static final int KEY_LEFT_ALT      = KeyEvent.KEYCODE_ALT_LEFT;
+	public static final int KEY_RIGHT_ALT     = KeyEvent.KEYCODE_ALT_RIGHT;
+//	public static final int KEY_COMMAND       = KeyEvent.KEYCODE_WINDOW;
+//	public static final int KEY_LWIN          = KEY_COMMAND;
+	public static final int KEY_SPACE         = KeyEvent.KEYCODE_SPACE;
+	public static final int KEY_LEFT          = KeyEvent.KEYCODE_DPAD_LEFT;
+	public static final int KEY_DOWN          = KeyEvent.KEYCODE_DPAD_DOWN;
+	public static final int KEY_RIGHT         = KeyEvent.KEYCODE_DPAD_RIGHT;
+	public static final int KEY_UP            = KeyEvent.KEYCODE_DPAD_UP;
+	
+	private static final boolean keys[];
+	
+	private static int length;
+	
+//	private static final KeyListener keyListener = new HardwareKeyListener();
+	
+	static
+	{
+		length = 512;
+		
+		keys = new boolean[length];
+	}
+	
+	public interface HardwareKeyListener
+	{
+		public boolean onKeyDown(int keyCode, KeyEvent event);
+
+		public boolean onKeyLongPress(int keyCode, KeyEvent event);
+
+		public boolean onKeyMultiple(int keyCode, int count, KeyEvent event);
+
+		public boolean onKeyUp(int keyCode, KeyEvent event);
+	}
+	
+	public static boolean isKeyDown(int key)
+	{
+		return keys[key];//Keyboard.isKeyDown(key);
+	}
+	
+	public static int getEventKey()
+	{
+		return -1;//Keyboard.getEventKey();
+	}
+	
+	public static boolean next()
+	{
+		return false;//Keyboard.next();
+	}
+	
+	private static void refresh()
+	{
+//		for (int i = 0; i < keys.length; i ++)
+//		{
+//			keys[i] = Keyboard.isKeyDown(i);
+//		}
+	}
+	
+	public static boolean[] getKeys()
+	{
+		refresh();
+		
+		return keys;
+	}
+	
+	public static String getKeyName(int key)
+	{
+		return "";//Keyboard.getKeyName(key);
+	}
+	
+	public static int getKey(String name)
+	{
+		name = name.toUpperCase();
+		
+		for (int i = 0; i < length; i ++)
+		{
+			if (getKeyName(i).equals(name))
+			{
+				return i;
+			}
+		}
+		
+		if (name.equals("ENTER"))
+		{
+			return KEY_ENTER;
+		}
+		
+		return 0;
+	}
+	
+	public static boolean isCapsLockOn()
+	{
+		return false;//Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK);
+	}
+	
+	public static int keysAmount()
+	{
+		return length;
+	}
+}

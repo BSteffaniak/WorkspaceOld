@@ -1,0 +1,36 @@
+package net.foxycorndog.jdooglandroid.activity;
+
+import android.app.Activity;
+import android.view.KeyEvent;
+import net.foxycorndog.jdooglandroid.input.KeyboardInput.HardwareKeyListener;
+
+public class AdvancedActivity extends Activity
+{
+	public final boolean onKeyDown(int k, KeyEvent keyEvent)
+	{
+		
+		
+		return false;
+	}
+
+	public boolean onKeyLongPress(int keyCode, KeyEvent event)
+	{
+		
+		
+		return false;
+	}
+
+	public boolean onKeyMultiple(int keyCode, int count, KeyEvent event)
+	{
+		
+		
+		return false;
+	}
+
+	public boolean onKeyUp(int keyCode, KeyEvent event)
+	{
+		
+		
+		return false;
+	}
+}

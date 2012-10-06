@@ -1,0 +1,14 @@
+package net.foxycorndog.jdooglandroid.activity;
+
+import android.app.Activity;
+import android.view.KeyEvent;
+
+public class AdvancedActivity extends Activity
+{
+	public final boolean onKeyDown(int k, KeyEvent keyEvent)
+	{
+		
+		
+		return false;
+	}
+}

@@ -1,0 +1,19 @@
+package net.foxycorndog.jdooglandroid.components;
+
+import net.foxycorndog.jdooglandroid.image.imagemap.Texture;
+
+public class Joystick extends Component
+{
+	private Texture topTexture, bottomTexture;
+	
+	public Joystick(Texture top, Texture bottom)
+	{
+		this.topTexture    = top;
+		this.bottomTexture = bottom;
+	}
+	
+	public void render()
+	{
+		super.render();
+	}
+}

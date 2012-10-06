@@ -1,0 +1,52 @@
+package net.foxycorndog.jdooglandroid.components;
+
+import net.foxycorndog.jdooglandroid.GL;
+import net.foxycorndog.jdooglandroid.image.imagemap.Texture;
+import net.foxycorndog.jdoutilandroid.LightBuffer;
+import net.foxycorndog.jdoutilandroid.VerticesBuffer;
+
+public class Joystick extends Component
+{
+	private VerticesBuffer verticesBuffer;
+	private LightBuffer    texturesBuffer;
+	
+	private Texture topTexture, bottomTexture;
+	
+	public Joystick(Texture top, Texture bottom)
+	{
+		verticesBuffer = new VerticesBuffer(4 * 2 * 2, 2);
+		texturesBuffer = new LightBuffer(4 * 2 * 2, 2);
+		
+		int bigWidth  = bottom.getWidth() > top.getWidth() ? bottom.getWidth() : top.getWidth();
+		int bigHeight = bottom.getHeight() > top.getHeight() ? bottom.getHeight() : top.getHeight();
+
+		verticesBuffer.setData(4 * 2 * 0, GL.addRectVertexArrayf(0, 0, bottom.getWidth(), bottom.getHeight(), 0, null));
+		verticesBuffer.setData(4 * 2 * 1, GL.addRectVertexArrayf(0, 0, top.getWidth(), top.getHeight(), 0, null));
+
+		texturesBuffer.setData(4 * 2 * 0, GL.addRectTextureArrayf(bottom, 0, null));
+		texturesBuffer.setData(4 * 2 * 1, GL.addRectTextureArrayf(top, 0, null));
+		
+		this.bottomTexture = bottom;
+		this.topTexture    = top;
+		
+		setWidth(bigWidth);
+		setHeight(bigHeight);
+	}
+	
+	public void render()
+	{
+		super.render();
+		
+		GL.beginManipulation();
+		{
+			float renderX = getX() + getOffsetX();
+			float renderY = getY() + getOffsetY();
+			
+//			GL.translatef(renderX, renderY, 0);
+			
+			GL.renderQuad(verticesBuffer, texturesBuffer, topTexture, 1, 1);
+			GL.renderQuad(verticesBuffer, texturesBuffer, bottomTexture, 0, 1);
+		}
+		GL.endManipulation();
+	}
+}

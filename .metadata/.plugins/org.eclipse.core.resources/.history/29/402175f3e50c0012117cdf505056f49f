@@ -1,0 +1,94 @@
+/**
+ * File:          Market.java
+ * Author:        Braden Steffaniak
+ * Programming:   APCS
+ * Last Modified: 6Sep2012
+ * Description:   Class that is the starting point of the program.
+ * In the main method, it creates a new Market.
+ */
+public class Market
+{
+	/**
+	 * The main method of this program. This is the first method that
+	 * is ran when the program is started. It instantiates a new
+	 * Market, in which begins the program.
+	 * 
+	 * @param args The command line arguments. These are never used here.
+	 */
+	public static void main(String args[])
+	{
+		new Market();
+	}
+	
+	/**
+	 * Constructor 
+	 */
+	public Market()
+	{
+		Curve c = new Curve(19, 0, 1, 10);
+		Curve p = new Curve(-1, 10, 1, 10);
+		
+		System.out.println(c);
+		System.out.println(p);
+		
+		boolean dealReached = false;
+		
+		Point currentBid  = c.initialBid();
+		Point currentBid2 = null;
+		
+		for (int i = 0; i < 10; i ++)
+		{
+			currentBid  = p.negotiate(currentBid);
+			
+			currentBid2 = c.negotiate(currentBid);
+			
+			/*
+			 * uses == because if they have come to an agreement
+			 * then the currentBid will have the same reference.
+			 */
+			if (currentBid == currentBid2)
+			{
+				System.out.println("Deal reached at " + currentBid);
+				
+				dealReached = true;
+				
+				break;
+			}
+		}
+		
+		if (!dealReached)
+		{
+			System.out.println("No deal reached. Poop.");
+		}
+	}
+	
+	public static String getBinary(String text)
+	{
+		String bin = "";
+		
+		char chars[] = text.toCharArray();
+		
+		for (int i = 0; i < chars.length; i ++)
+		{
+			if (Character.isDigit(chars[i]))
+			{
+				bin += Integer.toBinaryString(Integer.valueOf(chars[i] + ""));
+			}
+			else
+			{
+				bin += Integer.toBinaryString(chars[i]);
+			}
+			
+			bin += " ";
+		}
+		
+		return bin;
+	}
+	
+	public static boolean equilibrium(Point p, Point p2, double tolerance)
+	{
+		double distance = Math.sqrt(Math.pow(p.getQuantity() - p2.getQuantity(), 2) + Math.pow(p.getCost() - p2.getCost(), 2));
+		System.out.println(distance + ", " + p + ", " + p2);
+		return Math.abs(p.getCost() - p2.getCost()) <= tolerance;
+	}
+}

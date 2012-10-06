@@ -1,0 +1,26 @@
++ Multi-player
+
+\/-- ALL BEFORE RELEASE --\/ Target Release Date: 8/17/12
+
+                                               Rank of Development
+
++ Infinite terrain generation                       - **
++ Actors/Mobs                                       - 
+* Efficient...er lighting                           - ***
++ Player holds currently selected item              - ***
++ Inventory                                         - **
+* Better collisions                                 - 
++ Place light sources (tourch's... ect..)           - ****
+* More efficient terrain generation                 - 
+* Better terrain generation                         - 
++ Day and night cycle                               - ****
++ Server market                                     - *
++ Blocks take time to break                         - *****
++ Blocks drop small blocks that you have to pick up - 
++ Items                                             - **
++ Crafting                                          - 
++ Foreground and Background                         - 
++ Menus                                             - **
+* General bug fixes                                 - *
+
+/\-- Creation Date (Approx.): 7/6/12 --/\

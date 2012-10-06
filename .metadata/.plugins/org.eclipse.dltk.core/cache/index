@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cache:CacheIndex xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:cache="http://eclipse.org/dltk/cache_model" lastIndex="2" environment="org.eclipse.dltk.core.environment.localEnvironment">
+  <entries path="C:/Users/Braden Steffaniak/Dropbox/Eclipse Projects/testlua/src/main.lua" timestamp="1343956665279" lastAccessTime="1349507931160"/>
+  <entries path="C:/Users/Braden Steffaniak/Dropbox/Eclipse Projects/testlua/src" timestamp="1347592192279" lastAccessTime="1349507931161">
+    <attributes name=".dltk.core.archive.cache.lastaccess" location="2838196607/3278821663/1.idx"/>
+  </entries>
+</cache:CacheIndex>
