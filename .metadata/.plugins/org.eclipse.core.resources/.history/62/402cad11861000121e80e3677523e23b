@@ -1,0 +1,45 @@
+package com.example.canvastest;
+
+import java.util.ArrayList;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
+import android.opengl.GLSurfaceView;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
+
+public class Renderer implements GLSurfaceView.Renderer, OnTouchListener
+{
+	private ArrayList _graphics;
+	
+	public Renderer(ArrayList g)
+	{
+		this._graphics = g;
+	}
+	
+	public void onDrawFrame(GL10 gl)
+	{
+		
+	}
+
+	public void onSurfaceChanged(GL10 gl, int width, int height)
+	{
+		
+	}
+
+	public void onSurfaceCreated(GL10 gl, EGLConfig config)
+	{
+		
+	}
+	
+	
+	@Override
+	public void onDraw(Canvas canvas) {
+	  for (Path path : _graphics) {
+	    //canvas.drawPoint(graphic.x, graphic.y, mPaint);
+	    canvas.drawPath(path, mPaint);
+	  }
+	}
+}
