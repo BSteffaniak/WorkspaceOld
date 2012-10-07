@@ -4,13 +4,14 @@ import net.foxycorndog.jdooglandroid.components.Frame;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 
 public class TouchInput
 {
 	private static final TouchListener touchListener = new TouchListener();
 	
-	private static class TouchListener implements OnTouchListener
+	private static class TouchListener implements OnTouchListener, OnClickListener
 	{
 		private boolean pressed;
 		
@@ -22,13 +23,12 @@ public class TouchInput
 		
 		public boolean onTouch(View v, MotionEvent e)
 		{
+			pressed = true;
+			
 			if (oldX == e.getX() && oldY == e.getY())
 			{
 				return false;
 			}
-			
-			actionMasked = e.getActionMasked();
-			pointerIndex = ((e.getAction() & MotionEvent.ACTION_POINTER_ID_MASK) >> MotionEvent.ACTION_POINTER_ID_SHIFT);
 
 			x = e.getX();
 			y = Frame.getHeight() - e.getY() - 1;
@@ -39,20 +39,12 @@ public class TouchInput
 			oldX = x;
 			oldY = y;
 			
-//			if (actionMasked == MotionEvent.ACTION_UP || actionMasked == MotionEvent.ACTION_POINTER_UP)
-//			{
-//				pressed = false;
-//			}
-//			else
-//			{
-//				pressed = true;
-//			}
-			
-			pressed = true;
-			
-//			pressed = e.getAction() != MotionEvent.ACTION_UP;
-
 			return false;
+		}
+
+		public void onClick(View v)
+		{
+			pressed = false;
 		}
 	}
 	
@@ -61,19 +53,19 @@ public class TouchInput
 		return touchListener.pressed;
 	}
 	
-	public static boolean next()
-	{
-		if (touchListener.pressed)
-		{
-			touchListener.pressed = false;
-			
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+//	public static boolean next()
+//	{
+//		if (touchListener.pressed)
+//		{
+//			touchListener.pressed = false;
+//			
+//			return true;
+//		}
+//		else
+//		{
+//			return false;
+//		}
+//	}
 	
 	public static int getX()
 	{
@@ -96,6 +88,11 @@ public class TouchInput
 	}
 	
 	public static OnTouchListener getTouchListener()
+	{
+		return touchListener;
+	}
+	
+	public static OnClickListener getClickListener()
 	{
 		return touchListener;
 	}

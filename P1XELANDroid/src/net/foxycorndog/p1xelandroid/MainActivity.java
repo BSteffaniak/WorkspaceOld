@@ -34,6 +34,10 @@ public class MainActivity extends AdvancedActivity
 		p = new P1xeland();
 		
 		p.setActivity(this);
+		
+//		Frame.init(P1xeland.GAME_TITLE, getGameRenderer(), activity);
+//		
+//		p.init();
 	}
 	
 	public void render(GL10 gl)

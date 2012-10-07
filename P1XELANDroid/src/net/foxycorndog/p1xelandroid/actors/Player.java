@@ -490,6 +490,8 @@ public class Player extends Actor
 		
 		if (moved && getFacing() == LEFT || getFacing() == RIGHT)
 		{
+			headRot = 0;
+			
 			if (dx != 0)
 			{
 				float delta = Math.abs(dx);
@@ -590,6 +592,13 @@ public class Player extends Actor
 	public void setFacingAngle()
 	{
 		boolean applicable = getFacing() == LEFT || getFacing() == RIGHT;
+		
+		if (getMove(Direction.LEFT) || getMove(Direction.RIGHT))
+		{
+			headRot = 0;
+			
+			return;
+		}
 		
 		if (!applicable || getOldFacing() != getFacing())
 		{

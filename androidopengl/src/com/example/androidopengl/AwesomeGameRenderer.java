@@ -16,6 +16,7 @@ import net.foxycorndog.jdooglandroid.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdooglandroid.image.imagemap.Texture;
 import net.foxycorndog.jdoutilandroid.Buffer;
 import net.foxycorndog.jdoutilandroid.LightBuffer;
+import net.foxycorndog.jdoutilandroid.VerticesBuffer;
 
 import java.io.InputStream;
 import java.nio.FloatBuffer;
@@ -24,17 +25,26 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import android.util.*;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
 import java.nio.*;
 
 public class AwesomeGameRenderer implements GLSurfaceView.Renderer
 {
-	private LightBuffer vertices, textures;
+	private VerticesBuffer vertices;
+	private LightBuffer    textures;
 	
 	private SpriteSheet tex;
 	
 	private Activity    activity;
+	
+	public AwesomeGameRenderer()
+	{
+		
+	}
 
 	public void onSurfaceCreated(GL10 gl, EGLConfig config)
 	{
@@ -53,7 +63,7 @@ public class AwesomeGameRenderer implements GLSurfaceView.Renderer
 		gl.glPixelStorei(gl.GL_UNPACK_ALIGNMENT, 1);
 		tex = new SpriteSheet(activity.getResources(), R.drawable.reg, 18, 18);
 		
-		vertices = new LightBuffer(4 * 2 * 2, 2);
+		vertices = new VerticesBuffer(4 * 2 * 2, 2);
 		textures = new LightBuffer(4 * 2, 2);
 		
 		int x = 10, y = 10, wid = 100, hei = 200;
@@ -66,8 +76,6 @@ public class AwesomeGameRenderer implements GLSurfaceView.Renderer
 	
 	public void onSurfaceChanged(GL10 gl, int width, int height)
 	{
-		
-		
 		GLES20.glViewport(0, 0, width, height);
 		
 		gl.glOrthof(0, width, 0, height, -100, 100);
@@ -90,4 +98,6 @@ public class AwesomeGameRenderer implements GLSurfaceView.Renderer
 	{
 		this.activity = activity;
 	}
+	
+	
 }

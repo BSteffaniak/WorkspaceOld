@@ -1,6 +1,9 @@
 package net.foxycorndog.p1xelandroid.actors;
 
 import static net.foxycorndog.p1xelandroid.actors.Actor.Direction.*;
+
+import java.util.ArrayList;
+
 import android.content.res.Resources;
 import net.foxycorndog.jdooglandroid.GL;
 import net.foxycorndog.jdooglandroid.components.Frame;
@@ -13,36 +16,38 @@ import net.foxycorndog.p1xelandroid.map.Map;
 
 public abstract class Actor
 {
-	private boolean       onGround;
-	private boolean       jumping;
-	private boolean       sprinting, startedSprinting;
-	private boolean       mining;
-	private boolean       onLadder;
-	private boolean       flying;
-	private boolean       crouching, startedCrouching;
-	private boolean       centered;
-	private boolean       collidable;
-	private boolean       jump;
+	private boolean            onGround;
+	private boolean            jumping;
+	private boolean            sprinting, startedSprinting;
+	private boolean            mining;
+	private boolean            onLadder;
+	private boolean            flying;
+	private boolean            crouching, startedCrouching;
+	private boolean            centered;
+	private boolean            collidable;
+	private boolean            jump;
 	
-	private int           darkness;
-	private int           width, height;
-	private int           jumpHeight;
-	private int           reach;
-	private int           editing;
+	private int                darkness;
+	private int                width, height;
+	private int                jumpHeight;
+	private int                reach;
+	private int                editing;
 	
-	private float         x, y, screenX, screenY, oldX, oldY;
-	private float         speed;
-	private float         startY;
+	private float              x, y, screenX, screenY, oldX, oldY;
+	private float              speed;
+	private float              startY;
 	
-	private double        velocity;
+	private double             velocity;
 	
-	private Direction     facing, oldFacing;
+	private Direction          facing, oldFacing;
 	
-	private Map           map;
+	private Map                map;
 	
-	private Inventory     inventory;
+	private Inventory          inventory;
 	
-	private int           moves[];
+	private int                moves[];
+	
+	private ArrayList<Float>[] speeds;
 	
 	private static final int   RECT_SIZE = 4 * 2;
 	
@@ -134,6 +139,13 @@ public abstract class Actor
 		this.collidable = true;
 		
 		this.moves      = new int[4];
+		
+		this.speeds     = new ArrayList[4];
+		
+		this.speeds[0]  = new ArrayList<Float>();
+		this.speeds[1]  = new ArrayList<Float>();
+		this.speeds[2]  = new ArrayList<Float>();
+		this.speeds[3]  = new ArrayList<Float>();
 		
 		this.velocity   = 1;
 		
@@ -456,27 +468,31 @@ public abstract class Actor
 		return false;
 	}
 	
-	public void setMove(Direction direction)
+	public void addMove(Direction direction)
 	{
 		if (direction == Direction.LEFT)
 		{
 			moves[Direction.getIndex(LEFT)] ++;
+			speeds[Direction.getIndex(LEFT)].add(1f);
 		}
 		else if (direction == Direction.RIGHT)
 		{
 			moves[Direction.getIndex(RIGHT)] ++;
+			speeds[Direction.getIndex(RIGHT)].add(1f);
 		}
 		else if (direction == Direction.UP)
 		{
 			moves[Direction.getIndex(UP)] ++;
+			speeds[Direction.getIndex(UP)].add(1f);
 		}
 		else if (direction == Direction.DOWN)
 		{
 			moves[Direction.getIndex(DOWN)] ++;
+			speeds[Direction.getIndex(DOWN)].add(1f);
 		}
 	}
 	
-	public void setMove(Direction direction, int amount)
+	public void addMove(Direction direction, int amount)
 	{
 		if (amount <= 0)
 		{
@@ -486,43 +502,53 @@ public abstract class Actor
 		if (direction == Direction.LEFT)
 		{
 			moves[Direction.getIndex(LEFT)] += amount;
+			
+			for (int i = 0; i < amount; i ++)
+			{
+				speeds[Direction.getIndex(LEFT)].add(1f);
+			}
 		}
 		else if (direction == Direction.RIGHT)
 		{
 			moves[Direction.getIndex(RIGHT)] += amount;
+			
+			for (int i = 0; i < amount; i ++)
+			{
+				speeds[Direction.getIndex(RIGHT)].add(1f);
+			}
 		}
 		else if (direction == Direction.UP)
 		{
 			moves[Direction.getIndex(UP)] += amount;
+			
+			for (int i = 0; i < amount; i ++)
+			{
+				speeds[Direction.getIndex(UP)].add(1f);
+			}
 		}
 		else if (direction == Direction.DOWN)
 		{
 			moves[Direction.getIndex(DOWN)] += amount;
+			
+			for (int i = 0; i < amount; i ++)
+			{
+				speeds[Direction.getIndex(DOWN)].add(1f);
+			}
 		}
 	}
 	
-	public void setMove(int index, int amount)
+	public void addMove(int index, int amount)
 	{
 		if (amount <= 0)
 		{
 			return;
 		}
 		
-		if (index == Direction.getIndex(LEFT))
+		moves[index] += amount;
+		
+		for (int i = 0; i < amount; i ++)
 		{
-			moves[Direction.getIndex(LEFT)] += amount;
-		}
-		else if (index == Direction.getIndex(RIGHT))
-		{
-			moves[Direction.getIndex(RIGHT)] += amount;
-		}
-		else if (index == Direction.getIndex(UP))
-		{
-			moves[Direction.getIndex(UP)] += amount;
-		}
-		else if (index == Direction.getIndex(DOWN))
-		{
-			moves[Direction.getIndex(DOWN)] += amount;
+			speeds[index].add(1f);
 		}
 	}
 	
@@ -538,23 +564,30 @@ public abstract class Actor
 	
 	public void tick(float delta)
 	{
-		boolean up        = getJump();
-		boolean down      = getMove(Direction.DOWN);
-		boolean left      = getMove(Direction.LEFT);
-		boolean right     = getMove(Direction.RIGHT);
+		boolean up       = getJump();
+		boolean down     = getMove(Direction.DOWN);
+		boolean left     = getMove(Direction.LEFT);
+		boolean right    = getMove(Direction.RIGHT);
 		
-		boolean movedY    = false;
-		boolean movedX    = false;
+		int index        = 0;
+		
+		float speedLeft  = speeds[(index = Direction.getIndex(Direction.LEFT))].size() > 0 ? speeds[index].get(speeds[index].size() - 1) : 1f;
+		float speedRight = speeds[(index = Direction.getIndex(Direction.RIGHT))].size() > 0 ? speeds[index].get(speeds[index].size() - 1) : 1f;
+		
+		boolean movedY   = false;
+		boolean movedX   = false;
 		
 		if (isFlying())
 		{
 			if (left)
 			{
-				move(-1.1f * delta, 0);
+				move(-1.1f * delta * speedLeft, 0);
+				setFacing(Direction.LEFT);
 			}
 			else if (right)
 			{
-				move(1.1f * delta, 0);
+				move(1.1f * delta * speedRight, 0);
+				setFacing(Direction.RIGHT);
 			}
 			if (up)
 			{
@@ -614,11 +647,13 @@ public abstract class Actor
 			}
 			if (left)
 			{
-				movedX = move(-1.1f * delta, 0);
+				movedX = move(-1.1f * delta * speedLeft, 0);
+				setFacing(Direction.LEFT);
 			}
 			else if (right)
 			{
-				movedX = move(1.1f * delta, 0);
+				movedX = move(1.1f * delta * speedRight, 0);
+				setFacing(Direction.RIGHT);
 			}
 			
 			boolean moved = movedY || movedX;
@@ -641,12 +676,20 @@ public abstract class Actor
 		moves[Direction.getIndex(UP)]    --;
 		moves[Direction.getIndex(DOWN)]  --;
 		
+		for (int i = 0; i < 4; i ++)
+		{
+			if (speeds[i].size() >= 1)
+			{
+				speeds[i].remove(speeds[i].size() - 1);
+			}
+		}
+		
 		moves[Direction.getIndex(LEFT)]  = moves[Direction.getIndex(LEFT)]  < 0 ? 0 : moves[Direction.getIndex(LEFT)];
 		moves[Direction.getIndex(RIGHT)] = moves[Direction.getIndex(RIGHT)] < 0 ? 0 : moves[Direction.getIndex(RIGHT)];
 		moves[Direction.getIndex(UP)]    = moves[Direction.getIndex(UP)]    < 0 ? 0 : moves[Direction.getIndex(UP)];
 		moves[Direction.getIndex(DOWN)]  = moves[Direction.getIndex(DOWN)]  < 0 ? 0 : moves[Direction.getIndex(DOWN)];
 		
-		jump      = false;
+		jump = false;
 	}
 	
 	public boolean move(float dx, float dy)

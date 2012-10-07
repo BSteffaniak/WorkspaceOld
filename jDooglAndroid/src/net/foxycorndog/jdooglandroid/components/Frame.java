@@ -386,51 +386,72 @@ public abstract class Frame
 						
 						component.update();
 						
-						if (Intersects.rectangles(TouchInput.getX(), TouchInput.getY(), 1, 1, component.getMouseX(), component.getMouseY(), component.getScreenWidth(), component.getScreenHeight()))
+						if (TouchInput.isPressed())
 						{
-							ArrayList<ActionListener> actionListeners = component.getActionListeners();
-							
-							synchronized (actionListeners)
+							if (Intersects.rectangles(TouchInput.getX(), TouchInput.getY(), 1, 1, component.getMouseX(), component.getMouseY(), component.getScreenWidth(), component.getScreenHeight()))
 							{
-								for (int j = actionListeners.size() - 1; j >= 0; j --)
+								ArrayList<ActionListener> actionListeners = component.getActionListeners();
+								
+								synchronized (actionListeners)
 								{
-									synchronized (actionListeners)
+									for (int j = actionListeners.size() - 1; j >= 0; j --)
 									{
-										try
+										synchronized (actionListeners)
 										{
-											if (TouchInput.isPressed() && !wasPressed)
+											try
 											{
-												synchronized (components)
+												if (TouchInput.isPressed() && !wasPressed)
 												{
-													for (int f = components.size() - 1; f >= 0; f --)
+													synchronized (components)
 													{
-														synchronized (components)
+														for (int f = components.size() - 1; f >= 0; f --)
 														{
-															components.get(f).setFocused(false);
+															synchronized (components)
+															{
+																components.get(f).setFocused(false);
+															}
 														}
 													}
+													
+													if (component instanceof Joystick)
+													{
+														System.out.println("joystick pressed");
+													}
+													
+													component.setFocused(true);
+													
+													actionListeners.get(j).onActionPerformed(component);
 												}
 												
-												component.setFocused(true);
+												actionListeners.get(j).onHover(component);
 												
-												actionListeners.get(j).onActionPerformed(component);
+												component.setHovering(true);
 											}
-											
-											actionListeners.get(j).onHover(component);
-											
-											component.setHovering(true);
-										}
-										catch (IndexOutOfBoundsException ex)
-										{
-											
+											catch (IndexOutOfBoundsException ex)
+											{
+												
+											}
 										}
 									}
 								}
 							}
+							else
+							{
+								component.setHovering(false);
+							}
 						}
 						else
 						{
-							component.setHovering(false);
+							synchronized (components)
+							{
+								for (int f = components.size() - 1; f >= 0; f --)
+								{
+									synchronized (components)
+									{
+										components.get(f).setFocused(false);
+									}
+								}
+							}
 						}
 						
 						ArrayList<MouseListener> mouseListeners = component.getMouseListeners();
@@ -951,7 +972,7 @@ public abstract class Frame
 
 			resized = false;
 			
-			TouchInput.next();
+//			TouchInput.next();
 		}
 
 		public final void onSurfaceChanged(GL10 gl, int width, int height)

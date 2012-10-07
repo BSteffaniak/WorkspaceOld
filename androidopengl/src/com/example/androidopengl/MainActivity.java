@@ -4,9 +4,13 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 
-public class MainActivity extends Activity
+public class MainActivity extends Activity implements OnTouchListener, OnClickListener
 {
 	GLSurfaceView mGLView;
 	
@@ -19,6 +23,8 @@ public class MainActivity extends Activity
         
         mGLView = new GLSurfaceView(this);
         mGLView.setRenderer(renderer);
+//        mGLView.setOnTouchListener(this);
+        mGLView.setOnClickListener(this);
         
         renderer.setActivity(this);
 		
@@ -26,4 +32,16 @@ public class MainActivity extends Activity
         
         setContentView(mGLView);
     }
+
+	public boolean onTouch(View v, MotionEvent event)
+	{
+		System.out.println("touched");
+		
+		return false;
+	}
+
+	public void onClick(View v)
+	{
+		System.out.println("clicked");
+	}
 }

@@ -1,0 +1,95 @@
+package com.example.androidopengl;
+
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.opengl.GLSurfaceView;
+import android.opengl.GLES10;
+import android.opengl.GLES11;
+import android.opengl.GLES20;
+import javax.microedition.khronos.opengles.GL10;
+//import javax.microedition.khronos.opengles.GL;
+import javax.microedition.khronos.egl.EGLConfig;
+
+import net.foxycorndog.jdooglandroid.GL;
+import net.foxycorndog.jdooglandroid.image.imagemap.SpriteSheet;
+import net.foxycorndog.jdooglandroid.image.imagemap.Texture;
+import net.foxycorndog.jdoutilandroid.Buffer;
+import net.foxycorndog.jdoutilandroid.LightBuffer;
+import net.foxycorndog.jdoutilandroid.VerticesBuffer;
+
+import java.io.InputStream;
+import java.nio.FloatBuffer;
+import java.nio.ByteOrder;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+
+import android.util.*;
+import android.widget.ImageView;
+
+import java.nio.*;
+
+public class AwesomeGameRenderer implements GLSurfaceView.Renderer
+{
+	private VerticesBuffer vertices;
+	private LightBuffer    textures;
+	
+	private SpriteSheet tex;
+	
+	private Activity    activity;
+
+	public void onSurfaceCreated(GL10 gl, EGLConfig config)
+	{
+		GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+		
+		GL.initBasicView();
+		
+//		gl.glEnable(gl.GL_TEXTURE_2D);
+//		gl.glDepthFunc(gl.GL_LEQUAL);
+//		gl.glDisable(gl.GL_DITHER);
+//		gl.glDisable(gl.GL_FOG);
+//		gl.glHint(gl.GL_PERSPECTIVE_CORRECTION_HINT, gl.GL_FASTEST);
+//		gl.glDisable(gl.GL_COLOR_MATERIAL);
+//		gl.glShadeModel(gl.GL_SMOOTH);
+		
+		gl.glPixelStorei(gl.GL_UNPACK_ALIGNMENT, 1);
+		tex = new SpriteSheet(activity.getResources(), R.drawable.reg, 18, 18);
+		
+		vertices = new VerticesBuffer(4 * 2 * 2, 2);
+		textures = new LightBuffer(4 * 2, 2);
+		
+		int x = 10, y = 10, wid = 100, hei = 200;
+		
+		vertices.setData(0, GL.addRectVertexArrayf(x, y, wid, hei, 0, null));
+		vertices.setData(4 * 2, GL.addRectVertexArrayf(x + wid + 10, y, wid, hei, 0, null));
+		
+		textures.setData(0, GL.addRectTextureArrayf(tex, 0, 3, 1, 2, 0, null));
+	}
+	
+	public void onSurfaceChanged(GL10 gl, int width, int height)
+	{
+		
+		
+		GLES20.glViewport(0, 0, width, height);
+		
+		gl.glOrthof(0, width, 0, height, -100, 100);
+		
+		
+	}
+	
+	public void onDrawFrame(GL10 gl)
+	{
+		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+		
+		GL.beginManipulation();
+		{
+			GL.renderQuads(vertices, textures, tex, 0, 2);
+		}
+		GL.endManipulation();
+	}
+	
+	public void setActivity(Activity activity)
+	{
+		this.activity = activity;
+	}
+}

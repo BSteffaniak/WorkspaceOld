@@ -1,0 +1,52 @@
+import java.math.BigDecimal;
+
+public class Main
+{
+	public static void main(String args[])
+	{
+		new Main();
+	}
+	
+	public Main()
+	{
+		System.out.println(Math.tan(Math.toRadians(1f)));
+		System.out.println(Math.toDegrees(Math.atan(-1f / 10f)));
+		System.out.println(Math.sqrt(2));
+		
+//		BigDecimal answer = new BigDecimal(0);
+//		
+//		boolean add = true;
+//		
+//		Thread.currentThread().setPriority(10);
+//		
+//		for (long i = 1; i < Long.MAX_VALUE / 9999999999l; i ++)
+//		{
+//			if (add)
+//			{
+//				answer.add(new BigDecimal(1d/(i*i)));
+//			}
+////			else
+////			{
+////				answer -= 1d/i;
+////			}
+//			
+////			add = !add;
+//		}
+//		
+////		answer *= 4;
+//		
+////		double o = 1;
+////		
+////		for (long i = 0; i < Long.MAX_VALUE / 9999999999l; i += 1)
+////		{
+////			answer += (i * i) / o;
+////			
+////			o += 2;
+////		}
+//		
+//		answer.multiply(new BigDecimal(6));
+//		
+//		double ans = answer.doubleValue();
+//		System.out.println(Math.sqrt(ans));
+	}
+}

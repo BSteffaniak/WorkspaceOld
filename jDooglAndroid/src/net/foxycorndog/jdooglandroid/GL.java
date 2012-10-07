@@ -37,11 +37,13 @@ public class GL
 {
 	private static boolean flipped;
 	
-	private static float  offsets[] = new float[3];
-	private static float  scale[]   = new float[] { 1, 1, 1 };
+	private static float  offsets[]        = new float[3];
+	private static float  scale[]          = new float[] { 1, 1, 1 };
+	private static float  renderLocation[] = new float[] { 0, 0, 0 };
 	
-	private static ArrayList<float[]> tempOffsets = new ArrayList<float[]>();
-	private static ArrayList<float[]> tempScale   = new ArrayList<float[]>();
+	private static ArrayList<float[]> tempOffsets          = new ArrayList<float[]>();
+	private static ArrayList<float[]> tempScale            = new ArrayList<float[]>();
+	private static ArrayList<float[]> tempRenderLocation   = new ArrayList<float[]>();
 	
 	public  static Texture     white;
 	
@@ -370,7 +372,8 @@ public class GL
 	public static void beginManipulation()
 	{
 		tempOffsets.add(offsets.clone());
-		tempScale.add  (scale.clone());
+		tempScale.add(scale.clone());
+		tempRenderLocation.add(renderLocation.clone());
 		
 		glPushMatrix();
 	}
@@ -397,6 +400,15 @@ public class GL
 		scale[2] = temp[2];
 		
 		tempScale.remove(tempScale.size() - 1);
+		
+		
+		temp = tempRenderLocation.get(tempRenderLocation.size() - 1);
+		
+		renderLocation[0] = temp[0];
+		renderLocation[1] = temp[1];
+		renderLocation[2] = temp[2];
+		
+		tempRenderLocation.remove(tempRenderLocation.size() - 1);
 		
 		glPopMatrix();
 	}
@@ -705,6 +717,10 @@ public class GL
 		offsets[0] += x;
 		offsets[1] += y;
 		offsets[2] += z;
+		
+		renderLocation[0] += x * scale[0];
+		renderLocation[1] += y * scale[1];
+		renderLocation[2] += z * scale[2];
 	}
 	
 	/**
@@ -716,6 +732,17 @@ public class GL
 	public static float[] getAmountTranslated()
 	{
 		return offsets;
+	}
+	
+	/**
+	 * Returns the location at which anything rendered to the screen
+	 * at 0, 0, 0 would currently be shown on the screen.
+	 * 
+	 * @return The location at which any component would be rendered.
+	 */
+	public static float[] getRenderLocation()
+	{
+		return renderLocation;
 	}
 	
 	/**

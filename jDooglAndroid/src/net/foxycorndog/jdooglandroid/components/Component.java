@@ -40,14 +40,11 @@ public abstract class Component
 	
 	public void render()
 	{
-		float offsets[] = GL.getAmountTranslated();
-		float scaled[]  = GL.getAmountScaled();
+		float renderLoc[] = GL.getRenderLocation();
+		float scaled[]    = GL.getAmountScaled();
 		
-		this.screenX     = (float)(x + offsets[0]);
-		this.screenY     = (float)(y + offsets[1]);
-		
-		this.screenX    *= scaled[0];
-		this.screenY    *= scaled[1];
+		this.screenX     = (float)(x + renderLoc[0]);
+		this.screenY     = (float)(y + renderLoc[1]);
 		
 		this.scaleWidth  = (float)scaled[0];
 		this.scaleHeight = (float)scaled[1];

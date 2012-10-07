@@ -9,9 +9,44 @@ public class Main
 	
 	public Main()
 	{
-		System.out.println(Math.tan(Math.toRadians(1f)));
-		System.out.println(Math.toDegrees(Math.atan(10f / -1f)));
-		System.out.println(Math.sqrt(2));
+		double x = -10;
+		double y = -1;
+		
+		int quadrant = 0;
+		
+		if (x < 0)
+		{
+			if (y < 0)
+			{
+				quadrant = 2;
+			}
+			else
+			{
+				quadrant = 1;
+			}
+		}
+		else
+		{
+			if (y < 0)
+			{
+				quadrant = 3;
+			}
+			else
+			{
+				quadrant = 0;
+			}
+		}
+		
+		double opposite = Math.abs(x);
+		double adjacent = Math.abs(y);
+		
+		double degrees = Math.toDegrees(Math.atan(opposite / adjacent));
+		
+		degrees += 90 * quadrant;
+		
+		degrees %= 360;
+		
+		System.out.println(degrees);
 		
 //		BigDecimal answer = new BigDecimal(0);
 //		

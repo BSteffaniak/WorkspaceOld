@@ -53,6 +53,7 @@ public abstract class AdvancedActivity extends Activity
 		mGLView = new GLSurfaceView(this);
         mGLView.setRenderer(gameRenderer);
 		mGLView.setOnTouchListener(TouchInput.getTouchListener());
+		mGLView.setOnClickListener(TouchInput.getClickListener());
 		
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         
