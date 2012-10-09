@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="android.opengl.Matrix"/>
-<fullyQualifiedTypeName name="android.opengl.GLUtils"/>
-<fullyQualifiedTypeName name="java.util.Collections"/>
-<fullyQualifiedTypeName name="com.example.androidopengl.R.id"/>
-<fullyQualifiedTypeName name="android.webkit.WebView.FindListener"/>
-<fullyQualifiedTypeName name="android.graphics.drawable.BitmapDrawable"/>
-<fullyQualifiedTypeName name="android.widget.ImageView"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoutilandroid.Buffer"/>
 <fullyQualifiedTypeName name="android.R.layout"/>
 <fullyQualifiedTypeName name="android.R.id"/>
 <fullyQualifiedTypeName name="android.opengl.GLES10"/>
@@ -20,7 +12,6 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jdooglandroid.image.imagemap.SpriteSheet"/>
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="com.example.androidopengl.R.drawable"/>
-<fullyQualifiedTypeName name="android.opengl.GLSurfaceView"/>
 <fullyQualifiedTypeName name="android.opengl.GLSurfaceView.Renderer"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdooglandroid.components.Frame.GameRenderer"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdobaseandroid.R"/>
@@ -54,10 +45,19 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jdooglandroid.input.TouchInput"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdooglandroid.GL"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutilandroid.VerticesBuffer"/>
-<fullyQualifiedTypeName name="android.view.View.OnTouchListener"/>
 <fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdooglandroid.image.imagemap.Texture"/>
 <fullyQualifiedTypeName name="net.foxycorndog.p1xelandroid.R.drawable"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdooglandroid.listeners.ActionListener"/>
+<fullyQualifiedTypeName name="android.view.View"/>
+<fullyQualifiedTypeName name="android.opengl.GLSurfaceView"/>
+<fullyQualifiedTypeName name="android.view.MotionEvent"/>
+<fullyQualifiedTypeName name="android.view.View.OnTouchListener"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="com.example.canvastest.Renderer"/>
+<fullyQualifiedTypeName name="android.graphics.Paint"/>
+<fullyQualifiedTypeName name="android.graphics.Path"/>
+<fullyQualifiedTypeName name="android.view.SurfaceView"/>
+<fullyQualifiedTypeName name="android.view.SurfaceHolder"/>
+<fullyQualifiedTypeName name="android.graphics.Canvas"/>
 </qualifiedTypeNameHistroy>

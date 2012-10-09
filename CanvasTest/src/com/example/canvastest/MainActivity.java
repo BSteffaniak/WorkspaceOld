@@ -18,18 +18,9 @@ public class MainActivity extends Activity implements OnTouchListener
 	private Path path;
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-	  super.onCreate(savedInstanceState);
-	  setContentView(new View(this));
-	  mPaint = new Paint();
-	  mPaint.setDither(true);
-	  mPaint.setColor(0xFFFFFF00);
-	  mPaint.setStyle(Paint.Style.STROKE);
-	  mPaint.setStrokeJoin(Paint.Join.ROUND);
-	  mPaint.setStrokeCap(Paint.Cap.ROUND);
-	  mPaint.setStrokeWidth(3);
-	  
-	  Renderer r = new Renderer(_graphics, mPaint);
+	public void onCreate(Bundle savedInstanceState)
+	{
+		
 	}
 
     @Override

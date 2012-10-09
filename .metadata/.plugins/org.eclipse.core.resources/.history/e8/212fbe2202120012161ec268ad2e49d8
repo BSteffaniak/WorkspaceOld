@@ -1,0 +1,53 @@
+package com.example.canvastest;
+
+import java.util.ArrayList;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.opengl.GLSurfaceView;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.View;
+import android.view.View.OnTouchListener;
+
+public class Renderer extends SurfaceView implements SurfaceHolder.Callback
+{
+	private ArrayList<Path> _graphics;
+	private Paint     mPaint;
+	
+	public Renderer(ArrayList g, Paint p)
+	{
+		
+		this._graphics = g;
+		this.mPaint    = p;
+	}
+	
+	public void onDraw()
+	{
+
+	  for (Path path : _graphics) {
+	    //canvas.drawPoint(graphic.x, graphic.y, mPaint);
+	    canvas.drawPath(path, mPaint);
+	  }
+	}
+
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void surfaceCreated(SurfaceHolder holder) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		// TODO Auto-generated method stub
+		
+	}
+}
