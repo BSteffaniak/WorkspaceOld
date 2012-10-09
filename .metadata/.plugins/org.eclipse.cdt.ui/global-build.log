@@ -3772,3 +3772,113 @@ Build complete for project openglcpptest
 **** Clean-only build of configuration Debug for project testcpp2 ****
 rm -rf testcpp2.exe test2.d test2.o
 Build complete for project testcpp2
+
+**** Rebuild of configuration Debug for project P1XELANDC++ ****
+
+**** Internal Builder is used for build               ****
+****  WARNING: The "Debug" Configuration may not build  ****
+****  because it uses the "MinGW GCC"  ****
+****  tool-chain that is unsupported on this system.  ****
+
+****  Attempting to build...  **** 
+
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o net/foxycorndog/p1xeland/P1XELAND.o ../net/foxycorndog/p1xeland/P1XELAND.cpp
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o net/foxycorndog/p1xeland/actors/Actor.o ../net/foxycorndog/p1xeland/actors/Actor.cpp
+../net/foxycorndog/p1xeland/actors/Actor.cpp:26: error: 'Direction' does not name a type
+../net/foxycorndog/p1xeland/actors/Actor.cpp:28: error: 'Map' does not name a type
+../net/foxycorndog/p1xeland/actors/Actor.cpp:30: error: 'Inventory' does not name a type
+../net/foxycorndog/p1xeland/actors/Actor.cpp:33: error: 'final' was not declared in this scope
+../net/foxycorndog/p1xeland/actors/Actor.cpp:33: error: ISO C++ forbids declaration of 'type name' with no type
+../net/foxycorndog/p1xeland/actors/Actor.cpp:33: error: static member '<anonymous>' cannot be a bit-field
+../net/foxycorndog/p1xeland/actors/Actor.cpp:33: error: expected ';' before 'int'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:35: error: expected `:' before 'static'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:38: error: expected `}' before ';' token
+../net/foxycorndog/p1xeland/actors/Actor.cpp:38: error: a storage class can only be specified for objects and functions
+../net/foxycorndog/p1xeland/actors/Actor.cpp:40: error: expected `:' before 'static'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:70: error: expected `:' before 'static'
+../net/foxycorndog/p1xeland/actors/Actor.cpp: In static member function 'static Actor::Direction Actor::getOpposite(Actor::Direction)':
+../net/foxycorndog/p1xeland/actors/Actor.cpp:67: error: 'null' was not declared in this scope
+../net/foxycorndog/p1xeland/actors/Actor.cpp: At global scope:
+../net/foxycorndog/p1xeland/actors/Actor.cpp:101: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:146: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:151: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:156: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:161: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:166: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:171: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:176: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:181: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:186: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:191: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:196: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:201: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:206: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:211: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:216: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:221: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:226: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:231: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:236: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:241: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:246: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:251: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:256: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:268: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:273: error: expected unqualified-id before 'public'
+../net/foxycorndog/p1xeland/actors/Actor.cpp:287: error: expected unqualified-id before 'public'
+Build error occurred, build is stopped
+Time consumed: 3408  ms.  
+
+**** Rebuild of configuration Debug for project openglcpptest ****
+
+**** Internal Builder is used for build               ****
+****  WARNING: The "Debug" Configuration may not build  ****
+****  because it uses the "MinGW GCC"  ****
+****  tool-chain that is unsupported on this system.  ****
+
+****  Attempting to build...  **** 
+
+g++ -includeC:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h -O0 -g3 -Wall -c -fmessage-length=0 -o opengl.o ../opengl.cpp
+cc1plus: error: C:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h: No such file or directory
+../opengl.cpp:7:18: error: glut.h: No such file or directory
+../opengl.cpp: In function 'void Draw()':
+../opengl.cpp:10: error: 'GL_COLOR_BUFFER_BIT' was not declared in this scope
+../opengl.cpp:10: error: 'glClear' was not declared in this scope
+../opengl.cpp:11: error: 'glColor3f' was not declared in this scope
+../opengl.cpp:12: error: 'GL_LINES' was not declared in this scope
+../opengl.cpp:12: error: 'glBegin' was not declared in this scope
+../opengl.cpp:13: error: 'glVertex3f' was not declared in this scope
+../opengl.cpp:15: error: 'glEnd' was not declared in this scope
+../opengl.cpp:16: error: 'glFlush' was not declared in this scope
+../opengl.cpp: In function 'void Initialize()':
+../opengl.cpp:20: error: 'glClearColor' was not declared in this scope
+../opengl.cpp:21: error: 'GL_PROJECTION' was not declared in this scope
+../opengl.cpp:21: error: 'glMatrixMode' was not declared in this scope
+../opengl.cpp:22: error: 'glLoadIdentity' was not declared in this scope
+../opengl.cpp:23: error: 'glOrtho' was not declared in this scope
+../opengl.cpp: In function 'int main(int, char**)':
+../opengl.cpp:27: error: 'glutInit' was not declared in this scope
+../opengl.cpp:28: error: 'GLUT_SINGLE' was not declared in this scope
+../opengl.cpp:28: error: 'GLUT_RGB' was not declared in this scope
+../opengl.cpp:28: error: 'glutInitDisplayMode' was not declared in this scope
+../opengl.cpp:29: error: 'glutInitWindowSize' was not declared in this scope
+../opengl.cpp:30: error: 'glutInitWindowPosition' was not declared in this scope
+../opengl.cpp:31: error: 'glutCreateWindow' was not declared in this scope
+../opengl.cpp:33: error: 'glutDisplayFunc' was not declared in this scope
+../opengl.cpp:34: error: 'glutMainLoop' was not declared in this scope
+Build error occurred, build is stopped
+Time consumed: 224  ms.  
+
+**** Rebuild of configuration Debug for project testcpp2 ****
+
+**** Internal Builder is used for build               ****
+****  WARNING: The "Debug" Configuration may not build  ****
+****  because it uses the "MinGW GCC"  ****
+****  tool-chain that is unsupported on this system.  ****
+
+****  Attempting to build...  **** 
+
+g++ -IC:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin -includeC:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h -O0 -g3 -Wall -c -fmessage-length=0 -o test2.o ../test2.cpp
+cc1plus: error: C:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h: No such file or directory
+Build error occurred, build is stopped
+Time consumed: 1346  ms.  

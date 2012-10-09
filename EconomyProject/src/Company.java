@@ -38,21 +38,39 @@ public class Company
 	{
 		negotiateIndex ++;
 		
-		double distX   = curve.getPoint(negotiateIndex).getQuantity() -
-				curve.getPoint(negotiateIndex - 1).getQuantity();
-		double distY   = curve.getPoint(negotiateIndex).getQuantity() -
-				curve.getPoint(negotiateIndex - 1).getQuantity();
+		double distX = 0, distY = 0;
 		
-		Rectangle tol1 = new Rectangle(curve.getPoint(negotiateIndex -1)
-				.getQuantity() - distX / 2, curve.getPoint(negotiateIndex
-						- 1).getCost() - distY / 2, distX, distY);
-		Rectangle tol2 = new Rectangle(curve.getPoint(negotiateIndex)
-				.getQuantity() - distX / 2, curve.getPoint(negotiateIndex)
-				.getCost() - distY / 2, distX, distY);
+		Rectangle tol1 = null, tol2 = null;
 		
-		if (Market.equilibrium(p, tol1, tol2))
+		if (negotiateIndex < curve.size())
 		{
-			return p;
+			distX   = curve.getPoint(negotiateIndex).getQuantity() -
+					curve.getPoint(negotiateIndex - 1).getQuantity();
+			distY   = curve.getPoint(negotiateIndex).getQuantity() -
+					curve.getPoint(negotiateIndex - 1).getQuantity();
+		
+			tol2 = new Rectangle(curve.getPoint(negotiateIndex)
+					.getQuantity() - distX / 2, curve.getPoint(negotiateIndex)
+					.getCost() - distY / 2, distX, distY);
+		}
+			
+		tol1 = new Rectangle(curve.getPoint(negotiateIndex -1)
+				.getQuantity() - distX / 2, curve.getPoint(negotiateIndex
+				- 1).getCost() - distY / 2, distX, distY);
+		
+		if (tol2 != null)
+		{
+			if (Market.equilibrium(p, tol1, tol2))
+			{
+				return p;
+			}
+		}
+		else
+		{
+			if (Market.equilibrium(p, tol1))
+			{
+				return p;
+			}
 		}
 		
 		if (negotiateIndex - 1 < curve.size())
