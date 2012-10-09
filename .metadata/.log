@@ -2875,6 +2875,7 @@ org.eclipse.osgi.framework.internal.core.AbstractBundle$BundleStatusException
 	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2326)
 	at org.eclipse.jdt.internal.core.JavaModelManager$19.run(JavaModelManager.java:4911)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+<<<<<<< HEAD
 !SESSION 2012-10-07 08:28:36.743 -----------------------------------------------
 eclipse.buildId=M20110909-1335
 java.version=1.6.0_35
@@ -3063,3 +3064,15 @@ Binding(ALT+COMMAND+R,
 
 !ENTRY org.eclipse.core.net 1 0 2012-10-08 19:20:49.199
 !MESSAGE System property https.proxyPort has been set to  by an external source. This value will be overwritten using the values from the preferences
+=======
+!SESSION 2012-10-07 08:39:09.280 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.7.0_03
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2012-10-07 08:40:48.397
+!MESSAGE Failed to load properties file for project 'CanvasTest'
+>>>>>>> 989ef6fa15a43545f2e82a409ed7ea8fdd8bd7ea
