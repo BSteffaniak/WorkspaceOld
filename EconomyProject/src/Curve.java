@@ -145,14 +145,26 @@ public class Curve
 		Collections.sort(points);
 	}
 	
-	public Point getPoint(int index)
+	/**
+	 * Returns the closest Point to the right of the specific
+	 * quantity.
+	 */
+	public Point getPoint(int quantity)
 	{
-		if (index >= points.size())
+		int closestIndex = 0;
+		int pointQuantity = 0;
+		
+		for (int i = 0; i < points.size(); i ++)
 		{
-			throw new ArrayIndexOutOfBoundsException("Index: " + index + " is outside of the size: " + points.size());
+			
 		}
 		
-		return points.get(index);
+		if (point == null)
+		{
+			throw new RuntimeException("");
+		}
+		
+		return point;
 	}
 	
 	public int size()
