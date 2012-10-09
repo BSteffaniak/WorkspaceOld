@@ -149,7 +149,7 @@ public class Curve
 	{
 		if (index >= points.size())
 		{
-			return points.get(points.size() - 1);
+			throw new ArrayIndexOutOfBoundsException("Index: " + index + " is outside of the size: " + points.size());
 		}
 		
 		return points.get(index);
