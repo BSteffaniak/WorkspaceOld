@@ -151,7 +151,7 @@ public class Curve
 	 */
 	public Point getPoint(int quantity)
 	{
-		int closestIndex = 0;
+		int closestIndex  = 0;
 		int pointQuantity = Integer.MAX_VALUE;
 		
 		for (int i = 0; i < points.size(); i ++)
@@ -160,7 +160,8 @@ public class Curve
 			{
 				if (points.get(i).getQuantity() < pointQuantity)
 				{
-					
+					closestIndex  = i;
+					pointQuantity = points.get(i).getQuantity();
 				}
 			}
 		}
@@ -169,12 +170,16 @@ public class Curve
 		
 		if (point == null)
 		{
-			throw new RuntimeException("");
+			throw new IllegalArgumentException("There are no Points on this " +
+					"Curve with a quantity greater than: " + quantity);
 		}
 		
 		return point;
 	}
 	
+	/**
+	 * Returns the amount of Points on the Curve.
+	 */
 	public int size()
 	{
 		return points.size();
