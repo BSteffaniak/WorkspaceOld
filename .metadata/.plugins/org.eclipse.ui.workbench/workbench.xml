@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <workbench progressCount="27" version="2.0">
+=======
+<workbench progressCount="28" version="2.0">
+>>>>>>> b0149ee359f1f2d9b7e31a386b2bbe253de58fb2
 <workbenchAdvisor/>
 <window height="768" maximized="true" width="1024" x="225" y="216">
 <fastViewData fastViewLocation="16384">
@@ -15,19 +19,19 @@
 </perspectiveBar>
 <coolbarLayout>
 <coolItem id="group.file" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="191" y="22"/>
+<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="164" y="22"/>
 <coolItem id="additions" itemType="typeGroupMarker"/>
-<coolItem id="adt.actionSet.avdManager" itemType="typeToolBarContribution" x="61" y="22"/>
-<coolItem id="adt.actionSet.lint" itemType="typeToolBarContribution" x="53" y="22"/>
-<coolItem id="adt.actionSet.wizards" itemType="typeToolBarContribution" x="84" y="22"/>
-<coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="129" y="22"/>
-<coolItem id="org.eclipse.jdt.ui.JavaElementCreationActionSet" itemType="typeToolBarContribution" x="76" y="22"/>
-<coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="99" y="22"/>
-<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="130" y="22"/>
+<coolItem id="adt.actionSet.avdManager" itemType="typeToolBarContribution" x="54" y="22"/>
+<coolItem id="adt.actionSet.lint" itemType="typeToolBarContribution" x="32" y="22"/>
+<coolItem id="adt.actionSet.wizards" itemType="typeToolBarContribution" x="76" y="22"/>
+<coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="100" y="22"/>
+<coolItem id="org.eclipse.jdt.ui.JavaElementCreationActionSet" itemType="typeToolBarContribution" x="62" y="22"/>
+<coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="106" y="22"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="120" y="22"/>
 <coolItem id="org.eclipse.wst.xml.ui.perspective.NewFileToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="org.eclipse.wst.xml.ui.design.DesignToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="190" y="22"/>
+<coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="152" y="22"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.jdt.ui.PropertiesFileEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typePlaceholder" x="-1" y="-1"/>
@@ -46,6 +50,7 @@
 <part id="0"/>
 <part id="1"/>
 <part id="2"/>
+<<<<<<< HEAD
 <part id="3"/>
 <part id="4"/>
 <part id="5"/>
@@ -61,10 +66,13 @@
 <part id="15"/>
 <part id="16"/>
 <part id="17"/>
+=======
+>>>>>>> b0149ee359f1f2d9b7e31a386b2bbe253de58fb2
 </presentation>
 </folder>
 </info>
 </editorArea>
+<<<<<<< HEAD
 <editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Idk.java" partName="Idk.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/IdkAndroid/src/net/foxycorndog/idk/Idk.java" title="Idk.java" tooltip="IdkAndroid/src/net/foxycorndog/idk/Idk.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/IdkAndroid/src/net/foxycorndog/idk/Idk.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5570" selectionTopPixel="2649"/>
@@ -136,6 +144,19 @@
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Curve.java" partName="Curve.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/EconomyProject/src/Curve.java" title="Curve.java" tooltip="EconomyProject/src/Curve.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/EconomyProject/src/Curve.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2878" selectionTopPixel="1912"/>
+=======
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Market.java" partName="Market.java" path="/Users/BradenSteffaniak/Documents/GitHub/Workspace/EconomyProject/src/Market.java" title="Market.java" tooltip="EconomyProject/src/Market.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/EconomyProject/src/Market.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="951" selectionTopPixel="525"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Company.java" partName="Company.java" path="/Users/BradenSteffaniak/Documents/GitHub/Workspace/EconomyProject/src/Company.java" title="Company.java" tooltip="EconomyProject/src/Company.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/EconomyProject/src/Company.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1483" selectionTopPixel="553"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Curve.java" partName="Curve.java" path="/Users/BradenSteffaniak/Documents/GitHub/Workspace/EconomyProject/src/Curve.java" title="Curve.java" tooltip="EconomyProject/src/Curve.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/EconomyProject/src/Curve.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3150" selectionTopPixel="1785"/>
+>>>>>>> b0149ee359f1f2d9b7e31a386b2bbe253de58fb2
 </editor>
 </editors>
 <views>
@@ -172,6 +193,7 @@
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.LocalTypesFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.StaticsFilter" isEnabled="false"/>
+<child filterId="org.eclipse.pde.ui.ExternalPluginLibrariesFilter1" isEnabled="true"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.ClosedProjectsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.NonSharedProjectsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.NonJavaElementFilter" isEnabled="false"/>
@@ -187,6 +209,7 @@
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.NonPublicFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer_patternFilterId_.*" isEnabled="true"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.EmptyLibraryContainerFilter" isEnabled="true"/>
+<child filterId="org.eclipse.pde.ui.BinaryProjectFilter1" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.SyntheticMembersFilter" isEnabled="true"/>
 <child filterId="org.eclipse.mylyn.java.ui.MembersFilter" isEnabled="false"/>
 <child filterId="org.eclipse.m2e.MavenModuleFilter" isEnabled="false"/>
@@ -202,7 +225,7 @@
 </view>
 </views>
 <perspectives activePart="org.eclipse.jdt.ui.CompilationUnitEditor" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
-<perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
+<perspective editorAreaTrimState="1" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.jdt.internal.ui.JavaPerspectiveFactory" id="org.eclipse.jdt.ui.JavaPerspective" label="Java"/>
 <alwaysOnActionSet id="org.eclipse.mylyn.context.ui.actionSet"/>
 <alwaysOnActionSet id="org.eclipse.mylyn.doc.actionSet"/>
@@ -227,6 +250,7 @@
 <alwaysOnActionSet id="org.eclipse.debug.ui.breakpointActionSet"/>
 <alwaysOnActionSet id="org.eclipse.jdt.debug.ui.JDTDebugActionSet"/>
 <alwaysOnActionSet id="org.eclipse.jdt.junit.JUnitActionSet"/>
+<alwaysOnActionSet id="org.eclipse.egit.ui.navigation"/>
 <show_view_action id="org.eclipse.jdt.ui.PackageExplorer"/>
 <show_view_action id="org.eclipse.jdt.ui.TypeHierarchy"/>
 <show_view_action id="org.eclipse.jdt.ui.SourceView"/>
@@ -269,7 +293,7 @@
 <hide_toolbar_item_id id="org.eclipse.jdt.ui.actions.OpenProjectWizard"/>
 <hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
 <fastViews>
-<view id="org.eclipse.jdt.ui.PackageExplorer" ratio="0.29943955"/>
+<view id="org.eclipse.jdt.ui.PackageExplorer" ratio="0.2992"/>
 <view id="org.eclipse.ui.views.ProblemView" ratio="0.29943955"/>
 <view id="org.eclipse.jdt.ui.SourceView" ratio="0.3"/>
 <view id="org.eclipse.jdt.ui.JavadocView" ratio="0.3"/>
@@ -277,7 +301,7 @@
 <fastViewBars>
 <fastViewBar fastViewLocation="1024" id="bottom" orientation="256" selectedTabId="com.android.ide.eclipse.ddms.views.LogCatView" style="0">
 <fastViews>
-<view id="org.eclipse.ui.console.ConsoleView" ratio="0.19567691"/>
+<view id="org.eclipse.ui.console.ConsoleView" ratio="0.19448476"/>
 <view id="com.android.ide.eclipse.ddms.views.LogCatView" ratio="0.29920363"/>
 <view id="org.eclipse.ui.views.ProgressView" ratio="0.29920363"/>
 <view id="org.eclipse.search.ui.views.SearchView" ratio="0.29920363"/>
@@ -368,6 +392,7 @@
 <workingSets/>
 <navigationHistory>
 <editors>
+<<<<<<< HEAD
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/IdkAndroid/src/net/foxycorndog/idk/MainActivity.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoutilAndroid/src/net/foxycorndog/jdoutil/ImageUtil.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/IdkAndroid/src/net/foxycorndog/idk/maps/buildings/Building.java"/>
@@ -532,6 +557,168 @@
 </item>
 <item active="true" historyLabel="Idk.java" index="13">
 <position info="not_deleted" x="5570" y="0"/>
+=======
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/P1XELANDroid/src/net/foxycorndog/p1xelandroid/P1xeland.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDooglAndroid/src/net/foxycorndog/jdooglandroid/components/Component.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/P1XELANDroid/src/net/foxycorndog/p1xelandroid/actors/Actor.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/P1XELANDroid/src/net/foxycorndog/p1xelandroid/MainActivity.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/P1XELANDroid/src/net/foxycorndog/p1xelandroid/map/chunks/Chunk.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/P1XELANDroid/src/net/foxycorndog/p1xelandroid/actors/Player.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDooglAndroid/src/net/foxycorndog/jdooglandroid/GL.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/EconomyProject/src/Market.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/EconomyProject/src/Company.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/EconomyProject/src/Curve.java"/>
+</editors>
+<item historyLabel="Component.java" index="1">
+<position info="not_deleted" x="1342" y="0"/>
+</item>
+<item historyLabel="MainActivity.java" index="3">
+<position/>
+</item>
+<item historyLabel="P1xeland.java" index="0">
+<position info="not_deleted" x="14634" y="0"/>
+</item>
+<item historyLabel="Component.java" index="1">
+<position info="not_deleted" x="1342" y="0"/>
+</item>
+<item historyLabel="MainActivity.java" index="3">
+<position/>
+</item>
+<item historyLabel="Chunk.java" index="4">
+<position info="not_deleted" x="13704" y="0"/>
+</item>
+<item historyLabel="Chunk.java" index="4">
+<position info="not_deleted" x="10728" y="189"/>
+</item>
+<item historyLabel="Chunk.java" index="4">
+<position info="not_deleted" x="10059" y="0"/>
+</item>
+<item historyLabel="Chunk.java" index="4">
+<position info="not_deleted" x="10728" y="189"/>
+</item>
+<item historyLabel="Player.java" index="5">
+<position info="not_deleted" x="14120" y="0"/>
+</item>
+<item historyLabel="MainActivity.java" index="3">
+<position info="not_deleted" x="1224" y="0"/>
+</item>
+<item historyLabel="Chunk.java" index="4">
+<position info="not_deleted" x="10728" y="189"/>
+</item>
+<item historyLabel="MainActivity.java" index="3">
+<position info="not_deleted" x="1460" y="0"/>
+</item>
+<item historyLabel="Player.java" index="5">
+<position info="not_deleted" x="14120" y="0"/>
+</item>
+<item historyLabel="Player.java" index="5">
+<position info="not_deleted" x="19403" y="0"/>
+</item>
+<item historyLabel="Player.java" index="5">
+<position info="not_deleted" x="16029" y="14"/>
+</item>
+<item historyLabel="Player.java" index="5">
+<position info="not_deleted" x="16136" y="0"/>
+</item>
+<item historyLabel="Actor.java" index="2">
+<position info="not_deleted" x="7834" y="7"/>
+</item>
+<item historyLabel="Player.java" index="5">
+<position info="not_deleted" x="16401" y="0"/>
+</item>
+<item historyLabel="Actor.java" index="2">
+<position info="not_deleted" x="7834" y="7"/>
+</item>
+<item historyLabel="Actor.java" index="2">
+<position info="not_deleted" x="12021" y="0"/>
+</item>
+<item historyLabel="Player.java" index="5">
+<position info="not_deleted" x="16401" y="0"/>
+</item>
+<item historyLabel="P1xeland.java" index="0">
+<position info="not_deleted" x="14634" y="0"/>
+</item>
+<item historyLabel="P1xeland.java" index="0">
+<position info="not_deleted" x="5575" y="0"/>
+</item>
+<item historyLabel="GL.java" index="6">
+<position info="not_deleted" x="1108" y="0"/>
+</item>
+<item historyLabel="P1xeland.java" index="0">
+<position info="not_deleted" x="6633" y="8"/>
+</item>
+<item historyLabel="Market.java" index="7">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Company.java" index="8">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Market.java" index="7">
+<position info="not_deleted" x="909" y="0"/>
+</item>
+<item historyLabel="Company.java" index="8">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Curve.java" index="9">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Company.java" index="8">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Curve.java" index="9">
+<position/>
+</item>
+<item historyLabel="Company.java" index="8">
+<position/>
+</item>
+<item historyLabel="Curve.java" index="9">
+<position/>
+</item>
+<item historyLabel="Company.java" index="8">
+<position/>
+</item>
+<item historyLabel="Curve.java" index="9">
+<position info="not_deleted" x="3172" y="0"/>
+</item>
+<item historyLabel="Company.java" index="8">
+<position/>
+</item>
+<item historyLabel="Market.java" index="7">
+<position info="not_deleted" x="704" y="0"/>
+</item>
+<item historyLabel="Company.java" index="8">
+<position/>
+</item>
+<item historyLabel="Curve.java" index="9">
+<position info="not_deleted" x="3241" y="0"/>
+</item>
+<item historyLabel="Curve.java" index="9">
+<position info="not_deleted" x="3150" y="0"/>
+</item>
+<item historyLabel="Curve.java" index="9">
+<position info="not_deleted" x="3150" y="0"/>
+</item>
+<item historyLabel="Market.java" index="7">
+<position info="not_deleted" x="870" y="0"/>
+</item>
+<item historyLabel="Company.java" index="8">
+<position info="not_deleted" x="1456" y="0"/>
+</item>
+<item historyLabel="Market.java" index="7">
+<position info="not_deleted" x="1536" y="0"/>
+</item>
+<item historyLabel="Company.java" index="8">
+<position info="not_deleted" x="1455" y="0"/>
+</item>
+<item historyLabel="Market.java" index="7">
+<position info="not_deleted" x="1536" y="0"/>
+</item>
+<item historyLabel="Company.java" index="8">
+<position info="not_deleted" x="1483" y="0"/>
+</item>
+<item active="true" historyLabel="Market.java" index="7">
+<position info="not_deleted" x="1536" y="0"/>
+>>>>>>> b0149ee359f1f2d9b7e31a386b2bbe253de58fb2
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -556,6 +743,18 @@
 <mruList>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Curve.java" tooltip="EconomyProject/src/Curve.java">
 <persistable path="/EconomyProject/src/Curve.java"/>
+<<<<<<< HEAD
+=======
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Company.java" tooltip="EconomyProject/src/Company.java">
+<persistable path="/EconomyProject/src/Company.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Market.java" tooltip="EconomyProject/src/Market.java">
+<persistable path="/EconomyProject/src/Market.java"/>
+</file>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="Joystick.class" tooltip="net.foxycorndog.jdooglandroid.components.Joystick">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=P1XELANDroid/C:\/Users\/Braden Steffaniak\/Documents\/GitHub\/Workspace\/jDooglAndroid\/bin\/jdooglandroid.jar&lt;net.foxycorndog.jdooglandroid.components(Joystick.class"/>
+>>>>>>> b0149ee359f1f2d9b7e31a386b2bbe253de58fb2
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="P1xeland.java" tooltip="P1XELANDroid/src/net/foxycorndog/p1xelandroid/P1xeland.java">
 <persistable path="/P1XELANDroid/src/net/foxycorndog/p1xelandroid/P1xeland.java"/>
@@ -590,6 +789,7 @@
 <file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="GL.class" tooltip="net.foxycorndog.jdoogl.GL">
 <persistable org.eclipse.jdt.ui.ClassFileIdentifier="=IdkAndroid/C:\/Users\/Braden Steffaniak\/Documents\/GitHub\/Workspace\/jDooglAndroid\/bin\/jdooglandroid.jar&lt;net.foxycorndog.jdoogl(GL.class"/>
 </file>
+<<<<<<< HEAD
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ImageUtil.java" tooltip="jDoutilAndroid/src/net/foxycorndog/jdoutil/ImageUtil.java">
 <persistable path="/jDoutilAndroid/src/net/foxycorndog/jdoutil/ImageUtil.java"/>
 </file>
@@ -599,5 +799,7 @@
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SpriteSheet.java" tooltip="jDooglAndroid/src/net/foxycorndog/jdoogl/image/imagemap/SpriteSheet.java">
 <persistable path="/jDooglAndroid/src/net/foxycorndog/jdoogl/image/imagemap/SpriteSheet.java"/>
 </file>
+=======
+>>>>>>> b0149ee359f1f2d9b7e31a386b2bbe253de58fb2
 </mruList>
 </workbench>
