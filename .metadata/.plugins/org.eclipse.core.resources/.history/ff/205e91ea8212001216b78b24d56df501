@@ -1,0 +1,1088 @@
+package net.foxycorndog.idk.animatedobject.actors;
+
+import static net.foxycorndog.idk.Idk.OBJECT_SIZE;
+import static net.foxycorndog.idk.Idk.TEXTURE_SIZE;
+import static net.foxycorndog.idk.Idk.VERTEX_SIZE;
+import static net.foxycorndog.idk.Idk.scale;
+import static net.foxycorndog.idk.Idk.tileSize;
+import static net.foxycorndog.idk.Idk.viewScale;
+import static net.foxycorndog.idk.animatedobject.actors.Actor.Direction.DOWN;
+import static net.foxycorndog.idk.animatedobject.actors.Actor.Direction.LEFT;
+import static net.foxycorndog.idk.animatedobject.actors.Actor.Direction.RIGHT;
+import static net.foxycorndog.idk.animatedobject.actors.Actor.Direction.UP;
+
+import java.util.ArrayList;
+
+import net.foxycorndog.idk.Idk;
+import net.foxycorndog.idk.R;
+import net.foxycorndog.idk.animatedobject.AnimatedObject;
+import net.foxycorndog.idk.items.Apparel;
+import net.foxycorndog.idk.items.Item;
+import net.foxycorndog.idk.items.Weapon;
+import net.foxycorndog.idk.items.Apparel.Part;
+import net.foxycorndog.idk.maps.Map;
+import net.foxycorndog.jdoogl.Color;
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
+import net.foxycorndog.jdoutil.LightBuffer;
+
+public class Actor extends AnimatedObject
+{
+	private boolean   sprinting;
+	private boolean   alive;
+	private boolean   waiting;
+//	private boolean   passive;
+	private boolean   hurt;
+	private boolean   recoilMovingUp;
+	private boolean   initialized;
+	private boolean   swimming;
+	
+	private byte      walkCycle, phase;
+	private byte      row;
+	private byte      offset;
+	private byte      spriteOffset;
+	
+	private int       hurtPoint;
+	private int       walkPoint[];
+	private int       counterAttackPoint;
+	
+	private short     attack, defense, maxHealth, health;
+	private short     healthBarWidth,  healthBarHeight;
+	private short     healthBarX, healthBarY;
+	
+	private float     phaseSpeed;
+	private float     recoilFactor;
+	private float     recoilJump;
+	private float     recoilStart;
+	private float     moveSpeed;
+	
+	private Weapon    weapon;
+	private Apparel   apparel[];
+	
+	private LightBuffer    verticesBuffer, texturesBuffer;
+	
+	private Inventory inventory;
+	
+	private ArrayList<Integer> healthLoss;
+	private ArrayList<Integer> healthLossCounter;
+	private ArrayList<Integer> healthLossGoalCounter;
+	private ArrayList<Integer> healthLossX;
+	private ArrayList<Integer> healthLossY;
+	
+	private Direction direction, deadFacing;
+	
+	private static SpriteSheet actors;
+	
+	/**
+	* A enumeration that is used for telling directions.
+	*/
+	public static enum Direction
+	{
+		UP, DOWN, LEFT, RIGHT;
+		
+//		private Direction(int value)
+//		{
+//			
+//		}
+		/**
+		* Get the direction that is associated with the integer value.
+		* 
+		* @param value The integer value.
+		* @return The direction.
+		*/
+		public static Direction getDirection(int value)
+		{
+			if (value == 0)
+			{
+				return UP;
+			}
+			else if (value == 1)
+			{
+				return DOWN;
+			}
+			else if (value == 2)
+			{
+				return LEFT;
+			}
+			else if (value == 3)
+			{
+				return RIGHT;
+			}
+			
+			return null;
+		}
+		
+		/**
+		* Get the opposite of the direction given.
+		* 
+		* @param direction The direction to get the opposite of.
+		* @return The opposite of the direction given.
+		*/
+		public static Direction getOpposite(Direction direction)
+		{
+			if (direction == UP)
+			{
+				return DOWN;
+			}
+			else if (direction == DOWN)
+			{
+				return UP;
+			}
+			else if (direction == LEFT)
+			{
+				return RIGHT;
+			}
+			else if (direction == RIGHT)
+			{
+				return LEFT;
+			}
+			
+			return null;
+		}
+	}
+	
+	/**
+	* Create a new actor that can move and do many cool things...
+	* 
+	* @param row The row in the sprite-sheet that the sprites are.
+	* @param width The width of the actors sprites.
+	* @param height The height of the actors sprites.
+	* @param xo The left over empty x position space in the sprites.
+	* @param yo The left over empty y position space in the sprites.
+	* @param moveSpeed The speed at which the actor can move.
+	* @param phaseSpeed The speed at which the actors images switch
+	* 		(Higher is slower)
+	* @param attack The attack of the actor.
+	* @param defense The defense of the actor.
+	* @param maxHealth The max health of the actor.
+	* @param passive Whether the actor is passive.
+	* @param map What map the actor is placed in.
+	*/
+	public Actor(byte row, short width, short height, short xo, short yo, float moveSpeed, float phaseSpeed, short attack, short defense, short maxHealth, boolean passive, boolean initialize, Map map)
+	{
+		super(0, 0, -5, width, height, xo, yo, map);
+		
+		this.row        = row;
+		
+		this.moveSpeed  = moveSpeed;
+		
+		this.phaseSpeed = phaseSpeed;
+		
+		this.attack     = attack;
+		this.defense    = defense;
+		this.maxHealth  = maxHealth;
+		this.health     = maxHealth;
+		
+//		this.passive    = passive;
+		
+		this.moveSpeed *= scale;
+		
+		this.alive      = true;
+		
+		this.offset     = (byte)(Idk.randomInt() % 100);
+		
+		inventory       = new Inventory();
+		inventory.setParent(this);
+		
+		apparel         = new Apparel[Part.values().length];
+		
+		walkPoint = new int[2];
+		
+		if (initialize)
+		{
+			init(row);
+		}
+		
+		initialized = initialize;
+	}
+	
+	/**
+	* Initializes the actor. Creates the buffers to hold the
+	* texture and vertices values.
+	* 
+	* @param row The row in which the sprites are held on the
+	* 		sprite-sheet.
+	*/
+	public void init(int row)
+	{
+		verticesBuffer = new LightBuffer(OBJECT_SIZE * 3, 2);
+		texturesBuffer = new LightBuffer(TEXTURE_SIZE * 3, 2);
+		
+//		verticesBuffer.setBuffer(BufferUtils.createFloatBuffer(OBJECT_SIZE * 3));
+//		texturesBuffer.setBuffer(BufferUtils.createFloatBuffer(TEXTURE_SIZE * 3));
+		
+//		verticesBuffer.init();
+//		texturesBuffer.init();
+		
+		healthBarWidth  = 50;
+		healthBarHeight = 7;
+		
+		healthBarX = (short)(-((healthBarWidth - (getScaledWidth())) / 2));
+		healthBarY = (short)(getScaledHeight() + 5);
+		
+//		float vertices[] = verticesBuffer.getElements();
+		verticesBuffer.addData(GL.addRectVertexArrayf(0, 0, getWidth() * scale * 10, getHeight() * scale * 10, 0, null));
+		verticesBuffer.addData(GL.addRectVertexArrayf(healthBarX - 1, healthBarY - 1, healthBarWidth + 2, healthBarHeight + 2, OBJECT_SIZE, null));
+		verticesBuffer.addData(GL.addRectVertexArrayf(healthBarX, healthBarY, healthBarWidth, healthBarHeight, OBJECT_SIZE * 2, null));
+		
+//		float textures[] = texturesBuffer.getElements();
+		texturesBuffer.addData(GL.addRectTextureArrayf(actors, 1 * getWidth(), row, getWidth(), getHeight(), 0, null));
+		texturesBuffer.addData(GL.addRectTextureArrayf(actors, 1, 12, 1, 1, TEXTURE_SIZE, null));
+		texturesBuffer.addData(GL.addRectTextureArrayf(actors, 1, 12, 1, 1, TEXTURE_SIZE * 2, null));
+		
+		healthLoss            = new ArrayList<Integer>();
+		healthLossCounter     = new ArrayList<Integer>();
+		healthLossGoalCounter = new ArrayList<Integer>();
+		healthLossX           = new ArrayList<Integer>();
+		healthLossY           = new ArrayList<Integer>();
+		
+		initialized = true;
+	}
+	
+	/**
+	* The static initialization method that creates the sprite-sheet.
+	* 
+	* Must be called before any actors are created!
+	*/
+	public static void init()
+	{
+		actors = new SpriteSheet(Idk.getResources(), R.drawable.actors, 49, 30);
+	}
+	
+	/**
+	* The render method for the actor. Makes it show up in the frame.
+	*/
+	public void render()
+	{
+		continueRecoil();
+//		continueHealthLossIndicator();
+		
+		GL.beginManipulation();
+		{
+			GL.translatef(getX(), getY() - (swimming ? 8 * scale : 0), getZ());
+			
+			if (swimming)
+			{
+				GL.enableClipping();
+				
+				int clipX      = (int)((getScreenX() - healthBarWidth));
+				int clipY      = (int)((getScreenY()));
+				int clipWidth  = (int)((getScaledWidth() + getXo() + healthBarWidth * 2) / viewScale);
+				int clipHeight = (int)((getScaledHeight() - 8 * (int)(scale) + getYo() + 100) / viewScale);
+				
+//				int xoff       = (int)((getScaledWidth() + xo + healthBarWidth * 2) - clipWidth);
+//				int yoff       = (int)((getScaledHeight() - 8 * (int)(scale) + yo + 100) - clipHeight);
+//				
+//				clipX         += xoff;
+//				clipY         += yoff;
+				
+				clipX          = clipX < 0 ? 0 : clipX;
+				clipY          = clipY < 0 ? 0 : clipY;
+				clipWidth      = clipWidth + clipX > Frame.getWidth() ? Frame.getWidth() - clipX : clipWidth;
+				clipHeight     = clipHeight + clipY > Frame.getHeight() ? Frame.getHeight() - clipY : clipHeight;
+				
+				GL.beginClipping(clipX, clipY, clipWidth, clipHeight);
+			}
+			
+			if (!alive)
+			{
+				GL.translatef(getScaledHeight() / 2 * (deadFacing == RIGHT ? -1 : 1), 0, 0);
+				
+				GL.rotatef(0, 0, 90 + (deadFacing == RIGHT ? 180 : 0));
+			}
+			
+//			GL.beginTextureDraw(texturesBuffer.getId(), 2);
+//			GL.beginVertexDraw (verticesBuffer.getId(), VERTEX_SIZE);
+			
+			actors.bind();
+			
+			if (alive && hurtPoint != 0)
+			{
+				GL.translatef(0, 0, -2);
+				GL.setColori(0, 0, 0, 255);
+				GL.renderQuads(verticesBuffer, texturesBuffer, actors, 1, 1);
+
+				GL.translatef(0, 0, 1);
+				GL.setColori(0, 170, 0, 255);
+				GL.renderQuads(verticesBuffer, texturesBuffer, actors, 2, 1);
+				
+				GL.setColorf(1, 1, 1, 1);
+				GL.translatef(0, 0, 1);
+			}
+			
+			if (hurt && Idk.counter < hurtPoint + 10)
+			{
+				GL.beginInverting();
+			}
+			
+			GL.renderQuads(verticesBuffer, texturesBuffer, actors, 0, 1);
+			
+//			GL.endVertexDraw();
+//			GL.endTextureDraw();
+			
+			for (Apparel apparel : this.apparel)
+			{
+				if (apparel == null)
+				{
+					continue;
+				}
+				
+				apparel.setSprite(spriteOffset);
+				apparel.render();
+			}
+			
+			if (hurt || Idk.getPoint(hurtPoint) != 0)
+			{
+				GL.endInverting();
+				
+				if (Idk.getPoint(hurtPoint) >= 250)
+				{
+					hurtPoint = 0;
+					hurt = false;
+				}
+				else if (Idk.getPoint(hurtPoint) >= hurtPoint + 10)
+				{
+					hurt = false;
+				}
+			}
+			
+			if (swimming)
+			{
+				GL.endClipping();
+			}
+		}
+		GL.endManipulation();
+	}
+	
+	/**
+	* The attack method. Attacks any nearby enemies.
+	* 
+	* @return The experience gain (if any) that the enemies that you
+	* 		killed will give you.
+	*/
+	public short attack()
+	{
+		short experienceGain = 0;
+		
+		for (Actor actor : getMap().getActors())
+		{
+			experienceGain += checkAttack(actor);
+		}
+		
+		experienceGain += checkAttack(Idk.getPlayer());
+		
+		return experienceGain;
+	}
+	
+	private short checkAttack(Actor actor)
+	{
+		if(!actor.isAlive() || actor == this)
+		{
+			return 0;
+		}
+		
+		if (distanceTo(actor, this) <= 80)
+		{
+			int amount = attack;
+			
+			amount += (int)(Math.random() * (attack / 3));
+			amount -= (int)(Math.random() * actor.getDefense());
+			
+			amount = amount < 0 ? 0 : amount;
+			
+			actor.removeHealth(amount, getAbsoluteX(), true);
+			
+			if (!actor.isAlive())
+			{
+				return actor.getExperienceRelease();
+			}
+		}
+		
+		return 0;
+	}
+	
+	/**
+	* Get the amount of experience that the actor will release whe
+	* it is killed.
+	* 
+	* @return
+	*/
+	public short getExperienceRelease()
+	{
+		return (short)((attack + defense + maxHealth) / 10);
+	}
+	
+	public int getDefense()
+	{
+		return defense;
+	}
+	
+	public int getAttack()
+	{
+		return attack;
+	}
+	
+	/**
+	* Returns whether the actor can move to the specified location.
+	* 
+	* @param dx The x offset.
+	* @param dy The y offset.
+	* @return Whether he can move or not.
+	*/
+	public boolean canMove(float dx, float dy)
+	{
+		int rw = (int)(Math.ceil(getScaledWidth()  / tileSize));
+		int rh = (int)(Math.ceil(getScaledHeight() / tileSize));
+		
+		if (getMap().checkCollisionRect(this, dx, dy, (int)(getAbsoluteX() / tileSize) - rw * 2, (int)(getAbsoluteY() / tileSize) - rh * 2, rw * 5, rh * 5) == null)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	* Try to move to the specified amount.
+	* 
+	* @param dx The amount to move in the x direction.
+	* @param dy The amount to move in the y direction.
+	* @return Whether the move was successful or not.
+	*/
+	public boolean move(float dx, float dy)
+	{
+		float offsets[];
+		
+		boolean moved = false;
+		
+		int rw = (int)(Math.ceil(getScaledWidth()  / tileSize));
+		int rh = (int)(Math.ceil(getScaledHeight() / tileSize));
+		
+		if ((offsets = getMap().checkCollisionRect(this, dx, dy, (int)(getAbsoluteX() / tileSize) - rw * 2, (int)(getAbsoluteY() / tileSize) - rh * 2, rw * 5, rh * 5)) == null)
+		{
+			setX(getX() + dx);
+			setY(getY() + dy);
+			
+			setAbsoluteX(getAbsoluteX() + dx);
+			setAbsoluteY(getAbsoluteY() + dy);
+			
+			moved = true;
+		}
+		else
+		{
+			walkPoint[0] = 0;
+			
+			float xo = offsets[0];
+			float yo = offsets[1];
+			
+			if (dx < 0)
+			{
+				moved = forceMove(dx + xo, 0);
+			}
+			else if (dx > 0)
+			{
+				moved = forceMove(dx - xo, 0);
+			}
+			
+			if (dy > 0)
+			{
+				moved = forceMove(0, dy - yo) ? true : (moved ? true : false);
+			}
+			else if (dy < 0)
+			{
+				moved = forceMove(0, dy + yo) ? true : (moved ? true : false);
+			}
+		}
+		
+		return moved;
+	}
+	
+	/**
+	* Move the actor in the specified direction.
+	* 
+	* @param direction The direction to move.
+	*/
+	public void move(Direction direction)
+	{
+		if (direction == LEFT)
+		{
+			move(LEFT, 1, true);
+		}
+		else if (direction == RIGHT)
+		{
+			move(RIGHT, 1, true);
+		}
+		else if (direction == UP)
+		{
+			move(UP, 1, true);
+		}
+		else if (direction == DOWN)
+		{
+			move(DOWN, 1, true);
+		}
+	}
+	
+	/**
+	* Move the actor in the specified direction at the specified
+	* scale to the moveSpeed.
+	* 
+	* @see #moveSpeed
+	* 
+	* @param direction The direction to move.
+	* @param scale The scale of the moveSpeed.
+	*/
+	public void move(Direction direction, float scale, boolean changeSprite)
+	{
+		if (direction == LEFT)
+		{
+			move(-moveSpeed * scale, 0);
+		}
+		else if (direction == RIGHT)
+		{
+			move(moveSpeed * scale, 0);
+		}
+		else if (direction == UP)
+		{
+			move(0, moveSpeed * scale);
+		}
+		else if (direction == DOWN)
+		{
+			move(0, -moveSpeed * scale);
+		}
+		
+		if (changeSprite)
+		{
+			setSprite(direction, false);
+		}
+	}
+	
+	public void incrementWalkCycle()
+	{
+		walkCycle = (byte)(((phase = (phase + 1 >= 100 ? 1 : (byte)(phase + 1))) / (byte)phaseSpeed) % 4);
+	}
+	
+	/**
+	* Set the sprite to the specified direction.
+	* 
+	* @param direction The direction to set the sprite to.
+	*/
+	public void setSprite(Direction direction, boolean forceChange)
+	{
+		if (!forceChange)
+		{
+			walkCycle = (byte)(this.direction == direction ? ((phase = (phase + 1 >= 100 ? 1 : (byte)(phase + 1))) / (byte)phaseSpeed) % 4 : 0);
+		}
+		
+		int offset = 0;
+		
+		if (direction == LEFT)
+		{
+			offset = 8 + walkCycle;
+		}
+		else if (direction == RIGHT)
+		{
+			offset = 12 + walkCycle;
+		}
+		if (direction == UP)
+		{
+			offset = 4 + walkCycle;
+		}
+		else if (direction == DOWN)
+		{
+			offset = 0 + walkCycle;
+		}
+		
+//		float textures[] = texturesBuffer.getElements();
+		texturesBuffer.setData(0, GL.addRectTextureArrayf(actors, offset * getWidth(), row, getWidth(), getHeight(), 0, null));
+		
+		for (Apparel apparel : this.apparel)
+		{
+			if (apparel == null)
+			{
+				continue;
+			}
+			
+			apparel.setSprite(offset);
+		}
+		
+		this.spriteOffset = (byte)offset;
+		
+		this.direction = direction;
+	}
+	
+	/**
+	* Randomly move the actor.
+	*/
+	public void randomMove()
+	{
+		int point = Idk.getPoint(walkPoint[0]);
+		
+		if (waiting)
+		{
+			if (point < walkPoint[1])
+			{
+				
+			}
+			else if (point >= walkPoint[1])
+			{
+				waiting   = !waiting;
+				
+				direction = Direction.getDirection(Idk.randomInt() % 4);
+				
+				walkPoint[0] = Idk.counter;
+				
+				walkPoint[1] = Idk.randomInt() % 300;
+			}
+		}
+		else
+		{
+			if (recoilFactor != 0)
+			{
+				return;
+			}
+			
+			if (point < walkPoint[1])
+			{
+				move(direction);
+			}
+			else if (point >= walkPoint[1])
+			{
+				waiting   = !waiting;
+				
+				walkPoint[0] = Idk.counter;
+				
+				walkPoint[1] = Idk.randomInt() % 500;
+				
+				setDefaultPhase();
+			}
+		}
+	}
+	
+	/**
+	* Get the speed at which the actor moves.
+	* 
+	* @return The speed in pixels.
+	*/
+	public float getMoveSpeed()
+	{
+		return moveSpeed;
+	}
+	
+	/**
+	* Get whether the actor is sprinting or not.
+	* 
+	* @return Whether the actor is sprinting.
+	*/
+	public boolean isSprinting()
+	{
+		return sprinting;
+	}
+	
+	/**
+	* Set whether the actor is sprinting. If so, then make the
+	* #moveSpeed faster. Or else, make it slower.
+	* 
+	* @param sprinting Whether to sprint or not.
+	*/
+	public void setSprinting(boolean sprinting)
+	{
+		if (this.sprinting && !sprinting)
+		{
+			moveSpeed  /= 1.5f;
+			phaseSpeed *= 1.3f;
+		}
+		else if (!this.sprinting && sprinting)
+		{
+			moveSpeed  *= 1.5f;
+			phaseSpeed /= 1.3f;
+		}
+		
+		this.sprinting = sprinting;
+	}
+	
+	/**
+	* Get whether the actor is alive or not. (health > 0 == true)
+	* 
+	* @return Whether the actors health is above 0.
+	*/
+	public boolean isAlive()
+	{
+		return alive;
+	}
+	
+	/**
+	* Kill the actor. Set alive equal to false.
+	*/
+	public void kill()
+	{
+		alive    = false;
+		swimming = false;
+		
+		deadFacing = direction == UP || direction == DOWN ? LEFT : RIGHT;
+		
+		setDefaultPhase();
+	}
+	
+	/**
+	* Resurrect the actor. Bring him back to live. Set alive to true.
+	*/
+	public void resurrect()
+	{
+		alive = true;
+	}
+	
+	public void setSwimming(boolean swimming)
+	{
+		if (this.swimming && !swimming)
+		{
+			moveSpeed  *= 1.5f;
+			phaseSpeed /= 1.3f;
+		}
+		else if (!this.swimming && swimming)
+		{
+			moveSpeed  /= 1.5f;
+			phaseSpeed *= 1.3f;
+		}
+		
+		this.swimming = swimming;
+	}
+	
+	public boolean isSwimming()
+	{
+		return swimming;
+	}
+	
+	/**
+	* Get whether the actor is waiting to move or not.
+	* 
+	* @return Whether the actor is waiting.
+	*/
+	public boolean isWaiting()
+	{
+		return waiting;
+	}
+	
+	/**
+	* Set the actor to its default sprite phase. Usually the
+	* resting phase.
+	*/
+	public void setDefaultPhase()
+	{
+		phase = 0;
+		
+		setSprite(direction, false);
+	}
+	
+	public void addAttack(int amount)
+	{
+		attack += amount;
+	}
+	
+	public void removeAttack(int amount)
+	{
+		attack -= amount;
+	}
+	
+	public void addDefense(int amount)
+	{
+		defense += amount;
+	}
+	
+	public void removeDefense(int amount)
+	{
+		defense -= amount;
+	}
+	
+	public void addHealth(int amount)
+	{
+		setHealth((short)(health + amount >= maxHealth ? maxHealth : health + amount));
+		
+		hurt = false;
+		
+		if (health != maxHealth)
+		{
+			hurtPoint = Idk.counter;
+		}
+	}
+	
+	/**
+	* Set the health of the actor.
+	* 
+	* @param health The value to set the health to.
+	*/
+	private void setHealth(short health)
+	{
+		this.health = health;
+		
+		int newHealthBarWidth = (short)((float)healthBarWidth * ((float)health / (float)maxHealth));
+		
+		float vertices[] = new float[OBJECT_SIZE];
+		vertices = GL.addRectVertexArrayf(healthBarX, healthBarY, -1, newHealthBarWidth, healthBarHeight, 0, vertices);
+		
+		verticesBuffer.setData(OBJECT_SIZE * 2, vertices);
+	}
+	
+	/**
+	* Remove a specified amount of health from the actor.
+	* 
+	* @param amount The amount of health to remove.
+	* @param enemyX If the actor was attacked by another actor,
+	* 		then the enemy who attacked him's x position.
+	* @param attacked Whether the health removed was in result of
+	* 		an attack.
+	*/
+	public void removeHealth(int amount, float enemyX, boolean attacked)
+	{
+		setHealth((short)(health - amount <= 0 ? 0 : health - amount));
+		
+		if (health <= 0)
+		{
+			kill();
+			
+			System.out.println("You killed an innocent " + this.getClass().getSimpleName() + "!!!");
+		}
+		
+		hurt = true;
+		hurtPoint = Idk.counter;
+		
+		recoil(enemyX);
+		
+		addHealthLossIndicator(amount);
+		
+		if (Idk.getPoint(counterAttackPoint) >= 0 && attacked && alive)
+		{
+			attack();
+			
+			counterAttackPoint = Idk.counter;
+		}
+	}
+	
+	public void continueHealthLossIndicator()
+	{
+		for (int i = 0; i < healthLoss.size(); i ++)
+		{
+			if (healthLoss.get(i) == null)
+			{
+				continue;
+			}
+			
+			float textX = getScreenX() + healthLossX.get(i);
+			float textY = Frame.getHeight() - getScreenY() - healthLossY.get(i) - healthLossCounter.get(i) * 1.4f;
+			
+			Color color = healthLoss.get(i) > 0 ? new Color(healthLoss.get(i) * 2 + 200, 0, 0) : Color.CYAN;
+			
+			Frame.renderText(textX, textY, healthLoss.get(i) + "", color, 2);
+			
+			healthLossCounter.set(i, healthLossCounter.get(i) + 1);
+			
+			if (healthLossCounter.get(i) > healthLossGoalCounter.get(i))
+			{
+				healthLoss.remove(i);
+				healthLossCounter.remove(i);
+				healthLossGoalCounter.remove(i);
+				healthLossX.remove(i);
+				healthLossY.remove(i);
+			}
+		}
+	}
+	
+	public void addHealthLossIndicator(int amount)
+	{
+		healthLoss.add(amount);
+		healthLossCounter.add(0);
+		healthLossGoalCounter.add(100);
+		healthLossX.add((int)(Math.random() * getScaledWidth()));
+		healthLossY.add((int)(getScaledHeight() / 2 + (int)(Math.random() * getScaledHeight())));
+	}
+	
+	/**
+	* Remove health from the actor.
+	* 
+	* @param amount The amount to remove.
+	*/
+	public void removeHealth(short amount)
+	{
+		removeHealth(amount, 0, false);
+	}
+	
+	public Inventory getInventory()
+	{
+		return inventory;
+	}
+	
+	/**
+	* Recoil the enemy. Make him inverted and make him
+	* jump away from the enemy.
+	* 
+	* @param enemyX The x position of the enemy.
+	*/
+	public void recoil(float enemyX)
+	{
+		float factor = 2;
+		
+		if (enemyX > getAbsoluteX())
+		{
+			recoilFactor = -factor;
+		}
+		else
+		{
+			recoilFactor =  factor;
+		}
+		
+		recoilJump       = 1.5f;
+		recoilStart      = getAbsoluteY();
+		
+		recoilMovingUp   = true;
+	}
+	
+	/**
+	* Continue the recoil. Move the actor along with the animation.
+	*/
+	private void continueRecoil()
+	{
+		if (recoilFactor != 0)
+		{
+			move(recoilFactor, 0);
+			move(0, recoilJump);
+			
+			if (recoilMovingUp && getAbsoluteY() > recoilStart + 10)
+			{
+				recoilMovingUp = false;
+				
+				recoilJump     = -1.5f;
+			}
+			else if (!recoilMovingUp && getAbsoluteY() <= recoilStart)
+			{
+				stopRecoil();
+			}
+		}
+	}
+	
+	/**
+	* Stop the recoiling animation.
+	*/
+	public void stopRecoil()
+	{
+		recoilFactor = 0;
+	}
+	
+	public boolean hasInitialized()
+	{
+		return initialized;
+	}
+	
+	public int getRow()
+	{
+		return row;
+	}
+	
+	public byte getOffset()
+	{
+		return offset;
+	}
+	
+	public void equipItem(Item item)
+	{
+		if (item instanceof Weapon)
+		{
+			Weapon weapon = ((Weapon)item);
+			
+			if (weapon.equals(this.weapon))
+			{
+				this.weapon = null;
+			}
+			else
+			{
+				this.weapon = weapon;
+			}
+		}
+		else if (item instanceof Apparel)
+		{
+			Apparel apparel = ((Apparel)item);
+			
+			int index = apparel.getParts()[0].getIndex();
+			
+			if (apparel.equals(this.apparel[index]))
+			{
+				this.apparel[index] = null;
+			}
+			else
+			{
+				for (Part part : apparel.getParts())
+				{
+					this.apparel[part.getIndex()] = null;
+				}
+
+				this.apparel[index] = apparel;
+			}
+		}
+	}
+	
+//	public void unequipItem(Item item)
+//	{
+//		if (item instanceof Weapon)
+//		{
+//			Weapon weapon = ((Weapon)item);
+//			
+//			this.weapon = null;
+//		}
+//		else if (item instanceof Apparel)
+//		{
+//			Apparel apparel = ((Apparel)item);
+//			
+//			this.apparel[apparel.getParts()[0].getIndex()] = null;
+//		}
+//	}
+	
+//	public void setDirection(Direction direction)
+//	{
+//		this.direction = direction;
+//	}
+	
+	/**
+	* Get a random actor to place in the specified
+	* #net.foxycorndog.idk.maps.Map.
+	* 
+	* @param map The map to place it in.
+	* @return The random actor.
+	*/
+	public static Actor getRandomActor(Map map)
+	{
+		byte id = (byte)(Math.random() * 2);
+		
+		if (id == 0)
+		{
+			return new Slime (map);
+		}
+		else if (id == 1)
+		{
+			return new Rogue (map);
+		}
+		
+		return null;
+	}
+	
+	/**
+	* Get the distance to and from two actors.
+	* 
+	* @param actor1 The first actor.
+	* @param actor2 The second actor.
+	* @return The distance from each other.
+	*/
+	public static float distanceTo(Actor actor1, Actor actor2)
+	{
+		if (actor1 != null && actor2 != null)
+		{
+			float x1 = actor1.getAbsoluteX();
+			float y1 = actor1.getAbsoluteY();
+			
+			float x2 = actor2.getAbsoluteX();
+			float y2 = actor2.getAbsoluteY();
+			
+			return (float)(Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))) / (scale);
+		}
+		
+		return 0;
+	}
+}

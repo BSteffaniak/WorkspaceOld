@@ -4,13 +4,13 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
-import net.foxycorndog.jdooglandroid.GL;
-import net.foxycorndog.jdooglandroid.components.Frame;
-import net.foxycorndog.jdooglandroid.components.Frame.GameRenderer;
-import net.foxycorndog.jdooglandroid.image.imagemap.SpriteSheet;
-import net.foxycorndog.jdooglandroid.input.KeyboardInput;
-import net.foxycorndog.jdooglandroid.input.TouchInput;
-import net.foxycorndog.jdooglandroid.activity.AdvancedActivity;
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.components.Frame.GameRenderer;
+import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
+import net.foxycorndog.jdoogl.input.KeyboardInput;
+import net.foxycorndog.jdoogl.input.TouchInput;
+import net.foxycorndog.jdoogl.activity.AdvancedActivity;
 import net.foxycorndog.p1xelandroid.items.tiles.Tile;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
@@ -25,10 +25,8 @@ public class MainActivity extends AdvancedActivity
 	
 	private static P1xeland p;
 	
-	public void onCreate(Bundle savedInstanceState)
+	public void onCreate()
 	{
-		super.onCreate(savedInstanceState);
-		
 		this.activity = this;
 				
 		p = new P1xeland();

@@ -5,12 +5,12 @@ import static net.foxycorndog.p1xelandroid.actors.Actor.Direction.*;
 import java.util.ArrayList;
 
 import android.content.res.Resources;
-import net.foxycorndog.jdooglandroid.GL;
-import net.foxycorndog.jdooglandroid.components.Frame;
-import net.foxycorndog.jdooglandroid.image.imagemap.SpriteSheet;
-import net.foxycorndog.jdooglandroid.input.TouchInput;
-import net.foxycorndog.jdoutilandroid.LightBuffer;
-import net.foxycorndog.jdoutilandroid.VerticesBuffer;
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
+import net.foxycorndog.jdoogl.input.TouchInput;
+import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.p1xelandroid.P1xeland;
 import net.foxycorndog.p1xelandroid.map.Map;
 

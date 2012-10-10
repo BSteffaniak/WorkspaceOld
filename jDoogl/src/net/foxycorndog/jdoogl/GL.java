@@ -100,11 +100,13 @@ public class GL
 {
 	private static boolean flipped;
 	
-	private static double  offsets[] = new double[3];
-	private static double  scale[]   = new double[] { 1, 1, 1 };
+	private static double offsets[]        = new double[3];
+	private static double scale[]          = new double[] { 1, 1, 1 };
+	private static double renderLocation[] = new double[] { 0, 0, 0 };
 	
-	private static ArrayList<double[]> tempOffsets = new ArrayList<double[]>();
-	private static ArrayList<double[]> tempScale   = new ArrayList<double[]>();
+	private static ArrayList<double[]> tempOffsets        = new ArrayList<double[]>();
+	private static ArrayList<double[]> tempScale          = new ArrayList<double[]>();
+	private static ArrayList<double[]> tempRenderLocation = new ArrayList<double[]>();
 	
 	public  static Texture     white;
 	
@@ -383,6 +385,7 @@ public class GL
 	{
 		tempOffsets.add(offsets.clone());
 		tempScale.add  (scale.clone());
+		tempRenderLocation.add(renderLocation.clone());
 		
 		glPushMatrix();
 	}
@@ -409,6 +412,15 @@ public class GL
 		scale[2] = temp[2];
 		
 		tempScale.remove(tempScale.size() - 1);
+		
+		
+		temp = tempRenderLocation.get(tempRenderLocation.size() - 1);
+		
+		renderLocation[0] = temp[0];
+		renderLocation[1] = temp[1];
+		renderLocation[2] = temp[2];
+		
+		tempRenderLocation.remove(tempRenderLocation.size() - 1);
 		
 		glPopMatrix();
 	}
@@ -717,6 +729,10 @@ public class GL
 		offsets[0] += x;
 		offsets[1] += y;
 		offsets[2] += z;
+		
+		renderLocation[0] += x * scale[0];
+		renderLocation[1] += y * scale[1];
+		renderLocation[2] += z * scale[2];
 	}
 	
 	/**
@@ -734,6 +750,10 @@ public class GL
 		offsets[0] += x;
 		offsets[1] += y;
 		offsets[2] += z;
+		
+		renderLocation[0] += x * scale[0];
+		renderLocation[1] += y * scale[1];
+		renderLocation[2] += z * scale[2];
 	}
 	
 	/**
@@ -744,7 +764,7 @@ public class GL
 	 */
 	public static double[] getAmountTranslated()
 	{
-		return offsets;
+		return offsets.clone();
 	}
 	
 	/**
@@ -755,7 +775,18 @@ public class GL
 	 */
 	public static double[] getAmountScaled()
 	{
-		return scale;
+		return scale.clone();
+	}
+	
+	/**
+	 * Returns the location at which anything rendered to the screen
+	 * at 0, 0, 0 would currently be shown on the screen.
+	 * 
+	 * @return The location at which any component would be rendered.
+	 */
+	public static double[] getRenderLocation()
+	{
+		return renderLocation.clone();
 	}
 	
 //	public static void renderQuads(LightBuffer verticesBuffer, LightBuffer texturesBuffer, ImageMap imageMap, int start, int amount, RenderTask task)

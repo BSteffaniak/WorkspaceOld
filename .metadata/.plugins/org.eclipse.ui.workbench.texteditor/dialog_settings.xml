@@ -2,9 +2,9 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="257" key="DIALOG_WIDTH"/>
-		<item value="247" key="DIALOG_Y_ORIGIN"/>
+		<item value="251" key="DIALOG_Y_ORIGIN"/>
 		<item value="520" key="DIALOG_X_ORIGIN"/>
-		<item value="380" key="DIALOG_HEIGHT"/>
+		<item value="376" key="DIALOG_HEIGHT"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
@@ -13,26 +13,26 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="move" key="selection"/>
+		<item value="addRectV" key="selection"/>
 		<list key="findhistory">
-			<item value="move"/>
-			<item value="System"/>
-			<item value="System.out.println"/>
-			<item value="KeyboardInput."/>
-			<item value="Keyboard"/>
-			<item value="K"/>
-			<item value="KeyBoard"/>
-			<item value="MouseInput"/>
+			<item value="addRectV"/>
+			<item value="renderR"/>
+			<item value="renderRe"/>
+			<item value="drawQuad"/>
+			<item value="drawQuads"/>
+			<item value="jdooglandroid"/>
+			<item value="jdoutilandroid"/>
+			<item value="landroid"/>
 		</list>
 		<list key="replacehistory">
+			<item value="jdoogl"/>
+			<item value="jdoutil"/>
+			<item value="l"/>
 			<item value="TouchInput"/>
 			<item value="setD"/>
 			<item value="));"/>
 			<item value="ver.addData(GL."/>
 			<item value="null"/>
-			<item value="0"/>
-			<item value=""/>
-			<item value=", null));"/>
 		</list>
 	</section>
 </section>

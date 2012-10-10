@@ -2,15 +2,15 @@ package net.foxycorndog.p1xelandroid.map;
 
 import java.util.ArrayList;
 
-import net.foxycorndog.jdooglandroid.GL;
-import net.foxycorndog.jdooglandroid.components.Frame;
-import net.foxycorndog.jdooglandroid.input.KeyboardInput;
-import net.foxycorndog.jdooglandroid.input.TouchInput;
-import net.foxycorndog.jdoutilandroid.ArrayUtil;
-import net.foxycorndog.jdoutilandroid.Distance;
-import net.foxycorndog.jdoutilandroid.GeneralCollection;
-import net.foxycorndog.jdoutilandroid.Intersects;
-import net.foxycorndog.jdoutilandroid.Util;
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.input.KeyboardInput;
+import net.foxycorndog.jdoogl.input.TouchInput;
+import net.foxycorndog.jdoutil.ArrayUtil;
+import net.foxycorndog.jdoutil.Distance;
+import net.foxycorndog.jdoutil.GeneralCollection;
+import net.foxycorndog.jdoutil.Intersects;
+import net.foxycorndog.jdoutil.Util;
 import net.foxycorndog.p1xelandroid.P1xeland;
 import net.foxycorndog.p1xelandroid.actors.Actor;
 import net.foxycorndog.p1xelandroid.actors.Player;

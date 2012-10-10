@@ -1,0 +1,40 @@
+package net.foxycorndog.idk;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
+import net.foxycorndog.jdoogl.activity.AdvancedActivity;
+
+public class MainActivity extends AdvancedActivity
+{
+
+	@Override
+	public void onCreate()
+	{
+		
+	}
+	
+	@Override
+	public void render(GL10 gl)
+	{
+		
+	}
+
+	@Override
+	public void loop()
+	{
+		
+	}
+
+	@Override
+	public void onSurfaceChanged(GL10 gl)
+	{
+		
+	}
+
+	@Override
+	public void onSurfaceCreated(GL10 gl, EGLConfig config)
+	{
+		
+	}
+}

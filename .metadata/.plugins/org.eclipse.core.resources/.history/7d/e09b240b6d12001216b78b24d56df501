@@ -1,0 +1,23 @@
+package net.neonseal.idk.menus;
+
+import java.util.ArrayList;
+
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.components.Component;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.components.TextButton;
+import net.foxycorndog.jdoogl.listeners.ActionListener;
+
+public abstract class Menu implements ActionListener
+{
+	public Menu()
+	{
+		
+	}
+	
+	public void render()
+	{
+	}
+	
+	public abstract void onActionPerformed(Component source);
+}

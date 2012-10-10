@@ -1,0 +1,45 @@
+package net.neonseal.idk.menus;
+
+import java.util.ArrayList;
+
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.components.Component;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.components.TextButton;
+import net.foxycorndog.jdoogl.listeners.ActionListener;
+
+public abstract class Menu implements ActionListener
+{
+	ArrayList<TextButton> textButtons;
+	
+	public Menu()
+	{
+		textButtons = new ArrayList<TextButton>();
+		
+//		Frame.addActionListener(this);
+		
+//		GL.setClearColorf(0.0f, 0.0f, 0.0f, 0.0f);
+	}
+	
+	public void render()
+	{
+		for (int i = 0; i < textButtons.size(); i ++)
+		{
+			textButtons.get(i).render();
+			System.out.println(textButtons.get(i).getMouseX() + ", " + textButtons.get(i).getMouseY());
+		}
+	}
+	
+	public abstract void onActionPerformed(Component source);
+	
+	public ArrayList<TextButton> getTextButtons()
+	{
+		return textButtons;
+	}
+	
+	public void addTextButton(TextButton button)
+	{
+		textButtons.add(button);
+		Frame.add(button);
+	}
+}

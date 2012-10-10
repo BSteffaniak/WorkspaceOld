@@ -108,7 +108,7 @@ public class ToolTipText extends Component
 				Frame.renderText(leftMargin, topMargin + ((Frame.getFont().getHeight(text[i]) + linePadding) * i), text[i], Color.WHITE, 1);
 			}
 			
-			setOffsets();
+//			setOffsets();
 		}
 		GL.endManipulation();
 		

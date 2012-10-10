@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import android.content.res.Resources;
 
-import net.foxycorndog.jdooglandroid.Color;
-import net.foxycorndog.jdooglandroid.GL;
-import net.foxycorndog.jdooglandroid.components.Frame;
-import net.foxycorndog.jdooglandroid.image.imagemap.Texture;
-import net.foxycorndog.jdoutilandroid.LightBuffer;
-import net.foxycorndog.jdoutilandroid.Task;
-import net.foxycorndog.jdoutilandroid.VerticesBuffer;
+import net.foxycorndog.jdoogl.Color;
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.image.imagemap.Texture;
+import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.Task;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.p1xelandroid.P1xeland;
 import net.foxycorndog.p1xelandroid.R;
 import net.foxycorndog.p1xelandroid.items.Item;

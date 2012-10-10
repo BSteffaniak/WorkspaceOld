@@ -97,6 +97,8 @@ public abstract class Frame
 	private static boolean     keysPressed[];
 	private static boolean     buttonsPressed[];
 	
+	private static float       normalFontHeight;
+	
 	private static ArrayList<MouseListener>  mouseListeners;
 //	private static ArrayList<ActionListener> actionListeners;
 //	private static ArrayList<KeyListener>    keyListeners;
@@ -219,7 +221,7 @@ public abstract class Frame
 			this.width  = width;
 			this.height = height;
 			
-			cursorSprites = new Texture(location, "PNG", flipped, true);
+			cursorSprites = new Texture(location, "PNG", flipped, false);
 			
 			verticesBuffer = new LightBuffer(4 * 2);
 			texturesBuffer = new LightBuffer(4 * 2);
@@ -346,6 +348,8 @@ public abstract class Frame
 	public static void setFont(String location, int size)
 	{
 		font = new TTFont(location, size, true);
+		
+		normalFontHeight = font.getLegitHeight("WA10|)!1");
 	}
 	
 	public static void setCursor(Cursor cursor)
@@ -504,7 +508,7 @@ public abstract class Frame
 					try
 					{
 						Component component = components.get(i);
-						
+//						System.out.println(Mouse.getX() + ", " + Mouse.getY() + " : " + component.getScreenWidth() + ", " + component.getScreenHeight());
 						if (Intersects.rectangles(Mouse.getX(), Mouse.getY(), 1, 1, component.getMouseX(), component.getMouseY(), component.getScreenWidth(), component.getScreenHeight()))
 						{
 							ArrayList<ActionListener> actionListeners = component.getActionListeners();
@@ -910,9 +914,17 @@ public abstract class Frame
 			return null;
 		}
 		
+		double scales[] = GL.getAmountScaled();
+		double renderLoc[] = GL.getRenderLocation();
+		
+		y += renderLoc[1] * 2;
+		
+		y += normalFontHeight * scale;
+		y = (float)(Frame.getHeight() / scales[1] - y - 1 / scales[1]);
+		
 		renderText(x, y, text, color, scale, 0, text.length());
 		
-		return new float[] { x, y };
+		return new float[] { x + (float)renderLoc[0], y + (float)renderLoc[1] };
 	}
 	
 	/**
@@ -961,15 +973,15 @@ public abstract class Frame
 	{
 		if (valign == TOP)
 		{
-			
+			yo += Display.getHeight() - normalFontHeight * scale;
 		}
 		else if (valign == CENTER)
 		{
-			yo += (int)getCenterY() - ((font.getLegitHeight(text) * scale) / 2);
+			yo += (int)getCenterY() + ((normalFontHeight * scale) / 2);
 		}
 		else if (valign == BOTTOM)
 		{
-			yo += Display.getHeight() - (font.getLegitHeight(text) * scale);
+			
 		}
 		
 		return renderText(xo, yo, text, color, scale, halign);
@@ -1146,5 +1158,10 @@ public abstract class Frame
 	public static boolean usingStream()
 	{
 		return stream;
+	}
+	
+	public static float getNormalFontHeight()
+	{
+		return normalFontHeight;
 	}
 }

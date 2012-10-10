@@ -1,0 +1,393 @@
+package net.neonseal.idk.animatedobject.actors;
+
+import static net.neonseal.idk.Idk.OBJECT_SIZE;
+import static net.neonseal.idk.Idk.VERTEX_SIZE;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+import net.foxycorndog.jdoogl.Color;
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.components.Component;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.components.TextButton;
+import net.foxycorndog.jdoogl.components.ToolTipText;
+import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
+import net.foxycorndog.jdoutil.LightBuffer;
+import net.neonseal.idk.Idk;
+import net.neonseal.idk.items.Item;
+import net.neonseal.idk.menus.InventoryMenu;
+
+public class Inventory
+{
+	private Object                parent;
+	
+	private InventoryMenu         menu;
+	
+	private Item                  sortedItems[];
+	
+	private Object                compacted[];
+	
+	private ArrayList<TextButton> buttons;
+	private ArrayList<Integer>    itemIds;
+	private ArrayList<Item>       items;
+	private ArrayList<Boolean>    inUse;
+	
+	private static LightBuffer         verticesBuffer, texturesBuffer;
+	private static SpriteSheet    inventorySprites;
+	
+	public Inventory()
+	{
+		if (verticesBuffer == null)
+		{
+			throw new RuntimeException("You must statically initialize the Inventory before you use it.");
+		}
+		
+		items   = new ArrayList<Item>();
+		itemIds = new ArrayList<Integer>();
+		buttons = new ArrayList<TextButton>();
+		inUse   = new ArrayList<Boolean>();
+		
+		menu = new InventoryMenu()
+		{
+			@Override
+			public void onActionPerformed(Component source)
+			{
+				if (source instanceof TextButton)
+				{
+					TextButton button = ((TextButton)source);
+					
+					for (int i = 0; i < buttons.size(); i ++)
+					{
+						if (button == buttons.get(i))
+						{
+							inUse.set(i, !inUse.get(i));
+							
+							boolean nowInUse = inUse.get(i);
+							
+							Item item = ((Item)compacted[i * 2]);
+							
+							item.use((Actor)getParent(), nowInUse);
+								
+							if (item.isRemovedAfterUse())
+							{
+								removeItemById(item.getId(), 1);
+							}
+						}
+					}
+				}
+			}
+
+			@Override
+			public void onHover(Component source)
+			{
+				
+			}
+		};
+	}
+	
+	public static void init()
+	{
+		inventorySprites = new SpriteSheet(Idk.prefix + "res/images/Inventory.png", "PNG", 1, 1, true, false);
+		
+		verticesBuffer = new LightBuffer(OBJECT_SIZE);
+		texturesBuffer = new LightBuffer(OBJECT_SIZE);
+		
+		verticesBuffer.addData(GL.addRectVertexArrayf(0, 0, 500, 400, 0, null));
+		texturesBuffer.addData(GL.addRectTextureArrayf(inventorySprites, 0, 0, 1, 1, 0, null));
+	}
+	
+	public void useItem(int index)
+	{
+		Item item = items.get(index);
+		
+		item.use((Actor)getParent());
+		
+		if (item.isRemovedAfterUse())
+		{
+			removeItemByIndex(index);
+		}
+	}
+	
+	public void addItem(Item item)
+	{
+		items.add(item);
+		
+		refresh();
+	}
+	
+	public Item getItem(int index)
+	{
+		return items.get(index);
+	}
+	
+	public void removeItemByIndex(int index)
+	{
+		items.remove(index);
+		
+		refresh();
+	}
+	
+	public void removeItemById(int id, int amount)
+	{
+		int a = 0;
+		
+		for (int i = 0; i < items.size() && a < amount; i ++)
+		{
+			if (items.get(i).getId() == id)
+			{
+				items.remove(i);
+				
+				a ++;
+			}
+		}
+		
+		refresh();
+	}
+	
+	public void removeItemById(int id)
+	{
+		for (int i = 0; i < items.size(); i ++)
+		{
+			if (items.get(i).getId() == id)
+			{
+				items.remove(i);
+			}
+		}
+		
+		refresh();
+	}
+	
+	public boolean hasItem(Item item)
+	{
+		for (Item ite : items)
+		{
+			if (ite.equals(item))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean hasItem(Class<?> item)
+	{
+		for (Item ite : items)
+		{
+			if (ite.getClass() == item)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public int getQuantityOf(Item item)
+	{
+		int quantity = 0;
+		
+		for (Item ite : items)
+		{
+			if (ite.equals(item))
+			{
+				quantity ++;
+			}
+		}
+		
+		return quantity;
+	}
+	
+	public Object getParent()
+	{
+		return parent;
+	}
+	
+	public void setParent(Object parent)
+	{
+		this.parent = parent;
+	}
+	
+	private Item[] getSortedArray()
+	{
+		Item ites[] = new Item[items.size()];
+		
+		ArrayList<Item> items2 = (ArrayList<Item>)items.clone();
+		
+		Collections.sort(items2,
+				new Comparator<Item>()
+				{
+					public int compare(Item f1, Item f2)
+					{
+						return f1.getName().compareTo(f2.getName());
+					}        
+				});
+		
+		for (int i = 0; i < items2.size(); i ++)
+		{
+			ites[i] = items2.get(i);
+		}
+		
+		return ites;
+	}
+	
+	private Object[] getCompactedArray()
+	{
+		sortedItems                 = getSortedArray();
+		
+		ArrayList<Object> compacted = new ArrayList<Object>();
+		
+		int quantity       = 1;
+		
+		for (int i = 1; i < sortedItems.length + 1; i ++)
+		{
+			try
+			{
+				if (sortedItems[i].getClass().equals(sortedItems[i - 1].getClass()))
+				{
+					quantity ++;
+				}
+				else
+				{
+					compacted.add(sortedItems[i - 1]);
+					compacted.add(quantity);
+					
+					quantity = 1;
+				}
+			}
+			catch (IndexOutOfBoundsException ex)
+			{
+				compacted.add(sortedItems[i - 1]);
+				compacted.add(quantity);
+			}
+		}
+		
+		Object compacted2[] = new Object[compacted.size()];
+		
+		for (int i = 0; i < compacted2.length; i ++)
+		{
+			compacted2[i] = compacted.get(i);
+		}
+		
+		return compacted2;
+	}
+	
+	public void refresh()
+	{
+		int xoff = 20;
+		int yoff = 15;
+		
+		compacted = getCompactedArray();
+		
+		buttons.clear();
+		
+		menu.getTextButtons().clear();
+		
+		int amountButtons = compacted.length / 2;
+		
+		for (int i = 0; i < compacted.length; i += 2)
+		{
+			Item item     = ((Item)compacted[i]);
+			int  quantity = ((Integer)compacted[i + 1]);
+			
+			TextButton button = new TextButton(item.getName() + (quantity > 1 ? " (" + quantity + ")" : ""), 2);
+			button.setLocation(xoff, yoff + 25 + (i / 2) * 25);
+			button.addActionListener(menu);
+			button.setToolTipText(item.getToolTipText());
+			
+			buttons.add(button);
+			
+			if (i >= inUse.size())
+			{
+				inUse.add(false);
+				itemIds.add(item.getId());
+			}
+			else if (itemIds.get(i) != item.getId())
+			{
+				if (amountButtons > inUse.size())
+				{
+					inUse.add(i, false);
+				}
+				else
+				{
+					inUse.remove(i);
+				}
+				
+				itemIds.set(i, item.getId());
+			}
+			
+			menu.addTextButton(button);
+		}
+	}
+	
+	public boolean ownedByActor()
+	{
+		return getParent() instanceof Actor;
+	}
+	
+	public void render()
+	{
+		if (ownedByActor())
+		{
+			if (!((Actor)getParent()).isAlive())
+			{
+				return;
+			}
+		}
+		
+		GL.beginManipulation();
+		{
+			GL.translatef(Frame.getWidth() / 2 - inventorySprites.getImageWidth() / 2, 56, 0);
+			
+//			GL.beginTextureDraw(texturesBuffer.getId(), 2);
+//			GL.beginVertexDraw (verticesBuffer.getId(), VERTEX_SIZE);
+//			
+//			inventorySprites.bind();
+			
+			GL.beginManipulation();
+			{
+				GL.translatef(0, 0, -1);
+				
+				GL.renderQuads(verticesBuffer, texturesBuffer, inventorySprites, 0, 1);
+			}
+			GL.endManipulation();
+			
+//			GL.endVertexDraw();
+//			GL.endTextureDraw();
+			
+			int xoff = 20;
+			int yoff = 15;
+			
+			Frame.renderText(xoff, yoff, "Items:", Color.WHITE, 2);
+			
+			GL.beginManipulation();
+			{
+				GL.translatef(0, 0, 1);
+				
+				menu.render();
+			}
+			GL.endManipulation();
+			
+			if (ownedByActor())
+			{
+				Actor actor = ((Actor)getParent());
+				
+				GL.beginManipulation();
+				{
+					GL.translatef(350, 350, 0);
+					
+					GL.scalef(3, 3, 1);
+					
+					GL.translatef(0, -56, 0);
+					GL.translatef(-actor.getScreenX(), -actor.getScreenY(), -actor.getZ());
+					
+					actor.render();
+				}
+				GL.endManipulation();
+			}
+		}
+		GL.endManipulation();
+	}
+}

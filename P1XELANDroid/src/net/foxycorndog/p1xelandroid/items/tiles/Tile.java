@@ -1,9 +1,9 @@
 package net.foxycorndog.p1xelandroid.items.tiles;
 
 import android.content.res.Resources;
-import net.foxycorndog.jdooglandroid.image.imagemap.SpriteSheet;
-import net.foxycorndog.jdoutilandroid.ArrayUtil;
-import net.foxycorndog.jdoutilandroid.StringUtil;
+import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
+import net.foxycorndog.jdoutil.ArrayUtil;
+import net.foxycorndog.jdoutil.StringUtil;
 import net.foxycorndog.p1xelandroid.R;
 import net.foxycorndog.p1xelandroid.items.Item;
 import net.foxycorndog.p1xelandroid.items.Item.ItemType;

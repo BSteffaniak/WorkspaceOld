@@ -33,16 +33,22 @@ public class MainActivity extends Activity implements OnTouchListener
     public boolean onTouch(View v, MotionEvent event)
     {
 //	  synchronized (_thread.getSurfaceHolder()) {
-	    if(event.getAction() == MotionEvent.ACTION_DOWN){
-	      path = new Path();
-	      path.moveTo(event.getX(), event.getY());
-	      path.lineTo(event.getX(), event.getY());
-	    }else if(event.getAction() == MotionEvent.ACTION_MOVE){
-	      path.lineTo(event.getX(), event.getY());
-	    }else if(event.getAction() == MotionEvent.ACTION_UP){
-	      path.lineTo(event.getX(), event.getY());
-	      _graphics.add(path);
+	    if (event.getAction() == MotionEvent.ACTION_DOWN)
+	    {
+	    	path = new Path();
+	      	path.moveTo(event.getX(), event.getY());
+	      	path.lineTo(event.getX(), event.getY());
 	    }
+	    else if (event.getAction() == MotionEvent.ACTION_MOVE)
+	    {
+	    	path.lineTo(event.getX(), event.getY());
+	    }
+	    else if (event.getAction() == MotionEvent.ACTION_UP)
+	    {
+	    	path.lineTo(event.getX(), event.getY());
+	    	_graphics.add(path);
+	    }
+	    
 	    return true;
 //	  }
 	}

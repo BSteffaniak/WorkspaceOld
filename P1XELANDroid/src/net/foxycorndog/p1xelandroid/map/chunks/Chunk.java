@@ -2,16 +2,16 @@ package net.foxycorndog.p1xelandroid.map.chunks;
 
 import java.util.ArrayList;
 
-import net.foxycorndog.jdooglandroid.GL;
-import net.foxycorndog.jdooglandroid.noise.LineNoise;
-import net.foxycorndog.jdooglandroid.noise.Noise2D;
-import net.foxycorndog.jdoutilandroid.ArrayUtil;
-import net.foxycorndog.jdoutilandroid.Distance;
-import net.foxycorndog.jdoutilandroid.Intersection;
-import net.foxycorndog.jdoutilandroid.Intersects;
-import net.foxycorndog.jdoutilandroid.LightBuffer;
-import net.foxycorndog.jdoutilandroid.VerticesBuffer;
-import net.foxycorndog.jdoutilandroid.Task;
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.noise.LineNoise;
+import net.foxycorndog.jdoogl.noise.Noise2D;
+import net.foxycorndog.jdoutil.ArrayUtil;
+import net.foxycorndog.jdoutil.Distance;
+import net.foxycorndog.jdoutil.Intersection;
+import net.foxycorndog.jdoutil.Intersects;
+import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
+import net.foxycorndog.jdoutil.Task;
 import net.foxycorndog.p1xelandroid.P1xeland;
 import net.foxycorndog.p1xelandroid.actors.Actor;
 import net.foxycorndog.p1xelandroid.actors.Player;

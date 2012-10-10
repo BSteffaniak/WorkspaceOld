@@ -1,6 +1,6 @@
 package net.foxycorndog.p1xelandroid.items;
 
-import net.foxycorndog.jdoutilandroid.StringUtil;
+import net.foxycorndog.jdoutil.StringUtil;
 import net.foxycorndog.p1xelandroid.items.tiles.Tile;
 
 public enum Item

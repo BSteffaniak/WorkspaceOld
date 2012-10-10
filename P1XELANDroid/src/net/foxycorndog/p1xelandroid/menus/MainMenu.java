@@ -2,15 +2,15 @@ package net.foxycorndog.p1xelandroid.menus;
 
 import android.app.Activity;
 import android.content.Context;
-import net.foxycorndog.jdooglandroid.GL;
-import net.foxycorndog.jdooglandroid.components.Component;
-import net.foxycorndog.jdooglandroid.components.Frame;
-import net.foxycorndog.jdooglandroid.components.ImageButton;
-import net.foxycorndog.jdooglandroid.components.Menu;
-import net.foxycorndog.jdooglandroid.components.Frame.Alignment;
-import net.foxycorndog.jdooglandroid.image.Image;
-import net.foxycorndog.jdooglandroid.image.imagemap.Texture;
-import net.foxycorndog.jdooglandroid.listeners.ActionListener;
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.components.Component;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.components.ImageButton;
+import net.foxycorndog.jdoogl.components.Menu;
+import net.foxycorndog.jdoogl.components.Frame.Alignment;
+import net.foxycorndog.jdoogl.image.Image;
+import net.foxycorndog.jdoogl.image.imagemap.Texture;
+import net.foxycorndog.jdoogl.listeners.ActionListener;
 import net.foxycorndog.p1xelandroid.P1xeland;
 import net.foxycorndog.p1xelandroid.R;
 
