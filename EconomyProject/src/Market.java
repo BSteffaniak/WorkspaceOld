@@ -26,7 +26,7 @@ public class Market
 	public Market()
 	{
 		Consumer c = new Consumer(1, 0, 1, 10);
-		Producer p = new Producer(-1, 10, 1, 10);
+		Producer p = new Producer(-1, 100, 1, 10);
 		
 		System.out.println(c);
 		System.out.println(p);
@@ -42,7 +42,7 @@ public class Market
 			
 			currentBid2 = c.negotiate(currentBid);
 			
-			/*
+			/* 
 			 * uses == because if they have come to an agreement
 			 * then the currentBid will have the same reference.
 			 */
@@ -62,39 +62,17 @@ public class Market
 		}
 	}
 	
-	
-	public static String getBinary(String text)
+	public static boolean equilibrium(Point p, Rectangle tol)
 	{
-		String bin = "";
+		Rectangle pointRect = new Rectangle(p.getQuantity(), p.getCost(), 1, 1);
 		
-		char chars[] = text.toCharArray();
-		
-		for (int i = 0; i < chars.length; i ++)
-		{
-			if (Character.isDigit(chars[i]))
-			{
-				bin += Integer.toBinaryString(Integer.valueOf(chars[i] + ""));
-			}
-			else
-			{
-				bin += Integer.toBinaryString(chars[i]);
-			}
-			
-			bin += " ";
-		}
-		
-		return bin;
+		return pointRect.intersects(tol);
 	}
 	
 	public static boolean equilibrium(Point p, Rectangle tol1, Rectangle tol2)
 	{
-//		double distance = Math.sqrt(Math.pow(p.getQuantity() - p2.getQuantity(), 2) + Math.pow(p.getCost() - p2.getCost(), 2));
-//		System.out.println(distance + ", " + p + ", " + p2);
-		
 		Rectangle pointRect = new Rectangle(p.getQuantity(), p.getCost(), 1, 1);
 		
 		return pointRect.intersects(tol1) || pointRect.intersects(tol2);
 	}
-	
-	
 }

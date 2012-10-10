@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * File:          AbstractCurve.java
+ * File:          Curve.java
  * Author:        Braden Steffaniak
  * Programming:   APCS
  * Last Modified: 6Sep2012
@@ -145,14 +145,34 @@ public class Curve
 		Collections.sort(points);
 	}
 	
-	public Point getPoint(int index)
+	/**
+	 * Returns the closest Point to the right of the specific
+	 * quantity.
+	 */
+	public Point getPoint(int quantity)
 	{
-		if (index >= points.size())
+		int closestIndex = 0;
+		int pointQuantity = Integer.MAX_VALUE;
+		
+		for (int i = 0; i < points.size(); i ++)
 		{
-			return points.get(points.size() - 1);
+			if (points.get(i).getQuantity() > quantity)
+			{
+				if (points.get(i).getQuantity() < pointQuantity)
+				{
+					
+				}
+			}
 		}
 		
-		return points.get(index);
+		point = points.get(closestIndex);
+		
+		if (point == null)
+		{
+			throw new RuntimeException("");
+		}
+		
+		return point;
 	}
 	
 	public int size()
