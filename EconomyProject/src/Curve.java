@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * File:          AbstractCurve.java
+ * File:          Curve.java
  * Author:        Braden Steffaniak
  * Programming:   APCS
  * Last Modified: 6Sep2012
@@ -152,12 +152,20 @@ public class Curve
 	public Point getPoint(int quantity)
 	{
 		int closestIndex = 0;
-		int pointQuantity = 0;
+		int pointQuantity = Integer.MAX_VALUE;
 		
 		for (int i = 0; i < points.size(); i ++)
 		{
-			
+			if (points.get(i).getQuantity() > quantity)
+			{
+				if (points.get(i).getQuantity() < pointQuantity)
+				{
+					
+				}
+			}
 		}
+		
+		point = points.get(closestIndex);
 		
 		if (point == null)
 		{
