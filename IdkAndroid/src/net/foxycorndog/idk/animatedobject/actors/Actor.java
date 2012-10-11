@@ -77,8 +77,8 @@ public class Actor extends AnimatedObject
 	private static SpriteSheet actors;
 	
 	/**
-	* A enumeration that is used for telling directions.
-	*/
+	 * A enumeration that is used for telling directions.
+	 */
 	public static enum Direction
 	{
 		UP, DOWN, LEFT, RIGHT;
@@ -88,11 +88,11 @@ public class Actor extends AnimatedObject
 //			
 //		}
 		/**
-		* Get the direction that is associated with the integer value.
-		* 
-		* @param value The integer value.
-		* @return The direction.
-		*/
+		 * Get the direction that is associated with the integer value.
+		 * 
+		 * @param value The integer value.
+		 * @return The direction.
+		 */
 		public static Direction getDirection(int value)
 		{
 			if (value == 0)
@@ -116,11 +116,11 @@ public class Actor extends AnimatedObject
 		}
 		
 		/**
-		* Get the opposite of the direction given.
-		* 
-		* @param direction The direction to get the opposite of.
-		* @return The opposite of the direction given.
-		*/
+		 * Get the opposite of the direction given.
+		 * 
+		 * @param direction The direction to get the opposite of.
+		 * @return The opposite of the direction given.
+		 */
 		public static Direction getOpposite(Direction direction)
 		{
 			if (direction == UP)
@@ -145,22 +145,22 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* Create a new actor that can move and do many cool things...
-	* 
-	* @param row The row in the sprite-sheet that the sprites are.
-	* @param width The width of the actors sprites.
-	* @param height The height of the actors sprites.
-	* @param xo The left over empty x position space in the sprites.
-	* @param yo The left over empty y position space in the sprites.
-	* @param moveSpeed The speed at which the actor can move.
-	* @param phaseSpeed The speed at which the actors images switch
-	* 		(Higher is slower)
-	* @param attack The attack of the actor.
-	* @param defense The defense of the actor.
-	* @param maxHealth The max health of the actor.
-	* @param passive Whether the actor is passive.
-	* @param map What map the actor is placed in.
-	*/
+	 * Create a new actor that can move and do many cool things...
+	 * 
+	 * @param row The row in the sprite-sheet that the sprites are.
+	 * @param width The width of the actors sprites.
+	 * @param height The height of the actors sprites.
+	 * @param xo The left over empty x position space in the sprites.
+	 * @param yo The left over empty y position space in the sprites.
+	 * @param moveSpeed The speed at which the actor can move.
+	 * @param phaseSpeed The speed at which the actors images switch
+	 * 		(Higher is slower)
+	 * @param attack The attack of the actor.
+	 * @param defense The defense of the actor.
+	 * @param maxHealth The max health of the actor.
+	 * @param passive Whether the actor is passive.
+	 * @param map What map the actor is placed in.
+	 */
 	public Actor(byte row, short width, short height, short xo, short yo, float moveSpeed, float phaseSpeed, short attack, short defense, short maxHealth, boolean passive, boolean initialize, Map map)
 	{
 		super(0, 0, -5, width, height, xo, yo, map);
@@ -200,12 +200,12 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* Initializes the actor. Creates the buffers to hold the
-	* texture and vertices values.
-	* 
-	* @param row The row in which the sprites are held on the
-	* 		sprite-sheet.
-	*/
+	 * Initializes the actor. Creates the buffers to hold the
+	 * texture and vertices values.
+	 * 
+	 * @param row The row in which the sprites are held on the
+	 * 		sprite-sheet.
+	 */
 	public void init(int row)
 	{
 		verticesBuffer = new VerticesBuffer(OBJECT_SIZE * 3, 3);
@@ -243,18 +243,18 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* The static initialization method that creates the sprite-sheet.
-	* 
-	* Must be called before any actors are created!
-	*/
+	 * The static initialization method that creates the sprite-sheet.
+	 * 
+	 * Must be called before any actors are created!
+	 */
 	public static void init()
 	{
 		actors = new SpriteSheet(Idk.getResources(), R.drawable.actors, 49, 30);
 	}
 	
 	/**
-	* The render method for the actor. Makes it show up in the frame.
-	*/
+	 * The render method for the actor. Makes it show up in the frame.
+	 */
 	public void render()
 	{
 		continueRecoil();
@@ -358,11 +358,11 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* The attack method. Attacks any nearby enemies.
-	* 
-	* @return The experience gain (if any) that the enemies that you
-	* 		killed will give you.
-	*/
+	 * The attack method. Attacks any nearby enemies.
+	 * 
+	 * @return The experience gain (if any) that the enemies that you
+	 * 		killed will give you.
+	 */
 	public short attack()
 	{
 		short experienceGain = 0;
@@ -405,11 +405,11 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* Get the amount of experience that the actor will release whe
-	* it is killed.
-	* 
-	* @return
-	*/
+	 * Get the amount of experience that the actor will release whe
+	 * it is killed.
+	 * 
+	 * @return
+	 */
 	public short getExperienceRelease()
 	{
 		return (short)((attack + defense + maxHealth) / 10);
@@ -426,12 +426,12 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* Returns whether the actor can move to the specified location.
-	* 
-	* @param dx The x offset.
-	* @param dy The y offset.
-	* @return Whether he can move or not.
-	*/
+	 * Returns whether the actor can move to the specified location.
+	 * 
+	 * @param dx The x offset.
+	 * @param dy The y offset.
+	 * @return Whether he can move or not.
+	 */
 	public boolean canMove(float dx, float dy)
 	{
 		int rw = (int)(Math.ceil(getScaledWidth()  / tileSize));
@@ -446,12 +446,12 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* Try to move to the specified amount.
-	* 
-	* @param dx The amount to move in the x direction.
-	* @param dy The amount to move in the y direction.
-	* @return Whether the move was successful or not.
-	*/
+	 * Try to move to the specified amount.
+	 * 
+	 * @param dx The amount to move in the x direction.
+	 * @param dy The amount to move in the y direction.
+	 * @return Whether the move was successful or not.
+	 */
 	public boolean move(float dx, float dy)
 	{
 		float offsets[];
@@ -501,10 +501,10 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* Move the actor in the specified direction.
-	* 
-	* @param direction The direction to move.
-	*/
+	 *  Move the actor in the specified direction.
+	 * 
+	 * @param direction The direction to move.
+	 */
 	public void move(Direction direction)
 	{
 		if (direction == LEFT)
@@ -526,14 +526,14 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* Move the actor in the specified direction at the specified
-	* scale to the moveSpeed.
-	* 
-	* @see #moveSpeed
-	* 
-	* @param direction The direction to move.
-	* @param scale The scale of the moveSpeed.
-	*/
+	 * Move the actor in the specified direction at the specified
+	 * scale to the moveSpeed.
+	 * 
+	 * @see #moveSpeed
+	 * 
+	 * @param direction The direction to move.
+	 * @param scale The scale of the moveSpeed.
+	 */
 	public void move(Direction direction, float scale, boolean changeSprite)
 	{
 		if (direction == LEFT)
@@ -565,10 +565,10 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* Set the sprite to the specified direction.
-	* 
-	* @param direction The direction to set the sprite to.
-	*/
+	 * Set the sprite to the specified direction.
+	 * 
+	 * @param direction The direction to set the sprite to.
+	 */
 	public void setSprite(Direction direction, boolean forceChange)
 	{
 		if (!forceChange)
@@ -614,8 +614,8 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* Randomly move the actor.
-	*/
+	 * Randomly move the actor.
+	 */
 	public void randomMove()
 	{
 		int point = Idk.getPoint(walkPoint[0]);
@@ -662,31 +662,31 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* Get the speed at which the actor moves.
-	* 
-	* @return The speed in pixels.
-	*/
+	 * Get the speed at which the actor moves.
+	 * 
+	 * @return The speed in pixels.
+	 */
 	public float getMoveSpeed()
 	{
 		return moveSpeed;
 	}
 	
 	/**
-	* Get whether the actor is sprinting or not.
-	* 
-	* @return Whether the actor is sprinting.
-	*/
+	 * Get whether the actor is sprinting or not.
+	 * 
+	 * @return Whether the actor is sprinting.
+	 */
 	public boolean isSprinting()
 	{
 		return sprinting;
 	}
 	
 	/**
-	* Set whether the actor is sprinting. If so, then make the
-	* #moveSpeed faster. Or else, make it slower.
-	* 
-	* @param sprinting Whether to sprint or not.
-	*/
+	 * Set whether the actor is sprinting. If so, then make the
+	 * #moveSpeed faster. Or else, make it slower.
+	 * 
+	 * @param sprinting Whether to sprint or not.
+	 */
 	public void setSprinting(boolean sprinting)
 	{
 		if (this.sprinting && !sprinting)
@@ -704,18 +704,18 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* Get whether the actor is alive or not. (health > 0 == true)
-	* 
-	* @return Whether the actors health is above 0.
-	*/
+	 * Get whether the actor is alive or not. (health > 0 == true)
+	 * 
+	 * @return Whether the actors health is above 0.
+	 */
 	public boolean isAlive()
 	{
 		return alive;
 	}
 	
 	/**
-	* Kill the actor. Set alive equal to false.
-	*/
+	 * Kill the actor. Set alive equal to false.
+	 */
 	public void kill()
 	{
 		alive    = false;
@@ -727,8 +727,8 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* Resurrect the actor. Bring him back to live. Set alive to true.
-	*/
+	 * Resurrect the actor. Bring him back to live. Set alive to true.
+	 */
 	public void resurrect()
 	{
 		alive = true;
@@ -756,19 +756,19 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* Get whether the actor is waiting to move or not.
-	* 
-	* @return Whether the actor is waiting.
-	*/
+	 * Get whether the actor is waiting to move or not.
+	 * 
+	 * @return Whether the actor is waiting.
+	 */
 	public boolean isWaiting()
 	{
 		return waiting;
 	}
 	
 	/**
-	* Set the actor to its default sprite phase. Usually the
-	* resting phase.
-	*/
+	 * Set the actor to its default sprite phase. Usually the
+	 * resting phase.
+	 */
 	public void setDefaultPhase()
 	{
 		phase = 0;
@@ -809,10 +809,10 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* Set the health of the actor.
-	* 
-	* @param health The value to set the health to.
-	*/
+	 * Set the health of the actor.
+	 * 
+	 * @param health The value to set the health to.
+	 */
 	private void setHealth(short health)
 	{
 		this.health = health;
@@ -823,14 +823,14 @@ public class Actor extends AnimatedObject
 	}
 	
 	/**
-	* Remove a specified amount of health from the actor.
-	* 
-	* @param amount The amount of health to remove.
-	* @param enemyX If the actor was attacked by another actor,
-	* 		then the enemy who attacked him's x position.
-	* @param attacked Whether the health removed was in result of
-	* 		an attack.
-	*/
+	 * Remove a specified amount of health from the actor.
+	 * 
+	 * @param amount The amount of health to remove.
+	 * @param enemyX If the actor was attacked by another actor,
+	 * 		then the enemy who attacked him's x position.
+	 * @param attacked Whether the health removed was in result of
+	 * 		an attack.
+	 */
 	public void removeHealth(int amount, float enemyX, boolean attacked)
 	{
 		setHealth((short)(health - amount <= 0 ? 0 : health - amount));

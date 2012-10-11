@@ -63,7 +63,7 @@ public class Idk
 	public static int          offsetY;
 	public static int          counter;
 	
-	public static String       prefix;
+	public static String       prjefix;
 	
 	private static Frame       frame;
 	
@@ -251,7 +251,10 @@ public class Idk
 		
 		players[0] = new Player(map[1 + 1 * 3], true, true);
 		//p.setLocation((getWidth() / 2) - (p.getWidth() / 2), (getHeight() / 2) - (p.getHeight() / 2));
-		players[0].setLocation(tileSize * 269, tileSize * 271);
+//		players[0].setLocation(tileSize * 269, tileSize * 271);
+		players[0].setLocation(0, 0);
+		
+//		players[0].getInventory().useItem(0);
 		
 		menu = null;
 		
