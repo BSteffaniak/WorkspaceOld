@@ -1,0 +1,1181 @@
+package net.foxycorndog.idk.maps;
+
+import static net.foxycorndog.idk.Idk.OBJECT_SIZE;
+import static net.foxycorndog.idk.Idk.TEXTURE_SIZE;
+import static net.foxycorndog.idk.Idk.VERTEX_SIZE;
+import static net.foxycorndog.idk.Idk.tileSize;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Random;
+
+import android.graphics.Bitmap;
+
+import net.foxycorndog.idk.Idk;
+import net.foxycorndog.idk.R;
+import net.foxycorndog.idk.animatedobject.AnimatedObject;
+import net.foxycorndog.idk.animatedobject.actors.Actor;
+import net.foxycorndog.idk.animatedobject.actors.Rogue;
+import net.foxycorndog.idk.animatedobject.actors.Actor.Direction;
+import net.foxycorndog.idk.animatedobject.actors.community.Jeffery;
+import net.foxycorndog.idk.animatedobject.actors.community.Race;
+import net.foxycorndog.idk.animatedobject.actors.player.Player;
+import net.foxycorndog.idk.items.Item;
+import net.foxycorndog.idk.maps.buildings.Building;
+import net.foxycorndog.idk.maps.buildings.BuildingMap;
+import net.foxycorndog.idk.tiles.Tile;
+import net.foxycorndog.idk.tiles.Tile.TileId;
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
+import net.foxycorndog.jdoutil.GeneralCollection;
+import net.foxycorndog.jdoutil.Intersection;
+import net.foxycorndog.jdoutil.Intersects;
+import net.foxycorndog.jdoutil.JMath;
+import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.ImageUtil;
+import net.foxycorndog.jdoutil.VerticesBuffer;
+
+public abstract class Map
+{
+	private byte                          backgroundTiles[], foregroundTiles[];
+	private byte                          relativeX, relativeY;
+	private byte                          foregroundTileLocations[][];
+	
+	private short                         width, height;
+	
+	private float                         x, y;
+	
+	private ArrayList<Building>           buildings;
+	private ArrayList<Actor>              actors;
+	private GeneralCollection<PortalInfo> portals;
+	
+	private Bitmap                        mapImage;
+	
+	private VerticesBuffer                backgroundVerticesBuffer, foregroundVerticesBuffer;
+	
+	private LightBuffer                   backgroundTexturesBuffer, foregroundTexturesBuffer;
+	
+	private Random                        random;
+	
+	private String                        mapName;
+	
+	private static SpriteSheet            terrain;
+	
+	public  static final String           MAPS_LOCATION = "res/images/map/maps/";
+	public  static final String           BUILDINGS_LOCATION = "res/images/map/buildings/";
+	
+	public static GeneralCollection<Map>  maps;
+	
+	/**
+	* Create a new map for the specified Idk.
+	* 
+	* @param idk The Idk object to create it for.
+	* @param location The location of the map image.
+	*/
+	public Map(String prelocation, String mapName, int rx, int ry, boolean createForeground)//, boolean createActors)
+	{
+		buildings        = new ArrayList<Building>();
+		actors           = new ArrayList<Actor>();
+		portals          = new GeneralCollection<PortalInfo>();
+		
+		this.mapName     = mapName;
+		
+		mapImage         = ImageUtil.getBitmap(Idk.getResources(), R.drawable.map0p0);
+		
+		width                   = (short)mapImage.getWidth();
+		height                  = (short)mapImage.getHeight();
+		
+		backgroundTiles         = new byte[width * height];
+		foregroundTiles         = new byte[width * height];
+		
+		foregroundTileLocations = new byte[width * height][];
+		
+		this.relativeX          = (byte)rx;
+		this.relativeY          = (byte)ry;
+		
+		init(width, height, prelocation, mapName, createForeground);//, createActors);
+	}
+	
+	/**
+	* The initialization method for the Map class.
+	* 
+	* @param width The width of the map in tiles.
+	* @param height The height of the map in tiles.
+	* @param building Whether the map is a building or not.
+	*/
+	private void init(short width, short height, String prelocation, String mapName, boolean createForeground)//, boolean createActors)
+	{
+		this.width     = width;
+		this.height    = height;
+		
+		random = new Random();
+		random.setSeed(getSeed());
+		
+		backgroundVerticesBuffer = new VerticesBuffer(width * height * OBJECT_SIZE, 3);
+		backgroundTexturesBuffer = new LightBuffer(width * height * TEXTURE_SIZE, 2);
+		
+//		backgroundVerticesBuffer.setBuffer(BufferUtils.createFloatBuffer(width * height * OBJECT_SIZE));
+//		backgroundTexturesBuffer.setBuffer(BufferUtils.createFloatBuffer(width * height * TEXTURE_SIZE));
+		
+//		backgroundVerticesBuffer.init();
+//		backgroundTexturesBuffer.init();
+		
+		
+		foregroundVerticesBuffer = new VerticesBuffer(width * height * OBJECT_SIZE, 3);
+		foregroundTexturesBuffer = new LightBuffer(width * height * TEXTURE_SIZE, 2);
+		
+//		foregroundVerticesBuffer.setBuffer(BufferUtils.createFloatBuffer(width * height * OBJECT_SIZE));
+//		foregroundTexturesBuffer.setBuffer(BufferUtils.createFloatBuffer(width * height * TEXTURE_SIZE));
+		
+//		foregroundVerticesBuffer.init();
+//		foregroundTexturesBuffer.init();
+		
+		x = 0;
+		y = 0;
+		
+		int data[] = null;
+		
+		mapImage.getPixels(data, 0, width, 0, 0, width, height);
+		
+		for (int i = 0; i < data.length; i ++)
+		{
+			addBackgroundTile((byte)Tile.getTileIdByColor(data[i]), (short)(i % width), (short)(height - (i / width) - 1));
+		}
+		
+		String mapLoc = null;
+		
+		if (prelocation.equals(MAPS_LOCATION))
+		{
+			mapLoc = Idk.prefix + MAPS_LOCATION + getMapName() + ".fg";
+		}
+		else if (prelocation.equals(BUILDINGS_LOCATION))
+		{
+			mapLoc = Idk.prefix + BUILDINGS_LOCATION + mapName + ".fg";
+		}
+		
+		File fgFile = new File(mapLoc);
+		
+		if (createForeground)
+		{
+			if (!fgFile.exists())
+			{
+				for (int i = 0; i < data.length; i ++)
+				{
+					if (backgroundTiles[i] == Tile.TileId.GRASS.getIndex() && ((byte)(random.nextInt(15)) == 0))
+					{
+						int offsetX =  (byte)(random.nextInt(7));
+						int offsetY = -(byte)(random.nextInt(7));
+						
+						addForegroundTile((byte)Tile.TileId.RED_FLOWER.getIndex(), (short)(i % width), (short)(i / width), (byte)offsetX, (byte)offsetY);
+					}
+					else if (backgroundTiles[i] == Tile.TileId.GRASS.getIndex() && ((byte)(random.nextInt(15)) == 0))
+					{
+						int offsetX =  (byte)(random.nextInt(7));
+						int offsetY = -(byte)(random.nextInt(7));
+						
+						addForegroundTile((byte)Tile.TileId.YELLOW_FLOWER.getIndex(), (short)(i % width), (short)(i / width), (byte)offsetX, (byte)offsetY);
+					}
+					else if (backgroundTiles[i] == Tile.TileId.GRASS.getIndex() && ((byte)(random.nextInt(2)) == 0))
+					{
+						if (!tileIsNear(new byte[] { (byte)Tile.TileId.SIDE_WALK.getIndex(), (byte)Tile.TileId.PORTAL.getIndex(), (byte)Tile.TileId.SAND.getIndex() }, (short)2, (short)(i % width), (short)(i / width)))
+						{
+							short xx = (short)(i % width);
+							short yy = (short)(i / width);
+							
+							if (foregroundTiles[xx + yy * width] == 0 && foregroundTiles[xx + (yy + 1) * width] == 0)
+							{
+//								addForegroundTile((byte)Tile.TREE_TOP, xx, (short)(yy + 1), (byte)0, (byte)0);
+								addForegroundTile((byte)Tile.TileId.TREE.getIndex(), xx, yy, (byte)0, (byte)0);
+							}
+						}
+					}
+				}
+				
+				try
+				{
+					ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(mapLoc)));
+					
+					oos.writeObject(new Object[] { foregroundTiles, foregroundTileLocations });
+					
+					oos.close();
+				}
+				catch (FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			else
+			{
+				try
+				{
+					ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(mapLoc)));
+					
+					Object[] obj = (Object[])ois.readObject();
+					
+					ois.close();
+					
+					foregroundTiles         = (byte[])  obj[0];
+					foregroundTileLocations = (byte[][])obj[1];
+					
+					for (int i = 0; i < foregroundTiles.length; i ++)
+					{
+						byte id = foregroundTiles[i];
+						
+						if (id != 0)
+						{
+							addForegroundTile(id, (short)(i % width), (short)(i / width), foregroundTileLocations[i][0], foregroundTileLocations[i][1]);
+						}
+					}
+				}
+				catch (FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+				catch (ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+		
+//		if (createActors)
+//		{
+			for (int i = 0; i < 0; i ++)
+			{
+				Actor randomActor = Actor.getRandomActor(this);
+				addActor(randomActor);
+				actors.get(i).setLocation((int)(Math.random() * ((width - 2) * tileSize - randomActor.getScaledWidth())), (int)(Math.random() * ((height - 2) * tileSize - randomActor.getScaledHeight())));
+				actors.get(i).getInventory().addItem(Item.getRandomItem());
+			}
+//		}
+		
+//		for (int yy = 0; yy < height; yy ++)
+//		{
+//			for (int xx = 0; xx < width; xx ++)
+//			{
+//				System.out.print(foregroundTiles[xx + yy * width] + "\t");
+//			}
+//			System.out.println();
+//		}
+		
+		start();
+	}
+	
+	public abstract void start();
+	
+	public String getMapName()
+	{
+		return mapName;
+	}
+	
+	/**
+	* The static initialization for the Map class.
+	* 
+	* Must be called before any maps are created!
+	*/
+	public static void ihnit()
+	{
+		terrain = new SpriteSheet(Idk.getResources(), R.drawable.terrain, 64, 40);
+		
+		maps = new GeneralCollection<Map>();
+		
+		maps.add(0, 0, new Map(MAPS_LOCATION, "Map0p0", 0, 0, true)//, true)
+		{
+			public void start()
+			{
+				PortalInfo eastPortal = new PortalInfo(new MapLocation((byte)1, (byte)0), (short)0, (short)17, Direction.RIGHT);
+				addPortalInfo(eastPortal, (short)31, (short)17);
+				
+				PortalInfo northPortal = new PortalInfo(new MapLocation((byte)0, (byte)1), (short)26, (short)0, Direction.UP);
+				addPortalInfo(northPortal, (short)26, (short)31);
+				
+				PortalInfo southPortal = new PortalInfo(new MapLocation((byte)0, (byte)-1), (short)20, (short)31, Direction.DOWN);
+				addPortalInfo(southPortal, (short)20, (short)0);
+				
+				// Castle
+				{
+					BuildingMap bm = new BuildingMap(BUILDINGS_LOCATION, "Castle", true)//, false)
+					{
+						public void initialize()
+						{
+							
+						}
+						
+						public void start()
+						{
+							PortalInfo portal1 = new PortalInfo(new MapLocation((byte)0, (byte)0), (short)270, (short)275, Direction.DOWN);
+							addPortalInfo(portal1, (short)5, (short)0);
+							
+							PortalInfo portal2 = new PortalInfo(new MapLocation((byte)0, (byte)0), (short)270, (short)275, Direction.DOWN);
+							addPortalInfo(portal2, (short)4, (short)0);
+							
+							addActor(new Jeffery(this));
+						}
+
+						public long getSeed()
+						{
+							return 0;
+						}
+					};
+					
+					Building castle = new Building((byte)0, (byte)0, (byte)7, (byte)4, bm);
+					castle.setLocation(267 * tileSize, 275 * tileSize);
+					addBuilding(castle);
+					
+					PortalInfo castlePortal = new PortalInfo(new BuildingLocation(castle), (short)4, (short)0, Direction.UP);
+					addPortalInfo(castlePortal, (short)270, (short)275);
+				}
+			}
+			
+			public long getSeed()
+			{
+				return 0;
+			}
+		});
+		
+		maps.add(0, 1, new Map(MAPS_LOCATION, "Map0p1", 0, 1, true)//, true)
+		{
+			public void start()
+			{
+				PortalInfo southPortal = new PortalInfo(new MapLocation((byte)0, (byte)0), (short)26, (short)31, Direction.DOWN);
+				addPortalInfo(southPortal, (short)26, (short)0);
+			}
+			
+			public long getSeed()
+			{
+				return 1;
+			}
+		});
+		
+		maps.add(0, -1, new Map(MAPS_LOCATION, "Map0pn1", 0, -1, true)//, true)
+		{
+			public void start()
+			{
+				PortalInfo northPortal = new PortalInfo(new MapLocation((byte)0, (byte)0), (short)20, (short)0, Direction.UP);
+				addPortalInfo(northPortal, (short)20, (short)31);
+			}
+			
+			public long getSeed()
+			{
+				return 2;
+			}
+		});
+		
+		maps.add(1, 0, new Map(MAPS_LOCATION, "Map1p0", 1, 0, true)//, true)
+		{
+			public void start()
+			{
+				PortalInfo rightPortal = new PortalInfo(new MapLocation((byte)0, (byte)0), (short)31, (short)17, Direction.LEFT);
+				addPortalInfo(rightPortal, (short)0, (short)17);
+			}
+			
+			public long getSeed()
+			{
+				return 3;
+			}
+		});
+	}
+	
+	/**
+	* Return whether there is a specified tile near the specified
+	* location.
+	* 
+	* @param tileId The tile ids in an array.
+	* @param size The radius of the square to check.
+	* @param x The x position to look around.
+	* @param y The y position to look around.
+	* @return Whether the tile is near the location or not.
+	*/
+	private boolean tileIsNear(byte[] tileId, short size, short x, short y)
+	{
+		short startY = (short)(y - (size));
+		short startX = (short)(x - (size));
+		
+		for (int yy = startY; yy < size * 2 + startY; yy ++)
+		{
+			for (int xx = startX; xx < size * 2 + startX; xx ++)
+			{
+				for (byte id : tileId)
+				{
+					if (xx + yy * width >= 0 && xx + yy * width < backgroundTiles.length && backgroundTiles[xx + yy * width] == id)
+					{
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	* Render the buildings in the map.
+	*/
+	private void renderBuildings()
+	{
+		for (Building building : buildings)
+		{
+			building.render();
+		}
+	}
+	
+	/**
+	* Render the background of the map.
+	*/
+	private void renderBackground()
+	{
+		GL.beginTextureDraw(backgroundTexturesBuffer);
+		GL.beginVertexDraw (backgroundVerticesBuffer);
+//		
+		terrain.bind();
+		
+//		glDrawArrays(GL_QUADS, 0, backgroundTiles.length * 4);
+		
+//		renderRect(0, 0, 10, 10, width, GL_QUADS);
+		
+//		int xo = -(int)(x / tileSize);
+//		int yo = -(int)(y / tileSize);
+//		
+//		xo -= (int)((float)(Frame.getScaledCenterX() - Frame.getCenterX()) / tileSize);
+//		yo -= (int)((float)(Frame.getScaledCenterY() - Frame.getCenterY()) / tileSize);
+//		
+////		xo --;
+////		yo --;
+//		
+//		xo = xo < 0 ? 0 : xo;
+//		yo = yo < 0 ? 0 : yo;
+		
+		float dimensions[] = Idk.getViewDimensions();
+		
+		int xo  = (int)(dimensions[0] / tileSize);
+		int yo  = (int)(dimensions[1] / tileSize);
+		
+		int wid = (int)(dimensions[2] / tileSize);
+		int hei = (int)(dimensions[3] / tileSize);
+		
+		xo = xo < 0 ? 0 : xo;
+		yo = yo < 0 ? 0 : yo;
+		
+		GL.renderQuadRect(xo, yo, wid, hei, width, height);
+		
+		GL.endVertexDraw();
+		GL.endTextureDraw();
+	}
+	
+	/**
+	* Render the foreground of the map.
+	*/
+	private void renderForeground()
+	{
+		GL.beginTextureDraw(foregroundTexturesBuffer);
+		GL.beginVertexDraw (foregroundVerticesBuffer);
+		
+		terrain.bind();
+		
+		//glDrawArrays(GL_QUADS, 0, foregroundTiles.length * 4);
+		
+		float dimensions[] = Idk.getViewDimensions();
+		
+		int xo  = (int)(dimensions[0] / tileSize);
+		int yo  = (int)(dimensions[1] / tileSize);
+		
+		int wid = (int)(dimensions[2] / tileSize);
+		int hei = (int)(dimensions[3] / tileSize);
+		
+		xo = xo < 0 ? 0 : xo;
+		yo = yo < 0 ? 0 : yo;
+		
+		GL.renderQuadRect(xo, yo, wid, hei, width, height);
+		
+		GL.endVertexDraw();
+		GL.endTextureDraw();
+	}
+	
+	/**
+	* Render the map as a whole.
+	*/
+	public void render()
+	{
+		GL.beginManipulation();
+		{
+			GL.translatef((int)x - (tileSize), (int)y - (tileSize), 0);
+			
+			renderBackground();
+			renderForeground();
+			renderBuildings();
+			
+			GL.translatef((int)(tileSize), (int)(tileSize), 0);
+			
+			renderActors();
+		}
+		GL.endManipulation();
+	}
+	
+	/**
+	* Render the actors that are in the map.
+	*/
+	public void renderActors()
+	{
+		for (int i = 0; i < actors.size(); i ++)
+		{
+			Actor actor = actors.get(i);
+			
+			synchronized (actors)
+			{
+//				if(!actor.isAlive())
+//				{
+//					continue;
+//				}
+
+				float dimensions[] = Idk.getViewDimensions();
+				
+				float xo  = dimensions[0];
+				float yo  = dimensions[1];
+				
+				float wid = dimensions[2];
+				float hei = dimensions[3];
+				
+				if (Intersects.rectangles((int)actor.getAbsoluteX(), (int)actor.getAbsoluteY(), (int)actor.getScaledWidth(), (int)actor.getScaledHeight(), (int)(xo), (int)(yo), (int)(wid), (int)(hei)))
+				{
+					if (actor.hasInitialized())
+					{
+						actor.render();
+					}
+					else
+					{
+						actor.init(actor.getRow());
+						actor.render();
+					}
+					
+					if (actor instanceof Player)
+					{
+//						System.out.println(actor.getX() + ", " + actor.getY());
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	* Render the actor's health loss that are in the map.
+	*/
+	public void renderActorsHealthLoss()
+	{
+		synchronized (actors)
+		{
+			for (Actor actor : actors)
+			{
+				if(!actor.isAlive())
+				{
+					continue;
+				}
+				
+				if (Intersects.rectangles((int)actor.getAbsoluteX(), (int)actor.getAbsoluteY(), (int)actor.getScaledWidth(), (int)actor.getScaledHeight(), (int)-x, (int)-y, Frame.getWidth(), Frame.getHeight()))
+				{
+					actor.continueHealthLossIndicator();
+				}
+			}
+		}
+	}
+	
+	/**
+	* Add a background tile to the specified location.
+	* 
+	* @param id The id of the tile.
+	* @param x The x position to add it to.
+	* @param y The y position to add it to.
+	*/
+	public void addBackgroundTile(byte id, short x, short y)
+	{
+		float ts = tileSize;
+		
+		Tile tile = Tile.getTileById(id);
+		
+//		float vertices[] = backgroundVerticesBuffer.getElements();
+//		float textures[] = backgroundTexturesBuffer.getElements();
+		
+		backgroundVerticesBuffer.setData((x + y * width) * OBJECT_SIZE, GL.addRectVertexArrayf(x * ts, y * ts, tile.getZ(), ts, ts, (x + y * width) * OBJECT_SIZE, null));
+		backgroundTexturesBuffer.setData((x + y * width) * TEXTURE_SIZE, GL.addRectTextureArrayf(terrain,  tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight(), (x + y * width) * TEXTURE_SIZE, null));
+		
+		backgroundTiles[x + y * width] = id;
+	}
+	
+	/**
+	* Add a foreground tile to the specified location.
+	* 
+	* @param id The id of the tile.
+	* @param x The x position to add it to.
+	* @param y The y position to add it to.
+	* @param offsetX The x offset of the tile in scaled pixels.
+	* @param offsetY The y offset of the tile in scaled pixels.
+	*/
+	public void addForegroundTile(byte id, short x, short y, byte offsetX, byte offsetY)
+	{
+		if (foregroundTiles[x + y * width] != 0 && foregroundTiles[x + y * width] != id)
+		{
+			return;
+		}
+		
+		Tile tile        = Tile.getTileById(id);
+		
+//		float vertices[] = foregroundVerticesBuffer.getElements();
+//		float textures[] = foregroundTexturesBuffer.getElements();
+//		
+//		tile.addVerticesToArray(x, y, offsetX, offsetY, vertices, width);
+//		tile.addTextureToArray (x, y, textures, width, terrain);
+		
+		foregroundVerticesBuffer.setData((x + y * width) * OBJECT_SIZE, tile.addVerticesToArray(x, y, offsetX, offsetY, width));
+		foregroundTexturesBuffer.setData((x + y * width) * TEXTURE_SIZE, tile.addTextureToArray (x, y, width, terrain));
+		
+		tile.addTileOffsets(x, y, offsetX, offsetY, foregroundTileLocations, width);
+		
+		tile.addIdToArray(x, y, foregroundTiles, width);
+	}
+	
+	/**
+	* 
+	* 
+	* @param actor The actor to test collisions on.
+	* @param dx The amount of x position the actor is trying to move.
+	* @param dy The amount of y position the actor is trying to move.
+	* @return if there is a collision, then the amount that the actor
+	* 		is able to move, or else it will return null.
+	*/
+	public float[] checkCollisionRect(Actor actor, float dx, float dy, int x, int y, int width, int height)
+	{
+		int tw = this.width;
+		int th = this.height;
+		
+		float collision[] = null;
+		
+		if (x < 0)
+		{
+			x = 0;
+		}
+		if (y < 0)
+		{
+			y = 0;
+		}
+		if (x + width >= tw)
+		{
+			width = tw - x;
+		}
+		if (y + height >= th)
+		{
+			height = th - y;
+		}
+		
+		for (int i = y; i < height + y; i ++)
+		{
+			int dx2 = x + (i * tw);
+			
+			if ((collision = checkCollision(actor, dx, dy, dx2, width)) != null)
+			{
+				return collision;
+			}
+		}
+		
+		return checkBuildingCollisions(actor, dx, dy);
+	}
+	
+	/**
+	* Checks whether if there would be a collision of the actor
+	* is to move the specified amount. If there is a collision, then
+	* it returns the amount that the player is able to move without
+	* colliding, or else it just returns null.
+	* 
+	* @param actor The actor to test collisions on.
+	* @param dx The amount of x position the actor is trying to move.
+	* @param dy The amount of y position the actor is trying to move.
+	* @param first The first index of the tiles to check collisions on.
+	* @param count The amount of indices to check collisions on.
+	* @return if there is a collision, then the amount that the actor
+	* 		is able to move, or else it will return null.
+	*/
+	private float[] checkCollision(AnimatedObject animatedObject, float dx, float dy, int first, int count)
+	{
+		float ats = dy + animatedObject.getAbsoluteY();
+//		float abs = dy + actor.getAbsoluteY();
+//		float ars = dx + actor.getAbsoluteX() + actor.getWidth();
+		float als = dx + animatedObject.getAbsoluteX();
+		float aw  = animatedObject.getScaledWidth();
+		float ah  = animatedObject.getScaledHeight();
+		
+		float bts = 0;
+//		float bbs = 0;
+//		float brs = 0;
+		float bls = 0;
+		float bw  = 0;
+		float bh  = 0;
+		
+		int   xx  = 0;
+		int   yy  = 0;
+		
+		byte  id  = 0;
+		
+//		System.out.println(als + ", " + ats);
+		
+		if (animatedObject instanceof Player || animatedObject instanceof Rogue)
+		{
+			ah /= 2;
+		}
+		
+		for (int i = first; i < first + count; i ++)
+		{
+			xx = i % width;
+			yy = i / width;
+			
+//			yy = height - yy - 1;
+			
+			id = backgroundTiles[xx + yy * width];
+			
+			if (id == 0)
+			{
+				continue;
+			}
+			
+			Tile tile = Tile.getTileById(id);
+			
+			if (animatedObject instanceof Actor == false && !tile.isCollidable())
+			{
+				continue;
+			}
+			
+			bts = yy * tileSize - tileSize;// + y;// + tileSize;
+//			bbs = yy * tileSize;
+//			brs = xx * tileSize + tileSize;
+			bls = xx * tileSize - tileSize;// + x;
+			bw  = tile.getScaledWidth();
+			bh  = tile.getScaledHeight();
+			
+			if (Intersects.rectangles((int)als, (int)ats, (int)aw, (int)ah, (int)bls, (int)bts, (int)bw, (int)bh))
+			{
+				if (!tile.isCollidable())
+				{
+					if (tile.getId() == Tile.TileId.WATER.getIndex())
+					{
+						((Actor)animatedObject).setSwimming(true);
+					}
+					else
+					{
+						((Actor)animatedObject).setSwimming(false);
+					}
+					
+					continue;
+				}
+				
+				if (tile.getId() == Tile.TileId.PORTAL.getIndex())
+				{
+					try
+					{
+						PortalInfo info = portals.get(xx, yy);
+						
+						Location location = info.getLocation();
+						
+						if (location instanceof MapLocation)
+						{
+							MapLocation loc = ((MapLocation)location);
+							
+							System.out.println("Portalling a " + animatedObject.getClass().getSimpleName() + " to " + loc.getX() + ", " + loc.getY());
+							
+							Idk.sendThroughPortal(animatedObject, info);
+						}
+						else if (location instanceof BuildingLocation)
+						{
+							BuildingLocation loc = ((BuildingLocation)location);
+							
+							System.out.println("Portalling a " + animatedObject.getClass().getSimpleName() + " to " + loc.getBuilding().getMap().getMapName());
+							
+							Idk.sendThroughPortal(animatedObject, info);
+						}
+					}
+					catch (IndexOutOfBoundsException ex)
+					{
+//						ex.printStackTrace();
+					}
+				}
+				float intersections[] = Intersection.rectangles((int)als, (int)ats, (int)aw, (int)ah, (int)bls, (int)bts, (int)bw, (int)bh);
+				
+				float xo = intersections[2];
+				float yo = intersections[3];
+				
+//				System.out.println(als + ", " + ats + " : " + bls + ", " + bts + " ::: " + intersections[0] + ", " + intersections[1] + ", " + intersections[2] + ", " + intersections[3]);
+				
+				if (animatedObject instanceof Actor)
+				{
+					((Actor)animatedObject).stopRecoil();
+				}
+				
+				return new float[] { xo, yo };
+			}
+		}
+		
+		for (int i = first; i < first + count; i ++)
+		{
+			xx = i % width;
+			yy = i / width;
+			
+//			yy = height - yy - 1;
+			
+			id = foregroundTiles[xx + yy * width];
+			
+			if (id == 0)
+			{
+				continue;
+			}
+			
+			Tile tile = Tile.getTileById(id);
+			
+			if (!tile.isCollidable())
+			{
+				continue;
+			}
+			
+			bts = yy * tileSize - tileSize;// + y;// + tileSize;
+//			bbs = yy * tileSize;
+//			brs = xx * tileSize + tileSize;
+			bls = xx * tileSize - tileSize;// + x;
+			bw  = tile.getScaledWidth();
+			bh  = tile.getScaledHeight();
+			
+			if (Intersects.rectangles((int)als, (int)ats, (int)aw, (int)ah, (int)bls, (int)bts, (int)bw, (int)bh))
+			{
+				float intersections[] = Intersection.rectangles((int)als, (int)ats, (int)aw, (int)ah, (int)bls, (int)bts, (int)bw, (int)bh);
+				
+				float xo = intersections[2];
+				float yo = intersections[3];
+				
+//				System.out.println(als + ", " + ats + " : " + bls + ", " + bts + " ::: " + intersections[0] + ", " + intersections[1] + ", " + intersections[2] + ", " + intersections[3]);
+				
+				if (animatedObject instanceof Actor)
+				{
+					((Actor)animatedObject).stopRecoil();
+				}
+				
+				return new float[] { xo, yo };
+			}
+		}
+		
+		return null;
+	}
+	
+	public void removeTreesAround(Actor actor, int radius)
+	{
+		for (int i = 0; i < foregroundTiles.length; i ++)
+		{
+			if (JMath.distanceTo(actor.getScaledAbsoluteCenterX(), actor.getScaledAbsoluteCenterY(), (i % width) * tileSize + tileSize / 2, (i / width) * tileSize + tileSize / 2) < radius)
+			{
+				int id = foregroundTiles[i];
+				
+				if (id == TileId.TREE_BOTTOM.getIndex())
+				{
+					foregroundVerticesBuffer.setData(i * OBJECT_SIZE,  new float[OBJECT_SIZE]);
+					foregroundTexturesBuffer.setData(i * TEXTURE_SIZE, new float[TEXTURE_SIZE]);
+					
+					foregroundTiles[i] = 0;
+					
+					int index = (i % width) + (i / width + 1) * width;
+					
+					if (foregroundTiles[index] == TileId.TREE_TOP.getIndex())
+					{
+						foregroundVerticesBuffer.setData(index * OBJECT_SIZE,  new float[OBJECT_SIZE]);
+						foregroundTexturesBuffer.setData(index * TEXTURE_SIZE, new float[TEXTURE_SIZE]);
+						
+						foregroundTiles[index] = 0;
+					}
+				}
+				
+				if (id == TileId.TREE_TOP.getIndex())
+				{
+					foregroundVerticesBuffer.setData(i * OBJECT_SIZE,  new float[OBJECT_SIZE]);
+					foregroundTexturesBuffer.setData(i * TEXTURE_SIZE, new float[TEXTURE_SIZE]);
+					
+					foregroundTiles[i] = 0;
+					
+					int index = (i % width) + (i / width - 1) * width;
+					
+					if (foregroundTiles[index] == TileId.TREE_BOTTOM.getIndex())
+					{
+						foregroundVerticesBuffer.setData(index * OBJECT_SIZE,  new float[OBJECT_SIZE]);
+						foregroundTexturesBuffer.setData(index * TEXTURE_SIZE, new float[TEXTURE_SIZE]);
+						
+						foregroundTiles[index] = 0;
+					}
+				}
+			}
+		}
+	}
+	
+	private float[] checkBuildingCollisions(Actor actor, float dx, float dy)
+	{
+		for (Building building : buildings)
+		{
+			float collision[];
+			
+			if ((collision = building.checkCollision(actor, dx, dy)) != null)
+			{
+				return collision;
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	* Move the map the specified amount according to the x (dx) and
+	* y (dy) variables.
+	* 
+	* @param dx The amount to move along the x position.
+	* @param dy The amount to move along the y position.
+	* @return Whether the move was successful.
+	*/
+	public boolean move(float dx, float dy)
+	{
+		this.x += dx;
+		this.y += dy;
+		
+		return true;
+	}
+	
+	/**
+	* Randomly move the actors around the map.
+	*/
+	public void randomMoveActors()
+	{
+		for (int i = 0; i < actors.size(); i ++)
+		{
+			Actor actor = actors.get(i);
+			
+			synchronized (actors)
+			{
+				float dimensions[] = Idk.getViewDimensions();
+				
+				float xo  = dimensions[0];
+				float yo  = dimensions[1];
+				
+				float wid = dimensions[2];
+				float hei = dimensions[3];
+				
+				xo -= wid;
+				yo -= hei;
+				
+				wid *= 2;
+				hei *= 2;
+				
+				if(!Intersects.rectangles((int)actor.getAbsoluteX(), (int)actor.getAbsoluteY(), (int)actor.getScaledWidth(), (int)actor.getScaledHeight(), (int)(xo), (int)(yo), (int)(wid), (int)(hei)) || !actor.isAlive() || actor instanceof Player)
+				{
+					continue;
+				}
+				
+				actor.randomMove();
+			}
+		}
+	}
+	
+	/**
+	* Makes the actors talk with their own custom phrases.
+	*/
+	public void makeActorsTalk()
+	{
+		for (int i = 0; i < actors.size(); i ++)
+		{
+			if (actors.get(i) instanceof Race)
+			{
+				Race race = (Race)actors.get(i);
+				
+				synchronized (actors)
+				{
+					float dimensions[] = Idk.getViewDimensions();
+					
+					float xo  = dimensions[0];
+					float yo  = dimensions[1];
+					
+					float wid = dimensions[2];
+					float hei = dimensions[3];
+					
+					xo -= wid;
+					yo -= hei;
+					
+					wid *= 2;
+					hei *= 2;
+					
+					if(!Intersects.rectangles((int)race.getAbsoluteX(), (int)race.getAbsoluteY(), (int)race.getScaledWidth(), (int)race.getScaledHeight(), (int)(xo), (int)(yo), (int)(wid), (int)(hei)) || !race.isAlive())
+					{
+						continue;
+					}
+					
+					race.talk();
+				}
+			}
+		}
+	}
+	
+	/**
+	* Get the width of the map in tiles.
+	* 
+	* @return The width of the map in tiles.
+	*/
+	public int getWidth()
+	{
+		return width;
+	}
+	
+	/**
+	* Get the height of the map in tiles.
+	* 
+	* @return The height of the map in tiles.
+	*/
+	public int getHeight()
+	{
+		return height;
+	}
+	
+	/**
+	* Method that adds an Actor to the actors ArrayList.
+	* 
+	* @param actor The actor to add to the render list
+	* 		and random move list.
+	*/
+	public void addActor(Actor actor)
+	{
+		synchronized (actors)
+		{
+			actors.add(actor);
+		}
+		
+	}
+	
+	public void removeActor(Actor actor)
+	{
+		synchronized (actors)
+		{
+			for (int i = 0; i < actors.size(); i ++)
+			{
+				if (actors.get(i) == actor)
+				{
+					actors.remove(i);
+					
+					break;
+				}
+			}
+		}
+	}
+	
+	/**
+	* Get all of the #actors in the map and return them in the
+	* form of an ArrayList.
+	* 
+	* @return The ArrayList of Actors.
+	*/
+	public ArrayList<Actor> getActors()
+	{
+		return actors;
+	}
+	
+	public void cutTree()
+	{
+		
+	}
+	
+	/**
+	* Add a PortalInfo object to the #portals GeneralCollection
+	* at the specified location.
+	* 
+	* @param info The PortalInfo object.
+	* @param x The x position.
+	* @param y The y position.
+	*/
+	public void addPortalInfo(PortalInfo info, short x, short y)
+	{
+		portals.add(x, y, info);
+	}
+	
+	/**
+	* Explicitly set the location of the Map.
+	* 
+	* @param x The x position.
+	* @param y The y position.
+	*/
+	public void setLocation(float x, float y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+	
+	/**
+	* Get the relativeX of the map relative to other maps.
+	* 
+	* @return The relativeX.
+	*/
+	public byte getRelativeX()
+	{
+		return relativeX;
+	}
+	
+	/**
+	* Get the relativeY of the map relative to other maps.
+	* 
+	* @return The relativeY.
+	*/
+	public byte getRelativeY()
+	{
+		return relativeY;
+	}
+	
+	public float getX()
+	{
+		return x;
+	}
+	
+	public float getY()
+	{
+		return y;
+	}
+	
+	/**
+	* Add a Building object to the #buildings ArrayList.0
+	* 
+	* @param building The Building object.
+	*/
+	public void addBuilding(Building building)
+	{
+		buildings.add(building);
+	}
+	
+	/**
+	* An abstract method used for retrieving the seed used for
+	* generating the foreground. Each map should have a different one.
+	* 
+	* @return The seed of the Map.
+	*/
+	public abstract long getSeed();
+	
+	public static Map getMap(int rx, int ry)
+	{
+		try
+		{
+			return maps.get(rx, ry);
+		}
+		catch (IndexOutOfBoundsException ex)
+		{
+			return null;
+		}
+	}
+}

@@ -26,7 +26,7 @@ public abstract class Menu implements ActionListener
 		for (int i = 0; i < textButtons.size(); i ++)
 		{
 			textButtons.get(i).render();
-			System.out.println(textButtons.get(i).getScreenX() + ", " + textButtons.get(i).getScreenY());
+			System.out.println(textButtons.get(i).getX() + ", " + textButtons.get(i).getY() + " : " + textButtons.get(i).getScreenWidth() + ", " + textButtons.get(i).getScaleHeight());
 		}
 	}
 	

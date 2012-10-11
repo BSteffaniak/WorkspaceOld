@@ -208,7 +208,7 @@ public class Actor extends AnimatedObject
 	*/
 	public void init(int row)
 	{
-		verticesBuffer = new VerticesBuffer(OBJECT_SIZE * 3, 2);
+		verticesBuffer = new VerticesBuffer(OBJECT_SIZE * 3, 3);
 		texturesBuffer = new LightBuffer(TEXTURE_SIZE * 3, 2);
 		
 //		verticesBuffer.setBuffer(BufferUtils.createFloatBuffer(OBJECT_SIZE * 3));
@@ -224,9 +224,9 @@ public class Actor extends AnimatedObject
 		healthBarY = (short)(getScaledHeight() + 5);
 		
 //		float vertices[] = verticesBuffer.getElements();
-		verticesBuffer.addData(GL.addRectVertexArrayf(0, 0, getWidth() * scale * 10, getHeight() * scale * 10, 0, null));
-		verticesBuffer.addData(GL.addRectVertexArrayf(healthBarX - 1, healthBarY - 1, healthBarWidth + 2, healthBarHeight + 2, OBJECT_SIZE, null));
-		verticesBuffer.addData(GL.addRectVertexArrayf(healthBarX, healthBarY, healthBarWidth, healthBarHeight, OBJECT_SIZE * 2, null));
+		verticesBuffer.addData(GL.addRectVertexArrayf(0, 0, 0, getWidth() * scale * 10, getHeight() * scale * 10, 0, null));
+		verticesBuffer.addData(GL.addRectVertexArrayf(healthBarX - 1, healthBarY - 1, 0, healthBarWidth + 2, healthBarHeight + 2, OBJECT_SIZE, null));
+		verticesBuffer.addData(GL.addRectVertexArrayf(healthBarX, healthBarY, 0, healthBarWidth, healthBarHeight, OBJECT_SIZE * 2, null));
 		
 //		float textures[] = texturesBuffer.getElements();
 		texturesBuffer.addData(GL.addRectTextureArrayf(actors, 1 * getWidth(), row, getWidth(), getHeight(), 0, null));
@@ -819,10 +819,7 @@ public class Actor extends AnimatedObject
 		
 		int newHealthBarWidth = (short)((float)healthBarWidth * ((float)health / (float)maxHealth));
 		
-		float vertices[] = new float[OBJECT_SIZE];
-		vertices = GL.addRectVertexArrayf(healthBarX, healthBarY, -1, newHealthBarWidth, healthBarHeight, 0, vertices);
-		
-		verticesBuffer.setData(OBJECT_SIZE * 2, vertices);
+		verticesBuffer.setData(OBJECT_SIZE * 2, GL.addRectVertexArrayf(healthBarX, healthBarY, -1, newHealthBarWidth, healthBarHeight, 0, null));
 	}
 	
 	/**

@@ -54,7 +54,7 @@ public class ToolTipText extends Component
 //				longestLine = length;
 //			}
 			
-			tipHeight += Frame.getFont().getHeight(st);
+			tipHeight += Frame.getNormalFontHeight();
 		}
 		
 		this.linePadding = 2;

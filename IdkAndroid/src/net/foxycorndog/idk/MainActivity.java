@@ -11,20 +11,15 @@ import net.foxycorndog.jdoogl.components.Frame;
 
 public class MainActivity extends AdvancedActivity
 {
-	private Activity        activity;
+	private Activity   activity;
 	
 	private static Idk idk;
 	
 	public void onCreate()
 	{
 		this.activity = this;
-				
-		idk = new Idk(this);
 		
-		
-//		Frame.init(P1xeland.GAME_TITLE, getGameRenderer(), activity);
-//		
-//		p.init();
+		idk           = new Idk(this);
 	}
 	
 	public void render(GL10 gl)
@@ -40,8 +35,6 @@ public class MainActivity extends AdvancedActivity
 	public void onSurfaceChanged(GL10 gl)
 	{
 		Frame.init("ASDF", getGameRenderer(), activity);
-		
-//		Tile.init(activity.getResources());
 		
 		idk.start();
 	}

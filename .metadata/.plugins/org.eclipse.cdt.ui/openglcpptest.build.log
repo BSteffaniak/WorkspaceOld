@@ -1,40 +1,4 @@
 
-**** Rebuild of configuration Debug for project openglcpptest ****
-
-**** Internal Builder is used for build               ****
-****  WARNING: The "Debug" Configuration may not build  ****
-****  because it uses the "MinGW GCC"  ****
-****  tool-chain that is unsupported on this system.  ****
-
-****  Attempting to build...  **** 
-
-g++ -includeC:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h -O0 -g3 -Wall -c -fmessage-length=0 -o opengl.o ../opengl.cpp
-cc1plus: error: C:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h: No such file or directory
-../opengl.cpp:7:18: error: glut.h: No such file or directory
-../opengl.cpp: In function 'void Draw()':
-../opengl.cpp:10: error: 'GL_COLOR_BUFFER_BIT' was not declared in this scope
-../opengl.cpp:10: error: 'glClear' was not declared in this scope
-../opengl.cpp:11: error: 'glColor3f' was not declared in this scope
-../opengl.cpp:12: error: 'GL_LINES' was not declared in this scope
-../opengl.cpp:12: error: 'glBegin' was not declared in this scope
-../opengl.cpp:13: error: 'glVertex3f' was not declared in this scope
-../opengl.cpp:15: error: 'glEnd' was not declared in this scope
-../opengl.cpp:16: error: 'glFlush' was not declared in this scope
-../opengl.cpp: In function 'void Initialize()':
-../opengl.cpp:20: error: 'glClearColor' was not declared in this scope
-../opengl.cpp:21: error: 'GL_PROJECTION' was not declared in this scope
-../opengl.cpp:21: error: 'glMatrixMode' was not declared in this scope
-../opengl.cpp:22: error: 'glLoadIdentity' was not declared in this scope
-../opengl.cpp:23: error: 'glOrtho' was not declared in this scope
-../opengl.cpp: In function 'int main(int, char**)':
-../opengl.cpp:27: error: 'glutInit' was not declared in this scope
-../opengl.cpp:28: error: 'GLUT_SINGLE' was not declared in this scope
-../opengl.cpp:28: error: 'GLUT_RGB' was not declared in this scope
-../opengl.cpp:28: error: 'glutInitDisplayMode' was not declared in this scope
-../opengl.cpp:29: error: 'glutInitWindowSize' was not declared in this scope
-../opengl.cpp:30: error: 'glutInitWindowPosition' was not declared in this scope
-../opengl.cpp:31: error: 'glutCreateWindow' was not declared in this scope
-../opengl.cpp:33: error: 'glutDisplayFunc' was not declared in this scope
-../opengl.cpp:34: error: 'glutMainLoop' was not declared in this scope
-Build error occurred, build is stopped
-Time consumed: 224  ms.  
+**** Clean-only build of configuration Debug for project openglcpptest ****
+rm -rf opengl.d openglcpptest.exe opengl.o
+Build complete for project openglcpptest

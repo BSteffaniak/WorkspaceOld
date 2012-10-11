@@ -1376,7 +1376,7 @@ public class GL
 		return array;
 	}
 	
-	public static float[] addRectVertexArrayf(float x, float y, float z, float width, float height, int offset, float[] array)
+	public static float[] addRectVertexArrayf(float x, float y, float z, float width, float height, int offset, float array[])
 	{
 		if (array == null)
 		{
@@ -1400,7 +1400,7 @@ public class GL
 		
 		if (DRAW_MODE_ARRAYS)
 		{
-			offset = (offset / 4) * 3 * 3;
+			offset = (offset / 4) * 3 * 2;
 			
 			array[offset + index ++] = x;
 			array[offset + index ++] = y;

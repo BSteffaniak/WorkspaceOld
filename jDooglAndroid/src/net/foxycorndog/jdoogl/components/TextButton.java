@@ -44,6 +44,9 @@ public class TextButton extends Button
 		
 //		setWidth((int)((Frame.getFont().getLegitWidth(text)  + leftMargin + rightMargin) * scale));
 //		setHeight((int)((Frame.getFont().getLegitHeight(text) + topMargin  + bottomMargin) * scale));
+		
+		setWidth((int)((5 * text.length() + leftMargin + rightMargin) * scale));
+		setHeight((int)((5 + topMargin + bottomMargin) * scale));
 	}
 	
 	public void setMargins(int left, int right, int top, int bottom)
@@ -123,7 +126,13 @@ public class TextButton extends Button
 	
 	public void render()
 	{
-		super.render();
+		GL.beginManipulation();
+		{
+			GL.scalef(scale, scale, 1);
+			
+			super.render();
+		}
+		GL.endManipulation();
 		
 		float location[] = Frame.renderText(getX(), getY(), text, foreground, scale, horizontalAlignment, verticalAlignment);
 		

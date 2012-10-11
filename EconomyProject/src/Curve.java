@@ -151,12 +151,11 @@ public class Curve
 	 */
 	public Point getPoint(int quantity)
 	{
-<<<<<<< HEAD
-		int closestIndex = 0;
-=======
-		int closestIndex  = 0;
->>>>>>> b0149ee359f1f2d9b7e31a386b2bbe253de58fb2
-		int pointQuantity = Integer.MAX_VALUE;
+		int   closestIndex  = 0;
+		
+		long  pointQuantity = Integer.MAX_VALUE;
+		
+		Point point         = null;
 		
 		for (int i = 0; i < points.size(); i ++)
 		{
@@ -164,12 +163,8 @@ public class Curve
 			{
 				if (points.get(i).getQuantity() < pointQuantity)
 				{
-<<<<<<< HEAD
-					
-=======
 					closestIndex  = i;
 					pointQuantity = points.get(i).getQuantity();
->>>>>>> b0149ee359f1f2d9b7e31a386b2bbe253de58fb2
 				}
 			}
 		}
@@ -178,12 +173,8 @@ public class Curve
 		
 		if (point == null)
 		{
-<<<<<<< HEAD
-			throw new RuntimeException("");
-=======
 			throw new IllegalArgumentException("There are no Points on this " +
 					"Curve with a quantity greater than: " + quantity);
->>>>>>> b0149ee359f1f2d9b7e31a386b2bbe253de58fb2
 		}
 		
 		return point;
