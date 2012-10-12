@@ -157,18 +157,9 @@ public abstract class Map
 			addBackgroundTile((byte)Tile.getTileIdByColor(data[i]), (short)(i % width), (short)(height - (i / width) - 1));
 		}
 		
-		String mapLoc = null;
+		String mapLoc = prelocation + mapName + ".fg";
 		
-		if (prelocation.equals(MAPS_LOCATION))
-		{
-			mapLoc = MAPS_LOCATION + getMapName() + ".fg";
-		}
-		else if (prelocation.equals(BUILDINGS_LOCATION))
-		{
-			mapLoc = BUILDINGS_LOCATION + mapName + ".fg";
-		}
-		
-		File fgFile = new File(mapLoc);
+		File fgFile = Idk.getContext().getFileStreamPath(mapLoc);
 		
 		if (createForeground)
 		{

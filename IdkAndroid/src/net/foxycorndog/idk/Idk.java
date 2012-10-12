@@ -41,6 +41,7 @@ import net.foxycorndog.jdoogl.components.Frame.Alignment;
 import net.foxycorndog.jdoogl.components.Frame.Cursor;
 import net.foxycorndog.jdoogl.input.KeyboardInput;
 import net.foxycorndog.jdoogl.input.TouchInput;
+import android.content.*;
 
 public class Idk
 {
@@ -69,6 +70,8 @@ public class Idk
 	
 	private static Activity    activity;
 	
+	private static Context     context;
+	
 	public static final float  tileSize = 30f;
 	public static final float  scale    = tileSize / 30f;
 	
@@ -86,13 +89,13 @@ public class Idk
 	
 	private boolean started;
 	
-	public Idk(Activity activity)
+	public Idk(Context context)
 	{
 		viewScale = scale;
 	
 		counter   = 0;
 		
-		this.activity = activity;
+		this.context = context;
 	}
 	
 	public void loop()
@@ -789,6 +792,8 @@ public class Idk
 	
 	public static Resources getResources()
 	{
-		return activity.getResources();
+		return context.getResources();
 	}
+	
+	
 }
