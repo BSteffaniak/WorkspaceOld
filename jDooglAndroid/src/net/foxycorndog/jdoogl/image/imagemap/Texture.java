@@ -20,6 +20,7 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 
 import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoutil.ImageUtil;
 
 public class Texture extends ImageMap
 {
@@ -31,11 +32,7 @@ public class Texture extends ImageMap
 	
 	public Texture(Resources res, int id)
 	{
-		InputStream is = res.openRawResource(id);
-		
-		Bitmap bmp = null;
-		
-		bmp = BitmapFactory.decodeStream(is);
+		Bitmap bmp = ImageUtil.getBitmap(res, id);
 		
 		this.location = location;
 		this.format   = format;
