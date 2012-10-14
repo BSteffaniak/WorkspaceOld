@@ -110,5 +110,17 @@ public class Game {
 		{
 			MouseInput.setGrabbed(false);
 		}
+		
+		if(KeyboardInput.next() && KeyboardInput.isKeyDown(KeyboardInput.KEY_K))
+		{
+			if (GL11.glIsEnabled(GL11.GL_TEXTURE_2D))
+			{
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+			}
+			else
+			{
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+			}
+		}
 	}
 }

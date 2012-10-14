@@ -851,6 +851,11 @@ public class GL
 	{
 		renderBuffers(verticesBuffer, start * 4 * 6, amount * 4 * 6, QUADS, 3);
 	}
+
+	public static void renderCubes(Buffer verticesBuffer, Buffer textures, Texture texture, int start, int amount)
+	{
+		renderBuffers(verticesBuffer, textures, texture, 3, 2, start * 4 * 6, amount * 4 * 6, QUADS);
+	}
 	
 	public static void renderQuads(Buffer verticesBuffer, int start, int amount)
 	{
@@ -968,15 +973,12 @@ public class GL
 //		endTextureDraw();
 //	}
 	
-	private static void renderBuffers(Buffer verticesBuffer, Buffer texturesBuffer,ImageMap imageMap, int textureSize, int vertexSize, int start, int amount, int type)
+	private static void renderBuffers(Buffer verticesBuffer, Buffer texturesBuffer, ImageMap imageMap, int vertexSize, int textureSize, int start, int amount, int type)
 	{
 		beginTextureDraw(texturesBuffer, textureSize);
 		beginVertexDraw (verticesBuffer, vertexSize);
 		
-		if (imageMap != null)
-		{
-			imageMap.bind();
-		}
+		imageMap.bind();
 		
 		glDrawArrays(type, start, amount);
 		
@@ -1148,7 +1150,6 @@ public class GL
 	{
 		if (render3D)
 		{
-			
 //			glViewport(0, 0, Display.getWidth(), Display.getHeight());
 //			glMatrixMode(GL11.GL_PROJECTION);
 //			glLoadIdentity();
@@ -1163,12 +1164,12 @@ public class GL
 //			glDepthFunc(GL11.GL_LEQUAL);
 //			glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
 //			
-//			glEnable(GL11.GL_TEXTURE_2D);
+			glEnable(GL11.GL_TEXTURE_2D);
 			
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//			glEnable(GL_BLEND);
+//			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+//			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			
 //			glEnable(GL_TEXTURE_2D);
 			
@@ -1190,7 +1191,10 @@ public class GL
 			// Really Nice Perspective Calculations
 			glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 			
-			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+			glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+			
+//			GL11.glEnable(GL11.GL_TEXTURE_2D);
+//			GL11.glDisable(GL11.GL_TEXTURE_2D);
 		}
 		else
 		{
@@ -1418,6 +1422,135 @@ public class GL
 		array[offset + index ++] = g;
 		array[offset + index ++] = b;
 		array[offset + index ++] = a;
+		
+		return array;
+	}
+	
+	public static float[] addCubeTextureArrayf(Texture texture, int offset, float array[])
+	{
+		return addCubeTextureArrayf(texture.getImageOffsetsf(), offset, array);
+	}
+	
+	public static float[] addCubeTextureArrayf(float offsets[], int offset, float array[])
+	{
+		if (array == null)
+		{
+			array  = new float[2 * 4 * 6];
+			
+			offset = 0;
+		}
+		
+		int index = 0;
+		
+		for (int i = 0; i < 6; i ++)
+		{
+			// Front
+			array[offset + index ++] = offsets[0];
+			array[offset + index ++] = offsets[1];
+	//		array[offset + index ++] = 0;
+			
+			array[offset + index ++] = offsets[0];
+			array[offset + index ++] = offsets[3];
+	//		array[offset + index ++] = 0;
+			
+			array[offset + index ++] = offsets[2];
+			array[offset + index ++] = offsets[3];
+	//		array[offset + index ++] = 0;
+			
+			array[offset + index ++] = offsets[2];
+			array[offset + index ++] = offsets[1];
+	//		array[offset + index ++] = 0;
+		}
+		
+		
+//		// Right
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 0;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 0;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 1;
+//		
+//		
+//		// Back
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 1;
+//		
+//		
+//		// Left
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 0;
+//		
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 0;
+//		
+//		
+//		// Top
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 0;
+//		
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 0;
+//		
+//		
+//		// Bottom
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 0;
+//		
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 0;
 		
 		return array;
 	}

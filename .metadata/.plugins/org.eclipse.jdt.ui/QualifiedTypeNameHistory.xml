@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.foxycorndog.jdooglandroid.input.KeyboardInput"/>
-<fullyQualifiedTypeName name="android.view.KeyEvent.Callback"/>
 <fullyQualifiedTypeName name="android.view.KeyEvent"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdooglandroid.activity.AdvancedActivity"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdooglandroid.input.KeyboardInput.HardwareKeyListener"/>
@@ -60,4 +58,6 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.input.MouseInput"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.camera.Camera"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.GL"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.image.imagemap.Texture"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
 </qualifiedTypeNameHistroy>

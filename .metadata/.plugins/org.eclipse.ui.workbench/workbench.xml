@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="27" version="2.0">
+<workbench progressCount="25" version="2.0">
 <workbenchAdvisor/>
 <window height="768" maximized="true" width="1024" x="125" y="125">
 <fastViewData fastViewLocation="1024"/>
@@ -47,6 +47,9 @@
 <part id="11"/>
 <part id="12"/>
 <part id="13"/>
+<part id="14"/>
+<part id="15"/>
+<part id="16"/>
 </presentation>
 </folder>
 </info>
@@ -55,17 +58,17 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/P1XELAND/src/net/foxycorndog/p1xeland/P1xeland.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4930" selectionTopPixel="2562"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" partName="Main.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/3d test/src/Main.java" title="Main.java" tooltip="3d test/src/Main.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" partName="Main.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/3d test/src/Main.java" title="Main.java" tooltip="3d test/src/Main.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/3d test/src/Main.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3422" selectionTopPixel="1837"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1235" selectionTopPixel="601"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GL.java" partName="GL.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/GL.java" title="GL.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/GL.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/GL.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="7" selectionOffset="32337" selectionTopPixel="17106"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="42710" selectionTopPixel="23107"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Frame.java" partName="Frame.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/components/Frame.java" title="Frame.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/components/Frame.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/components/Frame.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="4" selectionOffset="16773" selectionTopPixel="5391"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="9714" selectionTopPixel="5238"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" partName="Player.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/3d test/src/Player.java" title="Player.java" tooltip="3d test/src/Player.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/3d test/src/Player.java"/>
@@ -73,15 +76,15 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrestoGL3D.java" partName="PrestoGL3D.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Presto3D/src/net/foxycorndog/presto3d/graphics/PrestoGL3D.java" title="PrestoGL3D.java" tooltip="Presto3D/src/net/foxycorndog/presto3d/graphics/PrestoGL3D.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Presto3D/src/net/foxycorndog/presto3d/graphics/PrestoGL3D.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="1565" selectionOffset="4178" selectionTopPixel="1455"/>
+<editorState selectionHorizontalPixel="0" selectionLength="1565" selectionOffset="4178" selectionTopPixel="8091"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" partName="Main.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/CameraTests/src/Main.java" title="Main.java" tooltip="CameraTests/src/Main.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CameraTests/src/Main.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="791" selectionTopPixel="462"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1245" selectionTopPixel="862"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FrameLoop.java" partName="FrameLoop.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoutil/src/net/foxycorndog/jdoutil/FrameLoop.java" title="FrameLoop.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/FrameLoop.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoutil/src/net/foxycorndog/jdoutil/FrameLoop.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="608" selectionTopPixel="126"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="777" selectionTopPixel="126"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Base.java" partName="Base.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDobase/src/net/foxycorndog/jdobase/Base.java" title="Base.java" tooltip="jDobase/src/net/foxycorndog/jdobase/Base.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDobase/src/net/foxycorndog/jdobase/Base.java"/>
@@ -89,7 +92,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Game.java" partName="Game.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/CameraTests/src/Game.java" title="Game.java" tooltip="CameraTests/src/Game.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CameraTests/src/Game.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="543" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2830" selectionTopPixel="1057"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MinecraftCopy.java" partName="MinecraftCopy.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Minecraft Copy/src/net/foxycorndog/minecraftcopy/MinecraftCopy.java" title="MinecraftCopy.java" tooltip="Minecraft Copy/src/net/foxycorndog/minecraftcopy/MinecraftCopy.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Minecraft Copy/src/net/foxycorndog/minecraftcopy/MinecraftCopy.java"/>
@@ -105,7 +108,19 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Camera.java" partName="Camera.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/camera/Camera.java" title="Camera.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/camera/Camera.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/camera/Camera.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2356" selectionTopPixel="667"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2356" selectionTopPixel="415"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Box.java" partName="Box.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/CameraTests/src/Box.java" title="Box.java" tooltip="CameraTests/src/Box.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CameraTests/src/Box.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="252" selectionTopPixel="49"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Texture.java" partName="Texture.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDooglAndroid/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java" title="Texture.java" tooltip="jDooglAndroid/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDooglAndroid/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="3920" selectionOffset="1129" selectionTopPixel="1930"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Texture.java" partName="Texture.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java" title="Texture.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="29" selectionOffset="932" selectionTopPixel="267"/>
 </editor>
 </editors>
 <views>
@@ -296,160 +311,161 @@
 <editors>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/3d test/src/Main.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/GL.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Minecraft Copy/src/net/foxycorndog/minecraftcopy/MinecraftCopy.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Minecraft Copy/src/net/foxycorndog/minecraftcopy/Player.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/camera/Camera.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/3d test/src/Player.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/components/Frame.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/CameraTests/src/Main.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Presto3D/src/net/foxycorndog/presto3d/graphics/PrestoGL3D.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDooglAndroid/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java"/>
 </editors>
-<item historyLabel="Camera.java" index="4">
-<position info="not_deleted" x="2664" y="0"/>
-</item>
-<item historyLabel="Main.java" index="0">
-<position info="not_deleted" x="900" y="0"/>
-</item>
-<item historyLabel="Player.java" index="3">
-<position info="not_deleted" x="1995" y="0"/>
-</item>
-<item historyLabel="Camera.java" index="4">
-<position info="not_deleted" x="1331" y="0"/>
-</item>
-<item historyLabel="Main.java" index="0">
-<position info="not_deleted" x="900" y="0"/>
-</item>
-<item historyLabel="Player.java" index="5">
-<position info="not_deleted" x="907" y="0"/>
-</item>
-<item historyLabel="Player.java" index="5">
-<position info="not_deleted" x="429" y="6"/>
-</item>
-<item historyLabel="Player.java" index="5">
-<position/>
-</item>
-<item historyLabel="Main.java" index="0">
-<position info="not_deleted" x="1987" y="0"/>
-</item>
-<item historyLabel="Player.java" index="5">
-<position/>
-</item>
-<item historyLabel="Camera.java" index="4">
-<position info="not_deleted" x="1331" y="0"/>
-</item>
-<item historyLabel="MinecraftCopy.java" index="2">
-<position info="not_deleted" x="4466" y="0"/>
-</item>
-<item historyLabel="Player.java" index="3">
-<position info="not_deleted" x="1995" y="0"/>
-</item>
-<item historyLabel="MinecraftCopy.java" index="2">
-<position info="not_deleted" x="6692" y="0"/>
-</item>
-<item historyLabel="Player.java" index="5">
-<position/>
-</item>
-<item historyLabel="Player.java" index="3">
-<position info="not_deleted" x="1995" y="0"/>
-</item>
-<item historyLabel="Main.java" index="0">
-<position info="not_deleted" x="1987" y="0"/>
-</item>
-<item historyLabel="Player.java" index="5">
-<position info="not_deleted" x="450" y="0"/>
-</item>
-<item historyLabel="Main.java" index="0">
-<position info="not_deleted" x="3999" y="0"/>
-</item>
-<item historyLabel="MinecraftCopy.java" index="2">
-<position info="not_deleted" x="6692" y="0"/>
-</item>
-<item historyLabel="Main.java" index="0">
-<position info="not_deleted" x="2372" y="0"/>
-</item>
-<item historyLabel="Player.java" index="3">
-<position info="not_deleted" x="1995" y="0"/>
-</item>
-<item historyLabel="Player.java" index="3">
-<position info="not_deleted" x="823" y="4"/>
-</item>
-<item historyLabel="Main.java" index="0">
-<position info="not_deleted" x="2372" y="0"/>
-</item>
-<item historyLabel="MinecraftCopy.java" index="2">
-<position info="not_deleted" x="6692" y="0"/>
-</item>
-<item historyLabel="Main.java" index="0">
-<position info="not_deleted" x="2603" y="0"/>
+<item historyLabel="Frame.java" index="2">
+<position info="not_deleted" x="9714" y="0"/>
 </item>
 <item historyLabel="GL.java" index="1">
-<position info="not_deleted" x="32340" y="0"/>
+<position info="not_deleted" x="23758" y="0"/>
 </item>
 <item historyLabel="Main.java" index="0">
-<position info="not_deleted" x="3942" y="0"/>
+<position info="not_deleted" x="1389" y="0"/>
 </item>
-<item historyLabel="Player.java" index="3">
-<position info="not_deleted" x="823" y="4"/>
+<item historyLabel="Main.java" index="3">
+<position info="not_deleted" x="1093" y="0"/>
 </item>
-<item historyLabel="Camera.java" index="4">
-<position info="not_deleted" x="1331" y="0"/>
+<item historyLabel="Frame.java" index="2">
+<position info="not_deleted" x="9714" y="0"/>
 </item>
-<item historyLabel="MinecraftCopy.java" index="2">
-<position info="not_deleted" x="2115" y="0"/>
+<item historyLabel="Main.java" index="3">
+<position info="not_deleted" x="1093" y="0"/>
 </item>
 <item historyLabel="GL.java" index="1">
-<position info="not_deleted" x="32337" y="7"/>
+<position info="not_deleted" x="23758" y="0"/>
 </item>
-<item historyLabel="Main.java" index="0">
-<position info="not_deleted" x="3942" y="0"/>
+<item historyLabel="Frame.java" index="2">
+<position info="not_deleted" x="9714" y="0"/>
 </item>
 <item historyLabel="GL.java" index="1">
-<position info="not_deleted" x="32337" y="7"/>
-</item>
-<item historyLabel="Player.java" index="5">
-<position info="not_deleted" x="450" y="0"/>
+<position info="not_deleted" x="40083" y="2587"/>
 </item>
 <item historyLabel="Main.java" index="0">
-<position/>
+<position info="not_deleted" x="1732" y="0"/>
 </item>
-<item historyLabel="Camera.java" index="4">
-<position info="not_deleted" x="2339" y="11"/>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="23608" y="11"/>
 </item>
-<item historyLabel="Camera.java" index="4">
-<position info="not_deleted" x="2416" y="0"/>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="23713" y="0"/>
 </item>
-<item historyLabel="Camera.java" index="4">
-<position info="not_deleted" x="2420" y="0"/>
-</item>
-<item historyLabel="Camera.java" index="4">
-<position info="not_deleted" x="2423" y="0"/>
-</item>
-<item historyLabel="Camera.java" index="4">
-<position info="not_deleted" x="2480" y="0"/>
-</item>
-<item historyLabel="Camera.java" index="4">
-<position info="not_deleted" x="2485" y="0"/>
-</item>
-<item historyLabel="Camera.java" index="4">
-<position info="not_deleted" x="2557" y="0"/>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="26867" y="13"/>
 </item>
 <item historyLabel="Main.java" index="0">
-<position info="not_deleted" x="1486" y="0"/>
+<position info="not_deleted" x="1606" y="0"/>
 </item>
-<item historyLabel="Camera.java" index="4">
-<position info="not_deleted" x="2356" y="0"/>
+<item historyLabel="Main.java" index="3">
+<position info="not_deleted" x="1093" y="0"/>
 </item>
-<item historyLabel="Main.java" index="0">
-<position info="not_deleted" x="1486" y="0"/>
-</item>
-<item historyLabel="Main.java" index="0">
-<position info="not_deleted" x="1364" y="0"/>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="39474" y="0"/>
 </item>
 <item historyLabel="Main.java" index="0">
-<position info="not_deleted" x="1367" y="0"/>
+<position info="not_deleted" x="1421" y="0"/>
+</item>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="39470" y="0"/>
 </item>
 <item historyLabel="Main.java" index="0">
-<position info="not_deleted" x="3414" y="0"/>
+<position info="not_deleted" x="1271" y="0"/>
 </item>
-<item active="true" historyLabel="Main.java" index="0">
-<position info="not_deleted" x="3420" y="0"/>
+<item historyLabel="Frame.java" index="2">
+<position info="not_deleted" x="9714" y="0"/>
+</item>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="23755" y="0"/>
+</item>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="1167" y="0"/>
+</item>
+<item historyLabel="PrestoGL3D.java" index="4">
+<position info="not_deleted" x="4178" y="1565"/>
+</item>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="1167" y="0"/>
+</item>
+<item historyLabel="Frame.java" index="2">
+<position info="not_deleted" x="9714" y="0"/>
+</item>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="23755" y="0"/>
+</item>
+<item historyLabel="Frame.java" index="2">
+<position info="not_deleted" x="9714" y="0"/>
+</item>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="23755" y="0"/>
+</item>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="39340" y="0"/>
+</item>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="39316" y="0"/>
+</item>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="39323" y="0"/>
+</item>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="33380" y="0"/>
+</item>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="1421" y="0"/>
+</item>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="33380" y="0"/>
+</item>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="39418" y="0"/>
+</item>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="27169" y="0"/>
+</item>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="1161" y="0"/>
+</item>
+<item historyLabel="Frame.java" index="2">
+<position info="not_deleted" x="9714" y="0"/>
+</item>
+<item historyLabel="Main.java" index="3">
+<position info="not_deleted" x="1245" y="0"/>
+</item>
+<item historyLabel="PrestoGL3D.java" index="4">
+<position info="not_deleted" x="4178" y="1565"/>
+</item>
+<item historyLabel="Frame.java" index="2">
+<position info="not_deleted" x="9714" y="0"/>
+</item>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="1161" y="0"/>
+</item>
+<item historyLabel="PrestoGL3D.java" index="4">
+<position info="not_deleted" x="4178" y="1565"/>
+</item>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="1161" y="0"/>
+</item>
+<item historyLabel="Frame.java" index="2">
+<position info="not_deleted" x="9714" y="0"/>
+</item>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="40065" y="0"/>
+</item>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="1235" y="0"/>
+</item>
+<item historyLabel="GL.java" index="1">
+<position info="not_deleted" x="40065" y="0"/>
+</item>
+<item historyLabel="Texture.java" index="5">
+<position info="not_deleted" x="1129" y="3920"/>
+</item>
+<item active="true" historyLabel="Texture.java" index="6">
+<position info="not_deleted" x="0" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -473,6 +489,15 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Texture.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java">
+<persistable path="/jDoogl/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Texture.java" tooltip="jDooglAndroid/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java">
+<persistable path="/jDooglAndroid/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Box.java" tooltip="CameraTests/src/Box.java">
+<persistable path="/CameraTests/src/Box.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Camera.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/camera/Camera.java">
 <persistable path="/jDoogl/src/net/foxycorndog/jdoogl/camera/Camera.java"/>
 </file>
@@ -508,15 +533,6 @@
 </file>
 <file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="SysImplementation.class" tooltip="org.lwjgl.SysImplementation">
 <persistable org.eclipse.jdt.ui.ClassFileIdentifier="=CameraTests/C:\/Users\/Braden Steffaniak\/LWJGL\/lwjgl-2.8.3\/jar\/lwjgl.jar&lt;org.lwjgl(SysImplementation.class"/>
-</file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="Sys.class" tooltip="org.lwjgl.Sys">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=CameraTests/C:\/Users\/Braden Steffaniak\/LWJGL\/lwjgl-2.8.3\/jar\/lwjgl.jar&lt;org.lwjgl(Sys.class"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MouseInput.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/input/MouseInput.java">
-<persistable path="/jDoogl/src/net/foxycorndog/jdoogl/input/MouseInput.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="KeyboardInput.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/input/KeyboardInput.java">
-<persistable path="/jDoogl/src/net/foxycorndog/jdoogl/input/KeyboardInput.java"/>
 </file>
 </mruList>
 </workbench>
