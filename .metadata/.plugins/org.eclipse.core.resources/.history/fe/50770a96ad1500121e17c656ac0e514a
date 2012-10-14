@@ -1,0 +1,130 @@
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.input.KeyboardInput;
+import net.foxycorndog.jdoogl.input.MouseInput;
+import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
+
+public class Main
+{
+	private static Main    m;
+	
+	private LightBuffer    textures;
+	
+	private VerticesBuffer vertices;
+	
+	private Player         p;
+	
+	private float lastTime;
+	private static final float _headSens = 0.002f;
+	private static final float _pitchSens = 0.002f;
+	private static final float _walk = 10.0f;
+	private static final float _strafe = 8.0f;
+	
+	public static void main(String args[])
+	{
+		m = new Main();
+		
+		new Frame(640, 512, "ASDF", null)
+		{
+			@Override
+			public void init()
+			{
+				GL.setRender3D(true);
+				
+				m.init();
+			}
+			
+			@Override
+			public void render()
+			{
+				m.render();
+			}
+			
+			@Override
+			public void loop()
+			{
+				m.loop();
+			}
+		}.startLoop(60);
+	}
+	
+	public Main()
+	{
+		
+	}
+	
+	public void init()
+	{
+		vertices = new VerticesBuffer(4 * 3 * 6);
+		
+		vertices.addData(GL.addCubeVertexArrayf(0, 2.5f, -10, 2, 2, 2, 0, null));
+		
+		p = new Player();
+	}
+	
+	public void render()
+	{
+		p.draw();
+		
+		GL.renderCubes(vertices, 0, 1);
+		
+		GL.glEnd();
+	}
+	
+	public void loop()
+	{
+		pollEvents();
+	}
+	
+
+	/*
+	 * If the mouse is moved left or right the player's heading is altered. If
+	 * the mouse is moved up or down, the player looks up or down. Keys W and S
+	 * move the player forward or back. Keys A and D strafe the player left or
+	 * right. All values handed to the player are modified. Rotations (heading
+	 * and pitch) are mouse movement during this loop multiplied by a float
+	 * variable. Motions (forward/back and strafe) are a constant values
+	 * multiplied by the time period taken for this loop.
+	 */
+	private void pollEvents()
+	{
+		if (MouseInput.isButtonDown(MouseInput.LEFT_MOUSE_BUTTON))
+		{
+			MouseInput.setGrabbed(true);
+		}
+		
+		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_ESCAPE))
+		{
+			MouseInput.setGrabbed(false);
+		}
+		
+		// update timer
+		long now = (long)(System.currentTimeMillis() / 1000) - 1350000000l;
+		System.out.println(now);
+		float period = (now - lastTime) / 1000;
+		lastTime = now;
+		// get mouse alterations
+		float dx = MouseInput.getDX();
+		float dy = MouseInput.getDY();
+		// set heading and pitch
+		p.setHeading(dx * _headSens);
+		p.setPitch(dy * _pitchSens);
+		// handle camera translations
+//		KeyboardInput.poll();
+		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_A)) {
+			p.setlStrafe(_strafe * period);
+		}
+		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_SPACE)) {
+			p.setrStrafe(_strafe * period);
+		}
+		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_E)) {
+			p.setFord(_walk * period);
+		}
+		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_F)) {
+			p.setBack(_walk * period);
+		}
+		// after keys are polled we build modelview matrix
+		p.set();
+	}
+}

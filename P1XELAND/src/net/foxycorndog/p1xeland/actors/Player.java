@@ -204,7 +204,7 @@ public class Player extends Actor
 					{
 						int quantity = getInventory().getQuantity(i);
 						
-						Frame.renderText(i * (32), Frame.getHeight()  / 2 - 32, quantity > 0 ? "" + quantity : "", i == selectedIndex ? Color.RED : Color.WHITE, 1f);
+						Frame.renderText(i * (32), 16, quantity > 0 ? "" + quantity : "", i == selectedIndex ? Color.RED : Color.WHITE, 1f);
 					}
 					
 					beganScaling = false;

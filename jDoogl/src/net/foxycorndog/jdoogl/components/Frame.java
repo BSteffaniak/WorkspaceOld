@@ -272,7 +272,7 @@ public abstract class Frame
 		
 		GL.createFrame(width, height, title, drawCanvas);
 		
-		GL.initBasicView();
+//		GL.initBasicView();
 		
 		Display.setSwapInterval(1);
 		
@@ -373,35 +373,35 @@ public abstract class Frame
 				Util.nanoTime = System.nanoTime();
 				
 				GL.beginManipulation();
-				
-				if (Display.wasResized())
 				{
-					resized = true;
+					if (Display.wasResized())
+					{
+						resized = true;
+						
+						GL.resetBasicView();
+						
+						resizedDimensions = new Dimension(Display.getWidth(), Display.getHeight());
+						
+						scaleX = (float)resizedDimensions.width  / (float)originalDimensions.width;
+						scaleY = (float)resizedDimensions.height / (float)originalDimensions.height;
+						
+	//					Idk.offsetY = System.getProperty("os.name").contains("Mac") ? 23 : 0;
+					}
 					
-					GL.resetBasicView();
+					loop();
 					
-					resizedDimensions = new Dimension(Display.getWidth(), Display.getHeight());
+					listenMouse();
+					listenKeys();
 					
-					scaleX = (float)resizedDimensions.width  / (float)originalDimensions.width;
-					scaleY = (float)resizedDimensions.height / (float)originalDimensions.height;
+					render();
 					
-//					Idk.offsetY = System.getProperty("os.name").contains("Mac") ? 23 : 0;
+					updateFps();
+					
+					if (cursor != null)
+					{
+						cursor.render();
+					}
 				}
-				
-				loop();
-				
-				listenMouse();
-				listenKeys();
-				
-				render();
-				
-				updateFps();
-				
-				if (cursor != null)
-				{
-					cursor.render();
-				}
-				
 				GL.endManipulation();
 
 				resized = false;

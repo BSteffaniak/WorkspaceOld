@@ -181,6 +181,8 @@ public class P1xeland extends P1xelandInterface implements MouseListener
 			@Override
 			public void init()
 			{
+				GL.initBasicView(0.01f, 100f);
+				
 				p.init();
 		
 				Frame.setIcon("res/images/favicon/16s.png", "res/images/favicon/32s.png");
