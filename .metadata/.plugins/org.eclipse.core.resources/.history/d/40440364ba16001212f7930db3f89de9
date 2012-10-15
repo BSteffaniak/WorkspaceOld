@@ -62,7 +62,7 @@ public class Main
 	
 	public void init()
 	{
-		texture = new Texture("res/images/grass.png");
+		texture = new Texture("res/images/test.png");
 		
 		vertices = new VerticesBuffer(4 * 3 * 6);
 		textures = new LightBuffer(2 * 4 * 6);

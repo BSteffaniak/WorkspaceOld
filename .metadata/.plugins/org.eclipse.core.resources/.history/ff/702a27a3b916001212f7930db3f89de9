@@ -281,7 +281,7 @@ public abstract class Frame
 		Display.setSwapInterval(1);
 		
 //		try {
-			System.out.println(this.getClass().getResource("res"));
+			System.out.println(this.getClass().getResource("bin/res/images/White.png"));
 //		}catch (URISyntaxException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();

@@ -45,26 +45,10 @@ public class Texture extends ImageMap
 			{
 				e.printStackTrace();
 			}
-			catch (NullPointerException e)
-			{
-				// IM AWARE OF THIS.
-			}
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-		}
-		
-		if (image == null)
-		{
-			try
-			{
-				image = ImageIO.read(new File(location));
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
 		}
 		
 		this.id = loadTexture(image);

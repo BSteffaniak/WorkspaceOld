@@ -1265,24 +1265,24 @@ public class GL
 	
 	public static void flipView()
 	{
-		glViewport(0, 0, Display.getWidth(), Display.getHeight());
-		glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
-		glLoadIdentity(); // Reset The Projection Matrix
-		
-		if (flipped)
-		{
-			// Calculate The Aspect Ratio Of The Window
-			glOrtho(0, Display.getWidth(), 0, Display.getHeight(), -99999, 99999);
-		}
-		else
-		{
-			// Calculate The Aspect Ratio Of The Window
-			glOrtho(0, Display.getWidth(), Display.getHeight(), 0, -99999, 99999);
-		}
-		
-		glMatrixMode(GL_MODELVIEW); // Select The Modelview Matrix
-		
-		flipped = !flipped;
+//		glViewport(0, 0, Display.getWidth(), Display.getHeight());
+//		glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
+//		glLoadIdentity(); // Reset The Projection Matrix
+//		
+//		if (flipped)
+//		{
+//			// Calculate The Aspect Ratio Of The Window
+//			glOrtho(0, Display.getWidth(), 0, Display.getHeight(), -99999, 99999);
+//		}
+//		else
+//		{
+//			// Calculate The Aspect Ratio Of The Window
+//			glOrtho(0, Display.getWidth(), Display.getHeight(), 0, -99999, 99999);
+//		}
+//		
+//		glMatrixMode(GL_MODELVIEW); // Select The Modelview Matrix
+//		
+//		flipped = !flipped;
 	}
 	
 	public static void createFrame(int width, int height, String title, Canvas drawCanvas)

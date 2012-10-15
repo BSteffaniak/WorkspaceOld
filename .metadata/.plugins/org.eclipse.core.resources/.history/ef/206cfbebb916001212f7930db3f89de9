@@ -45,10 +45,6 @@ public class Texture extends ImageMap
 			{
 				e.printStackTrace();
 			}
-			catch (NullPointerException e)
-			{
-				// IM AWARE OF THIS.
-			}
 		}
 		catch (IOException e)
 		{

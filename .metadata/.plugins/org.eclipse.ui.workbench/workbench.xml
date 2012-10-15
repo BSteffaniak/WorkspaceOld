@@ -54,15 +54,15 @@
 </editorArea>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" partName="Main.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/3d test/src/Main.java" title="Main.java" tooltip="3d test/src/Main.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/3d test/src/Main.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1051" selectionTopPixel="433"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1025" selectionTopPixel="433"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GL.java" partName="GL.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/GL.java" title="GL.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/GL.java" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GL.java" partName="GL.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/GL.java" title="GL.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/GL.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/GL.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="42710" selectionTopPixel="23107"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="35729" selectionTopPixel="24229"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Frame.java" partName="Frame.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/components/Frame.java" title="Frame.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/components/Frame.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Frame.java" partName="Frame.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/components/Frame.java" title="Frame.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/components/Frame.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/components/Frame.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="7533" selectionTopPixel="3915"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="7652" selectionTopPixel="4167"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" partName="Player.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/3d test/src/Player.java" title="Player.java" tooltip="3d test/src/Player.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/3d test/src/Player.java"/>
@@ -106,7 +106,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Texture.java" partName="Texture.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java" title="Texture.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="68" selectionOffset="911" selectionTopPixel="177"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="843" selectionTopPixel="387"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="P1xeland.java" partName="P1xeland.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/P1XELAND/src/net/foxycorndog/p1xeland/P1xeland.java" title="P1xeland.java" tooltip="P1XELAND/src/net/foxycorndog/p1xeland/P1xeland.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/P1XELAND/src/net/foxycorndog/p1xeland/P1xeland.java"/>
@@ -125,9 +125,7 @@
 </view>
 <view id="org.eclipse.jdt.ui.PackageExplorer" partName="Package Explorer">
 <viewState group_libraries="1" layout="2" linkWithEditor="0" rootMode="1" workingSetName="">
-<customFilters userDefinedPatternsEnabled="false">
-<xmlDefinedFilters>
-<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
+<customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.LocalTypesFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.StaticsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.ClosedProjectsFilter" isEnabled="false"/>
@@ -302,49 +300,15 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDooglAndroid/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/components/Frame.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/CameraTests/src/Game.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/3d test/src/Main.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/P1XELAND/src/net/foxycorndog/p1xeland/P1xeland.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/P1XELAND/src/net/foxycorndog/p1xeland/actors/Inventory.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/P1XELAND/src/net/foxycorndog/p1xeland/actors/Player.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/P1XELAND/src/net/foxycorndog/p1xeland/menus/MainMenu.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/GL.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/3d test/src/Main.java"/>
 </editors>
-<item historyLabel="Texture.java" index="0">
-<position info="not_deleted" x="677" y="0"/>
-</item>
-<item historyLabel="Texture.java" index="0">
-<position/>
-</item>
-<item historyLabel="Texture.java" index="0">
-<position/>
-</item>
-<item historyLabel="Texture.java" index="0">
-<position/>
-</item>
-<item historyLabel="Texture.java" index="0">
-<position info="not_deleted" x="7507" y="0"/>
-</item>
-<item historyLabel="Texture.java" index="0">
-<position info="not_deleted" x="7890" y="0"/>
-</item>
-<item historyLabel="Texture.java" index="1">
-<position info="not_deleted" x="811" y="0"/>
-</item>
-<item historyLabel="Texture.java" index="0">
-<position info="not_deleted" x="7890" y="0"/>
-</item>
-<item historyLabel="Frame.java" index="2">
-<position info="not_deleted" x="9837" y="0"/>
-</item>
-<item historyLabel="Frame.java" index="2">
-<position info="not_deleted" x="7649" y="66"/>
-</item>
-<item historyLabel="Texture.java" index="0">
-<position info="not_deleted" x="5685" y="0"/>
-</item>
-<item historyLabel="Game.java" index="3">
-<position info="not_deleted" x="2830" y="0"/>
-</item>
 <item historyLabel="Frame.java" index="2">
 <position info="not_deleted" x="7649" y="66"/>
 </item>
@@ -378,7 +342,7 @@
 <item historyLabel="Frame.java" index="2">
 <position info="not_deleted" x="7713" y="0"/>
 </item>
-<item historyLabel="Main.java" index="4">
+<item historyLabel="Main.java" index="3">
 <position info="not_deleted" x="1182" y="0"/>
 </item>
 <item historyLabel="Texture.java" index="1">
@@ -390,40 +354,40 @@
 <item historyLabel="Frame.java" index="2">
 <position info="not_deleted" x="6352" y="0"/>
 </item>
-<item historyLabel="Main.java" index="4">
+<item historyLabel="Main.java" index="3">
 <position info="not_deleted" x="1243" y="0"/>
 </item>
 <item historyLabel="Texture.java" index="0">
 <position info="not_deleted" x="3528" y="0"/>
 </item>
-<item historyLabel="Main.java" index="4">
+<item historyLabel="Main.java" index="3">
 <position info="not_deleted" x="1243" y="0"/>
 </item>
-<item historyLabel="P1xeland.java" index="5">
+<item historyLabel="P1xeland.java" index="4">
 <position info="not_deleted" x="3914" y="0"/>
 </item>
-<item historyLabel="Main.java" index="4">
+<item historyLabel="Main.java" index="3">
 <position info="not_deleted" x="1051" y="0"/>
 </item>
-<item historyLabel="Inventory.java" index="6">
+<item historyLabel="Inventory.java" index="5">
 <position info="not_deleted" x="1319" y="0"/>
 </item>
-<item historyLabel="Main.java" index="4">
+<item historyLabel="Main.java" index="3">
 <position info="not_deleted" x="1051" y="0"/>
 </item>
-<item historyLabel="Player.java" index="7">
+<item historyLabel="Player.java" index="6">
 <position info="not_deleted" x="1671" y="0"/>
 </item>
-<item historyLabel="Main.java" index="4">
+<item historyLabel="Main.java" index="3">
 <position info="not_deleted" x="1051" y="0"/>
 </item>
-<item historyLabel="MainMenu.java" index="8">
+<item historyLabel="MainMenu.java" index="7">
 <position info="not_deleted" x="1222" y="0"/>
 </item>
-<item historyLabel="Main.java" index="4">
+<item historyLabel="Main.java" index="3">
 <position info="not_deleted" x="1051" y="0"/>
 </item>
-<item historyLabel="P1xeland.java" index="5">
+<item historyLabel="P1xeland.java" index="4">
 <position info="not_deleted" x="0" y="0"/>
 </item>
 <item historyLabel="Frame.java" index="2">
@@ -456,8 +420,44 @@
 <item historyLabel="Frame.java" index="2">
 <position info="not_deleted" x="7543" y="0"/>
 </item>
-<item active="true" historyLabel="Frame.java" index="2">
+<item historyLabel="Frame.java" index="2">
 <position info="not_deleted" x="7462" y="75"/>
+</item>
+<item historyLabel="Texture.java" index="8">
+<position info="not_deleted" x="911" y="68"/>
+</item>
+<item historyLabel="Texture.java" index="8">
+<position info="not_deleted" x="763" y="7"/>
+</item>
+<item historyLabel="Texture.java" index="8">
+<position info="not_deleted" x="1384" y="0"/>
+</item>
+<item historyLabel="Texture.java" index="8">
+<position info="not_deleted" x="1758" y="11"/>
+</item>
+<item historyLabel="Texture.java" index="8">
+<position info="not_deleted" x="1361" y="0"/>
+</item>
+<item historyLabel="Texture.java" index="8">
+<position info="not_deleted" x="1324" y="0"/>
+</item>
+<item historyLabel="Texture.java" index="8">
+<position info="not_deleted" x="907" y="72"/>
+</item>
+<item historyLabel="Texture.java" index="8">
+<position info="not_deleted" x="1129" y="0"/>
+</item>
+<item historyLabel="GL.java" index="9">
+<position info="not_deleted" x="35729" y="0"/>
+</item>
+<item historyLabel="Texture.java" index="8">
+<position info="not_deleted" x="1018" y="0"/>
+</item>
+<item historyLabel="Main.java" index="10">
+<position info="not_deleted" x="1025" y="0"/>
+</item>
+<item active="true" historyLabel="GL.java" index="9">
+<position info="not_deleted" x="35729" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
