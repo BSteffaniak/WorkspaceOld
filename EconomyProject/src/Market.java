@@ -25,8 +25,44 @@ public class Market
 	 */
 	public Market()
 	{
-		Consumer c = new Consumer(1, 0, 1, 10);
-		Producer p = new Producer(-1, 100, 1, 10);
+//		Point conPoints[] =
+//	{
+//		new Point(1, 1),
+//		new Point(2, 2),
+//		new Point(3, 3),
+//		new Point(4, 4),
+//		new Point(5, 5)
+//	};
+//		
+//		Point proPoints[] =
+//		{
+//			new Point(1, 9),
+//			new Point(2, 7),
+//			new Point(3, 3.1),
+//			new Point(4, 3),
+//			new Point(5, 1)
+//		};
+		
+		Point conPoints[] =
+		{
+			new Point(10, 10),
+			new Point(20, 0),
+			new Point(30, 31),
+			new Point(40, 40),
+			new Point(50, 50)
+		};
+		
+		Point proPoints[] =
+		{
+			new Point(10, 90),
+			new Point(20, 70),
+			new Point(29, 60),
+			new Point(39, 42),
+			new Point(50, 50)
+		};
+		
+		Consumer c = new Consumer(conPoints);//, 0, 1, 10);
+		Producer p = new Producer(proPoints);//-1, 10, 1, 10);
 		
 		System.out.println(c);
 		System.out.println(p);
@@ -36,7 +72,7 @@ public class Market
 		Point currentBid  = c.initialBid();
 		Point currentBid2 = null;
 		
-		for (int i = 0; i < 10; i ++)
+		for (int i = 0; i < 5; i ++)
 		{
 			currentBid  = p.negotiate(currentBid);
 			

@@ -14,4 +14,9 @@ public class Consumer extends Company
 	{
 		super(m, b, x, num);
 	}
+	
+	public Consumer(Point points[])
+	{
+		super(points);
+	}
 }

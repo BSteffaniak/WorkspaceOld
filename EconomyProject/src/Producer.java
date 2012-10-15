@@ -15,4 +15,8 @@ public class Producer extends Company
 		super(m, b, x, num);
 	}
 	
+	public Producer(Point points[])
+	{
+		super(points);
+	}
 }

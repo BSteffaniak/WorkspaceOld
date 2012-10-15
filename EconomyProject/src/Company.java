@@ -23,6 +23,11 @@ public class Company
 		curve = new Curve(m, b, x, num);
 	}
 	
+	public Company(Point points[])
+	{
+		curve = new Curve(points);
+	}
+	
 	/**
 	 * Returns the initial bid for this curve.
 	 */

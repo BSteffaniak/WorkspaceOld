@@ -36,6 +36,18 @@ public class Curve
 			points.add(x2 - x, new Point(x2, y));
 		}
 	}
+	
+	public Curve(Point points[])
+	{
+		this.points = new ArrayList<Point>(points.length);
+		
+		for (Point p : points)
+		{
+			this.points.add(p);
+		}
+		
+		sort();
+	}
 
 	/**
 	 * Returns a string that describes all of the Points on
