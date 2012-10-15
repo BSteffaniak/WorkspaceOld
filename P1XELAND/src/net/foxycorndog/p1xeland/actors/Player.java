@@ -48,7 +48,7 @@ public class Player extends Actor
 		
 		public QuickBar()
 		{
-			texture         = new Texture("res/images/InventorySpot.png", "PNG", true, false);
+			texture         = new Texture("res/images/InventorySpot.png");
 			
 			verticesBuffer  = new LightBuffer(4 * 2 * 10);
 			texturesBuffer  = new LightBuffer(4 * 2 * 10);

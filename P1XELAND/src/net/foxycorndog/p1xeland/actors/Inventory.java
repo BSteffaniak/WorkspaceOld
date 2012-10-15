@@ -51,7 +51,7 @@ public class Inventory
 	{
 		if (!initialized)
 		{
-			inventoryGUI   = new Texture("res/images/GUI/Inventory.png", "PNG", true, false);
+			inventoryGUI   = new Texture("res/images/GUI/Inventory.png");
 			
 			verticesBuffer = new LightBuffer(4 * 2);
 			texturesBuffer = new LightBuffer(4 * 2);

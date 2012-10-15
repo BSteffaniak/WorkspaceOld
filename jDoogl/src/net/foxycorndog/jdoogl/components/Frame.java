@@ -32,9 +32,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import net.foxycorndog.jdobase.Base;
 import net.foxycorndog.jdoogl.Color;
@@ -222,7 +225,7 @@ public abstract class Frame
 			this.width  = width;
 			this.height = height;
 			
-			cursorSprites = new Texture(location, "PNG", flipped, false);
+			cursorSprites = new Texture(location);
 			
 			verticesBuffer = new LightBuffer(4 * 2);
 			texturesBuffer = new LightBuffer(4 * 2);
@@ -277,8 +280,14 @@ public abstract class Frame
 		
 		Display.setSwapInterval(1);
 		
-//		GL.WHITE = new SpriteSheet("res" + fileSeparator + "images" + fileSeparator + "White.png", "PNG", 1, 1, false);
-		GL.white = new Texture("res/images/White.png", "PNG", true, true);
+//		try {
+			System.out.println(this.getClass().getResource("res/images/White.png"));
+//		}catch (URISyntaxException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		GL.white = new Texture("res/images/White.png", this.getClass());
 		
 		newTime = System.currentTimeMillis();
 		oldTime = newTime;

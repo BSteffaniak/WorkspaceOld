@@ -1,49 +1,83 @@
 package net.foxycorndog.jdoogl.image.imagemap;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 
+import javax.imageio.ImageIO;
+
 import net.foxycorndog.jdoogl.GL;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
-
-import android.graphics.Bitmap;
-import android.opengl.GLES10;
-import android.opengl.GLES11;
-import android.opengl.GLUtils;
+import org.lwjgl.util.glu.GLU;
 
 public class Texture extends ImageMap
 {
-	private org.newdawn.slick.opengl.Texture texture;
-	private String  location, format;
+	private String  location;
 	private int     width, height;
-	private boolean flipped;
+	private int     id;
+	private float   texWid, texHei;
 	
-	public Texture(String location, String format, boolean flipped, boolean stream)
+	public Texture(Image image)
 	{
-		this.location = location;
-		this.format   = format;
-		this.flipped  = flipped;
+		this.id = loadTexture(image);
+	}
+
+	public Texture(String location, Class clazz)
+	{
+		Image image = null;
 		
-		init(stream);
+		try
+		{
+			try
+			{System.out.println(clazz.getResource(location));
+				image = ImageIO.read(new File(clazz.getResource(location).toURI()));
+			}
+			catch (URISyntaxException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		this.id = loadTexture(image);
+	}
+	
+	public Texture(String location)
+	{
+		Image image = null;
+		
+		try
+		{
+			image = ImageIO.read(new File(location));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		this.id = loadTexture(image);
 	}
 	
 	private int newTextureId()
 	{
-		int textureId[] = new int[1];
+		int textureId = GL11.glGenTextures();
 		
-		GL11.glGenTextures(1, textureId, 0);
-		
-		return textureId[0];
+		return textureId;
 	}
 	
-	private int loadTexture(Bitmap bmp)
+	private int loadTexture(Image image)
 	{
 		// In which ID will we be storing this texture?
 	    int id = newTextureId();
@@ -64,14 +98,14 @@ public class Texture extends ImageMap
 //	    
 //	    Bitmap bmp = Bitmap.createBitmap(temp, 0, 0, temp.getWidth(), temp.getHeight(), flip, true);
 	    
-	    this.width  = bmp.getWidth();
-	    this.height = bmp.getHeight();
+	    this.width  = image.getWidth(null);
+	    this.height = image.getHeight(null);
 	    
 	    this.genTexDimensions();
 	    
 //	    temp.recycle();
 	    
-	    GLES10.glBindTexture(GLES10.GL_TEXTURE_2D, id);
+	    GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
 	    
 	    // Set all of our texture parameters:
 //	    GLES10.glTexParameterf(GLES10.GL_TEXTURE_2D, GLES10.GL_TEXTURE_MIN_FILTER, GLES10.GL_LINEAR_MIPMAP_NEAREST);
@@ -82,10 +116,39 @@ public class Texture extends ImageMap
 //	    ByteBuffer bb = extract(bmp);
 	    
 //	    GLES10.glTexImage2D(GLES10.GL_TEXTURE_2D, 0, GLES10.GL_RGBA, width, height, 0, GLES10.GL_RGBA, GLES10.GL_UNSIGNED_BYTE, bb);
-	    GLUtils.texImage2D(GLES10.GL_TEXTURE_2D, 0, bmp, 0);
 	    
-	    GLES11.glTexParameteri(GLES10.GL_TEXTURE_2D, GLES10.GL_TEXTURE_MIN_FILTER, GLES10.GL_NEAREST);
-	    GLES11.glTexParameteri(GLES10.GL_TEXTURE_2D, GLES10.GL_TEXTURE_MAG_FILTER, GLES10.GL_NEAREST);
+	    BufferedImage img = new BufferedImage(width, height, BufferedImage.BITMASK);
+	    Graphics2D g = img.createGraphics();
+	    g.drawImage(image, 0, 0, null);
+	    g.dispose();
+	    
+	    int pixels[] = ((DataBufferInt)img.getRaster().getDataBuffer()).getData();
+
+        ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4); //4 for RGBA, 3 for RGB
+        
+        for(int y = height - 1; y >= 0; y --)
+        {
+            for(int x = 0; x < width; x ++)
+            {
+                int pixel = pixels[x + y * width];
+                buffer.put((byte) ((pixel >> 16) & 0xFF));    // Red component
+                buffer.put((byte) ((pixel >> 8) & 0xFF));     // Green component
+                buffer.put((byte) (pixel & 0xFF));            // Blue component
+                buffer.put((byte) ((pixel >> 24) & 0xFF));    // Alpha component. Only for RGBA
+            }
+        }
+
+        buffer.flip(); //FOR THE LOVE OF GOD DO NOT FORGET THIS
+
+        // You now have a ByteBuffer filled with the color data of each pixel.
+        // Now just create a texture ID and bind it. Then you can load it using 
+        // whatever OpenGL method you want, for example:
+        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
+	    
+//	    GL11.glTexImage2D(GL11.GL_TEXTURE_2D, level, internalformat, id, id, border, format, type, pixels);
+	    
+	    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
+	    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
 	    
 //	    // Generate, and load up all of the mipmaps:
 //	    for(int level=0, height = bmp.getHeight(), width = bmp.getWidth(); true; level++) {
@@ -105,9 +168,9 @@ public class Texture extends ImageMap
 //	        bmp = bmp2;
 //	    }
 	    
-	    bmp.recycle();
+	    GL11.glEnable(GL11.GL_TEXTURE_2D);
 	    
-	    GLES10.glEnable(GLES10.GL_TEXTURE_2D);
+	    genTexDimensions();
 	    
 	    return id;
 	}
@@ -135,69 +198,69 @@ public class Texture extends ImageMap
 //		Log.v("", "" + texWid + ", " + texHei);
 	}
 	
-	private ByteBuffer extract(Bitmap bmp)
-	{
-		ByteBuffer bb = ByteBuffer.allocate(bmp.getWidth() * bmp.getHeight() * 4);
-		
-		bb.order(ByteOrder.BIG_ENDIAN);
-		
-		IntBuffer ib = bb.asIntBuffer();
-		
-		for (int y = bmp.getHeight() - 1; y > -1; y --)
-		{
-			for (int x = 0; x < bmp.getWidth(); x ++)
-			{
-				int pix = bmp.getPixel(x, y);//bmp.getHeight() - y - 1);
-				
-				int alpha = ((pix >> 24) & 0xff);
-				int red   = ((pix >> 16) & 0xff);
-				int green = ((pix >> 8 ) & 0xff);
-				int blue  = ((pix      ) & 0xff);
-				
-				ib.put(red << 24 | green << 16 | blue << 8 | alpha);
-			}
-		}
-		
-		bb.position(0);
-		
-		return bb;
-	}
+//	private ByteBuffer extract()
+//	{
+//		ByteBuffer bb = ByteBuffer.allocate(bmp.getWidth() * bmp.getHeight() * 4);
+//		
+//		bb.order(ByteOrder.BIG_ENDIAN);
+//		
+//		IntBuffer ib = bb.asIntBuffer();
+//		
+//		for (int y = bmp.getHeight() - 1; y > -1; y --)
+//		{
+//			for (int x = 0; x < bmp.getWidth(); x ++)
+//			{
+//				int pix = bmp.getPixel(x, y);//bmp.getHeight() - y - 1);
+//				
+//				int alpha = ((pix >> 24) & 0xff);
+//				int red   = ((pix >> 16) & 0xff);
+//				int green = ((pix >> 8 ) & 0xff);
+//				int blue  = ((pix      ) & 0xff);
+//				
+//				ib.put(red << 24 | green << 16 | blue << 8 | alpha);
+//			}
+//		}
+//		
+//		bb.position(0);
+//		
+//		return bb;
+//	}
 	
-	public void init(boolean stream)
-	{
-		if (!stream)
-		{
-			try
-			{
-				texture = TextureLoader.getTexture(format, ResourceLoader.getResourceAsStream(location), flipped);
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		else
-		{
-			try
-			{
-				texture = TextureLoader.getTexture(format, this.getClass().getClassLoader().getResourceAsStream(location), flipped);
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		
-		this.width  = texture.getImageWidth();
-		this.height = texture.getImageHeight();
-	}
+//	public void init(boolean stream)
+//	{
+//		if (!stream)
+//		{
+//			try
+//			{
+//				texture = TextureLoader.getTexture(format, ResourceLoader.getResourceAsStream(location), flipped);
+//			}
+//			catch (IOException e)
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//		else
+//		{
+//			try
+//			{
+//				texture = TextureLoader.getTexture(format, this.getClass().getClassLoader().getResourceAsStream(location), flipped);
+//			}
+//			catch (IOException e)
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//		
+//		this.width  = texture.getImageWidth();
+//		this.height = texture.getImageHeight();
+//	}
 	
 	public float[] getImageOffsetsf()
 	{
 		float offsets[] = new float[4];
 		
-		float w = texture.getWidth();
-		float h = texture.getHeight();
+		float w = texWid;
+		float h = texHei;
 		
 		offsets[0] = 0;
 		offsets[1] = 0;
@@ -211,8 +274,8 @@ public class Texture extends ImageMap
 	{
 		double offsets[] = new double[4];
 		
-		double w = texture.getWidth();
-		double h = texture.getHeight();
+		double w = texWid;
+		double h = texHei;
 		
 		offsets[0] = 0;
 		offsets[1] = 0;
@@ -224,7 +287,7 @@ public class Texture extends ImageMap
 	
 	public void bind()
 	{
-		texture.bind();
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
 	}
 	
 	public int getWidth()

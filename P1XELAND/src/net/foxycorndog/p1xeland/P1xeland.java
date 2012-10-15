@@ -120,7 +120,7 @@ public class P1xeland extends P1xelandInterface implements MouseListener
 		
 		public Cursor(String location)
 		{
-			texture = new Texture(location, "PNG", true, false);
+			texture = new Texture(location);
 			
 			verticesBuffer = new LightBuffer(4 * 2);
 			texturesBuffer = new LightBuffer(4 * 2);

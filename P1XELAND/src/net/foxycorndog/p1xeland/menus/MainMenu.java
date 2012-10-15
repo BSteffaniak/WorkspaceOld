@@ -23,18 +23,18 @@ public class MainMenu extends Menu
 	{
 		this.p1xeland = p1xeland;
 		
-		background = new Image(new Texture("res/images/Background.png", "PNG", true, false), 199, 199);
+		background = new Image(new Texture("res/images/Background.png"), 199, 199);
 		
-		play = new ImageButton(new Texture("res/images/GUI/Button.png", "PNG", true, false));
-		play.setHoverImageMap(new Texture("res/images/GUI/ButtonHover.png", "PNG", true, false));
+		play = new ImageButton(new Texture("res/images/GUI/Button.png"));
+		play.setHoverImageMap(new Texture("res/images/GUI/ButtonHover.png"));
 		play.setText("Play");
 		play.setLocation(0, 20);
 		play.setAlignment(Alignment.CENTER, Alignment.CENTER);
 		play.addActionListener(this);
 		Frame.add(play);
 		
-		quit = new ImageButton(new Texture("res/images/GUI/Button.png", "PNG", true, false));
-		quit.setHoverImageMap(new Texture("res/images/GUI/ButtonHover.png", "PNG", true, false));
+		quit = new ImageButton(new Texture("res/images/GUI/Button.png"));
+		quit.setHoverImageMap(new Texture("res/images/GUI/ButtonHover.png"));
 		quit.setText("Quit");
 		quit.setLocation(0, -20);
 		quit.setAlignment(Alignment.CENTER, Alignment.CENTER);
