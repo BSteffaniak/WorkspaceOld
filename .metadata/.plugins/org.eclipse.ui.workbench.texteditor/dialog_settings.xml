@@ -13,26 +13,26 @@
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="" key="selection"/>
+		<item value="0;" key="selection"/>
 		<list key="findhistory">
-			<item value=" *"/>
-			<item value="\t&quot;*&quot;"/>
-			<item value="\t*"/>
-			<item value="addRectV"/>
-			<item value="renderR"/>
-			<item value="renderRe"/>
-			<item value="drawQuad"/>
-			<item value="drawQuads"/>
+			<item value="z;"/>
+			<item value="z + depth"/>
+			<item value="x"/>
+			<item value="y + height"/>
+			<item value="x + width"/>
+			<item value="System.out"/>
+			<item value="glColor3f"/>
+			<item value="glcolor3"/>
 		</list>
 		<list key="replacehistory">
+			<item value="0;"/>
+			<item value="1"/>
+			<item value="0"/>
+			<item value=""/>
 			<item value="*"/>
 			<item value="\t&quot; *&quot;"/>
 			<item value="\t *"/>
 			<item value="jdoogl"/>
-			<item value="jdoutil"/>
-			<item value="l"/>
-			<item value="TouchInput"/>
-			<item value="setD"/>
 		</list>
 	</section>
 </section>

@@ -5,10 +5,18 @@ import static net.foxycorndog.jdoogl.GL.beginVertexDraw;
 import static net.foxycorndog.jdoogl.GL.endTextureDraw;
 import static net.foxycorndog.jdoogl.GL.endVertexDraw;
 import static org.lwjgl.opengl.GL11.GL_ALPHA_TEST;
+import static org.lwjgl.opengl.GL11.GL_AMBIENT_AND_DIFFUSE;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_COLOR_MATERIAL;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
+import static org.lwjgl.opengl.GL11.GL_DIFFUSE;
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
+import static org.lwjgl.opengl.GL11.GL_FRONT;
 import static org.lwjgl.opengl.GL11.GL_GREATER;
+import static org.lwjgl.opengl.GL11.GL_LEQUAL;
+import static org.lwjgl.opengl.GL11.GL_LIGHT0;
+import static org.lwjgl.opengl.GL11.GL_LIGHTING;
+import static org.lwjgl.opengl.GL11.GL_LIGHT_MODEL_AMBIENT;
 import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
 import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11.GL_NICEST;
@@ -16,11 +24,23 @@ import static org.lwjgl.opengl.GL11.GL_NORMAL_ARRAY;
 import static org.lwjgl.opengl.GL11.GL_ONE;
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_PERSPECTIVE_CORRECTION_HINT;
+import static org.lwjgl.opengl.GL11.GL_POSITION;
 import static org.lwjgl.opengl.GL11.GL_PROJECTION;
+import static org.lwjgl.opengl.GL11.GL_REPLACE;
+import static org.lwjgl.opengl.GL11.GL_SHININESS;
 import static org.lwjgl.opengl.GL11.GL_SMOOTH;
+import static org.lwjgl.opengl.GL11.GL_SPECULAR;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_COORD_ARRAY;
 import static org.lwjgl.opengl.GL11.GL_OR_INVERTED;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_ENV;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_ENV_MODE;
+import static org.lwjgl.opengl.GL11.glClearDepth;
+import static org.lwjgl.opengl.GL11.glColorMaterial;
+import static org.lwjgl.opengl.GL11.glDepthFunc;
+import static org.lwjgl.opengl.GL11.glLight;
+import static org.lwjgl.opengl.GL11.glLightModel;
 import static org.lwjgl.opengl.GL11.glLogicOp;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
@@ -35,6 +55,8 @@ import static org.lwjgl.opengl.GL11.glIsEnabled;
 import static org.lwjgl.opengl.GL11.glEnableClientState;
 import static org.lwjgl.opengl.GL11.glHint;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
+import static org.lwjgl.opengl.GL11.glMaterial;
+import static org.lwjgl.opengl.GL11.glMaterialf;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glNormalPointer;
 import static org.lwjgl.opengl.GL11.glRotatef;
@@ -45,6 +67,7 @@ import static org.lwjgl.opengl.GL11.glScissor;
 import static org.lwjgl.opengl.GL11.glTexCoordPointer;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glTexEnvf;
 import static org.lwjgl.opengl.GL11.glTexParameteri;
 import static org.lwjgl.opengl.GL11.glVertexPointer;
 import static org.lwjgl.opengl.GL11.glViewport;
@@ -62,6 +85,7 @@ import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 import java.awt.Canvas;
 import java.io.File;
@@ -87,6 +111,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
+import org.lwjgl.util.glu.GLU;
 
 /**
 * Class used for accessing many static methods that incorporate
@@ -114,7 +139,22 @@ public class GL
 	
 	private static ArrayList<LightBuffer> rectVerticesBuffer, rectTexturesBuffer;
 	
-	public static final int QUADS = GL11.GL_QUADS;
+	public  static final int QUADS = GL11.GL_QUADS;
+	
+	public  static final int ARRAYS = Base.ARRAYS, ELEMENTS = Base.ELEMENTS;
+	
+	public  static final boolean DRAW_MODE_ARRAYS, DRAW_MODE_ELEMENTS;
+	
+	private static boolean       render3D = false;
+	
+	static
+	{
+		Base.setUsingVBO(false);
+		Base.setDrawMode(ARRAYS);
+		
+		DRAW_MODE_ARRAYS   = Base.getDrawMode() == Base.ARRAYS;
+		DRAW_MODE_ELEMENTS = Base.getDrawMode() == Base.ELEMENTS;
+	}
 	
 	/**
 	 * Gets the white texture that can be used to create any solid
@@ -135,6 +175,16 @@ public class GL
 	public static void glEnd()
 	{
 		GL11.glEnd();
+	}
+	
+	public static void glLoadMatrix(FloatBuffer matrix)
+	{
+		GL11.glLoadMatrix(matrix);
+	}
+	
+	public static void glColor3f(float r, float g, float b)
+	{
+		GL11.glColor3f(r, g, b);
 	}
 	
 	public static void glVertex3f(float x, float y, float z)
@@ -183,8 +233,6 @@ public class GL
 	public static void setRectTextureOffsets(int position, float offsets[])
 	{
 		float textures[] = addRectTextureArrayf(offsets, 0, null);
-		
-		System.out.println();
 		
 		rectTexturesBuffer.get(rectTexturesPosition % (1000 * 4 * 3)).setData(position * 4 * 2, textures);
 	}
@@ -799,9 +847,19 @@ public class GL
 //		renderBuffers(verticesBuffer, texturesBuffer, imageMap, start * 4, amount * 4, GL_QUADS);
 //	}
 	
+	public static void renderCubes(Buffer verticesBuffer, int start, int amount)
+	{
+		renderBuffers(verticesBuffer, start * 4 * 6, amount * 4 * 6, QUADS, 3);
+	}
+
+	public static void renderCubes(Buffer verticesBuffer, Buffer textures, Texture texture, int start, int amount)
+	{
+		renderBuffers(verticesBuffer, textures, texture, 3, 2, start * 4 * 6, amount * 4 * 6, QUADS);
+	}
+	
 	public static void renderQuads(Buffer verticesBuffer, int start, int amount)
 	{
-		renderBuffers(verticesBuffer, start * 4, amount * 4, QUADS);
+		renderBuffers(verticesBuffer, start * 4, amount * 4, QUADS, 2);
 	}
 	
 	public static void renderQuads(Buffer verticesBuffer, Buffer texturesBuffer, Buffer normalsBuffer, ImageMap imageMap, int start, int amount)
@@ -864,9 +922,9 @@ public class GL
 		endTextureDraw();
 	}
 	
-	private static void renderBuffers(Buffer verticesBuffer, int start, int amount, int type)
+	public static void renderBuffers(Buffer verticesBuffer, int start, int amount, int type, int stride)
 	{
-		beginVertexDraw (verticesBuffer, 2);
+		beginVertexDraw (verticesBuffer, stride);
 		
 		glDrawArrays(type, start, amount);
 		
@@ -915,15 +973,12 @@ public class GL
 //		endTextureDraw();
 //	}
 	
-	private static void renderBuffers(Buffer verticesBuffer, Buffer texturesBuffer,ImageMap imageMap, int textureSize, int vertexSize, int start, int amount, int type)
+	private static void renderBuffers(Buffer verticesBuffer, Buffer texturesBuffer, ImageMap imageMap, int vertexSize, int textureSize, int start, int amount, int type)
 	{
 		beginTextureDraw(texturesBuffer, textureSize);
 		beginVertexDraw (verticesBuffer, vertexSize);
 		
-		if (imageMap != null)
-		{
-			imageMap.bind();
-		}
+		imageMap.bind();
 		
 		glDrawArrays(type, start, amount);
 		
@@ -1052,48 +1107,140 @@ public class GL
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	}
 	
-	public static void initBasicView()
+	public static void setRender3D(boolean render3D)
 	{
-		glEnable(GL_TEXTURE_2D);
+		GL.render3D = render3D;
 		
-//		glBlendFunc(GL_ONE, GL_ONE);
-//		GL14.glBlendEquation(GL14.GL_MAX);
+		initBasicView(0.01f, 999f);
+	}
+	
+	public static void initBasicLights()
+	{
+		//----------- Variables & method calls added for Lighting Test -----------//
+		FloatBuffer matSpecular = BufferUtils.createFloatBuffer(4);
+		matSpecular.put(1.0f).put(1.0f).put(1.0f).put(1.0f).flip();
 		
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+		lightPosition.put(1.0f).put(1.0f).put(1.0f).put(0.0f).flip();
 		
-		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		FloatBuffer whiteLight = BufferUtils.createFloatBuffer(4);
+		whiteLight.put(1.0f).put(1.0f).put(1.0f).put(1.0f).flip();
 		
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-//		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//		glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
-//		glBlendEquation(GL_ADD);
-//		GL14.glBlendEquation(GL14.GL_FUNC_ADD);
+		FloatBuffer lModelAmbient = BufferUtils.createFloatBuffer(4);
+		lModelAmbient.put(0.5f).put(0.5f).put(0.5f).put(1.0f).flip();
 		
-		glEnable(GL_ALPHA_TEST);
-		glAlphaFunc(GL_GREATER, 0.1f); 
+		glShadeModel(GL_SMOOTH);
+		glMaterial(GL_FRONT, GL_SPECULAR, matSpecular);				// sets specular material color
+		glMaterialf(GL_FRONT, GL_SHININESS, 50.0f);					// sets shininess
 		
-		glEnable(GL_DEPTH_TEST);
+		glLight(GL_LIGHT0, GL_POSITION, lightPosition);				// sets light position
+		glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);				// sets specular light to white
+		glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);					// sets diffuse light to white
+		glLightModel(GL_LIGHT_MODEL_AMBIENT, lModelAmbient);		// global ambient light 
 		
-//		glEnable(GL_CULL_FACE);
-//		glCullFace(GL_BACK);
+		glEnable(GL_LIGHTING);										// enables lighting
+		glEnable(GL_LIGHT0);										// enables light0
 		
-//		glShadeModel(GL_SMOOTH); // Enable Smooth Shading
-		glClearColor(0.0f, 0.3f, 0.6f, 0.0f); // Blue Background
-		
-		glViewport(0, 0, Display.getWidth(), Display.getHeight());
-		glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
-		glLoadIdentity(); // Reset The Projection Matrix
+		glEnable(GL_COLOR_MATERIAL);								// enables opengl to use glColor3f to define material color
+		glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);			// tell opengl glColor3f effects the ambient and diffuse properties of material
+		//----------- END: Variables & method calls added for Lighting Test -----------//
+	}
+	
+	public static void initBasicView(float zClose, float zFar)
+	{
+		if (render3D)
+		{
+//			glViewport(0, 0, Display.getWidth(), Display.getHeight());
+//			glMatrixMode(GL11.GL_PROJECTION);
+//			glLoadIdentity();
+//			GLU.gluPerspective(45.0f, ((float) Display.getWidth() / (float) Display.getHeight()), 0.01f, 100.0f);
+//			glMatrixMode(GL11.GL_MODELVIEW);
+//			glLoadIdentity();
+//	
+//			glShadeModel(GL11.GL_SMOOTH);
+//			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+//			glClearDepth(1.0f);
+//			glEnable(GL11.GL_DEPTH_TEST);
+//			glDepthFunc(GL11.GL_LEQUAL);
+//			glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
+//			
+			glEnable(GL11.GL_TEXTURE_2D);
+			
+//			glEnable(GL_BLEND);
+//			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			
+//			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			
+//			glEnable(GL_TEXTURE_2D);
+			
+			glShadeModel(GL_SMOOTH); // Enable Smooth Shading
+			glClearColor(0.0f, 0.3f, 0.6f, 0.0f); // Blue Background
+			glClearDepth(1.0); // Depth Buffer Setup
+			glEnable(GL_DEPTH_TEST); // Enables Depth Testing
+			glDepthFunc(GL_LEQUAL); // The Type Of Depth Testing To Do
+			
+			glViewport(0, 0, Display.getWidth(), Display.getHeight());
+			glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
+			glLoadIdentity(); // Reset The Projection Matrix
 
-		// Calculate The Aspect Ratio Of The Window
-		glOrtho(0, Display.getWidth(), 0, Display.getHeight(), -99999, 99999);
-		glMatrixMode(GL_MODELVIEW); // Select The Modelview Matrix
+			// Calculate The Aspect Ratio Of The Window
+			gluPerspective(45.0f, (float)Display.getWidth() / (float)Display.getHeight(), zClose, zFar);
+//			glOrtho(1, 1, 1, 1, -1, 1);
+			glMatrixMode(GL_MODELVIEW); // Select The Modelview Matrix
+
+			// Really Nice Perspective Calculations
+			glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+			
+			glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+			
+//			GL11.glEnable(GL11.GL_TEXTURE_2D);
+//			GL11.glDisable(GL11.GL_TEXTURE_2D);
+		}
+		else
+		{
+			glEnable(GL_TEXTURE_2D);
+			
+//			glBlendFunc(GL_ONE, GL_ONE);
+//			GL14.glBlendEquation(GL14.GL_MAX);
+			
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			
+			glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+			
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+//			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//			glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
+//			glBlendEquation(GL_ADD);
+//			GL14.glBlendEquation(GL14.GL_FUNC_ADD);
+			
+			glEnable(GL_ALPHA_TEST);
+			glAlphaFunc(GL_GREATER, 0.1f); 
+			
+			glEnable(GL_DEPTH_TEST);
+			
+	//		glEnable(GL_CULL_FACE);
+	//		glCullFace(GL_BACK);
+			
+	//		glShadeModel(GL_SMOOTH); // Enable Smooth Shading
+			glClearColor(0.0f, 0.3f, 0.6f, 0.0f); // Blue Background
+			
+			glViewport(0, 0, Display.getWidth(), Display.getHeight());
+			glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
+			glLoadIdentity(); // Reset The Projection Matrix
+	
+			// Calculate The Aspect Ratio Of The Window
+			glOrtho(0, Display.getWidth(), 0, Display.getHeight(), -99999, 99999);
+			glMatrixMode(GL_MODELVIEW); // Select The Modelview Matrix
+		}
 
 		// Really Nice Perspective Calculations
 //		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		
 //		initLighting();
+		
+		
 		
 		flipped = false;
 	}
@@ -1105,15 +1252,15 @@ public class GL
 	
 	public static void resetBasicView()
 	{
-		glViewport(0, 0, Display.getWidth(), Display.getHeight());
-		glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
-		glLoadIdentity(); // Reset The Projection Matrix
-
-		// Calculate The Aspect Ratio Of The Window
-		glOrtho(0, Display.getWidth(), 0, Display.getHeight(), -99999, 99999);
-		glMatrixMode(GL_MODELVIEW); // Select The Modelview Matrix
-		
-		flipped = false;
+//		glViewport(0, 0, Display.getWidth(), Display.getHeight());
+//		glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
+//		glLoadIdentity(); // Reset The Projection Matrix
+//
+//		// Calculate The Aspect Ratio Of The Window
+//		glOrtho(0, Display.getWidth(), 0, Display.getHeight(), -99999, 99999);
+//		glMatrixMode(GL_MODELVIEW); // Select The Modelview Matrix
+//		
+//		flipped = false;
 	}
 	
 	public static void flipView()
@@ -1140,8 +1287,6 @@ public class GL
 	
 	public static void createFrame(int width, int height, String title, Canvas drawCanvas)
 	{
-//		initGL();
-		
 		boolean hasCanvas = drawCanvas != null;
 		
 		try
@@ -1281,11 +1426,261 @@ public class GL
 		return array;
 	}
 	
-	public static float[] addRectVertexArrayf(float x, float y, float z, float width, float height, int offset, float[] array)
+	public static float[] addCubeTextureArrayf(Texture texture, int offset, float array[])
+	{
+		return addCubeTextureArrayf(texture.getImageOffsetsf(), offset, array);
+	}
+	
+	public static float[] addCubeTextureArrayf(float offsets[], int offset, float array[])
 	{
 		if (array == null)
 		{
-			array = new float[3 * 4];
+			array  = new float[2 * 4 * 6];
+			
+			offset = 0;
+		}
+		
+		int index = 0;
+		
+		for (int i = 0; i < 6; i ++)
+		{
+			// Front
+			array[offset + index ++] = offsets[0];
+			array[offset + index ++] = offsets[1];
+	//		array[offset + index ++] = 0;
+			
+			array[offset + index ++] = offsets[0];
+			array[offset + index ++] = offsets[3];
+	//		array[offset + index ++] = 0;
+			
+			array[offset + index ++] = offsets[2];
+			array[offset + index ++] = offsets[3];
+	//		array[offset + index ++] = 0;
+			
+			array[offset + index ++] = offsets[2];
+			array[offset + index ++] = offsets[1];
+	//		array[offset + index ++] = 0;
+		}
+		
+		
+//		// Right
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 0;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 0;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 1;
+//		
+//		
+//		// Back
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 1;
+//		
+//		
+//		// Left
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 0;
+//		
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 0;
+//		
+//		
+//		// Top
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 0;
+//		
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[3];
+////		array[offset + index ++] = 0;
+//		
+//		
+//		// Bottom
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 0;
+//		
+//		array[offset + index ++] = offsets[0];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 1;
+//		
+//		array[offset + index ++] = offsets[2];
+//		array[offset + index ++] = offsets[1];
+////		array[offset + index ++] = 0;
+		
+		return array;
+	}
+	
+	public static float[] addCubeVertexArrayf(float x, float y, float z, float width, float height, float depth, int offset, float array[])
+	{
+		if (array == null)
+		{
+			array  = new float[3 * 4 * 6];
+			
+			offset = 0;
+		}
+		
+		int index = 0;
+		
+		// Front
+		array[offset + index ++] = x;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z;
+		
+		array[offset + index ++] = x;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z;
+		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z;
+		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z;
+		
+		
+		// Right
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z;
+		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z;
+		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z + depth;
+		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z + depth;
+		
+		
+		// Back
+		array[offset + index ++] = x;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z + depth;
+		
+		array[offset + index ++] = x;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z + depth;
+		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z + depth;
+		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z + depth;
+		
+		
+		// Left
+		array[offset + index ++] = x;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z + depth;
+		
+		array[offset + index ++] = x;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z + depth;
+		
+		array[offset + index ++] = x;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z;
+		
+		array[offset + index ++] = x;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z;
+		
+		
+		// Top
+		array[offset + index ++] = x;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z;
+		
+		array[offset + index ++] = x;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z + depth;
+		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z + depth;
+		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z;
+		
+		
+		// Bottom
+		array[offset + index ++] = x;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z;
+		
+		array[offset + index ++] = x;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z + depth;
+		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z + depth;
+		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z;
+		
+		return array;
+	}
+	
+	public static float[] addRectVertexArrayf(float x, float y, float z, float width, float height, int offset, float array[])
+	{
+		if (array == null)
+		{
+			array  = new float[3 * 4];
 			
 			offset = 0;
 		}
@@ -1296,16 +1691,16 @@ public class GL
 		array[offset + index ++] = y;
 		array[offset + index ++] = z;
 		
-		array[offset + index ++] = x + width;
-		array[offset + index ++] = y;
-		array[offset + index ++] = z;
-		
-		array[offset + index ++] = x + width;
-		array[offset + index ++] = y + height;
-		array[offset + index ++] = z;
-		
 		array[offset + index ++] = x;
 		array[offset + index ++] = y + height;
+		array[offset + index ++] = z;
+		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z;
+		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y;
 		array[offset + index ++] = z;
 		
 		return array;
@@ -1321,164 +1716,30 @@ public class GL
 		}
 		
 		int index = 0;
-		
-		array[offset + index ++] = x;
-		array[offset + index ++] = y;
-		
-		array[offset + index ++] = x + width;
-		array[offset + index ++] = y;
-		
-		array[offset + index ++] = x + width;
-		array[offset + index ++] = y + height;
-		
-		array[offset + index ++] = x;
-		array[offset + index ++] = y + height;
-		
-		return array;
-	}
-	
-	public static float[] addSquareVertexArrayf(float x, float y, float z, float size, int offset, float[] array)
-	{
-		if (array == null)
-		{
-			array = new float[3 * 4];
-			
-			offset = 0;
-		}
-		
-		int index = 0;
-		
-		array[offset + index ++] = x;
-		array[offset + index ++] = y;
-		array[offset + index ++] = z;
-		
-		array[offset + index ++] = x + size;
-		array[offset + index ++] = y;
-		array[offset + index ++] = z;
-		
-		array[offset + index ++] = x + size;
-		array[offset + index ++] = y + size;
-		array[offset + index ++] = z;
-		
-		array[offset + index ++] = x;
-		array[offset + index ++] = y + size;
-		array[offset + index ++] = z;
-		
-		return array;
-	}
-	
-	public static float[] addSquareVertexArrayf(float x, float y, int size, int offset, float[] array)
-	{
-		if (array == null)
-		{
-			array = new float[3 * 4];
-			
-			offset = 0;
-		}
-		
-		int index = 0;
-		
-		array[offset + index ++] = x;
-		array[offset + index ++] = y;
-		
-		array[offset + index ++] = x + size;
-		array[offset + index ++] = y;
-		
-		array[offset + index ++] = x + size;
-		array[offset + index ++] = y + size;
-		
-		array[offset + index ++] = x;
-		array[offset + index ++] = y + size;
-		
-		return array;
-	}
-	
-	public static float[] addRectTextureArrayf(SpriteSheet spriteSheet, int x, int y, int z, int width, int height, int offset, float[] array)
-	{
-		if (array == null)
-		{
-			array = new float[3 * 4];
-			
-			offset = 0;
-		}
-		
-		int index = 0;
-		
-		float offsets[] = spriteSheet.getImageOffsetsf(x, y, width, height);
-		
-		array[offset + index ++] = offsets[0];
-		array[offset + index ++] = offsets[1];
-		array[offset + index ++] = 0;
-		
-		array[offset + index ++] = offsets[2];
-		array[offset + index ++] = offsets[1];
-		array[offset + index ++] = 0;
-		
-		array[offset + index ++] = offsets[2];
-		array[offset + index ++] = offsets[3];
-		array[offset + index ++] = 0;
 
-		array[offset + index ++] = offsets[0];
-		array[offset + index ++] = offsets[3];
-		array[offset + index ++] = 0;
+		array[offset + index ++] = x;
+		array[offset + index ++] = y;
+		
+		array[offset + index ++] = x;
+		array[offset + index ++] = y + height;
+		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y + height;
+		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y;
 		
 		return array;
 	}
 	
 	public static float[] addRectTextureArrayf(SpriteSheet spriteSheet, int x, int y, int width, int height, int offset, float[] array)
 	{
-		if (array == null)
-		{
-			array = new float[2 * 4];
-			
-			offset = 0;
-		}
-		
-		int index = 0;
-		
-		float offsets[] = spriteSheet.getImageOffsetsf(x, y, width, height);
-		
-		array[offset + index ++] = offsets[0];
-		array[offset + index ++] = offsets[1];
-		
-		array[offset + index ++] = offsets[2];
-		array[offset + index ++] = offsets[1];
-		
-		array[offset + index ++] = offsets[2];
-		array[offset + index ++] = offsets[3];
-
-		array[offset + index ++] = offsets[0];
-		array[offset + index ++] = offsets[3];
-		
-		return array;
+		return addRectTextureArrayf(spriteSheet.getImageOffsetsf(x, y, width, height), offset, array);
 	}
 	
 	public static float[] addRectTextureArrayf(Texture texture, int offset, float[] array)
 	{
-		if (array == null)
-		{
-			array = new float[2 * 4];
-			
-			offset = 0;
-		}
-		
-		int index = 0;
-		
-		float offsets[] = texture.getImageOffsetsf();
-		
-		array[offset + index ++] = offsets[0];
-		array[offset + index ++] = offsets[1];
-		
-		array[offset + index ++] = offsets[2];
-		array[offset + index ++] = offsets[1];
-		
-		array[offset + index ++] = offsets[2];
-		array[offset + index ++] = offsets[3];
-
-		array[offset + index ++] = offsets[0];
-		array[offset + index ++] = offsets[3];
-		
-		return array;
+		return addRectTextureArrayf(texture.getImageOffsetsf(), offset, array);
 	}
 	
 	public static float[] addRectTextureArrayf(float offsets[], int offset, float[] array)
@@ -1493,45 +1754,7 @@ public class GL
 	
 	public static float[] addRectTextureArrayf(float offsets[], int offset, float[] array, boolean mirror)
 	{
-		if (array == null)
-		{
-			array = new float[2 * 4];
-			
-			offset = 0;
-		}
-		
-		int index = 0;
-		
-		if (mirror)
-		{
-			array[offset + index ++] = offsets[2];
-			array[offset + index ++] = offsets[1];
-			
-			array[offset + index ++] = offsets[0];
-			array[offset + index ++] = offsets[1];
-			
-			array[offset + index ++] = offsets[0];
-			array[offset + index ++] = offsets[3];
-
-			array[offset + index ++] = offsets[2];
-			array[offset + index ++] = offsets[3];
-		}
-		else
-		{
-			array[offset + index ++] = offsets[0];
-			array[offset + index ++] = offsets[1];
-			
-			array[offset + index ++] = offsets[2];
-			array[offset + index ++] = offsets[1];
-			
-			array[offset + index ++] = offsets[2];
-			array[offset + index ++] = offsets[3];
-	
-			array[offset + index ++] = offsets[0];
-			array[offset + index ++] = offsets[3];
-		}
-		
-		return array;
+		return addRectTextureArrayf(offsets, 1, 1, offset, array, mirror);
 	}
 	
 	public static float[] addRectTextureArrayf(float offsets[], int rx, int ry, int offset, float[] array, boolean mirror)
@@ -1549,29 +1772,29 @@ public class GL
 		{
 			array[offset + index ++] = rx * offsets[2];
 			array[offset + index ++] = ry * offsets[1];
-			
-			array[offset + index ++] = rx * offsets[0];
-			array[offset + index ++] = ry * offsets[1];
-			
-			array[offset + index ++] = rx * offsets[0];
-			array[offset + index ++] = ry * offsets[3];
 
 			array[offset + index ++] = rx * offsets[2];
 			array[offset + index ++] = ry * offsets[3];
+			
+			array[offset + index ++] = rx * offsets[0];
+			array[offset + index ++] = ry * offsets[3];
+			
+			array[offset + index ++] = rx * offsets[0];
+			array[offset + index ++] = ry * offsets[1];
 		}
 		else
 		{
 			array[offset + index ++] = rx * offsets[0];
 			array[offset + index ++] = ry * offsets[1];
 			
-			array[offset + index ++] = rx * offsets[2];
-			array[offset + index ++] = ry * offsets[1];
+			array[offset + index ++] = rx * offsets[0];
+			array[offset + index ++] = ry * offsets[3];
 			
 			array[offset + index ++] = rx * offsets[2];
 			array[offset + index ++] = ry * offsets[3];
 	
-			array[offset + index ++] = rx * offsets[0];
-			array[offset + index ++] = ry * offsets[3];
+			array[offset + index ++] = rx * offsets[2];
+			array[offset + index ++] = ry * offsets[1];
 		}
 		
 		return array;

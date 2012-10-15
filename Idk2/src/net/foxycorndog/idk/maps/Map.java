@@ -625,7 +625,7 @@ public abstract class Map
 //		float vertices[] = backgroundVerticesBuffer.getElements();
 //		float textures[] = backgroundTexturesBuffer.getElements();
 		
-		backgroundVerticesBuffer.setData((x + y * width) * OBJECT_SIZE, GL.addSquareVertexArrayf(x * ts, y * ts, tile.getZ(), ts, (x + y * width) * OBJECT_SIZE, null));
+		backgroundVerticesBuffer.setData((x + y * width) * OBJECT_SIZE, GL.addRectVertexArrayf(x * ts, y * ts, tile.getZ(), ts, ts, (x + y * width) * OBJECT_SIZE, null));
 		backgroundTexturesBuffer.setData((x + y * width) * TEXTURE_SIZE, GL.addRectTextureArrayf(terrain,  tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight(), (x + y * width) * TEXTURE_SIZE, null));
 		
 		backgroundTiles[x + y * width] = id;

@@ -1,3 +1,6 @@
+import net.foxycorndog.jdoogl.input.KeyboardInput;
+import net.foxycorndog.jdoogl.input.MouseInput;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -46,13 +49,24 @@ public class Game {
 	 * keyboard input, then draw the objects. The order of the drawing is
 	 * important.
 	 */
-	public void tick() {
+	public void tick()
+	{
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		GL11.glLoadIdentity();
-		pollEvents();
+		loop();
+		render();
+	}
+	
+	public void render()
+	{
 		player.draw();
 		floor.draw();
 		box.draw();
+	}
+	
+	public void loop()
+	{
+		pollEvents();
 	}
 
 	/*
@@ -80,16 +94,33 @@ public class Game {
 		if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
 			player.setlStrafe(_strafe * period);
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
 			player.setrStrafe(_strafe * period);
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
 			player.setFord(_walk * period);
 		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_F)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
 			player.setBack(_walk * period);
 		}
 		// after keys are polled we build modelview matrix
 		player.set();
+		
+		if (Keyboard.isKeyDown(KeyboardInput.KEY_ESCAPE))
+		{
+			MouseInput.setGrabbed(false);
+		}
+		
+		if(KeyboardInput.next() && KeyboardInput.isKeyDown(KeyboardInput.KEY_K))
+		{
+			if (GL11.glIsEnabled(GL11.GL_TEXTURE_2D))
+			{
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+			}
+			else
+			{
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+			}
+		}
 	}
 }

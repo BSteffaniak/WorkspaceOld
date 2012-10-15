@@ -15,6 +15,12 @@ public class Base
 	
 	public static boolean debug = false;
 	
+	public  static final int ARRAYS = 0, ELEMENTS = 1;
+	
+	private static       int drawMode = ELEMENTS;
+	
+	private static   boolean usingVBO = false;
+	
 	/**
 	 * Used to initialize the path variable. Sets the path variable
 	 * to the working directory of the project.
@@ -22,25 +28,35 @@ public class Base
 	static
 	{
 		String pth = System.getProperty("java.class.path");
+		pth = pth.replace('\\', '/');
 		
 		if (pth.indexOf(";") >= 0)
 		{
-			pth = System.getProperty("java.class.path");
-			pth = pth.substring(pth.indexOf(";") + 1, pth.indexOf(";", pth.indexOf(";") + 1));
-			pth += System.getProperty("file.separator");
+			int curInd = pth.indexOf("jDoogl");
+			
+			int endIndex = pth.indexOf(';', curInd);
+			
+			while (pth.charAt(curInd) != ';')
+			{
+				curInd --;
+			}
+			
+			pth = pth.substring(curInd + 1, endIndex);
+			
+			pth += "/";
 		}
 		else if (pth.indexOf(":") >= 0 && OS_NAME.contains("lin"))
 		{
 			pth = System.getProperty("java.class.path");
 			
 			pth = pth.substring(pth.indexOf(":") + 1, pth.indexOf(":", pth.indexOf(":") + 1));
-			pth += System.getProperty("file.separator");
+			pth += "/";
 		}
 		else
 		{
 			File f = new File("");
 			
-			pth = f.getAbsolutePath() + System.getProperty("file.separator");// + System.getProperty("java.class.path");
+			pth = f.getAbsolutePath() + "/";// + System.getProperty("java.class.path");
 		}
 		
 		PATH = pth;
@@ -140,5 +156,25 @@ public class Base
 		}
 		
 		return "error";
+	}
+	
+	public static int getDrawMode()
+	{
+		return drawMode;
+	}
+	
+	public static void setDrawMode(int drawMode)
+	{
+		Base.drawMode = drawMode;
+	}
+	
+	public static boolean usingVBO()
+	{
+		return usingVBO;
+	}
+	
+	public static void setUsingVBO(boolean usingVBO)
+	{
+		Base.usingVBO = usingVBO;
 	}
 }

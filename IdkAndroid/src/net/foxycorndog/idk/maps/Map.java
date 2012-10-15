@@ -47,7 +47,6 @@ import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.ImageUtil;
 import net.foxycorndog.jdoutil.VerticesBuffer;
 
-@SuppressLint("NewApi")
 public abstract class Map
 {
 	private byte                          backgroundTiles[], foregroundTiles[];
@@ -80,24 +79,20 @@ public abstract class Map
 	public static GeneralCollection<Map>  maps;
 	
 	/**
-	* Create a new map for the specified Idk.
-	* 
-	* @param idk The Idk object to create it for.
-	* @param location The location of the map image.
-	*/
+	 * Create a new map for the specified Idk.
+	 * 
+	 * @param idk The Idk object to create it for.
+	 * @param location The location of the map image.
+	 */
 	public Map(String prelocation, String mapName, int rx, int ry, boolean createForeground)//, boolean createActors)
 	{
-		buildings        = new ArrayList<Building>();
-		actors           = new ArrayList<Actor>();
-		portals          = new GeneralCollection<PortalInfo>();
+		buildings               = new ArrayList<Building>();
+		actors                  = new ArrayList<Actor>();
+		portals                 = new GeneralCollection<PortalInfo>();
 		
-		this.mapName     = mapName;
+		this.mapName            = mapName;
 		
-		Options op = new BitmapFactory.Options();
-		op.inScaled = false;
-
-		
-		mapImage         = ImageUtil.getBitmap(Idk.getResources(), R.drawable.map0p1);
+		mapImage                = ImageUtil.getBitmap(Idk.getResources(), R.drawable.map0p1);
 		
 		width                   = (short)mapImage.getWidth();
 		height                  = (short)mapImage.getHeight();
@@ -114,12 +109,12 @@ public abstract class Map
 	}
 	
 	/**
-	* The initialization method for the Map class.
-	* 
-	* @param width The width of the map in tiles.
-	* @param height The height of the map in tiles.
-	* @param building Whether the map is a building or not.
-	*/
+	 * The initialization method for the Map class.
+	 * 
+	 * @param width The width of the map in tiles.
+	 * @param height The height of the map in tiles.
+	 * @param building Whether the map is a building or not.
+	 */
 	private void init(short width, short height, String prelocation, String mapName, boolean createForeground)//, boolean createActors)
 	{
 		this.width     = width;
@@ -162,18 +157,9 @@ public abstract class Map
 			addBackgroundTile((byte)Tile.getTileIdByColor(data[i]), (short)(i % width), (short)(height - (i / width) - 1));
 		}
 		
-		String mapLoc = null;
+		String mapLoc = prelocation + mapName + ".fg";
 		
-		if (prelocation.equals(MAPS_LOCATION))
-		{
-			mapLoc = MAPS_LOCATION + getMapName() + ".fg";
-		}
-		else if (prelocation.equals(BUILDINGS_LOCATION))
-		{
-			mapLoc = BUILDINGS_LOCATION + mapName + ".fg";
-		}
-		
-		File fgFile = new File(mapLoc);
+		File fgFile = Idk.getContext().getFileStreamPath(mapLoc);
 		
 		if (createForeground)
 		{
@@ -297,10 +283,10 @@ public abstract class Map
 	}
 	
 	/**
-	* The static initialization for the Map class.
-	* 
-	* Must be called before any maps are created!
-	*/
+	 * The static initialization for the Map class.
+	 * 
+	 * Must be called before any maps are created!
+	 */
 	public static void init()
 	{
 		terrain = new SpriteSheet(Idk.getResources(), R.drawable.terrain, 64, 40);
@@ -405,15 +391,15 @@ public abstract class Map
 	}
 	
 	/**
-	* Return whether there is a specified tile near the specified
-	* location.
-	* 
-	* @param tileId The tile ids in an array.
-	* @param size The radius of the square to check.
-	* @param x The x position to look around.
-	* @param y The y position to look around.
-	* @return Whether the tile is near the location or not.
-	*/
+	 * Return whether there is a specified tile near the specified
+	 * location.
+	 * 
+	 * @param tileId The tile ids in an array.
+	 * @param size The radius of the square to check.
+	 * @param x The x position to look around.
+	 * @param y The y position to look around.
+	 * @return Whether the tile is near the location or not.
+	 */
 	private boolean tileIsNear(byte[] tileId, short size, short x, short y)
 	{
 		short startY = (short)(y - (size));
@@ -437,8 +423,8 @@ public abstract class Map
 	}
 	
 	/**
-	* Render the buildings in the map.
-	*/
+	 * Render the buildings in the map.
+	 */
 	private void renderBuildings()
 	{
 		for (Building building : buildings)
@@ -448,8 +434,8 @@ public abstract class Map
 	}
 	
 	/**
-	* Render the background of the map.
-	*/
+	 * Render the background of the map.
+	 */
 	private void renderBackground()
 	{
 		GL.beginTextureDraw(backgroundTexturesBuffer);
@@ -491,8 +477,8 @@ public abstract class Map
 	}
 	
 	/**
-	* Render the foreground of the map.
-	*/
+	 * Render the foreground of the map.
+	 */
 	private void renderForeground()
 	{
 		GL.beginTextureDraw(foregroundTexturesBuffer);
@@ -520,8 +506,8 @@ public abstract class Map
 	}
 	
 	/**
-	* Render the map as a whole.
-	*/
+	 * Render the map as a whole.
+	 */
 	public void render()
 	{
 		GL.beginManipulation();
@@ -540,8 +526,8 @@ public abstract class Map
 	}
 	
 	/**
-	* Render the actors that are in the map.
-	*/
+	 * Render the actors that are in the map.
+	 */
 	public void renderActors()
 	{
 		for (int i = 0; i < actors.size(); i ++)
@@ -585,8 +571,8 @@ public abstract class Map
 	}
 	
 	/**
-	* Render the actor's health loss that are in the map.
-	*/
+	 * Render the actor's health loss that are in the map.
+	 */
 	public void renderActorsHealthLoss()
 	{
 		synchronized (actors)
@@ -607,12 +593,12 @@ public abstract class Map
 	}
 	
 	/**
-	* Add a background tile to the specified location.
-	* 
-	* @param id The id of the tile.
-	* @param x The x position to add it to.
-	* @param y The y position to add it to.
-	*/
+	 * Add a background tile to the specified location.
+	 * 
+	 * @param id The id of the tile.
+	 * @param x The x position to add it to.
+	 * @param y The y position to add it to.
+	 */
 	public void addBackgroundTile(byte id, short x, short y)
 	{
 		float ts = tileSize;
@@ -629,14 +615,14 @@ public abstract class Map
 	}
 	
 	/**
-	* Add a foreground tile to the specified location.
-	* 
-	* @param id The id of the tile.
-	* @param x The x position to add it to.
-	* @param y The y position to add it to.
-	* @param offsetX The x offset of the tile in scaled pixels.
-	* @param offsetY The y offset of the tile in scaled pixels.
-	*/
+	 * Add a foreground tile to the specified location.
+	 * 
+	 * @param id The id of the tile.
+	 * @param x The x position to add it to.
+	 * @param y The y position to add it to.
+	 * @param offsetX The x offset of the tile in scaled pixels.
+	 * @param offsetY The y offset of the tile in scaled pixels.
+	 */
 	public void addForegroundTile(byte id, short x, short y, byte offsetX, byte offsetY)
 	{
 		if (foregroundTiles[x + y * width] != 0 && foregroundTiles[x + y * width] != id)
@@ -661,14 +647,14 @@ public abstract class Map
 	}
 	
 	/**
-	* 
-	* 
-	* @param actor The actor to test collisions on.
-	* @param dx The amount of x position the actor is trying to move.
-	* @param dy The amount of y position the actor is trying to move.
-	* @return if there is a collision, then the amount that the actor
-	* 		is able to move, or else it will return null.
-	*/
+	 * 
+	 * 
+	 * @param actor The actor to test collisions on.
+	 * @param dx The amount of x position the actor is trying to move.
+	 * @param dy The amount of y position the actor is trying to move.
+	 * @return if there is a collision, then the amount that the actor
+	 * 		is able to move, or else it will return null.
+	 */
 	public float[] checkCollisionRect(Actor actor, float dx, float dy, int x, int y, int width, int height)
 	{
 		int tw = this.width;
@@ -707,19 +693,19 @@ public abstract class Map
 	}
 	
 	/**
-	* Checks whether if there would be a collision of the actor
-	* is to move the specified amount. If there is a collision, then
-	* it returns the amount that the player is able to move without
-	* colliding, or else it just returns null.
-	* 
-	* @param actor The actor to test collisions on.
-	* @param dx The amount of x position the actor is trying to move.
-	* @param dy The amount of y position the actor is trying to move.
-	* @param first The first index of the tiles to check collisions on.
-	* @param count The amount of indices to check collisions on.
-	* @return if there is a collision, then the amount that the actor
-	* 		is able to move, or else it will return null.
-	*/
+	 * Checks whether if there would be a collision of the actor
+	 * is to move the specified amount. If there is a collision, then
+	 * it returns the amount that the player is able to move without
+	 * colliding, or else it just returns null.
+	 * 
+	 * @param actor The actor to test collisions on.
+	 * @param dx The amount of x position the actor is trying to move.
+	 * @param dy The amount of y position the actor is trying to move.
+	 * @param first The first index of the tiles to check collisions on.
+	 * @param count The amount of indices to check collisions on.
+	 * @return if there is a collision, then the amount that the actor
+	 * 		is able to move, or else it will return null.
+	 */
 	private float[] checkCollision(AnimatedObject animatedObject, float dx, float dy, int first, int count)
 	{
 		float ats = dy + animatedObject.getAbsoluteY();
@@ -950,13 +936,13 @@ public abstract class Map
 	}
 	
 	/**
-	* Move the map the specified amount according to the x (dx) and
-	* y (dy) variables.
-	* 
-	* @param dx The amount to move along the x position.
-	* @param dy The amount to move along the y position.
-	* @return Whether the move was successful.
-	*/
+	 * Move the map the specified amount according to the x (dx) and
+	 * y (dy) variables.
+	 * 
+	 * @param dx The amount to move along the x position.
+	 * @param dy The amount to move along the y position.
+	 * @return Whether the move was successful.
+	 */
 	public boolean move(float dx, float dy)
 	{
 		this.x += dx;
@@ -966,8 +952,8 @@ public abstract class Map
 	}
 	
 	/**
-	* Randomly move the actors around the map.
-	*/
+	 * Randomly move the actors around the map.
+	 */
 	public void randomMoveActors()
 	{
 		for (int i = 0; i < actors.size(); i ++)
@@ -1001,8 +987,8 @@ public abstract class Map
 	}
 	
 	/**
-	* Makes the actors talk with their own custom phrases.
-	*/
+	 * Makes the actors talk with their own custom phrases.
+	 */
 	public void makeActorsTalk()
 	{
 		for (int i = 0; i < actors.size(); i ++)
@@ -1039,31 +1025,31 @@ public abstract class Map
 	}
 	
 	/**
-	* Get the width of the map in tiles.
-	* 
-	* @return The width of the map in tiles.
-	*/
+	 * Get the width of the map in tiles.
+	 * 
+	 * @return The width of the map in tiles.
+	 */
 	public int getWidth()
 	{
 		return width;
 	}
 	
 	/**
-	* Get the height of the map in tiles.
-	* 
-	* @return The height of the map in tiles.
-	*/
+	 * Get the height of the map in tiles.
+	 * 
+	 * @return The height of the map in tiles.
+	 */
 	public int getHeight()
 	{
 		return height;
 	}
 	
 	/**
-	* Method that adds an Actor to the actors ArrayList.
-	* 
-	* @param actor The actor to add to the render list
-	* 		and random move list.
-	*/
+	 * Method that adds an Actor to the actors ArrayList.
+	 * 
+	 * @param actor The actor to add to the render list
+	 * 		and random move list.
+	 */
 	public void addActor(Actor actor)
 	{
 		synchronized (actors)
@@ -1090,11 +1076,11 @@ public abstract class Map
 	}
 	
 	/**
-	* Get all of the #actors in the map and return them in the
-	* form of an ArrayList.
-	* 
-	* @return The ArrayList of Actors.
-	*/
+	 * Get all of the #actors in the map and return them in the
+	 * form of an ArrayList.
+	 * 
+	 * @return The ArrayList of Actors.
+	 */
 	public ArrayList<Actor> getActors()
 	{
 		return actors;
@@ -1106,24 +1092,24 @@ public abstract class Map
 	}
 	
 	/**
-	* Add a PortalInfo object to the #portals GeneralCollection
-	* at the specified location.
-	* 
-	* @param info The PortalInfo object.
-	* @param x The x position.
-	* @param y The y position.
-	*/
+	 * Add a PortalInfo object to the #portals GeneralCollection
+	 * at the specified location.
+	 * 
+	 * @param info The PortalInfo object.
+	 * @param x The x position.
+	 * @param y The y position.
+	 */
 	public void addPortalInfo(PortalInfo info, short x, short y)
 	{
 		portals.add(x, y, info);
 	}
 	
 	/**
-	* Explicitly set the location of the Map.
-	* 
-	* @param x The x position.
-	* @param y The y position.
-	*/
+	 * Explicitly set the location of the Map.
+	 * 
+	 * @param x The x position.
+	 * @param y The y position.
+	 */
 	public void setLocation(float x, float y)
 	{
 		this.x = x;
@@ -1131,20 +1117,20 @@ public abstract class Map
 	}
 	
 	/**
-	* Get the relativeX of the map relative to other maps.
-	* 
-	* @return The relativeX.
-	*/
+	 * Get the relativeX of the map relative to other maps.
+	 * 
+	 * @return The relativeX.
+	 */
 	public byte getRelativeX()
 	{
 		return relativeX;
 	}
 	
 	/**
-	* Get the relativeY of the map relative to other maps.
-	* 
-	* @return The relativeY.
-	*/
+	 * Get the relativeY of the map relative to other maps.
+	 * 
+	 * @return The relativeY.
+	 */
 	public byte getRelativeY()
 	{
 		return relativeY;
@@ -1161,21 +1147,21 @@ public abstract class Map
 	}
 	
 	/**
-	* Add a Building object to the #buildings ArrayList.0
-	* 
-	* @param building The Building object.
-	*/
+	 * Add a Building object to the #buildings ArrayList.0
+	 * 
+	 * @param building The Building object.
+	 */
 	public void addBuilding(Building building)
 	{
 		buildings.add(building);
 	}
 	
 	/**
-	* An abstract method used for retrieving the seed used for
-	* generating the foreground. Each map should have a different one.
-	* 
-	* @return The seed of the Map.
-	*/
+	 * An abstract method used for retrieving the seed used for
+	 * generating the foreground. Each map should have a different one.
+	 * 
+	 * @return The seed of the Map.
+	 */
 	public abstract long getSeed();
 	
 	public static Map getMap(int rx, int ry)

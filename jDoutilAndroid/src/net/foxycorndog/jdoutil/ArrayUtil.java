@@ -70,6 +70,18 @@ public class ArrayUtil
 		return arr;
 	}
 	
+	public static Object[] toObjectArray(ArrayList<Object> array)
+	{
+		Object arr[] = new Object[array.size()];
+		
+		for (int i = 0; i < array.size(); i ++)
+		{
+			arr[i] = array.get(i);
+		}
+		
+		return arr;
+	}
+	
 	public static boolean equals(float array1[], float array2[])
 	{
 		if (array1.length != array2.length) return false;

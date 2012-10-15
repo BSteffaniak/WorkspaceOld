@@ -124,8 +124,6 @@ public class Idk
 				if (drawCanvas == null)
 				{
 					prefix = "";
-					
-					System.setProperty("org.lwjgl.librarypath", System.getProperty("user.dir") + "/natives");
 				}
 				else
 				{

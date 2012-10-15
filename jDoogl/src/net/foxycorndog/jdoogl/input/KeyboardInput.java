@@ -172,4 +172,9 @@ public class KeyboardInput
 	{
 		return length;
 	}
+
+	public static void poll()
+	{
+		Keyboard.poll();
+	}
 }

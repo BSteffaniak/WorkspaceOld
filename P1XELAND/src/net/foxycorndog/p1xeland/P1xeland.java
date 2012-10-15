@@ -120,7 +120,7 @@ public class P1xeland extends P1xelandInterface implements MouseListener
 		
 		public Cursor(String location)
 		{
-			texture = new Texture(location, "PNG", true, false);
+			texture = new Texture(location);
 			
 			verticesBuffer = new LightBuffer(4 * 2);
 			texturesBuffer = new LightBuffer(4 * 2);
@@ -181,6 +181,8 @@ public class P1xeland extends P1xelandInterface implements MouseListener
 			@Override
 			public void init()
 			{
+				GL.initBasicView(0.01f, 100f);
+				
 				p.init();
 		
 				Frame.setIcon("res/images/favicon/16s.png", "res/images/favicon/32s.png");

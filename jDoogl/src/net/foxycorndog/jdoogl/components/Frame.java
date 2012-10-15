@@ -32,9 +32,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import net.foxycorndog.jdobase.Base;
 import net.foxycorndog.jdoogl.Color;
@@ -59,6 +62,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.UnicodeFont.DisplayList;
@@ -221,7 +225,7 @@ public abstract class Frame
 			this.width  = width;
 			this.height = height;
 			
-			cursorSprites = new Texture(location, "PNG", flipped, false);
+			cursorSprites = new Texture(location);
 			
 			verticesBuffer = new LightBuffer(4 * 2);
 			texturesBuffer = new LightBuffer(4 * 2);
@@ -272,12 +276,18 @@ public abstract class Frame
 		
 		GL.createFrame(width, height, title, drawCanvas);
 		
-		GL.initBasicView();
+//		GL.initBasicView();
 		
 		Display.setSwapInterval(1);
 		
-//		GL.WHITE = new SpriteSheet("res" + fileSeparator + "images" + fileSeparator + "White.png", "PNG", 1, 1, false);
-		GL.white = new Texture("res/images/White.png", "PNG", true, true);
+//		try {
+			System.out.println(this.getClass().getResource("res"));
+//		}catch (URISyntaxException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		GL.white = new Texture("res/images/White.png", this.getClass());
 		
 		newTime = System.currentTimeMillis();
 		oldTime = newTime;
@@ -373,35 +383,35 @@ public abstract class Frame
 				Util.nanoTime = System.nanoTime();
 				
 				GL.beginManipulation();
-				
-				if (Display.wasResized())
 				{
-					resized = true;
+					if (Display.wasResized())
+					{
+						resized = true;
+						
+						GL.resetBasicView();
+						
+						resizedDimensions = new Dimension(Display.getWidth(), Display.getHeight());
+						
+						scaleX = (float)resizedDimensions.width  / (float)originalDimensions.width;
+						scaleY = (float)resizedDimensions.height / (float)originalDimensions.height;
+						
+	//					Idk.offsetY = System.getProperty("os.name").contains("Mac") ? 23 : 0;
+					}
 					
-					GL.resetBasicView();
+					loop();
 					
-					resizedDimensions = new Dimension(Display.getWidth(), Display.getHeight());
+					listenMouse();
+					listenKeys();
 					
-					scaleX = (float)resizedDimensions.width  / (float)originalDimensions.width;
-					scaleY = (float)resizedDimensions.height / (float)originalDimensions.height;
+					render();
 					
-//					Idk.offsetY = System.getProperty("os.name").contains("Mac") ? 23 : 0;
+					updateFps();
+					
+					if (cursor != null)
+					{
+						cursor.render();
+					}
 				}
-				
-				loop();
-				
-				listenMouse();
-				listenKeys();
-				
-				render();
-				
-				updateFps();
-				
-				if (cursor != null)
-				{
-					cursor.render();
-				}
-				
 				GL.endManipulation();
 
 				resized = false;
