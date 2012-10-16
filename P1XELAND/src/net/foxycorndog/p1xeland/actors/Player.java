@@ -305,7 +305,7 @@ public class Player extends Actor
 	{
 		if (!initialized)
 		{
-			sprites                = new SpriteSheet("res/images/character/skins/default.png", "PNG", 16, 8, true, false);
+			sprites                = new SpriteSheet("res/images/character/skins/default.png", 16, 8);
 			
 			verticesBuffer         = new LightBuffer(RECT_SIZE * 6 * 4);
 			texturesBuffer         = new LightBuffer(RECT_SIZE * 6 * 4);

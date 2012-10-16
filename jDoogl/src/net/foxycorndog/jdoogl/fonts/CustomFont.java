@@ -9,7 +9,7 @@ public class CustomFont
 	
 	public CustomFont(String location, int cols, int rows, String glyphs)
 	{
-		image = new SpriteSheet(location, "PNG", cols, rows, true, true);
+		image = new SpriteSheet(location, cols, rows);
 	}
 	
 	public void drawString(float x, float y, String string)

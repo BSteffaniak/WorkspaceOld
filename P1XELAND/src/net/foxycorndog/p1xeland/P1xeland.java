@@ -758,7 +758,7 @@ public class P1xeland extends P1xelandInterface implements MouseListener
 		
 		player.getQuickBar().refreshInventory();
 		
-		new SpriteSheet("res/images/texturepacks/16bit/Minecraft/minecraft.png", "PNG", 36, 18, true, false);
+		new SpriteSheet("res/images/texturepacks/16bit/Minecraft/minecraft.png", 36, 18);
 		
 		playingGame = true;
 		
