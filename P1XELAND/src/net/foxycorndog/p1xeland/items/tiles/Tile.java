@@ -80,7 +80,7 @@ public enum Tile
 		if (!initialized)
 		{
 //			terrain = new SpriteSheet("res/images/texturepacks/8bit/Default/default.png", "PNG", 36, 18, true, false);
-			terrain = new SpriteSheet("res/images/texturepacks/16bit/Minecraft/minecraft.png", "PNG", 36, 18, true, false);
+			terrain = new SpriteSheet("res/images/texturepacks/16bit/Minecraft/minecraft.png", 36, 18);
 			
 			initialized = true;
 		}

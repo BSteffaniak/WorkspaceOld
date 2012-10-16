@@ -1,6 +1,7 @@
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.camera.Camera;
 import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoogl.input.KeyboardInput;
 import net.foxycorndog.jdoogl.input.MouseInput;
@@ -11,9 +12,10 @@ public class Main
 {
 	private static Main    m;
 	
-	private Texture        texture;
+//	private Texture        texture;
+	private SpriteSheet    sprites;
 	
-	private LightBuffer    textures;
+	private LightBuffer    textures, colors;
 	
 	private VerticesBuffer vertices;
 	
@@ -35,7 +37,7 @@ public class Main
 			{
 				GL.setRender3D(true);
 				
-				GL.initBasicLights();
+//				GL.initBasicLights();
 				
 				m.init();
 			}
@@ -59,13 +61,49 @@ public class Main
 	
 	public void init()
 	{
-		texture = new Texture("res/images/grass.png");
+//		texture = new Texture("res/images/grass.png");
+//		texture2 = new Texture("");
+		sprites = new SpriteSheet("res/images/sprites.png", 36, 18);
 		
-		vertices = new VerticesBuffer(4 * 3 * 6);
-		textures = new LightBuffer(2 * 4 * 6);
+		vertices = new VerticesBuffer(4 * 3 * 6 * 2);
+		textures = new LightBuffer(2 * 4 * 6 * 2);
+		colors   = new LightBuffer(4 * 4 * 6 * 2);
 		
 		vertices.addData(GL.addCubeVertexArrayf(0, 2.5f, -10, 2, 2, 2, 0, null));
-		textures.addData(GL.addCubeTextureArrayf(texture, 0, null));
+		textures.addData(GL.addCubeTextureArrayf(new float[][] { sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(7, 2, 1, 1), sprites.getImageOffsetsf(2, 0, 1, 1),  }, 0, null));
+
+		int r = 200;
+		int g = 200;
+		int b = 200;
+		int a = 200;
+		colors.addData(GL.addCubeColorArrayif(
+				new int[][]
+				{
+					new int[] { 255, 255, 255, a },
+					new int[] { 255, 255, 255, a },
+					new int[] { 255, 255, 255, a }, 
+					new int[] { 255, 255, 255, a },
+					new int[] { 151, 255, 100, a },
+					new int[] { 255, 255, 255, a }
+				} , 0, null));
+		
+		vertices.addData(GL.addCubeVertexArrayf(-100, -2, -100, 200, 2, 200, 0, null));
+		textures.addData(GL.addCubeTextureArrayf(GL.white, 0, null));
+		
+		r = 200;
+		g = 200;
+		b = 200;
+		a = 255;
+		colors.addData(GL.addCubeColorArrayif(
+				new int[][]
+				{
+					new int[] { r, g, b, a },
+					new int[] { r, g, b, a },
+					new int[] { r, g, b, a }, 
+					new int[] { r, g, b, a },
+					new int[] { r, g, b, a },
+					new int[] { r, g, b, a }
+				} , 0, null));
 		
 		player = new Player();
 		
@@ -74,22 +112,17 @@ public class Main
 	
 	public void render()
 	{
-		
 		player.lookThrough();
 //		p.draw();
+		GL.beginColorDraw(colors);
 		
-		GL.renderCubes(vertices, textures, texture, 0, 1);
+		GL.renderCubes(vertices, textures, sprites, 0, 1);
+		
+		GL.renderCubes(vertices, textures, GL.white, 1, 1);
 
-		GL.glBegin(GL.QUADS);
-		GL.glColor3f(0.9f, 0.2f, 0.1f);
-		GL.glVertex3f(-100.0f, 1.0f, 100.0f);
-		GL.glColor3f(0.4f, 0.8f, 0.4f);
-		GL.glVertex3f(-100.0f, 1.0f, -100.0f);
-		GL.glColor3f(0.2f, 0.9f, 0.1f);
-		GL.glVertex3f(100.0f, 1.0f, -100.0f);
-		GL.glColor3f(0.5f, 0.2f, 0.9f);
-		GL.glVertex3f(100.0f, 1.0f, 100.0f);
-		GL.glEnd();
+		GL.endColorDraw();
+		
+		
 	}
 	
 	public void loop()
@@ -176,7 +209,10 @@ public class Main
 			player.move(Camera.DOWN, 0.1f);
 		}
 		
-		player.yaw(dx * 0.07f);
-		player.pitch(-dy * 0.07f);
+		if (MouseInput.isGrabbed())
+		{
+			player.yaw(dx * 0.10f);
+			player.pitch(-dy * 0.10f);
+		}
 	}
 }

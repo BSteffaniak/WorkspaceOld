@@ -1166,12 +1166,14 @@ public class GL
 //			
 			glEnable(GL11.GL_TEXTURE_2D);
 			
-//			glEnable(GL_BLEND);
-//			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			
 //			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			
 //			glEnable(GL_TEXTURE_2D);
+			
+			glEnable(GL_CULL_FACE);
 			
 			glShadeModel(GL_SMOOTH); // Enable Smooth Shading
 			glClearColor(0.0f, 0.3f, 0.6f, 0.0f); // Blue Background
@@ -1191,7 +1193,7 @@ public class GL
 			// Really Nice Perspective Calculations
 			glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 			
-			glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+			glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);//GL_DECAL);
 			
 //			GL11.glEnable(GL11.GL_TEXTURE_2D);
 //			GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -1358,6 +1360,107 @@ public class GL
 		return array;
 	}
 	
+	public static float[] addCubeColorArrayif(int r, int g, int b, int a, int offset, float[] array)
+	{
+		if (array == null)
+		{
+			array = new float[4 * 4 * 6];
+			
+			offset = 0;
+		}
+		
+		int index = 0;
+		
+		for (int i = 0; i < 6; i ++)
+		{
+			array[offset + index ++] = r / 255f;
+			array[offset + index ++] = g / 255f;
+			array[offset + index ++] = b / 255f;
+			array[offset + index ++] = a / 255f;
+			
+			array[offset + index ++] = r / 255f;
+			array[offset + index ++] = g / 255f;
+			array[offset + index ++] = b / 255f;
+			array[offset + index ++] = a / 255f;
+			
+			array[offset + index ++] = r / 255f;
+			array[offset + index ++] = g / 255f;
+			array[offset + index ++] = b / 255f;
+			array[offset + index ++] = a / 255f;
+			
+			array[offset + index ++] = r / 255f;
+			array[offset + index ++] = g / 255f;
+			array[offset + index ++] = b / 255f;
+			array[offset + index ++] = a / 255f;
+		}
+		
+		return array;
+	}
+	
+	public static float[] addCubeColorArrayif(int colors[][], int offset, float[] array)
+	{
+		if (array == null)
+		{
+			array  = new float[4 * 4 * 6];
+			
+			offset = 0;
+		}
+		
+		int index   = 0;
+		
+		int leftOff = 0;
+		
+		for (leftOff = 0; leftOff < colors.length; leftOff ++)
+		{
+			array[offset + index ++] = colors[leftOff][0] / 255f;
+			array[offset + index ++] = colors[leftOff][1] / 255f;
+			array[offset + index ++] = colors[leftOff][2] / 255f;
+			array[offset + index ++] = colors[leftOff][3] / 255f;
+			
+			array[offset + index ++] = colors[leftOff][0] / 255f;
+			array[offset + index ++] = colors[leftOff][1] / 255f;
+			array[offset + index ++] = colors[leftOff][2] / 255f;
+			array[offset + index ++] = colors[leftOff][3] / 255f;
+			
+			array[offset + index ++] = colors[leftOff][0] / 255f;
+			array[offset + index ++] = colors[leftOff][1] / 255f;
+			array[offset + index ++] = colors[leftOff][2] / 255f;
+			array[offset + index ++] = colors[leftOff][3] / 255f;
+			
+			array[offset + index ++] = colors[leftOff][0] / 255f;
+			array[offset + index ++] = colors[leftOff][1] / 255f;
+			array[offset + index ++] = colors[leftOff][2] / 255f;
+			array[offset + index ++] = colors[leftOff][3] / 255f;
+		}
+		
+		leftOff --;
+		
+		for (int i = leftOff + 1; i < 6; i ++)
+		{
+			array[offset + index ++] = colors[leftOff][0] / 255f;
+			array[offset + index ++] = colors[leftOff][1] / 255f;
+			array[offset + index ++] = colors[leftOff][2] / 255f;
+			array[offset + index ++] = colors[leftOff][3] / 255f;
+			
+			array[offset + index ++] = colors[leftOff][0] / 255f;
+			array[offset + index ++] = colors[leftOff][1] / 255f;
+			array[offset + index ++] = colors[leftOff][2] / 255f;
+			array[offset + index ++] = colors[leftOff][3] / 255f;
+			
+			array[offset + index ++] = colors[leftOff][0] / 255f;
+			array[offset + index ++] = colors[leftOff][1] / 255f;
+			array[offset + index ++] = colors[leftOff][2] / 255f;
+			array[offset + index ++] = colors[leftOff][3] / 255f;
+			
+			array[offset + index ++] = colors[leftOff][0] / 255f;
+			array[offset + index ++] = colors[leftOff][1] / 255f;
+			array[offset + index ++] = colors[leftOff][2] / 255f;
+			array[offset + index ++] = colors[leftOff][3] / 255f;
+		}
+		
+		return array;
+	}
+	
 	public static double[] addRectColorArrayid(int r, int g, int b, int a, int offset, double[] array)
 	{
 		if (array == null)
@@ -1431,7 +1534,17 @@ public class GL
 		return addCubeTextureArrayf(texture.getImageOffsetsf(), offset, array);
 	}
 	
+	public static float[] addCubeTextureArrayf(SpriteSheet sprites, int x, int y, int w, int h, int offset, float array[])
+	{
+		return addCubeTextureArrayf(sprites.getImageOffsetsf(x, y, w, h), offset, array);
+	}
+	
 	public static float[] addCubeTextureArrayf(float offsets[], int offset, float array[])
+	{
+		return addCubeTextureArrayf(new float[][] { offsets }, offset, array);
+	}
+	
+	public static float[] addCubeTextureArrayf(float offsets[][], int offset, float array[])
 	{
 		if (array == null)
 		{
@@ -1440,117 +1553,41 @@ public class GL
 			offset = 0;
 		}
 		
-		int index = 0;
+		int index   = 0;
 		
-		for (int i = 0; i < 6; i ++)
+		int leftOff = 0;
+		
+		for (leftOff = 0; leftOff < offsets.length; leftOff ++)
 		{
-			// Front
-			array[offset + index ++] = offsets[0];
-			array[offset + index ++] = offsets[1];
-	//		array[offset + index ++] = 0;
+			array[offset + index ++] = offsets[leftOff][0];
+			array[offset + index ++] = offsets[leftOff][1];
 			
-			array[offset + index ++] = offsets[0];
-			array[offset + index ++] = offsets[3];
-	//		array[offset + index ++] = 0;
+			array[offset + index ++] = offsets[leftOff][0];
+			array[offset + index ++] = offsets[leftOff][3];
 			
-			array[offset + index ++] = offsets[2];
-			array[offset + index ++] = offsets[3];
-	//		array[offset + index ++] = 0;
+			array[offset + index ++] = offsets[leftOff][2];
+			array[offset + index ++] = offsets[leftOff][3];
 			
-			array[offset + index ++] = offsets[2];
-			array[offset + index ++] = offsets[1];
-	//		array[offset + index ++] = 0;
+			array[offset + index ++] = offsets[leftOff][2];
+			array[offset + index ++] = offsets[leftOff][1];
 		}
 		
+		leftOff --;
 		
-//		// Right
-//		array[offset + index ++] = offsets[2];
-//		array[offset + index ++] = offsets[1];
-////		array[offset + index ++] = 0;
-//		
-//		array[offset + index ++] = offsets[2];
-//		array[offset + index ++] = offsets[3];
-////		array[offset + index ++] = 0;
-//		
-//		array[offset + index ++] = offsets[2];
-//		array[offset + index ++] = offsets[3];
-////		array[offset + index ++] = 1;
-//		
-//		array[offset + index ++] = offsets[2];
-//		array[offset + index ++] = offsets[1];
-////		array[offset + index ++] = 1;
-//		
-//		
-//		// Back
-//		array[offset + index ++] = offsets[0];
-//		array[offset + index ++] = offsets[1];
-////		array[offset + index ++] = 1;
-//		
-//		array[offset + index ++] = offsets[0];
-//		array[offset + index ++] = offsets[3];
-////		array[offset + index ++] = 1;
-//		
-//		array[offset + index ++] = offsets[2];
-//		array[offset + index ++] = offsets[3];
-////		array[offset + index ++] = 1;
-//		
-//		array[offset + index ++] = offsets[2];
-//		array[offset + index ++] = offsets[1];
-////		array[offset + index ++] = 1;
-//		
-//		
-//		// Left
-//		array[offset + index ++] = offsets[0];
-//		array[offset + index ++] = offsets[1];
-////		array[offset + index ++] = 1;
-//		
-//		array[offset + index ++] = offsets[2];
-//		array[offset + index ++] = offsets[3];
-////		array[offset + index ++] = 1;
-//		
-//		array[offset + index ++] = offsets[0];
-//		array[offset + index ++] = offsets[3];
-////		array[offset + index ++] = 0;
-//		
-//		array[offset + index ++] = offsets[0];
-//		array[offset + index ++] = offsets[1];
-////		array[offset + index ++] = 0;
-//		
-//		
-//		// Top
-//		array[offset + index ++] = offsets[0];
-//		array[offset + index ++] = offsets[3];
-////		array[offset + index ++] = 0;
-//		
-//		array[offset + index ++] = offsets[0];
-//		array[offset + index ++] = offsets[3];
-////		array[offset + index ++] = 1;
-//		
-//		array[offset + index ++] = offsets[2];
-//		array[offset + index ++] = offsets[3];
-////		array[offset + index ++] = 1;
-//		
-//		array[offset + index ++] = offsets[2];
-//		array[offset + index ++] = offsets[3];
-////		array[offset + index ++] = 0;
-//		
-//		
-//		// Bottom
-//		array[offset + index ++] = offsets[0];
-//		array[offset + index ++] = offsets[1];
-////		array[offset + index ++] = 0;
-//		
-//		array[offset + index ++] = offsets[0];
-//		array[offset + index ++] = offsets[1];
-////		array[offset + index ++] = 1;
-//		
-//		array[offset + index ++] = offsets[2];
-//		array[offset + index ++] = offsets[1];
-////		array[offset + index ++] = 1;
-//		
-//		array[offset + index ++] = offsets[2];
-//		array[offset + index ++] = offsets[1];
-////		array[offset + index ++] = 0;
+		for (int i = leftOff + 1; i < 6; i ++)
+		{
+			array[offset + index ++] = offsets[leftOff][0];
+			array[offset + index ++] = offsets[leftOff][1];
+			
+			array[offset + index ++] = offsets[leftOff][0];
+			array[offset + index ++] = offsets[leftOff][3];
+			
+			array[offset + index ++] = offsets[leftOff][2];
+			array[offset + index ++] = offsets[leftOff][3];
+			
+			array[offset + index ++] = offsets[leftOff][2];
+			array[offset + index ++] = offsets[leftOff][1];
+		}
 		
 		return array;
 	}
@@ -1603,19 +1640,19 @@ public class GL
 		
 		
 		// Back
-		array[offset + index ++] = x;
+		array[offset + index ++] = x + width;
 		array[offset + index ++] = y;
 		array[offset + index ++] = z + depth;
 		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z + depth;
+		
 		array[offset + index ++] = x;
 		array[offset + index ++] = y + height;
 		array[offset + index ++] = z + depth;
 		
-		array[offset + index ++] = x + width;
-		array[offset + index ++] = y + height;
-		array[offset + index ++] = z + depth;
-		
-		array[offset + index ++] = x + width;
+		array[offset + index ++] = x;
 		array[offset + index ++] = y;
 		array[offset + index ++] = z + depth;
 		
@@ -1661,17 +1698,17 @@ public class GL
 		array[offset + index ++] = y;
 		array[offset + index ++] = z;
 		
-		array[offset + index ++] = x;
-		array[offset + index ++] = y;
-		array[offset + index ++] = z + depth;
-		
-		array[offset + index ++] = x + width;
-		array[offset + index ++] = y;
-		array[offset + index ++] = z + depth;
-		
 		array[offset + index ++] = x + width;
 		array[offset + index ++] = y;
 		array[offset + index ++] = z;
+		
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z + depth;
+		
+		array[offset + index ++] = x;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z + depth;
 		
 		return array;
 	}

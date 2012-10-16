@@ -56,8 +56,8 @@ public class Image extends Component
 		verticesBuffer = new LightBuffer(4 * 2);
 		texturesBuffer = new LightBuffer(4 * 2);
 		
-		int wid = spriteSheet.getImageWidth()  / spriteSheet.getCols();
-		int hei = spriteSheet.getImageHeight() / spriteSheet.getRows();
+		int wid = spriteSheet.getWidth()  / spriteSheet.getCols();
+		int hei = spriteSheet.getHeight() / spriteSheet.getRows();
 		
 		verticesBuffer.setData(0, GL.addRectVertexArrayf(0, 0, wid, hei, 0, null));
 		texturesBuffer.setData(0, GL.addRectTextureArrayf(spriteSheet.getImageOffsetsf(col, row, width, height), 0, null));
@@ -76,8 +76,8 @@ public class Image extends Component
 		verticesBuffer = new LightBuffer(4 * 2);
 		texturesBuffer = new LightBuffer(4 * 2);
 		
-		int wid = spriteSheet.getImageWidth()  / spriteSheet.getCols();
-		int hei = spriteSheet.getImageHeight() / spriteSheet.getRows();
+		int wid = spriteSheet.getWidth()  / spriteSheet.getCols();
+		int hei = spriteSheet.getHeight() / spriteSheet.getRows();
 		
 		verticesBuffer.setData(0, GL.addRectVertexArrayf(0, 0, wid * rx, hei * ry, 0, null));
 		texturesBuffer.setData(0, GL.addRectTextureArrayf(spriteSheet.getImageOffsetsf(col, row, width, height), rx, ry, 0, null));

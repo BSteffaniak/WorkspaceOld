@@ -38,7 +38,8 @@ public class Texture extends ImageMap
 		try
 		{
 			try
-			{System.out.println(clazz.getResource(location));
+			{
+//				System.out.println(clazz.getResource(location));
 				image = ImageIO.read(new File(clazz.getResource(location).toURI()));
 			}
 			catch (URISyntaxException e)
@@ -314,5 +315,15 @@ public class Texture extends ImageMap
 	public int getHeight()
 	{
 		return height;
+	}
+	
+	public float getTextureWidth()
+	{
+		return 1;//texWid;
+	}
+	
+	public float getTextureHeight()
+	{
+		return 1;//texHei;
 	}
 }

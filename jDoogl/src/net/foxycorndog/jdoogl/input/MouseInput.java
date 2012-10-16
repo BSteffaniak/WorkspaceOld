@@ -37,6 +37,11 @@ public class MouseInput
 		return Mouse.isButtonDown(button);
 	}
 	
+	public static boolean isGrabbed()
+	{
+		return Mouse.isGrabbed();
+	}
+	
 	public static void setGrabbed(boolean grabbed)
 	{
 		Mouse.setGrabbed(grabbed);
