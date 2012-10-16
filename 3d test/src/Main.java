@@ -31,7 +31,6 @@ public class Main
 		
 		new Frame(640, 512, "ASDF", null)
 		{
-			@Override
 			public void init()
 			{
 				GL.setRender3D(true);
@@ -41,13 +40,11 @@ public class Main
 				m.init();
 			}
 			
-			@Override
 			public void render()
 			{
 				m.render();
 			}
 			
-			@Override
 			public void loop()
 			{
 				m.loop();
