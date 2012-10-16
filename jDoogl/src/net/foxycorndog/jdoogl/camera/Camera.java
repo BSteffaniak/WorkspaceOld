@@ -93,9 +93,9 @@ public class Camera
 		GL.translatef(location.x, location.y, location.z);
 	}
 	
-	public Vector3f getLocation()
+	public float[] getLocation()
 	{
-		return location;
+		return new float[] { -location.x, -location.y, -location.z };
 	}
 }
 

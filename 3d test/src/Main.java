@@ -15,11 +15,13 @@ public class Main
 //	private Texture        texture;
 	private SpriteSheet    sprites;
 	
-	private LightBuffer    textures, colors;
+	private LightBuffer    texturesBuffer, colorsBuffer;
 	
-	private VerticesBuffer vertices;
+	private VerticesBuffer verticesBuffer;
 	
 	private Player         player;
+	
+	private float          vertices[];
 	
 	private float lastTime;
 //	private static final float _headSens = 0.002f;
@@ -65,18 +67,23 @@ public class Main
 //		texture2 = new Texture("");
 		sprites = new SpriteSheet("res/images/sprites.png", 36, 18);
 		
-		vertices = new VerticesBuffer(4 * 3 * 6 * 2);
-		textures = new LightBuffer(2 * 4 * 6 * 2);
-		colors   = new LightBuffer(4 * 4 * 6 * 2);
+		vertices = new float[4 * 3 * 6 * 2];
 		
-		vertices.addData(GL.addCubeVertexArrayf(0, 2.5f, -10, 2, 2, 2, 0, null));
-		textures.addData(GL.addCubeTextureArrayf(new float[][] { sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(7, 2, 1, 1), sprites.getImageOffsetsf(2, 0, 1, 1),  }, 0, null));
+		verticesBuffer = new VerticesBuffer(4 * 3 * 6 * 2);
+		texturesBuffer = new LightBuffer(2 * 4 * 6 * 2);
+		colorsBuffer   = new LightBuffer(4 * 4 * 6 * 2);
+		
+		GL.addCubeVertexArrayf(0, 2.5f, -10, 2, 2, 2, 0, vertices);
+		GL.addCubeVertexArrayf(-100, -2, -100, 200, 2, 200, 4 * 3 * 6, vertices);
+		
+		verticesBuffer.addData(vertices);
+		texturesBuffer.addData(GL.addCubeTextureArrayf(new float[][] { sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(7, 2, 1, 1), sprites.getImageOffsetsf(2, 0, 1, 1),  }, 0, null));
 
 		int r = 200;
 		int g = 200;
 		int b = 200;
-		int a = 200;
-		colors.addData(GL.addCubeColorArrayif(
+		int a = 100;
+		colorsBuffer.addData(GL.addCubeColorArrayif(
 				new int[][]
 				{
 					new int[] { 255, 255, 255, a },
@@ -87,14 +94,13 @@ public class Main
 					new int[] { 255, 255, 255, a }
 				} , 0, null));
 		
-		vertices.addData(GL.addCubeVertexArrayf(-100, -2, -100, 200, 2, 200, 0, null));
-		textures.addData(GL.addCubeTextureArrayf(GL.white, 0, null));
+		texturesBuffer.addData(GL.addCubeTextureArrayf(GL.white, 0, null));
 		
 		r = 200;
 		g = 200;
 		b = 200;
 		a = 255;
-		colors.addData(GL.addCubeColorArrayif(
+		colorsBuffer.addData(GL.addCubeColorArrayif(
 				new int[][]
 				{
 					new int[] { r, g, b, a },
@@ -105,7 +111,7 @@ public class Main
 					new int[] { r, g, b, a }
 				} , 0, null));
 		
-		player = new Player();
+		player = new Player(1, 1, 1);
 		
 		player.move(Camera.UP, 3);
 	}
@@ -114,11 +120,11 @@ public class Main
 	{
 		player.lookThrough();
 //		p.draw();
-		GL.beginColorDraw(colors);
+		GL.beginColorDraw(colorsBuffer);
 		
-		GL.renderCubes(vertices, textures, sprites, 0, 1);
+		GL.renderCubes(verticesBuffer, texturesBuffer, sprites, 0, 1);
 		
-		GL.renderCubes(vertices, textures, GL.white, 1, 1);
+		GL.renderCubes(verticesBuffer, texturesBuffer, GL.white, 1, 1);
 
 		GL.endColorDraw();
 		
@@ -127,6 +133,11 @@ public class Main
 	
 	public void loop()
 	{
+		if (player.collided(vertices))
+		{
+			System.out.println("Collided");
+		}
+		
 		pollEvents();
 	}
 	
