@@ -1,6 +1,7 @@
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.camera.Camera;
 import net.foxycorndog.jdoutil.Buffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 
 import java.nio.FloatBuffer;
 
@@ -13,15 +14,21 @@ public class Player
 {
 	private boolean jumping, movingUp;
 	
-	private float width, height, depth;
-	private float offsetX, offsetY, offsetZ;
-	private float startY;
+	private int     perspective;
 	
-	private Camera camera;
+	private float   width, height, depth;
+	private float   offsetX, offsetY, offsetZ;
+	private float   startY;
 	
-	private Map    map;
+	private Camera  camera;
+	
+	private Map     map;
+	
+	private VerticesBuffer verticesBuffer;
 	
 	private static final float TOLERANCE = 0.0001f;
+	
+	public  static final int   THIRD = 3, FIRST = 1;
 	
 	public Player(float width, float height, float depth, float offsetX, float offsetY, float offsetZ, Map map)
 	{
@@ -36,6 +43,11 @@ public class Player
 		this.map     = map;
 		
 		camera       = new Camera();
+		
+		setPerspective(THIRD);
+		
+		verticesBuffer = new VerticesBuffer(3 * 4 * 6);
+		verticesBuffer.addData(GL.addCubeVertexArrayf(0, 0, 0, width, height, depth, 0, null));
 	}
 	
 	public boolean collided(Map map)
@@ -135,6 +147,44 @@ public class Player
 			{
 				jumping = false;
 			}
+		}
+	}
+	
+	public void render()
+	{
+		GL.beginManipulation();
+		{
+			GL.setColori(25, 25, 25, 255);
+			
+			GL.translatef(-offsetX + camera.getX(), -offsetY + camera.getY(), -offsetZ + camera.getZ());
+			
+			GL.renderCubes(verticesBuffer, 0, 1);
+		}
+		GL.endManipulation();
+	}
+	
+	public void setPerspective(int perspective)
+	{
+		if (this.perspective == perspective)
+		{
+			return;
+		}
+		
+		if (perspective == THIRD)
+		{
+			offsetZ += 6;
+			offsetY += 2;
+			
+			camera.move(Camera.FORWARD, -6);
+			camera.move(Camera.DOWN, -2);
+		}
+		else if (perspective == FIRST)
+		{
+			offsetZ -= 6;
+			offsetY -= 2;
+			
+			camera.move(Camera.FORWARD, 6);
+			camera.move(Camera.DOWN, 2);
 		}
 	}
 }

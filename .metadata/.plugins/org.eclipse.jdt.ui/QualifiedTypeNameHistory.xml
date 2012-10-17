@@ -36,14 +36,12 @@
 <fullyQualifiedTypeName name="android.content.Context"/>
 <fullyQualifiedTypeName name="java.io.OutputStreamWriter"/>
 <fullyQualifiedTypeName name="java.io.ObjectOutputStream"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoutil.VerticesBuffer"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.LightBuffer"/>
 <fullyQualifiedTypeName name="java.nio.FloatBuffer"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.Buffer"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.components.Frame"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.input.KeyboardInput"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.camera.Camera"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.GL"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.image.imagemap.Texture"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
 <fullyQualifiedTypeName name="org.lwjgl.BufferUtils"/>
@@ -60,4 +58,6 @@
 <fullyQualifiedTypeName name="org.lwjgl.input.Mouse"/>
 <fullyQualifiedTypeName name="java.awt.Image"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.image.imagemap.SpriteSheet"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoutil.VerticesBuffer"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.GL"/>
 </qualifiedTypeNameHistroy>

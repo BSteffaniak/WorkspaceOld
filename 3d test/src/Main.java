@@ -63,12 +63,14 @@ public class Main
 		
 		player = new Player(2, 2, 2, 1, 1, 1, map);
 		
-		player.move(Camera.UP, 3);
+		player.move(Camera.UP, 9);
 	}
 	
 	public void render()
 	{
 		player.lookThrough();
+		
+		player.render();
 		
 		map.render();
 	}
@@ -100,8 +102,6 @@ public class Main
 //		// get mouse alterations
 		float dx = MouseInput.getDX() + MouseInput.getDraggedDX();
 		float dy = MouseInput.getDY() + MouseInput.getDraggedDY();
-		
-		System.out.println(dx + ", " + dy);
 //		// set heading and pitch
 //		p.setHeading(dx * _headSens);
 //		p.setPitch(dy * _pitchSens);
@@ -166,6 +166,14 @@ public class Main
 		{
 			player.yaw(dx * 0.10f);
 			player.pitch(-dy * 0.10f);
+		}
+		
+		if (KeyboardInput.next())
+		{
+			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_C))
+			{
+				player.setPerspective(Player.FIRST);
+			}
 		}
 		
 		player.update();

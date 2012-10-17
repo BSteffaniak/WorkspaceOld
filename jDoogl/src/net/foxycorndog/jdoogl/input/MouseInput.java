@@ -78,8 +78,6 @@ public class MouseInput
 		oldX = Mouse.getX();
 		oldY = Mouse.getY();
 		
-		System.out.println(dx + ", " + dy + " : " + Mouse.getX() + ", " + Mouse.getY() + " : " + oldX + ", " + oldY);
-		
 		Mouse.next();
 	}
 }

@@ -97,6 +97,21 @@ public class Camera
 	{
 		return new float[] { -location.x, -location.y, -location.z };
 	}
+	
+	public float getX()
+	{
+		return -location.x;
+	}
+	
+	public float getY()
+	{
+		return -location.y;
+	}
+	
+	public float getZ()
+	{
+		return -location.z;
+	}
 }
 
 //private static final float _90 = (float) Math.toRadians(90);

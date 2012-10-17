@@ -9575,3 +9575,214 @@ Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspac
 !MESSAGE Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Installer\bin\res\images.
 !SUBENTRY 5 org.eclipse.core.filesystem 4 273 2012-10-16 14:52:50.825
 !MESSAGE Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Installer\bin\res.
+!SESSION 2012-10-17 05:27:15.896 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.7.0_03
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.core.contenttype 4 0 2012-10-17 05:27:29.687
+!MESSAGE Could not create content describer for org.eclipse.wb.core.javaSourceGUI. Content type has been disabled.
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.wb.internal.core.DesignerPlugin.getPreferences(DesignerPlugin.java:113)
+	at org.eclipse.wb.internal.core.editor.describer.JavaSourceUiDescriber.isGUISource(JavaSourceUiDescriber.java:65)
+	at org.eclipse.wb.internal.core.editor.describer.JavaSourceUiDescriber.describe(JavaSourceUiDescriber.java:52)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.describe(ContentTypeCatalog.java:218)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.collectMatchingByContents(ContentTypeCatalog.java:190)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.internalFindContentTypesFor(ContentTypeCatalog.java:403)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.internalFindContentTypesFor(ContentTypeCatalog.java:450)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.getDescriptionFor(ContentTypeCatalog.java:346)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.getDescriptionFor(ContentTypeCatalog.java:360)
+	at org.eclipse.core.internal.content.ContentTypeMatcher.getDescriptionFor(ContentTypeMatcher.java:86)
+	at org.eclipse.core.internal.resources.ContentDescriptionManager.readDescription(ContentDescriptionManager.java:445)
+	at org.eclipse.core.internal.resources.ContentDescriptionManager.getDescriptionFor(ContentDescriptionManager.java:355)
+	at org.eclipse.core.internal.resources.File.internalGetCharset(File.java:246)
+	at org.eclipse.core.internal.resources.File.getCharset(File.java:207)
+	at org.eclipse.core.internal.resources.File.getCharset(File.java:194)
+	at org.eclipse.jdt.internal.core.util.Util.getResourceContentsAsCharArray(Util.java:1156)
+	at org.eclipse.jdt.internal.core.builder.SourceFile.getContents(SourceFile.java:79)
+	at org.eclipse.jdt.internal.compiler.ReadManager.getContents(ReadManager.java:144)
+	at org.eclipse.jdt.internal.compiler.parser.Parser.parse(Parser.java:9874)
+	at org.eclipse.jdt.internal.compiler.parser.Parser.parse(Parser.java:9846)
+	at org.eclipse.jdt.internal.compiler.parser.Parser.dietParse(Parser.java:8420)
+	at org.eclipse.jdt.internal.compiler.Compiler.internalBeginToCompile(Compiler.java:716)
+	at org.eclipse.jdt.internal.compiler.Compiler.beginToCompile(Compiler.java:381)
+	at org.eclipse.jdt.internal.compiler.Compiler.compile(Compiler.java:426)
+	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.compile(AbstractImageBuilder.java:364)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.compile(BatchImageBuilder.java:178)
+	at org.eclipse.jdt.internal.core.builder.AbstractImageBuilder.compile(AbstractImageBuilder.java:301)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.build(BatchImageBuilder.java:60)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildAll(JavaBuilder.java:254)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:184)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:199)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:239)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:292)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:295)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:351)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:374)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:143)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:241)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+
+!ENTRY org.eclipse.core.contenttype 4 0 2012-10-17 05:27:29.796
+!MESSAGE Could not create content describer for org.eclipse.wb.core.javaSourceGUI. Content type has been disabled.
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.wb.internal.core.DesignerPlugin.getPreferences(DesignerPlugin.java:113)
+	at org.eclipse.wb.internal.core.editor.describer.JavaSourceUiDescriber.isGUISource(JavaSourceUiDescriber.java:65)
+	at org.eclipse.wb.internal.core.editor.describer.JavaSourceUiDescriber.describe(JavaSourceUiDescriber.java:52)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.describe(ContentTypeCatalog.java:218)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.collectMatchingByContents(ContentTypeCatalog.java:190)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.internalFindContentTypesFor(ContentTypeCatalog.java:403)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.internalFindContentTypesFor(ContentTypeCatalog.java:450)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.getDescriptionFor(ContentTypeCatalog.java:346)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.getDescriptionFor(ContentTypeCatalog.java:360)
+	at org.eclipse.core.internal.content.ContentTypeMatcher.getDescriptionFor(ContentTypeMatcher.java:86)
+	at org.eclipse.core.internal.resources.ContentDescriptionManager.readDescription(ContentDescriptionManager.java:445)
+	at org.eclipse.core.internal.resources.ContentDescriptionManager.getDescriptionFor(ContentDescriptionManager.java:355)
+	at org.eclipse.core.internal.resources.File.internalGetCharset(File.java:246)
+	at org.eclipse.core.internal.resources.File.getCharset(File.java:207)
+	at org.eclipse.core.internal.resources.File.getCharset(File.java:194)
+	at org.eclipse.jdt.internal.core.util.Util.getResourceContentsAsCharArray(Util.java:1156)
+	at org.eclipse.jdt.internal.core.builder.SourceFile.getContents(SourceFile.java:79)
+	at org.eclipse.jdt.internal.compiler.ReadManager.run(ReadManager.java:173)
+	at java.lang.Thread.run(Thread.java:722)
+
+!ENTRY org.eclipse.core.contenttype 4 0 2012-10-17 05:27:29.827
+!MESSAGE Could not create content describer for org.eclipse.wb.core.javaSourceGUI. Content type has been disabled.
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.wb.internal.core.DesignerPlugin.getPreferences(DesignerPlugin.java:113)
+	at org.eclipse.wb.internal.core.editor.describer.JavaSourceUiDescriber.isGUISource(JavaSourceUiDescriber.java:65)
+	at org.eclipse.wb.internal.core.editor.describer.JavaSourceUiDescriber.describe(JavaSourceUiDescriber.java:52)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.describe(ContentTypeCatalog.java:218)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.collectMatchingByContents(ContentTypeCatalog.java:190)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.internalFindContentTypesFor(ContentTypeCatalog.java:403)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.internalFindContentTypesFor(ContentTypeCatalog.java:450)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.getDescriptionFor(ContentTypeCatalog.java:346)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.getDescriptionFor(ContentTypeCatalog.java:360)
+	at org.eclipse.core.internal.content.ContentTypeMatcher.getDescriptionFor(ContentTypeMatcher.java:86)
+	at org.eclipse.core.internal.resources.ContentDescriptionManager.readDescription(ContentDescriptionManager.java:445)
+	at org.eclipse.core.internal.resources.ContentDescriptionManager.getDescriptionFor(ContentDescriptionManager.java:355)
+	at org.eclipse.core.internal.resources.File.internalGetCharset(File.java:246)
+	at org.eclipse.core.internal.resources.File.getCharset(File.java:207)
+	at org.eclipse.core.internal.resources.File.getCharset(File.java:194)
+	at org.eclipse.jdt.internal.core.util.Util.getResourceContentsAsCharArray(Util.java:1156)
+	at org.eclipse.jdt.internal.core.builder.SourceFile.getContents(SourceFile.java:79)
+	at org.eclipse.jdt.internal.compiler.ReadManager.run(ReadManager.java:173)
+	at java.lang.Thread.run(Thread.java:722)
+
+!ENTRY org.eclipse.core.contenttype 4 0 2012-10-17 05:27:29.827
+!MESSAGE Could not create content describer for org.eclipse.wb.core.javaSourceGUI. Content type has been disabled.
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.wb.internal.core.DesignerPlugin.getPreferences(DesignerPlugin.java:113)
+	at org.eclipse.wb.internal.core.editor.describer.JavaSourceUiDescriber.isGUISource(JavaSourceUiDescriber.java:65)
+	at org.eclipse.wb.internal.core.editor.describer.JavaSourceUiDescriber.describe(JavaSourceUiDescriber.java:52)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.describe(ContentTypeCatalog.java:218)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.collectMatchingByContents(ContentTypeCatalog.java:190)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.internalFindContentTypesFor(ContentTypeCatalog.java:403)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.internalFindContentTypesFor(ContentTypeCatalog.java:450)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.getDescriptionFor(ContentTypeCatalog.java:346)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.getDescriptionFor(ContentTypeCatalog.java:360)
+	at org.eclipse.core.internal.content.ContentTypeMatcher.getDescriptionFor(ContentTypeMatcher.java:86)
+	at org.eclipse.core.internal.resources.ContentDescriptionManager.readDescription(ContentDescriptionManager.java:445)
+	at org.eclipse.core.internal.resources.ContentDescriptionManager.getDescriptionFor(ContentDescriptionManager.java:355)
+	at org.eclipse.core.internal.resources.File.internalGetCharset(File.java:246)
+	at org.eclipse.core.internal.resources.File.getCharset(File.java:207)
+	at org.eclipse.core.internal.resources.File.getCharset(File.java:194)
+	at org.eclipse.jdt.internal.core.util.Util.getResourceContentsAsCharArray(Util.java:1156)
+	at org.eclipse.jdt.internal.core.builder.SourceFile.getContents(SourceFile.java:79)
+	at org.eclipse.jdt.internal.compiler.ReadManager.run(ReadManager.java:173)
+	at java.lang.Thread.run(Thread.java:722)
+
+!ENTRY org.eclipse.core.contenttype 4 0 2012-10-17 05:27:29.827
+!MESSAGE Could not create content describer for org.eclipse.wb.core.javaSourceGUI. Content type has been disabled.
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.wb.internal.core.DesignerPlugin.getPreferences(DesignerPlugin.java:113)
+	at org.eclipse.wb.internal.core.editor.describer.JavaSourceUiDescriber.isGUISource(JavaSourceUiDescriber.java:65)
+	at org.eclipse.wb.internal.core.editor.describer.JavaSourceUiDescriber.describe(JavaSourceUiDescriber.java:52)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.describe(ContentTypeCatalog.java:218)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.collectMatchingByContents(ContentTypeCatalog.java:190)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.internalFindContentTypesFor(ContentTypeCatalog.java:403)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.internalFindContentTypesFor(ContentTypeCatalog.java:450)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.getDescriptionFor(ContentTypeCatalog.java:346)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.getDescriptionFor(ContentTypeCatalog.java:360)
+	at org.eclipse.core.internal.content.ContentTypeMatcher.getDescriptionFor(ContentTypeMatcher.java:86)
+	at org.eclipse.core.internal.resources.ContentDescriptionManager.readDescription(ContentDescriptionManager.java:445)
+	at org.eclipse.core.internal.resources.ContentDescriptionManager.getDescriptionFor(ContentDescriptionManager.java:355)
+	at org.eclipse.core.internal.resources.File.internalGetCharset(File.java:246)
+	at org.eclipse.core.internal.resources.File.getCharset(File.java:207)
+	at org.eclipse.core.internal.resources.File.getCharset(File.java:194)
+	at org.eclipse.jdt.internal.core.util.Util.getResourceContentsAsCharArray(Util.java:1156)
+	at org.eclipse.jdt.internal.core.builder.SourceFile.getContents(SourceFile.java:79)
+	at org.eclipse.jdt.internal.compiler.ReadManager.run(ReadManager.java:173)
+	at java.lang.Thread.run(Thread.java:722)
+
+!ENTRY org.eclipse.core.contenttype 4 0 2012-10-17 05:27:30.014
+!MESSAGE Could not create content describer for org.eclipse.wb.core.javaSourceGUI. Content type has been disabled.
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.wb.internal.core.DesignerPlugin.getPreferences(DesignerPlugin.java:113)
+	at org.eclipse.wb.internal.core.editor.describer.JavaSourceUiDescriber.isGUISource(JavaSourceUiDescriber.java:65)
+	at org.eclipse.wb.internal.core.editor.describer.JavaSourceUiDescriber.describe(JavaSourceUiDescriber.java:52)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.describe(ContentTypeCatalog.java:218)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.collectMatchingByContents(ContentTypeCatalog.java:190)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.internalFindContentTypesFor(ContentTypeCatalog.java:403)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.internalFindContentTypesFor(ContentTypeCatalog.java:450)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.getDescriptionFor(ContentTypeCatalog.java:346)
+	at org.eclipse.core.internal.content.ContentTypeCatalog.getDescriptionFor(ContentTypeCatalog.java:360)
+	at org.eclipse.core.internal.content.ContentTypeMatcher.getDescriptionFor(ContentTypeMatcher.java:86)
+	at org.eclipse.core.internal.resources.ContentDescriptionManager.readDescription(ContentDescriptionManager.java:445)
+	at org.eclipse.core.internal.resources.ContentDescriptionManager.getDescriptionFor(ContentDescriptionManager.java:355)
+	at org.eclipse.core.internal.resources.File.internalGetCharset(File.java:246)
+	at org.eclipse.core.internal.resources.File.getCharset(File.java:207)
+	at org.eclipse.core.internal.resources.File.getCharset(File.java:194)
+	at org.eclipse.jdt.internal.core.util.Util.getResourceContentsAsCharArray(Util.java:1156)
+	at org.eclipse.jdt.internal.core.builder.SourceFile.getContents(SourceFile.java:79)
+	at org.eclipse.jdt.internal.compiler.ReadManager.run(ReadManager.java:173)
+	at java.lang.Thread.run(Thread.java:722)
+
+!ENTRY org.eclipse.core.resources 4 566 2012-10-17 05:27:32.588
+!MESSAGE Workspace was not properly initialized or has already shutdown.
+
+!ENTRY org.eclipse.core.jobs 2 2 2012-10-17 05:27:37.393
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: com.android.ide.eclipse.adt.internal.sdk.Sdk$5
+
+!ENTRY org.eclipse.core.jobs 2 2 2012-10-17 05:27:37.393
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: com.android.ide.eclipse.adt.internal.sdk.Sdk$5
+
+!ENTRY org.eclipse.core.jobs 2 2 2012-10-17 05:27:37.393
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: com.android.ide.eclipse.adt.internal.sdk.Sdk$5
+
+!ENTRY org.eclipse.core.jobs 2 2 2012-10-17 05:27:37.393
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: com.android.ide.eclipse.adt.internal.sdk.Sdk$3$1
+
+!ENTRY org.eclipse.core.jobs 2 2 2012-10-17 05:27:37.393
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: com.android.ide.eclipse.adt.AdtPlugin$7
+
+!ENTRY org.eclipse.core.jobs 2 2 2012-10-17 05:27:37.393
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: com.android.ide.eclipse.adt.internal.sdk.Sdk$5
+
+!ENTRY org.eclipse.core.jobs 2 2 2012-10-17 05:27:37.393
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: com.android.ide.eclipse.adt.internal.sdk.Sdk$3$1
+
+!ENTRY org.eclipse.core.jobs 2 2 2012-10-17 05:27:37.393
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: com.android.ide.eclipse.adt.AdtPlugin$7
+!SESSION 2012-10-17 05:28:10.028 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.7.0_03
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.core.resources 2 10035 2012-10-17 05:28:11.183
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
