@@ -59,7 +59,7 @@ public class Company
 			nextPoint = curve.getPoint(currentIndex);
 		}
 		
-		double distX = 0, distY = 0;
+		double distX   = 0, distY = 0;
 		
 		Rectangle tol1 = null, tol2 = null;
 		

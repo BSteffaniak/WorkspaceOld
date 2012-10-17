@@ -2,7 +2,7 @@
  * File:          Market.java
  * Author:        Braden Steffaniak
  * Programming:   APCS
- * Last Modified: 6Sep2012
+ * Last Modified: 16Oct2012
  * Description:   Class that is the starting point of the program.
  * In the main method, it creates a new Market.
  */
@@ -21,7 +21,8 @@ public class Market
 	}
 	
 	/**
-	 * Constructor 
+	 * Creates a Consumer and Producer and tests their
+	 * Points.
 	 */
 	public Market()
 	{
@@ -98,6 +99,10 @@ public class Market
 		}
 	}
 	
+	/**
+	 * Checks whether the Points intersects the rectangle passed.
+	 * If it does, then they are at equilibrium.
+	 */
 	public static boolean equilibrium(Point p, Rectangle tol)
 	{
 		Rectangle pointRect = new Rectangle(p.getQuantity(), p.getCost(), 1, 1);
@@ -105,6 +110,10 @@ public class Market
 		return pointRect.intersects(tol);
 	}
 	
+	/**
+	 * Checks whether the Points intersects the rectangles passed.
+	 * If it does, then they are at equilibrium.
+	 */
 	public static boolean equilibrium(Point p, Rectangle tol1, Rectangle tol2)
 	{
 		Rectangle pointRect = new Rectangle(p.getQuantity(), p.getCost(), 1, 1);
