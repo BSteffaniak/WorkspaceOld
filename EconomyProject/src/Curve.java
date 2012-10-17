@@ -25,7 +25,7 @@ public class Curve
 	 * @param x the x offset of the line.
 	 * @param num The number of Points on the line.
 	 */
-	public Curve(double m, double b, int x, int num)
+	public Curve(double m, int x, double b, int num)
 	{
 		points = new ArrayList<Point>(num);
 
@@ -37,6 +37,11 @@ public class Curve
 		}
 	}
 	
+	/**
+	 * Create a Curve of points with the specified array.
+	 * 
+	 * @param points The Point array of Points to create the Curve for.
+	 */
 	public Curve(Point points[])
 	{
 		this.points = new ArrayList<Point>(points.length);
@@ -158,38 +163,14 @@ public class Curve
 	}
 	
 	/**
-	 * Returns the closest Point to the right of the specific
-	 * quantity.
+	 * Return the Point at the specified index in the Point array.
+	 * 
+	 * @param index The index to access the Point from.
+	 * @return The Point at the specified index.
 	 */
-	public Point getPoint(int quantity)
+	public Point getPoint(int index)
 	{
-		int   closestIndex  = 0;
-		
-		long  pointQuantity = Integer.MAX_VALUE;
-		
-		Point point         = null;
-		
-		for (int i = 0; i < points.size(); i ++)
-		{
-			if (points.get(i).getQuantity() > quantity)
-			{
-				if (points.get(i).getQuantity() < pointQuantity)
-				{
-					closestIndex  = i;
-					pointQuantity = points.get(i).getQuantity();
-				}
-			}
-		}
-		
-		point = points.get(closestIndex);
-		
-		if (point == null)
-		{
-			throw new IllegalArgumentException("There are no Points on this " +
-					"Curve with a quantity greater than: " + quantity);
-		}
-		
-		return point;
+		return points.get(index);
 	}
 	
 	/**

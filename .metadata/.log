@@ -9419,3 +9419,159 @@ Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspac
 !SUBENTRY 5 org.eclipse.core.filesystem 4 273 2012-10-16 06:04:53.555
 !MESSAGE Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDoutilAndroid\bin\classes\net.
 >>>>>>> a9cad613e7a781ec71f8e6d79eb27f408dec4c0c
+!SESSION 2012-10-16 14:43:22.333 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.7.0_03
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2012-10-16 14:43:32.552
+!MESSAGE loadAndParseRClass failed to find class net.foxycorndog.idk.R
+!STACK 0
+java.lang.NoClassDefFoundError: net/foxycorndog/idk/R$raw
+	at java.lang.Class.getDeclaredClasses0(Native Method)
+	at java.lang.Class.getDeclaredClasses(Class.java:1716)
+	at com.android.ide.eclipse.adt.internal.resources.manager.CompiledResourcesMonitor.parseClass(CompiledResourcesMonitor.java:250)
+	at com.android.ide.eclipse.adt.internal.resources.manager.CompiledResourcesMonitor.loadAndParseRClass(CompiledResourcesMonitor.java:220)
+	at com.android.ide.eclipse.adt.internal.resources.manager.CompiledResourcesMonitor.projectOpenedWithWorkspace(CompiledResourcesMonitor.java:183)
+	at com.android.ide.eclipse.adt.internal.resources.manager.GlobalProjectMonitor.addProjectListener(GlobalProjectMonitor.java:397)
+	at com.android.ide.eclipse.adt.internal.resources.manager.CompiledResourcesMonitor.setupMonitor(CompiledResourcesMonitor.java:61)
+	at com.android.ide.eclipse.adt.internal.resources.manager.ResourceManager.setup(ResourceManager.java:121)
+	at com.android.ide.eclipse.adt.AdtPlugin.startEditors(AdtPlugin.java:1478)
+	at com.android.ide.eclipse.adt.AdtPlugin.start(AdtPlugin.java:266)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:299)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:440)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:268)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:107)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:463)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:400)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:476)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:345)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1207)
+	at org.eclipse.core.internal.registry.osgi.RegistryStrategyOSGI.createExecutableExtension(RegistryStrategyOSGI.java:174)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.createExecutableExtension(ExtensionRegistry.java:905)
+	at org.eclipse.core.internal.registry.ConfigurationElement.createExecutableExtension(ConfigurationElement.java:243)
+	at org.eclipse.core.internal.registry.ConfigurationElementHandle.createExecutableExtension(ConfigurationElementHandle.java:55)
+	at org.eclipse.ui.internal.WorkbenchPlugin$1.run(WorkbenchPlugin.java:268)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:52)
+	at org.eclipse.ui.internal.WorkbenchPlugin.createExtension(WorkbenchPlugin.java:264)
+	at org.eclipse.ui.internal.EarlyStartupRunnable.getExecutableExtension(EarlyStartupRunnable.java:117)
+	at org.eclipse.ui.internal.EarlyStartupRunnable.run(EarlyStartupRunnable.java:66)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.ui.internal.Workbench$63.run(Workbench.java:2470)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Caused by: java.lang.ClassNotFoundException: net.foxycorndog.idk.R$raw
+	at com.android.ide.eclipse.adt.internal.resources.manager.ProjectClassLoader.findClass(ProjectClassLoader.java:105)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
+	... 42 more
+!SESSION 2012-10-16 14:49:28.851 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.7.0_03
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.jdt.core 4 4 2012-10-16 14:52:50.825
+!MESSAGE JavaBuilder handling ImageBuilderInternalException while building: P1XELAND Installer
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Problems encountered while deleting resources.
+	at org.eclipse.core.internal.resources.Resource.delete(Resource.java:793)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.cleanOutputFolders(BatchImageBuilder.java:114)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.build(BatchImageBuilder.java:46)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildAll(JavaBuilder.java:254)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:178)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:199)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:239)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:292)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:295)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:351)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:374)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:143)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:241)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Contains: Could not delete '/P1XELAND Installer/bin/res'.
+org.eclipse.core.internal.resources.ResourceException: Problems encountered while deleting resources.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.delete(FileSystemResourceManager.java:352)
+	at org.eclipse.core.internal.resources.ResourceTree.internalDeleteFolder(ResourceTree.java:352)
+	at org.eclipse.core.internal.resources.ResourceTree.standardDeleteFolder(ResourceTree.java:798)
+	at org.eclipse.core.internal.resources.Resource.unprotectedDelete(Resource.java:1941)
+	at org.eclipse.core.internal.resources.Resource.delete(Resource.java:780)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.cleanOutputFolders(BatchImageBuilder.java:114)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.build(BatchImageBuilder.java:46)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildAll(JavaBuilder.java:254)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:178)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:199)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:239)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:292)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:295)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:351)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:374)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:143)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:241)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Contains: Problems encountered while deleting files.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Installer\bin\res\images\character.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Installer\bin\res\images.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Installer\bin\res.
+!SUBENTRY 1 org.eclipse.core.resources 4 273 2012-10-16 14:52:50.825
+!MESSAGE Problems encountered while deleting resources.
+!SUBENTRY 2 org.eclipse.core.resources 4 273 2012-10-16 14:52:50.825
+!MESSAGE Could not delete '/P1XELAND Installer/bin/res'.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Problems encountered while deleting resources.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.delete(FileSystemResourceManager.java:352)
+	at org.eclipse.core.internal.resources.ResourceTree.internalDeleteFolder(ResourceTree.java:352)
+	at org.eclipse.core.internal.resources.ResourceTree.standardDeleteFolder(ResourceTree.java:798)
+	at org.eclipse.core.internal.resources.Resource.unprotectedDelete(Resource.java:1941)
+	at org.eclipse.core.internal.resources.Resource.delete(Resource.java:780)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.cleanOutputFolders(BatchImageBuilder.java:114)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.build(BatchImageBuilder.java:46)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildAll(JavaBuilder.java:254)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:178)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:199)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:239)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:292)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:295)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:351)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:374)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:143)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:241)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Contains: Problems encountered while deleting files.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Installer\bin\res\images\character.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Installer\bin\res\images.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Installer\bin\res.
+!SUBENTRY 3 org.eclipse.core.resources 4 273 2012-10-16 14:52:50.825
+!MESSAGE Problems encountered while deleting resources.
+!SUBENTRY 4 org.eclipse.core.filesystem 4 273 2012-10-16 14:52:50.825
+!MESSAGE Problems encountered while deleting files.
+!SUBENTRY 5 org.eclipse.core.filesystem 4 273 2012-10-16 14:52:50.825
+!MESSAGE Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Installer\bin\res\images\character.
+!SUBENTRY 5 org.eclipse.core.filesystem 4 273 2012-10-16 14:52:50.825
+!MESSAGE Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Installer\bin\res\images.
+!SUBENTRY 5 org.eclipse.core.filesystem 4 273 2012-10-16 14:52:50.825
+!MESSAGE Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Installer\bin\res.

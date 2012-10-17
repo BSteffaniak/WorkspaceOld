@@ -271,6 +271,8 @@ public abstract class Frame
 	*/
 	private void init(int width, int height, String title, Canvas drawCanvas)
 	{
+		Mouse.setClipMouseCoordinatesToWindow(false);
+		
 		Frame.width  = width;
 		Frame.height = height;
 		
@@ -415,6 +417,8 @@ public abstract class Frame
 				GL.endManipulation();
 
 				resized = false;
+				
+				MouseInput.next();
 			}
 		});
 	}

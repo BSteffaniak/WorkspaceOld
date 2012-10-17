@@ -10,9 +10,9 @@ public class Producer extends Company
 	/**
 	 * Constructor from the Company class.
 	 */
-	public Producer(double m, double b, int x, int num)
+	public Producer(double m, int x, double b, int num)
 	{
-		super(m, b, x, num);
+		super(m, x, b, num);
 	}
 	
 	public Producer(Point points[])

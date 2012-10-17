@@ -11,18 +11,23 @@ import java.util.Collections;
  */
 public class Company
 {
-	private int   negotiateIndex;
+	private int   currentIndex;
 	
 	private Curve curve;
 	
  	/**
 	 * Constructor for the slope and stuff.
 	 */
-	public Company(double m, double b, int x, int num)
+	public Company(double m, int x, double b, int num)
 	{
-		curve = new Curve(m, b, x, num);
+		curve = new Curve(m, x, b, num);
 	}
 	
+	/**
+	 * Create a Curve of points with the specified array.
+	 * 
+	 * @param points The Point array of Points to create the Curve for.
+	 */
 	public Company(Point points[])
 	{
 		curve = new Curve(points);
@@ -33,7 +38,11 @@ public class Company
 	 */
 	public Point initialBid()
 	{
-		return curve.getPoint(0);
+		currentIndex = 0;
+		
+		Point point = curve.getPoint(currentIndex ++);
+		
+		return point;
 	}
 	
 	/**
@@ -41,27 +50,33 @@ public class Company
 	 */
 	public Point negotiate(Point p)
 	{
-		negotiateIndex ++;
+		Point currentPoint = curve.getPoint(currentIndex ++);
+		
+		Point nextPoint    = null;
+		
+		if (currentIndex < curve.size())
+		{
+			nextPoint = curve.getPoint(currentIndex);
+		}
 		
 		double distX = 0, distY = 0;
 		
 		Rectangle tol1 = null, tol2 = null;
 		
-		if (negotiateIndex < curve.size())
+		if (nextPoint != null)
 		{
-			distX   = curve.getPoint(negotiateIndex).getQuantity() -
-					curve.getPoint(negotiateIndex - 1).getQuantity();
-			distY   = curve.getPoint(negotiateIndex).getQuantity() -
-					curve.getPoint(negotiateIndex - 1).getQuantity();
+			distX = nextPoint.getQuantity() -
+					currentPoint.getQuantity();
+			distY = nextPoint.getQuantity() -
+					currentPoint.getQuantity();
 		
-			tol2 = new Rectangle(curve.getPoint(negotiateIndex)
-					.getQuantity() - distX / 2, curve.getPoint(negotiateIndex)
+			tol2  = new Rectangle(nextPoint
+					.getQuantity() - distX / 2, nextPoint
 					.getCost() - distY / 2, distX, distY);
 		}
 			
-		tol1 = new Rectangle(curve.getPoint(negotiateIndex -1)
-				.getQuantity() - distX / 2, curve.getPoint(negotiateIndex
-				- 1).getCost() - distY / 2, distX, distY);
+		tol1 = new Rectangle(currentPoint.getQuantity() - distX / 2,
+				currentPoint.getCost() - distY / 2, distX, distY);
 		
 		if (tol2 != null)
 		{
@@ -78,14 +93,7 @@ public class Company
 			}
 		}
 		
-		if (negotiateIndex - 1 < curve.size())
-		{
-			return curve.getPoint(negotiateIndex - 1);
-		}
-		else
-		{
-			return null;
-		}
+		return currentPoint;
 	}
 	
 	/**

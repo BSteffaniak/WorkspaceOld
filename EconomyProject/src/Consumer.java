@@ -10,9 +10,9 @@ public class Consumer extends Company
 	/**
 	 * Constructor from the Company class.
 	 */
-	public Consumer(double m, double b, int x, int num)
+	public Consumer(double m, int x, double b, int num)
 	{
-		super(m, b, x, num);
+		super(m, x, b, num);
 	}
 	
 	public Consumer(Point points[])

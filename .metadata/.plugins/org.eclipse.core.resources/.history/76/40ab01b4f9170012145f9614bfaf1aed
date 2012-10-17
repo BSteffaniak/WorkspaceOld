@@ -1,0 +1,294 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
+/**
+ * File:          Curve.java
+ * Author:        Braden Steffaniak
+ * Programming:   APCS
+ * Last Modified: 6Sep2012
+ * Description:   Class that holds the information of all
+ * the Points on a producers curve. Allows the ability to
+ * add, remove, and check if a Point is on the curve.
+ */
+public class Curve
+{
+	private int              negotiateIndex;
+	
+	private ArrayList<Point> points;
+
+	/**
+	 * Constructs an ArrayList of Points with the given slope,
+	 * y intercept, and number of Points.
+	 *
+	 * @param m The slope of the line.
+	 * @param b The y intercept of the line.
+	 * @param x the x offset of the line.
+	 * @param num The number of Points on the line.
+	 */
+	public Curve(double m, double b, int x, int num)
+	{
+		points = new ArrayList<Point>(num);
+
+		for (int x2 = x; x2 < num + x; x2 ++)
+		{
+			double y = m * x2 + b;
+			
+			points.add(x2 - x, new Point(x2, y));
+		}
+	}
+	
+	public Curve(Point points[])
+	{
+		this.points = new ArrayList<Point>(points.length);
+		
+		for (Point p : points)
+		{
+			this.points.add(p);
+		}
+		
+		sort();
+	}
+
+	/**
+	 * Returns a string that describes all of the Points on
+	 * the curve.
+	 *
+	 * @return The String representation of this object.
+	 */
+	public String toString()
+	{
+		String str = "[ ";
+
+		for (Point point : points)
+		{
+			str += point + "; ";
+		}
+
+		return str + "]";
+	}
+
+	/**
+	 * Checks whether the given Point is on the curve or not.
+	 *
+	 * @param p The Point to check.
+	 * @return Whether the Point is on the curve or not.
+	 */
+	public boolean onCurve(Point p)
+	{
+		return search(p) != 0;
+	}
+
+	/**
+	 * Method that adds a Point to the Point ArrayList depending
+	 * on whether there already is a Point in the specified location.
+	 *
+	 * @param p The Point to add to the curve.
+	 * @return Whether the Point was added successfully.
+	 */
+	public boolean addPoint(Point p)
+	{
+		if (search(p) != -1)
+		{
+			return false;
+		}
+
+		points.add(p);
+
+		sort();
+
+		return true;
+	}
+
+	/**
+	 * Method that removes a Point from the Point ArrayList depending
+	 * on whether there already is a Point in the specified location.
+	 *
+	 * @param p The Point to remove from the curve.
+	 * @return Whether the Point was removed successfully.
+	 */
+	public boolean removePoint(Point p)
+	{
+		for (int i = 0; i < points.size(); i ++)
+		{
+			if (points.get(i).equals(p))
+			{
+				points.set(i, null);
+			}
+		}
+
+		for (int i = points.size() - 1; i >= 0; i --)
+		{
+			if (points.get(i) == null)
+			{
+				points.remove(i);
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method that returns the index at which the given Point is
+	 * located. If the Point is not on the curve, then return -1.
+	 *
+	 * @param p The Point to get the index of.
+	 * @return The index of the Point.
+	 */
+	private int search(Point p)
+	{
+		for (int i = 0; i < points.size(); i ++)
+		{
+			if (p.equals(points.get(i)))
+			{
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	/**
+	 * Method inherited from the AbstractCurve class. Used for
+	 * sorting the Points in the points ArrayList in the order
+	 * of ascending quantities.
+	 */
+	public void sort()
+	{
+		Collections.sort(points);
+	}
+	
+	public Point getPoint(int index)
+	{
+		return points.get(index);
+	}
+	
+	/**
+	 * Returns the closest Point to the right of the specific
+	 * quantity.
+	 */
+	public Point nextPoint(long quantity)
+	{
+		int   closestIndex  = 0;
+		
+		long  pointQuantity = Integer.MAX_VALUE;
+		
+		Point point         = null;
+		
+		for (int i = 0; i < points.size(); i ++)
+		{
+			if (points.get(i).getQuantity() > quantity)
+			{
+				if (points.get(i).getQuantity() < pointQuantity)
+				{
+					closestIndex  = i;
+					pointQuantity = points.get(i).getQuantity();
+				}
+			}
+		}
+		
+		point = points.get(closestIndex);
+		
+		if (point == null)
+		{
+			throw new IllegalArgumentException("There are no Points on this " +
+					"Curve with a quantity greater than: " + quantity);
+		}
+		
+		return point;
+	}
+	
+	/**
+	 * Returns the closest Point to the left of the specific
+	 * quantity.
+	 */
+	public Point previousPoint(long quantity)
+	{
+		int   closestIndex  = 0;
+		
+		long  pointQuantity = -1;
+		
+		Point point         = null;
+		
+		for (int i = 0; i < points.size(); i ++)
+		{
+			if (points.get(i).getQuantity() < quantity)
+			{
+				if (points.get(i).getQuantity() > pointQuantity)
+				{
+					closestIndex  = i;
+					pointQuantity = points.get(i).getQuantity();
+				}
+			}
+		}
+		
+		point = points.get(closestIndex);
+		
+		if (point == null)
+		{
+			throw new IllegalArgumentException("There are no Points on this " +
+					"Curve with a quantity less than: " + quantity);
+		}
+		
+		return point;
+	}
+	
+	/**
+	 * Returns the closest Point to the right of the specific
+	 * quantity.
+	 */
+	public Point pointAt(long quantity)
+	{
+		for (Point p : points)
+		{
+			if (p.getQuantity() == quantity)
+			{
+				return p;
+			}
+		}
+		
+		return nextPoint(quantity);
+	}
+	
+	/**
+	 * Returns the closest Point to the right of the specific
+	 * quantity.
+	 */
+	public Point nextPoint(Point p)
+	{
+		int   closestIndex  = 0;
+		
+		long  pointQuantity = Integer.MAX_VALUE;
+		
+		Point point         = null;
+		
+		for (int i = 0; i < points.size(); i ++)
+		{
+			if (points.get(i).getQuantity() > p.getQuantity())
+			{
+				if (points.get(i).getQuantity() < pointQuantity)
+				{
+					closestIndex  = i;
+					pointQuantity = points.get(i).getQuantity();
+				}
+			}
+		}
+		
+		point = points.get(closestIndex);
+		
+		if (point == null)
+		{
+			throw new IllegalArgumentException("There are no Points on this " +
+					"Curve with a quantity greater than: " + p.getQuantity());
+		}
+		
+		return point;
+	}
+	
+	/**
+	 * Returns the amount of Points on the Curve.
+	 */
+	public int size()
+	{
+		return points.size();
+	}
+}

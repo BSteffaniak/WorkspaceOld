@@ -20,7 +20,7 @@ public class Point implements Comparable
 	 */
 	private Point()
 	{
-
+		
 	}
 
 	/**

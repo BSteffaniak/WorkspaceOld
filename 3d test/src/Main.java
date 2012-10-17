@@ -12,16 +12,9 @@ public class Main
 {
 	private static Main    m;
 	
-//	private Texture        texture;
-	private SpriteSheet    sprites;
-	
-	private LightBuffer    texturesBuffer, colorsBuffer;
-	
-	private VerticesBuffer verticesBuffer;
-	
 	private Player         player;
 	
-	private float          vertices[];
+	private Map            map;
 	
 	private float lastTime;
 //	private static final float _headSens = 0.002f;
@@ -65,53 +58,10 @@ public class Main
 	{
 //		texture = new Texture("res/images/grass.png");
 //		texture2 = new Texture("");
-		sprites = new SpriteSheet("res/images/sprites.png", 36, 18);
 		
-		vertices = new float[4 * 3 * 6 * 2];
+		map = new Map();
 		
-		verticesBuffer = new VerticesBuffer(4 * 3 * 6 * 2);
-		texturesBuffer = new LightBuffer(2 * 4 * 6 * 2);
-		colorsBuffer   = new LightBuffer(4 * 4 * 6 * 2);
-		
-		GL.addCubeVertexArrayf(0, 2.5f, -10, 2, 2, 2, 0, vertices);
-		GL.addCubeVertexArrayf(-100, -2, -100, 200, 2, 200, 4 * 3 * 6, vertices);
-		
-		verticesBuffer.addData(vertices);
-		texturesBuffer.addData(GL.addCubeTextureArrayf(new float[][] { sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(7, 2, 1, 1), sprites.getImageOffsetsf(2, 0, 1, 1),  }, 0, null));
-
-		int r = 200;
-		int g = 200;
-		int b = 200;
-		int a = 100;
-		colorsBuffer.addData(GL.addCubeColorArrayif(
-				new int[][]
-				{
-					new int[] { 255, 255, 255, a },
-					new int[] { 255, 255, 255, a },
-					new int[] { 255, 255, 255, a }, 
-					new int[] { 255, 255, 255, a },
-					new int[] { 151, 255, 100, a },
-					new int[] { 255, 255, 255, a }
-				} , 0, null));
-		
-		texturesBuffer.addData(GL.addCubeTextureArrayf(GL.white, 0, null));
-		
-		r = 200;
-		g = 200;
-		b = 200;
-		a = 255;
-		colorsBuffer.addData(GL.addCubeColorArrayif(
-				new int[][]
-				{
-					new int[] { r, g, b, a },
-					new int[] { r, g, b, a },
-					new int[] { r, g, b, a }, 
-					new int[] { r, g, b, a },
-					new int[] { r, g, b, a },
-					new int[] { r, g, b, a }
-				} , 0, null));
-		
-		player = new Player(1, 1, 1);
+		player = new Player(2, 2, 2, 1, 1, 1, map);
 		
 		player.move(Camera.UP, 3);
 	}
@@ -119,24 +69,13 @@ public class Main
 	public void render()
 	{
 		player.lookThrough();
-//		p.draw();
-		GL.beginColorDraw(colorsBuffer);
 		
-		GL.renderCubes(verticesBuffer, texturesBuffer, sprites, 0, 1);
-		
-		GL.renderCubes(verticesBuffer, texturesBuffer, GL.white, 1, 1);
-
-		GL.endColorDraw();
-		
-		
+		map.render();
 	}
 	
 	public void loop()
 	{
-		if (player.collided(vertices))
-		{
-			System.out.println("Collided");
-		}
+		player.move(Camera.DOWN, 0.1f);
 		
 		pollEvents();
 	}
@@ -159,8 +98,10 @@ public class Main
 //		float period = (now - lastTime) / 1000;
 //		lastTime = now;
 //		// get mouse alterations
-		float dx = MouseInput.getDX();
-		float dy = MouseInput.getDY();
+		float dx = MouseInput.getDX() + MouseInput.getDraggedDX();
+		float dy = MouseInput.getDY() + MouseInput.getDraggedDY();
+		
+		System.out.println(dx + ", " + dy);
 //		// set heading and pitch
 //		p.setHeading(dx * _headSens);
 //		p.setPitch(dy * _pitchSens);
@@ -213,7 +154,8 @@ public class Main
 		}
 		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_SPACE))
 		{
-			player.move(Camera.UP, 0.1f);
+//			player.move(Camera.UP, 0.1f);
+			player.jump();
 		}
 		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT_SHIFT))
 		{
@@ -225,5 +167,7 @@ public class Main
 			player.yaw(dx * 0.10f);
 			player.pitch(-dy * 0.10f);
 		}
+		
+		player.update();
 	}
 }

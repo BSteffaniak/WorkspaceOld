@@ -16,6 +16,6 @@ public class ProducerCurve extends Curve
 	 */
 	public ProducerCurve(double m, double b, int x, int num)
 	{
-		super(m, b, x, num);
+		super(m, x, b, num);
 	}
 }
