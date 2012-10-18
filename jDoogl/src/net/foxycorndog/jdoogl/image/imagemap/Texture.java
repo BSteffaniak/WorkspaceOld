@@ -40,32 +40,16 @@ public class Texture extends ImageMap
 			try
 			{
 //				System.out.println(clazz.getResource(location));
-				image = ImageIO.read(new File(clazz.getResource(location).toURI()));
+				image = ImageIO.read(new File(clazz.getClassLoader().getResource(location).toURI()));
 			}
 			catch (URISyntaxException e)
 			{
 				e.printStackTrace();
 			}
-			catch (NullPointerException e)
-			{
-				// IM AWARE OF THIS.
-			}
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-		}
-		
-		if (image == null)
-		{
-			try
-			{
-				image = ImageIO.read(new File(location));
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
 		}
 		
 		this.id = loadTexture(image);

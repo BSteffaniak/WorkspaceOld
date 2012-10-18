@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoutilandroid.VerticesBuffer"/>
-<fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdooglandroid.image.imagemap.Texture"/>
-<fullyQualifiedTypeName name="net.foxycorndog.p1xelandroid.R.drawable"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdooglandroid.listeners.ActionListener"/>
 <fullyQualifiedTypeName name="android.view.View"/>
 <fullyQualifiedTypeName name="android.opengl.GLSurfaceView"/>
 <fullyQualifiedTypeName name="android.view.MotionEvent"/>
@@ -60,4 +55,9 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.image.imagemap.SpriteSheet"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.VerticesBuffer"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.GL"/>
+<fullyQualifiedTypeName name="net.foxycorndog.shoot.actor.Player"/>
+<fullyQualifiedTypeName name="net.foxycorndog.shoot.map.Map"/>
+<fullyQualifiedTypeName name="java.net.URI"/>
+<fullyQualifiedTypeName name="java.net.URL"/>
+<fullyQualifiedTypeName name="java.io.File"/>
 </qualifiedTypeNameHistroy>

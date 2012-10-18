@@ -1,0 +1,222 @@
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.camera.Camera;
+import net.foxycorndog.jdoutil.Buffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
+import net.foxycorndog.shoot.map.Map;
+
+import java.nio.FloatBuffer;
+
+/**
+ * We use keyboard and mouse input values to build a view matrix which gets
+ * loaded instead of the existing modelview matrix. We also attach a simple
+ * white square which moves with the camera as if it were a gun.
+ */
+public class Player
+{
+	private boolean jumping, movingUp;
+	
+	private int     perspective;
+	
+	private float   width, height, depth;
+	private float   centerX, centerY, centerZ;
+	private float   offsetX, offsetY, offsetZ;
+	private float   startY;
+	
+	private Camera  camera;
+	
+	private Map     map;
+	
+	private VerticesBuffer verticesBuffer;
+	
+	private static final float TOLERANCE = 0.0001f;
+	
+	public  static final int   THIRD = 3, FIRST = 1;
+	
+	public Player(float width, float height, float depth, float centerX, float centerY, float centerZ, Map map)
+	{
+		this.width   = width;
+		this.height  = height;
+		this.depth   = depth;
+		
+		this.centerX = centerX;
+		this.centerY = centerY;
+		this.centerZ = centerZ;
+		
+		this.offsetX = centerX;
+		this.offsetY = centerY;
+		this.offsetZ = centerZ;
+		
+		this.map     = map;
+		
+		camera       = new Camera();
+		
+		camera.move(centerX, centerY, centerZ);
+		
+		setPerspective(THIRD);
+		
+		verticesBuffer = new VerticesBuffer(3 * 4 * 6);
+		verticesBuffer.addData(GL.addCubeVertexArrayf(0, 0, 0, width, height, depth, 0, null));
+	}
+	
+	public boolean collided(Map map)
+	{
+		float vertices[] = map.getVertices();
+		
+		for (int i = 0; i < vertices.length; i += 3 * 4 * 6)
+		{
+			float minX1 = camera.getX() - offsetX;
+			float minY1 = camera.getY() - offsetY;
+			float minZ1 = camera.getZ() - offsetZ;
+			
+			float maxX1 = camera.getX() + width  - offsetX;
+			float maxY1 = camera.getY() + height - offsetY;
+			float maxZ1 = camera.getZ() + depth  - offsetZ;
+			
+
+			float minX2 = vertices[i];
+			float minY2 = vertices[i + 1];
+			float minZ2 = vertices[i + 2];
+			
+			float maxX2 = vertices[i + 12];
+			float maxY2 = vertices[i + 4];
+			float maxZ2 = vertices[i + 20];
+			
+			if ((maxX1 >= minX2 && minX1 <= maxX2) && (maxY1 >= minY2 && minY1 <= maxY2) && (maxZ1 >= minZ2 && minZ1 <= maxZ2))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean move(int direction, float distance)
+	{
+		camera.move(direction, distance);
+		
+		if (collided(map))
+		{
+			camera.move(direction, -distance);
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean move(float dx, float dy, float dz)
+	{
+		camera.move(dx, dy, dz);
+		
+		if (collided(map))
+		{
+			camera.move(-dx, -dy, -dz);
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public void lookThrough()
+	{
+		GL.translatef(-offsetX + centerX, -offsetY + centerY, -offsetZ + centerZ);
+		
+		camera.lookThrough();
+
+		GL.translatef(offsetX - centerX, offsetY - centerY, offsetZ - centerZ);
+	}
+	
+	public void pitch(float amount)
+	{
+		camera.pitch(amount);
+	}
+	
+	public void yaw(float amount)
+	{
+		camera.yaw(amount);
+	}
+	
+	public void jump()
+	{
+		if (!jumping)
+		{
+			jumping  = true;
+			
+			movingUp = true;
+			
+			startY   = camera.getY();
+		}
+	}
+	
+	public void update()
+	{
+		if (jumping)
+		{
+			if (camera.getY() < startY + 2 && movingUp)
+			{
+				if (!move(Camera.UP, 0.3f))
+				{
+					jumping = false;
+				}
+				
+				if (camera.getY() >= startY + 2)
+				{
+					movingUp = false;
+				}
+			}
+			else if (!movingUp && Math.abs(camera.getY() - startY) > TOLERANCE)
+			{
+				
+			}
+			else
+			{
+				jumping = false;
+			}
+		}
+	}
+	
+	public void render()
+	{
+		GL.beginManipulation();
+		{
+			GL.setColori(25, 25, 25, 255);
+			
+			GL.translatef(-offsetX + camera.getX(), -offsetY + camera.getY(), -offsetZ + camera.getZ());
+			
+			GL.translatef(centerX, centerY, centerZ);
+			
+			GL.rotatef(0, -camera.getYaw(), 0);
+			
+			GL.translatef(-centerX, -centerY, -centerZ);
+			
+			GL.renderCubes(verticesBuffer, 0, 1);
+		}
+		GL.endManipulation();
+	}
+	
+	public void setPerspective(int perspective)
+	{
+		if (this.perspective == perspective)
+		{
+			return;
+		}
+		
+		if (perspective == THIRD)
+		{
+			offsetZ += 6;
+			offsetY += 2;
+			
+			camera.move(0, 0, 6);
+			camera.move(0, 2, 0);
+		}
+		else if (perspective == FIRST)
+		{
+			offsetZ -= 6;
+			offsetY -= 2;
+			
+			camera.move(0, 0, -6);
+			camera.move(0, -2, 0);
+		}
+	}
+}

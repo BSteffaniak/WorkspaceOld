@@ -35,11 +35,21 @@ public class Camera
 		location = new Vector3f(x, y, z);
 	}
 	
+	public float getYaw()
+	{
+		return yaw;
+	}
+	
 	// increment the camera's current yaw rotation
 	public void yaw(float amount)
 	{
 		//increment the yaw by the amount param
 		yaw += amount;
+	}
+	
+	public float getPitch()
+	{
+		return pitch;
 	}
 	 
 	// increment the camera's current yaw rotation
@@ -47,6 +57,24 @@ public class Camera
 	{
 		// increment the pitch by the amount param
 		pitch += amount;
+	}
+	
+	public void setLocation(float x, float y, float z)
+	{
+		location.x = -x;
+		location.y = -y;
+		location.z = -z;
+	}
+	
+	public void move(float distX, float distY, float distZ)
+	{
+		location.x += distZ * (float)Math.sin(Math.toRadians(yaw));
+		location.z -= distZ * (float)Math.cos(Math.toRadians(yaw));
+
+		location.x -= distX * (float)Math.sin(Math.toRadians(yaw + 90));
+		location.z += distX * (float)Math.cos(Math.toRadians(yaw + 90));
+
+		location.y -= distY;
 	}
 	
 	public void move(int direction, float distance)

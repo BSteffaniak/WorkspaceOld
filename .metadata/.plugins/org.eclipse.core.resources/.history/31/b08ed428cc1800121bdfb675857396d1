@@ -1,0 +1,59 @@
+package net.foxycorndog.shoot.actor;
+
+import net.foxycorndog.jdoogl.camera.Camera;
+
+public class Actor
+{
+	private boolean sprinting;
+	private boolean jumping, movingUp;
+	
+
+	private float   width, height, depth;
+	private float   centerX, centerY, centerZ;
+	private float   offsetX, offsetY, offsetZ;
+	private float   startY;
+	
+	public Actor()
+	{
+		
+	}
+	
+	public void jump()
+	{
+		if (!jumping)
+		{
+			jumping  = true;
+			
+			movingUp = true;
+			
+			startY   = camera.getY();
+		}
+	}
+	
+	public void update()
+	{
+		if (jumping)
+		{
+			if (camera.getY() < startY + 2 && movingUp)
+			{
+				if (!move(Camera.UP, 0.3f))
+				{
+					jumping = false;
+				}
+				
+				if (camera.getY() >= startY + 2)
+				{
+					movingUp = false;
+				}
+			}
+			else if (!movingUp && Math.abs(camera.getY() - startY) > TOLERANCE)
+			{
+				
+			}
+			else
+			{
+				jumping = false;
+			}
+		}
+	}
+}

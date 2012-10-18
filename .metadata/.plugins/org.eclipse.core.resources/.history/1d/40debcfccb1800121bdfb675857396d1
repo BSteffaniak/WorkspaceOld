@@ -1,0 +1,11 @@
+package net.foxycorndog.shoot.actor;
+
+public class Actor
+{
+	private boolean sprinting;
+	
+	public Actor()
+	{
+		
+	}
+}

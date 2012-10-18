@@ -1,0 +1,121 @@
+package net.foxycorndog.shoot.actor;
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.camera.Camera;
+import net.foxycorndog.jdoutil.Buffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
+import net.foxycorndog.shoot.map.Map;
+
+import java.nio.FloatBuffer;
+
+/**
+ * We use keyboard and mouse input values to build a view matrix which gets
+ * loaded instead of the existing modelview matrix. We also attach a simple
+ * white square which moves with the camera as if it were a gun.
+ */
+public class Player extends Actor
+{
+	private int     perspective;
+	
+	private Camera  camera;
+	
+	public  static final int   THIRD = 3, FIRST = 1;
+	
+	public Player(float width, float height, float depth, float centerX, float centerY, float centerZ, Map map)
+	{
+		super(width, height, depth, centerX, centerY, centerZ, map);
+		
+		camera       = new Camera();
+		
+		camera.move(centerX, centerY, centerZ);
+		
+		setPerspective(THIRD);
+	}
+	
+	public boolean move(int direction, float distance)
+	{
+		if (super.move(direction, distance))
+		{
+			camera.move(direction, distance);
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean move(float dx, float dy, float dz)
+	{
+		boolean moved = super.move(dx, dy, dz);
+		
+		if (moved)
+		{
+			camera.move(dx, dy, dz);
+		}
+		
+		return moved;
+	}
+	
+	public void lookThrough()
+	{
+		GL.translatef(-getOffsetX() + getCenterX(), -getOffsetY() + getCenterY(), -getOffsetZ() + getCenterZ());
+		
+		camera.lookThrough();
+
+		GL.translatef(getOffsetX() - getCenterX(), getOffsetY() - getCenterY(), getOffsetZ() - getCenterZ());
+	}
+	
+	public void pitch(float amount)
+	{
+		camera.pitch(amount);
+	}
+	
+	public void yaw(float amount)
+	{
+		camera.yaw(amount);
+	}
+	
+	public void render()
+	{
+		GL.beginManipulation();
+		{
+			GL.setColori(25, 25, 25, 255);
+			
+			GL.translatef(-getOffsetX() + camera.getX(), -getOffsetY() + camera.getY(), -getOffsetZ() + camera.getZ());
+			
+			GL.translatef(getCenterX(), getCenterY(), getCenterZ());
+			
+			GL.rotatef(0, -camera.getYaw(), 0);
+			
+			GL.translatef(-getCenterX(), -getCenterY(), -getCenterZ());
+			
+			GL.renderCubes(getVerticesBuffer(), 0, 1);
+		}
+		GL.endManipulation();
+	}
+	
+	public void update()
+	{
+		
+	}
+	
+	public void setPerspective(int perspective)
+	{
+		if (this.perspective == perspective)
+		{
+			return;
+		}
+		
+		if (perspective == THIRD)
+		{
+			super.moveOffest(0, 2, 6);
+			
+			camera.move(0, 2, 6);
+		}
+		else if (perspective == FIRST)
+		{
+			super.moveOffest(0, -2, -6);
+			
+			camera.move(0, -2, -6);
+		}
+	}
+}

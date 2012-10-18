@@ -32,7 +32,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -289,7 +291,36 @@ public abstract class Frame
 //			e.printStackTrace();
 //		}
 		
-		GL.white = new Texture("res/images/White.png", this.getClass());
+//		Image wht = null;
+//		
+//		try
+//		{
+//			System.out.println(new File("res/images").getAbsolutePath());
+//			
+//			Class clazz = Frame.class;
+//			
+//			System.out.println(Frame.class.getCanonicalName());
+//			
+//			URL url = clazz.getClassLoader().getResource("res/images/White.png");
+//			
+//			InputStream is = clazz.getResourceAsStream("res/images/White.png");
+//			
+//			System.out.println(is);
+//			
+//			URI uri = url.toURI();
+//			
+//			File fle = new File(uri);
+//			
+//			wht = ImageIO.read(fle);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (URISyntaxException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		GL.white = new Texture("res/images/White.png", Frame.class);
 		
 		newTime = System.currentTimeMillis();
 		oldTime = newTime;

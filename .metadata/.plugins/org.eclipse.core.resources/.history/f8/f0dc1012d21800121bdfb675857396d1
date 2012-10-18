@@ -1,0 +1,233 @@
+package net.foxycorndog.shoot.actor;
+
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.camera.Camera;
+import net.foxycorndog.jdoutil.VerticesBuffer;
+import net.foxycorndog.shoot.map.Map;
+
+public class Actor
+{
+	private boolean sprinting;
+	private boolean jumping, movingUp;
+	
+	private float   width, height, depth;
+	private float   centerX, centerY, centerZ;
+	private float   offsetX, offsetY, offsetZ;
+	private float   x, y, z;
+	private float   startY;
+	
+	private Map     map;
+	
+	private VerticesBuffer verticesBuffer;
+	
+	private static final float TOLERANCE = 0.0001f;
+	
+	public Actor(float width, float height, float depth, float centerX, float centerY, float centerZ, Map map)
+	{
+		this.width     = width;
+		this.height    = height;
+		this.depth     = depth;
+		
+		this.centerX   = centerX;
+		this.centerY   = centerY;
+		this.centerZ   = centerZ;
+		
+		this.offsetX   = centerX;
+		this.offsetY   = centerY;
+		this.offsetZ   = centerZ;
+		
+		this.map       = map;
+		
+		verticesBuffer = new VerticesBuffer(3 * 4 * 6);
+		
+		verticesBuffer.addData(GL.addCubeVertexArrayf(0, 0, 0, width, height, depth, 0, null));
+	}
+	
+	public boolean collided(Map map)
+	{
+		float vertices[] = map.getVertices();
+		
+		for (int i = 0; i < vertices.length; i += 3 * 4 * 6)
+		{
+			float minX1 = x - offsetX;
+			float minY1 = y - offsetY;
+			float minZ1 = z - offsetZ;
+			
+			float maxX1 = x + width  - offsetX;
+			float maxY1 = y + height - offsetY;
+			float maxZ1 = z + depth  - offsetZ;
+			
+
+			float minX2 = vertices[i];
+			float minY2 = vertices[i + 1];
+			float minZ2 = vertices[i + 2];
+			
+			float maxX2 = vertices[i + 12];
+			float maxY2 = vertices[i + 4];
+			float maxZ2 = vertices[i + 20];
+			
+			if ((maxX1 >= minX2 && minX1 <= maxX2) && (maxY1 >= minY2 && minY1 <= maxY2) && (maxZ1 >= minZ2 && minZ1 <= maxZ2))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean move(int direction, float distance)
+	{
+		if (direction == Camera.FORWARD)
+		{
+			return move(0, 0, -distance);
+		}
+		else if (direction == Camera.BACKWARD)
+		{
+			return move(0, 0, distance);
+		}
+		else if (direction == Camera.LEFT)
+		{
+			return move(-distance, 0, 0);
+		}
+		else if (direction == Camera.RIGHT)
+		{
+			return move(distance, 0, 0);
+		}
+		else if (direction == Camera.UP)
+		{
+			return move(0, distance, 0);
+		}
+		else if (direction == Camera.DOWN)
+		{
+			return move(0, -distance, 0);
+		}
+		
+		return false;
+	}
+	
+	public boolean move(float dx, float dy, float dz)
+	{
+		x += dx;
+		y += dy;
+		z += dz;
+		
+		if (collided(map))
+		{
+			x -= dx;
+			y -= dy;
+			z -= dz;
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public void jump()
+	{
+		if (!jumping)
+		{
+			jumping  = true;
+			
+			movingUp = true;
+			
+			startY   = y;
+		}
+	}
+	
+	public void update()
+	{
+		if (jumping)
+		{
+			if (y < startY + 2 && movingUp)
+			{
+				if (!move(0, 0.3f, 0))
+				{
+					jumping = false;
+				}
+				
+				if (y >= startY + 2)
+				{
+					movingUp = false;
+				}
+			}
+			else if (!movingUp && Math.abs(y - startY) > TOLERANCE)
+			{
+				
+			}
+			else
+			{
+				jumping = false;
+			}
+		}
+	}
+	
+	public float getX()
+	{
+		return x;
+	}
+	
+	public float getY()
+	{
+		return y;
+	}
+	
+	public float getZ()
+	{
+		return z;
+	}
+	
+	public float getOffsetX()
+	{
+		return offsetX;
+	}
+	
+	public float getOffsetY()
+	{
+		return offsetY;
+	}
+	
+	public float getOffsetZ()
+	{
+		return offsetZ;
+	}
+	
+	public float getCenterX()
+	{
+		return centerX;
+	}
+	
+	public float getCenterY()
+	{
+		return centerY;
+	}
+	
+	public float getCenterZ()
+	{
+		return centerZ;
+	}
+	
+	public void moveCenter(float dx, float dy, float dz)
+	{
+		centerX += dx;
+		centerY += dy;
+		centerZ += dz;
+	}
+	
+	public void moveOffest(float dx, float dy, float dz)
+	{
+		offsetX += dx;
+		offsetY += dy;
+		offsetZ += dz;
+	}
+	
+	public Map getMap()
+	{
+		return map;
+	}
+	
+	public VerticesBuffer getVerticesBuffer()
+	{
+		return verticesBuffer;
+	}
+}
