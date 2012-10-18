@@ -81,7 +81,7 @@ public class Main
 	
 	public void loop()
 	{
-//		player.move(0, -0.1f, 0);
+		player.move(0, -0.1f, 0);
 		
 		pollEvents();
 	}
@@ -98,71 +98,27 @@ public class Main
 			MouseInput.setGrabbed(false);
 		}
 		
-//		// update timer
-//		float now = (float)(((System.nanoTime() & 0xFFFFFFFF) / 1000000)/* - 1350000000l*/);
-//		System.out.println(now);
-//		float period = (now - lastTime) / 1000;
-//		lastTime = now;
-//		// get mouse alterations
 		float dx = MouseInput.getDX() + MouseInput.getDraggedDX();
 		float dy = MouseInput.getDY() + MouseInput.getDraggedDY();
-//		// set heading and pitch
-//		p.setHeading(dx * _headSens);
-//		p.setPitch(dy * _pitchSens);
-//		// handle camera translations
-////		KeyboardInput.poll();
-//		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_A))
-//		{System.out.println(period);
-//			p.setlStrafe(_strafe * period);
-//		}
-//		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_D))
-//		{
-//			p.setrStrafe(_strafe * period);
-//		}
-//		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_W))
-//		{
-//			p.setFord(_walk * period);
-//		}
-//		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_S))
-//		{
-//			p.setBack(_walk * period);
-//		}
-//		
-//		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_SPACE))
-//		{
-//			p.y -= 0.03f;
-//		}
-//		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT_SHIFT))
-//		{
-//			p.y += 0.03f;
-//		}
-//		
-//		// after keys are polled we build modelview matrix
-//		p.set();
 		
 		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_W))
 		{
-//			player.move(Camera.FORWARD, 0.1f);
 			player.move(0, 0, -0.1f);
 		}
 		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_A))
 		{
-//			player.move(Camera.LEFT, 0.1f);
 			player.move(-0.1f, 0, 0);
 		}
 		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_S))
 		{
-//			player.move(Camera.BACKWARD, 0.1f);
 			player.move(0, 0, 0.1f);
 		}
 		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_D))
 		{
-//			player.move(Camera.RIGHT, 0.1f);
 			player.move(0.1f, 0, 0);
 		}
 		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_SPACE))
 		{
-//			player.move(Camera.UP, 0.1f);
 			player.jump();
 		}
 		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT_SHIFT))
@@ -193,6 +149,6 @@ public class Main
 		
 		player.update();
 		
-		System.out.println(player.getX() + ", " + player.getY() + ", " + player.getZ());
+		System.out.println(player.getYaw() + ", " + player.getPitch());
 	}
 }

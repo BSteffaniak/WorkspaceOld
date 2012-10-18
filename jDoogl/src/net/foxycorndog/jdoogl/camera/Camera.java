@@ -51,6 +51,10 @@ public class Camera
 	{
 		//increment the yaw by the amount param
 		yaw += amount;
+		
+		yaw %= 360;
+		
+		yaw = yaw < 0 ? 360 + yaw : yaw;
 	}
 	
 	public float getPitch()
@@ -63,6 +67,10 @@ public class Camera
 	{
 		// increment the pitch by the amount param
 		pitch += amount;
+		
+		pitch %= 360;
+		
+		pitch = pitch < 0 ? 360 + pitch : pitch;
 	}
 	
 	public void setLocation(float x, float y, float z)
