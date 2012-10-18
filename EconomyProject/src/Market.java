@@ -58,8 +58,8 @@ public class Market
 			new Point(10, 90),
 			new Point(20, 70),
 			new Point(29, 60),
-			new Point(39, 42),
-			new Point(50, 50)
+			new Point(50, 42),
+			new Point(60, 50)
 		};
 		
 		Consumer c = new Consumer(conPoints);//1, 1, 0, 10);

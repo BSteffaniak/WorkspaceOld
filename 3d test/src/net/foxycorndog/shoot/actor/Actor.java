@@ -46,6 +46,8 @@ public class Actor
 		camera       = new Camera();
 		
 		camera.move(centerX, centerY, centerZ);
+		
+		camera.setCameraMode(Camera.XZ_ONLY);
 	}
 	
 	public boolean collided(Map map)
