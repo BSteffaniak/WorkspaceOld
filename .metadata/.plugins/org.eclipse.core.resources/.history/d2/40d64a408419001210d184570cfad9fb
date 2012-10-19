@@ -1,0 +1,13 @@
+package net.foxycorndog.nostalgia.actor.camera;
+
+import net.foxycorndog.nostalgia.actor.Actor;
+
+public class Camera extends net.foxycorndog.jdoogl.camera.Camera
+{
+	private Actor actor;
+	
+	public void setActor(Actor actor)
+	{
+		this.actor = actor;
+	}
+}

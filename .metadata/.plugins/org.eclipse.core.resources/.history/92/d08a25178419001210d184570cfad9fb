@@ -1,0 +1,6 @@
+package net.foxycorndog.nostalgia.actor.camera;
+
+public class Camera extends net.foxycorndog.jdoogl.camera.Camera
+{
+	
+}

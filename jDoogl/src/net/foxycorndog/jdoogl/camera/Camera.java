@@ -16,10 +16,10 @@ public class Camera
 	private Vector3f location;
 	
 	// the rotation around the Y axis of the camera
-	private float	 yaw;
+	private float	 yaw, maxYaw, minYaw;
 	
 	// the rotation around the X axis of the camera
-	private float  	 pitch;
+	private float  	 pitch, maxPitch, minPitch;
 	
 	public static final int FORWARD = 0, BACKWARD = 1, LEFT = 2, RIGHT = 3, UP = 4, DOWN = 5;
 	
@@ -32,6 +32,11 @@ public class Camera
 		location = new Vector3f(0, 0, 0);
 		
 		this.cameraMode = FREE;
+		
+		maxYaw   = Integer.MAX_VALUE;
+		maxPitch = Integer.MAX_VALUE;
+		minYaw   = Integer.MIN_VALUE;
+		minPitch = Integer.MIN_VALUE;
 	}
 	
 	// Constructor that takes the starting x, y, z location of the camera
@@ -39,6 +44,26 @@ public class Camera
 	{
 		// instantiate position Vector3f to the x y z params.
 		location = new Vector3f(x, y, z);
+	}
+	
+	public void setMinYaw(float minYaw)
+	{
+		this.minYaw = minYaw;
+	}
+	
+	public void setMaxYaw(float maxYaw)
+	{
+		this.maxYaw = maxYaw;
+	}
+	
+	public void setMinPitch(float minPitch)
+	{
+		this.minPitch = minPitch;
+	}
+
+	public void setMaxPitch(float maxPitch)
+	{
+		this.maxPitch = maxPitch;
 	}
 	
 	public float getYaw()
@@ -52,9 +77,18 @@ public class Camera
 		//increment the yaw by the amount param
 		yaw += amount;
 		
+		if (yaw > maxYaw)
+		{
+			yaw = maxYaw;
+		}
+		else if (yaw < minYaw)
+		{
+			yaw = minYaw;
+		}
+		
 		yaw %= 360;
 		
-		yaw = yaw < 0 ? 360 + yaw : yaw;
+//		yaw = yaw < 0 ? 360 + yaw : yaw;
 	}
 	
 	public float getPitch()
@@ -68,9 +102,18 @@ public class Camera
 		// increment the pitch by the amount param
 		pitch += amount;
 		
+		if (pitch > maxPitch)
+		{
+			pitch = maxPitch;
+		}
+		else if (pitch < minPitch)
+		{
+			pitch = minPitch;
+		}
+		
 		pitch %= 360;
 		
-		pitch = pitch < 0 ? 360 + pitch : pitch;
+//		pitch = pitch < 0 ? 360 + pitch : pitch;
 	}
 	
 	public void setLocation(float x, float y, float z)

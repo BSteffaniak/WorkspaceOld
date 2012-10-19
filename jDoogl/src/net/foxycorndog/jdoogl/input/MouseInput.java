@@ -35,16 +35,6 @@ public class MouseInput
 		return dy;
 	}
 	
-	public static int getDraggedDX()
-	{
-		return 0;//Mouse.getEventDX();//isButtonDown(0) || isButtonDown(1) || isButtonDown(2) ? Mouse.getX() - oldX : 0;
-	}
-	
-	public static int getDraggedDY()
-	{
-		return 0;//Mouse.getEventDY();//isButtonDown(0) || isButtonDown(1) || isButtonDown(2) ? Mouse.getY() - oldY : 0;
-	}
-	
 	public static boolean isButtonDown(int button)
 	{
 		return Mouse.isButtonDown(button);
