@@ -144,8 +144,8 @@ public class Main
 		
 		if (MouseInput.isGrabbed())
 		{
-			camera.yaw(dx * 0.10f);
-			camera.pitch(-dy * 0.10f);
+			player.yaw(dx * 0.10f);
+			player.pitch(-dy * 0.10f);
 		}
 		
 		if (KeyboardInput.next())

@@ -16,7 +16,6 @@ public class Actor
 	private float   startY;
 	
 	private Camera  camera;
-	private net.foxycorndog.jdoogl.camera.Camera movementCamera;
 	
 	private Map     map;
 	
@@ -38,7 +37,8 @@ public class Actor
 		this.offsetY   = centerY;
 		this.offsetZ   = centerZ;
 		
-		movementCamera = new net.foxycorndog.jdoogl.camera.Camera();
+		camera         = new Camera();
+		camera.setActor(this);
 		
 		this.map       = map;
 		
@@ -53,13 +53,13 @@ public class Actor
 		
 		for (int i = 0; i < vertices.length; i += 3 * 4 * 6)
 		{
-			float minX1 = movementCamera.getX();
-			float minY1 = movementCamera.getY();
-			float minZ1 = movementCamera.getZ();
+			float minX1 = camera.getX();
+			float minY1 = camera.getY();
+			float minZ1 = camera.getZ();
 			
-			float maxX1 = movementCamera.getX() + width;
-			float maxY1 = movementCamera.getY() + height;
-			float maxZ1 = movementCamera.getZ() + depth;
+			float maxX1 = camera.getX() + width;
+			float maxY1 = camera.getY() + height;
+			float maxZ1 = camera.getZ() + depth;
 			
 
 			float minX2 = vertices[i];
@@ -115,21 +115,11 @@ public class Actor
 		dy = sprinting ? dy * 1.6f : dy;
 		dz = sprinting ? dz * 1.6f : dz;
 		
-		movementCamera.move(dx, dy, dz);
-		
-		if (camera != null)
-		{
-			camera.move(dx, dy, dz);
-		}
+		camera.move(dx, dy, dz);
 		
 		if (collided(map))
 		{
-			movementCamera.move(-dx, -dy, -dz);
-			
-			if (camera != null)
-			{
-				camera.move(-dx, -dy, -dz);
-			}
+			camera.move(-dx, -dy, -dz);
 			
 			return false;
 		}
@@ -153,19 +143,19 @@ public class Actor
 	{
 		if (jumping)
 		{
-			if (movementCamera.getY() < startY + 2 && movingUp)
+			if (camera.getY() < startY + 2 && movingUp)
 			{
 				if (!move(0, 0.3f, 0))
 				{
 					jumping = false;
 				}
 				
-				if (movementCamera.getY() >= startY + 2)
+				if (camera.getY() >= startY + 2)
 				{
 					movingUp = false;
 				}
 			}
-			else if (!movingUp && Math.abs(movementCamera.getY() - startY) > TOLERANCE)
+			else if (!movingUp && Math.abs(camera.getY() - startY) > TOLERANCE)
 			{
 				
 			}
@@ -178,9 +168,9 @@ public class Actor
 	
 	public void attachCamera(Camera camera)
 	{
-		this.camera = camera;
+		camera.setLocation(camera.getX(), camera.getY(), camera.getZ());
 		
-		camera.setLocation(movementCamera.getX() + centerX, movementCamera.getY() + centerY, movementCamera.getZ() + centerZ);
+		this.camera = camera;
 		
 		camera.setActor(this);
 	}
@@ -189,16 +179,11 @@ public class Actor
 	{
 		camera.setActor(null);
 		
-		camera = null;
+		camera = camera.clone();
 	}
 	
 	public void lookThrough()
 	{
-		if (camera == null)
-		{
-			return;
-		}
-		
 		GL.translatef(-getOffsetX() + getCenterX(), -getOffsetY() + getCenterY(), -getOffsetZ() + getCenterZ());
 		
 		camera.lookThrough();
@@ -209,15 +194,11 @@ public class Actor
 	public void pitch(float amount)
 	{
 		camera.pitch(amount);
-		
-		movementCamera.pitch(amount);
 	}
 	
 	public void yaw(float amount)
 	{
 		camera.yaw(amount);
-		
-		movementCamera.yaw(amount);
 	}
 	
 	public void setSprinting(boolean sprinting)
@@ -230,17 +211,17 @@ public class Actor
 	
 	public float getX()
 	{
-		return movementCamera.getX();
+		return camera.getX();
 	}
 	
 	public float getY()
 	{
-		return movementCamera.getY();
+		return camera.getY();
 	}
 	
 	public float getZ()
 	{
-		return movementCamera.getZ();
+		return camera.getZ();
 	}
 	
 	public float getOffsetX()

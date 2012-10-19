@@ -14,5 +14,10 @@ public class Camera extends net.foxycorndog.jdoogl.camera.Camera
 		}
 		
 		this.actor = actor;
+		
+		if (actor.getCamera() != this)
+		{
+			actor.attachCamera(this);
+		}
 	}
 }
