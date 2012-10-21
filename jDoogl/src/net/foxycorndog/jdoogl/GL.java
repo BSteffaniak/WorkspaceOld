@@ -2025,33 +2025,124 @@ public class GL
 		return array;
 	}
 	
-	public static float[] addRectVertexArrayf(float vertices[], int offset, float array[])
+	public static float[] addCubeVertexArrayf(float vertices[], float width, float height, float depth, int offset, float array[])
 	{
 		if (array == null)
 		{
-			array  = new float[3 * 4];
-			
+			array  = new float[3 * 4 * 6];
+
 			offset = 0;
 		}
-		
+
 		int index = 0;
-		
-//		array[offset + index ++] = x;
-//		array[offset + index ++] = y;
-//		array[offset + index ++] = z;
-//		
-//		array[offset + index ++] = x;
-//		array[offset + index ++] = y + height;
-//		array[offset + index ++] = z;
-//		
-//		array[offset + index ++] = x + width;
-//		array[offset + index ++] = y + height;
-//		array[offset + index ++] = z;
-//		
-//		array[offset + index ++] = x + width;
-//		array[offset + index ++] = y;
-//		array[offset + index ++] = z;
-		
+
+		// Front
+		array[offset + index ++] = vertices[0];
+		array[offset + index ++] = vertices[1];
+		array[offset + index ++] = vertices[2];
+
+		array[offset + index ++] = vertices[3];
+		array[offset + index ++] = vertices[4];
+		array[offset + index ++] = vertices[5]
+
+		array[offset + index ++] = vertices[6];
+		array[offset + index ++] = vertices[7];
+		array[offset + index ++] = vertices[8];
+
+		array[offset + index ++] = vertices[9];
+		array[offset + index ++] = vertices[10];
+		array[offset + index ++] = vertices[11];
+
+
+		// Right
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z;
+
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z;
+
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z + depth;
+
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z + depth;
+
+
+		// Back
+		array[offset + index ++] = vertices[0] ;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z + depth;
+
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z + depth;
+
+		array[offset + index ++] = x;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z + depth;
+
+		array[offset + index ++] = x;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z + depth;
+
+
+		// Left
+		array[offset + index ++] = x;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z + depth;
+
+		array[offset + index ++] = x;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z + depth;
+
+		array[offset + index ++] = x;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z;
+
+		array[offset + index ++] = x;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z;
+
+
+		// Top
+		array[offset + index ++] = x;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z;
+
+		array[offset + index ++] = x;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z + depth;
+
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z + depth;
+
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y + height;
+		array[offset + index ++] = z;
+
+
+		// Bottom
+		array[offset + index ++] = x;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z;
+
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z;
+
+		array[offset + index ++] = x + width;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z + depth;
+
+		array[offset + index ++] = x;
+		array[offset + index ++] = y;
+		array[offset + index ++] = z + depth;
+
 		return array;
 	}
 	
