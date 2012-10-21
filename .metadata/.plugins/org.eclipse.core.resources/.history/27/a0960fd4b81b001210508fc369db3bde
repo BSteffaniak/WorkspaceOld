@@ -1,0 +1,20 @@
+package net.foxycorndog.jdoutil;
+
+import java.io.File;
+
+import org.lwjgl.opengl.GL11;
+
+public class ModelLoader
+{
+	public static int loadModel(File file, float vertices[], float textures[], float normals[], float colors[])
+	{
+		return GL11.GL_TRIANGLES;
+	}
+	
+	public static int loadModel(String location, float vertices[])
+	{
+		File file = new File(location);
+		
+		return loadModel(file, vertices, null, null, null);
+	}
+}

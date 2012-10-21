@@ -176,4 +176,18 @@ public class VerticesBuffer extends LightBuffer
 		
 		return indices;
 	}
+	
+	public String toString()
+	{
+		String str = "";
+		
+		float data[] = super.getData();
+		
+		for (float f : data)
+		{
+			str += f + ", ";
+		}
+		
+		return str;
+	}
 }

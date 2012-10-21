@@ -148,10 +148,13 @@ public class GL
 	
 	public  static boolean DRAW_MODE_ARRAYS, DRAW_MODE_ELEMENTS, DRAW_MODE_IMMEDIATE, USING_VBO;
 	
-	private static boolean render3D = false;
+	private static boolean render3D;
+	private static boolean wireFrame, showColors;
 	
 	static
 	{
+		showColors = true;
+		
 		Base.setUsingVBO(false); 
 		Base.setDrawMode(ARRAYS);
 		
@@ -189,6 +192,52 @@ public class GL
 		Base.setUsingVBO(usingVBO);
 		
 		update();
+	}
+	
+	public static boolean isShowingColors()
+	{
+		return showColors;
+	}
+	
+	public static void setShowColors(boolean showColors)
+	{
+		GL.showColors = showColors;
+	}
+	
+	public static boolean isWireFrame()
+	{
+		return wireFrame;
+	}
+	
+	public static void setWireFrameMode(boolean wireFrame)
+	{
+		setWireFrameMode(wireFrame, false, false);
+	}
+	
+	public static void setWireFrameMode(boolean wireFrame, boolean textures, boolean colors)
+	{
+		GL.wireFrame      = wireFrame;
+		
+		GL.showColors = colors;
+		
+		if (textures)
+		{
+			glEnable(GL_TEXTURE_2D);
+		}
+		else
+		{
+			glDisable(GL_TEXTURE_2D);
+		}
+			
+		if (wireFrame)
+		{
+			
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+		else
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
 	}
 	
 	/**
@@ -888,79 +937,92 @@ public class GL
 	
 //	public static void renderQuads(LightBuffer verticesBuffer, LightBuffer texturesBuffer, ImageMap imageMap, int start, int amount, RenderTask task)
 //	{
-//		renderBuffers(verticesBuffer, texturesBuffer, imageMap, start * 4, amount * 4, GL_QUADS, task);
+//		renderBuffers(verticesBuffer, texturesBuffer, imageMap, start, amount, GL_QUADS, task);
 //	}
 	
 //	public static void renderQuads(Buffer verticesBuffer, Buffer texturesBuffer, ImageMap imageMap, int start, int amount)
 //	{
-//		renderBuffers(verticesBuffer, texturesBuffer, imageMap, start * 4, amount * 4, GL_QUADS);
+//		renderBuffers(verticesBuffer, texturesBuffer, imageMap, start, amount, GL_QUADS);
 //	}
 	
 	public static void renderCubes(VerticesBuffer verticesBuffer, Buffer colorsBuffer, int start, int amount)
 	{
-		renderBuffers(verticesBuffer, null, null, colorsBuffer, null, start * 4 * 6, amount * 4 * 6, QUADS, null);
+		renderBuffers(verticesBuffer, null, null, colorsBuffer, null, start * 6, amount * 6, QUADS, null);
 	}
 	
 	public static void renderCubes(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Buffer colorsBuffer, Texture texture, int start, int amount)
 	{
-		renderBuffers(verticesBuffer, texturesBuffer, null, colorsBuffer, texture, start * 4 * 6, amount * 4 * 6, QUADS, null);
+		renderBuffers(verticesBuffer, texturesBuffer, null, colorsBuffer, texture, start * 6, amount * 6, QUADS, null);
 	}
 	
 	public static void renderCubes(VerticesBuffer verticesBuffer, int start, int amount)
 	{
-		renderBuffers(verticesBuffer, null, null, null, null, start * 4 * 6, amount * 4 * 6, QUADS, null);
+		renderBuffers(verticesBuffer, null, null, null, null, start * 6, amount * 6, QUADS, null);
 	}
 
 	public static void renderCubes(VerticesBuffer verticesBuffer, Buffer textures, Texture texture, int start, int amount)
 	{
-		renderBuffers(verticesBuffer, textures, null, null, texture, start * 4 * 6, amount * 4 * 6, QUADS, null);
+		renderBuffers(verticesBuffer, textures, null, null, texture, start * 6, amount * 6, QUADS, null);
 	}
 	
 	public static void renderCubes(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Buffer normalsBuffer, Buffer colorsBuffer, Texture texture, int start, int amount, Task task)
 	{
-		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, texture, start * 4 * 6, amount * 4 * 6, QUADS, task);
+		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, texture, start * 6, amount * 6, QUADS, task);
 	}
 	
 	public static void renderQuads(VerticesBuffer verticesBuffer, int start, int amount)
 	{
-		renderBuffers(verticesBuffer, null, null, null, null, start * 4, amount * 4, QUADS, null);
+		renderBuffers(verticesBuffer, null, null, null, null, start, amount, QUADS, null);
 	}
 	
 	public static void renderQuads(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Buffer normalsBuffer, Texture imageMap, int start, int amount)
 	{
-		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, null, imageMap, start * 4, amount * 4, QUADS, null);
+		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, null, imageMap, start, amount, QUADS, null);
 	}
 	
 	public static void renderQuads(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Texture imageMap, int start, int amount, Task task)
 	{
-		renderBuffers(verticesBuffer, texturesBuffer, null, null, imageMap, start * 4, amount * 4, QUADS, task);
+		renderBuffers(verticesBuffer, texturesBuffer, null, null, imageMap, start, amount, QUADS, task);
 	}
 	
 	public static void renderQuads(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Texture imageMap, int start, int amount)
 	{
-		renderBuffers(verticesBuffer, texturesBuffer, null, null, imageMap, start * 4, amount * 4, QUADS, null);
+		renderBuffers(verticesBuffer, texturesBuffer, null, null, imageMap, start, amount, QUADS, null);
 	}
 	
 	public static void renderQuad(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Texture imageMap)
 	{
-		renderBuffers(verticesBuffer, texturesBuffer, null, null, imageMap, 0, 4, QUADS, null);
+		renderBuffers(verticesBuffer, texturesBuffer, null, null, imageMap, 0, 1, QUADS, null);
 	}
 	
 	public static void renderQuads(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Buffer normalsBuffer, Buffer colorsBuffer, Texture texture, int start, int amount, Task task)
 	{
-		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, texture, start * 4, amount * 4, QUADS, task);
+		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, texture, start, amount, QUADS, task);
+	}
+	
+	public static void renderTriangles(VerticesBuffer verticesBuffer, int start, int amount)
+	{
+		renderBuffers(verticesBuffer, null, null, null, null, start, amount, TRIANGLES, null);
 	}
 	
 	private static void renderBuffers(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Buffer normalsBuffer, Buffer colorsBuffer, Texture texture, int start, int amount, int type, Task task)
 	{
-		int vertexSize = verticesBuffer.getVertexSize();
+		int vertexSize       = verticesBuffer.getVertexSize();
+		int amountOfVertices = getAmountOfVertices(type);
+		
+		start  *= amountOfVertices;
+		amount *= amountOfVertices;
 		
 		if (DRAW_MODE_ARRAYS || DRAW_MODE_ELEMENTS)
 		{
 			beginTextureDraw(texturesBuffer);
 			beginVertexDraw(verticesBuffer);
 			beginNormalDraw(normalsBuffer);
-			beginColorDraw(colorsBuffer);
+			
+			if (showColors)
+			{
+				beginColorDraw(colorsBuffer);
+			}
 		}
 		
 		if (texture != null)
@@ -970,8 +1032,6 @@ public class GL
 		
 		if (task != null)
 		{
-			int amountOfVertices = getAmountOfVertices(type);
-			
 			float vertices[] = null;
 			float textures[] = null;
 			float colors[]   = null;
@@ -1017,7 +1077,7 @@ public class GL
 								int vertexOffset  = i * vertexSize;
 								int colorOffset   = i * 4;
 								
-								if (colors != null)
+								if (colors != null && showColors)
 								{
 									glColor4f(colors[0 + colorOffset], colors[1 + colorOffset], colors[2 + colorOffset], colors[3 + colorOffset]);
 								}
@@ -1034,7 +1094,7 @@ public class GL
 									glVertex2f(vertices[0 + vertexOffset], vertices[1 + vertexOffset]);
 								}
 
-								if (colors != null)
+								if (colors != null && showColors)
 								{
 									glColor4f(colors[4 + colorOffset], colors[5 + colorOffset], colors[6 + colorOffset], colors[7 + colorOffset]);
 								}
@@ -1051,7 +1111,7 @@ public class GL
 									glVertex2f(vertices[2 + vertexOffset], vertices[3 + vertexOffset]);
 								}
 
-								if (colors != null)
+								if (colors != null && showColors)
 								{
 									glColor4f(colors[8 + colorOffset], colors[9 + colorOffset], colors[10 + colorOffset], colors[11 + colorOffset]);
 								}
@@ -1068,7 +1128,7 @@ public class GL
 									glVertex2f(vertices[4 + vertexOffset], vertices[5 + vertexOffset]);
 								}
 
-								if (colors != null)
+								if (colors != null && showColors)
 								{
 									glColor4f(colors[12 + colorOffset], colors[13 + colorOffset], colors[14 + colorOffset], colors[15 + colorOffset]);
 								}
@@ -1103,9 +1163,6 @@ public class GL
 			}
 			else if (DRAW_MODE_ELEMENTS)
 			{
-//				start /= 4;
-//				amount /= 4;
-				
 				GL12.glDrawRangeElements(type, 0, amount, verticesBuffer.getIndices(start));
 			}
 			else if (DRAW_MODE_IMMEDIATE)
@@ -1133,7 +1190,7 @@ public class GL
 							int vertexOffset  = i * vertexSize;
 							int colorOffset   = i * 4;
 							
-							if (colors != null)
+							if (colors != null && showColors)
 							{
 								glColor4f(colors[0 + colorOffset], colors[1 + colorOffset], colors[2 + colorOffset], colors[3 + colorOffset]);
 							}
@@ -1150,7 +1207,7 @@ public class GL
 								glVertex2f(vertices[0 + vertexOffset], vertices[1 + vertexOffset]);
 							}
 
-							if (colors != null)
+							if (colors != null && showColors)
 							{
 								glColor4f(colors[4 + colorOffset], colors[5 + colorOffset], colors[6 + colorOffset], colors[7 + colorOffset]);
 							}
@@ -1167,7 +1224,7 @@ public class GL
 								glVertex2f(vertices[2 + vertexOffset], vertices[3 + vertexOffset]);
 							}
 
-							if (colors != null)
+							if (colors != null && showColors)
 							{
 								glColor4f(colors[8 + colorOffset], colors[9 + colorOffset], colors[10 + colorOffset], colors[11 + colorOffset]);
 							}
@@ -1184,7 +1241,7 @@ public class GL
 								glVertex2f(vertices[4 + vertexOffset], vertices[5 + vertexOffset]);
 							}
 
-							if (colors != null)
+							if (colors != null && showColors)
 							{
 								glColor4f(colors[12 + colorOffset], colors[13 + colorOffset], colors[14 + colorOffset], colors[15 + colorOffset]);
 							}
@@ -1213,7 +1270,11 @@ public class GL
 
 		if (DRAW_MODE_ARRAYS || DRAW_MODE_ELEMENTS)
 		{
-			endColorDraw();
+			if (showColors)
+			{
+				endColorDraw();
+			}
+			
 			endNormalDraw();
 			endVertexDraw();
 			endTextureDraw();

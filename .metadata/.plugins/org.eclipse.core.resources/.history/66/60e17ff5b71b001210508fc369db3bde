@@ -1,0 +1,9 @@
+package net.foxycorndog.jdoutil;
+
+public class ModelLoader
+{
+	public static void loadModel(String location, float vertices[])
+	{
+		
+	}
+}

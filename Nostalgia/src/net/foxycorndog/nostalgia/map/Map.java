@@ -3,6 +3,7 @@ import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.ModelLoader;
 import net.foxycorndog.jdoutil.Task;
 import net.foxycorndog.jdoutil.VerticesBuffer;
 
@@ -14,9 +15,9 @@ public class Map
 	
 	private LightBuffer    texturesBuffer, colorsBuffer;
 	
-	private VerticesBuffer verticesBuffer;
+	private VerticesBuffer verticesBuffer, bunnyV;
 	
-	private float          cubes[];
+	private float          cubes[], vertices[];
 	
 	public Map()
 	{
@@ -53,6 +54,13 @@ public class Map
 				}, index ++);
 		
 		addCube(-100, -2, -100, 200, 2, 200, GL.white, 200, 200, 200, 255, index ++);
+		
+		vertices = ModelLoader.loadModel("res/test.obj")[0];
+		System.out.println(vertices.length / 3f);
+		bunnyV = new VerticesBuffer(vertices.length, 3);
+		bunnyV.addData(vertices);
+		
+//		bunnyV
 	}
 	
 	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int colors[][], int index)
@@ -112,6 +120,24 @@ public class Map
 	
 	public void render()
 	{
+		GL.beginManipulation();
+		{
+			GL.translatef(0, 1, 0);
+			GL.scalef(20, 20, 20);
+			
+//			GL.renderTriangles(bunnyV, 0, bunnyV.capacity() / 3 / 3);
+			
+			GL.glBegin(GL.TRIANGLES);
+			{
+				for (int i = 0; i < vertices.length; i += 3)
+				{
+					GL.glVertex3f(vertices[i], vertices[i + 1], vertices[i + 2]);
+				}
+			}
+			GL.glEnd();
+		}
+		GL.endManipulation();
+		
 		GL.renderCubes(verticesBuffer, texturesBuffer, null, colorsBuffer, sprites, 0, 1,null);
 		
 		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, GL.white, 1, 1);

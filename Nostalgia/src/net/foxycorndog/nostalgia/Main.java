@@ -185,6 +185,12 @@ public class Main
 			}
 		}
 		
+		if (KeyboardInput.next(KeyboardInput.KEY_O))
+		{
+			GL.setWireFrameMode(!GL.isWireFrame(), GL.isWireFrame(), true);
+//			GL.setShowColors(!GL.isShowingColors());
+		}
+		
 //			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_R))
 //			{
 //				if (player.cameraAttached())

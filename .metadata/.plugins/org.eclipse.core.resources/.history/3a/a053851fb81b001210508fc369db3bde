@@ -1,0 +1,13 @@
+package net.foxycorndog.jdoutil;
+
+import org.lwjgl.opengl.GL11;
+
+public class ModelLoader
+{
+	public static int loadModel(String location, float vertices[])
+	{
+		
+		
+		return GL11.GL_TRIANGLES;
+	}
+}
