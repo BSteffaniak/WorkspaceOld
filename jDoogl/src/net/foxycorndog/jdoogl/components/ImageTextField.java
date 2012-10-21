@@ -7,6 +7,7 @@ import org.lwjgl.input.Mouse;
 import net.foxycorndog.jdoogl.Color;
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.image.imagemap.ImageMap;
+import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoogl.input.KeyboardInput;
 import net.foxycorndog.jdoogl.listeners.ActionListener;
 import net.foxycorndog.jdoogl.listeners.KeyListener;
@@ -51,9 +52,9 @@ public class ImageTextField extends ImageButton implements KeyListener, ActionLi
 		}
 	}
 	
-	public ImageTextField(ImageMap imageMap)
+	public ImageTextField(Texture texture)
 	{
-		super(imageMap);
+		super(texture);
 		
 		fieldText = "";
 		

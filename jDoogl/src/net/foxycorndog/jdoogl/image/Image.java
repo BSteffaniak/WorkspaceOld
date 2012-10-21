@@ -9,20 +9,22 @@ import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.Task;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 
 public class Image extends Component
 {
 	private int      col, row;
 	
-	private ImageMap imageMap;
+	private Texture imageMap;
 	
-	private LightBuffer verticesBuffer, texturesBuffer;
+	private VerticesBuffer verticesBuffer;
+	private LightBuffer    texturesBuffer;
 	
 	public Image(Texture texture)
 	{
 		this.imageMap = texture;
 		
-		verticesBuffer = new LightBuffer(4 * 2);
+		verticesBuffer = new VerticesBuffer(4 * 2, 2);
 		texturesBuffer = new LightBuffer(4 * 2);
 		
 		verticesBuffer.setData(0, GL.addRectVertexArrayf(0, 0, texture.getWidth(), texture.getHeight(), 0, null));
@@ -36,7 +38,7 @@ public class Image extends Component
 	{
 		this.imageMap = texture;
 		
-		verticesBuffer = new LightBuffer(4 * 2);
+		verticesBuffer = new VerticesBuffer(4 * 2, 2);
 		texturesBuffer = new LightBuffer(4 * 2);
 		
 		verticesBuffer.setData(0, GL.addRectVertexArrayf(0, 0, texture.getWidth() * rx, texture.getHeight() * ry, 0, null));
@@ -53,7 +55,7 @@ public class Image extends Component
 		this.col      = col;
 		this.row      = row;
 		
-		verticesBuffer = new LightBuffer(4 * 2);
+		verticesBuffer = new VerticesBuffer(4 * 2, 2);
 		texturesBuffer = new LightBuffer(4 * 2);
 		
 		int wid = spriteSheet.getWidth()  / spriteSheet.getCols();
@@ -73,7 +75,7 @@ public class Image extends Component
 		this.col      = col;
 		this.row      = row;
 		
-		verticesBuffer = new LightBuffer(4 * 2);
+		verticesBuffer = new VerticesBuffer(4 * 2, 2);
 		texturesBuffer = new LightBuffer(4 * 2);
 		
 		int wid = spriteSheet.getWidth()  / spriteSheet.getCols();

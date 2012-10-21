@@ -8,23 +8,26 @@ import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.Task;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.p1xeland.P1xeland;
 import net.foxycorndog.p1xeland.items.Item;
 import net.foxycorndog.p1xeland.items.tiles.Tile;
 
 public class Inventory
 {
-	private int               quantities[];
+	private int                   quantities[];
 	
-	private LightBuffer       itemsTexturesBuffer;
+	private LightBuffer           itemsTexturesBuffer;
 	
-	private ArrayList<Object> items;
+	private ArrayList<Object>     items;
 	
-	private static boolean    initialized;
+	private static boolean        initialized;
 	
-	private static Texture    inventoryGUI;
+	private static Texture        inventoryGUI;
 	
-	private static LightBuffer     verticesBuffer, texturesBuffer, itemsVerticesBuffer;
+	private static VerticesBuffer verticesBuffer, itemsVerticesBuffer;
+	
+	private static LightBuffer    texturesBuffer;
 	
 	public Inventory()
 	{
@@ -53,9 +56,9 @@ public class Inventory
 		{
 			inventoryGUI   = new Texture("res/images/GUI/Inventory.png");
 			
-			verticesBuffer = new LightBuffer(4 * 2);
+			verticesBuffer = new VerticesBuffer(4 * 2, 2);
 			texturesBuffer = new LightBuffer(4 * 2);
-			itemsVerticesBuffer = new LightBuffer(4 * 2 * 40);
+			itemsVerticesBuffer = new VerticesBuffer(4 * 2 * 40, 2);
 			
 			verticesBuffer.setData(0, GL.addRectVertexArrayf(0, 0, 115, 80, 0, null));
 			texturesBuffer.setData(0, GL.addRectTextureArrayf(inventoryGUI, 0, null));

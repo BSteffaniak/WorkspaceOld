@@ -8,6 +8,7 @@ import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoogl.input.MouseInput;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.Task;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.p1xeland.P1xeland;
 import net.foxycorndog.p1xeland.actors.Actor.Direction;
 import net.foxycorndog.p1xeland.items.Item;
@@ -30,7 +31,9 @@ public class Player extends Actor
 	
 	private static boolean     initialized;
 	
-	private static LightBuffer      verticesBuffer, texturesBuffer, itemHeldVerticesBuffer;
+	private static VerticesBuffer verticesBuffer, itemHeldVerticesBuffer;
+	
+	private static LightBuffer    texturesBuffer;
 	
 	private static SpriteSheet sprites;
 	
@@ -44,16 +47,18 @@ public class Player extends Actor
 		
 		private Texture texture;
 		
-		private LightBuffer  verticesBuffer, texturesBuffer, verticesBuffer2, texturesBuffer2;
+		private VerticesBuffer verticesBuffer, verticesBuffer2;
+		
+		private LightBuffer    texturesBuffer, texturesBuffer2;
 		
 		public QuickBar()
 		{
 			texture         = new Texture("res/images/InventorySpot.png");
 			
-			verticesBuffer  = new LightBuffer(4 * 2 * 10);
+			verticesBuffer  = new VerticesBuffer(4 * 2 * 10, 2);
 			texturesBuffer  = new LightBuffer(4 * 2 * 10);
 			
-			verticesBuffer2 = new LightBuffer(4 * 2 * 10);
+			verticesBuffer2 = new VerticesBuffer(4 * 2 * 10, 2);
 			texturesBuffer2 = new LightBuffer(4 * 2 * 10);
 			
 			for (int i = 0; i < 10; i ++)
@@ -307,10 +312,10 @@ public class Player extends Actor
 		{
 			sprites                = new SpriteSheet("res/images/character/skins/default.png", 16, 8);
 			
-			verticesBuffer         = new LightBuffer(RECT_SIZE * 6 * 4);
+			verticesBuffer         = new VerticesBuffer(RECT_SIZE * 6 * 4, 2);
 			texturesBuffer         = new LightBuffer(RECT_SIZE * 6 * 4);
 			
-			itemHeldVerticesBuffer = new LightBuffer(RECT_SIZE);
+			itemHeldVerticesBuffer = new VerticesBuffer(RECT_SIZE, 2);
 			
 			itemHeldVerticesBuffer.setData(0, GL.addRectVertexArrayf(0, 0, P1xeland.textureSize, P1xeland.textureSize, 0, null));
 			
@@ -1017,7 +1022,7 @@ public class Player extends Actor
 	}
 	
 	@Override
-	public LightBuffer getVerticesBuffer()
+	public VerticesBuffer getVerticesBuffer()
 	{
 		return verticesBuffer;
 	}

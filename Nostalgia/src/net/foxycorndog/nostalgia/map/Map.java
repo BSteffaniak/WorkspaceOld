@@ -1,12 +1,14 @@
 package net.foxycorndog.nostalgia.map;
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
+import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.Task;
 import net.foxycorndog.jdoutil.VerticesBuffer;
 
 public class Map
 {
-//	private Texture        texture;
+	private int            numCubes;
 	
 	private SpriteSheet    sprites;
 	
@@ -14,70 +16,119 @@ public class Map
 	
 	private VerticesBuffer verticesBuffer;
 	
-	private float          vertices[];
+	private float          cubes[];
 	
 	public Map()
 	{
-		sprites = new SpriteSheet("res/images/sprites.png", 36, 18);
+		numCubes = 2;
 		
-		vertices = new float[4 * 3 * 6 * 2];
+		sprites  = new SpriteSheet("res/images/sprites.png", 36, 18);
 		
-		verticesBuffer = new VerticesBuffer(4 * 3 * 6 * 2);
-		texturesBuffer = new LightBuffer(2 * 4 * 6 * 2);
-		colorsBuffer   = new LightBuffer(4 * 4 * 6 * 2);
+		cubes    = new float[6 * numCubes];
 		
-		GL.addCubeVertexArrayf(0, 2.5f, -10, 2, 2, 2, 0, vertices);
-		GL.addCubeVertexArrayf(-100, -2, -100, 200, 2, 200, 4 * 3 * 6, vertices);
+		verticesBuffer = new VerticesBuffer(4 * 3 * 6 * numCubes, 3);
+		texturesBuffer = new LightBuffer(2 * 4 * 6 * numCubes);
+		colorsBuffer   = new LightBuffer(4 * 4 * 6 * numCubes);
 		
-		verticesBuffer.addData(vertices);
-		texturesBuffer.addData(GL.addCubeTextureArrayf(new float[][] { sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(1, 0, 1, 1), sprites.getImageOffsetsf(7, 2, 1, 1), sprites.getImageOffsetsf(2, 0, 1, 1),  }, 0, null));
-
-		int r = 255;
-		int g = 255;
-		int b = 255;
-		int a = 255;
-		colorsBuffer.addData(GL.addCubeColorArrayif(
+		int index = 0;
+		
+		addCube(0, 2.5f, -10, 2, 2, 2,
+				new float[][]
+				{
+					sprites.getImageOffsetsf(1, 0, 1, 1),
+					sprites.getImageOffsetsf(1, 0, 1, 1),
+					sprites.getImageOffsetsf(1, 0, 1, 1),
+					sprites.getImageOffsetsf(1, 0, 1, 1),
+					sprites.getImageOffsetsf(7, 2, 1, 1),
+					sprites.getImageOffsetsf(2, 0, 1, 1),
+				},
 				new int[][]
 				{
-					new int[] { 255, 255, 255, a },
-					new int[] { 255, 255, 255, a },
-					new int[] { 255, 255, 255, a }, 
-					new int[] { 255, 255, 255, a },
-					new int[] { 151, 255, 100, a },
-					new int[] { 255, 255, 255, a }
-				} , 0, null));
+					new int[] { 255, 255, 255, 255 },
+					new int[] { 255, 255, 255, 255 },
+					new int[] { 255, 255, 255, 255 }, 
+					new int[] { 255, 255, 255, 255 },
+					new int[] { 151, 255, 100, 255 },
+					new int[] { 255, 255, 255, 255 }
+				}, index ++);
 		
-		texturesBuffer.addData(GL.addCubeTextureArrayf(GL.white, 0, null));
+		addCube(-100, -2, -100, 200, 2, 200, GL.white, 200, 200, 200, 255, index ++);
+	}
+	
+	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int colors[][], int index)
+	{
+		verticesBuffer.addData(GL.addCubeVertexArrayf(x, y, z, width, height, depth, 0, null));
+		texturesBuffer.addData(GL.addCubeTextureArrayf(textures, 0, null));
+		colorsBuffer.addData(GL.addCubeColorArrayif(colors , 0, null));
 		
-		r = 200;
-		g = 200;
-		b = 200;
-		a = 255;
-		colorsBuffer.addData(GL.addCubeColorArrayif(
-				new int[][]
-				{
-					new int[] { r, g, b, a },
-					new int[] { r, g, b, a },
-					new int[] { r, g, b, a }, 
-					new int[] { r, g, b, a },
-					new int[] { r, g, b, a },
-					new int[] { r, g, b, a }
-				} , 0, null));
+		cubes[0 + index * 6] = x;
+		cubes[1 + index * 6] = y;
+		cubes[2 + index * 6] = z;
+		
+		cubes[3 + index * 6] = x + width;
+		cubes[4 + index * 6] = y + height;
+		cubes[5 + index * 6] = z + depth;
+	}
+	
+	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int r, int g, int b, int a, int index)
+	{
+		int colors[][] = new int[][]
+		{
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a }
+		};
+		
+		addCube(x, y, z, width, height, depth, textures, colors, index);
+	}
+	
+	public void addCube(float x, float y, float z, float width, float height, float depth, Texture texture, int r, int g, int b, int a, int index)
+	{
+		int colors[][] = new int[][]
+		{
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a }
+		};
+		
+		float textures[][] = new float[][]
+		{
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+		};
+		
+		addCube(x, y, z, width, height, depth, textures, colors, index);
 	}
 	
 	public void render()
 	{
-		GL.beginColorDraw(colorsBuffer);
+		GL.renderCubes(verticesBuffer, texturesBuffer, null, colorsBuffer, sprites, 0, 1,null);
 		
-		GL.renderCubes(verticesBuffer, texturesBuffer, sprites, 0, 1);
-		
-		GL.renderCubes(verticesBuffer, texturesBuffer, GL.white, 1, 1);
-
-		GL.endColorDraw();
+		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, GL.white, 1, 1);
 	}
 	
-	public float[] getVertices()
+	public float[] getCubes()
 	{
-		return vertices;
+		return cubes;
+	}
+	
+	public void genIndices()
+	{
+		verticesBuffer.genIndices(GL.QUADS);
+	}
+	
+	public void destroyIndices()
+	{
+		verticesBuffer.destroyIndices();
 	}
 }

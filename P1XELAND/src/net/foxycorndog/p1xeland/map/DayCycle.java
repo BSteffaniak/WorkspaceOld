@@ -16,6 +16,7 @@ import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.Task;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.p1xeland.P1xeland;
 import net.foxycorndog.p1xeland.items.tiles.Tile;
 
@@ -28,9 +29,9 @@ public class DayCycle
 	
 	private BufferedImage cycleImage;
 	
-	private LightBuffer        skyVerticesBuffer, skyTexturesBuffer;
-	private LightBuffer        sunMoonVerticesBuffer, sunMoonTexturesBuffer;
-	private LightBuffer        cloudsVerticesBuffer, cloudsTexturesBuffer;
+	private VerticesBuffer skyVerticesBuffer, sunMoonVerticesBuffer, cloudsVerticesBuffer;
+	
+	private LightBuffer    skyTexturesBuffer, sunMoonTexturesBuffer, cloudsTexturesBuffer;
 	
 	private int           imageData[];
 	private int           currentColor[], actualColor[];
@@ -63,12 +64,12 @@ public class DayCycle
 		
 		cloudsProperties       = new ArrayList<Object[]>();
 		
-		skyVerticesBuffer     = new LightBuffer(4 * 2);
+		skyVerticesBuffer     = new VerticesBuffer(4 * 2, 2);
 		skyTexturesBuffer     = new LightBuffer(4 * 2);
 		
 		skyVerticesBuffer.setData(0, GL.addRectVertexArrayf(-5, -5, Frame.getWidth() + 10, Frame.getHeight() + 10, 0, null));
 		
-		sunMoonVerticesBuffer = new LightBuffer(4 * 2 * 2);
+		sunMoonVerticesBuffer = new VerticesBuffer(4 * 2 * 2, 2);
 		sunMoonTexturesBuffer = new LightBuffer(4 * 2 * 2);
 		
 		sunMoonVerticesBuffer.setData(0 * 4 * 2, GL.addRectVertexArrayf(0, 0, P1xeland.textureSize * 2, P1xeland.textureSize * 2, 0, null));
@@ -77,7 +78,7 @@ public class DayCycle
 		sunMoonTexturesBuffer.setData(0 * 4 * 2, GL.addRectTextureArrayf(Tile.getTerrain(), 3, 15, 2, 2, 0, null));
 		sunMoonTexturesBuffer.setData(1 * 4 * 2, GL.addRectTextureArrayf(Tile.getTerrain(), 5, 15, 2, 2, 0, null));
 		
-		cloudsVerticesBuffer = new LightBuffer(4 * 2 * 16);
+		cloudsVerticesBuffer = new VerticesBuffer(4 * 2 * 16, 2);
 		cloudsTexturesBuffer = new LightBuffer(4 * 2 * 16);
 		
 		for (int i = 0; i < 16; i ++)

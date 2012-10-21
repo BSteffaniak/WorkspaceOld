@@ -1,0 +1,30 @@
+package net.foxycorndog.jdoutil;
+
+import java.nio.ShortBuffer;
+
+public class VerticesBuffer extends LightBuffer
+{
+	private boolean     useIndices;
+	
+	private int         vertexSize;
+	private int         indicesId;
+	
+	private ShortBuffer indices;
+	
+	public VerticesBuffer(int size, int vertexSize)
+	{
+		super(size);
+		
+		this.vertexSize = vertexSize;
+	}
+	
+	public int getVertexSize()
+	{
+		return vertexSize;
+	}
+	
+	public ShortBuffer getIndices()
+	{
+		return null;
+	}
+}

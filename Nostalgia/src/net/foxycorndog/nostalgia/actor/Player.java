@@ -13,15 +13,9 @@ import java.nio.FloatBuffer;
  */
 public class Player extends Actor
 {
-	private int     perspective;
-	
-	public  static final int   THIRD = 3, FIRST = 1;
-	
 	public Player(float width, float height, float depth, float centerX, float centerY, float centerZ, Map map)
 	{
 		super(width, height, depth, centerX, centerY, centerZ, map);
-		
-		setPerspective(THIRD);
 	}
 	
 	public void render()
@@ -30,7 +24,7 @@ public class Player extends Actor
 		{
 			GL.setColori(25, 25, 25, 255);
 			
-			GL.translatef(-getOffsetX() + getX(), -getOffsetY() + getY(), -getOffsetZ() + getZ());
+			GL.translatef(getX(), getY(), getZ());
 			
 			if (getCamera() != null)
 			{
@@ -49,43 +43,5 @@ public class Player extends Actor
 	public void update()
 	{
 		super.update();
-	}
-	
-	public int getPerspective()
-	{
-		return perspective;
-	}
-	
-	public void setPerspective(int perspective)
-	{
-		if (this.perspective == perspective)
-		{
-			return;
-		}
-		
-		if (perspective == THIRD)
-		{
-//			super.moveOffest(0, 2, 6);
-//			
-//			move(0, 2, 6);
-			
-			if (getCamera() != null)
-			{
-				getCamera().move(0, 2, 6);
-			}
-		}
-		else if (perspective == FIRST)
-		{
-//			super.moveOffest(0, -2, -6);
-//			
-//			move(0, -2, -6);
-
-			if (getCamera() != null)
-			{
-				getCamera().move(0, -2, -6);
-			}
-		}
-		
-		this.perspective = perspective;
 	}
 }

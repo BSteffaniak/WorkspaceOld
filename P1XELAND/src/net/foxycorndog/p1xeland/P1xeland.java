@@ -40,6 +40,7 @@ import net.foxycorndog.jdoutil.GeneralCollection;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.Task;
 import net.foxycorndog.jdoutil.Util;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.jdoutil.zip.Unzipper;
 import net.foxycorndog.jdoutil.web.Downloader;
 import net.foxycorndog.jdoutil.web.WebPage;
@@ -78,7 +79,9 @@ public class P1xeland extends P1xelandInterface implements MouseListener
 	
 	private Client          c;
 	
-	private LightBuffer     blockDamageVerticesBuffer, blockDamageTexturesBuffer;
+	private VerticesBuffer  blockDamageVerticesBuffer;
+	
+	private LightBuffer     blockDamageTexturesBuffer;
 	
 	private Thread          playerThread;
 	
@@ -116,13 +119,15 @@ public class P1xeland extends P1xelandInterface implements MouseListener
 		
 		private Texture texture;
 		
-		private LightBuffer  verticesBuffer, texturesBuffer;
+		private VerticesBuffer  verticesBuffer;
+		
+		private LightBuffer     texturesBuffer;
 		
 		public Cursor(String location)
 		{
 			texture = new Texture(location);
 			
-			verticesBuffer = new LightBuffer(4 * 2);
+			verticesBuffer = new VerticesBuffer(4 * 2, 2);
 			texturesBuffer = new LightBuffer(4 * 2);
 			
 			verticesBuffer.setData(0, GL.addRectVertexArrayf(0, 0, 16, 16, 0, null));
@@ -670,7 +675,7 @@ public class P1xeland extends P1xelandInterface implements MouseListener
 		
 		textureSize = 16;
 		
-		blockDamageVerticesBuffer = new LightBuffer(4 * 2);
+		blockDamageVerticesBuffer = new VerticesBuffer(4 * 2, 2);
 		blockDamageTexturesBuffer = new LightBuffer(4 * 2);
 		
 		blockDamageVerticesBuffer.setData(0, GL.addRectVertexArrayf(0, 0, textureSize, textureSize, 0, null));
