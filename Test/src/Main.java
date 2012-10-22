@@ -1,3 +1,5 @@
+import java.awt.Point;
+
 public class Main
 {
 	
@@ -9,21 +11,18 @@ public class Main
 	
 	public Main()
 	{
-		int num1 = 4;
-		int num2 = 5;
+		Point p  = new Point(5, 5);
+		Point p2 = new Point(4, 1);
 		
-		swap(num1, num2);
+		swap(p, p2);
 		
-		System.out.println(num1 + ", " + num2);
+		System.out.println(p + ", " + p2);
 	}
 	
-	private void swap(Integer a, Integer b)
+	private void swap(Point a, Point b)
 	{
-		Integer a2 = a;
-		Integer b2 = b;
-		a = b2;
-		b = a2;
+		Point temp = (Point) a.clone();
+		a = (Point) b.clone();
+		b = temp;
 	}
-	
-	
 }
