@@ -10,6 +10,7 @@ import static org.lwjgl.opengl.GL15.glMapBuffer;
 import static org.lwjgl.opengl.GL15.glUnmapBuffer;
 
 import java.nio.BufferOverflowException;
+import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -23,6 +24,7 @@ public class LightBuffer extends Buffer
 	
 	private int         id;
 	private int         position;
+	private int         size;
 	
 	private FloatBuffer buffer;
 	private ByteBuffer  mapBuffer;
@@ -38,7 +40,11 @@ public class LightBuffer extends Buffer
 		
 		setBuffer(BufferUtils.createFloatBuffer(size));
 		
+		this.size = size;
+		
 		init();
+		
+		buffer.rewind();
 	}
 	
 	private void init()
@@ -154,9 +160,11 @@ public class LightBuffer extends Buffer
 	
 	public float[] getData()
 	{
-		float dst[] = new float[this.capacity()];
+		buffer.position(0);
 		
-		buffer.get(dst);
+		float dst[] = new float[size()];
+		
+		buffer.get(dst, 0, dst.length);
 		
 		return dst;
 	}
@@ -194,6 +202,8 @@ public class LightBuffer extends Buffer
 	
 	public FloatBuffer getBuffer()
 	{
+		buffer.position(0);
+		
 		return buffer;
 	}
 	
@@ -207,8 +217,13 @@ public class LightBuffer extends Buffer
 //		return id;
 //	}
 	
+	public int size()
+	{
+		return size;
+	}
+	
 	public int capacity()
 	{
-		return buffer.capacity();
+		return size;
 	}
 }

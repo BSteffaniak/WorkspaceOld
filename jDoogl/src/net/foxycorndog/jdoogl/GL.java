@@ -93,15 +93,17 @@ import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
+import javax.naming.OperationNotSupportedException;
+
 import net.foxycorndog.jdobase.Base;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.image.imagemap.ImageMap;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoutil.Buffer;
-import net.foxycorndog.jdoutil.HeavyBuffer;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.Task;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -110,6 +112,7 @@ import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.util.glu.GLU;
 
@@ -139,21 +142,102 @@ public class GL
 	
 	private static ArrayList<LightBuffer> rectVerticesBuffer, rectTexturesBuffer;
 	
-	public  static final int QUADS = GL11.GL_QUADS;
+	public  static final int QUADS = GL11.GL_QUADS, TRIANGLES = GL11.GL_TRIANGLES, POINTS = GL11.GL_POINTS;
 	
-	public  static final int ARRAYS = Base.ARRAYS, ELEMENTS = Base.ELEMENTS;
+	public  static final int ARRAYS = Base.ARRAYS, ELEMENTS = Base.ELEMENTS, IMMEDIATE = Base.IMMEDIATE;
 	
-	public  static final boolean DRAW_MODE_ARRAYS, DRAW_MODE_ELEMENTS;
+	public  static boolean DRAW_MODE_ARRAYS, DRAW_MODE_ELEMENTS, DRAW_MODE_IMMEDIATE, USING_VBO;
 	
-	private static boolean       render3D = false;
+	private static boolean render3D;
+	private static boolean wireFrame, showColors;
 	
 	static
 	{
-		Base.setUsingVBO(false);
+		showColors = true;
+		
+		Base.setUsingVBO(false); 
 		Base.setDrawMode(ARRAYS);
 		
-		DRAW_MODE_ARRAYS   = Base.getDrawMode() == Base.ARRAYS;
-		DRAW_MODE_ELEMENTS = Base.getDrawMode() == Base.ELEMENTS;
+		update();
+	}
+	
+	public static void update()
+	{
+		USING_VBO           = Base.isUsingVBO();
+		
+		DRAW_MODE_ARRAYS    = Base.getDrawMode() == Base.ARRAYS;
+		DRAW_MODE_ELEMENTS  = Base.getDrawMode() == Base.ELEMENTS;
+		DRAW_MODE_IMMEDIATE = Base.getDrawMode() == Base.IMMEDIATE;
+	}
+	
+	public static int getDrawMode()
+	{
+		return Base.getDrawMode();
+	}
+	
+	public static void setDrawMode(int drawMode)
+	{
+		Base.setDrawMode(drawMode);
+		
+		update();
+	}
+	
+	public static boolean isUsingVBO()
+	{
+		return Base.isUsingVBO();
+	}
+	
+	public static void setUsingVBO(boolean usingVBO)
+	{
+		Base.setUsingVBO(usingVBO);
+		
+		update();
+	}
+	
+	public static boolean isShowingColors()
+	{
+		return showColors;
+	}
+	
+	public static void setShowColors(boolean showColors)
+	{
+		GL.showColors = showColors;
+	}
+	
+	public static boolean isWireFrame()
+	{
+		return wireFrame;
+	}
+	
+	public static void setWireFrameMode(boolean wireFrame)
+	{
+		setWireFrameMode(wireFrame, false, false);
+	}
+	
+	public static void setWireFrameMode(boolean wireFrame, boolean textures, boolean colors)
+	{
+		GL.wireFrame      = wireFrame;
+		
+		GL.showColors = colors;
+		
+		if (textures)
+		{
+			glEnable(GL_TEXTURE_2D);
+		}
+		else
+		{
+			glDisable(GL_TEXTURE_2D);
+		}
+			
+		if (wireFrame)
+		{
+			
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+		else
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
 	}
 	
 	/**
@@ -197,85 +281,85 @@ public class GL
 		GL11.glVertex3d(x, y, z);
 	}
 	
-	/**
-	 * Create a rectangle at the specified position, with the specified
-	 * dimensions;
-	 * 
-	 * @param x The x position of the rectangle.
-	 * @param y The y position of the rectangle.
-	 * @param z The z position of the rectangle.
-	 * @param width The width of the rectangle.
-	 * @param height The height of the rectangle.
-	 * @return The id (position) of the rectangle.
-	 */
-	public static int createRect(float x, float y, float z, float width, float height)
-	{
-		if (rectVerticesBuffer == null)
-		{
-			throw new NullPointerException("You must use setAmountOfElements(int amount) before you can create any elements.");
-		}
-		
-		rectVerticesBuffer.get(rectVerticesPosition % (1000 * 4 * 3)).addData(addRectVertexArrayf(x, y, z, width, height, 0, null));
-		
-		rectVerticesPosition += 1;
-		
-		return rectVerticesPosition - 1;
-	}
+//	/**
+//	 * Create a rectangle at the specified position, with the specified
+//	 * dimensions;
+//	 * 
+//	 * @param x The x position of the rectangle.
+//	 * @param y The y position of the rectangle.
+//	 * @param z The z position of the rectangle.
+//	 * @param width The width of the rectangle.
+//	 * @param height The height of the rectangle.
+//	 * @return The id (position) of the rectangle.
+//	 */
+//	public static int createRect(float x, float y, float z, float width, float height)
+//	{
+//		if (rectVerticesBuffer == null)
+//		{
+//			throw new NullPointerException("You must use setAmountOfElements(int amount) before you can create any elements.");
+//		}
+//		
+//		rectVerticesBuffer.get(rectVerticesPosition % (1000 * 4 * 3)).addData(addRectVertexArrayf(x, y, z, width, height, 0, null));
+//		
+//		rectVerticesPosition += 1;
+//		
+//		return rectVerticesPosition - 1;
+//	}
 	
-	/**
-	 * Set the texture offsets for the rectangle at the specified
-	 * position. To get the offsets array, use the method
-	 * ImageMap.getImageOffsetsf();
-	 * 
-	 * @param position The id (position) of the rectangle.
-	 * @param offsets The offsets of the texture.
-	 */
-	public static void setRectTextureOffsets(int position, float offsets[])
-	{
-		float textures[] = addRectTextureArrayf(offsets, 0, null);
-		
-		rectTexturesBuffer.get(rectTexturesPosition % (1000 * 4 * 3)).setData(position * 4 * 2, textures);
-	}
+//	/**
+//	 * Set the texture offsets for the rectangle at the specified
+//	 * position. To get the offsets array, use the method
+//	 * ImageMap.getImageOffsetsf();
+//	 * 
+//	 * @param position The id (position) of the rectangle.
+//	 * @param offsets The offsets of the texture.
+//	 */
+//	public static void setRectTextureOffsets(int position, float offsets[])
+//	{
+//		float textures[] = addRectTextureArrayf(offsets, 0, null);
+//		
+//		rectTexturesBuffer.get(rectTexturesPosition % (1000 * 4 * 3)).setData(position * 4 * 2, textures);
+//	}
 	
-	/**
-	 * Renders the rectangle at the specified position in the array.
-	 * 
-	 * @param position The id (position) of the rectangle.
-	 */
-	public static void renderRect(int position)
-	{
-		if (rectVerticesBuffer == null)
-		{
-			return;
-		}
-		
-		beginVertexDraw(rectVerticesBuffer.get(rectVerticesPosition % (1000 * 4 * 3)), 3);
-		beginTextureDraw(rectTexturesBuffer.get(rectVerticesPosition % (1000 * 4 * 3)), 2);
-		
-		glDrawArrays(QUADS, position * 4, 4);
-		
-		endTextureDraw();
-		endVertexDraw();
-	}
+//	/**
+//	 * Renders the rectangle at the specified position in the array.
+//	 * 
+//	 * @param position The id (position) of the rectangle.
+//	 */
+//	public static void renderRect(int position)
+//	{
+//		if (rectVerticesBuffer == null)
+//		{
+//			return;
+//		}
+//		
+//		beginVertexDraw(rectVerticesBuffer.get(rectVerticesPosition % (1000 * 4 * 3)), 3);
+//		beginTextureDraw(rectTexturesBuffer.get(rectVerticesPosition % (1000 * 4 * 3)), 2);
+//		
+//		glDrawArrays(QUADS, position * 4, 4);
+//		
+//		endTextureDraw();
+//		endVertexDraw();
+//	}
 	
-	/**
-	 * Renders all of the rectangles to the screen.
-	 */
-	public static void renderRects()
-	{
-		if (rectVerticesBuffer == null)
-		{
-			return;
-		}
-		
-		beginVertexDraw(rectVerticesBuffer.get(rectVerticesPosition % (1000 * 4 * 3)), 3);
-		beginTextureDraw(rectTexturesBuffer.get(rectVerticesPosition % (1000 * 4 * 3)), 2);
-		
-		glDrawArrays(QUADS, 0, rectVerticesPosition * 4);
-		
-		endTextureDraw();
-		endVertexDraw();
-	}
+//	/**
+//	 * Renders all of the rectangles to the screen.
+//	 */
+//	public static void renderRects()
+//	{
+//		if (rectVerticesBuffer == null)
+//		{
+//			return;
+//		}
+//		
+//		beginVertexDraw(rectVerticesBuffer.get(rectVerticesPosition % (1000 * 4 * 3)), 3);
+//		beginTextureDraw(rectTexturesBuffer.get(rectVerticesPosition % (1000 * 4 * 3)), 2);
+//		
+//		glDrawArrays(QUADS, 0, rectVerticesPosition * 4);
+//		
+//		endTextureDraw();
+//		endVertexDraw();
+//	}
 	
 	/**
 	 * Set the color to the specified float values. Default color is
@@ -362,10 +446,10 @@ public class GL
 	 * @param arrayWidth The width of the buffer array to loop through.
 	 * @param arrayHeight The height of the buffer array to loop through.
 	 */
-	public static void renderQuadRect(int x, int y, int width, int height, LightBuffer verticesBuffer, LightBuffer texturesBuffer, ImageMap imageMap, int arrayWidth, int arrayHeight)
+	public static void renderQuadRect(int x, int y, int width, int height, VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, ImageMap imageMap, int arrayWidth, int arrayHeight, int vertexSize)
 	{
-		beginVertexDraw(verticesBuffer, 2);
-		beginTextureDraw(texturesBuffer, 2);
+		beginVertexDraw(verticesBuffer);
+		beginTextureDraw(texturesBuffer);
 		
 		imageMap.bind();
 		
@@ -837,171 +921,334 @@ public class GL
 		return renderLocation.clone();
 	}
 	
+	public static int getAmountOfVertices(int type)
+	{
+		if (type == QUADS)
+		{
+			return 4;
+		}
+		else if (type == TRIANGLES)
+		{
+			return 3;
+		}
+		
+		return 0;
+	}
+	
 //	public static void renderQuads(LightBuffer verticesBuffer, LightBuffer texturesBuffer, ImageMap imageMap, int start, int amount, RenderTask task)
 //	{
-//		renderBuffers(verticesBuffer, texturesBuffer, imageMap, start * 4, amount * 4, GL_QUADS, task);
+//		renderBuffers(verticesBuffer, texturesBuffer, imageMap, start, amount, GL_QUADS, task);
 //	}
 	
 //	public static void renderQuads(Buffer verticesBuffer, Buffer texturesBuffer, ImageMap imageMap, int start, int amount)
 //	{
-//		renderBuffers(verticesBuffer, texturesBuffer, imageMap, start * 4, amount * 4, GL_QUADS);
+//		renderBuffers(verticesBuffer, texturesBuffer, imageMap, start, amount, GL_QUADS);
 //	}
 	
-	public static void renderCubes(Buffer verticesBuffer, int start, int amount)
+	public static void renderCubes(VerticesBuffer verticesBuffer, Buffer colorsBuffer, int start, int amount)
 	{
-		renderBuffers(verticesBuffer, start * 4 * 6, amount * 4 * 6, QUADS, 3);
+		renderBuffers(verticesBuffer, null, null, colorsBuffer, null, start * 6, amount * 6, QUADS, null);
+	}
+	
+	public static void renderCubes(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Buffer colorsBuffer, Texture texture, int start, int amount)
+	{
+		renderBuffers(verticesBuffer, texturesBuffer, null, colorsBuffer, texture, start * 6, amount * 6, QUADS, null);
+	}
+	
+	public static void renderCubes(VerticesBuffer verticesBuffer, int start, int amount)
+	{
+		renderBuffers(verticesBuffer, null, null, null, null, start * 6, amount * 6, QUADS, null);
 	}
 
-	public static void renderCubes(Buffer verticesBuffer, Buffer textures, Texture texture, int start, int amount)
+	public static void renderCubes(VerticesBuffer verticesBuffer, Buffer textures, Texture texture, int start, int amount)
 	{
-		renderBuffers(verticesBuffer, textures, texture, 3, 2, start * 4 * 6, amount * 4 * 6, QUADS);
+		renderBuffers(verticesBuffer, textures, null, null, texture, start * 6, amount * 6, QUADS, null);
 	}
 	
-	public static void renderQuads(Buffer verticesBuffer, int start, int amount)
+	public static void renderCubes(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Buffer normalsBuffer, Buffer colorsBuffer, Texture texture, int start, int amount, Task task)
 	{
-		renderBuffers(verticesBuffer, start * 4, amount * 4, QUADS, 2);
+		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, texture, start * 6, amount * 6, QUADS, task);
 	}
 	
-	public static void renderQuads(Buffer verticesBuffer, Buffer texturesBuffer, Buffer normalsBuffer, ImageMap imageMap, int start, int amount)
+	public static void renderQuads(VerticesBuffer verticesBuffer, int start, int amount)
 	{
-		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, imageMap, start * 4, amount * 4, QUADS);
+		renderBuffers(verticesBuffer, null, null, null, null, start, amount, QUADS, null);
 	}
 	
-	public static void renderQuads(Buffer verticesBuffer, Buffer texturesBuffer, ImageMap imageMap, int start, int amount, Task task)
+	public static void renderQuads(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Buffer normalsBuffer, Texture imageMap, int start, int amount)
 	{
-		renderBuffers(verticesBuffer, texturesBuffer, imageMap, start * 4, amount * 4, QUADS, task);
+		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, null, imageMap, start, amount, QUADS, null);
 	}
 	
-	public static void renderQuads(Buffer verticesBuffer, Buffer texturesBuffer, ImageMap imageMap, int start, int amount)
+	public static void renderQuads(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Texture imageMap, int start, int amount, Task task)
 	{
-		renderBuffers(verticesBuffer, texturesBuffer, imageMap, 2, 2, start * 4, amount * 4, QUADS);
+		renderBuffers(verticesBuffer, texturesBuffer, null, null, imageMap, start, amount, QUADS, task);
 	}
 	
-	public static void renderQuad(Buffer verticesBuffer, Buffer texturesBuffer, ImageMap imageMap)
+	public static void renderQuads(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Texture imageMap, int start, int amount)
 	{
-		renderBuffers(verticesBuffer, texturesBuffer, imageMap, 2, 2, 0, 4, QUADS);
+		renderBuffers(verticesBuffer, texturesBuffer, null, null, imageMap, start, amount, QUADS, null);
 	}
 	
-	private static void renderBuffers(Buffer verticesBuffer, Buffer texturesBuffer, ImageMap imageMap, int start, int amount, int type, Task task)
+	public static void renderQuad(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Texture imageMap)
 	{
-		beginTextureDraw(texturesBuffer, 2);
-		beginVertexDraw (verticesBuffer, 2);
+		renderBuffers(verticesBuffer, texturesBuffer, null, null, imageMap, 0, 1, QUADS, null);
+	}
+	
+	public static void renderQuads(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Buffer normalsBuffer, Buffer colorsBuffer, Texture texture, int start, int amount, Task task)
+	{
+		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, texture, start, amount, QUADS, task);
+	}
+	
+	public static void renderTriangles(VerticesBuffer verticesBuffer, int start, int amount)
+	{
+		renderBuffers(verticesBuffer, null, null, null, null, start, amount, TRIANGLES, null);
+	}
+	
+	private static void renderBuffers(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Buffer normalsBuffer, Buffer colorsBuffer, Texture texture, int start, int amount, int type, Task task)
+	{
+		int vertexSize       = verticesBuffer.getVertexSize();
+		int amountOfVertices = getAmountOfVertices(type);
 		
-		if (imageMap != null)
+		start  *= amountOfVertices;
+		amount *= amountOfVertices;
+		
+		if (DRAW_MODE_ARRAYS || DRAW_MODE_ELEMENTS)
 		{
-			imageMap.bind();
+			beginTextureDraw(texturesBuffer);
+			beginVertexDraw(verticesBuffer);
+			beginNormalDraw(normalsBuffer);
+			
+			if (showColors)
+			{
+				beginColorDraw(colorsBuffer);
+			}
 		}
 		
-		for (int i = 0; i < amount; i += 4)
+		if (texture != null)
 		{
-			if (!task.run(i / 4))
+			texture.bind();
+		}
+		
+		if (task != null)
+		{
+			float vertices[] = null;
+			float textures[] = null;
+			float colors[]   = null;
+			
+			if (DRAW_MODE_IMMEDIATE)
 			{
-				continue;
+				vertices = verticesBuffer.getData();
+				
+				if (texture != null)
+				{
+					textures = texturesBuffer.getData();
+				}
+				if (colorsBuffer != null)
+				{
+					colors = colorsBuffer.getData();
+				}
 			}
 			
-			glDrawArrays(type, start + i, 4);
+			for (int i = 0; i < amount; i += amountOfVertices)
+			{
+				if (!task.run(i / amountOfVertices))
+				{
+					continue;
+				}
+				
+				if (DRAW_MODE_ARRAYS)
+				{
+					glDrawArrays(type, start + i, amountOfVertices);
+				}
+				else if (DRAW_MODE_ELEMENTS)
+				{
+					GL12.glDrawRangeElements(type, 0, amountOfVertices + start + i, verticesBuffer.getIndices(start + i));
+				}
+				else if (DRAW_MODE_IMMEDIATE)
+				{
+//					for (int f = start; f < amount + start; f += 4)
+//					{
+						GL11.glBegin(type);
+						{
+							if (type == GL11.GL_QUADS)
+							{
+								int textureOffset = i * 2;
+								int vertexOffset  = i * vertexSize;
+								int colorOffset   = i * 4;
+								
+								if (colors != null && showColors)
+								{
+									glColor4f(colors[0 + colorOffset], colors[1 + colorOffset], colors[2 + colorOffset], colors[3 + colorOffset]);
+								}
+								if (texture != null)
+								{
+									glTexCoord2f(textures[0 + textureOffset], textures[1 + textureOffset]);
+								}
+								if (vertexSize == 3)
+								{
+									glVertex3f(vertices[0 + vertexOffset], vertices[1 + vertexOffset], vertices[2 + vertexOffset]);
+								}
+								else if (vertexSize == 2)
+								{
+									glVertex2f(vertices[0 + vertexOffset], vertices[1 + vertexOffset]);
+								}
+
+								if (colors != null && showColors)
+								{
+									glColor4f(colors[4 + colorOffset], colors[5 + colorOffset], colors[6 + colorOffset], colors[7 + colorOffset]);
+								}
+								if (texture != null)
+								{
+									glTexCoord2f(textures[2 + textureOffset], textures[3 + textureOffset]);
+								}
+								if (vertexSize == 3)
+								{
+									glVertex3f(vertices[3 + vertexOffset], vertices[4 + vertexOffset], vertices[5 + vertexOffset]);
+								}
+								else if (vertexSize == 2)
+								{
+									glVertex2f(vertices[2 + vertexOffset], vertices[3 + vertexOffset]);
+								}
+
+								if (colors != null && showColors)
+								{
+									glColor4f(colors[8 + colorOffset], colors[9 + colorOffset], colors[10 + colorOffset], colors[11 + colorOffset]);
+								}
+								if (texture != null)
+								{
+									glTexCoord2f(textures[4 + textureOffset], textures[5 + textureOffset]);
+								}
+								if (vertexSize == 3)
+								{
+									glVertex3f(vertices[6 + vertexOffset], vertices[7 + vertexOffset], vertices[8 + vertexOffset]);
+								}
+								else if (vertexSize == 2)
+								{
+									glVertex2f(vertices[4 + vertexOffset], vertices[5 + vertexOffset]);
+								}
+
+								if (colors != null && showColors)
+								{
+									glColor4f(colors[12 + colorOffset], colors[13 + colorOffset], colors[14 + colorOffset], colors[15 + colorOffset]);
+								}
+								if (texture != null)
+								{
+									glTexCoord2f(textures[6 + textureOffset], textures[7 + textureOffset]);
+								}
+								if (vertexSize == 3)
+								{
+									glVertex3f(vertices[9 + vertexOffset], vertices[10 + vertexOffset], vertices[11 + vertexOffset]);
+								}
+								else if (vertexSize == 2)
+								{
+									glVertex2f(vertices[6 + vertexOffset], vertices[7 + vertexOffset]);
+								}
+							}
+							else
+							{
+								throw new IllegalArgumentException("The 'type' you are trying to draw is not supported.");
+							}
+						}
+						GL11.glEnd();
+					}
+//				}
+			}
 		}
-		
-		endVertexDraw();
-		endTextureDraw();
-	}
-	
-	private static void renderBuffers(Buffer verticesBuffer, Buffer texturesBuffer, ImageMap imageMap, int start, int amount, int type)
-	{
-		beginTextureDraw(texturesBuffer, 2);
-		beginVertexDraw (verticesBuffer, 2);
-		
-		if (imageMap != null)
+		else
 		{
-			imageMap.bind();
+			if (DRAW_MODE_ARRAYS)
+			{
+				glDrawArrays(type, start, amount);
+			}
+			else if (DRAW_MODE_ELEMENTS)
+			{
+				GL12.glDrawRangeElements(type, 0, amount, verticesBuffer.getIndices(start));
+			}
+			else if (DRAW_MODE_IMMEDIATE)
+			{
+				float vertices[] = verticesBuffer.getData();
+				float textures[] = null;
+				float colors[]   = null;
+				
+				if (texture != null)
+				{
+					textures = texturesBuffer.getData();
+				}
+				if (colorsBuffer != null)
+				{
+					colors = colorsBuffer.getData();
+				}
+				
+				for (int i = start; i < amount + start; i += amountOfVertices)
+				{
+					GL11.glBegin(type);
+					{
+						int textureOffset = i * 2;
+						int vertexOffset  = i * vertexSize;
+						int colorOffset   = i * 4;
+						
+						for (int j = 0; j < amountOfVertices; j ++)
+						{
+							textureOffset += 2;
+							vertexOffset  += vertexSize;
+							colorOffset   += 4;
+							
+							if (colors != null && showColors)
+							{
+								glColor4f(colors[0 + colorOffset], colors[1 + colorOffset], colors[2 + colorOffset], colors[3 + colorOffset]);
+							}
+							if (texture != null)
+							{
+								glTexCoord2f(textures[textureOffset], textures[1 + textureOffset]);
+							}
+							if (vertexSize == 3)
+							{
+								glVertex3f(vertices[0 + vertexOffset], vertices[1 + vertexOffset], vertices[2 + vertexOffset]);
+							}
+							else if (vertexSize == 2)
+							{
+								glVertex2f(vertices[0 + vertexOffset], vertices[1 + vertexOffset]);
+							}
+						}
+					}
+					GL11.glEnd();
+				}
+			}
 		}
-		
-		glDrawArrays(type, start, amount);
-		
-		endVertexDraw();
-		endTextureDraw();
-	}
-	
-	public static void renderBuffers(Buffer verticesBuffer, int start, int amount, int type, int stride)
-	{
-		beginVertexDraw (verticesBuffer, stride);
-		
-		glDrawArrays(type, start, amount);
-		
-		endVertexDraw();
-	}
-	
-	private static void renderBuffers(Buffer verticesBuffer, Buffer texturesBuffer, Buffer normalsBuffer, ImageMap imageMap, int start, int amount, int type)
-	{
-		beginTextureDraw(texturesBuffer, 2);
-		beginVertexDraw (verticesBuffer, 2);
-		beginNormalDraw(normalsBuffer);
-		
-		if (imageMap != null)
+
+		if (DRAW_MODE_ARRAYS || DRAW_MODE_ELEMENTS)
 		{
-			imageMap.bind();
+			if (showColors)
+			{
+				endColorDraw();
+			}
+			
+			endNormalDraw();
+			endVertexDraw();
+			endTextureDraw();
+		}
+	}
+	
+	public static void beginVertexDraw(VerticesBuffer buffer)
+	{
+		if (buffer == null)
+		{
+			return;
 		}
 		
-		glDrawArrays(type, start, amount);
-		
-		endNormalDraw();
-		endVertexDraw();
-		endTextureDraw();
-	}
-	
-//	private static void renderBuffers(LightBuffer verticesBuffer, LightBuffer texturesBuffer, ImageMap imageMap, int start, int amount, int type, RenderTask task)
-//	{
-//		beginTextureDraw(texturesBuffer, 2);
-//		beginVertexDraw (verticesBuffer, 2);
-//		
-//		if (imageMap != null)
-//		{
-//			imageMap.bind();
-//		}
-//		
-//		for (int i = 0; i < amount; i += 4)
-//		{
-//			if (!task.run(i / 4))
-//			{
-//				continue;
-//			}
-//			
-//			glDrawArrays(type, start + i, 4);
-//		}
-//		
-//		endVertexDraw();
-//		endTextureDraw();
-//	}
-	
-	private static void renderBuffers(Buffer verticesBuffer, Buffer texturesBuffer, ImageMap imageMap, int vertexSize, int textureSize, int start, int amount, int type)
-	{
-		beginTextureDraw(texturesBuffer, textureSize);
-		beginVertexDraw (verticesBuffer, vertexSize);
-		
-		imageMap.bind();
-		
-		glDrawArrays(type, start, amount);
-		
-		endVertexDraw();
-		endTextureDraw();
-	}
-	
-	public static void beginVertexDraw(Buffer buffer, int vertexSize)
-	{
 		glEnableClientState(GL_VERTEX_ARRAY);
 		
-		if (buffer instanceof LightBuffer)
-		{
-			glVertexPointer(vertexSize, 0, (FloatBuffer)buffer.getBuffer());
-		}
-		else if (buffer instanceof HeavyBuffer)
-		{
-			glVertexPointer(vertexSize, 0, (DoubleBuffer)buffer.getBuffer());
-		}
+		glVertexPointer(buffer.getVertexSize(), 0, (FloatBuffer)buffer.getBuffer());
 	}
 	
 	public static void begindVertexDraw(int id, int vertexSize)
 	{
+		if (id == -1)
+		{
+			return;
+		}
+		
 		glEnableClientState(GL_VERTEX_ARRAY);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, id);
@@ -1015,6 +1262,11 @@ public class GL
 	
 	public static void beginNormalDraw(FloatBuffer buffer)
 	{
+		if (buffer == null)
+		{
+			return;
+		}
+		
 		glEnableClientState(GL_NORMAL_ARRAY);
 		
 		glNormalPointer(0, buffer);
@@ -1022,20 +1274,23 @@ public class GL
 	
 	public static void beginNormalDraw(Buffer buffer)
 	{
+		if (buffer == null)
+		{
+			return;
+		}
+		
 		glEnableClientState(GL_NORMAL_ARRAY);
 		
-		if (buffer instanceof LightBuffer)
-		{
-			glNormalPointer(0, (FloatBuffer)buffer.getBuffer());
-		}
-		else if (buffer instanceof HeavyBuffer)
-		{
-			glNormalPointer(0, (DoubleBuffer)buffer.getBuffer());
-		}
+		glNormalPointer(0, (FloatBuffer)buffer.getBuffer());
 	}
 	
 	public static void begindNormalDraw(int id)
 	{
+		if (id == -1)
+		{
+			return;
+		}
+		
 		glEnableClientState(GL_NORMAL_ARRAY);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, id);
@@ -1049,20 +1304,23 @@ public class GL
 	
 	public static void beginColorDraw(Buffer buffer)
 	{
+		if (buffer == null)
+		{
+			return;
+		}
+		
 		glEnableClientState(GL_COLOR_ARRAY);
 		
-		if (buffer instanceof LightBuffer)
-		{
-			glColorPointer(4, 0, (FloatBuffer)buffer.getBuffer());
-		}
-		else if (buffer instanceof HeavyBuffer)
-		{
-			glColorPointer(4, 0, (DoubleBuffer)buffer.getBuffer());
-		}
+		glColorPointer(4, 0, (FloatBuffer)buffer.getBuffer());
 	}
 	
 	public static void begindColorDraw(int id)
 	{
+		if (id == -1)
+		{
+			return;
+		}
+		
 		glEnableClientState(GL_COLOR_ARRAY);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, id);
@@ -1074,30 +1332,33 @@ public class GL
 		glDisableClientState(GL_COLOR_ARRAY);
 	}
 	
-	public static void beginTextureDraw(Buffer buffer, int vertexSize)
+	public static void beginTextureDraw(Buffer buffer)
 	{
+		if (buffer == null)
+		{
+			return;
+		}
+		
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		
-		if (buffer instanceof LightBuffer)
-		{
-			glTexCoordPointer(vertexSize, 0, (FloatBuffer)buffer.getBuffer());
-		}
-		else if (buffer instanceof HeavyBuffer)
-		{
-			glTexCoordPointer(vertexSize, 0, (DoubleBuffer)buffer.getBuffer());
-		}
+		glTexCoordPointer(2, 0, (FloatBuffer)buffer.getBuffer());
 	}
 	
-	public static void begindTextureDraw(int id, int vertexSize)
+	public static void beginTextureDraw(int id)
 	{
+		if (id == -1)
+		{
+			return;
+		}
+		
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, id);
-		glTexCoordPointer(vertexSize, GL_FLOAT, 0, 0);
+		glTexCoordPointer(2, GL_FLOAT, 0, 0);
 	}
 	
 	public static void endTextureDraw()
@@ -1118,16 +1379,16 @@ public class GL
 	{
 		//----------- Variables & method calls added for Lighting Test -----------//
 		FloatBuffer matSpecular = BufferUtils.createFloatBuffer(4);
-		matSpecular.put(1.0f).put(1.0f).put(1.0f).put(1.0f).flip();
+		matSpecular.put(new float[] { 1.0f, 1.0f, 1.0f, 1.0f }).rewind();
 		
 		FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-		lightPosition.put(1.0f).put(1.0f).put(1.0f).put(0.0f).flip();
+		lightPosition.put(new float[] { 1.0f, 1.0f, 1.0f, 0.0f }).rewind();
 		
 		FloatBuffer whiteLight = BufferUtils.createFloatBuffer(4);
-		whiteLight.put(1.0f).put(1.0f).put(1.0f).put(1.0f).flip();
+		whiteLight.put(new float[] { 1.0f, 1.0f, 1.0f, 1.0f }).rewind();
 		
 		FloatBuffer lModelAmbient = BufferUtils.createFloatBuffer(4);
-		lModelAmbient.put(0.5f).put(0.5f).put(0.5f).put(1.0f).flip();
+		lModelAmbient.put(new float[] { 0.5f, 0.5f, 0.5f, 1.0f }).rewind();
 		
 		glShadeModel(GL_SMOOTH);
 		glMaterial(GL_FRONT, GL_SPECULAR, matSpecular);				// sets specular material color
@@ -1254,7 +1515,7 @@ public class GL
 	
 	public static void resetBasicView()
 	{
-//		glViewport(0, 0, Display.getWidth(), Display.getHeight());
+		glViewport(0, 0, Display.getWidth(), Display.getHeight());
 //		glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
 //		glLoadIdentity(); // Reset The Projection Matrix
 //
@@ -1712,6 +1973,127 @@ public class GL
 		
 		return array;
 	}
+	
+//	public static float[] addCubeVertexArrayf(float vertices[], float width, float height, float depth, int offset, float array[])
+//	{
+//		if (array == null)
+//		{
+//			array  = new float[3 * 4 * 6];
+//
+//			offset = 0;
+//		}
+//
+//		int index = 0;
+//
+//		// Front
+//		array[offset + index ++] = vertices[0];
+//		array[offset + index ++] = vertices[1];
+//		array[offset + index ++] = vertices[2];
+//
+//		array[offset + index ++] = vertices[3];
+//		array[offset + index ++] = vertices[4];
+//		array[offset + index ++] = vertices[5]
+//
+//		array[offset + index ++] = vertices[6];
+//		array[offset + index ++] = vertices[7];
+//		array[offset + index ++] = vertices[8];
+//
+//		array[offset + index ++] = vertices[9];
+//		array[offset + index ++] = vertices[10];
+//		array[offset + index ++] = vertices[11];
+//
+//
+//		// Right
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z;
+//
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z;
+//
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z + depth;
+//
+//
+//		// Back
+//		array[offset + index ++] = vertices[0] ;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z + depth;
+//
+//
+//		// Left
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z;
+//
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z;
+//
+//
+//		// Top
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z;
+//
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z;
+//
+//
+//		// Bottom
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z;
+//
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z;
+//
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z + depth;
+//
+//		return array;
+//	}
 	
 	public static float[] addRectVertexArrayf(float x, float y, float z, float width, float height, int offset, float array[])
 	{

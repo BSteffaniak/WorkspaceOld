@@ -12,7 +12,7 @@ public class Base
 	
 	public static boolean debug = false;
 	
-	public  static final int ARRAYS = 0, ELEMENTS = 1;
+	public  static final int ARRAYS = 0, ELEMENTS = 1, IMMEDIATE = 2;
 	
 	private static       int drawMode = ELEMENTS;
 	

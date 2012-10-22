@@ -57,6 +57,7 @@ import net.foxycorndog.jdoutil.FrameTask;
 import net.foxycorndog.jdoutil.Intersects;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.Util;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -77,9 +78,9 @@ public abstract class Frame
 {
 	private static boolean     resized;
 	private static boolean     stream;
+	private static boolean     fullscreen;
 	
 	private static short       dfps, fps;
-	private static short       leftBuffer, rightBuffer, topBuffer, bottomBuffer;
 	
 	private static int         oldX, oldY;
 	private static int         width, height;
@@ -218,7 +219,9 @@ public abstract class Frame
 	{
 		private int         width, height;
 		
-		private LightBuffer      verticesBuffer, texturesBuffer;
+		private VerticesBuffer verticesBuffer;
+		
+		private LightBuffer    texturesBuffer;
 		
 		private Texture     cursorSprites;
 		
@@ -229,7 +232,7 @@ public abstract class Frame
 			
 			cursorSprites = new Texture(location);
 			
-			verticesBuffer = new LightBuffer(4 * 2);
+			verticesBuffer = new VerticesBuffer(4 * 2, 2);
 			texturesBuffer = new LightBuffer(4 * 2);
 			
 			verticesBuffer.addData(GL.addRectVertexArrayf(0, 0, width, height, 0, null));
@@ -327,11 +330,6 @@ public abstract class Frame
 		
 		dfps    = 0;
 		fps     = 0;
-		
-		leftBuffer   = (short)(width  / 4);
-		rightBuffer  = (short)(width  / 4);
-		topBuffer    = (short)(height / 4);
-		bottomBuffer = (short)(height / 4);
 		
 		boolean antiAlias   = true;
 		java.awt.Graphics g = GlyphPage.getScratchGraphics();
@@ -774,80 +772,6 @@ public abstract class Frame
 		}
 	}
 	
-	/**
-	* Get the left buffer amount of where the player can reach.
-	* 
-	* @return The left buffer.
-	*/
-	public static short getLeftBuffer()
-	{
-		return leftBuffer;
-	}
-
-	/**
-	* Set the left buffer amount of where the player can reach.
-	*/
-	public static void setLeftBuffer(short buffer)
-	{
-		leftBuffer = buffer;
-	}
-
-	/**
-	* Get the right buffer amount of where the player can reach.
-	* 
-	* @return The right buffer.
-	*/
-	public static short getRightBuffer()
-	{
-		return rightBuffer;
-	}
-
-	/**
-	* Set the right buffer amount of where the player can reach.
-	*/
-	public static void setRightBuffer(short buffer)
-	{
-		rightBuffer = buffer;
-	}
-
-	/**
-	* Get the top buffer amount of where the player can reach.
-	* 
-	* @return The top buffer.
-	*/
-	public static short getTopBuffer()
-	{
-		return topBuffer;
-	}
-
-	/**
-	* Set the top buffer amount of where the player can reach.
-	*/
-	public static void setTopBuffer(short buffer)
-	{
-		topBuffer = buffer;
-	}
-
-	/**
-	* Get the bottom buffer amount of where the player can reach.
-	* 
-	* @return The bottom buffer.
-	*/
-	public static short getBottomBuffer()
-	{
-		return bottomBuffer;
-	}
-
-	/**
-	* Set the bottom buffer amount of where the player can reach.
-	* 
-	* @return The bottom buffer.
-	*/
-	public static void setBottomBuffer(short buffer)
-	{
-		bottomBuffer = buffer;
-	}
-	
 	public static float getCenterX()
 	{
 		return (float)Display.getWidth() / 2;
@@ -1034,6 +958,8 @@ public abstract class Frame
 	
 	public static void setFullscreen(boolean fullscreen)
 	{
+		Frame.fullscreen = fullscreen;
+		
 		if (fullscreen)
 		{
 			DisplayMode oldM = Display.getDisplayMode();
@@ -1094,6 +1020,13 @@ public abstract class Frame
 		}
 		
 		resized = true;
+		
+		GL.resetBasicView();
+	}
+	
+	public static boolean isFullscreen()
+	{
+		return fullscreen;
 	}
 	
 //	public static void setFullscreen(boolean fullscreen, Dimension dimension)

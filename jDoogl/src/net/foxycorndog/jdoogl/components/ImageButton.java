@@ -5,6 +5,7 @@ import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.image.imagemap.ImageMap;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 
 public class ImageButton extends Component
 {
@@ -12,34 +13,31 @@ public class ImageButton extends Component
 	
 	private String      text;
 	
-	private ImageMap    imageMap, hoverImageMap;
+	private Texture     texture, hoverTexture;
 	
-	private LightBuffer verticesBuffer, texturesBuffer;
-	private LightBuffer hoverTexturesBuffer;
+	private VerticesBuffer verticesBuffer;
 	
-	public ImageButton(ImageMap imageMap)
+	private LightBuffer    texturesBuffer;
+	private LightBuffer    hoverTexturesBuffer;
+	
+	public ImageButton(Texture texture)
 	{
 		super();
 		
-		this.imageMap = imageMap;
+		this.texture   = texture;
 		
-		verticesBuffer = new LightBuffer(4 * 2);
+		verticesBuffer = new VerticesBuffer(4 * 2, 2);
 		texturesBuffer = new LightBuffer(4 * 2);
 		
-		if (imageMap instanceof Texture)
-		{
-			Texture texture = (Texture)imageMap;
-			
-			verticesBuffer.setData(0, GL.addRectVertexArrayf(0, 0, texture.getWidth(), texture.getHeight(), 0, null));
-			
-			texturesBuffer.setData(0, GL.addRectTextureArrayf(texture.getImageOffsetsf(), 0, null));
-			
-			setWidth(texture.getWidth());
-			setHeight(texture.getHeight());
-			
-			imageMapWidth  = texture.getWidth();
-			imageMapHeight = texture.getHeight();
-		}
+		verticesBuffer.setData(0, GL.addRectVertexArrayf(0, 0, texture.getWidth(), texture.getHeight(), 0, null));
+		
+		texturesBuffer.setData(0, GL.addRectTextureArrayf(texture.getImageOffsetsf(), 0, null));
+		
+		setWidth(texture.getWidth());
+		setHeight(texture.getHeight());
+		
+		imageMapWidth  = texture.getWidth();
+		imageMapHeight = texture.getHeight();
 	}
 	
 	@Override
@@ -65,36 +63,30 @@ public class ImageButton extends Component
 			GL.translatef(renderX, renderY, 0);
 			
 			GL.scalef(x, y, z);
-			if (isHovering() && hoverImageMap != null)
+			if (isHovering() && hoverTexture != null)
 			{
-				GL.renderQuad(verticesBuffer, hoverTexturesBuffer, hoverImageMap);
+				GL.renderQuad(verticesBuffer, hoverTexturesBuffer, hoverTexture);
 			}
 			else
 			{
-				GL.renderQuad(verticesBuffer, texturesBuffer, imageMap);
+				GL.renderQuad(verticesBuffer, texturesBuffer, texture);
 			}
 		}
 		GL.endManipulation();
 	}
 	
-	public void setHoverImageMap(ImageMap imageMap)
+	public void setHoverImageMap(Texture texture)
 	{
 		hoverTexturesBuffer = new LightBuffer(4 * 2);
 		
-		if (imageMap instanceof Texture)
+		if (texture.getWidth() != this.texture.getWidth() || texture.getHeight() != this.texture.getHeight())
 		{
-			Texture texture = (Texture)imageMap;
-			
-			if (texture.getWidth() != ((Texture)this.imageMap).getWidth() || texture.getHeight() != ((Texture)this.imageMap).getHeight())
-			{
-				
-				throw new IllegalArgumentException("ImageMap width and height must be the same as the original ImageMap.");
-			}
-			
-			hoverTexturesBuffer.setData(0, GL.addRectTextureArrayf(texture, 0, null));
+			throw new IllegalArgumentException("ImageMap width and height must be the same as the original ImageMap.");
 		}
 		
-		this.hoverImageMap = imageMap;
+		hoverTexturesBuffer.setData(0, GL.addRectTextureArrayf(texture, 0, null));
+		
+		this.hoverTexture = texture;
 	}
 	
 	public String getText()

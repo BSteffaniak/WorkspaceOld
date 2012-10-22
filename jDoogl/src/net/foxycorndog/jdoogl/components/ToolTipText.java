@@ -6,6 +6,7 @@ import net.foxycorndog.jdoogl.Color;
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.StringUtil;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 
 public class ToolTipText extends Component
 {
@@ -14,7 +15,8 @@ public class ToolTipText extends Component
 	
 	private float  scale;
 
-	private LightBuffer vertices, textures;
+	private VerticesBuffer vertices;
+	private LightBuffer    textures;
 	
 	private String text[];
 	
@@ -36,7 +38,7 @@ public class ToolTipText extends Component
 	{
 //		scale = 1;
 		
-		vertices = new LightBuffer(4 * 3);
+		vertices = new VerticesBuffer(4 * 3, 3);
 		textures = new LightBuffer(4 * 2);
 		
 		int longestLine = 0;

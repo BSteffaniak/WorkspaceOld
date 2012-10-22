@@ -8,7 +8,7 @@ import net.foxycorndog.jdoogl.GL;
 import org.lwjgl.util.vector.Vector3f;
 
 // First Person Camera Controller
-public class Camera
+public class Camera implements Cloneable
 {
 	private int      cameraMode;
 	
@@ -17,6 +17,9 @@ public class Camera
 	
 	// the rotation around the Y axis of the camera
 	private float	 yaw, maxYaw, minYaw;
+	
+	// the rotation around the Z axis of the camera
+	private float	 roll, maxRoll, minRoll;
 	
 	// the rotation around the X axis of the camera
 	private float  	 pitch, maxPitch, minPitch;
@@ -35,8 +38,10 @@ public class Camera
 		
 		maxYaw   = Integer.MAX_VALUE;
 		maxPitch = Integer.MAX_VALUE;
+		maxRoll  = Integer.MAX_VALUE;
 		minYaw   = Integer.MIN_VALUE;
 		minPitch = Integer.MIN_VALUE;
+		minRoll  = Integer.MIN_VALUE;
 	}
 	
 	// Constructor that takes the starting x, y, z location of the camera
@@ -66,16 +71,24 @@ public class Camera
 		this.maxPitch = maxPitch;
 	}
 	
+	public void setMinRoll(float minRoll)
+	{
+		this.minRoll = minRoll;
+	}
+	
+	public void setMaxRoll(float maxRoll)
+	{
+		this.maxRoll = maxRoll;
+	}
+	
 	public float getYaw()
 	{
 		return yaw;
 	}
 	
-	// increment the camera's current yaw rotation
-	public void yaw(float amount)
+	public void setYaw(float yaw)
 	{
-		//increment the yaw by the amount param
-		yaw += amount;
+		yaw %= 360;
 		
 		if (yaw > maxYaw)
 		{
@@ -86,7 +99,25 @@ public class Camera
 			yaw = minYaw;
 		}
 		
+		this.yaw = yaw;
+	}
+	
+	// increment the camera's current yaw rotation
+	public void yaw(float amount)
+	{
+		//increment the yaw by the amount param
+		yaw += amount;
+		
 		yaw %= 360;
+		
+		if (yaw > maxYaw)
+		{
+			yaw = maxYaw;
+		}
+		else if (yaw < minYaw)
+		{
+			yaw = minYaw;
+		}
 		
 //		yaw = yaw < 0 ? 360 + yaw : yaw;
 	}
@@ -95,12 +126,10 @@ public class Camera
 	{
 		return pitch;
 	}
-	 
-	// increment the camera's current yaw rotation
-	public void pitch(float amount)
+	
+	public void setPitch(float pitch)
 	{
-		// increment the pitch by the amount param
-		pitch += amount;
+		pitch %= 360;
 		
 		if (pitch > maxPitch)
 		{
@@ -111,9 +140,110 @@ public class Camera
 			pitch = minPitch;
 		}
 		
+		this.pitch = pitch;
+	}
+	 
+	// increment the camera's current yaw rotation
+	public void pitch(float amount)
+	{
+		// increment the pitch by the amount param
+		pitch += amount;
+		
 		pitch %= 360;
 		
+		if (pitch > maxPitch)
+		{
+			pitch = maxPitch;
+		}
+		else if (pitch < minPitch)
+		{
+			pitch = minPitch;
+		}
+		
 //		pitch = pitch < 0 ? 360 + pitch : pitch;
+	}
+	
+	public float getRoll()
+	{
+		return roll;
+	}
+	
+	public void setRoll(float roll)
+	{
+		roll %= 360;
+		
+		if (roll > maxRoll)
+		{
+			roll = maxRoll;
+		}
+		else if (roll < minRoll)
+		{
+			roll = minRoll;
+		}
+		
+		this.roll = roll;
+	}
+	
+	// increment the camera's current roll rotation
+	public void roll(float amount)
+	{
+		//increment the roll by the amount param
+		roll += amount;
+		
+		roll %= 360;
+		
+		if (roll > maxRoll)
+		{
+			roll = maxRoll;
+		}
+		else if (roll < minRoll)
+		{
+			roll = minRoll;
+		}
+		
+//		roll = roll < 0 ? 360 + roll : roll;
+	}
+	
+	public void rotate(float pitch, float yaw, float roll)
+	{
+		this.pitch += pitch;
+		
+		this.pitch %= 360;
+		
+		if (this.pitch > maxPitch)
+		{
+			this.pitch = maxPitch;
+		}
+		else if (this.pitch < minPitch)
+		{
+			this.pitch = minPitch;
+		}
+		
+		this.yaw += yaw;
+		
+		this.yaw %= 360;
+		
+		if (this.yaw > maxYaw)
+		{
+			this.yaw = maxYaw;
+		}
+		else if (this.yaw < minYaw)
+		{
+			this.yaw = minYaw;
+		}
+		
+		this.roll += roll;
+		
+		this.roll %= 360;
+		
+		if (this.roll > maxRoll)
+		{
+			this.roll = maxRoll;
+		}
+		else if (this.roll < minRoll)
+		{
+			this.roll = minRoll;
+		}
 	}
 	
 	public void setLocation(float x, float y, float z)
@@ -123,7 +253,14 @@ public class Camera
 		location.z = -z;
 	}
 	
-	public void move(float distX, float distY, float distZ)
+	public void move(float dx, float dy, float dz)
+	{
+		location.x -= dx;
+		location.y -= dy;
+		location.z -= dz;
+	}
+	
+	public void moveDirection(float distX, float distY, float distZ)
 	{
 		location.x += distZ * (float)Math.sin(Math.toRadians(yaw));
 		location.z -= distZ * (float)Math.cos(Math.toRadians(yaw));
@@ -185,10 +322,7 @@ public class Camera
 	// this dose basic what gluLookAt() does
 	public void lookThrough()
 	{
-		// rotate the pitch around the X axis
-		GL.rotatef(pitch, 0, 0);
-		// rotate the yaw around the Y axis
-		GL.rotatef(0, yaw, 0);
+		GL.rotatef(pitch, yaw, roll);
 		// translate to the position vector's location
 		GL.translatef(location.x, location.y, location.z);
 	}
@@ -216,6 +350,27 @@ public class Camera
 	public void setCameraMode(int mode)
 	{
 		this.cameraMode = mode;
+	}
+	
+	public Camera clone()
+	{
+		try
+		{
+			return (Camera)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public String toString()
+	{
+		float location[] = getLocation();
+		
+		return "[ " + location[0] + ", " + location[1] + ", " + location[2] + " ]";
 	}
 }
 

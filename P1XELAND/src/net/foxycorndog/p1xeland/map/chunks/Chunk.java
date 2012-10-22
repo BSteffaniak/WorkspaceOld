@@ -7,11 +7,11 @@ import net.foxycorndog.jdoogl.noise.LineNoise;
 import net.foxycorndog.jdoogl.noise.Noise2D;
 import net.foxycorndog.jdoutil.ArrayUtil;
 import net.foxycorndog.jdoutil.Distance;
-import net.foxycorndog.jdoutil.HeavyBuffer;
 import net.foxycorndog.jdoutil.Intersection;
 import net.foxycorndog.jdoutil.Intersects;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.Task;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.p1xeland.P1xeland;
 import net.foxycorndog.p1xeland.actors.Actor;
 import net.foxycorndog.p1xeland.actors.Player;
@@ -29,7 +29,9 @@ public class Chunk
 	
 	private Thread          lightThread;
 	
-	private LightBuffer     verticesBuffer[], texturesBuffer[], normalsBuffer, colorBuffer[];
+	private VerticesBuffer  verticesBuffer[];
+	
+	private LightBuffer     texturesBuffer[], normalsBuffer, colorBuffer[];
 	
 	private int             lightSources[];
 	private int             colors[], alphas[], actorColors[];
@@ -51,13 +53,13 @@ public class Chunk
 			System.exit(1);
 		}
 		
-		verticesBuffer = new LightBuffer[3];
+		verticesBuffer = new VerticesBuffer[3];
 		texturesBuffer = new LightBuffer[3];
 		colorBuffer    = new LightBuffer[3];
 		
 		for (int i = 0; i < verticesBuffer.length; i ++)
 		{
-			verticesBuffer[i] = new LightBuffer(WIDTH * HEIGHT * 4 * 2);
+			verticesBuffer[i] = new VerticesBuffer(WIDTH * HEIGHT * 4 * 2, 2);
 			texturesBuffer[i] = new LightBuffer(WIDTH * HEIGHT * 4 * 2);
 			colorBuffer[i]    = new LightBuffer(WIDTH * HEIGHT * 4 * 4);
 		}

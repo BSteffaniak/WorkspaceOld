@@ -12,4 +12,6 @@ public abstract class Buffer
 	{
 		return BufferUtils.createFloatBuffer(size);
 	}
+	
+	public abstract float[] getData();
 }

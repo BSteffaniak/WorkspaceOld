@@ -65,7 +65,7 @@ public class Main
 //		texture = new Texture("res/images/grass.png");
 //		texture2 = new Texture("");
 		
-		map = new Map();
+		map    = new Map();
 		
 		camera = new Camera();
 		camera.setMaxPitch(90);
@@ -81,6 +81,7 @@ public class Main
 	public void render()
 	{
 		player.lookThrough();
+//		camera.lookThrough();
 		
 		player.render();
 		
@@ -148,35 +149,77 @@ public class Main
 			player.pitch(-dy * 0.10f);
 		}
 		
-		if (KeyboardInput.next())
+		KeyboardInput.next();
+		
+		if (KeyboardInput.next(KeyboardInput.KEY_C))
 		{
-			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_C))
+			if (player.getPerspective() == Player.THIRD)
 			{
-				if (player.getPerspective() == Player.THIRD)
-				{
-					player.setPerspective(Player.FIRST);
-				}
-				else if (player.getPerspective() == Player.FIRST)
-				{
-					player.setPerspective(Player.THIRD);
-				}
+				player.setPerspective(Player.FIRST);
 			}
-			
-			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_R))
+			else if (player.getPerspective() == Player.FIRST)
 			{
-				if (player.getCamera() != null)
-				{
-					player.detachCamera();
-				}
-				else
-				{
-					player.attachCamera(camera);
-				}
+				player.setPerspective(Player.THIRD);
 			}
 		}
 		
+		if (KeyboardInput.next(KeyboardInput.KEY_P))
+		{
+			if (GL.getDrawMode() == GL.ARRAYS)
+			{
+				GL.setDrawMode(GL.IMMEDIATE);
+			}
+			else if (GL.getDrawMode() == GL.IMMEDIATE)
+			{
+				map.genIndices();
+				player.genIndices();
+				
+				GL.setDrawMode(GL.ELEMENTS);
+			}
+			else if (GL.getDrawMode() == GL.ELEMENTS)
+			{
+				map.destroyIndices();
+				player.destroyIndices();
+				
+				GL.setDrawMode(GL.ARRAYS);
+			}
+		}
+
+		if (KeyboardInput.next(KeyboardInput.KEY_L))
+		{
+			map.render = map.render == GL.POINTS ? GL.TRIANGLES : GL.POINTS;
+		}
+		
+		if (KeyboardInput.next(KeyboardInput.KEY_O))
+		{
+			GL.setWireFrameMode(!GL.isWireFrame(), GL.isWireFrame(), true);
+//			GL.setShowColors(!GL.isShowingColors());
+		}
+		
+//			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_R))
+//			{
+//				if (player.cameraAttached())
+//				{
+//					player.detachCamera();
+//				}
+//				else
+//				{
+//					player.attachCamera(camera);
+//				}
+//			}
+		
+		if (KeyboardInput.next(KeyboardInput.KEY_F11))
+		{
+			Frame.setFullscreen(!Frame.isFullscreen());
+		}
+		
+//			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_K))
+//			{
+//				player.deta
+//			}
+			
 		player.update();
 		
-//		System.out.println(player.getCamera().getYaw() + ", " + player.getCamera().getPitch());
+//		System.out.println(player.cameraAttached());
 	}
 }

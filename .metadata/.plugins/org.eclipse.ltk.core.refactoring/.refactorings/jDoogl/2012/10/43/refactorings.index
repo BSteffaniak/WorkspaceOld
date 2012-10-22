@@ -1,0 +1,5 @@
+1350790040200	Rename local variable 'stride'
+1350790046970	Rename local variable 'stride'
+1350792613580	Rename local variable 'offset'
+1350825871724	Rename method 'getVertexSize'
+1350851427810	Rename field 'wireFrameColor'
