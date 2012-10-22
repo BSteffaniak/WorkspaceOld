@@ -142,7 +142,7 @@ public class GL
 	
 	private static ArrayList<LightBuffer> rectVerticesBuffer, rectTexturesBuffer;
 	
-	public  static final int QUADS = GL11.GL_QUADS, TRIANGLES = GL11.GL_TRIANGLES;
+	public  static final int QUADS = GL11.GL_QUADS, TRIANGLES = GL11.GL_TRIANGLES, POINTS = GL11.GL_POINTS;
 	
 	public  static final int ARRAYS = Base.ARRAYS, ELEMENTS = Base.ELEMENTS, IMMEDIATE = Base.IMMEDIATE;
 	
@@ -1180,88 +1180,91 @@ public class GL
 					colors = colorsBuffer.getData();
 				}
 				
-				for (int i = start; i < amount + start; i += 4)
+				for (int i = start; i < amount + start; i += amountOfVertices)
 				{
 					GL11.glBegin(type);
 					{
-						if (type == GL11.GL_QUADS)
-						{
+//						if (type == GL11.GL_QUADS)
+//						{
 							int textureOffset = i * 2;
 							int vertexOffset  = i * vertexSize;
 							int colorOffset   = i * 4;
 							
-							if (colors != null && showColors)
+							for (int j = 0; j < amountOfVertices; j ++)
 							{
-								glColor4f(colors[0 + colorOffset], colors[1 + colorOffset], colors[2 + colorOffset], colors[3 + colorOffset]);
-							}
-							if (texture != null)
-							{
-								glTexCoord2f(textures[0 + textureOffset], textures[1 + textureOffset]);
-							}
-							if (vertexSize == 3)
-							{
-								glVertex3f(vertices[0 + vertexOffset], vertices[1 + vertexOffset], vertices[2 + vertexOffset]);
-							}
-							else if (vertexSize == 2)
-							{
-								glVertex2f(vertices[0 + vertexOffset], vertices[1 + vertexOffset]);
-							}
-
-							if (colors != null && showColors)
-							{
-								glColor4f(colors[4 + colorOffset], colors[5 + colorOffset], colors[6 + colorOffset], colors[7 + colorOffset]);
-							}
-							if (texture != null)
-							{
-								glTexCoord2f(textures[2 + textureOffset], textures[3 + textureOffset]);
-							}
-							if (vertexSize == 3)
-							{
-								glVertex3f(vertices[3 + vertexOffset], vertices[4 + vertexOffset], vertices[5 + vertexOffset]);
-							}
-							else if (vertexSize == 2)
-							{
-								glVertex2f(vertices[2 + vertexOffset], vertices[3 + vertexOffset]);
+								if (colors != null && showColors)
+								{
+									glColor4f(colors[0 + colorOffset], colors[1 + colorOffset], colors[2 + colorOffset], colors[3 + colorOffset]);
+								}
+								if (texture != null)
+								{
+									glTexCoord2f(textures[textureOffset], textures[1 + textureOffset]);
+								}
+								if (vertexSize == 3)
+								{
+									glVertex3f(vertices[0 + vertexOffset], vertices[1 + vertexOffset], vertices[2 + vertexOffset]);
+								}
+								else if (vertexSize == 2)
+								{
+									glVertex2f(vertices[0 + vertexOffset], vertices[1 + vertexOffset]);
+								}
 							}
 
-							if (colors != null && showColors)
-							{
-								glColor4f(colors[8 + colorOffset], colors[9 + colorOffset], colors[10 + colorOffset], colors[11 + colorOffset]);
-							}
-							if (texture != null)
-							{
-								glTexCoord2f(textures[4 + textureOffset], textures[5 + textureOffset]);
-							}
-							if (vertexSize == 3)
-							{
-								glVertex3f(vertices[6 + vertexOffset], vertices[7 + vertexOffset], vertices[8 + vertexOffset]);
-							}
-							else if (vertexSize == 2)
-							{
-								glVertex2f(vertices[4 + vertexOffset], vertices[5 + vertexOffset]);
-							}
-
-							if (colors != null && showColors)
-							{
-								glColor4f(colors[12 + colorOffset], colors[13 + colorOffset], colors[14 + colorOffset], colors[15 + colorOffset]);
-							}
-							if (texture != null)
-							{
-								glTexCoord2f(textures[6 + textureOffset], textures[7 + textureOffset]);
-							}
-							if (vertexSize == 3)
-							{
-								glVertex3f(vertices[9 + vertexOffset], vertices[10 + vertexOffset], vertices[11 + vertexOffset]);
-							}
-							else if (vertexSize == 2)
-							{
-								glVertex2f(vertices[6 + vertexOffset], vertices[7 + vertexOffset]);
-							}
-						}
-						else
-						{
-							throw new IllegalArgumentException("The 'type' you are trying to draw is not supported.");
-						}
+//							if (colors != null && showColors)
+//							{
+//								glColor4f(colors[4 + colorOffset], colors[5 + colorOffset], colors[6 + colorOffset], colors[7 + colorOffset]);
+//							}
+//							if (texture != null)
+//							{
+//								glTexCoord2f(textures[2 + textureOffset], textures[3 + textureOffset]);
+//							}
+//							if (vertexSize == 3)
+//							{
+//								glVertex3f(vertices[3 + vertexOffset], vertices[4 + vertexOffset], vertices[5 + vertexOffset]);
+//							}
+//							else if (vertexSize == 2)
+//							{
+//								glVertex2f(vertices[2 + vertexOffset], vertices[3 + vertexOffset]);
+//							}
+//
+//							if (colors != null && showColors)
+//							{
+//								glColor4f(colors[8 + colorOffset], colors[9 + colorOffset], colors[10 + colorOffset], colors[11 + colorOffset]);
+//							}
+//							if (texture != null)
+//							{
+//								glTexCoord2f(textures[4 + textureOffset], textures[5 + textureOffset]);
+//							}
+//							if (vertexSize == 3)
+//							{
+//								glVertex3f(vertices[6 + vertexOffset], vertices[7 + vertexOffset], vertices[8 + vertexOffset]);
+//							}
+//							else if (vertexSize == 2)
+//							{
+//								glVertex2f(vertices[4 + vertexOffset], vertices[5 + vertexOffset]);
+//							}
+//
+//							if (colors != null && showColors)
+//							{
+//								glColor4f(colors[12 + colorOffset], colors[13 + colorOffset], colors[14 + colorOffset], colors[15 + colorOffset]);
+//							}
+//							if (texture != null)
+//							{
+//								glTexCoord2f(textures[6 + textureOffset], textures[7 + textureOffset]);
+//							}
+//							if (vertexSize == 3)
+//							{
+//								glVertex3f(vertices[9 + vertexOffset], vertices[10 + vertexOffset], vertices[11 + vertexOffset]);
+//							}
+//							else if (vertexSize == 2)
+//							{
+//								glVertex2f(vertices[6 + vertexOffset], vertices[7 + vertexOffset]);
+//							}
+//						}
+//						else
+//						{
+//							throw new IllegalArgumentException("The 'type' you are trying to draw is not supported.");
+//						}
 					}
 					GL11.glEnd();
 				}
@@ -2025,126 +2028,126 @@ public class GL
 		return array;
 	}
 	
-	public static float[] addCubeVertexArrayf(float vertices[], float width, float height, float depth, int offset, float array[])
-	{
-		if (array == null)
-		{
-			array  = new float[3 * 4 * 6];
-
-			offset = 0;
-		}
-
-		int index = 0;
-
-		// Front
-		array[offset + index ++] = vertices[0];
-		array[offset + index ++] = vertices[1];
-		array[offset + index ++] = vertices[2];
-
-		array[offset + index ++] = vertices[3];
-		array[offset + index ++] = vertices[4];
-		array[offset + index ++] = vertices[5]
-
-		array[offset + index ++] = vertices[6];
-		array[offset + index ++] = vertices[7];
-		array[offset + index ++] = vertices[8];
-
-		array[offset + index ++] = vertices[9];
-		array[offset + index ++] = vertices[10];
-		array[offset + index ++] = vertices[11];
-
-
-		// Right
-		array[offset + index ++] = x + width;
-		array[offset + index ++] = y;
-		array[offset + index ++] = z;
-
-		array[offset + index ++] = x + width;
-		array[offset + index ++] = y + height;
-		array[offset + index ++] = z;
-
-		array[offset + index ++] = x + width;
-		array[offset + index ++] = y + height;
-		array[offset + index ++] = z + depth;
-
-		array[offset + index ++] = x + width;
-		array[offset + index ++] = y;
-		array[offset + index ++] = z + depth;
-
-
-		// Back
-		array[offset + index ++] = vertices[0] ;
-		array[offset + index ++] = y;
-		array[offset + index ++] = z + depth;
-
-		array[offset + index ++] = x + width;
-		array[offset + index ++] = y + height;
-		array[offset + index ++] = z + depth;
-
-		array[offset + index ++] = x;
-		array[offset + index ++] = y + height;
-		array[offset + index ++] = z + depth;
-
-		array[offset + index ++] = x;
-		array[offset + index ++] = y;
-		array[offset + index ++] = z + depth;
-
-
-		// Left
-		array[offset + index ++] = x;
-		array[offset + index ++] = y;
-		array[offset + index ++] = z + depth;
-
-		array[offset + index ++] = x;
-		array[offset + index ++] = y + height;
-		array[offset + index ++] = z + depth;
-
-		array[offset + index ++] = x;
-		array[offset + index ++] = y + height;
-		array[offset + index ++] = z;
-
-		array[offset + index ++] = x;
-		array[offset + index ++] = y;
-		array[offset + index ++] = z;
-
-
-		// Top
-		array[offset + index ++] = x;
-		array[offset + index ++] = y + height;
-		array[offset + index ++] = z;
-
-		array[offset + index ++] = x;
-		array[offset + index ++] = y + height;
-		array[offset + index ++] = z + depth;
-
-		array[offset + index ++] = x + width;
-		array[offset + index ++] = y + height;
-		array[offset + index ++] = z + depth;
-
-		array[offset + index ++] = x + width;
-		array[offset + index ++] = y + height;
-		array[offset + index ++] = z;
-
-
-		// Bottom
-		array[offset + index ++] = x;
-		array[offset + index ++] = y;
-		array[offset + index ++] = z;
-
-		array[offset + index ++] = x + width;
-		array[offset + index ++] = y;
-		array[offset + index ++] = z;
-
-		array[offset + index ++] = x + width;
-		array[offset + index ++] = y;
-		array[offset + index ++] = z + depth;
-
-		array[offset + index ++] = x;
-		array[offset + index ++] = y;
-		array[offset + index ++] = z + depth;
-
-		return array;
-	}
+//	public static float[] addCubeVertexArrayf(float vertices[], float width, float height, float depth, int offset, float array[])
+//	{
+//		if (array == null)
+//		{
+//			array  = new float[3 * 4 * 6];
+//
+//			offset = 0;
+//		}
+//
+//		int index = 0;
+//
+//		// Front
+//		array[offset + index ++] = vertices[0];
+//		array[offset + index ++] = vertices[1];
+//		array[offset + index ++] = vertices[2];
+//
+//		array[offset + index ++] = vertices[3];
+//		array[offset + index ++] = vertices[4];
+//		array[offset + index ++] = vertices[5]
+//
+//		array[offset + index ++] = vertices[6];
+//		array[offset + index ++] = vertices[7];
+//		array[offset + index ++] = vertices[8];
+//
+//		array[offset + index ++] = vertices[9];
+//		array[offset + index ++] = vertices[10];
+//		array[offset + index ++] = vertices[11];
+//
+//
+//		// Right
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z;
+//
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z;
+//
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z + depth;
+//
+//
+//		// Back
+//		array[offset + index ++] = vertices[0] ;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z + depth;
+//
+//
+//		// Left
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z;
+//
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z;
+//
+//
+//		// Top
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z;
+//
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y + height;
+//		array[offset + index ++] = z;
+//
+//
+//		// Bottom
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z;
+//
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z;
+//
+//		array[offset + index ++] = x + width;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z + depth;
+//
+//		array[offset + index ++] = x;
+//		array[offset + index ++] = y;
+//		array[offset + index ++] = z + depth;
+//
+//		return array;
+//	}
 	
 	public static float[] addRectVertexArrayf(float x, float y, float z, float width, float height, int offset, float array[])
 	{

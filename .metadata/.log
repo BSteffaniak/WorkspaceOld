@@ -10411,3 +10411,209 @@ Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspac
 !MESSAGE Problems encountered while deleting files.
 !SUBENTRY 5 org.eclipse.core.filesystem 4 273 2012-10-21 12:58:20.941
 !MESSAGE Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\bin\classes\net.
+!SESSION 2012-10-21 16:39:52.677 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.7.0_03
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.jdt.core 4 4 2012-10-21 16:40:17.731
+!MESSAGE JavaBuilder handling ImageBuilderInternalException while building: jDooglAndroid
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Problems encountered while deleting resources.
+	at org.eclipse.core.internal.resources.Resource.delete(Resource.java:793)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.cleanOutputFolders(BatchImageBuilder.java:114)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.build(BatchImageBuilder.java:46)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildAll(JavaBuilder.java:254)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:184)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:199)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:239)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:292)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:295)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:351)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:374)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:143)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:241)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Contains: Could not delete '/jDooglAndroid/bin/classes/net'.
+org.eclipse.core.internal.resources.ResourceException: Problems encountered while deleting resources.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.delete(FileSystemResourceManager.java:352)
+	at org.eclipse.core.internal.resources.ResourceTree.internalDeleteFolder(ResourceTree.java:352)
+	at org.eclipse.core.internal.resources.ResourceTree.standardDeleteFolder(ResourceTree.java:798)
+	at org.eclipse.core.internal.resources.Resource.unprotectedDelete(Resource.java:1941)
+	at org.eclipse.core.internal.resources.Resource.delete(Resource.java:780)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.cleanOutputFolders(BatchImageBuilder.java:114)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.build(BatchImageBuilder.java:46)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildAll(JavaBuilder.java:254)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:184)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:199)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:239)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:292)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:295)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:351)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:374)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:143)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:241)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Contains: Problems encountered while deleting files.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDooglAndroid\bin\classes\net\foxycorndog\jdoogl\GL.class.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDooglAndroid\bin\classes\net\foxycorndog\jdoogl.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDooglAndroid\bin\classes\net\foxycorndog.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDooglAndroid\bin\classes\net.
+!SUBENTRY 1 org.eclipse.core.resources 4 273 2012-10-21 16:40:17.731
+!MESSAGE Problems encountered while deleting resources.
+!SUBENTRY 2 org.eclipse.core.resources 4 273 2012-10-21 16:40:17.731
+!MESSAGE Could not delete '/jDooglAndroid/bin/classes/net'.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Problems encountered while deleting resources.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.delete(FileSystemResourceManager.java:352)
+	at org.eclipse.core.internal.resources.ResourceTree.internalDeleteFolder(ResourceTree.java:352)
+	at org.eclipse.core.internal.resources.ResourceTree.standardDeleteFolder(ResourceTree.java:798)
+	at org.eclipse.core.internal.resources.Resource.unprotectedDelete(Resource.java:1941)
+	at org.eclipse.core.internal.resources.Resource.delete(Resource.java:780)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.cleanOutputFolders(BatchImageBuilder.java:114)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.build(BatchImageBuilder.java:46)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildAll(JavaBuilder.java:254)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:184)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:199)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:239)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:292)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:295)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:351)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:374)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:143)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:241)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Contains: Problems encountered while deleting files.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDooglAndroid\bin\classes\net\foxycorndog\jdoogl\GL.class.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDooglAndroid\bin\classes\net\foxycorndog\jdoogl.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDooglAndroid\bin\classes\net\foxycorndog.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDooglAndroid\bin\classes\net.
+!SUBENTRY 3 org.eclipse.core.resources 4 273 2012-10-21 16:40:17.731
+!MESSAGE Problems encountered while deleting resources.
+!SUBENTRY 4 org.eclipse.core.filesystem 4 273 2012-10-21 16:40:17.731
+!MESSAGE Problems encountered while deleting files.
+!SUBENTRY 5 org.eclipse.core.filesystem 4 273 2012-10-21 16:40:17.731
+!MESSAGE Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDooglAndroid\bin\classes\net\foxycorndog\jdoogl\GL.class.
+!SUBENTRY 5 org.eclipse.core.filesystem 4 273 2012-10-21 16:40:17.731
+!MESSAGE Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDooglAndroid\bin\classes\net\foxycorndog\jdoogl.
+!SUBENTRY 5 org.eclipse.core.filesystem 4 273 2012-10-21 16:40:17.731
+!MESSAGE Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDooglAndroid\bin\classes\net\foxycorndog.
+!SUBENTRY 5 org.eclipse.core.filesystem 4 273 2012-10-21 16:40:17.731
+!MESSAGE Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDooglAndroid\bin\classes\net.
+!SESSION 2012-10-22 05:40:22.745 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.7.0_03
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.jdt.core 4 4 2012-10-22 05:40:31.855
+!MESSAGE JavaBuilder handling ImageBuilderInternalException while building: IdkAndroid
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Problems encountered while deleting resources.
+	at org.eclipse.core.internal.resources.Resource.delete(Resource.java:793)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.cleanOutputFolders(BatchImageBuilder.java:114)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.build(BatchImageBuilder.java:46)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildAll(JavaBuilder.java:254)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:184)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:199)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:239)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:292)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:295)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:351)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:374)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:143)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:241)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Contains: Could not delete '/IdkAndroid/bin/classes/net'.
+org.eclipse.core.internal.resources.ResourceException: Problems encountered while deleting resources.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.delete(FileSystemResourceManager.java:352)
+	at org.eclipse.core.internal.resources.ResourceTree.internalDeleteFolder(ResourceTree.java:352)
+	at org.eclipse.core.internal.resources.ResourceTree.standardDeleteFolder(ResourceTree.java:798)
+	at org.eclipse.core.internal.resources.Resource.unprotectedDelete(Resource.java:1941)
+	at org.eclipse.core.internal.resources.Resource.delete(Resource.java:780)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.cleanOutputFolders(BatchImageBuilder.java:114)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.build(BatchImageBuilder.java:46)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildAll(JavaBuilder.java:254)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:184)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:199)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:239)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:292)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:295)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:351)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:374)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:143)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:241)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Contains: Problems encountered while deleting files.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\bin\classes\net\foxycorndog\idk\animatedobject\actors.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\bin\classes\net\foxycorndog\idk\animatedobject.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\bin\classes\net\foxycorndog\idk.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\bin\classes\net\foxycorndog.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\bin\classes\net.
+!SUBENTRY 1 org.eclipse.core.resources 4 273 2012-10-22 05:40:31.886
+!MESSAGE Problems encountered while deleting resources.
+!SUBENTRY 2 org.eclipse.core.resources 4 273 2012-10-22 05:40:31.886
+!MESSAGE Could not delete '/IdkAndroid/bin/classes/net'.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Problems encountered while deleting resources.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.delete(FileSystemResourceManager.java:352)
+	at org.eclipse.core.internal.resources.ResourceTree.internalDeleteFolder(ResourceTree.java:352)
+	at org.eclipse.core.internal.resources.ResourceTree.standardDeleteFolder(ResourceTree.java:798)
+	at org.eclipse.core.internal.resources.Resource.unprotectedDelete(Resource.java:1941)
+	at org.eclipse.core.internal.resources.Resource.delete(Resource.java:780)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.cleanOutputFolders(BatchImageBuilder.java:114)
+	at org.eclipse.jdt.internal.core.builder.BatchImageBuilder.build(BatchImageBuilder.java:46)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.buildAll(JavaBuilder.java:254)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:184)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:199)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:239)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:292)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:295)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:351)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:374)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:143)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:241)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Contains: Problems encountered while deleting files.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\bin\classes\net\foxycorndog\idk\animatedobject\actors.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\bin\classes\net\foxycorndog\idk\animatedobject.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\bin\classes\net\foxycorndog\idk.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\bin\classes\net\foxycorndog.
+Contains: Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\bin\classes\net.
+!SUBENTRY 3 org.eclipse.core.resources 4 273 2012-10-22 05:40:31.886
+!MESSAGE Problems encountered while deleting resources.
+!SUBENTRY 4 org.eclipse.core.filesystem 4 273 2012-10-22 05:40:31.886
+!MESSAGE Problems encountered while deleting files.
+!SUBENTRY 5 org.eclipse.core.filesystem 4 273 2012-10-22 05:40:31.886
+!MESSAGE Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\bin\classes\net\foxycorndog\idk\animatedobject\actors.
+!SUBENTRY 5 org.eclipse.core.filesystem 4 273 2012-10-22 05:40:31.886
+!MESSAGE Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\bin\classes\net\foxycorndog\idk\animatedobject.
+!SUBENTRY 5 org.eclipse.core.filesystem 4 273 2012-10-22 05:40:31.886
+!MESSAGE Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\bin\classes\net\foxycorndog\idk.
+!SUBENTRY 5 org.eclipse.core.filesystem 4 273 2012-10-22 05:40:31.886
+!MESSAGE Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\bin\classes\net\foxycorndog.
+!SUBENTRY 5 org.eclipse.core.filesystem 4 273 2012-10-22 05:40:31.886
+!MESSAGE Could not delete: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\bin\classes\net.

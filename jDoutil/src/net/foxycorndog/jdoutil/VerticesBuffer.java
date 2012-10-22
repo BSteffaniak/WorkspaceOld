@@ -134,23 +134,42 @@ public class VerticesBuffer extends LightBuffer
 	
 	public void genIndices(int shape)
 	{
-		if (shape != GL11.GL_QUADS)
+		short ind[] = null;
+		
+		if (shape == GL11.GL_QUADS)
+		{
+			indices = BufferUtils.createShortBuffer(size() / vertexSize);
+			
+			ind = new short[indices.capacity()];
+			
+			for (int i = 0; i < ind.length; i += 4)
+			{
+		//			0 1 2
+		//			0 2 3
+				ind[i + 0] = (short)(0 + i);
+				ind[i + 1] = (short)(1 + i);
+				ind[i + 2] = (short)(2 + i);
+				ind[i + 3] = (short)(3 + i);
+			}
+		}
+		else if (shape == GL11.GL_TRIANGLES)
+		{
+			indices = BufferUtils.createShortBuffer(size() / vertexSize);
+			
+			ind = new short[indices.capacity()];
+			
+			for (int i = 0; i < ind.length; i += 3)
+			{
+		//			0 1 2
+		//			0 2 3
+				ind[i + 0] = (short)(0 + i);
+				ind[i + 1] = (short)(1 + i);
+				ind[i + 2] = (short)(2 + i);
+			}
+		}
+		else
 		{
 			return;
-		}
-		
-		indices = BufferUtils.createShortBuffer(size() / vertexSize);
-		
-		short ind[] = new short[indices.capacity()];
-		
-		for (int i = 0; i < ind.length; i += 4)
-		{
-//			0 1 2
-//			0 2 3
-			ind[i + 0] = (short)(0 + i);
-			ind[i + 1] = (short)(1 + i);
-			ind[i + 2] = (short)(2 + i);
-			ind[i + 3] = (short)(3 + i);
 		}
 		
 		indices.put(ind);

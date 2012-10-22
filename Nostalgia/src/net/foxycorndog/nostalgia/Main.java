@@ -184,6 +184,11 @@ public class Main
 				GL.setDrawMode(GL.ARRAYS);
 			}
 		}
+
+		if (KeyboardInput.next(KeyboardInput.KEY_L))
+		{
+			map.render = map.render == GL.POINTS ? GL.TRIANGLES : GL.POINTS;
+		}
 		
 		if (KeyboardInput.next(KeyboardInput.KEY_O))
 		{

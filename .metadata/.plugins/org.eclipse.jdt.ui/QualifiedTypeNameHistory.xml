@@ -41,7 +41,6 @@
 <fullyQualifiedTypeName name="net.foxycorndog.nostalgia.actor.camera.Camera"/>
 <fullyQualifiedTypeName name="net.foxycorndog.nostalgia.actor.Actor"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.camera.Camera"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.input.KeyboardInput"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.image.imagemap.Texture"/>
 <fullyQualifiedTypeName name="javax.naming.OperationNotSupportedException"/>
 <fullyQualifiedTypeName name="java.nio.BufferUnderflowException"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.GL"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.ModelLoader"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.input.KeyboardInput"/>
 </qualifiedTypeNameHistroy>

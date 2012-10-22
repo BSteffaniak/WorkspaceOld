@@ -2,6 +2,7 @@ package net.foxycorndog.nostalgia.map;
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
+import net.foxycorndog.jdoogl.input.KeyboardInput;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.ModelLoader;
 import net.foxycorndog.jdoutil.Task;
@@ -16,8 +17,8 @@ public class Map
 	private LightBuffer    texturesBuffer, colorsBuffer;
 	
 	private VerticesBuffer verticesBuffer, bunnyV;
-	
-	private float          cubes[], vertices[];
+	public int render = GL.POINTS;
+	private float          cubes[], vertices[], textures[], normals[], colors[], vertexIndices[], normalIndices[];
 	
 	public Map()
 	{
@@ -55,8 +56,10 @@ public class Map
 		
 		addCube(-100, -2, -100, 200, 2, 200, GL.white, 200, 200, 200, 255, index ++);
 		
-		vertices = ModelLoader.loadModel("res/test.obj")[0];
-		System.out.println(vertices.length / 3f);
+		float data[][] = ModelLoader.loadModel("res/bunny.obj", true, false, false, false, false, false);
+		
+		vertices      = data[0];
+		
 		bunnyV = new VerticesBuffer(vertices.length, 3);
 		bunnyV.addData(vertices);
 		
@@ -125,16 +128,7 @@ public class Map
 			GL.translatef(0, 1, 0);
 			GL.scalef(20, 20, 20);
 			
-//			GL.renderTriangles(bunnyV, 0, bunnyV.capacity() / 3 / 3);
-			
-			GL.glBegin(GL.TRIANGLES);
-			{
-				for (int i = 0; i < vertices.length; i += 3)
-				{
-					GL.glVertex3f(vertices[i], vertices[i + 1], vertices[i + 2]);
-				}
-			}
-			GL.glEnd();
+			GL.renderTriangles(bunnyV, 0, bunnyV.capacity() / 3 / 3);
 		}
 		GL.endManipulation();
 		
@@ -151,10 +145,12 @@ public class Map
 	public void genIndices()
 	{
 		verticesBuffer.genIndices(GL.QUADS);
+		bunnyV.genIndices(GL.TRIANGLES);
 	}
 	
 	public void destroyIndices()
 	{
 		verticesBuffer.destroyIndices();
+		bunnyV.destroyIndices();
 	}
 }
