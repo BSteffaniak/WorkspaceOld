@@ -1184,87 +1184,33 @@ public class GL
 				{
 					GL11.glBegin(type);
 					{
-//						if (type == GL11.GL_QUADS)
-//						{
-							int textureOffset = i * 2;
-							int vertexOffset  = i * vertexSize;
-							int colorOffset   = i * 4;
+						int textureOffset = i * 2;
+						int vertexOffset  = i * vertexSize;
+						int colorOffset   = i * 4;
+						
+						for (int j = 0; j < amountOfVertices; j ++)
+						{
+							textureOffset += 2;
+							vertexOffset  += vertexSize;
+							colorOffset   += 4;
 							
-							for (int j = 0; j < amountOfVertices; j ++)
+							if (colors != null && showColors)
 							{
-								if (colors != null && showColors)
-								{
-									glColor4f(colors[0 + colorOffset], colors[1 + colorOffset], colors[2 + colorOffset], colors[3 + colorOffset]);
-								}
-								if (texture != null)
-								{
-									glTexCoord2f(textures[textureOffset], textures[1 + textureOffset]);
-								}
-								if (vertexSize == 3)
-								{
-									glVertex3f(vertices[0 + vertexOffset], vertices[1 + vertexOffset], vertices[2 + vertexOffset]);
-								}
-								else if (vertexSize == 2)
-								{
-									glVertex2f(vertices[0 + vertexOffset], vertices[1 + vertexOffset]);
-								}
+								glColor4f(colors[0 + colorOffset], colors[1 + colorOffset], colors[2 + colorOffset], colors[3 + colorOffset]);
 							}
-
-//							if (colors != null && showColors)
-//							{
-//								glColor4f(colors[4 + colorOffset], colors[5 + colorOffset], colors[6 + colorOffset], colors[7 + colorOffset]);
-//							}
-//							if (texture != null)
-//							{
-//								glTexCoord2f(textures[2 + textureOffset], textures[3 + textureOffset]);
-//							}
-//							if (vertexSize == 3)
-//							{
-//								glVertex3f(vertices[3 + vertexOffset], vertices[4 + vertexOffset], vertices[5 + vertexOffset]);
-//							}
-//							else if (vertexSize == 2)
-//							{
-//								glVertex2f(vertices[2 + vertexOffset], vertices[3 + vertexOffset]);
-//							}
-//
-//							if (colors != null && showColors)
-//							{
-//								glColor4f(colors[8 + colorOffset], colors[9 + colorOffset], colors[10 + colorOffset], colors[11 + colorOffset]);
-//							}
-//							if (texture != null)
-//							{
-//								glTexCoord2f(textures[4 + textureOffset], textures[5 + textureOffset]);
-//							}
-//							if (vertexSize == 3)
-//							{
-//								glVertex3f(vertices[6 + vertexOffset], vertices[7 + vertexOffset], vertices[8 + vertexOffset]);
-//							}
-//							else if (vertexSize == 2)
-//							{
-//								glVertex2f(vertices[4 + vertexOffset], vertices[5 + vertexOffset]);
-//							}
-//
-//							if (colors != null && showColors)
-//							{
-//								glColor4f(colors[12 + colorOffset], colors[13 + colorOffset], colors[14 + colorOffset], colors[15 + colorOffset]);
-//							}
-//							if (texture != null)
-//							{
-//								glTexCoord2f(textures[6 + textureOffset], textures[7 + textureOffset]);
-//							}
-//							if (vertexSize == 3)
-//							{
-//								glVertex3f(vertices[9 + vertexOffset], vertices[10 + vertexOffset], vertices[11 + vertexOffset]);
-//							}
-//							else if (vertexSize == 2)
-//							{
-//								glVertex2f(vertices[6 + vertexOffset], vertices[7 + vertexOffset]);
-//							}
-//						}
-//						else
-//						{
-//							throw new IllegalArgumentException("The 'type' you are trying to draw is not supported.");
-//						}
+							if (texture != null)
+							{
+								glTexCoord2f(textures[textureOffset], textures[1 + textureOffset]);
+							}
+							if (vertexSize == 3)
+							{
+								glVertex3f(vertices[0 + vertexOffset], vertices[1 + vertexOffset], vertices[2 + vertexOffset]);
+							}
+							else if (vertexSize == 2)
+							{
+								glVertex2f(vertices[0 + vertexOffset], vertices[1 + vertexOffset]);
+							}
+						}
 					}
 					GL11.glEnd();
 				}
