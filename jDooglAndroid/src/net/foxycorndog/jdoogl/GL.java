@@ -51,7 +51,7 @@ public class GL
 	
 	private static ArrayList<LightBuffer> rectVerticesBuffer, rectTexturesBuffer;
 	
-	public  static final int QUADS = GL_TRIANGLES;
+	public  static final int QUAfDS = 19191, TRIANGLES = GL_TRIANGLES;
 	
 	public  static final int ARRAYS = Base.ARRAYS, ELEMENTS = Base.ELEMENTS;
 	
