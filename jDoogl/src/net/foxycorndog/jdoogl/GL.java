@@ -114,6 +114,7 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL14;
+import org.lwjgl.opengl.GL15;
 import org.lwjgl.util.glu.GLU;
 
 /**
@@ -155,7 +156,7 @@ public class GL
 	{
 		showColors = true;
 		
-		Base.setUsingVBO(false); 
+		Base.setUsingVBO(true); 
 		Base.setDrawMode(ARRAYS);
 		
 		update();
@@ -945,12 +946,12 @@ public class GL
 //		renderBuffers(verticesBuffer, texturesBuffer, imageMap, start, amount, GL_QUADS);
 //	}
 	
-	public static void renderCubes(VerticesBuffer verticesBuffer, Buffer colorsBuffer, int start, int amount)
+	public static void renderCubes(VerticesBuffer verticesBuffer, LightBuffer colorsBuffer, int start, int amount)
 	{
 		renderBuffers(verticesBuffer, null, null, colorsBuffer, null, start * 6, amount * 6, QUADS, null);
 	}
 	
-	public static void renderCubes(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Buffer colorsBuffer, Texture texture, int start, int amount)
+	public static void renderCubes(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, LightBuffer colorsBuffer, Texture texture, int start, int amount)
 	{
 		renderBuffers(verticesBuffer, texturesBuffer, null, colorsBuffer, texture, start * 6, amount * 6, QUADS, null);
 	}
@@ -960,12 +961,12 @@ public class GL
 		renderBuffers(verticesBuffer, null, null, null, null, start * 6, amount * 6, QUADS, null);
 	}
 
-	public static void renderCubes(VerticesBuffer verticesBuffer, Buffer textures, Texture texture, int start, int amount)
+	public static void renderCubes(VerticesBuffer verticesBuffer, LightBuffer textures, Texture texture, int start, int amount)
 	{
 		renderBuffers(verticesBuffer, textures, null, null, texture, start * 6, amount * 6, QUADS, null);
 	}
 	
-	public static void renderCubes(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Buffer normalsBuffer, Buffer colorsBuffer, Texture texture, int start, int amount, Task task)
+	public static void renderCubes(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, Buffer normalsBuffer, LightBuffer colorsBuffer, Texture texture, int start, int amount, Task task)
 	{
 		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, texture, start * 6, amount * 6, QUADS, task);
 	}
@@ -975,27 +976,27 @@ public class GL
 		renderBuffers(verticesBuffer, null, null, null, null, start, amount, QUADS, null);
 	}
 	
-	public static void renderQuads(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Buffer normalsBuffer, Texture imageMap, int start, int amount)
+	public static void renderQuads(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, Buffer normalsBuffer, Texture imageMap, int start, int amount)
 	{
 		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, null, imageMap, start, amount, QUADS, null);
 	}
 	
-	public static void renderQuads(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Texture imageMap, int start, int amount, Task task)
+	public static void renderQuads(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, Texture imageMap, int start, int amount, Task task)
 	{
 		renderBuffers(verticesBuffer, texturesBuffer, null, null, imageMap, start, amount, QUADS, task);
 	}
 	
-	public static void renderQuads(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Texture imageMap, int start, int amount)
+	public static void renderQuads(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, Texture imageMap, int start, int amount)
 	{
 		renderBuffers(verticesBuffer, texturesBuffer, null, null, imageMap, start, amount, QUADS, null);
 	}
 	
-	public static void renderQuad(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Texture imageMap)
+	public static void renderQuad(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, Texture imageMap)
 	{
 		renderBuffers(verticesBuffer, texturesBuffer, null, null, imageMap, 0, 1, QUADS, null);
 	}
 	
-	public static void renderQuads(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Buffer normalsBuffer, Buffer colorsBuffer, Texture texture, int start, int amount, Task task)
+	public static void renderQuads(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, Buffer normalsBuffer, LightBuffer colorsBuffer, Texture texture, int start, int amount, Task task)
 	{
 		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, texture, start, amount, QUADS, task);
 	}
@@ -1005,7 +1006,12 @@ public class GL
 		renderBuffers(verticesBuffer, null, null, null, null, start, amount, TRIANGLES, null);
 	}
 	
-	private static void renderBuffers(VerticesBuffer verticesBuffer, Buffer texturesBuffer, Buffer normalsBuffer, Buffer colorsBuffer, Texture texture, int start, int amount, int type, Task task)
+	public static void renderTriangles(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, Buffer normalsBuffer, LightBuffer colorsBuffer, Texture texture, int start, int amount, Task task)
+	{
+		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, texture, start, amount, TRIANGLES, task);
+	}
+	
+	private static void renderBuffers(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, Buffer normalsBuffer, LightBuffer colorsBuffer, Texture texture, int start, int amount, int type, Task task)
 	{
 		int vertexSize       = verticesBuffer.getVertexSize();
 		int amountOfVertices = getAmountOfVertices(type);
@@ -1050,7 +1056,7 @@ public class GL
 				}
 			}
 			
-			for (int i = 0; i < amount; i += amountOfVertices)
+			for (int i = start; i < start + amount; i += amountOfVertices)
 			{
 				if (!task.run(i / amountOfVertices))
 				{
@@ -1063,27 +1069,37 @@ public class GL
 				}
 				else if (DRAW_MODE_ELEMENTS)
 				{
-					GL12.glDrawRangeElements(type, 0, amountOfVertices + start + i, verticesBuffer.getIndices(start + i));
+					if (isUsingVBO())
+					{
+//						GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, verticesBuffer.getIndicesId());
+						
+//						GL11.glDrawElements(type, amountOfVertices, GL_UNSIGNED_SHORT, (start + i) * 2);
+					}
+					else
+					{
+//						GL12.glDrawRangeElements(type, 0, amount, verticesBuffer.getIndices(start));
+					}
+//					GL12.glDrawRangeElements(type, 0, amountOfVertices + start + i, verticesBuffer.getIndices(start + i));
 				}
 				else if (DRAW_MODE_IMMEDIATE)
 				{
-//					for (int f = start; f < amount + start; f += 4)
+//					for (int f = start; f < start + amount; f += amountOfVertices)
 //					{
 						GL11.glBegin(type);
 						{
-							if (type == GL11.GL_QUADS)
+							int textureOffset = i * 2;
+							int vertexOffset  = i * vertexSize;
+							int colorOffset   = i * 4;
+							
+							for (int j = 0; j < amountOfVertices; j ++)
 							{
-								int textureOffset = i * 2;
-								int vertexOffset  = i * vertexSize;
-								int colorOffset   = i * 4;
-								
 								if (colors != null && showColors)
 								{
 									glColor4f(colors[0 + colorOffset], colors[1 + colorOffset], colors[2 + colorOffset], colors[3 + colorOffset]);
 								}
 								if (texture != null)
 								{
-									glTexCoord2f(textures[0 + textureOffset], textures[1 + textureOffset]);
+									glTexCoord2f(textures[textureOffset], textures[1 + textureOffset]);
 								}
 								if (vertexSize == 3)
 								{
@@ -1093,66 +1109,15 @@ public class GL
 								{
 									glVertex2f(vertices[0 + vertexOffset], vertices[1 + vertexOffset]);
 								}
-
-								if (colors != null && showColors)
-								{
-									glColor4f(colors[4 + colorOffset], colors[5 + colorOffset], colors[6 + colorOffset], colors[7 + colorOffset]);
-								}
-								if (texture != null)
-								{
-									glTexCoord2f(textures[2 + textureOffset], textures[3 + textureOffset]);
-								}
-								if (vertexSize == 3)
-								{
-									glVertex3f(vertices[3 + vertexOffset], vertices[4 + vertexOffset], vertices[5 + vertexOffset]);
-								}
-								else if (vertexSize == 2)
-								{
-									glVertex2f(vertices[2 + vertexOffset], vertices[3 + vertexOffset]);
-								}
-
-								if (colors != null && showColors)
-								{
-									glColor4f(colors[8 + colorOffset], colors[9 + colorOffset], colors[10 + colorOffset], colors[11 + colorOffset]);
-								}
-								if (texture != null)
-								{
-									glTexCoord2f(textures[4 + textureOffset], textures[5 + textureOffset]);
-								}
-								if (vertexSize == 3)
-								{
-									glVertex3f(vertices[6 + vertexOffset], vertices[7 + vertexOffset], vertices[8 + vertexOffset]);
-								}
-								else if (vertexSize == 2)
-								{
-									glVertex2f(vertices[4 + vertexOffset], vertices[5 + vertexOffset]);
-								}
-
-								if (colors != null && showColors)
-								{
-									glColor4f(colors[12 + colorOffset], colors[13 + colorOffset], colors[14 + colorOffset], colors[15 + colorOffset]);
-								}
-								if (texture != null)
-								{
-									glTexCoord2f(textures[6 + textureOffset], textures[7 + textureOffset]);
-								}
-								if (vertexSize == 3)
-								{
-									glVertex3f(vertices[9 + vertexOffset], vertices[10 + vertexOffset], vertices[11 + vertexOffset]);
-								}
-								else if (vertexSize == 2)
-								{
-									glVertex2f(vertices[6 + vertexOffset], vertices[7 + vertexOffset]);
-								}
-							}
-							else
-							{
-								throw new IllegalArgumentException("The 'type' you are trying to draw is not supported.");
+								
+								textureOffset += 2;
+								vertexOffset  += vertexSize;
+								colorOffset   += 4;
 							}
 						}
 						GL11.glEnd();
-					}
-//				}
+//					}
+				}
 			}
 		}
 		else
@@ -1163,7 +1128,16 @@ public class GL
 			}
 			else if (DRAW_MODE_ELEMENTS)
 			{
-				GL12.glDrawRangeElements(type, 0, amount, verticesBuffer.getIndices(start));
+				if (isUsingVBO())
+				{
+					GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, verticesBuffer.getIndicesId());
+					
+					GL11.glDrawElements(type, amount, GL_UNSIGNED_SHORT, start * 2);
+				}
+				else
+				{
+//					GL12.glDrawRangeElements(type, 0, amount, verticesBuffer.getIndices(start));
+				}
 			}
 			else if (DRAW_MODE_IMMEDIATE)
 			{
@@ -1180,7 +1154,7 @@ public class GL
 					colors = colorsBuffer.getData();
 				}
 				
-				for (int i = start; i < amount + start; i += amountOfVertices)
+				for (int i = start; i < start + amount; i += amountOfVertices)
 				{
 					GL11.glBegin(type);
 					{
@@ -1190,10 +1164,6 @@ public class GL
 						
 						for (int j = 0; j < amountOfVertices; j ++)
 						{
-							textureOffset += 2;
-							vertexOffset  += vertexSize;
-							colorOffset   += 4;
-							
 							if (colors != null && showColors)
 							{
 								glColor4f(colors[0 + colorOffset], colors[1 + colorOffset], colors[2 + colorOffset], colors[3 + colorOffset]);
@@ -1210,6 +1180,10 @@ public class GL
 							{
 								glVertex2f(vertices[0 + vertexOffset], vertices[1 + vertexOffset]);
 							}
+							
+							textureOffset += 2;
+							vertexOffset  += vertexSize;
+							colorOffset   += 4;
 						}
 					}
 					GL11.glEnd();
@@ -1239,7 +1213,16 @@ public class GL
 		
 		glEnableClientState(GL_VERTEX_ARRAY);
 		
-		glVertexPointer(buffer.getVertexSize(), 0, (FloatBuffer)buffer.getBuffer());
+		if (isUsingVBO())
+		{
+			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, buffer.getId());
+			
+			glVertexPointer(buffer.getVertexSize(), GL11.GL_FLOAT, 0, 0);
+		}
+		else
+		{
+			glVertexPointer(buffer.getVertexSize(), 0, (FloatBuffer)buffer.getBuffer());
+		}
 	}
 	
 	public static void begindVertexDraw(int id, int vertexSize)
@@ -1302,7 +1285,7 @@ public class GL
 		glDisableClientState(GL_NORMAL_ARRAY);
 	}
 	
-	public static void beginColorDraw(Buffer buffer)
+	public static void beginColorDraw(LightBuffer buffer)
 	{
 		if (buffer == null)
 		{
@@ -1311,7 +1294,16 @@ public class GL
 		
 		glEnableClientState(GL_COLOR_ARRAY);
 		
-		glColorPointer(4, 0, (FloatBuffer)buffer.getBuffer());
+		if (isUsingVBO())
+		{
+			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, buffer.getId());
+			
+			glColorPointer(4, GL11.GL_FLOAT, 0, 0);
+		}
+		else
+		{	
+			glColorPointer(4, 0, (FloatBuffer)buffer.getBuffer());
+		}
 	}
 	
 	public static void begindColorDraw(int id)
@@ -1332,7 +1324,7 @@ public class GL
 		glDisableClientState(GL_COLOR_ARRAY);
 	}
 	
-	public static void beginTextureDraw(Buffer buffer)
+	public static void beginTextureDraw(LightBuffer buffer)
 	{
 		if (buffer == null)
 		{
@@ -1343,7 +1335,16 @@ public class GL
 		
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		
-		glTexCoordPointer(2, 0, (FloatBuffer)buffer.getBuffer());
+		if (isUsingVBO())
+		{
+			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, buffer.getId());
+			
+			glTexCoordPointer(2, GL11.GL_FLOAT, 0, 0);
+		}
+		else
+		{	
+			glTexCoordPointer(2, 0, (FloatBuffer)buffer.getBuffer());
+		}
 	}
 	
 	public static void beginTextureDraw(int id)

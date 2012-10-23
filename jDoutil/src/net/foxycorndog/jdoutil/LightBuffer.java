@@ -15,7 +15,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
+import net.foxycorndog.jdobase.Base;
+
 import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL15;
 
 public class LightBuffer extends Buffer
 {
@@ -49,52 +52,40 @@ public class LightBuffer extends Buffer
 	
 	private void init()
 	{
-//		id = glGenBuffers();
-//		glBindBuffer(GL_ARRAY_BUFFER, id);
-//		glBufferData(GL_ARRAY_BUFFER, buffer, GL_DYNAMIC_DRAW);
+		if (!Base.isUsingVBO())
+		{
+			return;
+		}
+		
+		id = glGenBuffers();
+		glBindBuffer(GL_ARRAY_BUFFER, id);
+		glBufferData(GL_ARRAY_BUFFER, buffer, GL_DYNAMIC_DRAW);
 		//glBufferSubData(GL_ARRAY_BUFFER, 0, buffer);
-		//glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 	
 	public void addData(float elements[])
 	{
-		try
-		{
 //			glBindBuffer(GL_ARRAY_BUFFER, id);
 //			
 //			mapBuffer = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, null);
 //			
 //			buffer = mapBuffer.order(ByteOrder.nativeOrder()).asFloatBuffer();
 //			
-//			beginEditing();
-			
-			buffer.position(position);
-			
-			
-			
-			buffer.put(elements);
-			
-			buffer.rewind();
-			
-//			endEditing();
+			setData(position, elements);
 			
 //			glUnmapBuffer(GL_ARRAY_BUFFER);
 //			
 //			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			
 			this.position = position + elements.length;
-		}
-		catch(BufferOverflowException ex)
-		{
-			ex.printStackTrace();
-		}
 	}
 	
 	public void setData(int position, float elements[])
 	{
 //		this.position = position;
 		
-//		beginEditing();
+		beginEditing();
 		
 		buffer.position(position);
 		
@@ -102,20 +93,22 @@ public class LightBuffer extends Buffer
 		
 		buffer.rewind();
 		
-//		endEditing();
+		endEditing();
 	}
 	
 	public void setData(int position, float element)
 	{
+		setData(position, new float[] { element });
+		
 //		this.position = position;
 		
 //		beginEditing();
 		
-		buffer.position(position);
-		
-		buffer.put(element);
-		
-		buffer.rewind();
+//		buffer.position(position);
+//		
+//		buffer.put(element);
+//		
+//		buffer.rewind();
 		
 //		endEditing();
 	}
@@ -169,31 +162,33 @@ public class LightBuffer extends Buffer
 		return dst;
 	}
 	
-//	public void beginEditing()
-//	{
-////		if (!editing)
-////		{
-////			glBindBuffer(GL_ARRAY_BUFFER, id);
-////			
-////			mapBuffer = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, null);
-////			
-////			buffer    = mapBuffer.order(ByteOrder.nativeOrder()).asFloatBuffer();
+	public void beginEditing()
+	{
+//		if (!editing)
+//		{
+			glBindBuffer(GL_ARRAY_BUFFER, id);
 //			
-////			editing   = true;
-////		}
-//	}
+			mapBuffer = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, null);
+//			
+			buffer    = mapBuffer.order(ByteOrder.nativeOrder()).asFloatBuffer();
+			
+//			GL15.glBufferSubData(GL_ARRAY_BUFFER, 0, buffer);
+			
+//			editing   = true;
+//		}
+	}
 //	
-//	public void endEditing()
-//	{
-////		if (editing)
-////		{
-////			glUnmapBuffer(GL_ARRAY_BUFFER);
-////			
-////			glBindBuffer(GL_ARRAY_BUFFER, 0);
-////			
-////			editing = false;
-////		}
-//	}
+	public void endEditing()
+	{
+//		if (editing)
+//		{
+			glUnmapBuffer(GL_ARRAY_BUFFER);
+//			
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+//			
+//			editing = false;
+//		}
+	}
 	
 	public float get(int index)
 	{
@@ -212,10 +207,10 @@ public class LightBuffer extends Buffer
 		this.buffer = buffer;
 	}
 	
-//	public int getId()
-//	{
-//		return id;
-//	}
+	public int getId()
+	{
+		return id;
+	}
 	
 	public int size()
 	{
