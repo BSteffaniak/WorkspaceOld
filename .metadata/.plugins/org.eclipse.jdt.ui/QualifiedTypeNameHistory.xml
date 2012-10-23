@@ -46,13 +46,10 @@
 <fullyQualifiedTypeName name="java.nio.BufferUnderflowException"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.VerticesBuffer"/>
 <fullyQualifiedTypeName name="java.nio.ShortBuffer"/>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.GL15"/>
 <fullyQualifiedTypeName name="org.lwjgl.BufferUtils"/>
 <fullyQualifiedTypeName name="java.nio.IntBuffer"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdobase.Base"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL12"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.Task"/>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
 <fullyQualifiedTypeName name="java.io.FileReader"/>
@@ -60,4 +57,7 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.GL"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.ModelLoader"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.input.KeyboardInput"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdobase.Base"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GL15"/>
 </qualifiedTypeNameHistroy>

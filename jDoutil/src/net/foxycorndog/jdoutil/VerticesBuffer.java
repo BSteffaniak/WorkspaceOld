@@ -43,13 +43,7 @@ public class VerticesBuffer extends LightBuffer
 		
 		if (Base.isUsingVBO())
 		{
-			IntBuffer ids = BufferUtils.createIntBuffer(1);
-			
-			GL15.glGenBuffers(ids);
-			indicesId = ids.get(0);
-			
-			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesId);
-			GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indices, GL15.GL_DYNAMIC_DRAW);
+			indicesId = GL15.glGenBuffers();
 		}
 	}
 	
@@ -94,42 +88,52 @@ public class VerticesBuffer extends LightBuffer
 		indices.rewind();
 	}
 	
-	private void beginEditing()
-	{
-		if (!Base.isUsingVBO())
-		{
-			return;
-		}
-		
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, indicesId);
-		
-//		mapBuffer = GLES11.glMapBufferOES(GLES11.GL_ARRAY_BUFFER, GLES11.GL_WRITE_ONLY, null);
+//	public void beginEditing()
+//	{
+//		if (!Base.isUsingVBO())
+//		{
+//			return;
+//		}
 //		
-//		buffer    = mapBuffer.order(ByteOrder.nativeOrder()).asFloatBuffer();
-	}
-	
-	private void endEditing()
-	{
-		if (!Base.isUsingVBO())
-		{
-			return;
-		}
-//		glUnmapBuffer(GL_ARRAY_BUFFER);
-				
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-	}
-	
-	private void checkIndices(int shape)
-	{
-		if (useIndices && indices == null)
-		{
-			genIndices(shape);
-		}
-	}
+//		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, indicesId);
+//		
+////		mapBuffer = GLES11.glMapBufferOES(GLES11.GL_ARRAY_BUFFER, GLES11.GL_WRITE_ONLY, null);
+////		
+////		buffer    = mapBuffer.order(ByteOrder.nativeOrder()).asFloatBuffer();
+//	}
+//	
+//	public void endEditing()
+//	{
+//		if (!Base.isUsingVBO())
+//		{
+//			return;
+//		}
+////		glUnmapBuffer(GL_ARRAY_BUFFER);
+//				
+//		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+//	}
 	
 	public int getIndicesId()
 	{
 		return indicesId;
+	}
+	
+	public void setIndices(short indicesArray[])
+	{
+		indices = BufferUtils.createShortBuffer(indicesArray.length);
+		
+		indices.position(0);
+		
+		indices.put(indicesArray);
+		
+		indices.rewind();
+		
+		if (Base.isUsingVBO())
+		{
+//			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesId);
+			
+//			GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indices, GL15.GL_DYNAMIC_DRAW);
+		}
 	}
 	
 	public void genIndices(int shape)
@@ -175,6 +179,15 @@ public class VerticesBuffer extends LightBuffer
 		indices.put(ind);
 		
 		indices.rewind();
+		
+		if (Base.isUsingVBO())
+		{
+			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesId);
+			
+			GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indices, GL15.GL_DYNAMIC_DRAW);
+			
+			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+		}
 	}
 	
 	public void destroyIndices()
