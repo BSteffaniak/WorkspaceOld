@@ -164,6 +164,10 @@ public class LightBuffer extends Buffer
 	
 	public void beginEditing()
 	{
+		if (!Base.isUsingVBO())
+		{
+			return;
+		}
 //		if (!editing)
 //		{
 			glBindBuffer(GL_ARRAY_BUFFER, id);
@@ -180,6 +184,10 @@ public class LightBuffer extends Buffer
 //	
 	public void endEditing()
 	{
+		if (!Base.isUsingVBO())
+		{
+			return;
+		}
 //		if (editing)
 //		{
 			glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -209,6 +217,8 @@ public class LightBuffer extends Buffer
 	
 	public int getId()
 	{
+		buffer.position(0);
+		
 		return id;
 	}
 	

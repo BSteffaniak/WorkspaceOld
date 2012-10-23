@@ -156,7 +156,7 @@ public class GL
 	{
 		showColors = true;
 		
-		Base.setUsingVBO(true); 
+		Base.setUsingVBO(false); 
 		Base.setDrawMode(ARRAYS);
 		
 		update();
@@ -1077,7 +1077,7 @@ public class GL
 					}
 					else
 					{
-//						GL12.glDrawRangeElements(type, 0, amount, verticesBuffer.getIndices(start));
+						GL12.glDrawRangeElements(type, 0, amount, verticesBuffer.getIndices(start));
 					}
 //					GL12.glDrawRangeElements(type, 0, amountOfVertices + start + i, verticesBuffer.getIndices(start + i));
 				}
@@ -1136,7 +1136,7 @@ public class GL
 				}
 				else
 				{
-//					GL12.glDrawRangeElements(type, 0, amount, verticesBuffer.getIndices(start));
+					GL12.glDrawRangeElements(type, start, amount, verticesBuffer.getIndices(start / amountOfVertices / vertexSize));
 				}
 			}
 			else if (DRAW_MODE_IMMEDIATE)

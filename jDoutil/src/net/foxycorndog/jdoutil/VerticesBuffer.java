@@ -115,6 +115,8 @@ public class VerticesBuffer extends LightBuffer
 	
 	public int getIndicesId()
 	{
+		indices.position(0);
+		
 		return indicesId;
 	}
 	
@@ -175,6 +177,8 @@ public class VerticesBuffer extends LightBuffer
 		{
 			return;
 		}
+		
+		indices.position(0);
 		
 		indices.put(ind);
 		
