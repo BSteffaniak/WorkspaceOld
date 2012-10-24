@@ -3,7 +3,6 @@ import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoogl.input.KeyboardInput;
-import net.foxycorndog.jdoutil.ArrayUtil;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.ModelLoader;
 import net.foxycorndog.jdoutil.Task;
@@ -17,9 +16,9 @@ public class Map
 	
 	private LightBuffer    texturesBuffer, colorsBuffer;
 	
-	private VerticesBuffer verticesBuffer, allBunnyV, bunnyV;
+	private VerticesBuffer verticesBuffer, bunnyV;
 	public int render = GL.POINTS;
-	private float          cubes[], allVertices[], vertices[], textures[], normals[], colors[], normalIndices[];
+	private float          cubes[], vertices[], textures[], normals[], colors[], normalIndices[];
 	private short          vertexIndices[];
 	
 	public Map()
@@ -63,14 +62,11 @@ public class Map
 		vertices      = (float[])data[0];
 		vertexIndices = (short[])data[4];
 		
-		allVertices = ArrayUtil.removeIndices(vertices, vertexIndices);
-		
 		bunnyV = new VerticesBuffer(vertices.length, 3);
 		bunnyV.addData(vertices);
 		bunnyV.setIndices(vertexIndices);
 		
-		allBunnyV = new VerticesBuffer(allVertices.length, 3);
-		allBunnyV.addData(allVertices);
+//		bunnyV
 	}
 	
 	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int colors[][], int index)
@@ -135,14 +131,7 @@ public class Map
 			GL.translatef(0, 1, 0);
 			GL.scalef(20, 20, 20);
 			
-			if (GL.DRAW_MODE_ELEMENTS)
-			{
-				GL.renderTriangles(bunnyV, null, null, null, null, 0, vertices.length / 3 / 3, null);
-			}
-			else
-			{
-				GL.renderTriangles(allBunnyV, null, null, null, null, 0, allVertices.length / 3 / 3, null);
-			}
+			GL.renderTriangles(bunnyV, null, null, null, null, 0, vertices.length / 3 / 3, null);
 		}
 		GL.endManipulation();
 		
@@ -159,12 +148,12 @@ public class Map
 	public void genIndices()
 	{
 		verticesBuffer.genIndices(GL.QUADS);
-		allBunnyV.genIndices(GL.TRIANGLES);
+//		bunnyV.genIndices(GL.TRIANGLES);
 	}
 	
 	public void destroyIndices()
 	{
 		verticesBuffer.destroyIndices();
-		allBunnyV.destroyIndices();
+//		bunnyV.destroyIndices();
 	}
 }

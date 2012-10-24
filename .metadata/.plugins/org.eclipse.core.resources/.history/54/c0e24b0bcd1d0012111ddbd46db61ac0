@@ -63,7 +63,7 @@ public class Map
 		vertices      = (float[])data[0];
 		vertexIndices = (short[])data[4];
 		
-		allVertices = ArrayUtil.removeIndices(vertices, vertexIndices);
+		allVertices = ArrayUtil.removeIndices(allVertices, vertexIndices);
 		
 		bunnyV = new VerticesBuffer(vertices.length, 3);
 		bunnyV.addData(vertices);
@@ -135,14 +135,7 @@ public class Map
 			GL.translatef(0, 1, 0);
 			GL.scalef(20, 20, 20);
 			
-			if (GL.DRAW_MODE_ELEMENTS)
-			{
-				GL.renderTriangles(bunnyV, null, null, null, null, 0, vertices.length / 3 / 3, null);
-			}
-			else
-			{
-				GL.renderTriangles(allBunnyV, null, null, null, null, 0, allVertices.length / 3 / 3, null);
-			}
+			GL.renderTriangles(bunnyV, null, null, null, null, 0, vertices.length / 3 / 3, null);
 		}
 		GL.endManipulation();
 		

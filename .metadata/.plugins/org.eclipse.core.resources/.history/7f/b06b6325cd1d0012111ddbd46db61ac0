@@ -63,7 +63,7 @@ public class Map
 		vertices      = (float[])data[0];
 		vertexIndices = (short[])data[4];
 		
-		allVertices = ArrayUtil.removeIndices(vertices, vertexIndices);
+		allVertices = ArrayUtil.removeIndices(allVertices, vertexIndices);
 		
 		bunnyV = new VerticesBuffer(vertices.length, 3);
 		bunnyV.addData(vertices);
