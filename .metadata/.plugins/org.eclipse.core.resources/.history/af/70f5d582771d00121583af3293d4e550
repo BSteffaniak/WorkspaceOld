@@ -1,0 +1,18 @@
+import net.foxycorndog.jdoutil.network.Client;
+
+public class Clie
+{
+	private Client client;
+	
+	public static void main(String args[])
+	{
+		new Clie();
+	}
+	
+	public Clie()
+	{
+		client = new Client("0.0.0.0", 5565);
+		
+		System.out.println(client.isConnected());
+	}
+}

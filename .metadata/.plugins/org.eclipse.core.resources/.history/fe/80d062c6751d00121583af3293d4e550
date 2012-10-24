@@ -1,0 +1,28 @@
+import java.io.IOException;
+
+import net.foxycorndog.jdoutil.network.Server;
+
+public class Serv
+{
+	Server server;
+	
+	public static void main(String args[])
+	{
+		new Serv();
+	}
+	
+	public Serv()
+	{
+		server = new Server(5565);
+		
+		try {
+			server.getIn().readObject();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

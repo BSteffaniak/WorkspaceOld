@@ -1,0 +1,257 @@
+package net.foxycorndog.jdoutil.network;
+
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.SocketException;
+
+public abstract class Network
+{
+	private boolean            connected;
+	private boolean            receivedCards;
+	
+	private ObjectOutputStream out;
+	private ObjectInputStream  in;
+	
+	private Socket             connection;
+	
+	private InputLoop          inputLoop;
+	
+	/**
+	* Constructor method that is used to set the PokerGame variable
+	* to the PokerGame variable sent through the parameters.
+	* 
+	* @param poker The PokerGame that this network is working
+	* 		in conjunction with.
+	*/
+	public Network()
+	{
+		
+	}
+	
+	/**
+	* Method used to send a packet to the other Network.
+	* 
+	* @param object The Packet to send to the other Network.
+	*/
+	public void sendPacket(Packet object)
+	{
+		try
+		{
+			out.writeObject(object);
+			
+			out.writeObject(new Ping());
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	* Method to send an already created Ping object to the other
+	* Network.
+	* 
+	* @param ping The Ping that has been received from the other
+	* 		Network.
+	*/
+	public void ping(Ping ping)
+	{
+		try
+		{
+			out.writeObject(ping);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	* Method to retrieve whether the Network has received the cards.
+	* 
+	* @return Whether the Network has received the cards.
+	*/
+	public boolean hasReceivedCards()
+	{
+		return receivedCards;
+	}
+	
+	/**
+	* Method that sets whether the Network has received the Cards
+	* from the other Network or not.
+	* 
+	* @param received Whether the Network has received the Cards or not.
+	*/
+	public void setReceivedCards(boolean received)
+	{
+		this.receivedCards = received;
+	}
+	
+	/**
+	* Method that gets whether the Network is connected to another
+	* Network or not.
+	* 
+	* @return Whether the Network is connected to another Network or not.
+	*/
+	public boolean isConnected()
+	{
+		return connected;
+	}
+	
+	/**
+	* Method that sets whether the Network is connected to another
+	* Network or not.
+	* 
+	* @param connected Whether the Network is connected to another
+	* 		Network or not.
+	*/
+	public void setCondnected(boolean connected)
+	{
+		this.connected = connected;
+	}
+	
+	/**
+	* Method to get the ObjectOutputStream of the Network.
+	* 
+	* @return The ObjectOutputStream of the Network.
+	*/
+	public ObjectOutputStream getOut()
+	{
+		return out;
+	}
+	
+	/**
+	* Method to set the ObjectOutputStream for the Network.
+	* 
+	* @param out The ObjectOutputStream for the Network to send objects
+	* 		to the other Network.
+	*/
+	public void setOut(ObjectOutputStream out)
+	{
+		this.out = out;
+	}
+	
+	/**
+	* Method to get the ObjectInputStream of the Network.
+	* 
+	* @return The ObjectInputStream of the Network.
+	*/
+	public ObjectInputStream getIn()
+	{
+		return in;
+	}
+	
+	/**
+	* Method to set the ObjectInputStream for the Network.
+	* 
+	* @param in The ObjectInputStream for the Network to read objects
+	* 		from the other Network.
+	*/
+	public void setIn(ObjectInputStream in)
+	{
+		this.in = in;
+	}
+	
+	/**
+	* Method to set the connection to a Socket.
+	* 
+	* @param connection The Socket to set as the connection.
+	*/
+	public void setConnection(Socket connection)
+	{
+		this.connection = connection;
+	}
+	
+	/**
+	* Class that is used for the loop that loops through all
+	* of the input received from the other Network.
+	* 
+	* @author Braden Steffaniak
+	*/
+	abstract class InputLoop
+	{
+		/**
+		* Default Constructor for the InputLoop class.
+		*/
+		public InputLoop()
+		{
+			
+		}
+
+		/**
+		* Method that is called when a Ping is received from the
+		* other Network.
+		* 
+		* @param player The Ping that was received from the other
+		* 		Network.
+		*/
+		public void onReceivedPing(Ping ping)
+		{
+			if (ping.wasReceived())
+			{
+				ping.calculatePing();
+				
+				System.out.println("Ping: " + ping.getPing());
+			}
+			else
+			{
+				ping.receive();
+				
+				ping(ping);
+			}
+		}
+		
+		public abstract void onReceivedPacket(Packet packet);
+		
+		/**
+		* The loop method that runs forever while the Socket is
+		* connected.
+		*/
+		public final void start()
+		{
+			while (connection.isConnected())
+			{
+				Packet packet = null;
+				
+				try
+				{
+					packet = (Packet)in.readObject();
+					
+					
+				}
+				catch (SocketException ex)
+				{
+					break;
+				}
+				catch (EOFException ex)
+				{
+					break;
+				}
+				catch (ClassNotFoundException e)
+				{
+					e.printStackTrace();
+					
+					break;
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+					
+					break;
+				}
+				
+				if (packet instanceof Ping)
+				{
+					onReceivedPing((Ping)packet);
+				}
+				else
+				{
+					onReceivedPacket(packet);
+				}
+			}
+		}
+	}
+}

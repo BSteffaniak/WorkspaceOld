@@ -1,0 +1,73 @@
+package net.foxycorndog.jdoutil.network;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class Server extends Network
+{
+	private int          port;
+	
+	private ServerSocket server;
+	
+	/**
+	* Creates a Server that extends the Network class. This constructor
+	* method is used for creating a new ServerSocket.
+	* 
+	* @param port The port of the created Server
+	* @param poker The PokerGame object that the Server is created from.
+	*/
+	public Server(int port)
+	{
+		this.port = port;
+	}
+	
+	public void create()
+	{
+		try
+		{
+			server = new ServerSocket(port);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		new Thread()
+		{
+			public void run()
+			{
+				try
+				{
+					try
+					{
+						System.out.println("Server started on " + InetAddress.getLocalHost().getHostAddress() + ":" + port);
+					}
+					catch (UnknownHostException e)
+					{
+						e.printStackTrace();
+					}
+					
+					setConnection(server.accept());
+					
+					setConnected(true);
+					
+					System.out.println("Connected!");
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+				
+				while (isConnected())
+				{
+					
+				}
+			}
+		}.start();
+	}
+}

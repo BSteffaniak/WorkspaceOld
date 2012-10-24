@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="27" version="2.0">
+<workbench progressCount="25" version="2.0">
 <workbenchAdvisor/>
 <window height="768" maximized="true" width="1024" x="125" y="125">
 <fastViewData fastViewLocation="1024"/>
@@ -87,9 +87,9 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDobase/src/net/foxycorndog/jdobase/Base.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="11" selectionOffset="4042" selectionTopPixel="0"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="VerticesBuffer.java" partName="VerticesBuffer.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoutil/src/net/foxycorndog/jdoutil/VerticesBuffer.java" title="VerticesBuffer.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/VerticesBuffer.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="VerticesBuffer.java" partName="VerticesBuffer.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoutil/src/net/foxycorndog/jdoutil/VerticesBuffer.java" title="VerticesBuffer.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/VerticesBuffer.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoutil/src/net/foxycorndog/jdoutil/VerticesBuffer.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1899" selectionTopPixel="1386"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="LightBuffer.java" partName="LightBuffer.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoutil/src/net/foxycorndog/jdoutil/LightBuffer.java" title="LightBuffer.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/LightBuffer.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoutil/src/net/foxycorndog/jdoutil/LightBuffer.java"/>
@@ -99,9 +99,9 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/input/KeyboardInput.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4469" selectionTopPixel="2086"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ModelLoader.java" partName="ModelLoader.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoutil/src/net/foxycorndog/jdoutil/ModelLoader.java" title="ModelLoader.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/ModelLoader.java" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ModelLoader.java" partName="ModelLoader.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoutil/src/net/foxycorndog/jdoutil/ModelLoader.java" title="ModelLoader.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/ModelLoader.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoutil/src/net/foxycorndog/jdoutil/ModelLoader.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3017" selectionTopPixel="1915"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3243" selectionTopPixel="1957"/>
 </editor>
 </editors>
 <views>
@@ -119,7 +119,9 @@
 </view>
 <view id="org.eclipse.jdt.ui.PackageExplorer" partName="Package Explorer">
 <viewState group_libraries="1" layout="2" linkWithEditor="0" rootMode="1" workingSetName="">
-<customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
+<customFilters userDefinedPatternsEnabled="false">
+<xmlDefinedFilters>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.LocalTypesFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.StaticsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.ClosedProjectsFilter" isEnabled="false"/>
@@ -293,164 +295,163 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/GL.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/map/Map.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoutil/src/net/foxycorndog/jdoutil/VerticesBuffer.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoutil/src/net/foxycorndog/jdoutil/LightBuffer.java"/>
-<editor factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" org.eclipse.jdt.ui.ClassFileIdentifier="=jDoogl/\/gafggfds\/LWJGL\/lwjgl-2.8.4\/lwjgl-2.8.4\/jar\/lwjgl.jar&lt;org.lwjgl.opengl(GL11.class"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoutil/src/net/foxycorndog/jdoutil/LightBuffer.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/map/Map.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/GL.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoutil/src/net/foxycorndog/jdoutil/network/Server.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoutil/src/net/foxycorndog/jdoutil/network/Network.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoutil/src/net/foxycorndog/jdoutil/network/Client.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/NetworkTest/src/Serv.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/NetworkTest/src/Clie.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoutil/src/net/foxycorndog/jdoutil/network/Packet.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoutil/src/net/foxycorndog/jdoutil/ModelLoader.java"/>
 </editors>
-<item historyLabel="Map.java" index="1">
-<position info="not_deleted" x="1110" y="0"/>
+<item historyLabel="Packet.java" index="5">
+<position info="not_deleted" x="77" y="0"/>
 </item>
-<item historyLabel="GL.java" index="0">
-<position/>
+<item historyLabel="Client.java" index="2">
+<position info="not_deleted" x="1349" y="0"/>
 </item>
-<item historyLabel="VerticesBuffer.java" index="2">
-<position info="not_deleted" x="2397" y="0"/>
+<item historyLabel="Network.java" index="1">
+<position info="not_deleted" x="553" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="3">
-<position info="not_deleted" x="3727" y="0"/>
+<item historyLabel="Server.java" index="0">
+<position info="not_deleted" x="1347" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="3">
-<position info="not_deleted" x="1232" y="0"/>
+<item historyLabel="Network.java" index="1">
+<position info="not_deleted" x="553" y="0"/>
 </item>
-<item historyLabel="GL11.class" index="4">
-<position info="not_deleted" x="162198" y="104"/>
+<item historyLabel="Network.java" index="1">
+<position info="not_deleted" x="1106" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="3">
-<position info="not_deleted" x="1232" y="0"/>
+<item historyLabel="Server.java" index="0">
+<position info="not_deleted" x="1519" y="17"/>
 </item>
-<item historyLabel="GL.java" index="0">
-<position info="not_deleted" x="34763" y="76"/>
+<item historyLabel="Client.java" index="2">
+<position info="not_deleted" x="222" y="0"/>
 </item>
-<item historyLabel="GL.java" index="0">
-<position info="not_deleted" x="34659" y="0"/>
+<item historyLabel="Server.java" index="0">
+<position info="not_deleted" x="1540" y="0"/>
 </item>
-<item historyLabel="GL.java" index="0">
-<position info="not_deleted" x="34763" y="76"/>
+<item historyLabel="Client.java" index="2">
+<position info="not_deleted" x="1353" y="0"/>
 </item>
-<item historyLabel="GL.java" index="0">
-<position info="not_deleted" x="30318" y="0"/>
+<item historyLabel="Serv.java" index="3">
+<position info="not_deleted" x="280" y="276"/>
 </item>
-<item historyLabel="VerticesBuffer.java" index="2">
-<position info="not_deleted" x="2397" y="0"/>
+<item historyLabel="Clie.java" index="4">
+<position info="not_deleted" x="575" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="3">
-<position info="not_deleted" x="1390" y="0"/>
+<item historyLabel="Serv.java" index="3">
+<position info="not_deleted" x="339" y="45"/>
 </item>
-<item historyLabel="VerticesBuffer.java" index="2">
-<position info="not_deleted" x="828" y="0"/>
+<item historyLabel="Clie.java" index="4">
+<position info="not_deleted" x="563" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="3">
-<position info="not_deleted" x="1390" y="0"/>
+<item historyLabel="Serv.java" index="3">
+<position info="not_deleted" x="584" y="0"/>
 </item>
-<item historyLabel="VerticesBuffer.java" index="2">
-<position info="not_deleted" x="828" y="0"/>
+<item historyLabel="Client.java" index="2">
+<position info="not_deleted" x="1332" y="0"/>
 </item>
-<item historyLabel="GL.java" index="0">
-<position info="not_deleted" x="34851" y="0"/>
+<item historyLabel="Server.java" index="0">
+<position info="not_deleted" x="1540" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="3">
-<position info="not_deleted" x="1176" y="0"/>
+<item historyLabel="Client.java" index="2">
+<position info="not_deleted" x="1332" y="0"/>
 </item>
-<item historyLabel="VerticesBuffer.java" index="2">
-<position info="not_deleted" x="828" y="0"/>
+<item historyLabel="Network.java" index="1">
+<position info="not_deleted" x="1106" y="0"/>
 </item>
-<item historyLabel="VerticesBuffer.java" index="2">
-<position info="not_deleted" x="2691" y="0"/>
+<item historyLabel="Network.java" index="1">
+<position info="not_deleted" x="997" y="6"/>
 </item>
-<item historyLabel="GL.java" index="0">
-<position info="not_deleted" x="34851" y="0"/>
+<item historyLabel="Network.java" index="1">
+<position info="not_deleted" x="803" y="0"/>
 </item>
-<item historyLabel="GL.java" index="0">
-<position info="not_deleted" x="34738" y="0"/>
+<item historyLabel="Network.java" index="1">
+<position info="not_deleted" x="1234" y="0"/>
 </item>
-<item historyLabel="GL.java" index="0">
-<position info="not_deleted" x="36986" y="60"/>
+<item historyLabel="Client.java" index="2">
+<position info="not_deleted" x="1332" y="0"/>
 </item>
-<item historyLabel="GL.java" index="0">
-<position info="not_deleted" x="26512" y="0"/>
+<item historyLabel="Network.java" index="1">
+<position info="not_deleted" x="1234" y="0"/>
 </item>
-<item historyLabel="GL.java" index="0">
-<position info="not_deleted" x="30057" y="0"/>
+<item historyLabel="Client.java" index="2">
+<position info="not_deleted" x="1332" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="3">
-<position info="not_deleted" x="1176" y="0"/>
+<item historyLabel="Server.java" index="0">
+<position info="not_deleted" x="1519" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="3">
-<position/>
+<item historyLabel="Client.java" index="2">
+<position info="not_deleted" x="1332" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="3">
-<position info="not_deleted" x="1163" y="0"/>
+<item historyLabel="Network.java" index="1">
+<position info="not_deleted" x="1234" y="0"/>
 </item>
-<item historyLabel="GL.java" index="0">
-<position info="not_deleted" x="32644" y="0"/>
+<item historyLabel="Network.java" index="1">
+<position info="not_deleted" x="895" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="3">
-<position info="not_deleted" x="1475" y="0"/>
+<item historyLabel="Network.java" index="1">
+<position info="not_deleted" x="4089" y="9"/>
 </item>
-<item historyLabel="VerticesBuffer.java" index="2">
-<position info="not_deleted" x="3355" y="0"/>
+<item historyLabel="Network.java" index="1">
+<position info="not_deleted" x="1038" y="0"/>
 </item>
-<item historyLabel="GL.java" index="0">
-<position info="not_deleted" x="36370" y="0"/>
+<item historyLabel="Network.java" index="1">
+<position info="not_deleted" x="5014" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="3">
-<position info="not_deleted" x="1385" y="0"/>
+<item historyLabel="Client.java" index="2">
+<position info="not_deleted" x="1332" y="0"/>
 </item>
-<item historyLabel="VerticesBuffer.java" index="2">
-<position info="not_deleted" x="3773" y="0"/>
+<item historyLabel="Clie.java" index="4">
+<position info="not_deleted" x="563" y="0"/>
 </item>
-<item historyLabel="GL.java" index="0">
-<position info="not_deleted" x="34488" y="0"/>
+<item historyLabel="Packet.java" index="5">
+<position info="not_deleted" x="320" y="0"/>
 </item>
-<item historyLabel="VerticesBuffer.java" index="2">
-<position info="not_deleted" x="3704" y="0"/>
+<item historyLabel="Server.java" index="0">
+<position info="not_deleted" x="1117" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="3">
-<position info="not_deleted" x="1265" y="0"/>
+<item historyLabel="Network.java" index="1">
+<position info="not_deleted" x="5045" y="0"/>
 </item>
-<item historyLabel="VerticesBuffer.java" index="2">
-<position info="not_deleted" x="3540" y="0"/>
+<item historyLabel="Server.java" index="0">
+<position info="not_deleted" x="1117" y="0"/>
 </item>
-<item historyLabel="GL.java" index="0">
-<position info="not_deleted" x="34488" y="0"/>
+<item historyLabel="Serv.java" index="3">
+<position info="not_deleted" x="584" y="0"/>
 </item>
-<item historyLabel="GL.java" index="0">
-<position info="not_deleted" x="32423" y="0"/>
+<item historyLabel="Serv.java" index="3">
+<position info="not_deleted" x="537" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="3">
-<position info="not_deleted" x="3828" y="0"/>
+<item historyLabel="Packet.java" index="5">
+<position info="not_deleted" x="464" y="0"/>
 </item>
-<item historyLabel="VerticesBuffer.java" index="2">
-<position info="not_deleted" x="3540" y="0"/>
+<item historyLabel="Serv.java" index="3">
+<position info="not_deleted" x="384" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="5">
-<position info="not_deleted" x="3786" y="0"/>
+<item historyLabel="Server.java" index="0">
+<position info="not_deleted" x="1117" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="5">
-<position info="not_deleted" x="2220" y="0"/>
+<item historyLabel="Server.java" index="0">
+<position info="not_deleted" x="897" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="5">
-<position info="not_deleted" x="2233" y="0"/>
+<item historyLabel="Clie.java" index="4">
+<position info="not_deleted" x="575" y="0"/>
 </item>
-<item historyLabel="LightBuffer.java" index="5">
-<position info="not_deleted" x="3603" y="0"/>
+<item historyLabel="Serv.java" index="3">
+<position info="not_deleted" x="384" y="160"/>
 </item>
-<item historyLabel="LightBuffer.java" index="5">
-<position info="not_deleted" x="3606" y="0"/>
+<item historyLabel="Clie.java" index="4">
+<position info="not_deleted" x="563" y="0"/>
 </item>
-<item historyLabel="Map.java" index="6">
-<position info="not_deleted" x="1110" y="0"/>
+<item historyLabel="Serv.java" index="3">
+<position info="not_deleted" x="384" y="160"/>
 </item>
-<item historyLabel="GL.java" index="7">
-<position info="not_deleted" x="32423" y="0"/>
+<item historyLabel="Server.java" index="0">
+<position info="not_deleted" x="897" y="0"/>
 </item>
-<item active="true" historyLabel="VerticesBuffer.java" index="2">
-<position info="not_deleted" x="1899" y="0"/>
+<item active="true" historyLabel="ModelLoader.java" index="6">
+<position info="not_deleted" x="3017" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -474,50 +475,50 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Server.java" tooltip="Poker Game/src/net/foxycorndog/poker/multiplayer/Server.java">
+<persistable path="/Poker Game/src/net/foxycorndog/poker/multiplayer/Server.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Network.java" tooltip="Poker Game/src/net/foxycorndog/poker/multiplayer/Network.java">
+<persistable path="/Poker Game/src/net/foxycorndog/poker/multiplayer/Network.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PokerGame.java" tooltip="Poker Game/src/net/foxycorndog/poker/PokerGame.java">
+<persistable path="/Poker Game/src/net/foxycorndog/poker/PokerGame.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Clie.java" tooltip="NetworkTest/src/Clie.java">
+<persistable path="/NetworkTest/src/Clie.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Serv.java" tooltip="NetworkTest/src/Serv.java">
+<persistable path="/NetworkTest/src/Serv.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Client.java" tooltip="Poker Game/src/net/foxycorndog/poker/multiplayer/Client.java">
+<persistable path="/Poker Game/src/net/foxycorndog/poker/multiplayer/Client.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Client.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/network/Client.java">
+<persistable path="/jDoutil/src/net/foxycorndog/jdoutil/network/Client.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Packet.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/network/Packet.java">
+<persistable path="/jDoutil/src/net/foxycorndog/jdoutil/network/Packet.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Packet.java" tooltip="Poker Game/src/net/foxycorndog/poker/packet/Packet.java">
+<persistable path="/Poker Game/src/net/foxycorndog/poker/packet/Packet.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Ping.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/network/Ping.java">
+<persistable path="/jDoutil/src/net/foxycorndog/jdoutil/network/Ping.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Ping.java" tooltip="Poker Game/src/net/foxycorndog/poker/packet/Ping.java">
+<persistable path="/Poker Game/src/net/foxycorndog/poker/packet/Ping.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Network.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/network/Network.java">
+<persistable path="/jDoutil/src/net/foxycorndog/jdoutil/network/Network.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Server.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/network/Server.java">
+<persistable path="/jDoutil/src/net/foxycorndog/jdoutil/network/Server.java"/>
+</file>
 <file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="GL11.class" tooltip="org.lwjgl.opengl.GL11">
 <persistable org.eclipse.jdt.ui.ClassFileIdentifier="=jDoogl/\/gafggfds\/LWJGL\/lwjgl-2.8.4\/lwjgl-2.8.4\/jar\/lwjgl.jar&lt;org.lwjgl.opengl(GL11.class"/>
 </file>
 <file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="Float.class" tooltip="java.lang.Float">
 <persistable org.eclipse.jdt.ui.ClassFileIdentifier="=jDoutil/C:\/Program Files\/Java\/jre6\/lib\/rt.jar&lt;java.lang(Float.class"/>
-</file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="BufferChecks.class" tooltip="org.lwjgl.BufferChecks">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=jDoogl/\/gafggfds\/LWJGL\/lwjgl-2.8.4\/lwjgl-2.8.4\/jar\/lwjgl.jar&lt;org.lwjgl(BufferChecks.class"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ModelLoader.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/ModelLoader.java">
-<persistable path="/jDoutil/src/net/foxycorndog/jdoutil/ModelLoader.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="P1xeland.java" tooltip="P1XELAND/src/net/foxycorndog/p1xeland/P1xeland.java">
-<persistable path="/P1XELAND/src/net/foxycorndog/p1xeland/P1xeland.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="VerticesBuffer.java" tooltip="jDoutilAndroid/src/net/foxycorndog/jdoutil/VerticesBuffer.java">
-<persistable path="/jDoutilAndroid/src/net/foxycorndog/jdoutil/VerticesBuffer.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="KeyboardInput.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/input/KeyboardInput.java">
-<persistable path="/jDoogl/src/net/foxycorndog/jdoogl/input/KeyboardInput.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Chunk.java" tooltip="P1XELAND/src/net/foxycorndog/p1xeland/map/chunks/Chunk.java">
-<persistable path="/P1XELAND/src/net/foxycorndog/p1xeland/map/chunks/Chunk.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="DayCycle.java" tooltip="P1XELAND/src/net/foxycorndog/p1xeland/map/DayCycle.java">
-<persistable path="/P1XELAND/src/net/foxycorndog/p1xeland/map/DayCycle.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" tooltip="P1XELAND/src/net/foxycorndog/p1xeland/actors/Player.java">
-<persistable path="/P1XELAND/src/net/foxycorndog/p1xeland/actors/Player.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Inventory.java" tooltip="P1XELAND/src/net/foxycorndog/p1xeland/actors/Inventory.java">
-<persistable path="/P1XELAND/src/net/foxycorndog/p1xeland/actors/Inventory.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Frame.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/components/Frame.java">
-<persistable path="/jDoogl/src/net/foxycorndog/jdoogl/components/Frame.java"/>
-</file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="FloatBuffer.class" tooltip="java.nio.FloatBuffer">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=jDoutil/C:\/Program Files\/Java\/jre6\/lib\/rt.jar&lt;java.nio(FloatBuffer.class"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="LightBuffer.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/LightBuffer.java">
-<persistable path="/jDoutil/src/net/foxycorndog/jdoutil/LightBuffer.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="HeavyBuffer.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/HeavyBuffer.java">
-<persistable path="/jDoutil/src/net/foxycorndog/jdoutil/HeavyBuffer.java"/>
 </file>
 </mruList>
 </workbench>

@@ -25,7 +25,7 @@ public abstract class Network
 	private boolean            connected;
 	private boolean            receivedCards;
 	
-	private ObjectOutputStream out;
+	private ObjectOutputStream outj;
 	private ObjectInputStream  in;
 	
 	private Socket             connection;
