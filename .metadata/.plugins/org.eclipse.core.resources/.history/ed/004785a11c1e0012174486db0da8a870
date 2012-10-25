@@ -1,0 +1,109 @@
+package net.foxycorndog.jdoogl.model;
+
+import java.io.File;
+import java.net.URISyntaxException;
+
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoutil.ArrayUtil;
+import net.foxycorndog.jdoutil.Intersects;
+import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
+
+public class Model
+{
+	private float          x, y, z;
+	private float          width, height, depth;
+	
+	private LightBuffer    texturesBuffer, colorsBuffer;
+	
+	private VerticesBuffer verticesBuffer, allVerticesBuffer;
+	
+	private short          vertexIndices[], normalIndices[];
+	
+	private float          allVertices[], textures[], normals[], colors[], vertices[];
+	
+	public Model(String location)
+	{
+		File file = new File(location);
+		
+		setValues(file);
+	}
+	
+	public Model(String location, Class clazz)
+	{
+		File file = null;
+		
+		try
+		{
+			file = new File(clazz.getClassLoader().getResource(location).toURI());
+		}
+		catch (URISyntaxException e)
+		{
+			e.printStackTrace();
+		}
+
+		setValues(file);
+	}
+	
+	public Model(File file)
+	{
+		setValues(file);
+	}
+	
+	private void setValues(File file)
+	{
+		Object data[] = ModelLoader.loadModel(file, true, true, true, true, true, true);
+		
+		vertices      = (float[])data[0];
+		textures      = (float[])data[1];
+		normals       = (float[])data[2];
+		colors        = (float[])data[3];
+		vertexIndices = (short[])data[4];
+		normalIndices = (short[])data[5];
+		
+		allVertices   = ArrayUtil.removeIndices(vertices, vertexIndices);
+		
+		verticesBuffer = new VerticesBuffer(vertices.length, 2);
+		verticesBuffer.addData(vertices);
+		
+		allVerticesBuffer = new VerticesBuffer(allVertices.length, 2);
+		allVerticesBuffer.addData(allVertices);
+	}
+	
+	public boolean inside(float x, float y, float z)
+	{
+		if (Intersects.cubes(x, y, z, 1, 1, 1, this.x, this.y, this.z, width, height, depth))
+		{
+			float slope   = 0;
+			
+			int   counter = 0;
+			
+			for (int i = 0; i < vertices.length; i += 3)
+			{
+				if ()
+				{
+					counter ++;
+				}
+			}
+			
+			if (counter % 2 != 0)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public void render()
+	{
+		if (GL.DRAW_MODE_ELEMENTS)
+		{
+			GL.renderTriangles(verticesBuffer, null, null, null, null, 0, vertices.length / 3 / 3, null);
+		}
+		else
+		{
+			GL.renderTriangles(allVerticesBuffer, null, null, null, null, 0, allVertices.length / 3 / 3, null);
+		}
+	}
+}

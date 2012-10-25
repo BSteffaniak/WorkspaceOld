@@ -1,0 +1,61 @@
+package net.foxycorndog.jdoogl.model;
+
+import java.io.File;
+import java.net.URISyntaxException;
+
+import net.foxycorndog.jdoutil.Intersects;
+
+public class Model
+{
+	private float x, y, z;
+	private float width, height, depth;
+	
+	private short vertexIndices[], normalIndices[];
+	
+	private float allVertices[], textures[], normals[], vertices[];
+	
+	public Model(String location)
+	{
+		File file = new File(location);
+		
+		setValues(file);
+	}
+	
+	public Model(String location, Class clazz)
+	{
+		File file = null;
+		
+		try
+		{
+			file = new File(clazz.getClassLoader().getResource(location).toURI());
+		}
+		catch (URISyntaxException e)
+		{
+			e.printStackTrace();
+		}
+
+		setValues(file);
+	}
+	
+	public Model(File file)
+	{
+		setValues(file);
+	}
+	
+	private void setValues(File file)
+	{
+		
+	}
+	
+	public void inside(float x, float y, float z)
+	{
+		if (Intersects.cubes(x, y, z, 1, 1, 1, this.x, this.y, this.z, width, height, depth))
+		{
+			float slope   = 0;
+			
+			int   counter = 0;
+			
+			for (int i = 0; i < )
+		}
+	}
+}

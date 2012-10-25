@@ -1,0 +1,39 @@
+package net.foxycorndog.jdoogl.model;
+
+import java.io.File;
+
+public class Model
+{
+	public Model(String location)
+	{
+		File file = new File(location);
+		
+		setValues(file);
+	}
+	
+	public Model(String location, Class clazz)
+	{
+		File file = new File(location);
+
+		setValues(file);
+	}
+	
+	public Model(File file)
+	{
+		setValues(file);
+	}
+	
+	private void setValues(File file)
+	{
+		
+	}
+	
+	private static File getFile(String location)
+	{
+		File file = null;
+
+		
+		
+		return file;
+	}
+}
