@@ -26,14 +26,14 @@ public class Player extends Actor
 			
 			GL.translatef(getX(), getY(), getZ());
 			
-			if (getCamera() != null)
-			{
-				GL.translatef(getCenterX(), getCenterY(), getCenterZ());
-				
-				GL.rotatef(0, -getCamera().getYaw(), 0);
-				
-				GL.translatef(-getCenterX(), -getCenterY(), -getCenterZ());
-			}
+//			if (getCamera() != null)
+//			{
+//				GL.translatef(getCenterX(), getCenterY(), getCenterZ());
+//				
+//				GL.rotatef(0, -getCamera().getYaw(), 0);
+//				
+//				GL.translatef(-getCenterX(), -getCenterY(), -getCenterZ());
+//			}
 			
 			GL.renderCubes(getVerticesBuffer(), 0, 1);
 		}

@@ -157,12 +157,14 @@ public class Model
 		
 		if (Intersects.cubes(x, y, z, 1, 1, 1, this.x, this.y, this.z, width, height, depth))
 		{
-			int   counter = 0;
+			int counter = 0;
 			
 			for (int i = 0; i < faceNormals.length; i += 3)
 			{
-				if (vec.dotProduct(faceNormals[i + 0], faceNormals[i + 1], faceNormals[i + 2]) < -0.9)
+				if (vec.dotProduct(faceNormals[i + 0], faceNormals[i + 1], faceNormals[i + 2]) < 0)
 				{
+					vertexIndices[i * 3];
+					
 					counter ++;
 				}
 			}
