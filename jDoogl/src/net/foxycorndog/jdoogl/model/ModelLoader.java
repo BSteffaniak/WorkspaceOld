@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 public class ModelLoader
 {
-	public static Object[] loadModel(File file, boolean vertices, boolean textures, boolean normals, boolean colors, boolean vertexIndices, boolean normalIndices)
+	public static Object[] loadModel(File file, boolean vertices, boolean textures, boolean normals, boolean colors, boolean vertexIndices, boolean normalIndices, float scale)
 	{
 		BufferedReader br = null;
 		
@@ -102,7 +102,7 @@ public class ModelLoader
 				
 				for (int i = 0; i < v.size(); i ++)
 				{
-					verts[i] = v.get(i);
+					verts[i] = v.get(i) * scale;
 				}
 			}
 			if (textures)
@@ -179,8 +179,13 @@ public class ModelLoader
 	
 	public static Object[] loadModel(String location, boolean vertices, boolean textures, boolean normals, boolean colors, boolean vertexIndices, boolean normalIndices)
 	{
+		return loadModel(location, vertices, textures, normals, colors, vertexIndices, normalIndices, 1);
+	}
+	
+	public static Object[] loadModel(String location, boolean vertices, boolean textures, boolean normals, boolean colors, boolean vertexIndices, boolean normalIndices, float scale)
+	{
 		File file = new File(location);
 		
-		return loadModel(file, vertices, textures, normals, colors, vertexIndices, normalIndices);
+		return loadModel(file, vertices, textures, normals, colors, vertexIndices, normalIndices, scale);
 	}
 }

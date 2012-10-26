@@ -62,6 +62,11 @@ public class Actor
 	
 	public boolean collided(Map map)
 	{
+		if (map.collided(this))
+		{
+			return true;
+		}
+		
 		float cubes[] = map.getCubes();
 		
 		for (int i = 0; i < cubes.length; i += 6)
@@ -368,5 +373,10 @@ public class Actor
 	public void destroyIndices()
 	{
 		verticesBuffer.destroyIndices();
+	}
+	
+	public float[] getVertices()
+	{
+		return verticesBuffer.getData();
 	}
 }

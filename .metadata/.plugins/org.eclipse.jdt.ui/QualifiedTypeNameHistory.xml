@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.util.concurrent.atomic.AtomicInteger"/>
 <fullyQualifiedTypeName name="java.util.concurrent.atomic.AtomicReference"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.input.MouseInput"/>
 <fullyQualifiedTypeName name="org.lwjgl.input.Mouse"/>
@@ -11,7 +10,6 @@
 <fullyQualifiedTypeName name="java.net.URI"/>
 <fullyQualifiedTypeName name="java.net.URL"/>
 <fullyQualifiedTypeName name="net.foxycorndog.nostalgia.actor.camera.Camera"/>
-<fullyQualifiedTypeName name="net.foxycorndog.nostalgia.actor.Actor"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.camera.Camera"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.image.imagemap.Texture"/>
 <fullyQualifiedTypeName name="javax.naming.OperationNotSupportedException"/>
@@ -60,4 +58,6 @@
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.Buffer"/>
 <fullyQualifiedTypeName name="org.lwjgl.util.vector.Vector3f"/>
+<fullyQualifiedTypeName name="net.foxycorndog.nostalgia.actor.Actor"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoutil.Vector"/>
 </qualifiedTypeNameHistroy>
