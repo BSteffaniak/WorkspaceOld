@@ -8,7 +8,9 @@ import net.foxycorndog.jdoogl.model.ModelLoader;
 import net.foxycorndog.jdoutil.ArrayUtil;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.Task;
+import net.foxycorndog.jdoutil.Vector;
 import net.foxycorndog.jdoutil.VerticesBuffer;
+import net.foxycorndog.nostalgia.actor.Actor;
 
 public class Map
 {
@@ -61,7 +63,7 @@ public class Map
 		
 		addCube(-100, -2, -100, 200, 2, 200, GL.white, 200, 200, 200, 255, index ++);
 		
-		bunny = new Model("res/bunny.obj");
+		bunny = new Model("res/bunny.obj", 20);
 	}
 	
 	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int colors[][], int index)
@@ -119,16 +121,21 @@ public class Map
 		addCube(x, y, z, width, height, depth, textures, colors, index);
 	}
 	
+	public boolean collided(Actor actor)
+	{
+		float vertices[] = actor.getVertices();
+		
+		if (bunny.collision(vertices, new Vector(actor.getX(), actor.getY(), actor.getZ())))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public void render()
 	{
-		GL.beginManipulation();
-		{
-			GL.translatef(0, 1, 0);
-			GL.scalef(20, 20, 20);
-			
-			bunny.render();
-		}
-		GL.endManipulation();
+		bunny.render();
 		
 		GL.renderCubes(verticesBuffer, texturesBuffer, null, colorsBuffer, sprites, 0, 1, null);
 		
