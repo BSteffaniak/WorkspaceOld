@@ -35,6 +35,29 @@ public class Vector
 		return (float)dotProduct;
 	}
 	
+	public static Vector crossProduct(Vector v1, Vector v2)
+	{
+		Vector cross = new Vector(0, 0, 0);
+		
+		cross.x = v1.y * v2.z - v1.z * v2.y;
+		cross.y = v1.z * v2.x - v1.x * v2.z;
+		cross.z = v1.x * v2.y - v1.y * v2.x;
+		
+		return cross;
+	}
+	
+	public void minus(Vector vector)
+	{
+		minus(vector.getX(), vector.getY(), vector.getZ());
+	}
+	
+	public void minus(float x, float y, float z)
+	{
+		this.x -= x;
+		this.y -= y;
+		this.z -= z;
+	}
+	
 	public float getX()
 	{
 		return x;

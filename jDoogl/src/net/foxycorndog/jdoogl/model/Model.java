@@ -21,7 +21,7 @@ public class Model
 	
 	private short          vertexIndices[], normalIndices[];
 	
-	private float          allVertices[], textures[], normals[], colors[], vertices[];
+	private float          allVertices[], textures[], normals[], faceNormals[], colors[], vertices[];
 	
 	public Model(String location)
 	{
@@ -86,6 +86,22 @@ public class Model
 		allVerticesBuffer = new VerticesBuffer(allVertices.length, 3);
 		allVerticesBuffer.addData(allVertices);
 		
+		faceNormals = new float[normals.length / 3];
+		
+		for (int i = 0; i < normals.length; i += 3 * 3)
+		{
+			Vector v1 = new Vector(normals[i + 0] - normals[i + 3], normals[i + 1] - normals[i + 4], normals[i + 2] - normals[i + 5]);
+			Vector v2 = new Vector(normals[i + 6] - normals[i + 0], normals[i + 7] - normals[i + 1], normals[i + 8] - normals[i + 2]);
+			
+			Vector cross = Vector.crossProduct(v1, v2);
+			
+			faceNormals[(i / 3) / 3 + 0] = (cross.getX());
+			faceNormals[(i / 3) / 3 + 1] = (cross.getY());
+			faceNormals[(i / 3) / 3 + 2] = (cross.getZ());
+			
+			System.out.println(faceNormals[(i / 3) / 3 + 0] + ", " + faceNormals[(i / 3) / 3 + 1] + ", " + faceNormals[(i / 3) / 3 + 2]);
+		}
+		
 		float x, y, z, maxX, maxY, maxZ;
 		
 		x = vertices[0];
@@ -143,11 +159,9 @@ public class Model
 		{
 			int   counter = 0;
 			
-			for (int i = 0; i < vertices.length; i += 3)
+			for (int i = 0; i < faceNormals.length; i += 3)
 			{
-				int normalI = normalIndices[i / 3];
-				
-				if (vec.dotProduct(normals[normalI + 0], normals[normalI + 1], normals[normalI + 2]) < -0.9)
+				if (vec.dotProduct(faceNormals[i + 0], faceNormals[i + 1], faceNormals[i + 2]) < -0.9)
 				{
 					counter ++;
 				}
