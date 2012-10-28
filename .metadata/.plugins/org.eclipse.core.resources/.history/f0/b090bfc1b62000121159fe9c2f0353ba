@@ -1,0 +1,87 @@
+import net.foxycorndog.jdoutil.Vector;
+
+public class Main
+{
+	public static void main(String args[])
+	{
+		new Main();
+	}
+	
+	public Main()
+	{
+		float p1x = -1;
+		float p1y = 0;
+		float p1z = 0;
+
+		float p2x = 0;
+		float p2y = 0;
+		float p2z = -2;
+		
+		float p3x = 1;
+		float p3y = 0;
+		float p3z = 0;
+		
+		float l1x = 1;
+		float l1y = 5;
+		float l1z = -1;
+
+		float l2x = 1;
+		float l2y = -5;
+		float l2z = -1;
+		
+		Vector v = new Vector(l1x - l2x, l1y - l2y, l1z - l2z);
+		
+		Vector c1 = new Vector(p2x - p1x, p2y - p1y, p2z - p1z);
+		Vector c2 = new Vector(p3x - p1x, p3y - p1y, p3z - p1z);
+		
+		Vector crossProd = Vector.crossProduct(c1, c2);
+		
+		Vector p2 = new Vector(l2x, l2y, l2z);
+		Vector p1 = new Vector(l1x, l1y, l1z);
+		
+		System.out.println(crossProd + ", " + p1 + ", " + p2);
+		
+		float t = solveForT(crossProd, p2, p1);
+		
+		Vector lineVector = p1.clone();
+		
+		lineVector.minus(p2);
+		
+		System.out.println(lineVector + ", " + p1 + ", " + p2 + ", " + t);
+		float intersection[] = solveForIntersection(p1, lineVector, t);
+		
+		System.out.println(intersection[0] + ", " + intersection[1] + ", " + intersection[2]);
+	}
+	
+	private float[] solveForIntersection(Vector point, Vector vector, float t)
+	{
+		float x = point.getX() + (vector.getX() * t);
+		float y = point.getY() + (vector.getY() * t);
+		float z = point.getZ() + (vector.getZ() * t);
+		
+		return new float[] { x, y, z };
+	}
+	
+	private float solveForT(Vector normal, Vector point1, Vector point2)
+	{
+		float results[] = Vector.dotProductCoefficients(normal, point1, point2);
+		
+		float a = results[0];
+		float b = results[1];
+		float c = results[2];
+		
+		float x1 = point2.getX();
+		float y1 = point2.getY();
+		float z1 = point2.getZ();
+		
+		point1 = point1.clone();
+		
+		point1.minus(point2);
+		
+		System.out.println(point1);
+		
+		float t = (b * y1) / (b * point1.getY());
+		
+		return t;
+	}
+}

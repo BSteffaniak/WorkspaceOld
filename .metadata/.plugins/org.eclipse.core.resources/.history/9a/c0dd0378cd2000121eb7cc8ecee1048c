@@ -1,0 +1,276 @@
+package net.foxycorndog.jdoutil;
+
+import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
+import java.util.HashMap;
+import java.util.HashSet;
+
+import net.foxycorndog.jdobase.Base;
+
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
+import org.lwjgl.util.vector.Vector3f;
+
+public class VerticesBuffer extends LightBuffer
+{
+	private boolean     useIndices;
+	
+	private int         vertexSize;
+	private int         indicesId;
+	
+	private ShortBuffer indices;
+	
+	public VerticesBuffer(int size, int vertexSize)
+	{
+		super(size);
+		
+		this.vertexSize = vertexSize;
+		
+		useIndices = Base.getDrawMode() == Base.ELEMENTS;
+		
+		init();
+	}
+	
+	public int getVertexSize()
+	{
+		return vertexSize;
+	}
+	
+	private void init()
+	{
+		if (useIndices)
+		{
+			genIndices(GL11.GL_QUADS);
+		}
+		
+		if (Base.isUsingVBO())
+		{
+			indicesId = GL15.glGenBuffers();
+		}
+	}
+	
+	public void setData(int position, float elements[])
+	{
+//		if (Base.getDrawMode() == Base.ARRAYS)
+//		{
+//			position = (position / 4) * 3 * 2;
+//		}
+		
+		super.setData(position, elements);
+		
+		if (useIndices && position % (4 * vertexSize) == 0)
+		{
+			setIndices(position / vertexSize, position / vertexSize, (elements.length / vertexSize) / 4);
+		}
+	}
+	
+	private void setIndices(int position, int offset, int amount)
+	{
+		if (useIndices && indices == null)
+		{
+			genIndices(GL11.GL_QUADS);
+			
+			//return;
+		}
+		
+		indices.position(position);
+		
+		short ind[] = new short[4 * amount];
+		
+		for (int i = 0; i < amount; i += 4)
+		{
+			ind[0 + i] = (short)(0 + offset + i);
+			ind[1 + i] = (short)(1 + offset + i);
+			ind[2 + i] = (short)(2 + offset + i);
+			ind[3 + i] = (short)(3 + offset + i);
+		}
+		
+		indices.put(ind);
+		
+		indices.rewind();
+	}
+	
+//	public void beginEditing()
+//	{
+//		if (!Base.isUsingVBO())
+//		{
+//			return;
+//		}
+//		
+//		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, indicesId);
+//		
+////		mapBuffer = GLES11.glMapBufferOES(GLES11.GL_ARRAY_BUFFER, GLES11.GL_WRITE_ONLY, null);
+////		
+////		buffer    = mapBuffer.order(ByteOrder.nativeOrder()).asFloatBuffer();
+//	}
+//	
+//	public void endEditing()
+//	{
+//		if (!Base.isUsingVBO())
+//		{
+//			return;
+//		}
+////		glUnmapBuffer(GL_ARRAY_BUFFER);
+//				
+//		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+//	}
+	
+	public int getIndicesId()
+	{
+		indices.position(0);
+		
+		return indicesId;
+	}
+	
+	public void setIndices(short indicesArray[])
+	{
+		indices = BufferUtils.createShortBuffer(indicesArray.length);
+		
+		indices.position(0);
+		
+		indices.put(indicesArray);
+		
+		indices.rewind();
+		
+		if (Base.isUsingVBO())
+		{
+//			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesId);
+			
+//			GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indices, GL15.GL_DYNAMIC_DRAW);
+		}
+	}
+	
+	public void genIndices(int shape)
+	{
+		float vertices[] = new float[getBuffer().capacity()];
+		
+		getBuffer().get(vertices);
+		
+		genIndices(shape, vertices);
+	}
+	
+	public void genIndices(int shape, float vertices[])
+	{
+		if (shape != GL11.GL_QUADS && shape != GL11.GL_TRIANGLES)
+		{
+			return;
+		}
+		
+		short ind[] = null;
+		
+		if (vertices == null)
+		{
+			indices = BufferUtils.createShortBuffer(((size() / vertexSize) * 3) / 2);
+			
+			ind = new short[indices.capacity()];
+			
+			if (shape == GL11.GL_TRIANGLES)
+			{
+				for (int i = 0; i < ind.length; i += 3)
+				{
+					ind[i + 0] = 0;
+					ind[i + 1] = 1;
+					ind[i + 2] = 2;
+				}
+			}
+			else if (shape == GL11.GL_QUADS)
+			{
+				for (int i = 0; i < ind.length; i += 6)
+				{
+					ind[i + 0] = (short)(i + 0);
+					ind[i + 1] = (short)(i + 1);
+					ind[i + 2] = (short)(i + 2);
+					
+					ind[i + 3] = (short)(i + 0);
+					ind[i + 4] = (short)(i + 2);
+					ind[i + 5] = (short)(i + 3);
+				}
+			}
+			
+		}
+		else
+		{
+			HashMap<float[], Integer> verts;
+			
+			indices = BufferUtils.createShortBuffer(vertices.length / vertexSize);
+	
+			ind = new short[indices.capacity()];
+			
+			verts = new HashMap<float[], Integer>();
+			
+			for (int i = 0; i < vertices.length; i += vertexSize)
+			{
+				int curInd = i / vertexSize;
+				
+				float currentVerts[] = new float[vertexSize];
+				
+				for (int f = 0; f < vertexSize; f ++)
+				{
+					currentVerts[f] = vertices[i + f];
+				}
+				
+				if (curInd > 1 && verts.containsKey(currentVerts))
+				{
+					int index = (Integer)verts.get(currentVerts);
+					
+					ind[curInd] = (short)(index);
+					
+					continue;
+				}
+				
+				ind[curInd] = (short)(curInd);
+				
+				verts.put(currentVerts, curInd);
+			}
+		}
+		
+		indices.position(0);
+		
+		indices.put(ind);
+		
+		indices.rewind();
+		
+		if (Base.isUsingVBO())
+		{
+			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesId);
+			
+			GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indices, GL15.GL_STATIC_DRAW);
+			
+			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+		}
+	}
+	
+	public void destroyIndices()
+	{
+		indices = null;
+	}
+	
+	public ShortBuffer getIndices()
+	{
+		indices.position(0);
+		
+		return indices;
+	}
+	
+	public ShortBuffer getIndices(int position)
+	{
+		indices.position(position);
+		
+		return indices;
+	}
+	
+	public String toString()
+	{
+		String str = "";
+		
+		float data[] = super.getData();
+		
+		for (float f : data)
+		{
+			str += f + ", ";
+		}
+		
+		return str;
+	}
+}

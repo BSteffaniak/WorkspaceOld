@@ -1,6 +1,6 @@
 package net.foxycorndog.jdoutil;
 
-public class Vector
+public class Vector implements Cloneable
 {
 	private float x, y, z;
 	
@@ -46,6 +46,55 @@ public class Vector
 		return cross;
 	}
 	
+	public static Vector crossProduct(Vector point1, Vector point2, Vector point3)
+	{
+		point2 = point2.clone();
+		point3 = point3.clone();
+		
+		point2.minus(point1);
+		point3.minus(point1);
+		
+		return crossProduct(point2, point3);
+	}
+	
+	public static float dotProduct(Vector normal, Vector v1, Vector v2)
+	{
+		v1 = v1.clone();
+		
+		v1.minus(v2);
+		
+		return normal.dotProduct(v1);
+	}
+	
+	public static float[] dotProductCoefficients(Vector normal, Vector v1, Vector v2)
+	{
+		double a = normal.x;// * v1.x;
+		double b = normal.y;// * v1.y;
+		double c = normal.z;// * v1.z;
+		
+		v1 = v1.clone();
+		
+		v1.minus(v2);
+		
+		double d = normal.dotProduct(v1) * normal.magnitude() * v1.magnitude();//(normal.x * -v2.x) + (normal.y * -v2.y) + (normal.z * -v2.z);
+		
+		return new float[] { (float)a, (float)b, (float)c, (float)d };
+	}
+	
+	public float magnitude()
+	{
+		return (float)Math.sqrt(x * x + y * y + z * z);
+	}
+	
+	public void normalize()
+	{
+		float magnitude = magnitude();
+		
+		x /= magnitude;
+		y /= magnitude;
+		z /= magnitude;
+	}
+	
 	public void minus(Vector vector)
 	{
 		minus(vector.getX(), vector.getY(), vector.getZ());
@@ -71,5 +120,26 @@ public class Vector
 	public float getZ()
 	{
 		return z;
+	}
+	
+	public String toString()
+	{
+		return "(" + x + ", " + y + ", " + z + ")";
+	}
+	
+	public Vector clone()
+	{
+		Vector clone = null;
+		
+		try
+		{
+			clone = (Vector)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return clone;
 	}
 }

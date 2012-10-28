@@ -62,6 +62,7 @@ public class Map
 				}, index ++);
 		
 		addCube(-100, -2, -100, 200, 2, 200, GL.white, 200, 200, 200, 255, index ++);
+		verticesBuffer.genIndices(GL.QUADS, null);
 		
 		bunny = new Model("res/bunny.obj", 20);
 	}
@@ -149,7 +150,7 @@ public class Map
 	
 	public void genIndices()
 	{
-		verticesBuffer.genIndices(GL.QUADS);
+		verticesBuffer.genIndices(GL.QUADS, null);
 	}
 	
 	public void destroyIndices()

@@ -1,6 +1,7 @@
 package net.foxycorndog.nostalgia;
 
 import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.activity.GameComponent;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
@@ -13,7 +14,7 @@ import net.foxycorndog.nostalgia.actor.Player;
 import net.foxycorndog.nostalgia.actor.camera.Camera;
 import net.foxycorndog.nostalgia.map.Map;
 
-public class Main
+public class Main extends GameComponent
 {
 	private static Main    m;
 	
@@ -33,38 +34,38 @@ public class Main
 	{
 		m = new Main();
 		
-		new Frame(640, 512, "ASDF", null)
-		{
-			public void init()
-			{
-				GL.setRender3D(true);
-				
-//				GL.initBasicLights();
-				
-				m.init();
-			}
-			
-			public void render()
-			{
-				m.render();
-			}
-			
-			public void loop()
-			{
-				m.loop();
-			}
-		}.startLoop(60);
+//		new Frame(640, 512, "ASDF", null)
+//		{
+//			public void init()
+//			{
+//				GL.setRender3D(true);
+//				
+////				GL.initBasicLights();
+//				
+//				m.init();
+//			}
+//			
+//			public void render()
+//			{
+//				m.render();
+//			}
+//			
+//			public void loop()
+//			{
+//				m.loop();
+//			}
+//		}.startLoop(60);
 	}
 	
 	public Main()
 	{
-		Vector v  = new Vector(0, 10, 0);
-		
-		System.out.println(v.dotProduct(1, -1, 1));
+		super("Nostalgia", 640, 512);
 	}
 	
-	public void init()
+	public void onCreate()
 	{
+		GL.setRender3D(true);
+		
 //		texture = new Texture("res/images/grass.png");
 //		texture2 = new Texture("");
 		
@@ -152,8 +153,6 @@ public class Main
 			player.pitch(-dy * 0.10f);
 		}
 		
-		KeyboardInput.next();
-		
 		if (KeyboardInput.next(KeyboardInput.KEY_C))
 		{
 			if (player.getPerspective() == Player.THIRD)
@@ -175,14 +174,12 @@ public class Main
 			else if (GL.getDrawMode() == GL.IMMEDIATE)
 			{
 				map.genIndices();
-				player.genIndices();
 				
 				GL.setDrawMode(GL.ELEMENTS);
 			}
 			else if (GL.getDrawMode() == GL.ELEMENTS)
 			{
 				map.destroyIndices();
-				player.destroyIndices();
 				
 				GL.setDrawMode(GL.ARRAYS);
 			}

@@ -10,7 +10,6 @@ import net.foxycorndog.jdoogl.components.Frame.GameRenderer;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.input.KeyboardInput;
 import net.foxycorndog.jdoogl.input.TouchInput;
-import net.foxycorndog.jdoogl.activity.AdvancedActivity;
 import net.foxycorndog.p1xelandroid.items.tiles.Tile;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
@@ -19,7 +18,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
 
-public class MainActivity extends AdvancedActivity
+public class MainActivity extends GameComponent
 {
 	private Activity        activity;
 	

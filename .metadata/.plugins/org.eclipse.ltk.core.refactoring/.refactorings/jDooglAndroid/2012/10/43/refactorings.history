@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;net.foxycorndog.jdoogl.activity.AdvancedActivity&apos; to &apos;GameComponent&apos;&#x0D;&#x0A;- Original project: &apos;jDooglAndroid&apos;&#x0D;&#x0A;- Original element: &apos;net.foxycorndog.jdoogl.activity.AdvancedActivity&apos;&#x0D;&#x0A;- Renamed element: &apos;net.foxycorndog.jdoogl.activity.GameComponent&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;AdvancedActivity&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;net.foxycorndog.jdoogl.activity{AdvancedActivity.java[AdvancedActivity" matchStrategy="1" name="GameComponent" qualified="false" references="true" similarDeclarations="false" stamp="1351300043784" textual="false" version="1.0"/>
+</session>

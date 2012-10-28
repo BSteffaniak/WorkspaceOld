@@ -1,0 +1,80 @@
+package net.foxycorndog.jdoogl.activity;
+
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.components.Frame.GameRenderer;
+import net.foxycorndog.jdoogl.input.KeyboardInput;
+
+public abstract class GameComponent
+{
+	private GameRenderer     gameRenderer;
+	
+	public abstract void onCreate();
+	
+	public void onCreate(String title, int width, int height)
+	{
+		Frame frame = new Frame(width, height, title, false)
+		{
+			
+			@Override
+			public void render() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void loop() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void init() {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+        
+        onCreate();
+	}
+	
+	public final boolean onKeyDown(int keyCode, KeyEvent keyEvent)
+	{
+		KeyboardInput.onKeyDown(keyCode, keyEvent);
+		
+		return false;
+	}
+
+	public final boolean onKeyLongPress(int keyCode, KeyEvent keyEvent)
+	{
+		KeyboardInput.onKeyLongPress(keyCode, keyEvent);
+		
+		return false;
+	}
+
+	public final boolean onKeyMultiple(int keyCode, int count, KeyEvent keyEvent)
+	{
+		KeyboardInput.onKeyMultiple(keyCode, count, keyEvent);
+		
+		return false;
+	}
+
+	public final boolean onKeyUp(int keyCode, KeyEvent keyEvent)
+	{
+		KeyboardInput.onKeyUp(keyCode, keyEvent);
+		
+		return false;
+	}
+	
+	public GameRenderer getGameRenderer()
+	{
+		return gameRenderer;
+	}
+	
+	public abstract void render(GL10 gl);
+	
+	public abstract void loop();
+	
+	public abstract void onSurfaceChanged(GL10 gl);
+	
+	public abstract void onSurfaceCreated(GL10 gl, EGLConfig config);
+}

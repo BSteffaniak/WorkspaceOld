@@ -157,39 +157,76 @@ public class VerticesBuffer extends LightBuffer
 			return;
 		}
 		
-		HashMap<float[], Integer> verts;
-		
 		short ind[] = null;
 		
-		indices = BufferUtils.createShortBuffer(vertices.length / vertexSize);
-
-		ind = new short[indices.capacity()];
-		
-		verts = new HashMap<float[], Integer>();
-		
-		for (int i = 0; i < vertices.length; i += vertexSize)
+		if (vertices == null)
 		{
-			int curInd = i / vertexSize;
+			indices = BufferUtils.createShortBuffer(((size() / vertexSize) * 3) / 2);
 			
-			float currentVerts[] = new float[vertexSize];
+			ind = new short[indices.capacity()];
 			
-			for (int f = 0; f < vertexSize; f ++)
+			if (shape == GL11.GL_TRIANGLES)
 			{
-				currentVerts[f] = vertices[i + f];
+				for (int i = 0; i < ind.length; i += 3)
+				{
+					ind[i + 0] = (short)(i + 0);
+					ind[i + 1] = (short)(i + 1);
+					ind[i + 2] = (short)(i + 2);
+				}
+			}
+			else if (shape == GL11.GL_QUADS)
+			{
+				short index = 0;
+				
+				for (int i = 0; i < ind.length; i += 6)
+				{
+					ind[i + 0] = (short)(index + 0);
+					ind[i + 1] = (short)(index + 1);
+					ind[i + 2] = (short)(index + 2);
+					
+					ind[i + 3] = (short)(index + 0);
+					ind[i + 4] = (short)(index + 2);
+					ind[i + 5] = (short)(index + 3);
+					
+					index += 4;
+				}
 			}
 			
-			if (curInd > 1 && verts.containsKey(currentVerts))
+		}
+		else
+		{
+			HashMap<float[], Integer> verts;
+			
+			indices = BufferUtils.createShortBuffer(vertices.length / vertexSize);
+	
+			ind = new short[indices.capacity()];
+			
+			verts = new HashMap<float[], Integer>();
+			
+			for (int i = 0; i < vertices.length; i += vertexSize)
 			{
-				int index = (Integer)verts.get(currentVerts);
+				int curInd = i / vertexSize;
 				
-				ind[curInd] = (short)(index);
+				float currentVerts[] = new float[vertexSize];
 				
-				continue;
+				for (int f = 0; f < vertexSize; f ++)
+				{
+					currentVerts[f] = vertices[i + f];
+				}
+				
+				if (curInd > 1 && verts.containsKey(currentVerts))
+				{
+					int index = (Integer)verts.get(currentVerts);
+					
+					ind[curInd] = (short)(index);
+					
+					continue;
+				}
+				
+				ind[curInd] = (short)(curInd);
+				
+				verts.put(currentVerts, curInd);
 			}
-			
-			ind[curInd] = (short)(curInd);
-			
-			verts.put(currentVerts, curInd);
 		}
 		
 		indices.position(0);

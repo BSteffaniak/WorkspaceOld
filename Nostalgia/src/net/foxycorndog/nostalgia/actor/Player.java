@@ -35,7 +35,7 @@ public class Player extends Actor
 //				GL.translatef(-getCenterX(), -getCenterY(), -getCenterZ());
 //			}
 			
-			GL.renderCubes(getVerticesBuffer(), 0, 1);
+			getModel().render();
 		}
 		GL.endManipulation();
 	}

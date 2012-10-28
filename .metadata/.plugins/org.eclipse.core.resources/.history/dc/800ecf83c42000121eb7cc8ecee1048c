@@ -1,0 +1,145 @@
+package net.foxycorndog.jdoutil;
+
+public class Vector implements Cloneable
+{
+	private float x, y, z;
+	
+	public Vector(float x, float y, float z)
+	{
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+	
+	public float dotProduct(Vector vector)
+	{
+		double length1 = Math.sqrt(x * x + y * y + z * z);
+		double length2 = Math.sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+		
+		double dotProduct = (x * vector.x + y * vector.y + z * vector.z);
+		
+		dotProduct /= (length1 * length2);
+		
+		return (float)dotProduct;
+	}
+	
+	public float dotProduct(float x, float y, float z)
+	{
+		double length1 = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+		double length2 = Math.sqrt(x * x + y * y + z * z);
+		
+		double dotProduct = (this.x * x + this.y * y + this.z * z);
+		
+		dotProduct /= (length1 * length2);
+		
+		return (float)dotProduct;
+	}
+	
+	public static Vector crossProduct(Vector v1, Vector v2)
+	{
+		Vector cross = new Vector(0, 0, 0);
+		
+		cross.x = v1.y * v2.z - v1.z * v2.y;
+		cross.y = v1.z * v2.x - v1.x * v2.z;
+		cross.z = v1.x * v2.y - v1.y * v2.x;
+		
+		return cross;
+	}
+	
+	public static Vector crossProduct(Vector point1, Vector point2, Vector point3)
+	{
+		point2 = point2.clone();
+		point3 = point3.clone();
+		
+		point2.minus(point1);
+		point3.minus(point1);
+		
+		return crossProduct(point2, point3);
+	}
+	
+	public static float dotProduct(Vector normal, Vector v1, Vector v2)
+	{
+		v1 = v1.clone();
+		
+		v1.minus(v2);
+		
+		return normal.dotProduct(v1);
+	}
+	
+	public static float[] dotProductCoefficients(Vector normal, Vector v1, Vector v2)
+	{
+		double a = normal.x;// * v1.x;
+		double b = normal.y;// * v1.y;
+		double c = normal.z;// * v1.z;
+		
+		v1 = v1.clone();
+		
+		v1.minus(v2);
+		
+		double d = normal.dotProduct(v1) * normal.magnitude() * v1.magnitude();//(normal.x * -v2.x) + (normal.y * -v2.y) + (normal.z * -v2.z);
+		
+		return new float[] { (float)a, (float)b, (float)c, (float)d };
+	}
+	
+	public float magnitude()
+	{
+		return (float)Math.sqrt(x * x + y * y + z * z);
+	}
+	
+	public void normalize()
+	{
+		float magnitude = 0;
+		
+		x /= magnitude;
+		y /= magnitude;
+		z /= magnitude;
+	}
+	
+	public void minus(Vector vector)
+	{
+		minus(vector.getX(), vector.getY(), vector.getZ());
+	}
+	
+	public void minus(float x, float y, float z)
+	{
+		this.x -= x;
+		this.y -= y;
+		this.z -= z;
+	}
+	
+	public float getX()
+	{
+		return x;
+	}
+	
+	public float getY()
+	{
+		return y;
+	}
+	
+	public float getZ()
+	{
+		return z;
+	}
+	
+	public String toString()
+	{
+		return "(" + x + ", " + y + ", " + z + ")";
+	}
+	
+	public Vector clone()
+	{
+		Vector clone = null;
+		
+		try
+		{
+			clone = (Vector)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return clone;
+	}
+}

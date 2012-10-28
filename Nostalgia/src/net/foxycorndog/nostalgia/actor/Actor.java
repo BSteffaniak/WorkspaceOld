@@ -1,6 +1,7 @@
 package net.foxycorndog.nostalgia.actor;
 
 import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.model.Model;
 import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.nostalgia.actor.camera.Camera;
 import net.foxycorndog.nostalgia.map.Map;
@@ -22,7 +23,8 @@ public class Actor
 	
 	private Map     map;
 	
-	private VerticesBuffer verticesBuffer;
+//	private VerticesBuffer verticesBuffer;
+	private Model   model;
 	
 	public  static final int   THIRD = 3, FIRST = 1;
 	
@@ -53,9 +55,12 @@ public class Actor
 		
 		this.map       = map;
 		
-		verticesBuffer = new VerticesBuffer(3 * 4 * 6, 3);
+//		verticesBuffer = new VerticesBuffer(3 * 4 * 6, 3);
+//		
+//		verticesBuffer.addData(GL.addCubeVertexArrayf(0, 0, 0, width, height, depth, 0, null));
+//		verticesBuffer.genIndices(GL.QUADS, null);
 		
-		verticesBuffer.addData(GL.addCubeVertexArrayf(0, 0, 0, width, height, depth, 0, null));
+		model = new Model(GL.addCubeVertexArrayf(0, 0, 0, width, height, depth, 0, null), null, null, null, null, null);
 		
 		perspective    = FIRST;
 	}
@@ -348,9 +353,13 @@ public class Actor
 		return map;
 	}
 	
-	public VerticesBuffer getVerticesBuffer()
+//	public VerticesBuffer getVerticesBuffer()
+//	{
+//		return verticesBuffer;
+//	}
+	public Model getMode()
 	{
-		return verticesBuffer;
+		return model;
 	}
 	
 	public Camera getCamera()
@@ -358,25 +367,30 @@ public class Actor
 		return camera;
 	}
 	
+//	public void genIndices()
+//	{
+//		verticesBuffer.genIndices(GL.QUADS, null);
+//	}
+	
+//	public void destroyIndices()
+//	{
+//		verticesBuffer.destroyIndices();
+//	}
+	
+	public Model getModel()
+	{
+		return model;
+	}
+	
+	public float[] getVertices()
+	{
+		return model.getVertices();
+	}
+	
 	public String toString()
 	{
 		float location[] = this.location.getLocation();
 		
 		return "[ " + location[0] + ", " + location[1] + ", " + location[2] + " ]";
-	}
-	
-	public void genIndices()
-	{
-		verticesBuffer.genIndices(GL.QUADS);
-	}
-	
-	public void destroyIndices()
-	{
-		verticesBuffer.destroyIndices();
-	}
-	
-	public float[] getVertices()
-	{
-		return verticesBuffer.getData();
 	}
 }

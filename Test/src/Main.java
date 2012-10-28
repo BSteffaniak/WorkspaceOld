@@ -1,13 +1,7 @@
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
+import net.foxycorndog.jdoutil.Vector;
 
 public class Main
 {
-	private static int num1, num2;
-	
-	private int num3, num4;
-	
 	public static void main(String args[])
 	{
 		new Main();
@@ -15,99 +9,105 @@ public class Main
 	
 	public Main()
 	{
-		// #1
-		num1 = 0;
-		num2 = 34;
-		
-		System.out.println("Static before: " + num1 + ", " + num2);
-		
-		swapStatic();
-		
-		System.out.println("Static after: " + num1 + ", " + num2);
-		
-		// #2
-		Point p  = new Point(1, 1);
-		Point p2 = new Point(4, 2);
-		
-		Reference pp = new Reference(p);
-		Reference pp2 = new Reference(p2);
-		
-		System.out.println("Reference before: " + (Point)pp.getObj() + ", " + (Point)pp2.getObj());
-		
-		swap(pp, pp2);
-		
-		System.out.println("Reference after: " + (Point)pp.getObj() + ", " + (Point)pp2.getObj());
-		
-		// #3
-		num3 = 8;
-		num4 = 12;
-		
-		System.out.println("Local method before: " + num3 + ", " + num4);
-		
-		swapLocals();
-		
-		System.out.println("Local method after: " + num3 + ", " + num4);
-		
-		// #4
-		int array[] = { 1, 10 };
-		
-		System.out.println("Primitive array before: " + array[0] + ", " + array[1]);
-		
-		swapArray(array, 0, 1);
+		float p1x = -1;
+		float p1y = 0;
+		float p1z = 0;
 
-		System.out.println("Primitive array after: " + array[0] + ", " + array[1]);
+		float p2x = 0;
+		float p2y = 0;
+		float p2z = -2;
 		
-		// #5
-		ArrayList list = new ArrayList();
+		float p3x = 1;
+		float p3y = 0;
+		float p3z = 0;
 		
-		list.add(4);
-		list.add(10);
+		float l1x = 1;
+		float l1y = 5;
+		float l1z = -10;
+
+		float l2x = 1;
+		float l2y = -5;
+		float l2z = -10;
 		
-		System.out.println("List before: " + list.get(0) + ", " + list.get(1));
+		// Line points
+		Vector a = new Vector(l1x, l1y, l1z);
+		Vector b = new Vector(l2x, l2y, l2z);
 		
-		swapList(list, 0, 1);
+		// Triangle points
+		Vector c = new Vector(p1x, p1y, p1z);
+		Vector d = new Vector(p2x, p2y, p2z);
+		Vector e = new Vector(p3x, p3y, p3z);
 		
-		System.out.println("List before: " + list.get(0) + ", " + list.get(1));
+		// Get the cross product (normal) of the face of the triangle
+		Vector crossProd = Vector.crossProduct(c, d, e);
+		
+		// Get the t variable using the cross product, a point, and b point.
+		float t = solveForT(crossProd, a, b);
+		
+		// The vector for the line
+		Vector lineVector = a.clone();
+		lineVector.minus(b);
+		
+		// the point of intersection between the line and the plane
+		float intersection[] = solveForIntersection(a, lineVector, t);
+		
+		System.out.println(intersection[0] + ", " + intersection[1] + ", " + intersection[2]);
+		
+		if (inside(new Vector(intersection[0], intersection[1], intersection[2]), c, d, e))
+		{
+			System.out.println("The line intersects the triangle.");
+		}
+		else
+		{
+			System.out.println("The line does not intersect the triangle.");
+		}
 	}
 	
-	public void swapList(List a, int index1, int index2)
+	private float sign(Vector p1, Vector p2, Vector p3)
 	{
-		Object temp = a.get(index1);
-		a.set(index1, a.get(index2));
-		a.set(index2, temp);
+		return (p1.getX() - p3.getX()) * (p2.getZ() - p3.getZ()) * (p2.getX() - p3.getX()) * (p1.getZ() - p3.getZ());
 	}
 	
-	public void swapArray(int a[], int index1, int index2)
+	private boolean inside(Vector intersection, Vector point1, Vector point2, Vector point3)
 	{
-		int temp = a[index1];
-		a[index1] = a[index2];
-		a[index2] = temp;
+//		float ix = intersection[0];
+//		float iy = intersection[1];
+//		float iz = intersection[2];
+		
+		boolean b1 = sign(intersection, point1, point2) < 0;
+		boolean b2 = sign(intersection, point2, point3) < 0;
+		boolean b3 = sign(intersection, point3, point1) < 0;
+		
+		return b1 == b2 && b2 == b3;
 	}
 	
-	private void swapStatic()
+	private float[] solveForIntersection(Vector point, Vector vector, float t)
 	{
-		int temp = num1;
-		num1 = num2;
-		num2 = temp;
+		float x = point.getX() + (vector.getX() * t);
+		float y = point.getY() + (vector.getY() * t);
+		float z = point.getZ() + (vector.getZ() * t);
+		
+		return new float[] { x, y, z };
 	}
 	
-	public void swapLocals()
+	private float solveForT(Vector normal, Vector point1, Vector point2)
 	{
-		int num3 = this.num3;
-		int num4 = this.num4;
+		float results[] = Vector.dotProductCoefficients(normal, point1, point2);
 		
-		Reference ref1 = new Reference(num3);
-		Reference ref2 = new Reference(num4);
+		float a = results[0];
+		float b = results[1];
+		float c = results[2];
 		
-		swap(ref1, ref2);
+		float x1 = point2.getX();
+		float y1 = point2.getY();
+		float z1 = point2.getZ();
 		
-		this.num3 = (Integer)ref1.getObj();
-		this.num4 = (Integer)ref2.getObj();
+		point1 = point1.clone();
+		
+		point1.minus(point2);
+		
+		float t = (b * y1) / (b * point1.getY());
+		
+		return t;
 	}
-	
-	private <T> void swap(Reference<T> a, Reference<T> b) {  
-	    T tmp = a.getObj();  
-	    a.setObj(b.getObj());  
-	    b.setObj(tmp);  
-	}  
 }
