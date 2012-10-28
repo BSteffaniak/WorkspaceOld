@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
+import net.foxycorndog.jdoogl.activity.*;
 
 public class MainActivity extends GameComponent
 {
