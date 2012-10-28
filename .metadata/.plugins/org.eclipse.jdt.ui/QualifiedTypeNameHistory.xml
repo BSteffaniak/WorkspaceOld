@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.foxycorndog.shoot.actor.Player"/>
-<fullyQualifiedTypeName name="net.foxycorndog.shoot.map.Map"/>
-<fullyQualifiedTypeName name="java.net.URI"/>
 <fullyQualifiedTypeName name="java.net.URL"/>
 <fullyQualifiedTypeName name="net.foxycorndog.nostalgia.actor.camera.Camera"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.camera.Camera"/>
@@ -60,4 +57,7 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.Vector"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.GL"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.model.Model"/>
+<fullyQualifiedTypeName name="java.util.Vector"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.geometry.Vector"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.geometry.Point"/>
 </qualifiedTypeNameHistroy>

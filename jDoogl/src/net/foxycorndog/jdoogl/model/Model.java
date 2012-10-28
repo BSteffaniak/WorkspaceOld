@@ -4,10 +4,10 @@ import java.io.File;
 import java.net.URISyntaxException;
 
 import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.geometry.Vector;
 import net.foxycorndog.jdoutil.ArrayUtil;
 import net.foxycorndog.jdoutil.Intersects;
 import net.foxycorndog.jdoutil.LightBuffer;
-import net.foxycorndog.jdoutil.Vector;
 import net.foxycorndog.jdoutil.VerticesBuffer;
 
 public class Model

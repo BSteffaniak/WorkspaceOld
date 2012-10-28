@@ -1,0 +1,40 @@
+package net.foxycorndog.jdoogl.geometry;
+
+public class Point
+{
+	private float x, y, z;
+	
+	public Point(float x, float y, float z)
+	{
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+	
+	public void minus(Point p)
+	{
+		minus(p.x, p.y, p.z);
+	}
+	
+	public void minus(float x, float y, float z)
+	{
+		this.x -= x;
+		this.y -= y;
+		this.z -= z;
+	}
+	
+	public float getX()
+	{
+		return x;
+	}
+	
+	public float getY()
+	{
+		return y;
+	}
+	
+	public float getZ()
+	{
+		return z;
+	}
+}

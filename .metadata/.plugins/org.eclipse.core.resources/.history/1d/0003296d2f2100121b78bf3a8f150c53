@@ -1,0 +1,6 @@
+package net.foxycorndog.jdoogl.geometry;
+
+public class Point
+{
+	
+}

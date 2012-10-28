@@ -8,7 +8,6 @@ import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoogl.input.KeyboardInput;
 import net.foxycorndog.jdoogl.input.MouseInput;
 import net.foxycorndog.jdoutil.LightBuffer;
-import net.foxycorndog.jdoutil.Vector;
 import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.nostalgia.actor.Player;
 import net.foxycorndog.nostalgia.actor.camera.Camera;

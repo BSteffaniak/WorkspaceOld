@@ -1,0 +1,54 @@
+package net.foxycorndog.jdoogl.geometry;
+
+public class Point implements Cloneable
+{
+	private float x, y, z;
+	
+	public Point(float x, float y, float z)
+	{
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+	
+	public void minus(Point p)
+	{
+		minus(p.x, p.y, p.z);
+	}
+	
+	public Vector minus(float x, float y, float z)
+	{
+		return new Vector(x - x, y - y, z - z);
+	}
+	
+	public float getX()
+	{
+		return x;
+	}
+	
+	public float getY()
+	{
+		return y;
+	}
+	
+	public float getZ()
+	{
+		return z;
+	}
+	
+	public Point clone()
+	{
+		Point clone = null;
+		
+		try
+		{
+			clone = (Point)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return clone;
+	}
+}

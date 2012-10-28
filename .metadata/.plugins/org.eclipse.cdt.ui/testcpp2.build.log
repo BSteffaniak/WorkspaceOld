@@ -1,5 +1,5 @@
 
-**** Rebuild of configuration Debug for project testcpp2 ****
+**** Build of configuration Debug for project testcpp2 ****
 
 **** Internal Builder is used for build               ****
 g++ -IC:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin -includeC:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h -O0 -g3 -Wall -c -fmessage-length=0 -o test2.o ..\test2.cpp
@@ -16,4 +16,4 @@ C:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h:486:22: warning: 'void glu
 C:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h:503:21: warning: 'int glutCreateWindow_ATEXIT_HACK(const char*)' defined but not used [-Wunused-function]
 C:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h:549:21: warning: 'int glutCreateMenu_ATEXIT_HACK(void (__attribute__((__cdecl__)) *)(int))' defined but not used [-Wunused-function]
 Build error occurred, build is stopped
-Time consumed: 219  ms.  
+Time consumed: 234  ms.  
