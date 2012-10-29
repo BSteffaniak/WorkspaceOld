@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 
 import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.geometry.Point;
 import net.foxycorndog.jdoogl.geometry.Vector;
 import net.foxycorndog.jdoutil.ArrayUtil;
 import net.foxycorndog.jdoutil.Intersects;
@@ -251,7 +252,7 @@ public class Model
 		return false;
 	}
 	
-	public boolean collision(float vertices[], Vector offset)
+	public boolean collision(float vertices[], Point offset)
 	{
 		for (int i = 0; i < vertices.length; i += 3)
 		{

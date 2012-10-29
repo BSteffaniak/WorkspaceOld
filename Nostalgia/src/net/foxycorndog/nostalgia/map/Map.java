@@ -1,5 +1,6 @@
 package net.foxycorndog.nostalgia.map;
 import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.geometry.Point;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoogl.input.KeyboardInput;
@@ -8,7 +9,6 @@ import net.foxycorndog.jdoogl.model.ModelLoader;
 import net.foxycorndog.jdoutil.ArrayUtil;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.Task;
-import net.foxycorndog.jdoutil.Vector;
 import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.nostalgia.actor.Actor;
 
@@ -126,7 +126,7 @@ public class Map
 	{
 		float vertices[] = actor.getVertices();
 		
-		if (bunny.collision(vertices, new Vector(actor.getX(), actor.getY(), actor.getZ())))
+		if (bunny.collision(vertices, new Point(actor.getX(), actor.getY(), actor.getZ())))
 		{
 			return true;
 		}
