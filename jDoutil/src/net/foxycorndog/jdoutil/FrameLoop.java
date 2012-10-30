@@ -6,12 +6,20 @@ import static org.lwjgl.opengl.GL11.GL_STENCIL_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.OpenGLException;
 
 public class FrameLoop
 {
 	public void start(final int targetFps, final FrameTask task)
 	{
-		Display.setVSyncEnabled(false);
+		try
+		{
+			Display.setVSyncEnabled(false);
+		}
+		catch (OpenGLException e)
+		{
+			
+		}
 		
 		while (!Display.isCloseRequested())
 		{

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.net.URL"/>
 <fullyQualifiedTypeName name="net.foxycorndog.nostalgia.actor.camera.Camera"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.camera.Camera"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.image.imagemap.Texture"/>
 <fullyQualifiedTypeName name="javax.naming.OperationNotSupportedException"/>
 <fullyQualifiedTypeName name="java.nio.BufferUnderflowException"/>
 <fullyQualifiedTypeName name="java.nio.ShortBuffer"/>
@@ -60,4 +58,6 @@
 <fullyQualifiedTypeName name="java.util.Vector"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.geometry.Vector"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.geometry.Point"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.image.imagemap.Texture"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.OpenGLException"/>
 </qualifiedTypeNameHistroy>

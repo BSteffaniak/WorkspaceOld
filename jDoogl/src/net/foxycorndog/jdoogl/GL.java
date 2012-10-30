@@ -155,7 +155,7 @@ public class GL
 	{
 		showColors = true;
 		
-		Base.setUsingVBO(false); 
+		Base.setUsingVBO(true); 
 		Base.setDrawMode(ELEMENTS);
 		
 		update();
@@ -1134,16 +1134,16 @@ public class GL
 			{
 				if (isUsingVBO())
 				{
-					GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, verticesBuffer.getIndicesId());
+					GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, verticesBuffer.getIndicesId(0));
 					
-					GL11.glDrawElements(mode, (amount * vertexSize) * amountOfVertices, GL_UNSIGNED_SHORT, 0);//start * 2);
+					GL11.glDrawElements(mode, amount, GL_UNSIGNED_SHORT, start * 2);
 					
 					GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
 				}
 				else
 				{
-//					GL12.glDrawRangeElements(mode, 0, amount, verticesBuffer.getIndices(start));
-					GL11.glDrawElements(mode, verticesBuffer.getIndices(start));
+					GL12.glDrawRangeElements(mode, 0, amount + start, verticesBuffer.getIndices(start));
+//					GL11.glDrawElements(mode, verticesBuffer.getIndices(start));
 				}
 			}
 			else if (DRAW_MODE_IMMEDIATE)
@@ -1821,6 +1821,11 @@ public class GL
 	
 	public static float[] addCubeTextureArrayf(float offsets[][], int offset, float array[])
 	{
+		return addCubeTextureArrayf(offsets, 1, 1, offset, array);
+	}
+	
+	public static float[] addCubeTextureArrayf(float offsets[][], int rx, int ry, int offset, float array[])
+	{
 		if (array == null)
 		{
 			array  = new float[2 * 4 * 6];
@@ -1834,34 +1839,34 @@ public class GL
 		
 		for (leftOff = 0; leftOff < offsets.length; leftOff ++)
 		{
-			array[offset + index ++] = offsets[leftOff][0];
-			array[offset + index ++] = offsets[leftOff][1];
+			array[offset + index ++] = rx * offsets[leftOff][0];
+			array[offset + index ++] = ry * offsets[leftOff][1];
 			
-			array[offset + index ++] = offsets[leftOff][0];
-			array[offset + index ++] = offsets[leftOff][3];
+			array[offset + index ++] = rx * offsets[leftOff][0];
+			array[offset + index ++] = ry * offsets[leftOff][3];
 			
-			array[offset + index ++] = offsets[leftOff][2];
-			array[offset + index ++] = offsets[leftOff][3];
+			array[offset + index ++] = rx * offsets[leftOff][2];
+			array[offset + index ++] = ry * offsets[leftOff][3];
 			
-			array[offset + index ++] = offsets[leftOff][2];
-			array[offset + index ++] = offsets[leftOff][1];
+			array[offset + index ++] = rx * offsets[leftOff][2];
+			array[offset + index ++] = ry * offsets[leftOff][1];
 		}
 		
 		leftOff --;
 		
 		for (int i = leftOff + 1; i < 6; i ++)
 		{
-			array[offset + index ++] = offsets[leftOff][0];
-			array[offset + index ++] = offsets[leftOff][1];
+			array[offset + index ++] = rx * offsets[leftOff][0];
+			array[offset + index ++] = ry * offsets[leftOff][1];
 			
-			array[offset + index ++] = offsets[leftOff][0];
-			array[offset + index ++] = offsets[leftOff][3];
+			array[offset + index ++] = rx * offsets[leftOff][0];
+			array[offset + index ++] = ry * offsets[leftOff][3];
 			
-			array[offset + index ++] = offsets[leftOff][2];
-			array[offset + index ++] = offsets[leftOff][3];
+			array[offset + index ++] = rx * offsets[leftOff][2];
+			array[offset + index ++] = ry * offsets[leftOff][3];
 			
-			array[offset + index ++] = offsets[leftOff][2];
-			array[offset + index ++] = offsets[leftOff][1];
+			array[offset + index ++] = rx * offsets[leftOff][2];
+			array[offset + index ++] = ry * offsets[leftOff][1];
 		}
 		
 		return array;

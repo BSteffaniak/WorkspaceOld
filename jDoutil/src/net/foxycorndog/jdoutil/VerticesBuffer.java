@@ -116,11 +116,16 @@ public class VerticesBuffer extends LightBuffer
 //		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 //	}
 	
-	public int getIndicesId()
+	public int getIndicesId(int position)
 	{
-		indices.position(0);
+		indices.position(position);
 		
 		return indicesId;
+	}
+	
+	public int getIndicesId()
+	{
+		return getIndicesId(0);
 	}
 	
 	public void setIndices(short indicesArray[])

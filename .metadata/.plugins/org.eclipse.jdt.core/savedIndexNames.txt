@@ -14,8 +14,8 @@ INDEX VERSION 1.126+C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\.metad
 807897726.index
 134898765.index
 1237108765.index
-1603194593.index
 3754842178.index
+1603194593.index
 137624701.index
 3142001522.index
 241613544.index
@@ -57,7 +57,6 @@ INDEX VERSION 1.126+C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\.metad
 442031261.index
 2566507409.index
 2179136208.index
-2905527139.index
 2317206808.index
 3017074752.index
 3730526690.index
@@ -71,10 +70,10 @@ INDEX VERSION 1.126+C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\.metad
 883357855.index
 3865862371.index
 2727942736.index
-641115088.index
-3705487984.index
-3080245753.index
 1581115291.index
+641115088.index
+3080245753.index
+3705487984.index
 3585733931.index
 849342524.index
 2599613754.index
