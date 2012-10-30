@@ -140,6 +140,9 @@ public class GL
 	
 	private static int	       rectVerticesPosition, rectTexturesPosition;
 	
+	private static float       zClose, zFar;
+	private static float       FOV;
+	
 	private static ArrayList<LightBuffer> rectVerticesBuffer, rectTexturesBuffer;
 	
 	public  static final int QUADS = GL11.GL_QUADS, TRIANGLES = GL11.GL_TRIANGLES, POINTS = GL11.GL_POINTS;
@@ -1421,8 +1424,30 @@ public class GL
 		//----------- END: Variables & method calls added for Lighting Test -----------//
 	}
 	
+	public static float getFOV()
+	{
+		return FOV;
+	}
+	
+	public static void setFOV(float FOV)
+	{
+		GL.FOV = FOV;
+		
+		glViewport(0, 0, Display.getWidth(), Display.getHeight());
+		glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
+		glLoadIdentity(); // Reset The Projection Matrix
+
+		// Calculate The Aspect Ratio Of The Window
+		gluPerspective(FOV, (float)Display.getWidth() / (float)Display.getHeight(), zClose, zFar);
+//		glOrtho(1, 1, 1, 1, -1, 1);
+		glMatrixMode(GL_MODELVIEW); // Select The Modelview Matrix
+	}
+	
 	public static void initBasicView(float zClose, float zFar)
 	{
+		GL.zClose = zClose;
+		GL.zFar   = zFar;
+		
 		if (render3D)
 		{
 //			glViewport(0, 0, Display.getWidth(), Display.getHeight());
@@ -1459,9 +1484,11 @@ public class GL
 			glViewport(0, 0, Display.getWidth(), Display.getHeight());
 			glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
 			glLoadIdentity(); // Reset The Projection Matrix
+			
+			FOV = 45.0f;
 
 			// Calculate The Aspect Ratio Of The Window
-			gluPerspective(45.0f, (float)Display.getWidth() / (float)Display.getHeight(), zClose, zFar);
+			gluPerspective(FOV, (float)Display.getWidth() / (float)Display.getHeight(), zClose, zFar);
 //			glOrtho(1, 1, 1, 1, -1, 1);
 			glMatrixMode(GL_MODELVIEW); // Select The Modelview Matrix
 

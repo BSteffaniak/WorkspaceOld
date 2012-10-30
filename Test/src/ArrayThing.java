@@ -12,6 +12,8 @@ import java.io.ObjectOutputStream;
 
 public class ArrayThing
 {
+	private int                arraySize;
+	
 	private ObjectInputStream  in;
 	private ObjectOutputStream out;
 	
@@ -24,12 +26,18 @@ public class ArrayThing
 	
 	public ArrayThing()
 	{
-//		long time = System.currentTimeMillis();
+		arraySize = 1000000;
+		
+		long timeBefore = System.currentTimeMillis();
 //		System.out.println(System.currentTimeMillis());
 //		System.out.println(System.nanoTime());
 		
-//		writeToFile();
-		readFromFile();
+		writeToFile();
+//		readFromFile();
+		
+		long timeAfter = System.currentTimeMillis();
+		
+		System.out.println(timeAfter - timeBefore);
 	}
 	
 	private void readFromFile()
@@ -45,7 +53,7 @@ public class ArrayThing
 	
 	private void writeToFile()
 	{
-		randomArray = new int[10];
+		randomArray = new int[arraySize];
 		
 		for (int i = 0; i < randomArray.length; i ++)
 		{
@@ -54,11 +62,11 @@ public class ArrayThing
 		
 		write("arrayFile.dat", randomArray);
 		
-		System.out.println("Wrote: ");
-		for (int i = 0; i < randomArray.length; i ++)
-		{
-			System.out.println(randomArray[i]);
-		}
+//		System.out.println("Wrote: ");
+//		for (int i = 0; i < randomArray.length; i ++)
+//		{
+//			System.out.println(randomArray[i]);
+//		}
 	}
 	
 	private Object read(String location)

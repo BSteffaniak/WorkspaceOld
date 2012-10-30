@@ -8,6 +8,7 @@ import net.foxycorndog.nostalgia.map.Map;
 
 public class Actor
 {
+	private boolean onGround;
 	private boolean sprinting;
 	private boolean jumping, movingUp;
 	private boolean cameraAttached;
@@ -93,22 +94,7 @@ public class Actor
 			float maxY2 = cubes[i + 4];//4
 			float maxZ2 = cubes[i + 5];//20
 			
-			boolean collided = false;
-			
 			if ((maxX1 >= minX2 && minX1 <= maxX2) && (maxZ1 >= minZ2 && minZ1 <= maxZ2) && (maxY1 >= minY2 && minY1 <= maxY2))
-			{
-				collided = true;
-			}
-			
-			if (collided && (maxY1 >= minY2 && minY1 <= maxY2))
-			{
-				if (maxY1 >= minY2 && !movingUp)
-				{
-					jumping = false;
-				}
-			}
-			
-			if (collided)
 			{
 				return true;
 			}
@@ -149,6 +135,8 @@ public class Actor
 	
 	public boolean move(float dx, float dy, float dz)
 	{
+		boolean moved = false;
+		
 		dx = sprinting ? dx * 1.6f : dx;
 //		dy = sprinting ? dy * 1.6f : dy;
 		dz = sprinting ? dz * 1.6f : dz;
@@ -157,21 +145,50 @@ public class Actor
 		dy /= 10;
 		dz /= 10;
 		
+		boolean movedVertical   = false;
+		boolean movedHorizontal = false;
+		boolean movedOblique    = false;
+		
 		for (int i = 0; i < 10; i ++)
 		{
-			camera.moveDirection(dx, dy, dz);
-			location.moveDirection(dx, dy, dz);
+			camera.moveDirection(dx, 0, dz);
+			location.moveDirection(dx, 0, dz);
 			
 			if (collided(map))
 			{
-				camera.moveDirection(-dx, -dy, -dz);
-				location.moveDirection(-dx, -dy, -dz);
+				camera.moveDirection(-dx, 0, -dz);
+				location.moveDirection(-dx, 0, -dz);
 				
-				return false;
+				movedHorizontal = movedHorizontal ? true : false;
+				movedOblique    = movedOblique    ? true : false;
+			}
+			else if (dx != 0 || dz != 0)
+			{
+				movedHorizontal = true;
+				movedOblique    = true;
+			}
+			
+			camera.moveDirection(0, dy, 0);
+			location.moveDirection(0, dy, 0);
+			
+			if (collided(map))
+			{
+				camera.moveDirection(0, -dy, 0);
+				location.moveDirection(0, -dy, 0);
+				
+				movedVertical = movedVertical ? true : false;
+				
+				onGround = true;
+			}
+			else if (dy != 0)
+			{
+				movedVertical = true;
+				
+				onGround = false;
 			}
 		}
 		
-		return true;
+		return movedOblique || movedHorizontal || movedVertical;
 	}
 	
 	public void jump()
@@ -276,6 +293,11 @@ public class Actor
 		{
 			this.sprinting = sprinting;
 		}
+	}
+	
+	public boolean isOnGround()
+	{
+		return onGround;
 	}
 	
 	public float getX()
