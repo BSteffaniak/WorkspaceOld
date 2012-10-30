@@ -67,6 +67,7 @@ public class Map
 		
 		addCube(-10, -2, -100, 20, 2, 200, GL.white, 200, 200, 200, 255, index ++);
 		addCube(-10, 0, -100, 2, 10, 200, brick, 50, 3, 100, 100, 100, 255, index ++);
+		addCube(8, 0, -100, 2, 10, 200, brick, 50, 3, 100, 100, 100, 255, index ++);
 		
 		verticesBuffer.genIndices(GL.QUADS, null);
 		
@@ -158,7 +159,7 @@ public class Map
 		
 		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, GL.white, 1, 1);
 		
-		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, brick, 2, 1);
+		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, brick, 2, 2);
 	}
 	
 	public float[] getCubes()

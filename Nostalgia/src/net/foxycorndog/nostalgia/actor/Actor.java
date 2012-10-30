@@ -93,7 +93,22 @@ public class Actor
 			float maxY2 = cubes[i + 4];//4
 			float maxZ2 = cubes[i + 5];//20
 			
-			if ((maxX1 >= minX2 && minX1 <= maxX2) && (maxY1 >= minY2 && minY1 <= maxY2) && (maxZ1 >= minZ2 && minZ1 <= maxZ2))
+			boolean collided = false;
+			
+			if ((maxX1 >= minX2 && minX1 <= maxX2) && (maxZ1 >= minZ2 && minZ1 <= maxZ2) && (maxY1 >= minY2 && minY1 <= maxY2))
+			{
+				collided = true;
+			}
+			
+			if (collided && (maxY1 >= minY2 && minY1 <= maxY2))
+			{
+				if (maxY1 >= minY2 && !movingUp)
+				{
+					jumping = false;
+				}
+			}
+			
+			if (collided)
 			{
 				return true;
 			}
@@ -134,16 +149,16 @@ public class Actor
 	
 	public boolean move(float dx, float dy, float dz)
 	{
+		dx = sprinting ? dx * 1.6f : dx;
+//		dy = sprinting ? dy * 1.6f : dy;
+		dz = sprinting ? dz * 1.6f : dz;
+			
 		dx /= 10;
 		dy /= 10;
 		dz /= 10;
 		
 		for (int i = 0; i < 10; i ++)
 		{
-			dx = sprinting ? dx * 1.6f : dx;
-			dy = sprinting ? dy * 1.6f : dy;
-			dz = sprinting ? dz * 1.6f : dz;
-			
 			camera.moveDirection(dx, dy, dz);
 			location.moveDirection(dx, dy, dz);
 			
@@ -177,7 +192,7 @@ public class Actor
 		{
 			if (location.getY() < startY + 2 && movingUp)
 			{
-				if (!move(0, 0.3f, 0))
+				if (!move(0, 0.5f, 0))
 				{
 					jumping = false;
 				}
