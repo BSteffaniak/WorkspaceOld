@@ -16,9 +16,11 @@ public class Map
 {
 	private int            numCubes;
 	
+	private Texture        brick;
+	
 	private SpriteSheet    sprites;
 	
-	private Model          bunny;
+//	private Model          bunny;
 	
 	private LightBuffer    texturesBuffer, colorsBuffer;
 	
@@ -29,9 +31,11 @@ public class Map
 	
 	public Map()
 	{
-		numCubes = 2;
+		numCubes = 4;
 		
 		sprites  = new SpriteSheet("res/images/sprites.png", 36, 18);
+		
+		brick = new Texture("res/images/brick.png");
 		
 		cubes    = new float[6 * numCubes];
 		
@@ -61,16 +65,23 @@ public class Map
 					new int[] { 255, 255, 255, 255 }
 				}, index ++);
 		
-		addCube(-100, -2, -100, 200, 2, 200, GL.white, 200, 200, 200, 255, index ++);
+		addCube(-10, -2, -100, 20, 2, 200, GL.white, 200, 200, 200, 255, index ++);
+		addCube(-10, 0, -100, 2, 10, 200, brick, 50, 3, 100, 100, 100, 255, index ++);
+		
 		verticesBuffer.genIndices(GL.QUADS, null);
 		
-		bunny = new Model("res/bunny.obj", 20);
+//		bunny = new Model("res/bunny.obj", 20);
 	}
 	
 	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int colors[][], int index)
 	{
+		addCube(x, y, z, width, height, depth, textures, 1, 1, colors, index);
+	}
+	
+	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int rx, int ry, int colors[][], int index)
+	{
 		verticesBuffer.addData(GL.addCubeVertexArrayf(x, y, z, width, height, depth, 0, null));
-		texturesBuffer.addData(GL.addCubeTextureArrayf(textures, 0, null));
+		texturesBuffer.addData(GL.addCubeTextureArrayf(textures, rx, ry, 0, null));
 		colorsBuffer.addData(GL.addCubeColorArrayif(colors , 0, null));
 		
 		cubes[0 + index * 6] = x;
@@ -99,6 +110,11 @@ public class Map
 	
 	public void addCube(float x, float y, float z, float width, float height, float depth, Texture texture, int r, int g, int b, int a, int index)
 	{
+		addCube(x, y, z, width, height, depth, texture, 1, 1, r, g, b, a, index);
+	}
+	
+	public void addCube(float x, float y, float z, float width, float height, float depth, Texture texture, int rx, int ry, int r, int g, int b, int a, int index)
+	{
 		int colors[][] = new int[][]
 		{
 			{ r, g, b, a },
@@ -119,28 +135,30 @@ public class Map
 			texture.getImageOffsetsf(),
 		};
 		
-		addCube(x, y, z, width, height, depth, textures, colors, index);
+		addCube(x, y, z, width, height, depth, textures, rx, ry, colors, index);
 	}
 	
 	public boolean collided(Actor actor)
 	{
 		float vertices[] = actor.getVertices();
 		
-		if (bunny.collision(vertices, new Point(actor.getX(), actor.getY(), actor.getZ())))
-		{
-			return true;
-		}
+//		if (bunny.collision(vertices, new Point(actor.getX(), actor.getY(), actor.getZ())))
+//		{
+//			return true;
+//		}
 		
 		return false;
 	}
 	
 	public void render()
 	{
-		bunny.render();
+//		bunny.render();
 		
 		GL.renderCubes(verticesBuffer, texturesBuffer, null, colorsBuffer, sprites, 0, 1, null);
 		
 		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, GL.white, 1, 1);
+		
+		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, brick, 2, 1);
 	}
 	
 	public float[] getCubes()

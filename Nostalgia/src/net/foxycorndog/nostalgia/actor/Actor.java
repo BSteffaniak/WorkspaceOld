@@ -134,19 +134,26 @@ public class Actor
 	
 	public boolean move(float dx, float dy, float dz)
 	{
-		dx = sprinting ? dx * 1.6f : dx;
-		dy = sprinting ? dy * 1.6f : dy;
-		dz = sprinting ? dz * 1.6f : dz;
+		dx /= 10;
+		dy /= 10;
+		dz /= 10;
 		
-		camera.moveDirection(dx, dy, dz);
-		location.moveDirection(dx, dy, dz);
-		
-		if (collided(map))
+		for (int i = 0; i < 10; i ++)
 		{
-			camera.moveDirection(-dx, -dy, -dz);
-			location.moveDirection(-dx, -dy, -dz);
+			dx = sprinting ? dx * 1.6f : dx;
+			dy = sprinting ? dy * 1.6f : dy;
+			dz = sprinting ? dz * 1.6f : dz;
 			
-			return false;
+			camera.moveDirection(dx, dy, dz);
+			location.moveDirection(dx, dy, dz);
+			
+			if (collided(map))
+			{
+				camera.moveDirection(-dx, -dy, -dz);
+				location.moveDirection(-dx, -dy, -dz);
+				
+				return false;
+			}
 		}
 		
 		return true;
