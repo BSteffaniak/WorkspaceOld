@@ -97,7 +97,7 @@ public class Main extends GameComponent
 		
 		pollEvents();
 		
-		GL.setFOV(GL.getFOV() - MouseInput.getDWheel() / 120);
+		GL.setFOV(GL.getFOV() - MouseInput.getDWheel() / 112 * 2);
 	}
 	
 	private void pollEvents()

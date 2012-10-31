@@ -7,6 +7,19 @@
 	<section name="BuildPathsPropertyPage">
 		<item value="2" key="pageIndex"/>
 	</section>
+	<section name="FatJarPackageWizard">
+		<item value="Nostalgia\Nostalgia.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
+		<item value="Main (2) - Nostalgia" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
+		<item value="" key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION"/>
+		<item value="false" key="FatJarPackageWizardPage.ANTSCRIPT_SAVE"/>
+		<item value="2" key="FatJarPackageWizardPage.LIBRARY_HANDLING"/>
+		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="Nostalgia/Nostalgia.jar"/>
+		</list>
+		<list key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION_HISTORY">
+			<item value=".xml"/>
+		</list>
+	</section>
 	<section name="RefactoringWizard.preview">
 		<item value="400" key="height"/>
 		<item value="600" key="width"/>
