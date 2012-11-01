@@ -20,7 +20,7 @@ public class Map
 	
 	private SpriteSheet    sprites;
 	
-//	private Model          bunny;
+	private Model          bunny;
 	
 	private LightBuffer    texturesBuffer, colorsBuffer;
 	
@@ -71,7 +71,7 @@ public class Map
 		
 		verticesBuffer.genIndices(GL.QUADS, null);
 		
-//		bunny = new Model("res/bunny.obj", 20);
+		bunny = new Model("res/bunny.obj", 20);
 	}
 	
 	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int colors[][], int index)
@@ -153,7 +153,7 @@ public class Map
 	
 	public void render()
 	{
-//		bunny.render();
+		bunny.render();
 		
 		GL.renderCubes(verticesBuffer, texturesBuffer, null, colorsBuffer, sprites, 0, 1, null);
 		

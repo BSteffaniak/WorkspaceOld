@@ -42,11 +42,21 @@ public class ArrayThing
 
 		// Point 3
 		{
+			thang.printArray();
+			
 			nanos = System.nanoTime();
 		
 			thang.targetInArray();
 			
 			System.out.println(System.nanoTime() - nanos);
+		}
+	}
+	
+	public void printArray()
+	{
+		for (int num : randomArray)
+		{
+			System.out.println(num);
 		}
 	}
 	
@@ -84,7 +94,7 @@ public class ArrayThing
 	{
 //		System.out.println(System.currentTimeMillis());
 //		System.out.println(System.nanoTime());
-		randomArray = new int[10000];
+		randomArray = new int[10];
 		
 		for (int i = 0; i < randomArray.length; i ++)
 		{
@@ -108,19 +118,35 @@ public class ArrayThing
 	{
 		target = getTarget();
 		
-		return binarySearch(target) != -1;
+		return binarySearch(6) != -1;
 	}
 	
 	public int binarySearch(int target)
 	{
-		boolean found = false;
+		int leftI   = 0;
+		int rightI  = randomArray.length - 1;
+		int middleI = 0;
 		
-		int leftI = 0, rightI = 0;
-		
-		while (!found && rightI > leftI)
+		while (rightI > leftI + 1)
 		{
+			middleI = (leftI + rightI) / 2;
 			
+			if (randomArray[middleI] > target)
+			{
+				rightI = middleI;
+			}
+			else if (randomArray[middleI] < target)
+			{
+				leftI = middleI;
+			}
+			else
+			{
+				System.out.println(target + " at " + middleI);
+				return middleI;
+			}
 		}
+		
+		System.out.println("no target");
 		
 		return -1;
 	}
