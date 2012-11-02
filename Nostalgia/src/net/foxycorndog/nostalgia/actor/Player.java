@@ -40,8 +40,8 @@ public class Player extends Actor
 		GL.endManipulation();
 	}
 	
-	public void update()
+	public void update(int dfps)
 	{
-		super.update();
+		super.update(dfps);
 	}
 }

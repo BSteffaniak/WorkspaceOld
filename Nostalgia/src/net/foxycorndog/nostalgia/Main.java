@@ -91,15 +91,10 @@ public class Main extends GameComponent
 		map.render();
 	}
 	
-	public void loop()
+	public void loop(int dfps)
 	{
-		player.move(0, -0.1f, 0);
+		player.move(0, -0.2f, 0);
 		
-		pollEvents();
-	}
-	
-	private void pollEvents()
-	{
 		if (MouseInput.isButtonDown(MouseInput.LEFT_MOUSE_BUTTON))
 		{
 			MouseInput.setGrabbed(true);
@@ -219,7 +214,7 @@ public class Main extends GameComponent
 //				player.deta
 //			}
 			
-		player.update();
+		player.update(dfps);
 		
 //		System.out.println(player.cameraAttached());
 	}

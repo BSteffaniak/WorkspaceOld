@@ -150,9 +150,9 @@ public class Actor
 		 * Make the horizontal and oblique axis movements larger
 		 * if the actor is sprinting.
 		 */
-		dx = sprinting ? dx * 1.6f : dx;
-//		dy = sprinting ? dy * 1.6f : dy;
-		dz = sprinting ? dz * 1.6f : dz;
+		dx = sprinting ? dx * 1.8f : dx;
+//		dy = sprinting ? dy * 1.8f : dy;
+		dz = sprinting ? dz * 1.8f : dz;
 		
 		/*
 		 * How many times to divide the movement to be smoother.
@@ -233,18 +233,18 @@ public class Actor
 		}
 	}
 	
-	public void update()
+	public void update(int dfps)
 	{
 		if (jumping)
 		{
-			if (location.getY() < startY + 2 && movingUp)
+			if (location.getY() < startY + 4 && movingUp)
 			{
-				if (!move(0, 0.5f, 0))
+				if (!move(0, 0.8f, 0))
 				{
 					jumping = false;
 				}
 				
-				if (location.getY() >= startY + 2)
+				if (location.getY() >= startY + 4)
 				{
 					movingUp = false;
 				}
@@ -256,6 +256,21 @@ public class Actor
 			else
 			{
 				jumping = false;
+			}
+		}
+		
+		if (sprinting)
+		{
+			if (GL.getFOV() < 60)
+			{
+				GL.setFOV(GL.getFOV() + 2);
+			}
+		}
+		else
+		{
+			if (GL.getFOV() > 45)
+			{
+				GL.setFOV(GL.getFOV() - 2);
 			}
 		}
 	}
