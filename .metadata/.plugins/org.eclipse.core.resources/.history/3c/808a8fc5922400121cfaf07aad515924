@@ -1,0 +1,60 @@
+package net.foxycorndog.jdoogl.activity;
+
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.components.Frame.GameRenderer;
+import net.foxycorndog.jdoogl.input.KeyboardInput;
+import net.foxycorndog.jdoutil.FrameLoop;
+import net.foxycorndog.jdoutil.FrameTask;
+
+public abstract class GameComponent
+{
+	private GameRenderer     gameRenderer;
+	
+	private GameComponent    thisGameComponent;
+	
+	public GameComponent(String title, int width, int height)
+	{
+		onCreate(title, width, height);
+	}
+	
+	private void onCreate(String title, int width, int height)
+	{
+		thisGameComponent = this;
+		
+		gameRenderer = new GameRenderer(title, width, height)
+		{
+			public void render()
+			{
+				thisGameComponent.render();
+			}
+			
+			public void loop()
+			{
+				thisGameComponent.loop();
+			}
+		};
+		
+		onCreate();
+		
+		FrameLoop frameLoop = new FrameLoop();
+		
+		frameLoop.start(60, new FrameTask()
+		{
+			public void run()
+			{
+				gameRenderer.onDrawFrame();
+			}
+		});
+	}
+	
+	public GameRenderer getGameRenderer()
+	{
+		return gameRenderer;
+	}
+	
+	public abstract void onCreate();
+	
+	public abstract void render();
+	
+	public abstract void loop();
+}

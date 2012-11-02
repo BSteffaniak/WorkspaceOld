@@ -28,9 +28,9 @@ public abstract class GameComponent
 				thisGameComponent.render();
 			}
 			
-			public void loop()
+			public void loop(int dfps)
 			{
-				thisGameComponent.loop();
+				thisGameComponent.loop(dfps);
 			}
 		};
 		
@@ -56,5 +56,5 @@ public abstract class GameComponent
 	
 	public abstract void render();
 	
-	public abstract void loop();
+	public abstract void loop(int dfps);
 }

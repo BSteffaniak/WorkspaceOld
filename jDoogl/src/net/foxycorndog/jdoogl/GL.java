@@ -1013,14 +1013,14 @@ public class GL
 		int vertexSize       = verticesBuffer.getVertexSize();
 		int amountOfVertices = getAmountOfVertices(type);
 		
-		start  *= amountOfVertices;
-		amount *= amountOfVertices;
+		start   *= amountOfVertices;
+		amount  *= amountOfVertices;
 		
 		int mode = type;
 		
 		if (type == QUADS)
 		{
-			mode = TRIANGLES;
+			mode    = TRIANGLES;
 			
 			start  *= 1.5f;
 			amount *= 1.5f;
@@ -1137,7 +1137,7 @@ public class GL
 			{
 				if (isUsingVBO())
 				{
-					GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, verticesBuffer.getIndicesId(0));
+					GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, verticesBuffer.getIndicesId());
 					
 					GL11.glDrawElements(mode, amount, GL_UNSIGNED_SHORT, start * 2);
 					

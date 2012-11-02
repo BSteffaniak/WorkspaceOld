@@ -1137,7 +1137,7 @@ public abstract class Frame
 				Frame.listenMouse();
 				Frame.listenKeys();
 				
-				loop();
+				loop(getDFps());
 				render();
 				
 				Frame.updateFps();
@@ -1157,6 +1157,6 @@ public abstract class Frame
 
 		public abstract void render();
 		
-		public abstract void loop();
+		public abstract void loop(int dfps);
 	}
 }
