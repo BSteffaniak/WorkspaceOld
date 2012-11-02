@@ -63,7 +63,7 @@
 </editorArea>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" partName="Main.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/Main.java" title="Main.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/Main.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/Main.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2029" selectionTopPixel="1027"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4175" selectionTopPixel="2475"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" partName="Player.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/actor/Player.java" title="Player.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/actor/Player.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/Player.java"/>
@@ -79,7 +79,7 @@
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Actor.java" partName="Actor.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/actor/Actor.java" title="Actor.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/actor/Actor.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/Actor.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5772" selectionTopPixel="3403"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1862" selectionTopPixel="681"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Camera.java" partName="Camera.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/actor/camera/Camera.java" title="Camera.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/actor/camera/Camera.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/camera/Camera.java"/>
@@ -353,43 +353,8 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/activity/GameComponent.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/components/Frame.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/Player.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/Main.java"/>
 </editors>
-<item historyLabel="GL.java" index="3">
-<position info="not_deleted" x="29585" y="0"/>
-</item>
-<item historyLabel="Model.java" index="2">
-<position info="not_deleted" x="7975" y="0"/>
-</item>
-<item historyLabel="GL.java" index="3">
-<position info="not_deleted" x="29585" y="0"/>
-</item>
-<item historyLabel="VerticesBuffer.java" index="4">
-<position info="not_deleted" x="2546" y="0"/>
-</item>
-<item historyLabel="VerticesBuffer.java" index="4">
-<position info="not_deleted" x="5377" y="10"/>
-</item>
-<item historyLabel="Model.java" index="2">
-<position info="not_deleted" x="7975" y="0"/>
-</item>
-<item historyLabel="ModelLoader.java" index="5">
-<position info="not_deleted" x="1838" y="0"/>
-</item>
-<item historyLabel="ModelLoader.java" index="5">
-<position info="not_deleted" x="308" y="9"/>
-</item>
-<item historyLabel="Model.java" index="2">
-<position info="not_deleted" x="4457" y="0"/>
-</item>
-<item historyLabel="VerticesBuffer.java" index="4">
-<position info="not_deleted" x="3241" y="13"/>
-</item>
-<item historyLabel="Main.java" index="0">
-<position info="not_deleted" x="2365" y="0"/>
-</item>
-<item historyLabel="Map.java" index="1">
-<position info="not_deleted" x="2446" y="0"/>
-</item>
 <item historyLabel="GL.java" index="3">
 <position info="not_deleted" x="32815" y="0"/>
 </item>
@@ -501,8 +466,44 @@
 <item historyLabel="Main.java" index="0">
 <position info="not_deleted" x="2029" y="0"/>
 </item>
-<item active="true" historyLabel="Actor.java" index="6">
+<item historyLabel="Actor.java" index="6">
 <position info="not_deleted" x="5565" y="0"/>
+</item>
+<item historyLabel="Actor.java" index="6">
+<position/>
+</item>
+<item historyLabel="Main.java" index="10">
+<position info="not_deleted" x="1922" y="0"/>
+</item>
+<item historyLabel="Actor.java" index="6">
+<position/>
+</item>
+<item historyLabel="Actor.java" index="6">
+<position info="not_deleted" x="5839" y="0"/>
+</item>
+<item historyLabel="Actor.java" index="6">
+<position/>
+</item>
+<item historyLabel="Actor.java" index="6">
+<position info="not_deleted" x="836" y="9"/>
+</item>
+<item historyLabel="Actor.java" index="6">
+<position info="not_deleted" x="4717" y="0"/>
+</item>
+<item historyLabel="Actor.java" index="6">
+<position info="not_deleted" x="2279" y="0"/>
+</item>
+<item historyLabel="Main.java" index="10">
+<position info="not_deleted" x="1677" y="0"/>
+</item>
+<item historyLabel="Actor.java" index="6">
+<position info="not_deleted" x="5545" y="0"/>
+</item>
+<item historyLabel="Main.java" index="10">
+<position info="not_deleted" x="4175" y="0"/>
+</item>
+<item active="true" historyLabel="Actor.java" index="6">
+<position info="not_deleted" x="5545" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
