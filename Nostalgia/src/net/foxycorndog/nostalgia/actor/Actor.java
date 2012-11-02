@@ -133,41 +133,59 @@ public class Actor
 		return false;
 	}
 	
+	/**
+	 * Move the actor in the direction of the specified
+	 * parameters. The direction that the Actor is facing
+	 * affects the direction he will go.
+	 *
+	 * @param dx The amount to move horizontally.
+	 * @param dy The amount to move vertically.
+	 * @param dz The amount to move obliquelly.
+	 */
 	public boolean move(float dx, float dy, float dz)
 	{
 		boolean moved = false;
 		
+		/*
+		 * Make the horizontal and oblique axis movements larger
+		 * if the actor is sprinting.
+		 */
 		dx = sprinting ? dx * 1.6f : dx;
 //		dy = sprinting ? dy * 1.6f : dy;
 		dz = sprinting ? dz * 1.6f : dz;
+		
+		/*
+		 * How many times to divide the movement to be smoother.
+		 * The greater the number, the more calculations it does,
+		 * but the more buttery smooth the move is.
+		 */
+		int times = 10;
 			
-		dx /= 10;
-		dy /= 10;
-		dz /= 10;
+		dx /= times;
+		dy /= times;
+		dz /= times;
 		
 		boolean movedVertical   = false;
 		boolean movedHorizontal = false;
 		boolean movedOblique    = false;
 		
-		for (int i = 0; i < 10; i ++)
+		for (int i = 0; i < times; i ++)
 		{
-			camera.moveDirection(dx, 0, dz);
-			location.moveDirection(dx, 0, dz);
+			// Move horizontally
+			camera.moveDirection(dx, 0, 0);
+			location.moveDirection(dx, 0, 0);
 			
 			if (collided(map))
 			{
-				camera.moveDirection(-dx, 0, -dz);
-				location.moveDirection(-dx, 0, -dz);
-				
-				movedHorizontal = movedHorizontal ? true : false;
-				movedOblique    = movedOblique    ? true : false;
+				camera.moveDirection(-dx, 0, 0);
+				location.moveDirection(-dx, 0, 0);
 			}
-			else if (dx != 0 || dz != 0)
+			else if (dx != 0)
 			{
 				movedHorizontal = true;
-				movedOblique    = true;
 			}
 			
+			// Move vertically
 			camera.moveDirection(0, dy, 0);
 			location.moveDirection(0, dy, 0);
 			
@@ -176,8 +194,6 @@ public class Actor
 				camera.moveDirection(0, -dy, 0);
 				location.moveDirection(0, -dy, 0);
 				
-				movedVertical = movedVertical ? true : false;
-				
 				onGround = true;
 			}
 			else if (dy != 0)
@@ -185,6 +201,20 @@ public class Actor
 				movedVertical = true;
 				
 				onGround = false;
+			}
+			
+			// Move Obliquely
+			camera.moveDirection(0, 0, dz);
+			location.moveDirection(0, 0, dz);
+
+			if (collided(map))
+			{
+				camera.moveDirection(0, 0, -dz);
+				location.moveDirection(0, 0, -dz);
+			}
+			else if (dz != 0)
+			{
+				movedOblique = true;
 			}
 		}
 		
