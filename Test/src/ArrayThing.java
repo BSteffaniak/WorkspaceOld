@@ -54,9 +54,9 @@ public class ArrayThing
 	
 	public void printArray()
 	{
-		for (int num : randomArray)
+		for (int i = 0; i < randomArray.length; i ++)
 		{
-			System.out.println(num);
+			System.out.println(randomArray[i]);
 		}
 	}
 	
