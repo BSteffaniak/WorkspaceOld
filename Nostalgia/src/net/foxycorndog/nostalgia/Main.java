@@ -93,8 +93,6 @@ public class Main extends GameComponent
 	
 	public void loop(int dfps)
 	{
-		player.move(0, -0.2f, 0);
-		
 		if (MouseInput.isButtonDown(MouseInput.LEFT_MOUSE_BUTTON))
 		{
 			MouseInput.setGrabbed(true);

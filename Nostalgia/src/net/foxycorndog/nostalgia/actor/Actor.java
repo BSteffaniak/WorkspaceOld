@@ -194,7 +194,14 @@ public class Actor
 				camera.moveDirection(0, -dy, 0);
 				location.moveDirection(0, -dy, 0);
 				
-				onGround = true;
+				if (dy > 0)
+				{
+					jumping = false;
+				}
+				else
+				{
+					onGround = true;
+				}
 			}
 			else if (dy != 0)
 			{
@@ -235,6 +242,8 @@ public class Actor
 	
 	public void update(int dfps)
 	{
+		move(0, -0.2f, 0);
+		
 		if (jumping)
 		{
 			if (location.getY() < startY + 4 && movingUp)
@@ -249,7 +258,7 @@ public class Actor
 					movingUp = false;
 				}
 			}
-			else if (!movingUp && Math.abs(location.getY() - startY) > TOLERANCE)
+			else if (!onGround)
 			{
 				
 			}
@@ -259,18 +268,21 @@ public class Actor
 			}
 		}
 		
-		if (sprinting)
+		if (cameraAttached())
 		{
-			if (GL.getFOV() < 60)
+			if (sprinting)
 			{
-				GL.setFOV(GL.getFOV() + 2);
+				if (GL.getFOV() < 60)
+				{
+					GL.setFOV(GL.getFOV() + 2);
+				}
 			}
-		}
-		else
-		{
-			if (GL.getFOV() > 45)
+			else
 			{
-				GL.setFOV(GL.getFOV() - 2);
+				if (GL.getFOV() > 45)
+				{
+					GL.setFOV(GL.getFOV() - 2);
+				}
 			}
 		}
 	}
