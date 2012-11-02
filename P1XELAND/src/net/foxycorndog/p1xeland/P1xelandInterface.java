@@ -1,6 +1,6 @@
 package net.foxycorndog.p1xeland;
 
-public abstract class P1xelandInterface
+public interface P1xelandInterface
 {
 	public abstract void init();
 	

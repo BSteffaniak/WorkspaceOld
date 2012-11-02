@@ -96,6 +96,8 @@ public class Main extends GameComponent
 		player.move(0, -0.1f, 0);
 		
 		pollEvents();
+		
+		GL.setFOV(GL.getFOV() - MouseInput.getDWheel() / 50);
 	}
 	
 	private void pollEvents()
@@ -110,91 +112,89 @@ public class Main extends GameComponent
 			MouseInput.setGrabbed(false);
 		}
 		
+		float dx = MouseInput.getDX();
+		float dy = MouseInput.getDY();
+		
+		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT_SHIFT))
+		{
+			player.setSprinting(true);
+		}
+		else
+		{
+			player.setSprinting(false);
+		}
+		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_W))
+		{
+			player.move(0, 0, -0.1f);
+		}
+		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_A))
+		{
+			player.move(-0.1f, 0, 0);
+		}
+		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_S))
+		{
+			player.move(0, 0, 0.1f);
+		}
+		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_D))
+		{
+			player.move(0.1f, 0, 0);
+		}
+		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_SPACE))
+		{
+			player.jump();
+		}
+		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT_SHIFT))
+		{
+			player.move(0, -0.1f, 0);
+		}
+		
 		if (MouseInput.isGrabbed())
 		{
-			GL.setFOV(GL.getFOV() - MouseInput.getDWheel() / 50);
-			
-			float dx = MouseInput.getDX();
-			float dy = MouseInput.getDY();
-			
-			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT_SHIFT))
-			{
-				player.setSprinting(true);
-			}
-			else
-			{
-				player.setSprinting(false);
-			}
-			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_W))
-			{
-				player.move(0, 0, -0.1f);
-			}
-			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_A))
-			{
-				player.move(-0.1f, 0, 0);
-			}
-			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_S))
-			{
-				player.move(0, 0, 0.1f);
-			}
-			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_D))
-			{
-				player.move(0.1f, 0, 0);
-			}
-			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_SPACE))
-			{
-				player.jump();
-			}
-			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT_SHIFT))
-			{
-				player.move(0, -0.1f, 0);
-			}
-			
 			player.yaw(dx * 0.10f);
 			player.pitch(-dy * 0.10f);
-			
-			if (KeyboardInput.next(KeyboardInput.KEY_C))
-			{
-				if (player.getPerspective() == Player.THIRD)
-				{
-					player.setPerspective(Player.FIRST);
-				}
-				else if (player.getPerspective() == Player.FIRST)
-				{
-					player.setPerspective(Player.THIRD);
-				}
-			}
-			
-			if (KeyboardInput.next(KeyboardInput.KEY_P))
-			{
-				if (GL.getDrawMode() == GL.ARRAYS)
-				{
-					GL.setDrawMode(GL.IMMEDIATE);
-				}
-				else if (GL.getDrawMode() == GL.IMMEDIATE)
-				{
-					map.genIndices();
-					
-					GL.setDrawMode(GL.ELEMENTS);
-				}
-				else if (GL.getDrawMode() == GL.ELEMENTS)
-				{
-					map.destroyIndices();
-					
-					GL.setDrawMode(GL.ARRAYS);
-				}
-			}
+		}
 		
-			if (KeyboardInput.next(KeyboardInput.KEY_L))
+		if (KeyboardInput.next(KeyboardInput.KEY_C))
+		{
+			if (player.getPerspective() == Player.THIRD)
 			{
-				map.render = map.render == GL.POINTS ? GL.TRIANGLES : GL.POINTS;
+				player.setPerspective(Player.FIRST);
 			}
-			
-			if (KeyboardInput.next(KeyboardInput.KEY_O))
+			else if (player.getPerspective() == Player.FIRST)
 			{
-				GL.setWireFrameMode(!GL.isWireFrame(), GL.isWireFrame(), true);
-		//			GL.setShowColors(!GL.isShowingColors());
+				player.setPerspective(Player.THIRD);
 			}
+		}
+		
+		if (KeyboardInput.next(KeyboardInput.KEY_P))
+		{
+			if (GL.getDrawMode() == GL.ARRAYS)
+			{
+				GL.setDrawMode(GL.IMMEDIATE);
+			}
+			else if (GL.getDrawMode() == GL.IMMEDIATE)
+			{
+				map.genIndices();
+				
+				GL.setDrawMode(GL.ELEMENTS);
+			}
+			else if (GL.getDrawMode() == GL.ELEMENTS)
+			{
+				map.destroyIndices();
+				
+				GL.setDrawMode(GL.ARRAYS);
+			}
+		}
+
+		if (KeyboardInput.next(KeyboardInput.KEY_L))
+		{
+			map.render = map.render == GL.POINTS ? GL.TRIANGLES : GL.POINTS;
+		}
+		
+		if (KeyboardInput.next(KeyboardInput.KEY_O))
+		{
+			GL.setWireFrameMode(!GL.isWireFrame(), GL.isWireFrame(), true);
+//			GL.setShowColors(!GL.isShowingColors());
 		}
 		
 //			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_R))

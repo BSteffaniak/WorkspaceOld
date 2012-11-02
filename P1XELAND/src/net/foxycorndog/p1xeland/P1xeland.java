@@ -54,7 +54,7 @@ import net.foxycorndog.p1xeland.map.chunks.Chunk;
 import net.foxycorndog.p1xeland.market.Client;
 import net.foxycorndog.p1xeland.menus.MainMenu;
 
-public class P1xeland extends P1xelandInterface implements MouseListener
+public class P1xeland implements P1xelandInterface, MouseListener
 {
 	private boolean         playingGame;
 	private boolean         inventoryOpen;

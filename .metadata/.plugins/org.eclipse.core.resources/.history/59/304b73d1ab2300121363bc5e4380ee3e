@@ -112,8 +112,6 @@ public class Main extends GameComponent
 		
 		if (MouseInput.isGrabbed())
 		{
-			GL.setFOV(GL.getFOV() - MouseInput.getDWheel() / 50);
-			
 			float dx = MouseInput.getDX();
 			float dy = MouseInput.getDY();
 			
@@ -150,8 +148,11 @@ public class Main extends GameComponent
 				player.move(0, -0.1f, 0);
 			}
 			
-			player.yaw(dx * 0.10f);
-			player.pitch(-dy * 0.10f);
+			if (MouseInput.isGrabbed())
+			{
+				player.yaw(dx * 0.10f);
+				player.pitch(-dy * 0.10f);
+			}
 			
 			if (KeyboardInput.next(KeyboardInput.KEY_C))
 			{
