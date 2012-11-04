@@ -1,0 +1,26 @@
+package net.foxycorndog.nostalgia.weapons;
+
+import net.foxycorndog.jdoogl.geometry.Point;
+import net.foxycorndog.jdoogl.geometry.Vector;
+
+public class Bullet
+{
+	private float  velocity;
+	
+	private Point  location;
+	
+	private Vector path;
+	
+	public Bullet(Point location, Vector path, float velocity)
+	{
+		this.location = location;
+		this.path     = path;
+		
+		this.path.set(path.getX(), path.getY(), path.getZ());
+	}
+	
+	public void update()
+	{
+		location.plus(path);
+	}
+}

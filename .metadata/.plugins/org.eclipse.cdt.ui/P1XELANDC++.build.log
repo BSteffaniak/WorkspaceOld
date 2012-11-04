@@ -2,7 +2,6 @@
 **** Build of configuration Debug for project P1XELANDC++ ****
 
 **** Internal Builder is used for build               ****
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -o net\foxycorndog\p1xeland\P1XELAND.o ..\net\foxycorndog\p1xeland\P1XELAND.cpp
 g++ -O0 -g3 -Wall -c -fmessage-length=0 -o net\foxycorndog\p1xeland\actors\Actor.o ..\net\foxycorndog\p1xeland\actors\Actor.cpp
 ..\net\foxycorndog\p1xeland\actors\Actor.cpp:26:3: error: 'Direction' does not name a type
 ..\net\foxycorndog\p1xeland\actors\Actor.cpp:28:3: error: 'Map' does not name a type
@@ -49,4 +48,4 @@ g++ -O0 -g3 -Wall -c -fmessage-length=0 -o net\foxycorndog\p1xeland\actors\Actor
 ..\net\foxycorndog\p1xeland\actors\Actor.cpp:273:2: error: expected unqualified-id before 'public'
 ..\net\foxycorndog\p1xeland\actors\Actor.cpp:287:2: error: expected unqualified-id before 'public'
 Build error occurred, build is stopped
-Time consumed: 655  ms.  
+Time consumed: 2481  ms.  

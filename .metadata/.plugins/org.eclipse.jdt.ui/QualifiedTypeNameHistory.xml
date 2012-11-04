@@ -46,18 +46,18 @@
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.Buffer"/>
 <fullyQualifiedTypeName name="org.lwjgl.util.vector.Vector3f"/>
-<fullyQualifiedTypeName name="net.foxycorndog.nostalgia.actor.Actor"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.components.Frame.GameRenderer"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.activity.GameComponent"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.FrameLoop"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.FrameTask"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.components.Frame"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.Vector"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.GL"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.model.Model"/>
 <fullyQualifiedTypeName name="java.util.Vector"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.geometry.Vector"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.geometry.Point"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.image.imagemap.Texture"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.OpenGLException"/>
+<fullyQualifiedTypeName name="net.foxycorndog.nostalgia.actor.Actor"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.geometry.Vector"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.GL"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.geometry.Point"/>
 </qualifiedTypeNameHistroy>

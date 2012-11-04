@@ -96,6 +96,7 @@ import javax.naming.OperationNotSupportedException;
 
 import net.foxycorndog.jdobase.Base;
 import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.geometry.Point;
 import net.foxycorndog.jdoogl.image.imagemap.ImageMap;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
@@ -863,6 +864,16 @@ public class GL
 		renderLocation[0] += x * scale[0];
 		renderLocation[1] += y * scale[1];
 		renderLocation[2] += z * scale[2];
+	}
+	
+	/**
+	 * Translates the scene rendered on the scene to the specified Point.
+	 * 
+	 * @param p The Point to translate to.
+	 */
+	public static void translatef(Point p)
+	{
+		translatef(p.getX(), p.getY(), p.getZ());
 	}
 	
 	/**
@@ -1675,25 +1686,71 @@ public class GL
 		
 		for (int i = 0; i < 6; i ++)
 		{
-			array[offset + index ++] = r / 255f;
-			array[offset + index ++] = g / 255f;
-			array[offset + index ++] = b / 255f;
-			array[offset + index ++] = a / 255f;
+			addRectColorArrayif(r, g, b, a, i * 4 * 4, array);
+		}
+		
+		return array;
+	}
+	
+	public static float[] addCubeColorArrayf(int colors[][], int offset, float[] array)
+	{
+		if (array == null)
+		{
+			array  = new float[4 * 4 * 6];
 			
-			array[offset + index ++] = r / 255f;
-			array[offset + index ++] = g / 255f;
-			array[offset + index ++] = b / 255f;
-			array[offset + index ++] = a / 255f;
+			offset = 0;
+		}
+		
+		int index   = 0;
+		
+		int leftOff = 0;
+		
+		for (leftOff = 0; leftOff < colors.length; leftOff ++)
+		{
+			array[offset + index ++] = colors[leftOff][0];
+			array[offset + index ++] = colors[leftOff][1];
+			array[offset + index ++] = colors[leftOff][2];
+			array[offset + index ++] = colors[leftOff][3];
 			
-			array[offset + index ++] = r / 255f;
-			array[offset + index ++] = g / 255f;
-			array[offset + index ++] = b / 255f;
-			array[offset + index ++] = a / 255f;
+			array[offset + index ++] = colors[leftOff][0];
+			array[offset + index ++] = colors[leftOff][1];
+			array[offset + index ++] = colors[leftOff][2];
+			array[offset + index ++] = colors[leftOff][3];
 			
-			array[offset + index ++] = r / 255f;
-			array[offset + index ++] = g / 255f;
-			array[offset + index ++] = b / 255f;
-			array[offset + index ++] = a / 255f;
+			array[offset + index ++] = colors[leftOff][0];
+			array[offset + index ++] = colors[leftOff][1];
+			array[offset + index ++] = colors[leftOff][2];
+			array[offset + index ++] = colors[leftOff][3];
+			
+			array[offset + index ++] = colors[leftOff][0];
+			array[offset + index ++] = colors[leftOff][1];
+			array[offset + index ++] = colors[leftOff][2];
+			array[offset + index ++] = colors[leftOff][3];
+		}
+		
+		leftOff --;
+		
+		for (int i = leftOff + 1; i < 6; i ++)
+		{
+			array[offset + index ++] = colors[leftOff][0];
+			array[offset + index ++] = colors[leftOff][1];
+			array[offset + index ++] = colors[leftOff][2];
+			array[offset + index ++] = colors[leftOff][3];
+			
+			array[offset + index ++] = colors[leftOff][0];
+			array[offset + index ++] = colors[leftOff][1];
+			array[offset + index ++] = colors[leftOff][2];
+			array[offset + index ++] = colors[leftOff][3];
+			
+			array[offset + index ++] = colors[leftOff][0];
+			array[offset + index ++] = colors[leftOff][1];
+			array[offset + index ++] = colors[leftOff][2];
+			array[offset + index ++] = colors[leftOff][3];
+			
+			array[offset + index ++] = colors[leftOff][0];
+			array[offset + index ++] = colors[leftOff][1];
+			array[offset + index ++] = colors[leftOff][2];
+			array[offset + index ++] = colors[leftOff][3];
 		}
 		
 		return array;
@@ -1855,14 +1912,14 @@ public class GL
 	{
 		if (array == null)
 		{
-			array  = new float[2 * 4 * 6];
+			array    = new float[2 * 4 * 6];
 			
-			offset = 0;
+			offset   = 0;
 		}
 		
-		int index   = 0;
+		int index    = 0;
 		
-		int leftOff = 0;
+		int leftOff  = 0;
 		
 		for (leftOff = 0; leftOff < offsets.length; leftOff ++)
 		{

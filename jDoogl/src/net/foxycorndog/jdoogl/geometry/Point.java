@@ -21,6 +21,23 @@ public class Point implements Cloneable
 		return new Point(this.x - x, this.y - y, this.z - z);
 	}
 	
+	public Point plus(Point p)
+	{
+		return minus(p.x, p.y, p.z);
+	}
+	
+	public Point plus(float x, float y, float z)
+	{
+		return new Point(this.x + x, this.y + y, this.z + z);
+	}
+	
+	public void set(float x, float y, float z)
+	{
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+	
 	public float getX()
 	{
 		return x;

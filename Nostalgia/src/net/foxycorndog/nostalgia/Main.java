@@ -9,13 +9,14 @@ import net.foxycorndog.jdoogl.input.KeyboardInput;
 import net.foxycorndog.jdoogl.input.MouseInput;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.VerticesBuffer;
+import net.foxycorndog.nostalgia.actor.Actor;
 import net.foxycorndog.nostalgia.actor.Player;
 import net.foxycorndog.nostalgia.actor.camera.Camera;
 import net.foxycorndog.nostalgia.map.Map;
 
 public class Main extends GameComponent
 {
-	private static Main    m;
+	private float          offsetY, offsetZ;
 	
 	private Player         player;
 	
@@ -23,7 +24,7 @@ public class Main extends GameComponent
 	
 	private Camera         camera;
 	
-	private float lastTime;
+	private static Main    m;
 //	private static final float _headSens = 0.002f;
 //	private static final float _pitchSens = 0.002f;
 //	private static final float _walk = 10.0f;
@@ -105,7 +106,25 @@ public class Main extends GameComponent
 		
 		if (MouseInput.isGrabbed())
 		{
-			GL.setFOV(GL.getFOV() - MouseInput.getDWheel() / 50);
+			float dWheel = MouseInput.getDWheel();
+			
+			if (dWheel != 0 && player.cameraAttached() && player.getPerspective() == Actor.THIRD)
+			{
+				dWheel /= 100;
+				
+				offsetY += -1/5f * dWheel;
+				offsetZ += -5/5f * dWheel;
+				
+				if (offsetY > 0 && offsetZ > 0)
+				{
+					camera.move(0, -1/5f * dWheel, -5/5f * dWheel);
+				}
+				else
+				{
+					offsetY -= -1/5f * dWheel;
+					offsetZ -= -5/5f * dWheel;
+				}
+			}
 			
 			float dx = MouseInput.getDX();
 			float dy = MouseInput.getDY();
@@ -118,6 +137,7 @@ public class Main extends GameComponent
 			{
 				player.setSprinting(false);
 			}
+			
 			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_W))
 			{
 				player.move(0, 0, -0.1f);
@@ -137,10 +157,6 @@ public class Main extends GameComponent
 			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_SPACE))
 			{
 				player.jump();
-			}
-			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT_SHIFT))
-			{
-				player.move(0, -0.1f, 0);
 			}
 			
 			player.yaw(dx * 0.10f);
@@ -211,9 +227,9 @@ public class Main extends GameComponent
 //			{
 //				player.deta
 //			}
+		
+		System.out.println(player.getX() + ", " + player.getY() + ", " + player.getZ());
 			
 		player.update(dfps);
-		
-//		System.out.println(player.cameraAttached());
 	}
 }

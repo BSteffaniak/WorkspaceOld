@@ -9,8 +9,9 @@ import net.foxycorndog.nostalgia.map.Map;
 public class Actor
 {
 	private boolean onGround;
+	private boolean moving;
 	private boolean sprinting;
-	private boolean jumping, movingUp;
+	private boolean jumping;
 	private boolean cameraAttached;
 	
 	private int     perspective;
@@ -144,7 +145,7 @@ public class Actor
 	 */
 	public boolean move(float dx, float dy, float dz)
 	{
-		boolean moved = false;
+		moving = false;
 		
 		/*
 		 * Make the horizontal and oblique axis movements larger
@@ -183,6 +184,7 @@ public class Actor
 			else if (dx != 0)
 			{
 				movedHorizontal = true;
+				moving          = true;
 			}
 			
 			// Move vertically
@@ -206,8 +208,7 @@ public class Actor
 			else if (dy != 0)
 			{
 				movedVertical = true;
-				
-				onGround = false;
+				onGround      = false;
 			}
 			
 			// Move Obliquely
@@ -222,6 +223,7 @@ public class Actor
 			else if (dz != 0)
 			{
 				movedOblique = true;
+				moving       = true;
 			}
 		}
 		
@@ -230,11 +232,9 @@ public class Actor
 	
 	public void jump()
 	{
-		if (!jumping)
+		if (!jumping && onGround)
 		{
 			jumping  = true;
-			
-			movingUp = true;
 			
 			startY   = location.getY();
 		}
@@ -242,35 +242,9 @@ public class Actor
 	
 	public void update(int dfps)
 	{
-		move(0, -0.2f, 0);
-		
-		if (jumping)
-		{
-			if (location.getY() < startY + 4 && movingUp)
-			{
-				if (!move(0, 0.8f, 0))
-				{
-					jumping = false;
-				}
-				
-				if (location.getY() >= startY + 4)
-				{
-					movingUp = false;
-				}
-			}
-			else if (!onGround)
-			{
-				
-			}
-			else
-			{
-				jumping = false;
-			}
-		}
-		
 		if (cameraAttached())
 		{
-			if (sprinting)
+			if (moving && sprinting)
 			{
 				if (GL.getFOV() < 60)
 				{
@@ -284,6 +258,26 @@ public class Actor
 					GL.setFOV(GL.getFOV() - 2);
 				}
 			}
+		}
+		
+		if (jumping)
+		{
+			if (location.getY() < startY + 4)
+			{
+				if (!move(0, 0.6f, 0))
+				{
+					jumping = false;
+				}
+				
+				if (location.getY() >= startY + 4)
+				{
+					jumping  = false;
+				}
+			}
+		}
+		else
+		{
+			move(0, -0.4f, 0);
 		}
 	}
 	
@@ -325,11 +319,13 @@ public class Actor
 	
 	public void lookThrough()
 	{
-		GL.translatef(-getOffsetX() + getCenterX(), -getOffsetY() + getCenterY(), -getOffsetZ() + getCenterZ());
+//		GL.translatef(-getOffsetX() + getCenterX(), -getOffsetY() + getCenterY(), -getOffsetZ() + getCenterZ());
+		GL.translatef(-(camera.getX() - getX()) + centerX, -(camera.getY() - getY()) + centerY, -(camera.getZ() - getZ()) + centerZ);
 		
 		camera.lookThrough();
 
-		GL.translatef(getOffsetX() - getCenterX(), getOffsetY() - getCenterY(), getOffsetZ() - getCenterZ());
+//		GL.translatef(getOffsetX() - getCenterX(), getOffsetY() - getCenterY(), getOffsetZ() - getCenterZ());
+		GL.translatef(camera.getX() - getX() - centerX, camera.getY() - getY() - centerY, camera.getZ() - getZ() - centerZ);
 	}
 	
 	public void pitch(float amount)
@@ -430,15 +426,15 @@ public class Actor
 		
 		if (perspective == THIRD)
 		{
-			moveOffest(0, 2, 6);
-			
-			getCamera().move(0, 2, 6);
+//			moveOffest(0, 2, 6);
+
+			camera.setLocation(getX() + centerX, 2 + getY() + centerY, 6 + getZ() + centerZ);
 		}
 		else if (perspective == FIRST)
 		{
-			moveOffest(0, -2, -6);
+//			moveOffest(0, -2, -6);
 
-			getCamera().move(0, -2, -6);
+			camera.setLocation(getX() + centerX, getY() + centerY, getZ() + centerZ);
 		}
 		
 		this.perspective = perspective;
@@ -468,15 +464,10 @@ public class Actor
 		return camera;
 	}
 	
-//	public void genIndices()
-//	{
-//		verticesBuffer.genIndices(GL.QUADS, null);
-//	}
-	
-//	public void destroyIndices()
-//	{
-//		verticesBuffer.destroyIndices();
-//	}
+	public boolean isMoving()
+	{
+		return moving;
+	}
 	
 	public Model getModel()
 	{

@@ -1,0 +1,16 @@
+package net.foxycorndog.nostalgia.weapons;
+
+import net.foxycorndog.jdoogl.geometry.Point;
+import net.foxycorndog.jdoogl.geometry.Vector;
+
+public class Bullet
+{
+	private Point  location;
+	
+	private Vector path;
+	
+	public Bullet(Point location, Vector path)
+	{
+		
+	}
+}

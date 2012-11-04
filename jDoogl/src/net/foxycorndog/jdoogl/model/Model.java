@@ -143,7 +143,9 @@ public class Model
 //		allVerticesBuffer = new VerticesBuffer(allVertices.length, 3);
 //		allVerticesBuffer.addData(allVertices);
 		
-		faceNormals = new float[normals.length / 3];
+		System.out.println(normals.length);
+		
+		faceNormals = new float[normalIndices.length / 3];
 		
 		for (int i = 0; i < vertexIndices.length; i += 3)
 		{
@@ -275,14 +277,29 @@ public class Model
 	
 	public void render()
 	{
-//		if (GL.DRAW_MODE_ELEMENTS)
-//		{
-			GL.renderTriangles(verticesBuffer, null, null, null, null, 0, vertexIndices.length / 3, null);
-//		}
-//		else
-//		{
-//			GL.renderTriangles(allVerticesBuffer, null, null, null, null, 0, allVertices.length / 3 / 3, null);
-//		}
+		GL.beginManipulation();
+		{
+			GL.translatef(x, y, z);
+			
+//			if (GL.DRAW_MODE_ELEMENTS)
+//			{
+				GL.renderTriangles(verticesBuffer, null, null, null, null, 0, vertexIndices.length / 3, null);
+//			}
+//			else
+//			{
+//				GL.renderTriangles(allVerticesBuffer, null, null, null, null, 0, allVertices.length / 3 / 3, null);
+//			}
+		}
+		GL.endManipulation();
+	}
+	
+	public boolean move(float dx, float dy, float dz)
+	{
+		x += dx;
+		y += dy;
+		z += dz;
+		
+		return true;
 	}
 	
 	public float[] getVertices()
