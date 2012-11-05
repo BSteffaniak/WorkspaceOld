@@ -39,11 +39,11 @@ public class ArrayThing
 			
 			System.out.println(System.nanoTime() - nanos);
 		}
+		
+		thang.setTarget();
 
 		// Point 3
 		{
-			thang.printArray();
-			
 			nanos = System.nanoTime();
 		
 			thang.targetInArray();
@@ -58,6 +58,11 @@ public class ArrayThing
 		{
 			System.out.println(randomArray[i]);
 		}
+	}
+	
+	public void setTarget()
+	{
+		target = getTarget();
 	}
 	
 	public void sort()
@@ -94,11 +99,11 @@ public class ArrayThing
 	{
 //		System.out.println(System.currentTimeMillis());
 //		System.out.println(System.nanoTime());
-		randomArray = new int[10];
+		randomArray = new int[100000];
 		
 		for (int i = 0; i < randomArray.length; i ++)
 		{
-			randomArray[i] = (int)(Math.random() * 10);
+			randomArray[i] = (int)(Math.random() * 100000);
 		}
 //		writeToFile();
 //		readFromFile();
@@ -116,9 +121,7 @@ public class ArrayThing
 	
 	public boolean targetInArray()
 	{
-		target = getTarget();
-		
-		return binarySearch(6) != -1;
+		return binarySearch(target) != -1;
 	}
 	
 	public int binarySearch(int target)
@@ -141,12 +144,9 @@ public class ArrayThing
 			}
 			else
 			{
-				System.out.println(target + " at " + middleI);
 				return middleI;
 			}
 		}
-		
-		System.out.println("no target");
 		
 		return -1;
 	}
