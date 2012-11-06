@@ -221,7 +221,7 @@ public class Main extends GameComponent
 //				player.deta
 //			}
 		
-		System.out.println(player.getX() + ", " + player.getY() + ", " + player.getZ());
+//		System.out.println(player.getX() + ", " + player.getY() + ", " + player.getZ());
 			
 		player.update(dfps);
 	}

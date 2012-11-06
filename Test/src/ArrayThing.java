@@ -10,12 +10,24 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * File:          ArrayThing.java
+ * Author:        Braden Steffaniak
+ * Programming:   APCS
+ * Last Modified: 6Nov2012
+ * Description:   Class that tests the time of big O of n.
+ */
+
 public class ArrayThing
 {
 	private int randomArray[];
 	
 	private int target;
 	
+	/**
+	 * The main method that performs the tests.
+	 * @param args
+	 */
 	public static void main(String args[])
 	{
 		ArrayThing thang;
@@ -52,19 +64,22 @@ public class ArrayThing
 		}
 	}
 	
-	public void printArray()
+	/**
+	 * Creates a random array of however many integers.
+	 */
+	public ArrayThing()
 	{
+		randomArray = new int[10000000];
+		
 		for (int i = 0; i < randomArray.length; i ++)
 		{
-			System.out.println(randomArray[i]);
+			randomArray[i] = (int)(Math.random() * randomArray.length);
 		}
 	}
 	
-	public void setTarget()
-	{
-		target = getTarget();
-	}
-	
+	/**
+	 * Sorts the random array from least to greatest.
+	 */
 	public void sort()
 	{
 		// loops through all of the values of the array
@@ -95,36 +110,52 @@ public class ArrayThing
 		}
 	}
 	
-	public ArrayThing()
-	{
-//		System.out.println(System.currentTimeMillis());
-//		System.out.println(System.nanoTime());
-		randomArray = new int[100000];
-		
-		for (int i = 0; i < randomArray.length; i ++)
-		{
-			randomArray[i] = (int)(Math.random() * 100000);
-		}
-//		writeToFile();
-//		readFromFile();
-	}
-	
+	/**
+	 * Writes the specified target to the data.txt file.
+	 * 
+	 * @param target The integer to store in the file.
+	 */
 	private void writeTarget(int target)
 	{
-		write("data.txt", 34);
+		write("data.txt", target);
 	}
 	
+	/**
+	 * Gets the target from the data.txt file.
+	 * 
+	 * @return The integer received from the file.
+	 */
 	private int getTarget()
 	{
 		return Integer.valueOf((String)read("data.txt"));
 	}
 	
-	public boolean targetInArray()
+	/**
+	 * Set the target field to the target in the file.
+	 */
+	public void setTarget()
 	{
-		return binarySearch(target) != -1;
+		target = getTarget();
 	}
 	
-	public int binarySearch(int target)
+	/**
+	 * Returns whether the target is in the array.
+	 * 
+	 * @return True of false whether the target is there.
+	 */
+	public boolean targetInArray()
+	{
+		return binarySearch(target);
+	}
+	
+	/**
+	 * Searches through the array for the specified target. Uses
+	 * a binary search.
+	 * 
+	 * @param target The target to search for.
+	 * @return Whether the target is in the array.
+	 */
+	public boolean binarySearch(int target)
 	{
 		int leftI   = 0;
 		int rightI  = randomArray.length - 1;
@@ -144,49 +175,58 @@ public class ArrayThing
 			}
 			else
 			{
-				return middleI;
+				return true;
 			}
 		}
 		
-		return -1;
+		return false;
 	}
 	
-	private void readFromFile()
-	{
-		randomArray = (int[])read("arrayFile.dat");
-
-		System.out.println("Read: ");
+//	private void readFromFile()
+//	{
+//		randomArray = (int[])read("arrayFile.dat");
+//
+//		System.out.println("Read: ");
+////		for (int i = 0; i < randomArray.length; i ++)
+////		{
+////			System.out.println(randomArray[i]);
+////		}
+//	}
+	
+//	private void writeToFile()
+//	{
+//		randomArray = new int[100000];
+//		
 //		for (int i = 0; i < randomArray.length; i ++)
 //		{
-//			System.out.println(randomArray[i]);
+//			randomArray[i] = (int)(Math.random() * 10);
 //		}
-	}
+//		
+//		write("arrayFile.dat", randomArray);
+//		
+////		System.out.println("Wrote: ");
+////		for (int i = 0; i < randomArray.length; i ++)
+////		{
+////			System.out.println(randomArray[i]);
+////		}
+//	}
 	
-	private void writeToFile()
-	{
-		randomArray = new int[100000];
-		
-		for (int i = 0; i < randomArray.length; i ++)
-		{
-			randomArray[i] = (int)(Math.random() * 10);
-		}
-		
-		write("arrayFile.dat", randomArray);
-		
-//		System.out.println("Wrote: ");
-//		for (int i = 0; i < randomArray.length; i ++)
-//		{
-//			System.out.println(randomArray[i]);
-//		}
-	}
-	
+	/**
+	 * Gets the first object from the file at the specified
+	 * location.
+	 * 
+	 * @param location The location of the file.
+	 * @return The first object from the file.
+	 */
 	private static Object read(String location)
 	{
 		Object obj = null;
 		
 		try
 		{
-			ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(location)));
+			ObjectInputStream in = new ObjectInputStream(
+					new BufferedInputStream(
+					new FileInputStream(location)));
 		
 			obj = in.readObject();
 			
@@ -208,11 +248,20 @@ public class ArrayThing
 		return obj;
 	}
 	
+	/**
+	 * Writes the object to the specified file at the specified
+	 * location.
+	 * 
+	 * @param location The location of the file to write to.
+	 * @param obj The object to write to the file.
+	 */
 	private static void write(String location, Object obj)
 	{
 		try
 		{
-			ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(location)));
+			ObjectOutputStream out = new ObjectOutputStream(
+					new BufferedOutputStream(
+					new FileOutputStream(location)));
 			
 			out.writeObject(obj);
 			
