@@ -172,6 +172,21 @@ public class Actor
 		
 		for (int i = 0; i < times; i ++)
 		{
+			// Move horizontally
+			camera.moveDirection(dx, 0, 0);
+			location.moveDirection(dx, 0, 0);
+			
+			if (collided(map))
+			{
+				camera.moveDirection(-dx, 0, 0);
+				location.moveDirection(-dx, 0, 0);
+			}
+			else if (dx != 0)
+			{
+				movedHorizontal = true;
+				moving          = true;
+			}
+			
 			// Move vertically
 			camera.moveDirection(0, dy, 0);
 			location.moveDirection(0, dy, 0);
@@ -194,24 +209,6 @@ public class Actor
 			{
 				movedVertical = true;
 				onGround      = false;
-			}
-			
-			if (onGround)
-			{
-				// Move horizontally
-				camera.moveDirection(dx, 0, 0);
-				location.moveDirection(dx, 0, 0);
-				
-				if (collided(map))
-				{
-					camera.moveDirection(-dx, 0, 0);
-					location.moveDirection(-dx, 0, 0);
-				}
-				else if (dx != 0)
-				{
-					movedHorizontal = true;
-					moving          = true;
-				}
 			}
 			
 			// Move Obliquely
