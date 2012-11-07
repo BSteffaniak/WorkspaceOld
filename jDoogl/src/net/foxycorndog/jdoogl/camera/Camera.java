@@ -285,7 +285,10 @@ public class Camera implements Cloneable
 //		location.z += zOff;
 		
 		location.z -= distZ * (float)Math.cos(Math.toRadians(yaw));
+		location.z += distX * (float)Math.cos(Math.toRadians(yaw + 90));
+		
 		location.x += distZ * (float)Math.sin(Math.toRadians(yaw));
+		location.x -= distX * (float)Math.sin(Math.toRadians(yaw + 90));
 		
 //		if (cameraMode == FREE)
 //		{
@@ -297,11 +300,9 @@ public class Camera implements Cloneable
 //		}
 //		else
 //		{
-////			location.y -= distY;
+			location.y -= distY;
 //		}
 
-		location.x -= distX * (float)Math.sin(Math.toRadians(yaw + 90));
-		location.z += distX * (float)Math.cos(Math.toRadians(yaw + 90));
 	}
 	
 	public void move(int direction, float distance)

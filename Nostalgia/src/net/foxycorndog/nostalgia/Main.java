@@ -129,14 +129,7 @@ public class Main extends GameComponent
 			float dx = MouseInput.getDX();
 			float dy = MouseInput.getDY();
 			
-			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT_SHIFT))
-			{
-				player.setSprinting(true);
-			}
-			else
-			{
-				player.setSprinting(false);
-			}
+			player.setSprinting(KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT_SHIFT));
 			
 			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_W))
 			{
@@ -228,7 +221,7 @@ public class Main extends GameComponent
 //				player.deta
 //			}
 		
-		System.out.println(player.getX() + ", " + player.getY() + ", " + player.getZ());
+//		System.out.println(player.getX() + ", " + player.getY() + ", " + player.getZ());
 			
 		player.update(dfps);
 	}
