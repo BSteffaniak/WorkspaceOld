@@ -24,7 +24,8 @@ public class Division
 		{
 			read();
 			
-			
+			System.out.println(gcf());
+			System.out.println(lcm());
 		}
 		catch (IOException e)
 		{
@@ -34,12 +35,34 @@ public class Division
 	
 	private int gcf()
 	{
-		return 0;
+		int max = Math.max(variables[0], variables[1]);
+		int min = Math.min(variables[0], variables[1]);
+		
+		for (int i = min; i > 1; i --)
+		{
+			if (max % i == 0 && min % i == 0)
+			{
+				return i;
+			}
+		}
+		
+		return 1;
 	}
 	
 	private int lcm()
 	{
-		return 0;
+		int max = Math.max(variables[2], variables[3]);
+		int min = Math.min(variables[2], variables[3]);
+		
+//		for ()
+		
+		for (int i = max;; i += min)
+		{
+			if (i % max == 0 && i % min == 0)
+			{
+				return i;
+			}
+		}
 	}
 	
 	private void read() throws IOException
