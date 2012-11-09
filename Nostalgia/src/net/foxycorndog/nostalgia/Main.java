@@ -16,45 +16,19 @@ import net.foxycorndog.nostalgia.map.Map;
 
 public class Main extends GameComponent
 {
-	private float          offsetY, offsetZ;
+	private float       offsetY, offsetZ;
 	
-	private Player         player;
+	private Player      player;
 	
-	private Map            map;
+	private Map         map;
 	
-	private Camera         camera;
+	private Camera      camera;
 	
-	private static Main    m;
-//	private static final float _headSens = 0.002f;
-//	private static final float _pitchSens = 0.002f;
-//	private static final float _walk = 10.0f;
-//	private static final float _strafe = 8.0f;
+	private static Main m;
 	
 	public static void main(String args[])
 	{
 		m = new Main();
-		
-//		new Frame(640, 512, "ASDF", null)
-//		{
-//			public void init()
-//			{
-//				GL.setRender3D(true);
-//				
-////				GL.initBasicLights();
-//				
-//				m.init();
-//			}
-//			
-//			public void render()
-//			{
-//				m.render();
-//			}
-//			
-//			public void loop()
-//			{
-//				m.loop();
-//			}
-//		}.startLoop(60);
 	}
 	
 	public Main()
@@ -65,9 +39,6 @@ public class Main extends GameComponent
 	public void onCreate()
 	{
 		GL.setRender3D(true);
-		
-//		texture = new Texture("res/images/grass.png");
-//		texture2 = new Texture("");
 		
 		map    = new Map();
 		

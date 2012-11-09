@@ -163,7 +163,7 @@ public class Map
 		
 		bunny.render();
 		
-		hat.render();
+//		hat.render();
 		
 		GL.renderCubes(verticesBuffer, texturesBuffer, null, colorsBuffer, sprites, 0, 1, null);
 		
