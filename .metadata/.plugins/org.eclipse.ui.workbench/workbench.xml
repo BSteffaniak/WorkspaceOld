@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="25" version="2.0">
+<workbench progressCount="26" version="2.0">
 <workbenchAdvisor/>
 <window height="768" maximized="true" width="1024" x="125" y="125">
 <fastViewData fastViewLocation="1024"/>
@@ -62,7 +62,7 @@
 </folder>
 </info>
 </editorArea>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" partName="Main.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/Main.java" title="Main.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/Main.java" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" partName="Main.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/Main.java" title="Main.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/Main.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/Main.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1918" selectionTopPixel="901"/>
 </editor>
@@ -78,7 +78,7 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/camera/Camera.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5379" selectionTopPixel="3772"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Actor.java" partName="Actor.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/actor/Actor.java" title="Actor.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/actor/Actor.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Actor.java" partName="Actor.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/actor/Actor.java" title="Actor.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/actor/Actor.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/Actor.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5018" selectionTopPixel="2700"/>
 </editor>
@@ -174,7 +174,9 @@
 </view>
 <view id="org.eclipse.jdt.ui.PackageExplorer" partName="Package Explorer">
 <viewState group_libraries="1" layout="2" linkWithEditor="0" rootMode="1" workingSetName="">
-<customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
+<customFilters userDefinedPatternsEnabled="false">
+<xmlDefinedFilters>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.LocalTypesFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.StaticsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.ClosedProjectsFilter" isEnabled="false"/>
@@ -355,16 +357,9 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/geometry/Point.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/Main.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/Actor.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Test/src/Division.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/Main.java"/>
 </editors>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="518" y="6"/>
-</item>
-<item historyLabel="Main.java" index="3">
-<position info="not_deleted" x="1952" y="0"/>
-</item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="508" y="0"/>
-</item>
 <item historyLabel="Main.java" index="3">
 <position info="not_deleted" x="1952" y="0"/>
 </item>
@@ -503,8 +498,17 @@
 <item historyLabel="Main.java" index="5">
 <position info="not_deleted" x="1918" y="0"/>
 </item>
-<item active="true" historyLabel="Actor.java" index="6">
+<item historyLabel="Actor.java" index="6">
 <position info="not_deleted" x="2373" y="0"/>
+</item>
+<item historyLabel="Division.java" index="7">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Actor.java" index="6">
+<position info="not_deleted" x="5018" y="0"/>
+</item>
+<item active="true" historyLabel="Main.java" index="8">
+<position info="not_deleted" x="1918" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -528,6 +532,9 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Division.java" tooltip="Test/src/Division.java">
+<persistable path="/Test/src/Division.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Bullet.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/weapons/Bullet.java">
 <persistable path="/Nostalgia/src/net/foxycorndog/nostalgia/weapons/Bullet.java"/>
 </file>
@@ -569,9 +576,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GL.java" tooltip="jDooglAndroid/src/net/foxycorndog/jdoogl/GL.java">
 <persistable path="/jDooglAndroid/src/net/foxycorndog/jdoogl/GL.java"/>
-</file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="GL11.class" tooltip="org.lwjgl.opengl.GL11">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=jDoogl/\/gafggfds\/LWJGL\/lwjgl-2.8.4\/lwjgl-2.8.4\/jar\/lwjgl.jar&lt;org.lwjgl.opengl(GL11.class"/>
 </file>
 </mruList>
 </workbench>
