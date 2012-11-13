@@ -16,6 +16,8 @@ public class Map
 {
 	private int            numCubes;
 	
+	private float          rotY;
+	
 	private Texture        brick;
 	
 	private SpriteSheet    sprites;
@@ -235,7 +237,18 @@ public class Map
 		
 		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, GL.white, 1, 1);
 		
-		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, brick, 2, 3);
+		GL.beginManipulation();
+		{
+			GL.rotatef((float)Math.pow(((float)Math.random() * 5), 2), (float)(Math.pow(((float)Math.random() * 5), 2)), (float)Math.pow(((float)Math.random() * 5), 2));
+			
+			GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, brick, 2, 1);
+			
+			rotY += 1;
+			rotY %= 360;
+		}
+		GL.endManipulation();
+		
+		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, brick, 3, 2);
 	}
 	
 	public float[] getCubes()
