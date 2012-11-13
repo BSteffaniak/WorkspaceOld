@@ -1,0 +1,231 @@
+package net.foxycorndog.nostalgia.map;
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.geometry.Point;
+import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
+import net.foxycorndog.jdoogl.image.imagemap.Texture;
+import net.foxycorndog.jdoogl.input.KeyboardInput;
+import net.foxycorndog.jdoogl.model.Model;
+import net.foxycorndog.jdoogl.model.ModelLoader;
+import net.foxycorndog.jdoutil.ArrayUtil;
+import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.Task;
+import net.foxycorndog.jdoutil.VerticesBuffer;
+import net.foxycorndog.nostalgia.actor.Actor;
+
+public class Map
+{
+	private int            numCubes;
+	
+	private Texture        brick;
+	
+	private SpriteSheet    sprites;
+	
+	private Model          bunny, house, hat;
+	
+	private LightBuffer    texturesBuffer, colorsBuffer;
+	
+	private VerticesBuffer verticesBuffer;
+	public  int            render = GL.POINTS;
+	private float          cubes[], allVertices[], vertices[], textures[], normals[], colors[], normalIndices[];
+	private short          vertexIndices[];
+	
+	public Map()
+	{
+		numCubes = 5;
+		
+		sprites  = new SpriteSheet("res/images/sprites.png", 36, 18);
+		
+		brick = new Texture("res/images/brick.png");
+		
+		cubes    = new float[6 * numCubes];
+		
+		verticesBuffer = new VerticesBuffer(4 * 3 * 6 * numCubes, 3);
+		texturesBuffer = new LightBuffer(2 * 4 * 6 * numCubes);
+		colorsBuffer   = new LightBuffer(4 * 4 * 6 * numCubes);
+		
+		int index = 0;
+		
+		addCube(0, 2.5f, -10, 2, 2, 2,
+				new float[][]
+				{
+					sprites.getImageOffsetsf(1, 0, 1, 1),
+					sprites.getImageOffsetsf(1, 0, 1, 1),
+					sprites.getImageOffsetsf(1, 0, 1, 1),
+					sprites.getImageOffsetsf(1, 0, 1, 1),
+					sprites.getImageOffsetsf(7, 2, 1, 1),
+					sprites.getImageOffsetsf(2, 0, 1, 1),
+				},
+				new int[][]
+				{
+					new int[] { 255, 255, 255, 255 },
+					new int[] { 255, 255, 255, 255 },
+					new int[] { 255, 255, 255, 255 }, 
+					new int[] { 255, 255, 255, 255 },
+					new int[] { 151, 255, 100, 255 },
+					new int[] { 255, 255, 255, 255 }
+				}, index ++, true);
+		
+		float vrts[] = new float[]
+		{
+			-1, 1, -1,
+			-1, 3, 1,
+			1, 3, 1,
+			1, 1, -1
+		};
+		
+		addCube(-10, -2, -100, 20, 2, 200, GL.white, 200, 200, 200, 255, index ++, true);
+		addCube(GL.addCubeVertexArrayf(vrts, 5, 0, null), GL.white, 1, 1, 255, 255, 255, 255, index ++, false);
+		addCube(-10, 0, -100, 2, 10, 200, brick, 50, 3, 100, 100, 100, 255, index ++, true);
+		addCube(8, 0, -100, 2, 10, 200, brick, 50, 3, 100, 100, 100, 255, index ++, true);
+		
+		verticesBuffer.genIndices(GL.QUADS, null);
+		
+		bunny = new Model("res/bunny.obj", 20);
+		
+		house = new Model("res/house.obj", 1);
+		house.move(-1.5f, 0, 0);
+		
+		hat = new Model("res/crappyhat.obj", 2);
+		hat.move(1, 6, 0);
+	}
+	
+	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int colors[][], int index, boolean collision)
+	{
+		addCube(x, y, z, width, height, depth, textures, 1, 1, colors, index, collision);
+	}
+	
+	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int rx, int ry, int colors[][], int index, boolean collision)
+	{
+		addCube(GL.addCubeVertexArrayf(x, y, z, width, height, depth, 0, null), textures, rx, ry, colors, index, collision);
+	}
+	
+	public void addCube(float vertices[], float textures[][], int rx, int ry, int colors[][], int index, boolean collision)
+	{
+		verticesBuffer.addData(vertices);
+		texturesBuffer.addData(GL.addCubeTextureArrayf(textures, rx, ry, 0, null));
+		colorsBuffer.addData(GL.addCubeColorArrayif(colors , 0, null));
+		
+		if (collision)
+		{
+			cubes[0 + index * 6] = vertices[0];
+			cubes[1 + index * 6] = vertices[1];
+			cubes[2 + index * 6] = vertices[2];
+			
+			cubes[3 + index * 6] = vertices[12];
+			cubes[4 + index * 6] = vertices[16];
+			cubes[5 + index * 6] = vertices[20];
+		}
+	}
+	
+	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int r, int g, int b, int a, int index, boolean collision)
+	{
+		int colors[][] = new int[][]
+		{
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a }
+		};
+		
+		addCube(x, y, z, width, height, depth, textures, colors, index, collision);
+	}
+	
+	public void addCube(float x, float y, float z, float width, float height, float depth, Texture texture, int r, int g, int b, int a, int index, boolean collision)
+	{
+		addCube(x, y, z, width, height, depth, texture, 1, 1, r, g, b, a, index, collision);
+	}
+	
+	public void addCube(float x, float y, float z, float width, float height, float depth, Texture texture, int rx, int ry, int r, int g, int b, int a, int index, boolean collision)
+	{
+		int colors[][] = new int[][]
+		{
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a }
+		};
+		
+		float textures[][] = new float[][]
+		{
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+		};
+		
+		addCube(x, y, z, width, height, depth, textures, rx, ry, colors, index, collision);
+	}
+	
+	public void addCube(float vertices[], Texture texture, int rx, int ry, int r, int g, int b, int a, int index, boolean collision)
+	{
+		int colors[][] = new int[][]
+		{
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a }
+		};
+		
+		float textures[][] = new float[][]
+		{
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+		};
+		
+		addCube(vertices, textures, rx, ry, colors, index, collision);
+	}
+	
+	public boolean collided(Actor actor)
+	{
+		float vertices[] = actor.getVertices();
+		
+//		if (bunny.collision(vertices, new Point(actor.getX(), actor.getY(), actor.getZ())))
+//		{
+//			return true;
+//		}
+		
+		return false;
+	}
+	
+	public void render()
+	{
+//		house.render();
+		
+		bunny.render();
+		
+//		hat.render();
+		
+		GL.renderCubes(verticesBuffer, texturesBuffer, null, colorsBuffer, sprites, 0, 1, null);
+		
+		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, GL.white, 1, 2);
+		
+		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, brick, 3, 2);
+	}
+	
+	public float[] getCubes()
+	{
+		return cubes;
+	}
+	
+	public void genIndices()
+	{
+		verticesBuffer.genIndices(GL.QUADS, null);
+	}
+	
+	public void destroyIndices()
+	{
+		verticesBuffer.destroyIndices();
+	}
+}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="26" version="2.0">
+<workbench progressCount="27" version="2.0">
 <workbenchAdvisor/>
 <window height="768" maximized="true" width="1024" x="125" y="125">
 <fastViewData fastViewLocation="1024"/>
@@ -58,13 +58,14 @@
 <part id="21"/>
 <part id="22"/>
 <part id="23"/>
+<part id="24"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" partName="Main.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/Main.java" title="Main.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/Main.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" partName="Main.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/Main.java" title="Main.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/Main.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/Main.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1918" selectionTopPixel="901"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1619" selectionTopPixel="975"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" partName="Player.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/actor/Player.java" title="Player.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/actor/Player.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/Player.java"/>
@@ -86,13 +87,13 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/camera/Camera.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="431" selectionTopPixel="0"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Map.java" partName="Map.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/map/Map.java" title="Map.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/map/Map.java" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Map.java" partName="Map.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/map/Map.java" title="Map.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/map/Map.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/map/Map.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5047" selectionTopPixel="2002"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2423" selectionTopPixel="910"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GL.java" partName="GL.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/GL.java" title="GL.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/GL.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/GL.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="24333" selectionTopPixel="12666"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="61934" selectionTopPixel="31449"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="VerticesBuffer.java" partName="VerticesBuffer.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoutil/src/net/foxycorndog/jdoutil/VerticesBuffer.java" title="VerticesBuffer.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/VerticesBuffer.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoutil/src/net/foxycorndog/jdoutil/VerticesBuffer.java"/>
@@ -158,6 +159,10 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/weapons/Bullet.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="265" selectionTopPixel="0"/>
 </editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="RotateThing.java" partName="RotateThing.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Test/src/RotateThing.java" title="RotateThing.java" tooltip="Test/src/RotateThing.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Test/src/RotateThing.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="132" selectionTopPixel="0"/>
+</editor>
 </editors>
 <views>
 <view id="com.android.ide.eclipse.ddms.views.LogCatView" partName="LogCat">
@@ -174,9 +179,7 @@
 </view>
 <view id="org.eclipse.jdt.ui.PackageExplorer" partName="Package Explorer">
 <viewState group_libraries="1" layout="2" linkWithEditor="0" rootMode="1" workingSetName="">
-<customFilters userDefinedPatternsEnabled="false">
-<xmlDefinedFilters>
-<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
+<customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.LocalTypesFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.StaticsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.ClosedProjectsFilter" isEnabled="false"/>
@@ -350,165 +353,160 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/Player.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/Actor.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/camera/Camera.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/Main.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/geometry/Point.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/Main.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/Actor.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Test/src/Division.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/Main.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Test/src/RotateThing.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/GL.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/map/Map.java"/>
 </editors>
-<item historyLabel="Main.java" index="3">
-<position info="not_deleted" x="1952" y="0"/>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="1918" y="0"/>
 </item>
-<item historyLabel="Camera.java" index="2">
-<position info="not_deleted" x="5168" y="0"/>
+<item historyLabel="RotateThing.java" index="1">
+<position info="not_deleted" x="139" y="0"/>
 </item>
-<item historyLabel="Actor.java" index="1">
-<position info="not_deleted" x="1607" y="0"/>
+<item historyLabel="RotateThing.java" index="1">
+<position info="not_deleted" x="67" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="508" y="0"/>
+<item historyLabel="GL.java" index="2">
+<position info="not_deleted" x="23954" y="0"/>
 </item>
-<item historyLabel="Camera.java" index="2">
-<position info="not_deleted" x="5168" y="0"/>
-</item>
-<item historyLabel="Actor.java" index="1">
-<position info="not_deleted" x="2295" y="0"/>
-</item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="693" y="0"/>
-</item>
-<item historyLabel="Main.java" index="3">
-<position info="not_deleted" x="1952" y="0"/>
-</item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="749" y="0"/>
-</item>
-<item historyLabel="Main.java" index="3">
-<position info="not_deleted" x="1830" y="0"/>
-</item>
-<item historyLabel="Actor.java" index="1">
-<position info="not_deleted" x="2295" y="0"/>
-</item>
-<item historyLabel="Main.java" index="3">
-<position info="not_deleted" x="1830" y="0"/>
-</item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="749" y="0"/>
-</item>
-<item historyLabel="Camera.java" index="2">
-<position info="not_deleted" x="5168" y="0"/>
-</item>
-<item historyLabel="Actor.java" index="1">
-<position info="not_deleted" x="2133" y="0"/>
-</item>
-<item historyLabel="Camera.java" index="2">
-<position info="not_deleted" x="4426" y="0"/>
-</item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="749" y="0"/>
-</item>
-<item historyLabel="Main.java" index="3">
-<position info="not_deleted" x="1830" y="0"/>
-</item>
-<item historyLabel="Actor.java" index="1">
-<position info="not_deleted" x="7149" y="0"/>
-</item>
-<item historyLabel="Main.java" index="3">
+<item historyLabel="GL.java" index="2">
 <position/>
 </item>
-<item historyLabel="Camera.java" index="2">
-<position info="not_deleted" x="5131" y="0"/>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="1619" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="749" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="6313" y="0"/>
 </item>
-<item historyLabel="Main.java" index="3">
-<position info="not_deleted" x="2995" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="3933" y="0"/>
 </item>
-<item historyLabel="Camera.java" index="2">
-<position info="not_deleted" x="4406" y="0"/>
+<item historyLabel="GL.java" index="2">
+<position info="not_deleted" x="55504" y="0"/>
 </item>
-<item historyLabel="Main.java" index="3">
-<position info="not_deleted" x="2995" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="3891" y="0"/>
 </item>
-<item historyLabel="Camera.java" index="2">
-<position info="not_deleted" x="4935" y="0"/>
+<item historyLabel="GL.java" index="2">
+<position info="not_deleted" x="55656" y="0"/>
 </item>
-<item historyLabel="Main.java" index="3">
-<position info="not_deleted" x="2995" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="3973" y="0"/>
 </item>
-<item historyLabel="Camera.java" index="2">
-<position info="not_deleted" x="4935" y="0"/>
+<item historyLabel="GL.java" index="2">
+<position info="not_deleted" x="55818" y="0"/>
 </item>
-<item historyLabel="Point.java" index="4">
-<position info="not_deleted" x="682" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="3973" y="0"/>
 </item>
-<item historyLabel="Main.java" index="5">
-<position info="not_deleted" x="2991" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position/>
 </item>
-<item historyLabel="Actor.java" index="6">
-<position info="not_deleted" x="7148" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position/>
 </item>
-<item historyLabel="Actor.java" index="6">
-<position info="not_deleted" x="3983" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position/>
 </item>
-<item historyLabel="Main.java" index="5">
-<position info="not_deleted" x="2026" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position/>
 </item>
-<item historyLabel="Actor.java" index="6">
-<position info="not_deleted" x="6892" y="11"/>
+<item historyLabel="Map.java" index="3">
+<position/>
 </item>
-<item historyLabel="Main.java" index="5">
-<position info="not_deleted" x="2026" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position/>
 </item>
-<item historyLabel="Main.java" index="5">
-<position info="not_deleted" x="3164" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position/>
 </item>
-<item historyLabel="Actor.java" index="6">
-<position info="not_deleted" x="5359" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position/>
 </item>
-<item historyLabel="Main.java" index="5">
-<position info="not_deleted" x="3468" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position/>
 </item>
-<item historyLabel="Actor.java" index="6">
-<position info="not_deleted" x="6099" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position/>
 </item>
-<item historyLabel="Main.java" index="5">
-<position info="not_deleted" x="1967" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="2134" y="0"/>
 </item>
-<item historyLabel="Actor.java" index="6">
-<position info="not_deleted" x="3636" y="4"/>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="2148" y="0"/>
 </item>
-<item historyLabel="Actor.java" index="6">
-<position info="not_deleted" x="4444" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="2217" y="0"/>
 </item>
-<item historyLabel="Actor.java" index="6">
-<position info="not_deleted" x="2373" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="3556" y="77"/>
 </item>
-<item historyLabel="Main.java" index="5">
-<position info="not_deleted" x="1967" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="2640" y="0"/>
 </item>
-<item historyLabel="Camera.java" index="2">
-<position info="not_deleted" x="5379" y="0"/>
+<item historyLabel="GL.java" index="2">
+<position info="not_deleted" x="62466" y="0"/>
 </item>
-<item historyLabel="Main.java" index="5">
-<position info="not_deleted" x="1918" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="2835" y="0"/>
 </item>
-<item historyLabel="Actor.java" index="6">
-<position info="not_deleted" x="2373" y="0"/>
+<item historyLabel="GL.java" index="2">
+<position info="not_deleted" x="62466" y="0"/>
 </item>
-<item historyLabel="Division.java" index="7">
-<position info="not_deleted" x="0" y="0"/>
+<item historyLabel="RotateThing.java" index="1">
+<position info="not_deleted" x="132" y="0"/>
 </item>
-<item historyLabel="Actor.java" index="6">
-<position info="not_deleted" x="5018" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="2154" y="0"/>
 </item>
-<item active="true" historyLabel="Main.java" index="8">
-<position info="not_deleted" x="1918" y="0"/>
+<item historyLabel="GL.java" index="2">
+<position info="not_deleted" x="62466" y="0"/>
+</item>
+<item historyLabel="GL.java" index="2">
+<position info="not_deleted" x="59581" y="0"/>
+</item>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="1619" y="0"/>
+</item>
+<item historyLabel="GL.java" index="2">
+<position info="not_deleted" x="60294" y="0"/>
+</item>
+<item historyLabel="GL.java" index="2">
+<position info="not_deleted" x="58208" y="0"/>
+</item>
+<item historyLabel="GL.java" index="2">
+<position info="not_deleted" x="58285" y="0"/>
+</item>
+<item historyLabel="GL.java" index="2">
+<position info="not_deleted" x="58384" y="0"/>
+</item>
+<item historyLabel="GL.java" index="2">
+<position info="not_deleted" x="58050" y="0"/>
+</item>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="2185" y="0"/>
+</item>
+<item historyLabel="GL.java" index="2">
+<position/>
+</item>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="2175" y="2"/>
+</item>
+<item historyLabel="GL.java" index="2">
+<position info="not_deleted" x="61934" y="0"/>
+</item>
+<item historyLabel="Main.java" index="0">
+<position info="not_deleted" x="1619" y="0"/>
+</item>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="2175" y="2"/>
+</item>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="2245" y="0"/>
+</item>
+<item active="true" historyLabel="Map.java" index="3">
+<position info="not_deleted" x="2261" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -532,6 +530,9 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="RotateThing.java" tooltip="Test/src/RotateThing.java">
+<persistable path="/Test/src/RotateThing.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Division.java" tooltip="Test/src/Division.java">
 <persistable path="/Test/src/Division.java"/>
 </file>
@@ -573,9 +574,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SwapperThing.java" tooltip="Test/src/SwapperThing.java">
 <persistable path="/Test/src/SwapperThing.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GL.java" tooltip="jDooglAndroid/src/net/foxycorndog/jdoogl/GL.java">
-<persistable path="/jDooglAndroid/src/net/foxycorndog/jdoogl/GL.java"/>
 </file>
 </mruList>
 </workbench>

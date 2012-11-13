@@ -774,18 +774,7 @@ public class GL
 	 */
 	public static void rotatef(float x, float y, float z)
 	{
-		if (x != 0)
-		{
-			glRotatef(x, 1, 0, 0);
-		}
-		if (y != 0)
-		{
-			glRotatef(y, 0, 1, 0);
-		}
-		if (z != 0)
-		{
-			glRotatef(z, 0, 0, 1);
-		}
+		rotated(x, y, z);
 	}
 	
 	/**
@@ -821,11 +810,7 @@ public class GL
 	 */
 	public static void scalef(float x, float y, float z)
 	{
-		glScalef(x, y, z);
-		
-		scale[0] *= x;
-		scale[1] *= y;
-		scale[2] *= z;
+		scaled(x, y, z);
 	}
 	
 	/**
@@ -855,15 +840,7 @@ public class GL
 	 */
 	public static void translatef(float x, float y, float z)
 	{
-		glTranslatef(x, y, z);
-		
-		offsets[0] += x;
-		offsets[1] += y;
-		offsets[2] += z;
-		
-		renderLocation[0] += x * scale[0];
-		renderLocation[1] += y * scale[1];
-		renderLocation[2] += z * scale[2];
+		translated(x, y, z);
 	}
 	
 	/**
@@ -930,6 +907,15 @@ public class GL
 		return renderLocation.clone();
 	}
 	
+	/**
+	 * Method that gets the amount of vertices that the specified type
+	 * of object needs to be created with.
+	 * 
+	 * EX: Quads need 4 vertices and triangles need 3.
+	 * 
+	 * @param type
+	 * @return
+	 */
 	public static int getAmountOfVertices(int type)
 	{
 		if (type == QUADS)
@@ -943,16 +929,6 @@ public class GL
 		
 		return 0;
 	}
-	
-//	public static void renderQuads(LightBuffer verticesBuffer, LightBuffer texturesBuffer, ImageMap imageMap, int start, int amount, RenderTask task)
-//	{
-//		renderBuffers(verticesBuffer, texturesBuffer, imageMap, start, amount, GL_QUADS, task);
-//	}
-	
-//	public static void renderQuads(Buffer verticesBuffer, Buffer texturesBuffer, ImageMap imageMap, int start, int amount)
-//	{
-//		renderBuffers(verticesBuffer, texturesBuffer, imageMap, start, amount, GL_QUADS);
-//	}
 	
 	public static void renderCubes(VerticesBuffer verticesBuffer, LightBuffer colorsBuffer, int start, int amount)
 	{
@@ -1019,6 +995,28 @@ public class GL
 		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, texture, start, amount, TRIANGLES, task);
 	}
 	
+	/**
+	 * Renders all of the given buffers. The only needed arguments are the
+	 * verticesBuffer, start, amount, and type. The rest of the arguments
+	 * can be null and the method will still work.
+	 * 
+	 * @param verticesBuffer The Buffer that holds all of the data for
+	 * 		vertices.
+	 * @param texturesBuffer The Buffer that holds all of the data for
+	 * 		textures.
+	 * @param normalsBuffer The Buffer that holds all of the data for
+	 * 		normals per vertex.
+	 * @param colorsBuffer The Buffer that holds all of the data for
+	 * 		colors.
+	 * @param texture The Texture or SpriteSheet needed for the
+	 * 		textures Buffer.
+	 * @param start The index of the first shape in the verticesBuffer.
+	 * @param amount The amount of shapes you want to draw from the
+	 * 		verticesBuffer.
+	 * @param type The type of shape that will be drawn.
+	 * @param task The task that will run in between each of the shapes.
+	 * 		This slows down the process a lot if there are many being drawn.
+	 */
 	private static void renderBuffers(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, Buffer normalsBuffer, LightBuffer colorsBuffer, Texture texture, int start, int amount, int type, Task task)
 	{
 		int vertexSize       = verticesBuffer.getVertexSize();
@@ -1225,6 +1223,11 @@ public class GL
 		}
 	}
 	
+	/**
+	 * Gets the buffer all set for drawing.
+	 * 
+	 * @param buffer The VerticesBuffer that will be used for drawing.
+	 */
 	public static void beginVertexDraw(VerticesBuffer buffer)
 	{
 		if (buffer == null)
@@ -1248,25 +1251,20 @@ public class GL
 		}
 	}
 	
-	public static void begindVertexDraw(int id, int vertexSize)
-	{
-		if (id == -1)
-		{
-			return;
-		}
-		
-		glEnableClientState(GL_VERTEX_ARRAY);
-		
-		glBindBuffer(GL_ARRAY_BUFFER, id);
-		glVertexPointer(vertexSize, GL_FLOAT, 0, 0);
-	}
-	
+	/**
+	 * Ends the state of drawing vertices.
+	 */
 	public static void endVertexDraw()
 	{
 		glDisableClientState(GL_VERTEX_ARRAY);
 	}
 	
-	public static void beginNormalDraw(FloatBuffer buffer)
+	/**
+	 * Gets the buffer all set for drawing.
+	 * 
+	 * @param buffer The LightBuffer that is used for the normals.
+	 */
+	public static void beginNormalDraw(LightBuffer buffer)
 	{
 		if (buffer == null)
 		{
@@ -1275,9 +1273,14 @@ public class GL
 		
 		glEnableClientState(GL_NORMAL_ARRAY);
 		
-		glNormalPointer(0, buffer);
+		glNormalPointer(0, buffer.getBuffer());
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param buffer
+	 */
 	public static void beginNormalDraw(Buffer buffer)
 	{
 		if (buffer == null)
@@ -1288,19 +1291,6 @@ public class GL
 		glEnableClientState(GL_NORMAL_ARRAY);
 		
 		glNormalPointer(0, (FloatBuffer)buffer.getBuffer());
-	}
-	
-	public static void begindNormalDraw(int id)
-	{
-		if (id == -1)
-		{
-			return;
-		}
-		
-		glEnableClientState(GL_NORMAL_ARRAY);
-		
-		glBindBuffer(GL_ARRAY_BUFFER, id);
-		glNormalPointer(GL_FLOAT, 0, 0);
 	}
 	
 	public static void endNormalDraw()
@@ -1331,19 +1321,6 @@ public class GL
 		}
 	}
 	
-	public static void begindColorDraw(int id)
-	{
-		if (id == -1)
-		{
-			return;
-		}
-		
-		glEnableClientState(GL_COLOR_ARRAY);
-		
-		glBindBuffer(GL_ARRAY_BUFFER, id);
-		glColorPointer(4, GL_FLOAT, 0, 0);
-	}
-	
 	public static void endColorDraw()
 	{
 		glDisableClientState(GL_COLOR_ARRAY);
@@ -1357,6 +1334,7 @@ public class GL
 		}
 		
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		
@@ -1372,21 +1350,6 @@ public class GL
 		{	
 			glTexCoordPointer(2, 0, (FloatBuffer)buffer.getBuffer());
 		}
-	}
-	
-	public static void beginTextureDraw(int id)
-	{
-		if (id == -1)
-		{
-			return;
-		}
-		
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		
-		glBindBuffer(GL_ARRAY_BUFFER, id);
-		glTexCoordPointer(2, GL_FLOAT, 0, 0);
 	}
 	
 	public static void endTextureDraw()
@@ -2077,126 +2040,133 @@ public class GL
 		return array;
 	}
 	
-//	public static float[] addCubeVertexArrayf(float vertices[], float width, float height, float depth, int offset, float array[])
-//	{
-//		if (array == null)
-//		{
-//			array  = new float[3 * 4 * 6];
-//
-//			offset = 0;
-//		}
-//
-//		int index = 0;
-//
-//		// Front
-//		array[offset + index ++] = vertices[0];
-//		array[offset + index ++] = vertices[1];
-//		array[offset + index ++] = vertices[2];
-//
-//		array[offset + index ++] = vertices[3];
-//		array[offset + index ++] = vertices[4];
-//		array[offset + index ++] = vertices[5]
-//
-//		array[offset + index ++] = vertices[6];
-//		array[offset + index ++] = vertices[7];
-//		array[offset + index ++] = vertices[8];
-//
-//		array[offset + index ++] = vertices[9];
-//		array[offset + index ++] = vertices[10];
-//		array[offset + index ++] = vertices[11];
-//
-//
-//		// Right
-//		array[offset + index ++] = x + width;
-//		array[offset + index ++] = y;
-//		array[offset + index ++] = z;
-//
-//		array[offset + index ++] = x + width;
-//		array[offset + index ++] = y + height;
-//		array[offset + index ++] = z;
-//
-//		array[offset + index ++] = x + width;
-//		array[offset + index ++] = y + height;
-//		array[offset + index ++] = z + depth;
-//
-//		array[offset + index ++] = x + width;
-//		array[offset + index ++] = y;
-//		array[offset + index ++] = z + depth;
-//
-//
-//		// Back
-//		array[offset + index ++] = vertices[0] ;
-//		array[offset + index ++] = y;
-//		array[offset + index ++] = z + depth;
-//
-//		array[offset + index ++] = x + width;
-//		array[offset + index ++] = y + height;
-//		array[offset + index ++] = z + depth;
-//
-//		array[offset + index ++] = x;
-//		array[offset + index ++] = y + height;
-//		array[offset + index ++] = z + depth;
-//
-//		array[offset + index ++] = x;
-//		array[offset + index ++] = y;
-//		array[offset + index ++] = z + depth;
-//
-//
-//		// Left
-//		array[offset + index ++] = x;
-//		array[offset + index ++] = y;
-//		array[offset + index ++] = z + depth;
-//
-//		array[offset + index ++] = x;
-//		array[offset + index ++] = y + height;
-//		array[offset + index ++] = z + depth;
-//
-//		array[offset + index ++] = x;
-//		array[offset + index ++] = y + height;
-//		array[offset + index ++] = z;
-//
-//		array[offset + index ++] = x;
-//		array[offset + index ++] = y;
-//		array[offset + index ++] = z;
-//
-//
-//		// Top
-//		array[offset + index ++] = x;
-//		array[offset + index ++] = y + height;
-//		array[offset + index ++] = z;
-//
-//		array[offset + index ++] = x;
-//		array[offset + index ++] = y + height;
-//		array[offset + index ++] = z + depth;
-//
-//		array[offset + index ++] = x + width;
-//		array[offset + index ++] = y + height;
-//		array[offset + index ++] = z + depth;
-//
-//		array[offset + index ++] = x + width;
-//		array[offset + index ++] = y + height;
-//		array[offset + index ++] = z;
-//
-//
-//		// Bottom
-//		array[offset + index ++] = x;
-//		array[offset + index ++] = y;
-//		array[offset + index ++] = z;
-//
-//		array[offset + index ++] = x + width;
-//		array[offset + index ++] = y;
-//		array[offset + index ++] = z;
-//
-//		array[offset + index ++] = x + width;
-//		array[offset + index ++] = y;
-//		array[offset + index ++] = z + depth;
-//
-//		array[offset + index ++] = x;
-//		array[offset + index ++] = y;
-//		array[offset + index ++] = z + depth;
-//
-//		return array;
-//	}
+	public static float[] addCubeVertexArrayf(float vertices[], float depth, int offset, float array[])
+	{
+		if (array == null)
+		{
+			array  = new float[3 * 4 * 6];
+
+			offset = 0;
+		}
+
+		double depthVsWidth     = (double)depth / (vertices[3 * 3 + 0] - vertices[3 * 0 + 0]);
+		double depthVsHeight    = (double)depth / (vertices[3 * 1 + 1] - vertices[3 * 0 + 1]);
+		
+		float rightSideYOffset  = (float)((vertices[3 * 2 + 2] - vertices[3 * 3 + 2]) * depthVsHeight);
+		float leftSideYOffset   = (float)((vertices[3 * 1 + 2] - vertices[3 * 0 + 2]) * depthVsHeight);
+		float bottomSideXOffset = (float)((vertices[3 * 3 + 2] - vertices[3 * 0 + 2]) * depthVsWidth);
+		float topSideXOffset    = (float)((vertices[3 * 2 + 2] - vertices[3 * 1 + 2]) * depthVsWidth);
+		
+		int index = 0;
+
+		// Front
+		array[offset + index ++] = vertices[3 * 0 + 0] + bottomSideXOffset;
+		array[offset + index ++] = vertices[3 * 0 + 1] + leftSideYOffset;
+		array[offset + index ++] = vertices[3 * 0 + 2];
+
+		array[offset + index ++] = vertices[3 * 1 + 0] + topSideXOffset;
+		array[offset + index ++] = vertices[3 * 1 + 1] + leftSideYOffset;
+		array[offset + index ++] = vertices[3 * 1 + 2];
+
+		array[offset + index ++] = vertices[3 * 2 + 0] + topSideXOffset;
+		array[offset + index ++] = vertices[3 * 2 + 1] + rightSideYOffset;
+		array[offset + index ++] = vertices[3 * 2 + 2];
+
+		array[offset + index ++] = vertices[3 * 3 + 0] + bottomSideXOffset;
+		array[offset + index ++] = vertices[3 * 3 + 1] + rightSideYOffset;
+		array[offset + index ++] = vertices[3 * 3 + 2];
+
+
+		// Right
+		array[offset + index ++] = vertices[3 * 3 + 0] + bottomSideXOffset;
+		array[offset + index ++] = vertices[3 * 3 + 1] + rightSideYOffset;
+		array[offset + index ++] = vertices[3 * 3 + 2];
+
+		array[offset + index ++] = vertices[3 * 2 + 0] + topSideXOffset;
+		array[offset + index ++] = vertices[3 * 2 + 1] + rightSideYOffset;
+		array[offset + index ++] = vertices[3 * 2 + 2];
+
+		array[offset + index ++] = vertices[3 * 2 + 0];
+		array[offset + index ++] = vertices[3 * 2 + 1];
+		array[offset + index ++] = vertices[3 * 2 + 2] + depth;
+
+		array[offset + index ++] = vertices[3 * 3 + 0];
+		array[offset + index ++] = vertices[3 * 3 + 1];
+		array[offset + index ++] = vertices[3 * 3 + 2] + depth;
+
+		// Back
+		array[offset + index ++] = vertices[3 * 3 + 0];
+		array[offset + index ++] = vertices[3 * 3 + 1];
+		array[offset + index ++] = vertices[3 * 3 + 2] + depth;
+
+		array[offset + index ++] = vertices[3 * 2 + 0];
+		array[offset + index ++] = vertices[3 * 2 + 1];
+		array[offset + index ++] = vertices[3 * 2 + 2] + depth;
+
+		array[offset + index ++] = vertices[3 * 1 + 0];
+		array[offset + index ++] = vertices[3 * 1 + 1];
+		array[offset + index ++] = vertices[3 * 1 + 2] + depth;
+
+		array[offset + index ++] = vertices[3 * 0 + 0];
+		array[offset + index ++] = vertices[3 * 0 + 1];
+		array[offset + index ++] = vertices[3 * 0 + 2] + depth;
+
+
+		// Left
+		array[offset + index ++] = vertices[3 * 0 + 0];
+		array[offset + index ++] = vertices[3 * 0 + 1];
+		array[offset + index ++] = vertices[3 * 0 + 2] + depth;
+
+		array[offset + index ++] = vertices[3 * 1 + 0];
+		array[offset + index ++] = vertices[3 * 1 + 1];
+		array[offset + index ++] = vertices[3 * 1 + 2] + depth;
+		
+		array[offset + index ++] = vertices[3 * 1 + 0] + topSideXOffset;
+		array[offset + index ++] = vertices[3 * 1 + 1] + leftSideYOffset;
+		array[offset + index ++] = vertices[3 * 1 + 2];
+
+		array[offset + index ++] = vertices[3 * 0 + 0] + bottomSideXOffset;
+		array[offset + index ++] = vertices[3 * 0 + 1] + leftSideYOffset;
+		array[offset + index ++] = vertices[3 * 0 + 2];
+
+
+		// Top
+		array[offset + index ++] = vertices[3 * 1 + 0] + topSideXOffset;
+		array[offset + index ++] = vertices[3 * 1 + 1] + leftSideYOffset;
+		array[offset + index ++] = vertices[3 * 1 + 2];
+
+		array[offset + index ++] = vertices[3 * 1 + 0];
+		array[offset + index ++] = vertices[3 * 1 + 1];
+		array[offset + index ++] = vertices[3 * 1 + 2] + depth;
+
+		array[offset + index ++] = vertices[3 * 2 + 0];
+		array[offset + index ++] = vertices[3 * 2 + 1];
+		array[offset + index ++] = vertices[3 * 2 + 2] + depth;
+
+		array[offset + index ++] = vertices[3 * 2 + 0] + topSideXOffset;
+		array[offset + index ++] = vertices[3 * 2 + 1] + rightSideYOffset;
+		array[offset + index ++] = vertices[3 * 2 + 2];
+
+
+		// Bottom
+		array[offset + index ++] = vertices[3 * 0 + 0];
+		array[offset + index ++] = vertices[3 * 0 + 1];
+		array[offset + index ++] = vertices[3 * 0 + 2] + depth;
+
+		array[offset + index ++] = vertices[3 * 0 + 0] + bottomSideXOffset;
+		array[offset + index ++] = vertices[3 * 0 + 1] + rightSideYOffset;
+		array[offset + index ++] = vertices[3 * 0 + 2];
+
+		array[offset + index ++] = vertices[3 * 3 + 0] + bottomSideXOffset;
+		array[offset + index ++] = vertices[3 * 3 + 1] + leftSideYOffset;
+		array[offset + index ++] = vertices[3 * 3 + 2];
+
+		array[offset + index ++] = vertices[3 * 3 + 0];
+		array[offset + index ++] = vertices[3 * 3 + 1];
+		array[offset + index ++] = vertices[3 * 3 + 2] + depth;
+
+		return array;
+	}
 	
 	public static float[] addRectVertexArrayf(float x, float y, float z, float width, float height, int offset, float array[])
 	{
