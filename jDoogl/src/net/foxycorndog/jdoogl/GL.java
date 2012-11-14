@@ -2052,117 +2052,117 @@ public class GL
 		double depthVsWidth     = (double)depth / (vertices[3 * 3 + 0] - vertices[3 * 0 + 0]);
 		double depthVsHeight    = (double)depth / (vertices[3 * 1 + 1] - vertices[3 * 0 + 1]);
 		
-		float rightSideYOffset  = (float)((vertices[3 * 2 + 2] - vertices[3 * 3 + 2]) * depthVsHeight);
-		float leftSideYOffset   = (float)((vertices[3 * 1 + 2] - vertices[3 * 0 + 2]) * depthVsHeight);
-		float bottomSideXOffset = (float)((vertices[3 * 3 + 2] - vertices[3 * 0 + 2]) * depthVsWidth);
-		float topSideXOffset    = (float)((vertices[3 * 2 + 2] - vertices[3 * 1 + 2]) * depthVsWidth);
+		float rightSideYOffset  = (float)((vertices[3 * 3 + 2] - vertices[3 * 2 + 2]) * depthVsHeight);
+		float leftSideYOffset   = (float)((vertices[3 * 0 + 2] - vertices[3 * 1 + 2]) * depthVsHeight);
+		float bottomSideXOffset = (float)((vertices[3 * 0 + 2] - vertices[3 * 3 + 2]) * depthVsWidth);
+		float topSideXOffset    = (float)((vertices[3 * 1 + 2] - vertices[3 * 2 + 2]) * depthVsWidth);
 		
 		int index = 0;
 
 		// Front
-		array[offset + index ++] = vertices[3 * 0 + 0] + bottomSideXOffset;
-		array[offset + index ++] = vertices[3 * 0 + 1] + leftSideYOffset;
+		array[offset + index ++] = vertices[3 * 0 + 0];
+		array[offset + index ++] = vertices[3 * 0 + 1];
 		array[offset + index ++] = vertices[3 * 0 + 2];
 
-		array[offset + index ++] = vertices[3 * 1 + 0] + topSideXOffset;
-		array[offset + index ++] = vertices[3 * 1 + 1] + leftSideYOffset;
+		array[offset + index ++] = vertices[3 * 1 + 0];
+		array[offset + index ++] = vertices[3 * 1 + 1];
 		array[offset + index ++] = vertices[3 * 1 + 2];
 
-		array[offset + index ++] = vertices[3 * 2 + 0] + topSideXOffset;
-		array[offset + index ++] = vertices[3 * 2 + 1] + rightSideYOffset;
+		array[offset + index ++] = vertices[3 * 2 + 0];
+		array[offset + index ++] = vertices[3 * 2 + 1];
 		array[offset + index ++] = vertices[3 * 2 + 2];
 
-		array[offset + index ++] = vertices[3 * 3 + 0] + bottomSideXOffset;
-		array[offset + index ++] = vertices[3 * 3 + 1] + rightSideYOffset;
+		array[offset + index ++] = vertices[3 * 3 + 0];
+		array[offset + index ++] = vertices[3 * 3 + 1];
 		array[offset + index ++] = vertices[3 * 3 + 2];
 
 
 		// Right
-		array[offset + index ++] = vertices[3 * 3 + 0] + bottomSideXOffset;
-		array[offset + index ++] = vertices[3 * 3 + 1] + rightSideYOffset;
+		array[offset + index ++] = vertices[3 * 3 + 0];
+		array[offset + index ++] = vertices[3 * 3 + 1];
 		array[offset + index ++] = vertices[3 * 3 + 2];
+
+		array[offset + index ++] = vertices[3 * 2 + 0];
+		array[offset + index ++] = vertices[3 * 2 + 1];
+		array[offset + index ++] = vertices[3 * 2 + 2];
 
 		array[offset + index ++] = vertices[3 * 2 + 0] + topSideXOffset;
 		array[offset + index ++] = vertices[3 * 2 + 1] + rightSideYOffset;
-		array[offset + index ++] = vertices[3 * 2 + 2];
-
-		array[offset + index ++] = vertices[3 * 2 + 0];
-		array[offset + index ++] = vertices[3 * 2 + 1];
 		array[offset + index ++] = vertices[3 * 2 + 2] + depth;
 
-		array[offset + index ++] = vertices[3 * 3 + 0];
-		array[offset + index ++] = vertices[3 * 3 + 1];
+		array[offset + index ++] = vertices[3 * 3 + 0] + bottomSideXOffset;
+		array[offset + index ++] = vertices[3 * 3 + 1] + rightSideYOffset;
 		array[offset + index ++] = vertices[3 * 3 + 2] + depth;
 
 		// Back
-		array[offset + index ++] = vertices[3 * 3 + 0];
-		array[offset + index ++] = vertices[3 * 3 + 1];
+		array[offset + index ++] = vertices[3 * 3 + 0] + bottomSideXOffset;
+		array[offset + index ++] = vertices[3 * 3 + 1] + rightSideYOffset;
 		array[offset + index ++] = vertices[3 * 3 + 2] + depth;
 
-		array[offset + index ++] = vertices[3 * 2 + 0];
-		array[offset + index ++] = vertices[3 * 2 + 1];
+		array[offset + index ++] = vertices[3 * 2 + 0] + topSideXOffset;
+		array[offset + index ++] = vertices[3 * 2 + 1] + rightSideYOffset;
 		array[offset + index ++] = vertices[3 * 2 + 2] + depth;
 
-		array[offset + index ++] = vertices[3 * 1 + 0];
-		array[offset + index ++] = vertices[3 * 1 + 1];
+		array[offset + index ++] = vertices[3 * 1 + 0] + topSideXOffset;
+		array[offset + index ++] = vertices[3 * 1 + 1] + leftSideYOffset;
 		array[offset + index ++] = vertices[3 * 1 + 2] + depth;
 
-		array[offset + index ++] = vertices[3 * 0 + 0];
-		array[offset + index ++] = vertices[3 * 0 + 1];
+		array[offset + index ++] = vertices[3 * 0 + 0] + bottomSideXOffset;
+		array[offset + index ++] = vertices[3 * 0 + 1] + leftSideYOffset;
 		array[offset + index ++] = vertices[3 * 0 + 2] + depth;
 
 
 		// Left
-		array[offset + index ++] = vertices[3 * 0 + 0];
-		array[offset + index ++] = vertices[3 * 0 + 1];
-		array[offset + index ++] = vertices[3 * 0 + 2] + depth;
-
-		array[offset + index ++] = vertices[3 * 1 + 0];
-		array[offset + index ++] = vertices[3 * 1 + 1];
-		array[offset + index ++] = vertices[3 * 1 + 2] + depth;
-		
-		array[offset + index ++] = vertices[3 * 1 + 0] + topSideXOffset;
-		array[offset + index ++] = vertices[3 * 1 + 1] + leftSideYOffset;
-		array[offset + index ++] = vertices[3 * 1 + 2];
-
 		array[offset + index ++] = vertices[3 * 0 + 0] + bottomSideXOffset;
 		array[offset + index ++] = vertices[3 * 0 + 1] + leftSideYOffset;
+		array[offset + index ++] = vertices[3 * 0 + 2] + depth;
+
+		array[offset + index ++] = vertices[3 * 1 + 0] + topSideXOffset;
+		array[offset + index ++] = vertices[3 * 1 + 1] + leftSideYOffset;
+		array[offset + index ++] = vertices[3 * 1 + 2] + depth;
+		
+		array[offset + index ++] = vertices[3 * 1 + 0];
+		array[offset + index ++] = vertices[3 * 1 + 1];
+		array[offset + index ++] = vertices[3 * 1 + 2];
+
+		array[offset + index ++] = vertices[3 * 0 + 0];
+		array[offset + index ++] = vertices[3 * 0 + 1];
 		array[offset + index ++] = vertices[3 * 0 + 2];
 
 
 		// Top
-		array[offset + index ++] = vertices[3 * 1 + 0] + topSideXOffset;
-		array[offset + index ++] = vertices[3 * 1 + 1] + leftSideYOffset;
-		array[offset + index ++] = vertices[3 * 1 + 2];
-
 		array[offset + index ++] = vertices[3 * 1 + 0];
 		array[offset + index ++] = vertices[3 * 1 + 1];
-		array[offset + index ++] = vertices[3 * 1 + 2] + depth;
+		array[offset + index ++] = vertices[3 * 1 + 2];
 
-		array[offset + index ++] = vertices[3 * 2 + 0];
-		array[offset + index ++] = vertices[3 * 2 + 1];
-		array[offset + index ++] = vertices[3 * 2 + 2] + depth;
+		array[offset + index ++] = vertices[3 * 1 + 0] + topSideXOffset;
+		array[offset + index ++] = vertices[3 * 1 + 1] + leftSideYOffset;
+		array[offset + index ++] = vertices[3 * 1 + 2] + depth;
 
 		array[offset + index ++] = vertices[3 * 2 + 0] + topSideXOffset;
 		array[offset + index ++] = vertices[3 * 2 + 1] + rightSideYOffset;
+		array[offset + index ++] = vertices[3 * 2 + 2] + depth;
+
+		array[offset + index ++] = vertices[3 * 2 + 0];
+		array[offset + index ++] = vertices[3 * 2 + 1];
 		array[offset + index ++] = vertices[3 * 2 + 2];
 
 
 		// Bottom
-		array[offset + index ++] = vertices[3 * 0 + 0];
-		array[offset + index ++] = vertices[3 * 0 + 1];
-		array[offset + index ++] = vertices[3 * 0 + 2] + depth;
-
 		array[offset + index ++] = vertices[3 * 0 + 0] + bottomSideXOffset;
 		array[offset + index ++] = vertices[3 * 0 + 1] + rightSideYOffset;
-		array[offset + index ++] = vertices[3 * 0 + 2];
+		array[offset + index ++] = vertices[3 * 0 + 2] + depth;
 
-		array[offset + index ++] = vertices[3 * 3 + 0] + bottomSideXOffset;
-		array[offset + index ++] = vertices[3 * 3 + 1] + leftSideYOffset;
-		array[offset + index ++] = vertices[3 * 3 + 2];
+		array[offset + index ++] = vertices[3 * 0 + 0];
+		array[offset + index ++] = vertices[3 * 0 + 1];
+		array[offset + index ++] = vertices[3 * 0 + 2];
 
 		array[offset + index ++] = vertices[3 * 3 + 0];
 		array[offset + index ++] = vertices[3 * 3 + 1];
+		array[offset + index ++] = vertices[3 * 3 + 2];
+
+		array[offset + index ++] = vertices[3 * 3 + 0] + bottomSideXOffset;
+		array[offset + index ++] = vertices[3 * 3 + 1] + leftSideYOffset;
 		array[offset + index ++] = vertices[3 * 3 + 2] + depth;
 
 		return array;

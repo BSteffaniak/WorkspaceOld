@@ -1,0 +1,32 @@
+public class KeithNumba
+{
+	public static void main(String args[])
+	{
+		new KeithNumba();
+	}
+	
+	public KeithNumba()
+	{
+		for (int i = 0; i < 1000000; i ++)
+		{
+			if (isKeith(i))
+			{
+				System.out.println(i);
+			}
+		}
+	}
+	
+	private boolean isKeith(int num)
+	{
+		String s = num + "";
+		
+		int numbers[] = new int[s.length()];
+		
+		for (int i = 0; i < s.length(); i ++)
+		{
+			numbers[i] = Integer.valueOf(s.substring(i, i + 1));
+		}
+		
+		return false;
+	}
+}

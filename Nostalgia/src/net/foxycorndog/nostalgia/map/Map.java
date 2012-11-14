@@ -239,7 +239,7 @@ public class Map
 		
 		GL.beginManipulation();
 		{
-			GL.rotatef((float)Math.pow(((float)Math.random() * 5), 2), (float)(Math.pow(((float)Math.random() * 5), 2)), (float)Math.pow(((float)Math.random() * 5), 2));
+//			GL.rotatef(0, 0, rotY);
 			
 			GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, brick, 2, 1);
 			
