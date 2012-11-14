@@ -26,9 +26,11 @@ public class KeithNumba
 		
 		int sum = 0;
 		
+		char sar[] = s.toCharArray();
+		
 		for (int i = 0; i < s.length(); i ++)
 		{
-			numbers[i] = Integer.valueOf(s.substring(i, i + 1));
+			numbers[i] = Integer.valueOf(sar[i] + "");
 			
 			sum += numbers[i];
 		}
