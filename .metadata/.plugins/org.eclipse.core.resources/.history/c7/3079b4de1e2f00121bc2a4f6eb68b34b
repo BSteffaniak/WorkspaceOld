@@ -2056,7 +2056,6 @@ public class GL
 		float leftSideYOffset   = (float)((vertices[3 * 0 + 2] - vertices[3 * 1 + 2]) * depthVsHeight);
 		float bottomSideXOffset = (float)((vertices[3 * 0 + 2] - vertices[3 * 3 + 2]) * depthVsWidth);
 		float topSideXOffset    = (float)((vertices[3 * 1 + 2] - vertices[3 * 2 + 2]) * depthVsWidth);
-		topSideXOffset         += (0);
 		
 		int index = 0;
 
