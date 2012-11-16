@@ -2054,8 +2054,8 @@ public class GL
 		
 		float rightSideYOffset  = (float)((vertices[3 * 3 + 2] - vertices[3 * 2 + 2]) * depthVsHeight);
 		float leftSideYOffset   = (float)((vertices[3 * 0 + 2] - vertices[3 * 1 + 2]) * depthVsHeight);
-		rightSideYOffset       += (float)((vertices[3 * 0 + 1] - vertices[3 * 3 + 1]) * depthVsHeight);
-		leftSideYOffset        += (float)((vertices[3 * 1 + 1] - vertices[3 * 2 + 1]) * depthVsHeight);
+//		rightSideYOffset       += (float)((vertices[3 * 0 + 1] - vertices[3 * 3 + 1]) * depthVsHeight);
+//		leftSideYOffset        += (float)((vertices[3 * 1 + 1] - vertices[3 * 2 + 1]) * depthVsHeight);
 		float bottomSideXOffset = (float)((vertices[3 * 0 + 2] - vertices[3 * 3 + 2]) * depthVsWidth);
 		float topSideXOffset    = (float)((vertices[3 * 1 + 2] - vertices[3 * 2 + 2]) * depthVsWidth);
 		bottomSideXOffset      += (float)((vertices[3 * 0 + 1] - vertices[3 * 3 + 1]) * depthVsWidth);
