@@ -1,47 +1,23 @@
-/**
- * File:          SortThing.java
- * Author:        Braden Steffaniak
- * Programming:   APCS
- * Last Modified: 18Nov2012
- * Description:   Class that demonstrates the insertion and
- * selection sorting methods. Fried Chicken.
- */
 public class SortThing
 {
 	private Comparable rArr[];
 	
-	/**
-	 * 
-	 * 
-	 * @param args
-	 */
 	public static void main(String args[])
 	{
-		SortThing s = new SortThing();
-		
-		s.rArr = s.genRandomArray(18);
-		
-		s.printArray(s.rArr);
-		
-		System.out.println("\nAfter:");
-		s.insertionSort(s.rArr);
-		s.printArray(s.rArr);
+		new SortThing();
 	}
 	
-	/**
-	 * THIS IS A CONSTRUCTOR!!!!!!!!!!!!!!!!!!
-	 */
 	public SortThing()
 	{
+		rArr = genRandomArray(18);
 		
+		printArray(rArr);
+		
+		System.out.println("\nAfter:");
+		insertionSort(rArr);
+		printArray(rArr);
 	}
 	
-	/**
-	 * 
-	 * 
-	 * @param length
-	 * @return
-	 */
 	private Comparable[] genRandomArray(int length)
 	{
 		Comparable arr[] = new Comparable[length];
@@ -54,11 +30,6 @@ public class SortThing
 		return arr;
 	}
 	
-	/**
-	 * 
-	 * 
-	 * @param arr
-	 */
 	private void printArray(Comparable arr[])
 	{
 		for (Comparable i : arr)
@@ -67,11 +38,6 @@ public class SortThing
 		}
 	}
 	
-	/**
-	 * 
-	 * 
-	 * @param arr
-	 */
 	private void insertionSort(Comparable arr[])
 	{
 		for (int currentSorted = 1; currentSorted < arr.length; currentSorted ++)
@@ -89,11 +55,6 @@ public class SortThing
 		}
 	}
 	
-	/**
-	 * 
-	 * 
-	 * @param arr
-	 */
 	private void selectionSort(Comparable arr[])
 	{
 		for (int endOfArray = arr.length; endOfArray > 0; endOfArray --)
