@@ -1,3 +1,14 @@
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,9 +22,10 @@ import java.util.List;
 public class SortThing
 {
 	private Comparable rArr[];
+	private List<Integer> list;
 	
 	/**
-	 * 
+	 * The main method used for testing.
 	 * 
 	 * @param args
 	 */
@@ -21,23 +33,23 @@ public class SortThing
 	{
 		SortThing s = new SortThing();
 		
-		s.rArr = s.genRandomArray(100);
+		s.list = s.genRandomList(100);
 		
 		try
 		{
-			s.print(null, s.rArr, "Before insertion sort: ");
+			s.print(s.list, null, "Before insertion sort: ");
 			
-			s.insertionSort(s.rArr);
+			s.insertionSort(s.list);
 			
-			s.print(null, s.rArr, "\n\nAfter insertion: ");
+			s.print(s.list, null, "\nAfter insertion: ");
 			
-			s.rArr = s.getRandomArray(100);
+			s.rArr = s.genRandomArray(100);
 			
-			s.print(null, s.rArr, "Before selection sort: ");
+			s.print(null, s.rArr, "\nBefore selection sort: ");
 
 			s.selectionSort(s.rArr);
 
-			s.print(null, s.rArr, "\n\nAfter selection sort: ");
+			s.print(null, s.rArr, "\nAfter selection sort: ");
 		}
 		catch (Exception e)
 		{
@@ -55,7 +67,7 @@ public class SortThing
 	}
 	
 	/**
-	 * 
+	 * Generates random integers for an array
 	 * 
 	 * @param length
 	 * @return
@@ -72,6 +84,32 @@ public class SortThing
 		return arr;
 	}
 	
+	/**
+	 * Generates random integers for a list.
+	 * 
+	 * @param length
+	 * @return
+	 */
+	private List<Integer> genRandomList(int length)
+	{
+		List<Integer> arr = new ArrayList<Integer>();
+		
+		for (int i = 0; i < length; i ++)
+		{
+			arr.add(i, (Integer)(int)(Math.random() * 100));
+		}
+		
+		return arr;
+	}
+	
+	/**
+	 * Method that prints the array to the console and a text file.
+	 * 
+	 * @param a
+	 * @param b
+	 * @param msg
+	 * @throws Exception
+	 */
 	public void print(List a, Comparable b[], String msg) throws Exception
 	{
 		String s = "";
@@ -109,29 +147,31 @@ public class SortThing
 	}
 	
 	/**
-	 * 
+	 * Method that sorts using the insertion sort method.
 	 * 
 	 * @param arr
 	 */
-	public void insertionSort(Comparable arr[])
+	public void insertionSort(List<Integer> arr)
 	{
-		for (int currentSorted = 1; currentSorted < arr.length; currentSorted ++)
+		for (int currentSorted = 1; currentSorted <
+				arr.size(); currentSorted ++)
 		{
-			Comparable nextElement = arr[currentSorted];
+			Integer nextElement = arr.get(currentSorted);
 			
-			int compareI           = 0;
+			int compareI        = 0;
 			
-			for (compareI = currentSorted - 1; compareI >= 0 && arr[compareI].compareTo(nextElement) > 0; compareI --)
+			for (compareI = currentSorted - 1; compareI >= 0 &&
+					arr.get(compareI) > nextElement; compareI --)
 			{
-				Comparable temp   = arr[compareI + 1];
-				arr[compareI + 1] = arr[compareI];
-				arr[compareI]     = temp;
+				Integer temp = arr.get(compareI + 1);
+				arr.set(compareI + 1, arr.get(compareI));
+				arr.set(compareI, temp);
 			}
 		}
 	}
 	
 	/**
-	 * 
+	 * Sorts an array of Comaparables from least to greatest.
 	 * 
 	 * @param arr
 	 */
@@ -151,8 +191,8 @@ public class SortThing
 				}
 			}
 			
-			Comparable temp = arr[maxI];
-			arr[maxI]       = arr[endOfArray - 1];
+			Comparable temp     = arr[maxI];
+			arr[maxI]           = arr[endOfArray - 1];
 			arr[endOfArray - 1] = temp;
 		}
 	}
@@ -164,15 +204,35 @@ public class SortThing
 	 * @param location The location of the file to write to.
 	 * @param obj The object to write to the file.
 	 */
-	private static void write(String location, Object obj) throws IOException
+	private static void write(String location, Object obj)
+			throws IOException
 	{
-		if (object instanceof String)
+		if (obj instanceof String)
 		{
-			String str     = (String)obj;
+			File file = new File(location);
 			
-			PrintWriter pw = new PrintWriter(new FileWriter(new File(location)));
+			if (!file.exists())
+			{
+				file.createNewFile();
+			}
 			
-			pw.print(str);
+			String str        = "";
+			
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			
+			String line = "";
+			
+			while ((line = br.readLine()) != null)
+			{
+				str += line + "\n";
+			}
+			
+			PrintWriter pw    = new PrintWriter(new BufferedWriter(
+					new FileWriter(file)));
+			
+			str += (String)obj;
+			
+			pw.append(str);
 			
 			pw.close();
 		}
