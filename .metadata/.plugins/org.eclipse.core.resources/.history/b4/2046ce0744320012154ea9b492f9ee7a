@@ -23,19 +23,12 @@ public class SortThing
 		
 		s.rArr = s.genRandomArray(100);
 		
-		try
-		{
-			s.print(null, s.rArr, "Before: ");
-			
-			System.out.println("\n");
-			
-			s.insertionSort(s.rArr);
-			s.print(null, s.rArr, "After: ");
-		}
-		catch (Exception e)
-		{
-			
-		}
+		s.print(null, s.rArr, "Before: ");
+		
+		System.out.println("\n");
+		
+		s.insertionSort(s.rArr);
+		s.print(null, s.rArr, "After: ");
 	}
 	
 	/**
@@ -68,7 +61,7 @@ public class SortThing
 	{
 		String s = "";
 		
-		s += msg + "\n\n";
+		s += msg + "\n";
 		
 		if (a != null)
 		{

@@ -1,5 +1,3 @@
-import java.util.List;
-
 /**
  * File:          SortThing.java
  * Author:        Braden Steffaniak
@@ -23,19 +21,11 @@ public class SortThing
 		
 		s.rArr = s.genRandomArray(100);
 		
-		try
-		{
-			s.print(null, s.rArr, "Before: ");
-			
-			System.out.println("\n");
-			
-			s.insertionSort(s.rArr);
-			s.print(null, s.rArr, "After: ");
-		}
-		catch (Exception e)
-		{
-			
-		}
+		s.printArray(s.rArr);
+		
+		System.out.println("\nAfter:");
+		s.insertionSort(s.rArr);
+		s.printArray(s.rArr);
 	}
 	
 	/**
@@ -64,38 +54,17 @@ public class SortThing
 		return arr;
 	}
 	
-	public void print(List a, Comparable b[], String msg) throws Exception
+	/**
+	 * 
+	 * 
+	 * @param arr
+	 */
+	private void printArray(Comparable arr[])
 	{
-		String s = "";
-		
-		s += msg + "\n\n";
-		
-		if (a != null)
+		for (Comparable i : arr)
 		{
-			for (int i = 0; i < a.size(); i ++)
-			{
-				s += a.get(i) + ", ";
-				
-				if (i >= 10 && i % 10 == 0)
-				{
-					s += "\n";
-				}
-			}
+			System.out.println(i);
 		}
-		else if (b != null)
-		{
-			for (int i = 0; i < b.length; i ++)
-			{
-				s += b[i] + ", ";
-				
-				if (i >= 10 && i % 10 == 0)
-				{
-					s += "\n";
-				}
-			}
-		}
-		
-		System.out.println(s);
 	}
 	
 	/**

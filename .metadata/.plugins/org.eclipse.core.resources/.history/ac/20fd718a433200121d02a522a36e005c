@@ -23,19 +23,11 @@ public class SortThing
 		
 		s.rArr = s.genRandomArray(100);
 		
-		try
-		{
-			s.print(null, s.rArr, "Before: ");
-			
-			System.out.println("\n");
-			
-			s.insertionSort(s.rArr);
-			s.print(null, s.rArr, "After: ");
-		}
-		catch (Exception e)
-		{
-			
-		}
+		s.printArray(s.rArr);
+		
+		System.out.println("\nAfter:");
+		s.insertionSort(s.rArr);
+		s.printArray(s.rArr);
 	}
 	
 	/**
@@ -64,38 +56,34 @@ public class SortThing
 		return arr;
 	}
 	
-	public void print(List a, Comparable b[], String msg) throws Exception
+	public void print(List a, Comparable b[], String msg)
 	{
-		String s = "";
+		System.out.println(msg + "\n");
 		
-		s += msg + "\n\n";
-		
-		if (a != null)
+		if (a == null)
 		{
 			for (int i = 0; i < a.size(); i ++)
 			{
-				s += a.get(i) + ", ";
+				System.out.print(a.get(i));
 				
-				if (i >= 10 && i % 10 == 0)
+				if (i % 10 == 0)
 				{
-					s += "\n";
+					System.out.println();
 				}
 			}
 		}
-		else if (b != null)
+		else if (b == null)
 		{
 			for (int i = 0; i < b.length; i ++)
 			{
-				s += b[i] + ", ";
+				System.out.print(b[i]);
 				
-				if (i >= 10 && i % 10 == 0)
+				if (i % 10 == 0)
 				{
-					s += "\n";
+					System.out.println();
 				}
 			}
 		}
-		
-		System.out.println(s);
 	}
 	
 	/**

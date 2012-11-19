@@ -68,7 +68,7 @@ public class SortThing
 	{
 		String s = "";
 		
-		s += msg + "\n\n";
+		s += msg + "\n";
 		
 		if (a != null)
 		{

@@ -176,7 +176,7 @@
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SortThing.java" partName="SortThing.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Test/src/SortThing.java" title="SortThing.java" tooltip="Test/src/SortThing.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Test/src/SortThing.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="456" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1533" selectionTopPixel="1134"/>
 </editor>
 </editors>
 <views>
@@ -377,37 +377,20 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/items/weapons/guns/Pistol.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/items/weapons/guns/Gun.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/Main.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/map/Map.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/items/weapons/Bullet.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/GL.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/items/Item.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Test/src/SwapperThing.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Test/src/SortThing.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/items/Item.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Test/src/ArrayThing.java"/>
 </editors>
-<item historyLabel="Pistol.java" index="1">
-<position info="not_deleted" x="341" y="0"/>
-</item>
-<item historyLabel="Gun.java" index="2">
-<position info="not_deleted" x="1177" y="0"/>
-</item>
-<item historyLabel="GL.java" index="6">
-<position info="not_deleted" x="25859" y="11"/>
-</item>
-<item historyLabel="Map.java" index="4">
-<position info="not_deleted" x="7277" y="0"/>
-</item>
-<item historyLabel="Pistol.java" index="1">
-<position info="not_deleted" x="341" y="0"/>
-</item>
 <item historyLabel="Gun.java" index="2">
 <position info="not_deleted" x="713" y="0"/>
 </item>
 <item historyLabel="Pistol.java" index="1">
 <position info="not_deleted" x="341" y="0"/>
 </item>
-<item historyLabel="Bullet.java" index="5">
+<item historyLabel="Bullet.java" index="4">
 <position info="not_deleted" x="1022" y="0"/>
 </item>
 <item historyLabel="Gun.java" index="2">
@@ -464,10 +447,10 @@
 <item historyLabel="Gun.java" index="2">
 <position info="not_deleted" x="2307" y="0"/>
 </item>
-<item historyLabel="Item.java" index="7">
+<item historyLabel="Item.java" index="5">
 <position info="not_deleted" x="552" y="4"/>
 </item>
-<item historyLabel="Bullet.java" index="5">
+<item historyLabel="Bullet.java" index="4">
 <position info="not_deleted" x="312" y="0"/>
 </item>
 <item historyLabel="Gun.java" index="2">
@@ -479,62 +462,77 @@
 <item historyLabel="Main.java" index="3">
 <position info="not_deleted" x="4084" y="0"/>
 </item>
-<item historyLabel="SwapperThing.java" index="8">
+<item historyLabel="SwapperThing.java" index="6">
 <position info="not_deleted" x="0" y="0"/>
 </item>
 <item historyLabel="Main.java" index="3">
 <position info="not_deleted" x="4340" y="0"/>
 </item>
-<item historyLabel="SortThing.java" index="9">
+<item historyLabel="SortThing.java" index="7">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="SortThing.java" index="9">
+<item historyLabel="SortThing.java" index="7">
 <position info="not_deleted" x="683" y="0"/>
 </item>
-<item historyLabel="SortThing.java" index="9">
+<item historyLabel="SortThing.java" index="7">
 <position info="not_deleted" x="487" y="0"/>
 </item>
-<item historyLabel="SortThing.java" index="9">
+<item historyLabel="SortThing.java" index="7">
 <position info="not_deleted" x="560" y="0"/>
 </item>
-<item historyLabel="SortThing.java" index="9">
+<item historyLabel="SortThing.java" index="7">
 <position info="not_deleted" x="293" y="0"/>
 </item>
-<item historyLabel="SortThing.java" index="9">
+<item historyLabel="SortThing.java" index="7">
 <position info="not_deleted" x="1100" y="0"/>
 </item>
-<item historyLabel="SortThing.java" index="9">
+<item historyLabel="SortThing.java" index="7">
 <position info="not_deleted" x="766" y="0"/>
 </item>
-<item historyLabel="SortThing.java" index="9">
+<item historyLabel="SortThing.java" index="7">
 <position info="not_deleted" x="1100" y="0"/>
 </item>
-<item historyLabel="SortThing.java" index="9">
+<item historyLabel="SortThing.java" index="7">
 <position info="not_deleted" x="954" y="0"/>
 </item>
-<item historyLabel="SortThing.java" index="9">
+<item historyLabel="SortThing.java" index="7">
 <position info="not_deleted" x="857" y="0"/>
 </item>
-<item historyLabel="SortThing.java" index="9">
+<item historyLabel="SortThing.java" index="7">
 <position info="not_deleted" x="1100" y="0"/>
 </item>
-<item historyLabel="SortThing.java" index="9">
+<item historyLabel="SortThing.java" index="7">
 <position info="not_deleted" x="1186" y="0"/>
 </item>
-<item historyLabel="SortThing.java" index="9">
+<item historyLabel="SortThing.java" index="7">
 <position info="not_deleted" x="1556" y="0"/>
 </item>
-<item historyLabel="Item.java" index="10">
+<item historyLabel="Item.java" index="8">
 <position info="not_deleted" x="552" y="4"/>
 </item>
-<item historyLabel="SortThing.java" index="9">
+<item historyLabel="SortThing.java" index="7">
 <position info="not_deleted" x="316" y="0"/>
 </item>
-<item historyLabel="ArrayThing.java" index="11">
+<item historyLabel="ArrayThing.java" index="9">
 <position info="not_deleted" x="365" y="192"/>
 </item>
-<item active="true" historyLabel="SortThing.java" index="9">
+<item historyLabel="SortThing.java" index="7">
 <position info="not_deleted" x="316" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="7">
+<position info="not_deleted" x="1105" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="7">
+<position info="not_deleted" x="1292" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="7">
+<position info="not_deleted" x="624" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="7">
+<position info="not_deleted" x="1134" y="38"/>
+</item>
+<item active="true" historyLabel="SortThing.java" index="7">
+<position info="not_deleted" x="1533" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
