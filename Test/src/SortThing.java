@@ -25,16 +25,24 @@ public class SortThing
 		
 		try
 		{
-			s.print(null, s.rArr, "Before: ");
-			
-			System.out.println("\n");
+			s.print(null, s.rArr, "Before insertion sort: ");
 			
 			s.insertionSort(s.rArr);
-			s.print(null, s.rArr, "After: ");
+			
+			s.print(null, s.rArr, "\n\nAfter insertion: ");
+			
+			s.rArr = s.getRandomArray(100);
+			
+			s.print(null, s.rArr, "Before selection sort: ");
+
+			s.selectionSort(s.rArr);
+
+			s.print(null, s.rArr, "\n\nAfter selection sort: ");
 		}
 		catch (Exception e)
 		{
-			
+			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 	
@@ -96,6 +104,8 @@ public class SortThing
 		}
 		
 		System.out.println(s);
+		
+		write("log.txt", s);
 	}
 	
 	/**
@@ -144,6 +154,37 @@ public class SortThing
 			Comparable temp = arr[maxI];
 			arr[maxI]       = arr[endOfArray - 1];
 			arr[endOfArray - 1] = temp;
+		}
+	}
+	
+	/**
+	 * Writes the object to the specified file at the specified
+	 * location.
+	 * 
+	 * @param location The location of the file to write to.
+	 * @param obj The object to write to the file.
+	 */
+	private static void write(String location, Object obj) throws IOException
+	{
+		if (object instanceof String)
+		{
+			String str     = (String)obj;
+			
+			PrintWriter pw = new PrintWriter(new FileWriter(new File(location)));
+			
+			pw.print(str);
+			
+			pw.close();
+		}
+		else
+		{
+			ObjectOutputStream out = new ObjectOutputStream(
+					new BufferedOutputStream(
+					new FileOutputStream(location)));
+
+			out.writeObject(obj);
+
+			out.close();
 		}
 	}
 }
