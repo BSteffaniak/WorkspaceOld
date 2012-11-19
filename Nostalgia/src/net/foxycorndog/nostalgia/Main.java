@@ -12,10 +12,15 @@ import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.nostalgia.actor.Actor;
 import net.foxycorndog.nostalgia.actor.Player;
 import net.foxycorndog.nostalgia.actor.camera.Camera;
+import net.foxycorndog.nostalgia.items.weapons.guns.Pistol;
 import net.foxycorndog.nostalgia.map.Map;
 
 public class Main extends GameComponent
 {
+	private boolean     released;
+	
+	private int         releasedDelay;
+	
 	private float       offsetY, offsetZ;
 	
 	private Player      player;
@@ -38,6 +43,8 @@ public class Main extends GameComponent
 	
 	public void onCreate()
 	{
+		released = true;
+		
 		GL.setRender3D(true);
 		
 		map    = new Map();
@@ -49,6 +56,12 @@ public class Main extends GameComponent
 		
 		player = new Player(2, 2, 2, 1, 1, 1, map);
 		player.attachCamera(camera);
+		
+		Pistol pistol = new Pistol(map);
+		pistol.addAmmo(2500);
+		pistol.reload();
+		
+		player.addGun(pistol, true);
 		
 		player.move(0, 9, 0);
 	}
@@ -65,15 +78,7 @@ public class Main extends GameComponent
 	
 	public void loop(int dfps)
 	{
-		if (MouseInput.isButtonDown(MouseInput.LEFT_MOUSE_BUTTON))
-		{
-			MouseInput.setGrabbed(true);
-		}
-		
-		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_ESCAPE))
-		{
-			MouseInput.setGrabbed(false);
-		}
+		map.update(dfps);
 		
 		if (MouseInput.isGrabbed())
 		{
@@ -168,6 +173,40 @@ public class Main extends GameComponent
 				GL.setWireFrameMode(!GL.isWireFrame(), GL.isWireFrame(), true);
 		//			GL.setShowColors(!GL.isShowingColors());
 			}
+				
+			if (MouseInput.isButtonDown(MouseInput.LEFT_MOUSE_BUTTON))
+			{
+				if (player.getActiveGun() != null)
+				{
+					if (releasedDelay > player.getActiveGun().getShotDelay() && (player.getActiveGun().getShotDelay() != -1 || released))
+					{
+						player.useActiveWeapon();
+						
+						released      = false;
+						releasedDelay = 0;
+					}
+					else
+					{
+						releasedDelay ++;
+					}
+				}
+			}
+			else
+			{
+				released = true;
+			}
+		}
+		
+		if (MouseInput.isButtonDown(MouseInput.LEFT_MOUSE_BUTTON))
+		{
+			MouseInput.setGrabbed(true);
+			
+			released = false;
+		}
+		
+		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_ESCAPE))
+		{
+			MouseInput.setGrabbed(false);
 		}
 		
 //			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_R))

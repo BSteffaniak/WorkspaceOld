@@ -1,4 +1,6 @@
 package net.foxycorndog.nostalgia.map;
+import java.util.ArrayList;
+
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.geometry.Point;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
@@ -11,14 +13,15 @@ import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.Task;
 import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.nostalgia.actor.Actor;
+import net.foxycorndog.nostalgia.items.weapons.Bullet;
 
 public class Map
 {
-	private int            numCubes;
+	private int            numCubes, maxBullets;
 	
 	private float          rotY;
 	
-	private Texture        brick;
+	private Texture        brick, tile;
 	
 	private SpriteSheet    sprites;
 	
@@ -26,10 +29,11 @@ public class Map
 	
 	private LightBuffer    texturesBuffer, colorsBuffer;
 	
-	private VerticesBuffer verticesBuffer;
+	private VerticesBuffer verticesBuffer, bulletVertices;
 	public  int            render = GL.POINTS;
-	private float          cubes[], allVertices[], vertices[], textures[], normals[], colors[], normalIndices[];
-	private short          vertexIndices[];
+	private float          cubes[];
+	
+	private ArrayList<Bullet> bullets;
 	
 	public Map()
 	{
@@ -38,12 +42,26 @@ public class Map
 		sprites  = new SpriteSheet("res/images/sprites.png", 36, 18);
 		
 		brick = new Texture("res/images/brick.png");
+		tile  = new Texture("res/images/tile.png");
 		
 		cubes    = new float[6 * numCubes];
 		
 		verticesBuffer = new VerticesBuffer(4 * 3 * 6 * numCubes, 3);
 		texturesBuffer = new LightBuffer(2 * 4 * 6 * numCubes);
 		colorsBuffer   = new LightBuffer(4 * 4 * 6 * numCubes);
+		
+		maxBullets     = 100;
+		bulletVertices = new VerticesBuffer(4 * 3 * 6 * maxBullets, 3);
+		bullets        = new ArrayList<Bullet>(maxBullets);
+		
+		for (int i = 0; i < maxBullets; i ++)
+		{
+			bullets.add(null);
+			
+			bulletVertices.setData(4 * 3 * 6 * i, GL.addCubeVertexArrayf(0, 0, 0, 0.05f, 0.05f, 0.05f, 0, null));
+		}
+		
+		bulletVertices.genIndices(GL.QUADS, null);
 		
 		int index = 0;
 		
@@ -71,8 +89,8 @@ public class Map
 		{
 			 0,  0,  1,
 			 0,  2, -1,
-			 1,  3, -1,
-			 1,  1,  1
+			 1,  2, -1,
+			 1,  0,  1
 		};
 		
 		boolean sides[] = new boolean[]
@@ -95,7 +113,17 @@ public class Map
 			true
 		};
 		
-		addCube(-10, -2, -100, 20, 2, 200, GL.white, allSides, 200, 200, 200, 255, index ++, true);
+		boolean topOnly[] = new boolean[]
+		{
+			true,
+			true,
+			true,
+			true,
+			true,
+			true
+		};
+		
+		addCube(-10, -2, -100, 20, 2, 200, tile, topOnly, 3, 30, 200, 200, 200, 255, index ++, true);
 		addCube(GL.addCubeVertexArrayf(vrts, 2, 0, null), brick, 1, 1, 180, 180, 180, 255, index ++, false);
 		addCube(-10, 0, -100, 2, 10, 200, brick, sides, 50, 3, 180, 180, 180, 255, index ++, true);
 		addCube(8, 0, -100, 2, 10, 200, brick, sides, 50, 3, 180, 180, 180, 255, index ++, true);
@@ -225,6 +253,20 @@ public class Map
 		return false;
 	}
 	
+	public void update(int dfps)
+	{
+		for (int i = 0; i < bullets.size(); i ++)
+		{
+			if (bullets.get(i) != null)
+			{
+				for (int j = 0; j < 5; j ++)
+				{
+					bullets.get(i).update(dfps);
+				}
+			}
+		}
+	}
+	
 	public void render()
 	{
 //		house.render();
@@ -235,7 +277,7 @@ public class Map
 		
 		GL.renderCubes(verticesBuffer, texturesBuffer, null, colorsBuffer, sprites, 0, 1, null);
 		
-		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, GL.white, 1, 1);
+		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, tile, 1, 1);
 		
 		GL.beginManipulation();
 		{
@@ -249,6 +291,42 @@ public class Map
 		GL.endManipulation();
 		
 		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, brick, 3, 2);
+		
+		renderBullets();
+	}
+	
+	private void renderBullets()
+	{
+		for (int i = 0; i < bullets.size(); i ++)
+		{
+			Bullet bullet = bullets.get(i);
+			
+			if (bullet != null)
+			{
+				GL.beginManipulation();
+				{
+					GL.translatef(bullet.getX(), bullet.getY(), bullet.getZ());
+					
+					GL.renderCubes(bulletVertices, i, 1);
+				}
+				GL.endManipulation();
+			}
+		}
+	}
+	
+	public void shoot(Bullet bullet)
+	{
+		bullets.set(bullet.getId(), bullet);
+	}
+	
+	public void removeBullet(int id)
+	{
+		bullets.set(id, null);
+	}
+	
+	public int getMaxBullets()
+	{
+		return maxBullets;
 	}
 	
 	public float[] getCubes()

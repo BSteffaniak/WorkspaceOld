@@ -1,9 +1,13 @@
 package net.foxycorndog.nostalgia.actor;
 
+import java.util.ArrayList;
+
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.model.Model;
 import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.nostalgia.actor.camera.Camera;
+import net.foxycorndog.nostalgia.items.Item;
+import net.foxycorndog.nostalgia.items.weapons.guns.Gun;
 import net.foxycorndog.nostalgia.map.Map;
 
 public class Actor
@@ -27,6 +31,10 @@ public class Actor
 	
 //	private VerticesBuffer verticesBuffer;
 	private Model   model;
+	
+	private Gun     activeGun;
+	
+	private ArrayList<Gun> guns;
 	
 	public  static final int   THIRD = 3, FIRST = 1;
 	
@@ -63,6 +71,8 @@ public class Actor
 //		verticesBuffer.genIndices(GL.QUADS, null);
 		
 		model = new Model(GL.addCubeVertexArrayf(0, 0, 0, width, height, depth, 0, null), null, null, null, null, null);
+		
+		guns  = new ArrayList<Gun>();
 		
 		perspective    = FIRST;
 	}
@@ -104,36 +114,6 @@ public class Actor
 		return false;
 	}
 	
-	public boolean move(int direction, float distance)
-	{
-		if (direction == Camera.FORWARD)
-		{
-			return move(0, 0, -distance);
-		}
-		else if (direction == Camera.BACKWARD)
-		{
-			return move(0, 0, distance);
-		}
-		else if (direction == Camera.LEFT)
-		{
-			return move(-distance, 0, 0);
-		}
-		else if (direction == Camera.RIGHT)
-		{
-			return move(distance, 0, 0);
-		}
-		else if (direction == Camera.UP)
-		{
-			return move(0, distance, 0);
-		}
-		else if (direction == Camera.DOWN)
-		{
-			return move(0, -distance, 0);
-		}
-		
-		return false;
-	}
-	
 	/**
 	 * Move the actor in the direction of the specified
 	 * parameters. The direction that the Actor is facing
@@ -141,7 +121,7 @@ public class Actor
 	 *
 	 * @param dx The amount to move horizontally.
 	 * @param dy The amount to move vertically.
-	 * @param dz The amount to move obliquelly.
+	 * @param dz The amount to move obliquely.
 	 */
 	public boolean move(float dx, float dy, float dz)
 	{
@@ -173,13 +153,11 @@ public class Actor
 		for (int i = 0; i < times; i ++)
 		{
 			// Move horizontally
-			camera.moveDirection(dx, 0, 0);
-			location.moveDirection(dx, 0, 0);
+			moveEntities(dx, 0, 0);
 			
 			if (collided(map))
 			{
-				camera.moveDirection(-dx, 0, 0);
-				location.moveDirection(-dx, 0, 0);
+				moveEntities(-dx, 0, 0);
 			}
 			else if (dx != 0)
 			{
@@ -188,13 +166,11 @@ public class Actor
 			}
 			
 			// Move vertically
-			camera.moveDirection(0, dy, 0);
-			location.moveDirection(0, dy, 0);
+			moveEntities(0, dy, 0);
 			
 			if (collided(map))
 			{
-				camera.moveDirection(0, -dy, 0);
-				location.moveDirection(0, -dy, 0);
+				moveEntities(0, -dy, 0);
 				
 				if (dy > 0)
 				{
@@ -212,13 +188,11 @@ public class Actor
 			}
 			
 			// Move Obliquely
-			camera.moveDirection(0, 0, dz);
-			location.moveDirection(0, 0, dz);
+			moveEntities(0, 0, dz);
 
 			if (collided(map))
 			{
-				camera.moveDirection(0, 0, -dz);
-				location.moveDirection(0, 0, -dz);
+				moveEntities(0, 0, -dz);
 			}
 			else if (dz != 0)
 			{
@@ -228,6 +202,51 @@ public class Actor
 		}
 		
 		return movedOblique || movedHorizontal || movedVertical;
+	}
+	
+	public void moveEntities(float dx, float dy, float dz)
+	{
+		camera.moveDirection(dx, dy, dz);
+		location.moveDirection(dx, dy, dz);
+		
+		if (activeGun != null)
+		{
+			activeGun.moveDirection(dx, dy, dz);
+		}
+	}
+	
+	public void rotateEntities(float yaw, float pitch, float roll)
+	{
+		if (yaw != 0)
+		{
+			camera.yaw(yaw);
+			location.yaw(yaw);
+			
+			if (activeGun != null)
+			{
+				activeGun.yaw(yaw);
+			}
+		}
+		if (pitch != 0)
+		{
+			camera.pitch(pitch);
+			location.pitch(pitch);
+			
+			if (activeGun != null)
+			{
+				activeGun.pitch(pitch);
+			}
+		}
+		if (roll != 0)
+		{
+			camera.roll(roll);
+			location.roll(roll);
+			
+			if (activeGun != null)
+			{
+				activeGun.roll(roll);
+			}
+		}
 	}
 	
 	public void jump()
@@ -330,14 +349,12 @@ public class Actor
 	
 	public void pitch(float amount)
 	{
-		camera.pitch(amount);
-		location.pitch(amount);
+		rotateEntities(0, amount, 0);
 	}
 	
 	public void yaw(float amount)
 	{
-		camera.yaw(amount);
-		location.yaw(amount);
+		rotateEntities(amount, 0, 0);
 	}
 	
 	public void setSprinting(boolean sprinting)
@@ -448,6 +465,39 @@ public class Actor
 	public Map getMap()
 	{
 		return map;
+	}
+	
+	public Gun getActiveGun()
+	{
+		return activeGun;
+	}
+	
+	public void useActiveWeapon()
+	{
+		if (activeGun != null)
+		{
+			activeGun.shoot();
+		}
+	}
+	
+	public void addGun(Gun gun)
+	{
+		guns.add(gun);
+	}
+	
+	public void addGun(Gun gun, boolean equip)
+	{
+		guns.add(gun);
+		
+		if (equip)
+		{
+			activeGun = gun;
+			
+			gun.setLocation(location.getX(), location.getY(), location.getZ());
+			gun.setRotation(location.getYaw(), location.getPitch(), location.getRoll());
+			
+			gun.move(1.1f, 0.5f, 0);
+		}
 	}
 	
 //	public VerticesBuffer getVerticesBuffer()
