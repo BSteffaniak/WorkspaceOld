@@ -1,5 +1,5 @@
 
-**** Build of configuration Debug for project openglcpptest ****
+**** Rebuild of configuration Debug for project openglcpptest ****
 
 **** Internal Builder is used for build               ****
 g++ -includeC:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h -O0 -g3 -Wall -c -fmessage-length=0 -o opengl.o ..\opengl.cpp

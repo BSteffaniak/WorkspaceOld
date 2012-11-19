@@ -1,0 +1,104 @@
+package net.foxycorndog.nostalgia.weapons.guns;
+
+import net.foxycorndog.jdoogl.camera.Camera;
+import net.foxycorndog.nostalgia.map.Map;
+
+public abstract class Gun
+{
+	private int idleAmmo, clipAmmo;
+	private int clipSize, clipAmount;
+	
+	private Camera location;
+	private Map    map;
+	
+	public Gun(int clipSize, int clipAmount, Map map)
+	{
+		this.clipSize   = clipSize;
+		this.clipAmount = clipAmount;
+		
+		this.map        = map;
+	}
+	
+	public int getMaxAmmoAmount()
+	{
+		return clipSize * clipAmount;
+	}
+	
+	public int getClipAmmo()
+	{
+		return clipAmmo;
+	}
+	
+	public int getIdleAmmo()
+	{
+		return idleAmmo;
+	}
+	
+	public boolean hasAmmoReady()
+	{
+		return clipAmmo > 0;
+	}
+	
+	public boolean hasAmmo()
+	{
+		return idleAmmo > 0 || clipAmmo > 0;
+	}
+	
+	public void addAmmo(int amount)
+	{
+		idleAmmo += amount;
+		
+		idleAmmo + clipAmmo > 
+	}
+	
+	public void reload()
+	{
+		int amountBefore = idleAmmo;
+		
+		idleAmmo -= (clipSize - clipAmmo);
+		
+		if (idleAmmo < 0)
+		{
+			idleAmmo = 0;
+		}
+		
+		clipAmmo += amountBefore - idleAmmo;
+	}
+	
+	public Map getMap()
+	{
+		return map;
+	}
+	
+	public float getX()
+	{
+		return location.getX();
+	}
+	
+	public float getY()
+	{
+		return location.getY();
+	}
+	
+	public float getZ()
+	{
+		return location.getZ();
+	}
+	
+	public float getYaw()
+	{
+		return location.getYaw();
+	}
+	
+	public float getPitch()
+	{
+		return location.getPitch();
+	}
+	
+	public float getRoll()
+	{
+		return location.getRoll();
+	}
+	
+	public abstract void shoot();
+}

@@ -1,0 +1,18 @@
+package net.foxycorndog.nostalgia.weapons.guns;
+
+import net.foxycorndog.nostalgia.map.Map;
+
+public abstract class Gun
+{
+	private int ammoAmount;
+	private int clipSize;
+	private int clipAmount;
+	
+	public Gun(int clipSize, int clipAmount)
+	{
+		this.clipSize   = clipSize;
+		this.clipAmount = clipAmount;
+	}
+	
+	public abstract void shoot(float yaw, float pitch, float roll, Map map);
+}

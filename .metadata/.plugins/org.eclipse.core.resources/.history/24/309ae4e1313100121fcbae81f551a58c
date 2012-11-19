@@ -1,0 +1,51 @@
+package net.foxycorndog.nostalgia.weapons;
+
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.geometry.Point;
+import net.foxycorndog.jdoogl.geometry.Vector;
+import net.foxycorndog.nostalgia.map.Map;
+
+public class Bullet
+{
+	private int        id;
+	
+	private float      velocity;
+	private float      yaw, pitch, roll;
+	
+	private Point      location;
+	
+	private static int curId = 0;
+	
+	public Bullet(Point location, float velocity, float yaw, float pitch, float roll, Map map)
+	{
+		this.location = location;
+		
+		curId ++;
+		curId = curId >= map.getMaxBullets() ? 0 : curId;
+		
+		this.id = curId;
+	}
+	
+	public void update()
+	{
+		float x = 0;
+		float z = 0;
+		
+		z -= velocity * (float)Math.cos(Math.toRadians(yaw));
+		x += velocity * (float)Math.sin(Math.toRadians(yaw));
+		
+		z += velocity * (float)Math.cos(Math.toRadians(yaw + 90));
+		x -= velocity * (float)Math.sin(Math.toRadians(yaw + 90));
+	}
+	
+	public void render()
+	{
+		GL.beginManipulation();
+		{
+			GL.translatef(location);
+			GL.rotatef(yaw, pitch, roll);
+			
+		}
+		GL.endManipulation();
+	}
+}

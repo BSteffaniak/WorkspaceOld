@@ -1,0 +1,69 @@
+package net.foxycorndog.nostalgia.weapons.guns;
+
+import net.foxycorndog.jdoogl.camera.Camera;
+import net.foxycorndog.nostalgia.map.Map;
+
+public abstract class Gun
+{
+	private int ammoAmount;
+	private int clipSize, clipsLeft;
+	private int clipAmount;
+	
+	private Camera location;
+	private Map    map;
+	
+	public Gun(int clipSize, int clipAmount, Map map)
+	{
+		this.clipSize   = clipSize;
+		this.clipAmount = clipAmount;
+		
+		this.map        = map;
+	}
+	
+	public boolean hasAmmoReady()
+	{
+		return ammoAmount % clipSize != 0;
+	}
+	
+	public boolean hasAmmo()
+	{
+		return ammoAmount > 0;
+	}
+	
+	public Map getMap()
+	{
+		return map;
+	}
+	
+	public float getX()
+	{
+		return location.getX();
+	}
+	
+	public float getY()
+	{
+		return location.getY();
+	}
+	
+	public float getZ()
+	{
+		return location.getZ();
+	}
+	
+	public float getYaw()
+	{
+		return location.getYaw();
+	}
+	
+	public float getPitch()
+	{
+		return location.getPitch();
+	}
+	
+	public float getRoll()
+	{
+		return location.getRoll();
+	}
+	
+	public abstract void shoot();
+}

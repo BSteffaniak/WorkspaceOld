@@ -1,0 +1,78 @@
+public class SortThing
+{
+	private Comparable rArr[];
+	
+	public static void main(String args[])
+	{
+		new SortThing();
+	}
+	
+	public SortThing()
+	{
+		rArr = genRandomArray(8);
+		
+		printArray(rArr);
+		
+		System.out.println("\nAfter:");
+		insertionSort(rArr);
+		printArray(rArr);
+	}
+	
+	private Comparable[] genRandomArray(int length)
+	{
+		Comparable arr[] = new Comparable[length];
+		
+		for (int i = 0; i < length; i ++)
+		{
+			arr[i] = (int)(Math.random() * 100);
+		}
+		
+		return arr;
+	}
+	
+	private void printArray(Comparable arr[])
+	{
+		for (Comparable i : arr)
+		{
+			System.out.println(i);
+		}
+	}
+	
+	private void insertionSort(Comparable arr[])
+	{
+//		for (int i = 0; i < arr.length; i ++) // for each item to be inserted
+//		{
+//			int temp = arr[i]; // hold new number temporarily
+//			int j    = i - 1; // look at the # right before it
+//			
+//			while (j >= 0 && (arr[j] > temp)) // while # not in right slot
+//			{
+//				arr[j + 1] = arr[j]; // copy # in slot to right
+//				j --; // move down array
+//			}
+//			
+//			arr[j + 1] = temp; // put new # in correct slot
+//		}
+		
+		for (int currentSorted = 1; currentSorted < arr.length; currentSorted ++)
+		{
+			Comparable nextElement = arr[currentSorted];
+			
+			int compareI = 0;
+			
+			for (compareI = currentSorted - 1; compareI >= 0 && arr[compareI].compareTo(nextElement) > 0; compareI --)
+			{
+				Comparable temp   = arr[compareI + 1];
+				arr[compareI + 1]     = arr[compareI];
+				arr[compareI] = temp;
+			}
+			
+//			arr[compareI] = nextElement;
+		}
+	}
+	
+	private void selectionSort()
+	{
+		
+	}
+}

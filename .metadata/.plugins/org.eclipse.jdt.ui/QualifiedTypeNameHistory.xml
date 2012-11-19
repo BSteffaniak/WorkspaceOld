@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.foxycorndog.nostalgia.actor.camera.Camera"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.camera.Camera"/>
-<fullyQualifiedTypeName name="javax.naming.OperationNotSupportedException"/>
-<fullyQualifiedTypeName name="java.nio.BufferUnderflowException"/>
-<fullyQualifiedTypeName name="java.nio.ShortBuffer"/>
-<fullyQualifiedTypeName name="org.lwjgl.BufferUtils"/>
 <fullyQualifiedTypeName name="java.nio.IntBuffer"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL12"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.Task"/>
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
 <fullyQualifiedTypeName name="java.io.FileReader"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.ModelLoader"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.input.KeyboardInput"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdobase.Base"/>
@@ -59,5 +52,12 @@
 <fullyQualifiedTypeName name="net.foxycorndog.nostalgia.actor.Actor"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.geometry.Vector"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.GL"/>
+<fullyQualifiedTypeName name="net.foxycorndog.nostalgia.weapons.Bullet"/>
+<fullyQualifiedTypeName name="net.foxycorndog.nostalgia.map.Map"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.geometry.Point"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.camera.Camera"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="net.foxycorndog.nostalgia.items.Item"/>
+<fullyQualifiedTypeName name="net.foxycorndog.nostalgia.items.weapons.guns.Pistol"/>
+<fullyQualifiedTypeName name="net.foxycorndog.nostalgia.items.weapons.guns.Gun"/>
 </qualifiedTypeNameHistroy>

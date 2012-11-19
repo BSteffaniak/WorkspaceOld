@@ -1,0 +1,9 @@
+1353211222192	Rename method 'getAmmoInClip'
+1353211430359	Rename field 'ammountAmmoInClip'
+1353211438439	Rename field 'ammoAmount'
+1353211453649	Rename method 'getAmmoAmount'
+1353211463150	Rename method 'getAmmoAmountInClip'
+1353211740378	Rename field 'totalAmmo'
+1353212916261	Rename package 'net.foxycorndog.nostalgia.weapons'
+1353213086083	Delete element
+1353213105178	Delete elements

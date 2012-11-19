@@ -1,0 +1,14 @@
+package net.foxycorndog.nostalgia.weapons.guns;
+
+public class Pistol extends Gun
+{
+	public Pistol()
+	{
+		super(5, 4);
+	}
+
+	public void shoot(float yaw, float pitch, float roll)
+	{
+		
+	}
+}

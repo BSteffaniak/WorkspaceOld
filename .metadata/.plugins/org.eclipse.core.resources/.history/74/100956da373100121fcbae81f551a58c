@@ -1,0 +1,169 @@
+package net.foxycorndog.nostalgia.weapons.guns;
+
+import net.foxycorndog.jdoogl.camera.Camera;
+import net.foxycorndog.nostalgia.map.Map;
+
+public abstract class Gun
+{
+	private int    idleAmmo, clipAmmo;
+	private int    clipSize, clipAmount;
+	
+	private Camera location;
+	private Map    map;
+	
+	public Gun(int clipSize, int clipAmount, Map map)
+	{
+		this.clipSize   = clipSize;
+		this.clipAmount = clipAmount;
+		
+		this.map        = map;
+	}
+	
+	public int getMaxAmmoAmount()
+	{
+		return clipSize * clipAmount;
+	}
+	
+	public int getClipAmmo()
+	{
+		return clipAmmo;
+	}
+	
+	public int getIdleAmmo()
+	{
+		return idleAmmo;
+	}
+	
+	public boolean hasAmmoReady()
+	{
+		return clipAmmo > 0;
+	}
+	
+	public boolean hasAmmo()
+	{
+		return idleAmmo > 0 || clipAmmo > 0;
+	}
+	
+	public void addAmmo(int amount)
+	{
+		idleAmmo += amount;
+		
+		if (idleAmmo + clipAmmo > getMaxAmmoAmount())
+		{
+			idleAmmo = getMaxAmmoAmount() - clipAmmo;
+		}
+	}
+	
+	public void reload()
+	{
+		int amountBefore = idleAmmo;
+		
+		idleAmmo -= (clipSize - clipAmmo);
+		
+		if (idleAmmo < 0)
+		{
+			idleAmmo = 0;
+		}
+		
+		clipAmmo += amountBefore - idleAmmo;
+	}
+	
+	public void removeIdleAmmo(int amount)
+	{
+		idleAmmo -= amount;
+	}
+	
+	public void removeClipAmmo(int amount)
+	{
+		clipAmmo -= amount;
+		
+		if (clipAmmo < 0)
+		{
+			removeIdleAmmo(-clipAmmo);
+			
+			clipAmmo = 0;
+		}
+	}
+	
+	public Map getMap()
+	{
+		return map;
+	}
+	
+	public void move(float dx, float dy, float dz)
+	{
+		location.move(dx, dy, dz);
+	}
+	
+	public void moveDirection(float dx, float dy, float dz)
+	{
+		location.moveDirection(dx, dy, dz);
+	}
+	
+	public void setLocation(float x, float y, float z)
+	{
+		location.setLocation(x, y, z);
+	}
+	
+	public float getX()
+	{
+		return location.getX();
+	}
+	
+	public float getY()
+	{
+		return location.getY();
+	}
+	
+	public float getZ()
+	{
+		return location.getZ();
+	}
+	
+	public float getYaw()
+	{
+		return location.getYaw();
+	}
+	
+	public void setYaw(float yaw)
+	{
+		location.setYaw(yaw);
+	}
+	
+	public void yaw(float amount)
+	{
+		location.yaw(amount);
+	}
+	
+	public float getPitch()
+	{
+		return location.getPitch();
+	}
+	
+	public void setPitch(float pitch)
+	{
+		location.setPitch(pitch);
+	}
+	
+	public void pitch(float amount)
+	{
+		location.pitch(amount);
+	}
+	
+	public float getRoll()
+	{
+		return location.getRoll();
+	}
+	
+	public void setRoll(float roll)
+	{
+		location.setRoll(roll);
+	}
+	
+	public void roll(float amount)
+	{
+		location.roll(amount);
+	}
+	
+	public abstract void shoot();
+}

@@ -1,0 +1,9 @@
+package net.foxycorndog.nostalgia.weapons.guns;
+
+public class Pistol extends Gun
+{
+	public void shoot()
+	{
+		
+	}
+}

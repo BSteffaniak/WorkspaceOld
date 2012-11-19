@@ -1,0 +1,14 @@
+package net.foxycorndog.nostalgia.items;
+
+import net.foxycorndog.jdoogl.camera.Camera;
+import net.foxycorndog.nostalgia.map.Map;
+
+public class Item
+{
+	public Item()
+	{
+		location = new Camera();
+	}
+	
+	private Camera location;
+}

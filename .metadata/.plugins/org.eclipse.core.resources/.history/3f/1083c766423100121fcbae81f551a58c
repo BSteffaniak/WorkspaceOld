@@ -1,0 +1,28 @@
+package net.foxycorndog.nostalgia.items.weapons.guns;
+
+import net.foxycorndog.jdoogl.camera.Camera;
+import net.foxycorndog.jdoogl.geometry.Point;
+import net.foxycorndog.nostalgia.items.weapons.Bullet;
+import net.foxycorndog.nostalgia.map.Map;
+
+public class Pistol extends Gun
+{
+	public Pistol(Map map)
+	{
+		super(5, 4, map);
+	}
+	
+	public void shoot()
+	{
+		if (hasAmmoReady())
+		{
+			Bullet b = new Bullet(new Point(getX(), getY() + 0.5f, getZ()), 0.01f, getYaw(), getPitch(), getRoll(), getMap());
+			
+			getMap().shoot(b);
+			
+			removeClipAmmo(1);
+		
+			System.out.println("Bam");
+		}
+	}
+}
