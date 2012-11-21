@@ -284,25 +284,26 @@ public class Camera implements Cloneable
 //		
 //		location.z += zOff;
 		
-		location.z -= distZ * (float)Math.cos(Math.toRadians(yaw));
-		location.z += distX * (float)Math.cos(Math.toRadians(yaw + 90));
+		float xOff = -distX * (float)Math.sin(Math.toRadians(yaw + 90)) + distZ * (float)Math.sin(Math.toRadians(yaw)); 
+		float yOff = 0;
+		float zOff = -distZ * (float)Math.cos(Math.toRadians(yaw))      + distX * (float)Math.cos(Math.toRadians(yaw + 90));
 		
-		location.x += distZ * (float)Math.sin(Math.toRadians(yaw));
-		location.x -= distX * (float)Math.sin(Math.toRadians(yaw + 90));
-		
-//		if (cameraMode == FREE)
-//		{
-////			location.y -= distZ * (float)Math.tan(Math.toRadians(pitch));
-////			location.y += distX * (float)Math.tan(Math.toRadians(pitch + 180));
-//			location.y -= distZ * Math.sin(Math.toRadians(pitch));
-//			zOff -= distZ * Math.sin(Math.toRadians(pitch));
-//			System.out.println(Math.sin(Math.toRadians(pitch)) + ", " + zOff);
-//		}
-//		else
-//		{
+		if (cameraMode == FREE)
+		{
+			float slope = (float)Math.cos(Math.toRadians(pitch));
+			
+			xOff *= slope;
+			location.y -= distY * (float)Math.sin(Math.toRadians(pitch));
+			zOff *= slope;
+		}
+		else
+		{
 			location.y -= distY;
-//		}
-
+		}
+		
+		location.x += xOff;
+		location.y += yOff;
+		location.z += zOff;
 	}
 	
 	public void move(int direction, float distance)

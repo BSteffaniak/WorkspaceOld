@@ -1,0 +1,70 @@
+package net.foxycorndog.jdoutil.color;
+
+public class Color
+{
+	public static final int RGB = 3, RGBA = 4;
+	
+	public static int[] toRGB(int colorArray[])
+	{
+		int colorArray2[] = new int[colorArray.length * 3];
+		
+		for (int i = 0; i < colorArray.length; i ++)
+		{
+			
+		}
+		
+		return colorArray2;
+	}
+	
+	public static int[] toRGBA(int colorArray[])
+	{
+		int colorArray2[] = new int[colorArray.length * 4];
+		
+		for (int i = 0; i < colorArray.length; i ++)
+		{
+			
+		}
+		
+		return colorArray2;
+	}
+	
+	public int[] toRGB(int color)
+	{
+		return new int[] { getRed(color), getGreen(color), getBlue(color) };
+	}
+	
+	public int[] toRGBA(int color)
+	{
+		return new int[] { getRed(color), getGreen(color), getBlue(color), getAlpha(color) };
+	}
+	
+	public static int getAlpha(int color)
+	{
+		int av = ((color >> 24) & 0xff);
+		
+		int var = (av >= 128 ? -(256 - av) : (av)) * 0x1000000;
+		
+		return var;
+	}
+	
+	public static int getRed(int color)
+	{
+		int rv = ((color >> 16) & 0xff);
+		
+		return rv * 0x10000;
+	}
+	
+	public static int getGreen(int color)
+	{
+		int gv = ((color >> 16) & 0xff);
+		
+		return gv * 0x100;
+	}
+	
+	public static int getBlue(int color)
+	{
+		int bv = ((color >> 16) & 0xff);
+		
+		return bv * 0x1;
+	}
+}

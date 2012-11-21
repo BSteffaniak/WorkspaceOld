@@ -87,11 +87,21 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 import java.awt.Canvas;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.naming.OperationNotSupportedException;
 
 import net.foxycorndog.jdobase.Base;
@@ -104,6 +114,7 @@ import net.foxycorndog.jdoutil.Buffer;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.Task;
 import net.foxycorndog.jdoutil.VerticesBuffer;
+import net.foxycorndog.jdoutil.color.ColorUtil;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -117,6 +128,9 @@ import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.util.glu.GLU;
 
+import de.matthiasmann.twl.utils.PNGDecoder;
+import de.matthiasmann.twl.utils.PNGDecoder.Format;
+
 /**
 * Class used for accessing many static methods that incorporate
 * OpenGL.
@@ -128,6 +142,8 @@ import org.lwjgl.util.glu.GLU;
 public class GL
 {
 	private static boolean flipped;
+	private static boolean render3D;
+	private static boolean wireFrame, showColors;
 	
 	private static double offsets[]        = new double[3];
 	private static double scale[]          = new double[] { 1, 1, 1 };
@@ -144,6 +160,8 @@ public class GL
 	private static float       zClose, zFar;
 	private static float       FOV;
 	
+	private static float       lastColor[];
+	
 	private static ArrayList<LightBuffer> rectVerticesBuffer, rectTexturesBuffer;
 	
 	public  static final int QUADS = GL11.GL_QUADS, TRIANGLES = GL11.GL_TRIANGLES, POINTS = GL11.GL_POINTS;
@@ -151,12 +169,13 @@ public class GL
 	public  static final int ARRAYS = Base.ARRAYS, ELEMENTS = Base.ELEMENTS, IMMEDIATE = Base.IMMEDIATE;
 	
 	public  static boolean DRAW_MODE_ARRAYS, DRAW_MODE_ELEMENTS, DRAW_MODE_IMMEDIATE, USING_VBO;
-	
-	private static boolean render3D;
-	private static boolean wireFrame, showColors;
+
+	public static final int LEFT = 0, CENTER = 1, RIGHT = 2, TOP = 2, BOTTOM = 0;
 	
 	static
 	{
+		lastColor = new float[4];
+		
 		showColors = true;
 		
 		Base.setUsingVBO(true); 
@@ -285,6 +304,21 @@ public class GL
 		GL11.glVertex3d(x, y, z);
 	}
 	
+	public static void glVertex2f(float x, float y)
+	{
+		GL11.glVertex2f(x, y);
+	}
+	
+	public static void glVertex2d(double x, double y)
+	{
+		GL11.glVertex2d(x, y);
+	}
+	
+	public static void glTexCoord2f(float s, float t)
+	{
+		GL11.glTexCoord2f(s, t);
+	}
+	
 //	/**
 //	 * Create a rectangle at the specified position, with the specified
 //	 * dimensions;
@@ -377,6 +411,11 @@ public class GL
 	public static void setColorf(float r, float g, float b, float a)
 	{
 		glColor4f(r, g, b, a);
+		
+		lastColor[0] = r;
+		lastColor[1] = g;
+		lastColor[2] = b;
+		lastColor[3] = a;
 	}
 	
 	/**
@@ -392,6 +431,11 @@ public class GL
 	public static void setColori(int r, int g, int b, int a)
 	{
 		glColor4f(r / 255f, g / 255f, b / 255f, a / 255f);
+	
+		lastColor[0] = r / 255f;
+		lastColor[1] = g / 255f;
+		lastColor[2] = b / 255f;
+		lastColor[3] = a / 255f;
 	}
 	
 	/**
@@ -1419,6 +1463,8 @@ public class GL
 	
 	public static void initBasicView(float zClose, float zFar)
 	{
+		glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+		
 		GL.zClose = zClose;
 		GL.zFar   = zFar;
 		
@@ -1523,22 +1569,113 @@ public class GL
 		flipped = false;
 	}
 	
+	public static void drawTexture(Texture texture, float x, float y, float z)
+	{
+		drawTexture(texture, x, y, z, 1);
+	}
+	
+	public static void drawTexture(Texture texture, float x, float y, float z, float scale)
+	{
+		drawTexture(texture, x, y, z, scale, LEFT, BOTTOM);
+	}
+	
+	public static void drawTexture(Texture texture, float x, float y, float z, int horizontalAlignment, int verticalAlignment)
+	{
+		drawTexture(texture, x, y, z, 1, horizontalAlignment, verticalAlignment);
+	}
+	
+	public static void drawTexture(Texture texture, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment)
+	{
+		if (horizontalAlignment == CENTER)
+		{
+			x += Frame.getCenterX();
+			x -= texture.getWidth() * scale / 2;
+		}
+		else if (horizontalAlignment == RIGHT)
+		{
+			x += Frame.getWidth();
+			x -= texture.getWidth() * scale;
+		}
+		if (verticalAlignment == CENTER)
+		{
+			y += Frame.getCenterY();
+			y -= texture.getHeight() * scale / 2;
+		}
+		else if (verticalAlignment == TOP)
+		{
+			y += Frame.getHeight();
+			y -= texture.getHeight() * scale;
+		}
+		
+		float lastColor[] = GL.lastColor.clone();
+		
+		GL.setColorf(1, 1, 1, 1);
+		
+		texture.bind();
+		
+		GL.beginManipulation();
+		{
+			GL.translatef(x, y, z);
+			GL.scalef(scale, scale, 1);
+			
+			float offsets[] = texture.getImageOffsetsf();
+			
+			GL.glBegin(GL.QUADS);
+			{
+				GL.glTexCoord2f(offsets[2], offsets[1]);
+				GL.glVertex2f(texture.getWidth(), 0);
+				
+				GL.glTexCoord2f(offsets[2], offsets[3]);
+				GL.glVertex2f(texture.getWidth(), texture.getHeight());
+				
+				GL.glTexCoord2f(offsets[0], offsets[3]);
+				GL.glVertex2f(0, texture.getHeight());
+				
+				GL.glTexCoord2f(offsets[0], offsets[1]);
+				GL.glVertex2f(0, 0);
+			}
+			GL.glEnd();
+		}
+		GL.endManipulation();
+		
+		GL.setColorf(lastColor[0], lastColor[1], lastColor[2], lastColor[3]);
+	}
+	
 	public static void loadIdentity()
 	{
 		glLoadIdentity();
 	}
 	
+	public static void viewOrtho()
+	{
+		glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
+		glLoadIdentity(); // Reset The Projection Matrix
+
+		glOrtho(0, Display.getWidth(), 0, Display.getHeight(), -99999, 99999);
+		glMatrixMode(GL_MODELVIEW);
+	}
+	
+	public static void viewPerspective()
+	{
+		glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
+		glLoadIdentity(); // Reset The Projection Matrix
+
+		// Calculate The Aspect Ratio Of The Window
+		gluPerspective(FOV, (float)Display.getWidth() / (float)Display.getHeight(), zClose, zFar);
+//		glOrtho(1, 1, 1, 1, -1, 1);
+		glMatrixMode(GL_MODELVIEW);
+	}
+	
 	public static void resetBasicView()
 	{
 		glViewport(0, 0, Display.getWidth(), Display.getHeight());
-//		glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
-//		glLoadIdentity(); // Reset The Projection Matrix
-//
-//		// Calculate The Aspect Ratio Of The Window
-//		glOrtho(0, Display.getWidth(), 0, Display.getHeight(), -99999, 99999);
-//		glMatrixMode(GL_MODELVIEW); // Select The Modelview Matrix
-//		
-//		flipped = false;
+		glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
+		glLoadIdentity(); // Reset The Projection Matrix
+
+		// Calculate The Aspect Ratio Of The Window
+		gluPerspective(FOV, (float)Display.getWidth() / (float)Display.getHeight(), zClose, zFar);
+//		glOrtho(1, 1, 1, 1, -1, 1);
+		glMatrixMode(GL_MODELVIEW);
 	}
 	
 	public static void flipView()
@@ -1886,16 +2023,16 @@ public class GL
 		
 		for (leftOff = 0; leftOff < offsets.length; leftOff ++)
 		{
-			array[offset + index ++] = rx * offsets[leftOff][0];
+			array[offset + index ++] = rx * offsets[leftOff][2];
 			array[offset + index ++] = ry * offsets[leftOff][1];
 			
+			array[offset + index ++] = rx * offsets[leftOff][2];
+			array[offset + index ++] = ry * offsets[leftOff][3];
+			
 			array[offset + index ++] = rx * offsets[leftOff][0];
 			array[offset + index ++] = ry * offsets[leftOff][3];
 			
-			array[offset + index ++] = rx * offsets[leftOff][2];
-			array[offset + index ++] = ry * offsets[leftOff][3];
-			
-			array[offset + index ++] = rx * offsets[leftOff][2];
+			array[offset + index ++] = rx * offsets[leftOff][0];
 			array[offset + index ++] = ry * offsets[leftOff][1];
 		}
 		
@@ -1903,16 +2040,16 @@ public class GL
 		
 		for (int i = leftOff + 1; i < 6; i ++)
 		{
-			array[offset + index ++] = rx * offsets[leftOff][0];
+			array[offset + index ++] = rx * offsets[leftOff][2];
 			array[offset + index ++] = ry * offsets[leftOff][1];
 			
+			array[offset + index ++] = rx * offsets[leftOff][2];
+			array[offset + index ++] = ry * offsets[leftOff][3];
+			
 			array[offset + index ++] = rx * offsets[leftOff][0];
 			array[offset + index ++] = ry * offsets[leftOff][3];
 			
-			array[offset + index ++] = rx * offsets[leftOff][2];
-			array[offset + index ++] = ry * offsets[leftOff][3];
-			
-			array[offset + index ++] = rx * offsets[leftOff][2];
+			array[offset + index ++] = rx * offsets[leftOff][0];
 			array[offset + index ++] = ry * offsets[leftOff][1];
 		}
 		
@@ -2266,30 +2403,30 @@ public class GL
 		
 		if (mirror)
 		{
-			array[offset + index ++] = rx * offsets[2];
+			array[offset + index ++] = rx * offsets[0];
 			array[offset + index ++] = ry * offsets[1];
 
+			array[offset + index ++] = rx * offsets[0];
+			array[offset + index ++] = ry * offsets[3];
+			
 			array[offset + index ++] = rx * offsets[2];
 			array[offset + index ++] = ry * offsets[3];
 			
-			array[offset + index ++] = rx * offsets[0];
-			array[offset + index ++] = ry * offsets[3];
-			
-			array[offset + index ++] = rx * offsets[0];
+			array[offset + index ++] = rx * offsets[2];
 			array[offset + index ++] = ry * offsets[1];
 		}
 		else
 		{
-			array[offset + index ++] = rx * offsets[0];
+			array[offset + index ++] = rx * offsets[2];
 			array[offset + index ++] = ry * offsets[1];
 			
-			array[offset + index ++] = rx * offsets[0];
+			array[offset + index ++] = rx * offsets[2];
 			array[offset + index ++] = ry * offsets[3];
 			
-			array[offset + index ++] = rx * offsets[2];
+			array[offset + index ++] = rx * offsets[0];
 			array[offset + index ++] = ry * offsets[3];
 	
-			array[offset + index ++] = rx * offsets[2];
+			array[offset + index ++] = rx * offsets[0];
 			array[offset + index ++] = ry * offsets[1];
 		}
 		
@@ -2451,15 +2588,15 @@ public class GL
 		
 		double offsets[] = spriteSheet.getImageOffsetsd(x, y, width, height);
 		
+		array[offset + index ++] = offsets[2];
+		array[offset + index ++] = offsets[1];
+		array[offset + index ++] = 0;
+		
+		array[offset + index ++] = offsets[2];
+		array[offset + index ++] = offsets[1];
+		array[offset + index ++] = 0;
+		
 		array[offset + index ++] = offsets[0];
-		array[offset + index ++] = offsets[1];
-		array[offset + index ++] = 0;
-		
-		array[offset + index ++] = offsets[2];
-		array[offset + index ++] = offsets[1];
-		array[offset + index ++] = 0;
-		
-		array[offset + index ++] = offsets[2];
 		array[offset + index ++] = offsets[3];
 		array[offset + index ++] = 0;
 
@@ -2483,13 +2620,13 @@ public class GL
 		
 		double offsets[] = spriteSheet.getImageOffsetsd(x, y, width, height);
 		
+		array[offset + index ++] = offsets[2];
+		array[offset + index ++] = offsets[1];
+		
+		array[offset + index ++] = offsets[2];
+		array[offset + index ++] = offsets[1];
+		
 		array[offset + index ++] = offsets[0];
-		array[offset + index ++] = offsets[1];
-		
-		array[offset + index ++] = offsets[2];
-		array[offset + index ++] = offsets[1];
-		
-		array[offset + index ++] = offsets[2];
 		array[offset + index ++] = offsets[3];
 
 		array[offset + index ++] = offsets[0];
@@ -2509,13 +2646,13 @@ public class GL
 		
 		int index = 0;
 		
+		array[offset + index ++] = offsets[2];
+		array[offset + index ++] = offsets[1];
+		
+		array[offset + index ++] = offsets[2];
+		array[offset + index ++] = offsets[1];
+		
 		array[offset + index ++] = offsets[0];
-		array[offset + index ++] = offsets[1];
-		
-		array[offset + index ++] = offsets[2];
-		array[offset + index ++] = offsets[1];
-		
-		array[offset + index ++] = offsets[2];
 		array[offset + index ++] = offsets[3];
 
 		array[offset + index ++] = offsets[0];
@@ -2535,13 +2672,13 @@ public class GL
 		
 		int index = 0;
 		
+		array[offset + index ++] = offsets[2];
+		array[offset + index ++] = offsets[1];
+		
+		array[offset + index ++] = offsets[2];
+		array[offset + index ++] = offsets[1];
+		
 		array[offset + index ++] = offsets[0];
-		array[offset + index ++] = offsets[1];
-		
-		array[offset + index ++] = offsets[2];
-		array[offset + index ++] = offsets[1];
-		
-		array[offset + index ++] = offsets[2];
 		array[offset + index ++] = offsets[3];
 
 		array[offset + index ++] = offsets[0];

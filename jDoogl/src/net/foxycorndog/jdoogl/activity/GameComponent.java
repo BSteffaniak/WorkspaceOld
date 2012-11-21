@@ -1,5 +1,6 @@
 package net.foxycorndog.jdoogl.activity;
 
+import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.components.Frame.GameRenderer;
 import net.foxycorndog.jdoogl.input.KeyboardInput;
@@ -23,9 +24,15 @@ public abstract class GameComponent
 		
 		gameRenderer = new GameRenderer(title, width, height)
 		{
-			public void render()
+			public void render(int dfps)
 			{
-				thisGameComponent.render();
+				GL.loadIdentity();
+				GL.viewPerspective();
+				thisGameComponent.render3D(dfps);
+				
+				GL.loadIdentity();
+				GL.viewOrtho();
+				thisGameComponent.render2D(dfps);
 			}
 			
 			public void loop(int dfps)
@@ -54,7 +61,9 @@ public abstract class GameComponent
 	
 	public abstract void onCreate();
 	
-	public abstract void render();
+	public abstract void render2D(int dfps);
+	
+	public abstract void render3D(int dfps);
 	
 	public abstract void loop(int dfps);
 }

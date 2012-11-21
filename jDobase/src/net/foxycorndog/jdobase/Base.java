@@ -73,7 +73,7 @@ public class Base
 	 */
 	private static void setNatives()
 	{
-		System.out.println(PATH + "natives");
+//		System.out.println(PATH + "natives");
 
 //		System.setProperty("org.lwjgl.input.Mouse.allowNegativeMouseCoords", "true");
 		System.setProperty("org.lwjgl.librarypath", PATH + "natives");

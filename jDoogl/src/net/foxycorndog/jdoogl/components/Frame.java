@@ -345,43 +345,33 @@ public abstract class Frame
 //		ResourceLoader.addResourceLocation(new FileSystemLocation(new File(".")));
 	}
 	
-	public static void setIcon(String image16Location, String image32Location)
+	public static void setIcon(String image16Location, String image32Location) throws IOException
 	{
 		InputStream in;
-		try
-		{
-			in = new FileInputStream(image16Location);
 		
-			PNGDecoder decoder = new PNGDecoder(in);
-			
-			ByteBuffer buf16 = BufferUtils.createByteBuffer(4 * decoder.getWidth() * decoder.getHeight());
-			decoder.decode(buf16, decoder.getWidth() * 4, Format.RGBA);
-			buf16.flip();
-			
-			in.close();
-			
-			
-			in = new FileInputStream(image32Location);
-			
-			decoder = new PNGDecoder(in);
-			
-			ByteBuffer buf32 = BufferUtils.createByteBuffer(4 * decoder.getWidth() * decoder.getHeight());
-			decoder.decode(buf32, decoder.getWidth() * 4, Format.RGBA);
-			buf32.flip();
-			
-			in.close();
-			
-			
-			Display.setIcon(new ByteBuffer[] { buf16, buf32 });
-		}
-		catch (FileNotFoundException ex)
-		{
-			ex.printStackTrace();
-		}
-		catch (IOException ex)
-		{
-			ex.printStackTrace();
-		}
+		in = new FileInputStream(image16Location);
+	
+		PNGDecoder decoder = new PNGDecoder(in);
+		
+		ByteBuffer buf16 = BufferUtils.createByteBuffer(4 * decoder.getWidth() * decoder.getHeight());
+		decoder.decode(buf16, decoder.getWidth() * 4, Format.RGBA);
+		buf16.flip();
+		
+		in.close();
+		
+		
+		in = new FileInputStream(image32Location);
+		
+		decoder = new PNGDecoder(in);
+		
+		ByteBuffer buf32 = BufferUtils.createByteBuffer(4 * decoder.getWidth() * decoder.getHeight());
+		decoder.decode(buf32, decoder.getWidth() * 4, Format.RGBA);
+		buf32.flip();
+		
+		in.close();
+		
+		
+		Display.setIcon(new ByteBuffer[] { buf16, buf32 });
 		
 		
 	}
@@ -1138,7 +1128,7 @@ public abstract class Frame
 				Frame.listenKeys();
 				
 				loop(getDFps());
-				render();
+				render(getDFps());
 				
 				Frame.updateFps();
 				
@@ -1155,7 +1145,7 @@ public abstract class Frame
 			KeyboardInput.next();
 		}
 
-		public abstract void render();
+		public abstract void render(int dfps);
 		
 		public abstract void loop(int dfps);
 	}

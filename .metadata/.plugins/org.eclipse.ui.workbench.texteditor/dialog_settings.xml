@@ -13,16 +13,16 @@
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="[3 * 0 + 0]" key="selection"/>
+		<item value="setCol" key="selection"/>
 		<list key="findhistory">
+			<item value="setCol"/>
+			<item value="Icon"/>
+			<item value="icon"/>
+			<item value="System.out.println("/>
 			<item value="[0]"/>
 			<item value="[1]"/>
 			<item value="[2]"/>
 			<item value="[3]"/>
-			<item value="[4]"/>
-			<item value="[5]"/>
-			<item value="[6]"/>
-			<item value="[7]"/>
 		</list>
 		<list key="replacehistory">
 			<item value="[3 * 0 + 0]"/>

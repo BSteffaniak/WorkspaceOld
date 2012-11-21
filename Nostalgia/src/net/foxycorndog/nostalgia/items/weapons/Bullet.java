@@ -47,8 +47,11 @@ public class Bullet
 	
 	public void update(int dfps)
 	{
-		z -= velocity * (float)Math.cos(Math.toRadians(yaw));
-		x += velocity * (float)Math.sin(Math.toRadians(yaw));
+		float slope = (float)Math.cos(Math.toRadians(pitch));
+		
+		x += velocity * (float)Math.sin(Math.toRadians(yaw)) * slope;
+		y -= velocity * (float)Math.sin(Math.toRadians(pitch));
+		z -= velocity * (float)Math.cos(Math.toRadians(yaw)) * slope;
 		
 		times ++;
 		
@@ -56,6 +59,8 @@ public class Bullet
 		{
 			map.removeBullet(id);
 		}
+		
+//		y -= 0.005f;
 	}
 	
 	public float getX()

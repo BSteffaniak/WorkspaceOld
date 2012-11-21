@@ -3,6 +3,7 @@ package net.foxycorndog.nostalgia;
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.activity.GameComponent;
 import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.fonts.Font;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoogl.input.KeyboardInput;
@@ -12,6 +13,8 @@ import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.nostalgia.actor.Actor;
 import net.foxycorndog.nostalgia.actor.Player;
 import net.foxycorndog.nostalgia.actor.camera.Camera;
+import net.foxycorndog.nostalgia.items.weapons.guns.Gun;
+import net.foxycorndog.nostalgia.items.weapons.guns.MachineGun;
 import net.foxycorndog.nostalgia.items.weapons.guns.Pistol;
 import net.foxycorndog.nostalgia.map.Map;
 
@@ -23,11 +26,15 @@ public class Main extends GameComponent
 	
 	private float       offsetY, offsetZ;
 	
+	private Font        font;
+	
 	private Player      player;
 	
 	private Map         map;
 	
 	private Camera      camera;
+	
+	private Texture     grass;
 	
 	private static Main m;
 	
@@ -57,16 +64,58 @@ public class Main extends GameComponent
 		player = new Player(2, 2, 2, 1, 1, 1, map);
 		player.attachCamera(camera);
 		
-		Pistol pistol = new Pistol(map);
+		Gun pistol = new MachineGun(map);
 		pistol.addAmmo(2500);
-		pistol.reload();
+		pistol.reload(false);
 		
 		player.addGun(pistol, true);
 		
 		player.move(0, 9, 0);
+		
+		font = new Font("res/images/font/font.png", 26, 4,
+				new char[]
+				{
+					'A', 'B', 'C', 'D', 'E', 'F',  'G', 'H', 'I', 'J', 'K', 'L',  'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+					'a', 'b', 'c', 'd', 'e', 'f',  'g', 'h', 'i', 'j', 'k', 'l',  'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+					'0', '1', '2', '3', '4', '5',  '6', '7', '8', '9', '_', '-',  '+', '=', '~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')',
+					'?', '>', '<', ';', ':', '\'', '"', '{', '}', '[', ']', '\\', '|', ',', '.', '/', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+				});
+		
+		grass = new Texture("res/images/grass.png");
 	}
 	
-	public void render()
+	public void render2D(int dfps)
+	{
+		if (player.getActiveGun() != null)
+		{
+			String gunAmmo = player.getActiveGun().getClipAmmo() + "/" + player.getActiveGun().getIdleAmmo();
+			
+			String dots = "";
+			
+			for (int i = 1; i < 3 + 1; i ++)
+			{
+				if (dfps > (i * 10))
+				{
+					dots += ".";
+				}
+				else
+				{
+					dots += " ";
+				}
+			}
+			
+			font.render(gunAmmo, 0, 0, 0, 5f);
+			
+			if (player.getActiveGun().isReloading())
+			{
+				font.render("Reloading" + dots, font.getGlyphWidth() * (gunAmmo.length() + 1) * 5f, 0, 0, 5f);
+			}
+		}
+		
+		font.render("+", 0, 0, 0, 4, Font.CENTER, Font.CENTER);
+	}
+	
+	public void render3D(int dfps)
 	{
 		player.lookThrough();
 //		camera.lookThrough();
@@ -173,6 +222,19 @@ public class Main extends GameComponent
 				GL.setWireFrameMode(!GL.isWireFrame(), GL.isWireFrame(), true);
 		//			GL.setShowColors(!GL.isShowingColors());
 			}
+			
+			if (KeyboardInput.next(KeyboardInput.KEY_R))
+			{
+				if (player.getActiveGun() != null)
+				{
+					Gun gun = player.getActiveGun();
+					
+					if (gun.getIdleAmmo() > 0)
+					{
+						gun.reload();
+					}
+				}
+			}
 				
 			if (MouseInput.isButtonDown(MouseInput.LEFT_MOUSE_BUTTON))
 			{
@@ -231,7 +293,7 @@ public class Main extends GameComponent
 //				player.deta
 //			}
 		
-//		System.out.println(player.getX() + ", " + player.getY() + ", " + player.getZ());
+//		System.out.println(player.getYaw() + ", " + player.getPitch() + ", " + player.getRoll());
 			
 		player.update(dfps);
 	}

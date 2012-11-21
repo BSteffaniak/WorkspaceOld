@@ -10,6 +10,7 @@ public class Item
 	public Item()
 	{
 		location = new Camera();
+		location.setCameraMode(Camera.XZ_ONLY);
 	}
 	
 	public void move(float dx, float dy, float dz)

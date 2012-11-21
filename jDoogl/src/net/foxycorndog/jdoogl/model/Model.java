@@ -143,8 +143,6 @@ public class Model
 //		allVerticesBuffer = new VerticesBuffer(allVertices.length, 3);
 //		allVerticesBuffer.addData(allVertices);
 		
-		System.out.println(normals.length);
-		
 		faceNormals = new float[normalIndices.length / 3];
 		
 		for (int i = 0; i < vertexIndices.length; i += 3)
@@ -277,6 +275,8 @@ public class Model
 	
 	public void render()
 	{
+		GL.white.bind();
+		
 		GL.beginManipulation();
 		{
 			GL.translatef(x, y, z);

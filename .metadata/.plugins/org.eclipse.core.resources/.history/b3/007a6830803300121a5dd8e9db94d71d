@@ -1,0 +1,302 @@
+package net.foxycorndog.nostalgia;
+
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.activity.GameComponent;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.fonts.Font;
+import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
+import net.foxycorndog.jdoogl.image.imagemap.Texture;
+import net.foxycorndog.jdoogl.input.KeyboardInput;
+import net.foxycorndog.jdoogl.input.MouseInput;
+import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
+import net.foxycorndog.nostalgia.actor.Actor;
+import net.foxycorndog.nostalgia.actor.Player;
+import net.foxycorndog.nostalgia.actor.camera.Camera;
+import net.foxycorndog.nostalgia.items.weapons.guns.Gun;
+import net.foxycorndog.nostalgia.items.weapons.guns.MachineGun;
+import net.foxycorndog.nostalgia.items.weapons.guns.Pistol;
+import net.foxycorndog.nostalgia.map.Map;
+
+public class Main extends GameComponent
+{
+	private boolean     released;
+	
+	private int         releasedDelay;
+	
+	private float       offsetY, offsetZ;
+	
+	private Font        font;
+	
+	private Player      player;
+	
+	private Map         map;
+	
+	private Camera      camera;
+	
+	private Texture     grass;
+	
+	private static Main m;
+	
+	public static void main(String args[])
+	{
+		m = new Main();
+	}
+	
+	public Main()
+	{
+		super("Nostalgia", 640, 512);
+	}
+	
+	public void onCreate()
+	{
+		released = true;
+		
+		GL.setRender3D(true);
+		
+		map    = new Map();
+		
+		camera = new Camera();
+		camera.setMaxPitch(90);
+		camera.setMinPitch(-90);
+		camera.setCameraMode(Camera.XZ_ONLY);
+		
+		player = new Player(2, 2, 2, 1, 1, 1, map);
+		player.attachCamera(camera);
+		
+		Gun pistol = new MachineGun(map);
+		pistol.addAmmo(2500);
+		pistol.reload(false);
+		
+		player.addGun(pistol, true);
+		
+		player.move(0, 9, 0);
+		
+		font = new Font("res/images/font/font.png", 26, 4,
+				new char[]
+				{
+					'A', 'B', 'C', 'D', 'E', 'F',  'G', 'H', 'I', 'J', 'K', 'L',  'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+					'a', 'b', 'c', 'd', 'e', 'f',  'g', 'h', 'i', 'j', 'k', 'l',  'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+					'0', '1', '2', '3', '4', '5',  '6', '7', '8', '9', '_', '-',  '+', '=', '~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')',
+					'?', '>', '<', ';', ':', '\'', '"', '{', '}', '[', ']', '\\', '|', ',', '.', '/', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+				});
+		
+		grass = new Texture("res/images/grass.png");
+	}
+	
+	public void render2D(int dfps)
+	{
+		GL.drawTexture(grass, 0, 0, 0, 10, GL.CENTER, GL.CENTER);
+		
+		if (player.getActiveGun() != null)
+		{
+			String gunAmmo = player.getActiveGun().getClipAmmo() + "/" + player.getActiveGun().getIdleAmmo();
+			
+			String dots = "";
+			
+			for (int i = 1; i < 3 + 1; i ++)
+			{
+				if (dfps > (i * 10))
+				{
+					dots += ".";
+				}
+				else
+				{
+					dots += " ";
+				}
+			}
+			
+			font.render(gunAmmo, 0, 0, 0, 5f);
+			
+			if (player.getActiveGun().isReloading())
+			{
+				font.render("Reloading" + dots, 0 * font.getGlyphWidth() * (gunAmmo.length() + 1) * 5f, 0, 0, 5f, Font.RIGHT, Font.TOP);
+			}
+		}
+		
+		font.render("+", 0, -4, 0, 4, Font.CENTER, Font.CENTER);
+	}
+	
+	public void render3D(int dfps)
+	{
+		player.lookThrough();
+//		camera.lookThrough();
+		
+		player.render();
+		
+		map.render();
+	}
+	
+	public void loop(int dfps)
+	{
+		map.update(dfps);
+		
+		if (MouseInput.isGrabbed())
+		{
+			float dWheel = MouseInput.getDWheel();
+			
+			if (dWheel != 0 && player.cameraAttached() && player.getPerspective() == Actor.THIRD)
+			{
+				dWheel /= 100;
+				
+				offsetY += -1/5f * dWheel;
+				offsetZ += -5/5f * dWheel;
+				
+				if (offsetY > 0 && offsetZ > 0)
+				{
+					camera.move(0, -1/5f * dWheel, -5/5f * dWheel);
+				}
+				else
+				{
+					offsetY -= -1/5f * dWheel;
+					offsetZ -= -5/5f * dWheel;
+				}
+			}
+			
+			float dx = MouseInput.getDX();
+			float dy = MouseInput.getDY();
+			
+			player.setSprinting(KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT_SHIFT));
+			
+			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_W))
+			{
+				player.move(0, 0, -0.1f);
+			}
+			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_A))
+			{
+				player.move(-0.1f, 0, 0);
+			}
+			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_S))
+			{
+				player.move(0, 0, 0.1f);
+			}
+			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_D))
+			{
+				player.move(0.1f, 0, 0);
+			}
+			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_SPACE))
+			{
+				player.jump();
+			}
+			
+			player.yaw(dx * 0.10f);
+			player.pitch(-dy * 0.10f);
+			
+			if (KeyboardInput.next(KeyboardInput.KEY_C))
+			{
+				if (player.getPerspective() == Player.THIRD)
+				{
+					player.setPerspective(Player.FIRST);
+				}
+				else if (player.getPerspective() == Player.FIRST)
+				{
+					player.setPerspective(Player.THIRD);
+				}
+			}
+			
+			if (KeyboardInput.next(KeyboardInput.KEY_P))
+			{
+				if (GL.getDrawMode() == GL.ARRAYS)
+				{
+					GL.setDrawMode(GL.IMMEDIATE);
+				}
+				else if (GL.getDrawMode() == GL.IMMEDIATE)
+				{
+					map.genIndices();
+					
+					GL.setDrawMode(GL.ELEMENTS);
+				}
+				else if (GL.getDrawMode() == GL.ELEMENTS)
+				{
+					map.destroyIndices();
+					
+					GL.setDrawMode(GL.ARRAYS);
+				}
+			}
+		
+			if (KeyboardInput.next(KeyboardInput.KEY_L))
+			{
+				map.render = map.render == GL.POINTS ? GL.TRIANGLES : GL.POINTS;
+			}
+			
+			if (KeyboardInput.next(KeyboardInput.KEY_O))
+			{
+				GL.setWireFrameMode(!GL.isWireFrame(), GL.isWireFrame(), true);
+		//			GL.setShowColors(!GL.isShowingColors());
+			}
+			
+			if (KeyboardInput.next(KeyboardInput.KEY_R))
+			{
+				if (player.getActiveGun() != null)
+				{
+					Gun gun = player.getActiveGun();
+					
+					if (gun.getIdleAmmo() > 0)
+					{
+						gun.reload();
+					}
+				}
+			}
+				
+			if (MouseInput.isButtonDown(MouseInput.LEFT_MOUSE_BUTTON))
+			{
+				if (player.getActiveGun() != null)
+				{
+					if (releasedDelay > player.getActiveGun().getShotDelay() && (player.getActiveGun().getShotDelay() != -1 || released))
+					{
+						player.useActiveWeapon();
+						
+						released      = false;
+						releasedDelay = 0;
+					}
+					else
+					{
+						releasedDelay ++;
+					}
+				}
+			}
+			else
+			{
+				released = true;
+			}
+		}
+		
+		if (MouseInput.isButtonDown(MouseInput.LEFT_MOUSE_BUTTON))
+		{
+			MouseInput.setGrabbed(true);
+			
+			released = false;
+		}
+		
+		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_ESCAPE))
+		{
+			MouseInput.setGrabbed(false);
+		}
+		
+//			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_R))
+//			{
+//				if (player.cameraAttached())
+//				{
+//					player.detachCamera();
+//				}
+//				else
+//				{
+//					player.attachCamera(camera);
+//				}
+//			}
+		
+		if (KeyboardInput.next(KeyboardInput.KEY_F11))
+		{
+			Frame.setFullscreen(!Frame.isFullscreen());
+		}
+		
+//			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_K))
+//			{
+//				player.deta
+//			}
+		
+//		System.out.println(player.getYaw() + ", " + player.getPitch() + ", " + player.getRoll());
+			
+		player.update(dfps);
+	}
+}

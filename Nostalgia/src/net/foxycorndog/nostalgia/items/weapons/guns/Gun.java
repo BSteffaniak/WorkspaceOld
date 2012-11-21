@@ -8,36 +8,37 @@ import net.foxycorndog.nostalgia.map.Map;
 
 public abstract class Gun extends Item
 {
-	private int   idleAmmo, clipAmmo;
-	private int   clipSize, clipAmount;
-	private int   shotDelay;
+	private boolean reloading;
 	
-	private float velocity;
+	private int     idleAmmo, clipAmmo;
+	private int     clipSize, clipAmount;
+	private int     shotDelay, reloadDelay;
 	
-	private Map   map;
+	private float   velocity;
 	
-	public Gun(int clipSize, int clipAmount, int shotDelay, float velocity, Map map)
+	private Map     map;
+	
+	public Gun(int clipSize, int clipAmount, int shotDelay, final int reloadDelay, float velocity, Map map)
 	{
-		this.clipSize   = clipSize;
-		this.clipAmount = clipAmount;
-		this.shotDelay  = shotDelay;
+		this.clipSize    = clipSize;
+		this.clipAmount  = clipAmount;
+		this.shotDelay   = shotDelay;
+		this.reloadDelay = reloadDelay;
 		
-		this.velocity   = velocity;
+		this.velocity    = velocity;
 		
-		this.map        = map;
+		this.map         = map;
 	}
 	
 	public void shoot()
 	{
 		if (hasAmmoReady())
 		{
-			Bullet b = new Bullet(new Point(getX(), getY() + 0.5f, getZ()), velocity, getYaw(), getPitch(), getRoll(), getMap());
+			Bullet b = new Bullet(new Point(getX(), getY(), getZ()), velocity, getYaw(), getPitch(), getRoll(), getMap());
 			
 			getMap().shoot(b);
 			
 			removeClipAmmo(1);
-		
-			System.out.println("Bam! " + b.getId());
 		}
 	}
 	
@@ -76,18 +77,67 @@ public abstract class Gun extends Item
 		}
 	}
 	
+	public boolean isReloading()
+	{
+		return reloading;
+	}
+	
 	public void reload()
 	{
-		int amountBefore = idleAmmo;
+		reloading = true;
 		
-		idleAmmo -= (clipSize - clipAmmo);
-		
-		if (idleAmmo < 0)
+		new Thread()
 		{
-			idleAmmo = 0;
+			public void run()
+			{
+				try
+				{
+					Thread.sleep(reloadDelay);
+					
+					reload(false);
+				}
+				catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}.start();
+	}
+	
+	public void reload(boolean delay)
+	{
+		if (delay)
+		{
+			reload();
 		}
-		
-		clipAmmo += amountBefore - idleAmmo;
+		else
+		{
+			reloading = true;
+			
+			if (reloading)
+			{
+				int amountBefore = idleAmmo;
+				
+				idleAmmo -= (clipSize - clipAmmo);
+				
+				if (idleAmmo < 0)
+				{
+					idleAmmo = 0;
+				}
+				
+				clipAmmo += amountBefore - idleAmmo;
+			}
+			
+			stopReloading();
+		}
+	}
+	
+	public void stopReloading()
+	{
+		if (reloading)
+		{
+			reloading = false;
+		}
 	}
 	
 	public void removeIdleAmmo(int amount)

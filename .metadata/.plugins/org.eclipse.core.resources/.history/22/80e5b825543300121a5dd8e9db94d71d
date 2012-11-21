@@ -1,0 +1,13 @@
+package net.foxycorndog.jdoutil.color;
+
+public class Color
+{
+	public static final int RGB = 3, RGBA = 4;
+	
+	public static int toRGB(int arr[], int format)
+	{
+		int arr2[] = new int[arr.length * format]
+		
+		
+	}
+}

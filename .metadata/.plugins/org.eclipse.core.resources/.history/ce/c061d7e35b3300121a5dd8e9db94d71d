@@ -1,0 +1,48 @@
+package net.foxycorndog.jdoogl.fonts;
+
+import java.awt.Point;
+import java.util.HashMap;
+
+import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
+
+public class Font
+{
+	private int cols, rows;
+	private int yOff, xOff;
+	private int width, height;
+	
+	private SpriteSheet characters;
+	
+	private HashMap<Character, Point> charSequence;
+	
+	public Font(String location, int cols, int rows, char charSequence[])
+	{
+		this(location, cols, rows, 1, 1, charSequence);
+	}
+	
+	public Font(String location, int cols, int rows, int xOff, int yOff, char charSequence[])
+	{
+		this.cols   = cols;
+		this.rows   = rows;
+		this.xOff   = xOff;
+		this.yOff   = yOff;
+		
+		characters  = new SpriteSheet(location, cols, rows);
+		
+		this.width  = characters.getWidth();
+		this.height = characters.getHeight();
+		
+		for (int y = 0; y < rows; y ++)
+		{
+			for (int x = 0; x < cols; x ++)
+			{
+				this.charSequence.put(charSequence[x + y * cols], new Point(x, y + y * yOff));
+			}
+		}
+	}
+	
+	public void render(String text)
+	{
+		
+	}
+}

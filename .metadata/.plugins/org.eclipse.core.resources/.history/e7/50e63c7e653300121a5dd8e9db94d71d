@@ -1,0 +1,103 @@
+package net.foxycorndog.jdoogl.fonts;
+
+import java.awt.Point;
+import java.util.HashMap;
+
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
+
+public class Font
+{
+	private int cols, rows;
+	private int yOff, xOff;
+	private int width, height;
+	private int glyphWidth, glyphHeight;
+	
+	private SpriteSheet characters;
+	
+	private HashMap<Character, Point> charSequence;
+	
+	public Font(String location, int cols, int rows, char charSequence[])
+	{
+		this.cols         = cols;
+		this.rows         = rows;
+		this.xOff         = xOff;
+		this.yOff         = yOff;
+		
+		characters        = new SpriteSheet(location, cols, rows);
+		
+		this.width        = characters.getWidth();
+		this.height       = characters.getHeight();
+		
+		this.glyphWidth   = width / cols;
+		this.glyphHeight  = height / rows;
+		
+		this.charSequence = new HashMap<Character, Point>();
+		
+		for (int y = 0; y < rows; y ++)
+		{
+			for (int x = 0; x < cols; x ++)
+			{
+				this.charSequence.put(charSequence[x + y * cols], new Point(x, y));
+			}
+		}
+		
+		System.out.println(this.charSequence.get('H').y);
+	}
+	
+	public void render(String text, int x, int y, int z)
+	{
+		render(text, x, y, z, 1);
+	}
+	
+	public void render(String text, int x, int y, int z, float scale)
+	{
+		characters.bind();
+		
+		char chars[] = text.toCharArray();
+		
+		for (int i = 0; i < chars.length; i ++)
+		{
+			int charX       = charSequence.get(chars[i]).x;
+			int charY       = charSequence.get(chars[i]).y;
+			
+			float offsets[] = characters.getImageOffsetsf(charX, charY, 1, 1);
+			
+			GL.beginManipulation();
+			{
+				GL.scalef(scale, scale, 1);
+				
+				GL.translatef(x, y, z);
+				
+				GL.glBegin(GL.QUADS);
+				{
+					GL.glTexCoord2f(offsets[2], offsets[1]);
+					GL.glVertex2f(i * glyphWidth + glyphWidth, 0);
+					
+					GL.glTexCoord2f(offsets[2], offsets[3]);
+					GL.glVertex2f(i * glyphWidth + glyphWidth, glyphHeight);
+					
+					GL.glTexCoord2f(offsets[0], offsets[3]);
+					GL.glVertex2f(i * glyphWidth, glyphHeight);
+					
+					GL.glTexCoord2f(offsets[0], offsets[1]);
+					GL.glVertex2f(i * glyphWidth, 0);
+					
+//					GL.glTexCoord2f(offsets[2], offsets[1]);
+//					GL.glVertex2f(- i * glyphWidth, 0);
+//					
+//					GL.glTexCoord2f(offsets[2], offsets[3]);
+//					GL.glVertex2f(- i * glyphWidth, glyphHeight);
+//					
+//					GL.glTexCoord2f(offsets[0], offsets[3]);
+//					GL.glVertex2f(- i * glyphWidth + glyphWidth, glyphHeight);
+//					
+//					GL.glTexCoord2f(offsets[0], offsets[1]);
+//					GL.glVertex2f(- i * glyphWidth + glyphWidth, 0);
+				}
+				GL.glEnd();
+			}
+			GL.endManipulation();
+		}
+	}
+}
