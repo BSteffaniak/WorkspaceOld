@@ -1,0 +1,137 @@
+package net.foxycorndog.jdoogl.shader;
+
+import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL11.GL_FALSE;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+
+public class ShaderUtils
+{
+	static int id;
+	
+	public static int genShaderProgramId()
+	{
+		return id = glCreateProgram();
+	}
+	
+	public static void genShaderProgram(int programId)
+	{
+		glLinkProgram(programId);
+	}
+	
+	public static void useShaderProgram(int programId)
+	{
+		glUseProgram(programId);
+	}
+	
+	public static boolean validateProgram(int programId)
+	{
+		glValidateProgram(programId);
+		
+		return glGetProgram(programId, GL_VALIDATE_STATUS) != GL_FALSE;
+	}
+	
+	public static void deleteProgram(int programId)
+	{
+		glDeleteProgram(programId);
+	}
+	
+	public static void deleteShader(int shaderId)
+	{
+		glDeleteShader(shaderId);
+	}
+	
+	public static void attachShader(int shaderId, int shaderProgramId)
+	{
+		glAttachShader(shaderProgramId, shaderId);
+	}
+	
+	public static int loadVertexShader(String location)
+	{
+		int vertexShader   = glCreateShader(GL_VERTEX_SHADER);
+		
+		StringBuilder shaderSource   = new StringBuilder();
+		
+		try
+		{
+			BufferedReader shaderReader = new BufferedReader(new FileReader(location));
+			
+			String line = null;
+			
+			while ((line = shaderReader.readLine()) != null)
+			{
+				shaderSource.append(line).append('\n');
+			}
+			
+			shaderReader.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		glShaderSource(vertexShader, shaderSource);
+		glCompileShader(vertexShader);
+		
+		if (glGetShader(vertexShader, GL_COMPILE_STATUS) == GL_FALSE)
+		{
+			String error = glGetShaderInfoLog(vertexShader, glGetShader(vertexShader, GL_INFO_LOG_LENGTH));
+			
+			error = error.substring(0, error.length() - 1);
+			
+			throw new RuntimeException("Vertex shader at \"" + location + "\" was not compiled correctly:\n\t" + error);
+		}
+		
+		return vertexShader;
+	}
+	
+	public static int loadFragmentShader(String location)
+	{
+		int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		
+		StringBuilder shaderSource   = new StringBuilder();
+		
+		try
+		{
+			BufferedReader shaderReader = new BufferedReader(new FileReader(location));
+			
+			String line = null;
+			
+			while ((line = shaderReader.readLine()) != null)
+			{
+				shaderSource.append(line).append('\n');
+			}
+			
+			shaderReader.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		glShaderSource(fragmentShader, shaderSource);
+		glCompileShader(fragmentShader);
+		
+		if (glGetShader(fragmentShader, GL_COMPILE_STATUS) == GL_FALSE)
+		{
+			throw new RuntimeException("Fragment shader at \"" + location + "\" was not compiled correctly!");
+		}
+		
+		return fragmentShader;
+	}
+	
+	public static int loadShaderProgram(String vertexShaderLocation, String fragmentShaderLocation)
+	{
+		int shaderProgram  = ShaderUtils.genShaderProgramId();
+		int vertexShader   = ShaderUtils.loadVertexShader(vertexShaderLocation);
+		int fragmentShader = ShaderUtils.loadFragmentShader(fragmentShaderLocation);
+		ShaderUtils.attachShader(vertexShader, shaderProgram);
+		ShaderUtils.attachShader(fragmentShader, shaderProgram);
+		ShaderUtils.genShaderProgram(shaderProgram);
+		
+		return shaderProgram;
+	}
+}
