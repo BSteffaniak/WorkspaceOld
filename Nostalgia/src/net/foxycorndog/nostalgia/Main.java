@@ -8,6 +8,7 @@ import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoogl.input.KeyboardInput;
 import net.foxycorndog.jdoogl.input.MouseInput;
+import net.foxycorndog.jdoogl.shader.ShaderUtils;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.nostalgia.actor.Actor;
@@ -82,6 +83,10 @@ public class Main extends GameComponent
 				});
 		
 		grass = new Texture("res/images/grass.png");
+		
+		GL.initLighting();
+		GL.setShadeModel(GL.SMOOTH);
+//		GL.initBasicLights();
 	}
 	
 	public void render2D(int dfps)
@@ -117,12 +122,14 @@ public class Main extends GameComponent
 	
 	public void render3D(int dfps)
 	{
+		
 		player.lookThrough();
 //		camera.lookThrough();
 		
 		player.render();
 		
 		map.render();
+//		GL.setLightLocation(player.getX() + player.getCenterX(), player.getY() + player.getCenterY(), player.getZ() + player.getCenterZ());
 	}
 	
 	public void loop(int dfps)

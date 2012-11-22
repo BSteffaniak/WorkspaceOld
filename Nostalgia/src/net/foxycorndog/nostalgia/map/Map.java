@@ -8,6 +8,7 @@ import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoogl.input.KeyboardInput;
 import net.foxycorndog.jdoogl.model.Model;
 import net.foxycorndog.jdoogl.model.ModelLoader;
+import net.foxycorndog.jdoogl.shader.ShaderUtils;
 import net.foxycorndog.jdoutil.ArrayUtil;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.Task;
@@ -18,6 +19,7 @@ import net.foxycorndog.nostalgia.items.weapons.Bullet;
 public class Map
 {
 	private int            numCubes, maxBullets;
+	private int            shaderProgram;
 	
 	private float          rotY;
 	
@@ -137,6 +139,8 @@ public class Map
 		
 		hat = new Model("res/crappyhat.obj", 2);
 		hat.move(1, 6, 0);
+		
+		shaderProgram = ShaderUtils.loadShaderProgram("res/shaders/vertex.vs", "res/shaders/vertex.fs");
 	}
 	
 	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int colors[][], int index, boolean collision)
@@ -269,9 +273,11 @@ public class Map
 	
 	public void render()
 	{
-//		house.render();
+		house.render();
 		
+		ShaderUtils.useShaderProgram(shaderProgram);
 		bunny.render();
+		ShaderUtils.useShaderProgram(0);
 		
 //		hat.render();
 		
