@@ -1,2 +1,9 @@
 1353446343652	Delete element
 1353447135837	Delete element
+1353558373740	Rename local variable 'reader'
+1353558412818	Rename local variable 'vertexShaderReader'
+1353558418980	Rename local variable 'vertexShaderSource'
+1353558891708	Rename type 'ShaderLoader'
+1353561537693	Rename type 'ShaderFactory'
+1353561615459	Rename method 'useProgram'
+1353568781481	Rename method 'loadShaderPair'

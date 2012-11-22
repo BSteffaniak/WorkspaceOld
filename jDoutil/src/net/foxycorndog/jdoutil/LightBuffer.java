@@ -215,12 +215,12 @@ public class LightBuffer extends Buffer
 		this.buffer = buffer;
 	}
 	
-	public int getId()
-	{
-		buffer.position(0);
-		
-		return id;
-	}
+//	public int getId()
+//	{
+//		buffer.position(0);
+//		
+//		return id;
+//	}
 	
 	public int size()
 	{
@@ -230,5 +230,12 @@ public class LightBuffer extends Buffer
 	public int capacity()
 	{
 		return size;
+	}
+	
+	public void bind()
+	{
+		buffer.position(0);
+		
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id);
 	}
 }

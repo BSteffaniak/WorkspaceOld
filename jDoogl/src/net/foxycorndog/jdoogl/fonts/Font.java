@@ -67,6 +67,17 @@ public class Font
 		
 		char chars[] = text.toCharArray();
 		
+		for (int i = 0; i < chars.length; i ++)
+		{
+			if (chars[i] == '\n')
+			{
+				render(text.substring(0, i), x, y /*+ ((glyphHeight + 1) / 2) * scale*/ , z, scale, horizontalAlignment, verticalAlignment);
+				render(text.substring(i + 1), x, y - (glyphHeight + 1) * scale/*((glyphHeight + 1) / 2) * scale*/, z, scale, horizontalAlignment, verticalAlignment);
+//				y += ((glyphHeight + 1) / 2) * scale;
+				return;
+			}
+		}
+		
 		if (horizontalAlignment == CENTER)
 		{
 			x += Frame.getCenterX();
@@ -90,49 +101,56 @@ public class Font
 		
 		for (int i = 0; i < chars.length; i ++)
 		{
-			int charX       = charSequence.get(chars[i]).x;
-			int charY       = charSequence.get(chars[i]).y;
-			
-			float offsets[] = characters.getImageOffsetsf(charX, charY, 1, 1);
-			
-			GL.beginManipulation();
+			try
 			{
-				GL.translatef(x, y, z);
-				GL.scalef(scale, scale, 1);
+				int charX       = charSequence.get(chars[i]).x;
+				int charY       = charSequence.get(chars[i]).y;
 				
-				GL.glBegin(GL.QUADS);
+				float offsets[] = characters.getImageOffsetsf(charX, charY, 1, 1);
+			
+				GL.beginManipulation();
 				{
-//					Correct View
+					GL.translatef(x, y, z);
+					GL.scalef(scale, scale, 1);
 					
-					GL.glTexCoord2f(offsets[2], offsets[1]);
-					GL.glVertex2f(i * glyphWidth + glyphWidth, 0);
-					
-					GL.glTexCoord2f(offsets[2], offsets[3]);
-					GL.glVertex2f(i * glyphWidth + glyphWidth, glyphHeight);
-					
-					GL.glTexCoord2f(offsets[0], offsets[3]);
-					GL.glVertex2f(i * glyphWidth, glyphHeight);
-					
-					GL.glTexCoord2f(offsets[0], offsets[1]);
-					GL.glVertex2f(i * glyphWidth, 0);
-					
-//					Reversed View
-//					
-//					GL.glTexCoord2f(offsets[2], offsets[1]);
-//					GL.glVertex2f(- i * glyphWidth, 0);
-//					
-//					GL.glTexCoord2f(offsets[2], offsets[3]);
-//					GL.glVertex2f(- i * glyphWidth, glyphHeight);
-//					
-//					GL.glTexCoord2f(offsets[0], offsets[3]);
-//					GL.glVertex2f(- i * glyphWidth + glyphWidth, glyphHeight);
-//					
-//					GL.glTexCoord2f(offsets[0], offsets[1]);
-//					GL.glVertex2f(- i * glyphWidth + glyphWidth, 0);
+					GL.glBegin(GL.QUADS);
+					{
+	//					Correct View
+						
+						GL.glTexCoord2f(offsets[2], offsets[1]);
+						GL.glVertex2f(i * glyphWidth + glyphWidth, 0);
+						
+						GL.glTexCoord2f(offsets[2], offsets[3]);
+						GL.glVertex2f(i * glyphWidth + glyphWidth, glyphHeight);
+						
+						GL.glTexCoord2f(offsets[0], offsets[3]);
+						GL.glVertex2f(i * glyphWidth, glyphHeight);
+						
+						GL.glTexCoord2f(offsets[0], offsets[1]);
+						GL.glVertex2f(i * glyphWidth, 0);
+						
+	//					Reversed View
+	//					
+	//					GL.glTexCoord2f(offsets[2], offsets[1]);
+	//					GL.glVertex2f(- i * glyphWidth, 0);
+	//					
+	//					GL.glTexCoord2f(offsets[2], offsets[3]);
+	//					GL.glVertex2f(- i * glyphWidth, glyphHeight);
+	//					
+	//					GL.glTexCoord2f(offsets[0], offsets[3]);
+	//					GL.glVertex2f(- i * glyphWidth + glyphWidth, glyphHeight);
+	//					
+	//					GL.glTexCoord2f(offsets[0], offsets[1]);
+	//					GL.glVertex2f(- i * glyphWidth + glyphWidth, 0);
+					}
+					GL.glEnd();
 				}
-				GL.glEnd();
+				GL.endManipulation();
 			}
-			GL.endManipulation();
+			catch (NullPointerException e)
+			{
+				return;
+			}
 		}
 	}
 	

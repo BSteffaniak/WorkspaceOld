@@ -16,7 +16,7 @@ public class Model
 	private float          x, y, z;
 	private float          width, height, depth;
 	
-	private LightBuffer    texturesBuffer, colorsBuffer;
+	private LightBuffer    texturesBuffer, normalsBuffer, colorsBuffer;
 	
 	private VerticesBuffer verticesBuffer;//, allVerticesBuffer;
 	
@@ -125,7 +125,7 @@ public class Model
 	
 	private void setValues(File file, float scale)
 	{
-		Object data[] = ModelLoader.loadModel(file, true, true, true, true, true, true, scale);
+		Object data[] = ModelLoader.loadModel(file, true, true, true, true, scale);
 		
 		vertices      = (float[])data[0];
 		textures      = (float[])data[1];
@@ -139,6 +139,9 @@ public class Model
 		verticesBuffer = new VerticesBuffer(vertices.length, 3);
 		verticesBuffer.addData(vertices);
 		verticesBuffer.setIndices(vertexIndices);
+		
+		normalsBuffer = new LightBuffer(normals.length);
+		normalsBuffer.addData(normals);
 		
 //		allVerticesBuffer = new VerticesBuffer(allVertices.length, 3);
 //		allVerticesBuffer.addData(allVertices);
@@ -283,7 +286,7 @@ public class Model
 			
 //			if (GL.DRAW_MODE_ELEMENTS)
 //			{
-				GL.renderTriangles(verticesBuffer, null, null, null, null, 0, vertexIndices.length / 3, null);
+				GL.renderTriangles(verticesBuffer, null, normalsBuffer, null, null, 0, vertexIndices.length / 3, null);
 //			}
 //			else
 //			{

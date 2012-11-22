@@ -197,6 +197,29 @@ public class SortThing
 		}
 	}
 	
+	public void quickSort(Comparable arr[])
+	{
+		quickSort(arr, 0, arr.length - 1);
+	}
+	
+	public void quickSort(Comparable arr[], int frontIndex, int backIndex)
+	{
+		int middleIndex = 0;
+		
+		if (frontIndex < backIndex)
+		{
+			middleIndex = partition(arr, frontIndex, backIndex);
+			
+			quickSort(arr, frontIndex, middleIndex - 1);
+			quickSort(arr, middleIndex + 1, backIndex);
+		}
+	}
+	
+	private int partition(Comparable arr[], int frontIndex, int backIndex)
+	{
+		return 0;
+	}
+	
 	/**
 	 * Writes the object to the specified file at the specified
 	 * location.

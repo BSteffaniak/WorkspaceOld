@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 public class ModelLoader
 {
-	public static Object[] loadModel(File file, boolean vertices, boolean textures, boolean normals, boolean colors, boolean vertexIndices, boolean normalIndices, float scale)
+	public static Object[] loadModel(File file, boolean vertices, boolean textures, boolean normals, boolean colors, float scale)
 	{
 		BufferedReader br = null;
 		
@@ -44,15 +44,11 @@ public class ModelLoader
 		}
 
 		short vertsInds[] = null;
-		ArrayList<Short> vi = null;
-		if (vertexIndices)
-		{
-			vi = new ArrayList<Short>();
-		}
+		ArrayList<Short> vi = new ArrayList<Short>();
 
 		short normsInds[] = null;
 		ArrayList<Short> ni = null;
-		if (normalIndices)
+		if (normals)
 		{
 			ni = new ArrayList<Short>();
 		}
@@ -79,13 +75,11 @@ public class ModelLoader
 				}
 				else if (line.startsWith("f "))
 				{
-					if (vertexIndices)
-					{
-						vi.add(Short.valueOf(line.split(" ")[1].split("/")[0]));
-						vi.add(Short.valueOf(line.split(" ")[2].split("/")[0]));
-						vi.add(Short.valueOf(line.split(" ")[3].split("/")[0]));
-					}
-					if (normalIndices)
+					vi.add(Short.valueOf(line.split(" ")[1].split("/")[0]));
+					vi.add(Short.valueOf(line.split(" ")[2].split("/")[0]));
+					vi.add(Short.valueOf(line.split(" ")[3].split("/")[0]));
+					
+					if (normals)
 					{
 						ni.add(Short.valueOf(line.split(" ")[1].split("/")[2]));
 						ni.add(Short.valueOf(line.split(" ")[2].split("/")[2]));
@@ -132,16 +126,10 @@ public class ModelLoader
 					cols[i] = c.get(i);
 				}
 			}
-			if (vertexIndices)
-			{
-				vertsInds = new short[vi.size()];
-				
-				for (int i = 0; i < vi.size(); i ++)
-				{
-					vertsInds[i] = (short)(vi.get(i) - 1);
-				}
-			}
-			if (normalIndices)
+			
+			vertsInds = new short[vi.size()];
+			
+			if (normals)
 			{
 				normsInds = new short[ni.size()];
 				
@@ -149,6 +137,13 @@ public class ModelLoader
 				{
 					normsInds[i] = (short)(ni.get(i) - 1);
 				}
+				
+				norms = orderNormals(norms, normsInds, vertsInds, verts.length);
+			}
+			
+			for (int i = 0; i < vi.size(); i ++)
+			{
+				vertsInds[i] = (short)(vi.get(i) - 1);
 			}
 			
 //			if (vertices)
@@ -177,15 +172,29 @@ public class ModelLoader
 		return new Object[] { verts, texts, norms, cols, vertsInds, normsInds };
 	}
 	
-	public static Object[] loadModel(String location, boolean vertices, boolean textures, boolean normals, boolean colors, boolean vertexIndices, boolean normalIndices)
+	private static float[] orderNormals(float normals[], short normalIndices[], short vertexIndices[], int size)
 	{
-		return loadModel(location, vertices, textures, normals, colors, vertexIndices, normalIndices, 1);
+		float newNormals[] = new float[vertexIndices.length];
+		
+		System.out.println(normals.length + ", " + normalIndices.length + ", " + vertexIndices.length + ", " + size);
+		
+		for (int i = 0; i < normalIndices.length; i ++)
+		{
+			newNormals[i] = normals[normalIndices[vertexIndices[i]]];
+		}
+		
+		return newNormals;
 	}
 	
-	public static Object[] loadModel(String location, boolean vertices, boolean textures, boolean normals, boolean colors, boolean vertexIndices, boolean normalIndices, float scale)
+	public static Object[] loadModel(String location, boolean vertices, boolean textures, boolean normals, boolean colors)
+	{
+		return loadModel(location, vertices, textures, normals, colors, 1);
+	}
+	
+	public static Object[] loadModel(String location, boolean vertices, boolean textures, boolean normals, boolean colors, float scale)
 	{
 		File file = new File(location);
 		
-		return loadModel(file, vertices, textures, normals, colors, vertexIndices, normalIndices, scale);
+		return loadModel(file, vertices, textures, normals, colors, scale);
 	}
 }

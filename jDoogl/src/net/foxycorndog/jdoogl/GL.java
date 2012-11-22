@@ -165,12 +165,11 @@ public class GL
 	private static ArrayList<LightBuffer> rectVerticesBuffer, rectTexturesBuffer;
 	
 	public  static final int QUADS = GL11.GL_QUADS, TRIANGLES = GL11.GL_TRIANGLES, POINTS = GL11.GL_POINTS;
-	
 	public  static final int ARRAYS = Base.ARRAYS, ELEMENTS = Base.ELEMENTS, IMMEDIATE = Base.IMMEDIATE;
+	public  static final int LEFT = 0, CENTER = 1, RIGHT = 2, TOP = 2, BOTTOM = 0;
+	public  static final int SMOOTH = GL11.GL_SMOOTH, FLAT = GL11.GL_FLAT;
 	
 	public  static boolean DRAW_MODE_ARRAYS, DRAW_MODE_ELEMENTS, DRAW_MODE_IMMEDIATE, USING_VBO;
-
-	public static final int LEFT = 0, CENTER = 1, RIGHT = 2, TOP = 2, BOTTOM = 0;
 	
 	static
 	{
@@ -737,19 +736,36 @@ public class GL
 		glScissor(x, y, width, height);
 	}
 	
+	public static void setShadeModel(int model)
+	{
+		glShadeModel(model);
+	}
+	
 	/**
 	 * Initialize the OpenGL lighting.
 	 */
 	public static void initLighting()
 	{
-		glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+		FloatBuffer ambLight = BufferUtils.createFloatBuffer(4).put(new float[]{ 0.05f, 0.05f, 0.05f, 1f });
+		ambLight.rewind();
 		
-		glEnable(GL_COLOR_MATERIAL);
+		FloatBuffer lightPos = BufferUtils.createFloatBuffer(4).put(new float[]{ 0.0f, 0.0f, 0.0f, 1f });
+		lightPos.rewind();
+		
+        glLightModel(GL_LIGHT_MODEL_AMBIENT, ambLight);
+        glLight(GL_LIGHT0, GL_POSITION, lightPos);
+        glEnable(GL_COLOR_MATERIAL);
+        glColorMaterial(GL_FRONT, GL_DIFFUSE);
+        
+		glEnable(GL_DEPTH_TEST);
+//		glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+//		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_LIGHT0);
-		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0);
-		glLightModeli(GL_FRONT, GL_DIFFUSE);
+//		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0);
+//		glLightModeli(GL_FRONT, GL_DIFFUSE);
 		glEnable(GL_NORMALIZE);
+//		glShadeModel(GL_SMOOTH);
 	}
 	
 //	public static void startNormal()
@@ -758,7 +774,7 @@ public class GL
 //	}
 	
 	/**
-	 * Set the GL_LOGHT0 location to the specified location.
+	 * Set the GL_LIGHT0 location to the specified location.
 	 * 
 	 * @param x The x position in the scene.
 	 * @param y The y position in the scene.
@@ -766,30 +782,34 @@ public class GL
 	 */
 	public static void setLightLocation(float x, float y, float z)
 	{
-		FloatBuffer pos = BufferUtils.createFloatBuffer(8);
-		pos.put(new float[] { x, y, z, 1.0f }).flip();
+		FloatBuffer pos = BufferUtils.createFloatBuffer(4);
+		pos.put(new float[] { x, y, z, 1.0f }).rewind();
+		
+		FloatBuffer dif = BufferUtils.createFloatBuffer(4);
+		dif.put(new float[] { 0.6f, 0.2f, 0.2f, 1.0f }).rewind();
 		
 		glLight(GL_LIGHT0, GL_POSITION, pos);
+		glLight(GL_LIGHT0, GL_DIFFUSE, dif);
 	}
 	
-	/**
-	 * Create a new light to be rendered in the scene.
-	 */
-	public static void light()
-	{
-		FloatBuffer amb = BufferUtils.createFloatBuffer(8);
-		amb.put(new float[] { -0.2f, -0.2f, -0.2f, 1.0f }).flip();
-		
-		FloatBuffer dif = BufferUtils.createFloatBuffer(8);
-		dif.put(new float[] { 10f, 10f, 10f, 1.0f }).flip();
-		
-//		FloatBuffer spe = BufferUtils.createFloatBuffer(8);
-//		spe.put(new float[] { 0.0f, 0.0f, 0.0f, 1.0f }).flip();
-		
-		glLight(GL_LIGHT0, GL_AMBIENT, amb);
-		glLight(GL_LIGHT0, GL_DIFFUSE, dif);
-//		glLight(GL_LIGHT0, GL_SPECULAR, spe);
-	}
+//	/**
+//	 * Create a new light to be rendered in the scene.
+//	 */
+//	public static void light()
+//	{
+//		FloatBuffer amb = BufferUtils.createFloatBuffer(4);
+//		amb.put(new float[] { -0.2f, -0.2f, -0.2f, 1.0f }).flip();
+//		
+//		FloatBuffer dif = BufferUtils.createFloatBuffer(4);
+//		dif.put(new float[] { 10f, 10f, 10f, 1.0f }).flip();
+//		
+////		FloatBuffer spe = BufferUtils.createFloatBuffer(8);
+////		spe.put(new float[] { 0.0f, 0.0f, 0.0f, 1.0f }).flip();
+//		
+//		glLight(GL_LIGHT0, GL_AMBIENT, amb);
+//		glLight(GL_LIGHT0, GL_DIFFUSE, dif);
+////		glLight(GL_LIGHT0, GL_SPECULAR, spe);
+//	}
 	
 //	public static void setLightProperties()
 //	{
@@ -994,7 +1014,7 @@ public class GL
 		renderBuffers(verticesBuffer, textures, null, null, texture, start * 6, amount * 6, QUADS, null);
 	}
 	
-	public static void renderCubes(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, Buffer normalsBuffer, LightBuffer colorsBuffer, Texture texture, int start, int amount, Task task)
+	public static void renderCubes(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, LightBuffer normalsBuffer, LightBuffer colorsBuffer, Texture texture, int start, int amount, Task task)
 	{
 		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, texture, start * 6, amount * 6, QUADS, task);
 	}
@@ -1004,7 +1024,7 @@ public class GL
 		renderBuffers(verticesBuffer, null, null, null, null, start, amount, QUADS, null);
 	}
 	
-	public static void renderQuads(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, Buffer normalsBuffer, Texture imageMap, int start, int amount)
+	public static void renderQuads(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, LightBuffer normalsBuffer, Texture imageMap, int start, int amount)
 	{
 		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, null, imageMap, start, amount, QUADS, null);
 	}
@@ -1024,7 +1044,7 @@ public class GL
 		renderBuffers(verticesBuffer, texturesBuffer, null, null, imageMap, 0, 1, QUADS, null);
 	}
 	
-	public static void renderQuads(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, Buffer normalsBuffer, LightBuffer colorsBuffer, Texture texture, int start, int amount, Task task)
+	public static void renderQuads(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, LightBuffer normalsBuffer, LightBuffer colorsBuffer, Texture texture, int start, int amount, Task task)
 	{
 		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, texture, start, amount, QUADS, task);
 	}
@@ -1034,7 +1054,7 @@ public class GL
 		renderBuffers(verticesBuffer, null, null, null, null, start, amount, TRIANGLES, null);
 	}
 	
-	public static void renderTriangles(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, Buffer normalsBuffer, LightBuffer colorsBuffer, Texture texture, int start, int amount, Task task)
+	public static void renderTriangles(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, LightBuffer normalsBuffer, LightBuffer colorsBuffer, Texture texture, int start, int amount, Task task)
 	{
 		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, texture, start, amount, TRIANGLES, task);
 	}
@@ -1061,7 +1081,7 @@ public class GL
 	 * @param task The task that will run in between each of the shapes.
 	 * 		This slows down the process a lot if there are many being drawn.
 	 */
-	private static void renderBuffers(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, Buffer normalsBuffer, LightBuffer colorsBuffer, Texture texture, int start, int amount, int type, Task task)
+	private static void renderBuffers(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, LightBuffer normalsBuffer, LightBuffer colorsBuffer, Texture texture, int start, int amount, int type, Task task)
 	{
 		int vertexSize       = verticesBuffer.getVertexSize();
 		int amountOfVertices = getAmountOfVertices(type);
@@ -1081,11 +1101,19 @@ public class GL
 		
 		if (DRAW_MODE_ARRAYS || DRAW_MODE_ELEMENTS)
 		{
-			beginTextureDraw(texturesBuffer);
-			beginVertexDraw(verticesBuffer);
-			beginNormalDraw(normalsBuffer);
+			if (texturesBuffer != null)
+			{
+				beginTextureDraw(texturesBuffer);
+			}
 			
-			if (showColors)
+			beginVertexDraw(verticesBuffer);
+			
+			if (normalsBuffer != null)
+			{
+				beginNormalDraw(normalsBuffer);
+			}
+			
+			if (showColors && colorsBuffer != null)
 			{
 				beginColorDraw(colorsBuffer);
 			}
@@ -1184,13 +1212,27 @@ public class GL
 		{
 			if (DRAW_MODE_ARRAYS)
 			{
-				glDrawArrays(mode, start, amount);
+				if (isUsingVBO())
+				{
+//					GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, verticesBuffer.getIndicesId());
+					verticesBuffer.bindIndices();
+					
+					glDrawArrays(mode, start, amount);
+					
+					GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+				}
+				else
+				{
+					glDrawArrays(mode, start, amount);
+				}
 			}
 			else if (DRAW_MODE_ELEMENTS)
 			{
 				if (isUsingVBO())
 				{
-					GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, verticesBuffer.getIndicesId());
+//					GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, verticesBuffer.getIndicesId());
+					
+					verticesBuffer.bindIndices();
 					
 					GL11.glDrawElements(mode, amount, GL_UNSIGNED_SHORT, start * 2);
 					
@@ -1274,16 +1316,11 @@ public class GL
 	 */
 	public static void beginVertexDraw(VerticesBuffer buffer)
 	{
-		if (buffer == null)
-		{
-			return;
-		}
-		
 		glEnableClientState(GL_VERTEX_ARRAY);
 		
 		if (isUsingVBO())
 		{
-			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, buffer.getId());
+			buffer.bind();
 			
 			glVertexPointer(buffer.getVertexSize(), GL11.GL_FLOAT, 0, 0);
 			
@@ -1306,35 +1343,25 @@ public class GL
 	/**
 	 * Gets the buffer all set for drawing.
 	 * 
-	 * @param buffer The LightBuffer that is used for the normals.
+	 * @param buffer The LightBuffer that will be used for drawing.
 	 */
 	public static void beginNormalDraw(LightBuffer buffer)
 	{
-		if (buffer == null)
-		{
-			return;
-		}
-		
 		glEnableClientState(GL_NORMAL_ARRAY);
 		
-		glNormalPointer(0, buffer.getBuffer());
-	}
-	
-	/**
-	 * 
-	 * 
-	 * @param buffer
-	 */
-	public static void beginNormalDraw(Buffer buffer)
-	{
-		if (buffer == null)
+		if (isUsingVBO())
 		{
-			return;
+			buffer.bind();
+			
+			glNormalPointer(GL11.GL_FLOAT, 0, 0);
+//			glNormalPointer(type, stride, pointer_buffer_offset)
+			
+//			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 		}
-		
-		glEnableClientState(GL_NORMAL_ARRAY);
-		
-		glNormalPointer(0, (FloatBuffer)buffer.getBuffer());
+		else
+		{
+			glNormalPointer(0, (FloatBuffer)buffer.getBuffer());
+		}
 	}
 	
 	public static void endNormalDraw()
@@ -1344,16 +1371,11 @@ public class GL
 	
 	public static void beginColorDraw(LightBuffer buffer)
 	{
-		if (buffer == null)
-		{
-			return;
-		}
-		
 		glEnableClientState(GL_COLOR_ARRAY);
 		
 		if (isUsingVBO())
 		{
-			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, buffer.getId());
+			buffer.bind();
 			
 			glColorPointer(4, GL11.GL_FLOAT, 0, 0);
 			
@@ -1372,11 +1394,6 @@ public class GL
 	
 	public static void beginTextureDraw(LightBuffer buffer)
 	{
-		if (buffer == null)
-		{
-			return;
-		}
-		
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 //		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		
@@ -1384,7 +1401,7 @@ public class GL
 		
 		if (isUsingVBO())
 		{
-			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, buffer.getId());
+			buffer.bind();
 			
 			glTexCoordPointer(2, GL11.GL_FLOAT, 0, 0);
 			
@@ -1425,7 +1442,7 @@ public class GL
 		FloatBuffer lModelAmbient = BufferUtils.createFloatBuffer(4);
 		lModelAmbient.put(new float[] { 0.5f, 0.5f, 0.5f, 1.0f }).rewind();
 		
-		glShadeModel(GL_SMOOTH);
+//		glShadeModel(GL_SMOOTH);
 		glMaterial(GL_FRONT, GL_SPECULAR, matSpecular);				// sets specular material color
 		glMaterialf(GL_FRONT, GL_SHININESS, 50.0f);					// sets shininess
 		
@@ -1495,7 +1512,7 @@ public class GL
 			
 			glEnable(GL_CULL_FACE);
 			
-			glShadeModel(GL_SMOOTH); // Enable Smooth Shading
+//			glShadeModel(GL_SMOOTH); // Enable Smooth Shading
 			glClearColor(0.0f, 0.3f, 0.6f, 0.0f); // Blue Background
 			glClearDepth(1.0); // Depth Buffer Setup
 			glEnable(GL_DEPTH_TEST); // Enables Depth Testing
