@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="30" version="2.0">
+<workbench progressCount="26" version="2.0">
 <workbenchAdvisor/>
 <window height="768" maximized="true" width="1024" x="252" y="-22">
 <fastViewData fastViewLocation="1024"/>
@@ -15,8 +15,8 @@
 <coolItem id="adt.actionSet.wizards" itemType="typeToolBarContribution" x="84" y="22"/>
 <coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="129" y="22"/>
 <coolItem id="org.eclipse.jdt.ui.JavaElementCreationActionSet" itemType="typeToolBarContribution" x="76" y="22"/>
-<coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="145" y="22"/>
-<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="61" y="22"/>
+<coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="122" y="22"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="130" y="22"/>
 <coolItem id="org.eclipse.wst.xml.ui.perspective.NewFileToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="org.eclipse.wst.xml.ui.design.DesignToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
@@ -76,7 +76,7 @@
 </editorArea>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" partName="Main.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/Main.java" title="Main.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/Main.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/Main.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2657" selectionTopPixel="99"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3762" selectionTopPixel="1554"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" partName="Player.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/actor/Player.java" title="Player.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/actor/Player.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/Player.java"/>
@@ -98,9 +98,9 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/camera/Camera.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="160" selectionTopPixel="0"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GL.java" partName="GL.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/GL.java" title="GL.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/GL.java" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GL.java" partName="GL.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/GL.java" title="GL.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/GL.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/GL.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="21955" selectionTopPixel="10818"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="23998" selectionTopPixel="12330"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="VerticesBuffer.java" partName="VerticesBuffer.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoutil/src/net/foxycorndog/jdoutil/VerticesBuffer.java" title="VerticesBuffer.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/VerticesBuffer.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoutil/src/net/foxycorndog/jdoutil/VerticesBuffer.java"/>
@@ -196,23 +196,23 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Font.java" partName="Font.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/fonts/Font.java" title="Font.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/fonts/Font.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/fonts/Font.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1890" selectionTopPixel="677"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2280" selectionTopPixel="677"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Texture.java" partName="Texture.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java" title="Texture.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="7964" selectionTopPixel="1076"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="740" selectionTopPixel="105"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ShaderUtils.java" partName="ShaderUtils.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/shader/ShaderUtils.java" title="ShaderUtils.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/shader/ShaderUtils.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/shader/ShaderUtils.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3122" selectionTopPixel="1473"/>
+<editorState selectionHorizontalPixel="0" selectionLength="4" selectionOffset="2967" selectionTopPixel="1809"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="vertex.fs" partName="vertex.fs" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/res/shaders/vertex.fs" title="vertex.fs" tooltip="Nostalgia/res/shaders/vertex.fs" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/res/shaders/vertex.fs"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="115" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="95" selectionTopPixel="0"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="vertex.vs" partName="vertex.vs" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/res/shaders/vertex.vs" title="vertex.vs" tooltip="Nostalgia/res/shaders/vertex.vs" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="vertex.vs" partName="vertex.vs" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/res/shaders/vertex.vs" title="vertex.vs" tooltip="Nostalgia/res/shaders/vertex.vs" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/res/shaders/vertex.vs"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1000" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="32" selectionOffset="1075" selectionTopPixel="126"/>
 </editor>
 </editors>
 <views>
@@ -261,7 +261,7 @@
 <viewState/>
 </view>
 </views>
-<perspectives activePart="org.eclipse.cdt.ui.editor.CEditor" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
+<perspectives activePart="org.eclipse.jdt.ui.CompilationUnitEditor" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
 <perspective editorAreaTrimState="1" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.jdt.internal.ui.JavaPerspectiveFactory" id="org.eclipse.jdt.ui.JavaPerspective" label="Java"/>
 <alwaysOnActionSet id="org.eclipse.mylyn.context.ui.actionSet"/>
@@ -415,124 +415,15 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/Nostalgia/res/shaders/vertex.fs"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/map/Map.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/Nostalgia/res/shaders/vertex.vs"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/shader/ShaderUtils.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/Nostalgia/res/shaders/vertex.fs"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/shader/ShaderUtils.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/shader/ShaderUtils.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/Nostalgia/res/shaders/vertex.fs"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/image/imagemap/Texture.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/fonts/Font.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/GL.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/Main.java"/>
 </editors>
-<item historyLabel="vertex.vs" index="2">
-<position/>
-</item>
-<item historyLabel="vertex.fs" index="0">
-<position info="not_deleted" x="190" y="97"/>
-</item>
-<item historyLabel="vertex.vs" index="2">
-<position/>
-</item>
-<item historyLabel="vertex.fs" index="0">
-<position info="not_deleted" x="100" y="0"/>
-</item>
-<item historyLabel="vertex.vs" index="2">
-<position/>
-</item>
-<item historyLabel="vertex.fs" index="0">
-<position info="not_deleted" x="100" y="0"/>
-</item>
-<item historyLabel="Map.java" index="1">
-<position info="not_deleted" x="3510" y="12"/>
-</item>
-<item historyLabel="Map.java" index="1">
-<position info="not_deleted" x="7441" y="0"/>
-</item>
-<item historyLabel="Map.java" index="1">
-<position info="not_deleted" x="7455" y="0"/>
-</item>
-<item historyLabel="Map.java" index="1">
-<position info="not_deleted" x="7457" y="0"/>
-</item>
-<item historyLabel="Map.java" index="1">
-<position info="not_deleted" x="7460" y="0"/>
-</item>
-<item historyLabel="Map.java" index="1">
-<position info="not_deleted" x="7463" y="0"/>
-</item>
-<item historyLabel="Map.java" index="1">
-<position info="not_deleted" x="7260" y="0"/>
-</item>
-<item historyLabel="vertex.vs" index="2">
-<position/>
-</item>
-<item historyLabel="vertex.fs" index="0">
-<position info="not_deleted" x="148" y="0"/>
-</item>
-<item historyLabel="ShaderUtils.java" index="3">
-<position info="not_deleted" x="5884" y="0"/>
-</item>
-<item historyLabel="vertex.fs" index="0">
-<position/>
-</item>
-<item historyLabel="ShaderUtils.java" index="3">
-<position info="not_deleted" x="2767" y="0"/>
-</item>
-<item historyLabel="vertex.fs" index="0">
-<position info="not_deleted" x="114" y="0"/>
-</item>
-<item historyLabel="vertex.vs" index="2">
-<position/>
-</item>
-<item historyLabel="vertex.fs" index="0">
-<position info="not_deleted" x="114" y="0"/>
-</item>
-<item historyLabel="Map.java" index="1">
-<position info="not_deleted" x="7299" y="0"/>
-</item>
-<item historyLabel="vertex.fs" index="0">
-<position info="not_deleted" x="291" y="0"/>
-</item>
-<item historyLabel="vertex.vs" index="2">
-<position info="not_deleted" x="647" y="0"/>
-</item>
-<item historyLabel="vertex.fs" index="0">
-<position info="not_deleted" x="99" y="0"/>
-</item>
-<item historyLabel="vertex.vs" index="2">
-<position/>
-</item>
-<item historyLabel="Map.java" index="1">
-<position info="not_deleted" x="7317" y="0"/>
-</item>
-<item historyLabel="ShaderUtils.java" index="3">
-<position info="not_deleted" x="2767" y="0"/>
-</item>
-<item historyLabel="ShaderUtils.java" index="3">
-<position info="not_deleted" x="3500" y="0"/>
-</item>
-<item historyLabel="ShaderUtils.java" index="3">
-<position info="not_deleted" x="4194" y="0"/>
-</item>
-<item historyLabel="ShaderUtils.java" index="3">
-<position/>
-</item>
-<item historyLabel="ShaderUtils.java" index="3">
-<position/>
-</item>
-<item historyLabel="ShaderUtils.java" index="3">
-<position/>
-</item>
-<item historyLabel="ShaderUtils.java" index="3">
-<position info="not_deleted" x="4477" y="0"/>
-</item>
-<item historyLabel="Map.java" index="1">
-<position info="not_deleted" x="7396" y="0"/>
-</item>
-<item historyLabel="ShaderUtils.java" index="3">
-<position info="not_deleted" x="4441" y="0"/>
-</item>
-<item historyLabel="vertex.fs" index="0">
-<position info="not_deleted" x="99" y="0"/>
-</item>
-<item historyLabel="ShaderUtils.java" index="3">
-<position info="not_deleted" x="4053" y="0"/>
-</item>
 <item historyLabel="Map.java" index="1">
 <position info="not_deleted" x="7455" y="0"/>
 </item>
@@ -560,14 +451,128 @@
 <item historyLabel="vertex.vs" index="2">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="vertex.fs" index="4">
+<item historyLabel="vertex.fs" index="3">
 <position info="not_deleted" x="115" y="0"/>
 </item>
-<item historyLabel="ShaderUtils.java" index="5">
+<item historyLabel="ShaderUtils.java" index="4">
 <position info="not_deleted" x="3122" y="0"/>
 </item>
-<item active="true" historyLabel="vertex.vs" index="2">
+<item historyLabel="vertex.vs" index="2">
 <position info="not_deleted" x="409" y="0"/>
+</item>
+<item historyLabel="ShaderUtils.java" index="5">
+<position info="not_deleted" x="3328" y="0"/>
+</item>
+<item historyLabel="vertex.vs" index="2">
+<position info="not_deleted" x="959" y="0"/>
+</item>
+<item historyLabel="vertex.fs" index="6">
+<position info="not_deleted" x="95" y="0"/>
+</item>
+<item historyLabel="vertex.vs" index="2">
+<position info="not_deleted" x="309" y="0"/>
+</item>
+<item historyLabel="vertex.fs" index="6">
+<position info="not_deleted" x="95" y="0"/>
+</item>
+<item historyLabel="vertex.vs" index="2">
+<position info="not_deleted" x="309" y="0"/>
+</item>
+<item historyLabel="ShaderUtils.java" index="5">
+<position info="not_deleted" x="3328" y="0"/>
+</item>
+<item historyLabel="vertex.vs" index="2">
+<position info="not_deleted" x="309" y="0"/>
+</item>
+<item historyLabel="vertex.fs" index="6">
+<position info="not_deleted" x="95" y="0"/>
+</item>
+<item historyLabel="vertex.vs" index="2">
+<position info="not_deleted" x="1075" y="32"/>
+</item>
+<item historyLabel="ShaderUtils.java" index="5">
+<position info="not_deleted" x="3328" y="0"/>
+</item>
+<item historyLabel="ShaderUtils.java" index="5">
+<position info="not_deleted" x="3141" y="0"/>
+</item>
+<item historyLabel="ShaderUtils.java" index="5">
+<position info="not_deleted" x="3146" y="0"/>
+</item>
+<item historyLabel="ShaderUtils.java" index="5">
+<position info="not_deleted" x="3198" y="0"/>
+</item>
+<item historyLabel="ShaderUtils.java" index="5">
+<position info="not_deleted" x="3219" y="0"/>
+</item>
+<item historyLabel="ShaderUtils.java" index="5">
+<position info="not_deleted" x="2967" y="4"/>
+</item>
+<item historyLabel="vertex.fs" index="6">
+<position info="not_deleted" x="95" y="0"/>
+</item>
+<item historyLabel="vertex.vs" index="2">
+<position info="not_deleted" x="1075" y="32"/>
+</item>
+<item historyLabel="ShaderUtils.java" index="5">
+<position info="not_deleted" x="2967" y="4"/>
+</item>
+<item historyLabel="Texture.java" index="7">
+<position info="not_deleted" x="8031" y="0"/>
+</item>
+<item historyLabel="Font.java" index="8">
+<position info="not_deleted" x="1890" y="0"/>
+</item>
+<item historyLabel="GL.java" index="9">
+<position info="not_deleted" x="22017" y="0"/>
+</item>
+<item historyLabel="GL.java" index="9">
+<position info="not_deleted" x="25270" y="9"/>
+</item>
+<item historyLabel="GL.java" index="9">
+<position info="not_deleted" x="25426" y="15"/>
+</item>
+<item historyLabel="GL.java" index="9">
+<position info="not_deleted" x="25443" y="1"/>
+</item>
+<item historyLabel="GL.java" index="9">
+<position info="not_deleted" x="25446" y="0"/>
+</item>
+<item historyLabel="GL.java" index="9">
+<position info="not_deleted" x="26150" y="0"/>
+</item>
+<item historyLabel="GL.java" index="9">
+<position info="not_deleted" x="25866" y="0"/>
+</item>
+<item historyLabel="Main.java" index="10">
+<position info="not_deleted" x="2738" y="0"/>
+</item>
+<item historyLabel="Main.java" index="10">
+<position info="not_deleted" x="3798" y="0"/>
+</item>
+<item historyLabel="Main.java" index="10">
+<position info="not_deleted" x="3802" y="0"/>
+</item>
+<item historyLabel="Main.java" index="10">
+<position info="not_deleted" x="3724" y="0"/>
+</item>
+<item historyLabel="Texture.java" index="7">
+<position info="not_deleted" x="740" y="0"/>
+</item>
+<item historyLabel="Main.java" index="10">
+<position info="not_deleted" x="3762" y="0"/>
+</item>
+<item historyLabel="GL.java" index="9">
+<position info="not_deleted" x="24477" y="110"/>
+</item>
+<item historyLabel="GL.java" index="9">
+<position info="not_deleted" x="24110" y="0"/>
+</item>
+<item historyLabel="GL.java" index="9">
+<position info="not_deleted" x="24154" y="0"/>
+</item>
+<item active="true" historyLabel="GL.java" index="9">
+<position info="not_deleted" x="24477" y="110"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>

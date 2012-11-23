@@ -26,6 +26,11 @@ public class Texture extends ImageMap
 	private int     id;
 	private float   texWid, texHei;
 	
+	public Texture(int textureId)
+	{
+		this.id = textureId;
+	}
+	
 	public Texture(Image image)
 	{
 		this.id = loadTexture(image);

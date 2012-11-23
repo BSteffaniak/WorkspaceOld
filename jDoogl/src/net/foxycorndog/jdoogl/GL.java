@@ -126,6 +126,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL21;
+import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.glu.GLU;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
@@ -828,6 +830,60 @@ public class GL
 //		
 ////		glMaterialf(GL_FRONT, GL_SHININESS, 60.0f);
 //	}
+	
+	public static int genFrameBuffer()
+	{
+		return GL30.glGenFramebuffers();
+	}
+	
+	public static int screenCapture(int frameBufferId)
+	{
+		glEnable(GL21.GL_PIXEL_UNPACK_BUFFER_BINDING);
+		glEnable(GL21.GL_PIXEL_UNPACK_BUFFER);
+		
+		// The texture we're going to render to
+		int renderedTexture;
+		
+		renderedTexture = glGenTextures();
+		 
+		// "Bind" the newly created texture : all future texture functions will modify this texture
+		glBindTexture(GL_TEXTURE_2D, renderedTexture);
+		 
+		// Give an empty image to OpenGL ( the last "0" )
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Frame.getWidth(), Frame.getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+		 
+		// Poor filtering. Needed !
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		
+		// The depth buffer
+		int depthRenderBuffer;
+		depthRenderBuffer = GL30.glGenRenderbuffers();
+		GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, depthRenderBuffer);
+		GL30.glRenderbufferStorage(GL30.GL_RENDERBUFFER, GL_DEPTH_COMPONENT, Frame.getWidth(), Frame.getHeight());
+		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER, depthRenderBuffer);
+		
+		// Set "renderedTexture" as our colour attachement #0
+//		GL30.glFramebufferTexture(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, renderedTexture, 0);
+		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, renderedTexture, renderedTexture, 0);
+		 
+		// Set the list of draw buffers.
+//		GLenum DrawBuffers[2] = {GL_COLOR_ATTACHMENT0};
+//		glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
+		glDrawBuffer(GL30.GL_COLOR_ATTACHMENT0);
+		
+		// Always check that our framebuffer is ok
+		if(GL30.glCheckFramebufferStatus(GL30.GL_FRAMEBUFFER) != GL30.GL_FRAMEBUFFER_COMPLETE)
+		{
+			throw new RuntimeException("FrameBuffer unable to complete!");
+		}
+		
+		// Render to our framebuffer
+		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, frameBufferId);
+		glViewport(0, 0, Frame.getWidth(), Frame.getHeight()); // Render on the whole framebuffer, complete from the lower left corner to the upper right
+		
+		return renderedTexture;
+	}
 
 	/**
 	 * Rotates the scene the specified float amount for each axes.

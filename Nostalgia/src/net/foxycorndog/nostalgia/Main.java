@@ -24,6 +24,7 @@ public class Main extends GameComponent
 	private boolean     released;
 	
 	private int         releasedDelay;
+	private int         frameBufferId;
 	
 	private float       offsetY, offsetZ;
 	
@@ -86,6 +87,8 @@ public class Main extends GameComponent
 		
 		GL.initLighting();
 		GL.setShadeModel(GL.SMOOTH);
+		
+		frameBufferId = GL.genFrameBuffer();
 //		GL.initBasicLights();
 	}
 	
@@ -130,6 +133,10 @@ public class Main extends GameComponent
 		
 		map.render();
 //		GL.setLightLocation(player.getX() + player.getCenterX(), player.getY() + player.getCenterY(), player.getZ() + player.getCenterZ());
+		
+		Texture texture = new Texture(GL.screenCapture(frameBufferId));
+		
+		GL.drawTexture(texture, 50, 50, 0);
 	}
 	
 	public void loop(int dfps)

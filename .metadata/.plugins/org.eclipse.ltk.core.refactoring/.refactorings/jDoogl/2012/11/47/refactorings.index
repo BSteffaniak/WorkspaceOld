@@ -7,3 +7,4 @@
 1353561537693	Rename type 'ShaderFactory'
 1353561615459	Rename method 'useProgram'
 1353568781481	Rename method 'loadShaderPair'
+1353703118532	Rename local variable 'depthrenderbuffer'

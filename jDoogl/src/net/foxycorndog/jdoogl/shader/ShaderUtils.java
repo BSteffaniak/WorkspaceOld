@@ -80,7 +80,7 @@ public class ShaderUtils
 		{
 			String error = glGetShaderInfoLog(vertexShader, glGetShader(vertexShader, GL_INFO_LOG_LENGTH));
 			
-			error = error.substring(0, error.length() - 1);
+			error = formatError(error, getName(location));
 			
 			throw new RuntimeException("Vertex shader at \"" + location + "\" was not compiled correctly:\n\t" + error);
 		}
@@ -119,7 +119,7 @@ public class ShaderUtils
 		{
 			String error = glGetShaderInfoLog(fragmentShader, glGetShader(fragmentShader, GL_INFO_LOG_LENGTH));
 			
-			error = error.substring(0, error.length() - 1);
+			error = formatError(error, getName(location));
 			
 			throw new RuntimeException("Fragment shader at \"" + location + "\" was not compiled correctly:\n\t" + error);
 		}
@@ -127,19 +127,43 @@ public class ShaderUtils
 		return fragmentShader;
 	}
 	
-	private static String formatError(String error)
+	private static String getName(String location)
+	{
+		int lastI = location.lastIndexOf('/');
+		lastI     = Math.max(location.indexOf('\\'), lastI);
+		
+		return location.substring(lastI + 1, location.length());
+	}
+	
+	private static String formatError(String error, String fileName)
 	{
 		String formattedError = "";
 		
-		formattedError += '\t';
-		
-		for (int i = 0; i < error.length(); i ++)
+		for (int i = 0; i < error.length() - 1; i ++)
 		{
-			formattedError += error.charAt(i);
-			
-			if (error.charAt(i) == '\n')
+			try
 			{
-				formattedError += '\t';
+				if (error.charAt(i) == '0' && error.charAt(i + 1) == '(')
+				{
+					formattedError += fileName + ":";
+				}
+				else if (error.charAt(i) == ')' || error.charAt(i) == '(')
+				{
+					
+				}
+				else
+				{
+					formattedError += error.charAt(i);
+					
+					if (error.charAt(i) == '\n')
+					{
+						formattedError += '\t';
+					}
+				}
+			}
+			catch (ArrayIndexOutOfBoundsException e)
+			{
+				
 			}
 		}
 		
