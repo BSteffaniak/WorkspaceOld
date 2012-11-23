@@ -8,13 +8,13 @@
  * program.
  * Attribute is set by the Java code and read by the vertex program.
  */
-varying vec3 varyingColour;
+varying   vec3a varyingColour;
 
-varying vec3 testCol;
+varying   vec3 testCol;
 
 attribute vec3 test;
 
-uniform vec3 uniformTest;
+uniform   vec3 uniformTest;
 
 /* Object Space: Vertices you specify with glVertex(Pointer)
  * Eye Space: Vertices transformed by the modelview matrix

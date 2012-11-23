@@ -127,6 +127,25 @@ public class ShaderUtils
 		return fragmentShader;
 	}
 	
+	private static String formatError(String error)
+	{
+		String formattedError = "";
+		
+		formattedError += '\t';
+		
+		for (int i = 0; i < error.length(); i ++)
+		{
+			formattedError += error.charAt(i);
+			
+			if (error.charAt(i) == '\n')
+			{
+				formattedError += '\t';
+			}
+		}
+		
+		return formattedError;
+	}
+	
 	public static int loadShaderProgram(String vertexShaderLocation, String fragmentShaderLocation)
 	{
 		int shaderProgram  = ShaderUtils.genShaderProgramId();
