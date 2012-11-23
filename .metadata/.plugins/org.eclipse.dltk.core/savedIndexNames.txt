@@ -1,1 +1,1 @@
-/Users/BradenSteffaniak/Documents/GitHub/Workspace/.metadata/.plugins/org.eclipse.dltk.core/1987413679.index
+/Users/BradenSteffaniak/Workspace/.metadata/.plugins/org.eclipse.dltk.core/1987413679.index

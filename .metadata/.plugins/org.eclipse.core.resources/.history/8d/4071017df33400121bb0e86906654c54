@@ -1,0 +1,18 @@
+#version 120
+
+// Per-vertex Phong lighting model
+varying vec3 varyingColour;
+
+varying vec3 testCol;
+
+void main()
+{
+	testCol.r = 1;
+	testCol.g = 1;
+	testCol.b = 0;
+
+	gl_FragColor = vec4(testCol, 1);
+
+//	// Turns the varying color into a 4D color and stores in the built-in output gl_FragColor.
+//    gl_FragColor = vec4(varyingColour, 1);
+}

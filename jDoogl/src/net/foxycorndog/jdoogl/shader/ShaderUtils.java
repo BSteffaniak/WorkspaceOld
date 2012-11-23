@@ -117,7 +117,11 @@ public class ShaderUtils
 		
 		if (glGetShader(fragmentShader, GL_COMPILE_STATUS) == GL_FALSE)
 		{
-			throw new RuntimeException("Fragment shader at \"" + location + "\" was not compiled correctly!");
+			String error = glGetShaderInfoLog(fragmentShader, glGetShader(fragmentShader, GL_INFO_LOG_LENGTH));
+			
+			error = error.substring(0, error.length() - 1);
+			
+			throw new RuntimeException("Fragment shader at \"" + location + "\" was not compiled correctly:\n\t" + error);
 		}
 		
 		return fragmentShader;
@@ -133,5 +137,105 @@ public class ShaderUtils
 		ShaderUtils.genShaderProgram(shaderProgram);
 		
 		return shaderProgram;
+	}
+	
+	public static int getUniformLocation(int programId, String uniformName)
+	{
+		return glGetUniformLocation(programId, uniformName);
+	}
+	
+	public static void uniform3s(int attribLocation, short x, short y, short z)
+	{
+		glUniform3i(attribLocation, x, y, z);
+	}
+	
+	public static void uniform2s(int attribLocation, short x, short y)
+	{
+		glUniform2i(attribLocation, x, y);
+	}
+	
+	public static void uniform1i(int attribLocation, int x)
+	{
+		glUniform1i(attribLocation, x);
+	}
+	
+	public static void uniform3f(int attribLocation, float x, float y, float z)
+	{
+		glUniform3f(attribLocation, x, y, z);
+	}
+	
+	public static void uniform2f(int attribLocation, float x, float y)
+	{
+		glUniform2f(attribLocation, x, y);
+	}
+	
+	public static void uniform1f(int attribLocation, float x)
+	{
+		glUniform1f(attribLocation, x);
+	}
+	
+	public static int getAttribLocation(int programId, String attribName)
+	{
+		return glGetAttribLocation(programId, attribName);
+	}
+	
+	public static void vertexAttrib4s(int attribLocation, short x, short y, short z, short w)
+	{
+		glVertexAttrib4s(attribLocation, x, y, z, w);
+	}
+	
+	public static void vertexAttrib3s(int attribLocation, short x, short y, short z)
+	{
+		glVertexAttrib3s(attribLocation, x, y, z);
+	}
+	
+	public static void vertexAttrib2s(int attribLocation, short x, short y)
+	{
+		glVertexAttrib2s(attribLocation, x, y);
+	}
+	
+	public static void vertexAttrib1s(int attribLocation, short x)
+	{
+		glVertexAttrib1s(attribLocation, x);
+	}
+	
+	public static void vertexAttrib4f(int attribLocation, float x, float y, float z, float w)
+	{
+		glVertexAttrib4f(attribLocation, x, y, z, w);
+	}
+	
+	public static void vertexAttrib3f(int attribLocation, float x, float y, float z)
+	{
+		glVertexAttrib3f(attribLocation, x, y, z);
+	}
+	
+	public static void vertexAttrib2f(int attribLocation, float x, float y)
+	{
+		glVertexAttrib2f(attribLocation, x, y);
+	}
+	
+	public static void vertexAttrib1f(int attribLocation, float x)
+	{
+		glVertexAttrib1f(attribLocation, x);
+	}
+	
+	public static void vertexAttrib4d(int attribLocation, double x, double y, double z, double w)
+	{
+		glVertexAttrib4d(attribLocation, x, y, z, w);
+	}
+	
+	public static void vertexAttrib3d(int attribLocation, double x, double y, double z)
+	{
+		glVertexAttrib3d(attribLocation, x, y, z);
+	}
+	
+	public static void vertexAttrib2d(int attribLocation, double x, double y)
+	{
+		glVertexAttrib2d(attribLocation, x, y);
+	}
+	
+	public static void vertexAttrib1d(int attribLocation, double x)
+	{
+		glVertexAttrib1d(attribLocation, x);
 	}
 }

@@ -276,7 +276,10 @@ public class Map
 		house.render();
 		
 		ShaderUtils.useShaderProgram(shaderProgram);
-		bunny.render();
+		{
+			ShaderUtils.uniform3f(ShaderUtils.getUniformLocation(shaderProgram, "uniformTest"), 1, 0, 1);
+			bunny.render();
+		}
 		ShaderUtils.useShaderProgram(0);
 		
 //		hat.render();

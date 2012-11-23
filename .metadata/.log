@@ -4842,3 +4842,89 @@ java.lang.IllegalArgumentException: Malformed \uxxxx encoding.
 	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:1)
 	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
 	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+!SESSION 2012-11-22 14:13:45.357 -----------------------------------------------
+eclipse.buildId=M20110909-1335
+java.version=1.6.0_37
+java.vendor=Apple Inc.
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product -product org.eclipse.epp.package.java.product -keyring /Users/BradenSteffaniak/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.java.product -data /Users/BradenSteffaniak/Workspace -product org.eclipse.epp.package.java.product -keyring /Users/BradenSteffaniak/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.core.resources 2 10035 2012-11-22 14:13:49.183
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.core.net 1 0 2012-11-22 14:13:52.208
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY org.eclipse.jface 2 0 2012-11-22 14:14:05.048
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2012-11-22 14:14:05.049
+!MESSAGE A conflict occurred for ALT+COMMAND+R:
+Binding(ALT+COMMAND+R,
+	ParameterizedCommand(Command(org.python.pydev.debug.setnext,Set Next Statement,
+		,
+		Category(org.python.pydev.ui.category.run,PyDev - Run,Python run category,true),
+		,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(ALT+COMMAND+R,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.edit.text.java.rename.element,Rename - Refactoring ,
+		Rename the selected element,
+		Category(org.eclipse.jdt.ui.category.refactoring,Refactor - Java,Java Refactoring Actions,true),
+		,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,cocoa,system)
+
+!ENTRY org.eclipse.ui.workbench 2 0 2012-11-22 14:14:05.729
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2012-11-22 14:14:05.729
+!MESSAGE Conflict for 'org.eclipse.ltk.ui.refactor.create.refactoring.script':
+HandlerActivation(commandId=org.eclipse.ltk.ui.refactor.create.refactoring.script,
+	handler=ActionDelegateHandlerProxy(null,org.eclipse.ltk.ui.refactoring.actions.CreateRefactoringScriptAction),
+	expression=AndExpression(ActionSetExpression(org.eclipse.cdt.ui.CodingActionSet,org.eclipse.ui.internal.WorkbenchWindow@20e64795),WorkbenchWindowExpression(org.eclipse.ui.internal.WorkbenchWindow@20e64795)),sourcePriority=16640)
+HandlerActivation(commandId=org.eclipse.ltk.ui.refactor.create.refactoring.script,
+	handler=ActionDelegateHandlerProxy(null,org.eclipse.jdt.internal.ui.refactoring.actions.CreateRefactoringScriptAction),
+	expression=AndExpression(ActionSetExpression(org.eclipse.jdt.ui.CodingActionSet,org.eclipse.ui.internal.WorkbenchWindow@20e64795),WorkbenchWindowExpression(org.eclipse.ui.internal.WorkbenchWindow@20e64795)),sourcePriority=16640)
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2012-11-22 14:14:05.729
+!MESSAGE Conflict for 'org.eclipse.ltk.ui.refactor.show.refactoring.history':
+HandlerActivation(commandId=org.eclipse.ltk.ui.refactor.show.refactoring.history,
+	handler=ActionDelegateHandlerProxy(null,org.eclipse.ltk.ui.refactoring.actions.ShowRefactoringHistoryAction),
+	expression=AndExpression(ActionSetExpression(org.eclipse.cdt.ui.CodingActionSet,org.eclipse.ui.internal.WorkbenchWindow@20e64795),WorkbenchWindowExpression(org.eclipse.ui.internal.WorkbenchWindow@20e64795)),sourcePriority=16640)
+HandlerActivation(commandId=org.eclipse.ltk.ui.refactor.show.refactoring.history,
+	handler=ActionDelegateHandlerProxy(null,org.eclipse.jdt.internal.ui.refactoring.actions.ShowRefactoringHistoryAction),
+	expression=AndExpression(ActionSetExpression(org.eclipse.jdt.ui.CodingActionSet,org.eclipse.ui.internal.WorkbenchWindow@20e64795),WorkbenchWindowExpression(org.eclipse.ui.internal.WorkbenchWindow@20e64795)),sourcePriority=16640)
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2012-11-22 14:14:05.729
+!MESSAGE Conflict for 'org.eclipse.ltk.ui.refactor.apply.refactoring.script':
+HandlerActivation(commandId=org.eclipse.ltk.ui.refactor.apply.refactoring.script,
+	handler=ActionDelegateHandlerProxy(null,org.eclipse.ltk.ui.refactoring.actions.ApplyRefactoringScriptAction),
+	expression=AndExpression(ActionSetExpression(org.eclipse.cdt.ui.CodingActionSet,org.eclipse.ui.internal.WorkbenchWindow@20e64795),WorkbenchWindowExpression(org.eclipse.ui.internal.WorkbenchWindow@20e64795)),sourcePriority=16640)
+HandlerActivation(commandId=org.eclipse.ltk.ui.refactor.apply.refactoring.script,
+	handler=ActionDelegateHandlerProxy(null,org.eclipse.jdt.internal.ui.refactoring.actions.ApplyRefactoringScriptAction),
+	expression=AndExpression(ActionSetExpression(org.eclipse.jdt.ui.CodingActionSet,org.eclipse.ui.internal.WorkbenchWindow@20e64795),WorkbenchWindowExpression(org.eclipse.ui.internal.WorkbenchWindow@20e64795)),sourcePriority=16640)
+
+!ENTRY com.android.ide.eclipse.ddms 4 0 2012-11-22 14:14:06.842
+!MESSAGE DDMS files not found: /Users/Braden Steffaniak/AppData/Local/Android/android-sdk/platform-tools/adb /Users/Braden Steffaniak/AppData/Local/Android/android-sdk/tools/hprof-conv /Users/Braden Steffaniak/AppData/Local/Android/android-sdk/tools/traceview 
+
+!ENTRY org.eclipse.epp.usagedata.recording 2 0 2012-11-22 22:08:08.521
+!MESSAGE The usage data upload server at http://udc.eclipse.org/upload.php could not be found.
+!STACK 0
+java.net.UnknownHostException: udc.eclipse.org
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:195)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:432)
+	at java.net.Socket.connect(Socket.java:529)
+	at java.net.Socket.connect(Socket.java:478)
+	at java.net.Socket.<init>(Socket.java:375)
+	at java.net.Socket.<init>(Socket.java:249)
+	at org.apache.commons.httpclient.protocol.DefaultProtocolSocketFactory.createSocket(DefaultProtocolSocketFactory.java:80)
+	at org.apache.commons.httpclient.protocol.DefaultProtocolSocketFactory.createSocket(DefaultProtocolSocketFactory.java:122)
+	at org.apache.commons.httpclient.HttpConnection.open(HttpConnection.java:707)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:387)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:323)
+	at org.eclipse.epp.usagedata.internal.recording.uploading.BasicUploader.doUpload(BasicUploader.java:206)
+	at org.eclipse.epp.usagedata.internal.recording.uploading.BasicUploader.upload(BasicUploader.java:129)
+	at org.eclipse.epp.usagedata.internal.recording.uploading.BasicUploader$1.run(BasicUploader.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
