@@ -28,7 +28,14 @@ public class Texture extends ImageMap
 	
 	public Texture(int textureId)
 	{
-		this.id = textureId;
+		this.id     = textureId;
+		
+		bind();
+		
+		this.width  = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH);
+		this.height = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT);
+		
+		genTexDimensions();
 	}
 	
 	public Texture(Image image)
@@ -138,13 +145,13 @@ public class Texture extends ImageMap
             {
                 int pixel = pixels[x + y * width];
                 buffer.put((byte) ((pixel >> 16) & 0xFF));    // Red component
-                buffer.put((byte) ((pixel >> 8) & 0xFF));     // Green component
-                buffer.put((byte) (pixel & 0xFF));            // Blue component
+                buffer.put((byte) ((pixel >> 8)  & 0xFF));    // Green component
+                buffer.put((byte) ((pixel)       & 0xFF));    // Blue component
                 buffer.put((byte) ((pixel >> 24) & 0xFF));    // Alpha component. Only for RGBA
             }
         }
 
-        buffer.flip(); //FOR THE LOVE OF GOD DO NOT FORGET THIS
+        buffer.rewind(); //FOR THE LOVE OF GOD DO NOT FORGET THIS
 
         // You now have a ByteBuffer filled with the color data of each pixel.
         // Now just create a texture ID and bind it. Then you can load it using 

@@ -1,0 +1,131 @@
+package net.foxycorndog.jdooal.audio;
+
+import static org.lwjgl.openal.AL10.AL_BUFFER;
+import static org.lwjgl.openal.AL10.AL_GAIN;
+import static org.lwjgl.openal.AL10.AL_POSITION;
+import static org.lwjgl.openal.AL10.AL_VELOCITY;
+import static org.lwjgl.openal.AL10.alBufferData;
+import static org.lwjgl.openal.AL10.alGenBuffers;
+import static org.lwjgl.openal.AL10.alGenSources;
+import static org.lwjgl.openal.AL10.alSource3f;
+import static org.lwjgl.openal.AL10.alSourcePlay;
+import static org.lwjgl.openal.AL10.alSourceStop;
+import static org.lwjgl.openal.AL10.alSourcef;
+import static org.lwjgl.openal.AL10.alSourcei;
+
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.lwjgl.BufferUtils;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.openal.AL10;
+import org.lwjgl.openal.AL11;
+import org.lwjgl.util.WaveData;
+
+public class AL
+{
+	private static float masterVolume;
+	
+	private static HashMap<Integer, WaveData> audio;
+	private static HashMap<Integer, Integer>  buffers;
+	
+	static
+	{
+		masterVolume = 1f;
+		
+		audio = new HashMap<Integer, WaveData>();
+		buffers = new HashMap<Integer, Integer>();
+		
+		try
+		{
+			org.lwjgl.openal.AL.create();
+		}
+		catch (LWJGLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+//	public AL()
+//	{
+//		audio = new ArrayList<WaveData>();
+//	}
+	
+	public static int genSound(String location)
+	{
+		WaveData sound = null;
+		
+		try
+		{
+			sound = WaveData.create(new BufferedInputStream(new FileInputStream(location)));
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		
+		int id = alGenBuffers();
+		
+		alBufferData(id, sound.format, sound.data, sound.samplerate);
+		
+		//alDeleteBuffers(id);
+		
+		int source = alGenSources();
+		
+		alSourcei (source, AL_BUFFER, id);
+		alSource3f(source, AL_POSITION, 0, 0, 0);
+		alSource3f(source, AL_VELOCITY, 0, 0, 0);
+		alSourcef (source, AL_GAIN, 1f);
+		//alDeleteSources(source);
+		
+		audio.put(source, sound);
+		buffers.put(source, id);
+		
+		return source;
+	}
+	
+	public static int copy(int id)
+	{
+		int old = buffers.get(id);
+		
+		WaveData sound = audio.get(id);
+		
+		alBufferData(id, sound.format, sound.data, sound.samplerate);
+		
+		int copy = alGenSources();
+		
+		alSourcei (copy, AL_BUFFER, id);
+		alSource3f(copy, AL_POSITION, 0, 0, 0);
+		alSource3f(copy, AL_VELOCITY, 0, 0, 0);
+		alSourcef (copy, AL_GAIN, masterVolume);
+		
+		return copy;
+	}
+	
+	public static boolean isPlaying(int source)
+	{
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(1);
+		buffer.put(3);
+		
+		AL10.alGetSource(source, AL10.AL_SOURCE_STATE, buffer);
+		
+		System.out.println(buffer.get(0));
+		
+		return false;
+	}
+	
+	public static void play(int source)
+	{
+		alSourcePlay(source);
+		System.out.println("Bang");
+	}
+	
+	public static void stop(int source)
+	{
+		alSourceStop(source);
+	}
+}

@@ -8,3 +8,6 @@
 1353561615459	Rename method 'useProgram'
 1353568781481	Rename method 'loadShaderPair'
 1353703118532	Rename local variable 'depthrenderbuffer'
+1353730593017	Rename method 'screenCapture'
+1353789535970	Rename method 'startScreenCapture'
+1353789542101	Rename method 'startScreenCapture'

@@ -275,14 +275,14 @@ public class Map
 	{
 		house.render();
 		
-		ShaderUtils.useShaderProgram(shaderProgram);
-		{
-			ShaderUtils.uniform3f(ShaderUtils.getUniformLocation(shaderProgram, "uniformTest"), 1, 0, 1);
+//		ShaderUtils.useShaderProgram(shaderProgram);
+//		{
+//			ShaderUtils.uniform3f(ShaderUtils.getUniformLocation(shaderProgram, "uniformTest"), 1, 0, 1);
 			bunny.render();
-		}
-		ShaderUtils.useShaderProgram(0);
+//		}
+//		ShaderUtils.useShaderProgram(0);
 		
-//		hat.render();
+		hat.render();
 		
 		GL.renderCubes(verticesBuffer, texturesBuffer, null, colorsBuffer, sprites, 0, 1, null);
 		

@@ -107,6 +107,7 @@ import javax.naming.OperationNotSupportedException;
 import net.foxycorndog.jdobase.Base;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.geometry.Point;
+import net.foxycorndog.jdoogl.geometry.Vector;
 import net.foxycorndog.jdoogl.image.imagemap.ImageMap;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
@@ -124,10 +125,13 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL21;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL40;
 import org.lwjgl.util.glu.GLU;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
@@ -151,6 +155,8 @@ public class GL
 	private static double scale[]          = new double[] { 1, 1, 1 };
 	private static double renderLocation[] = new double[] { 0, 0, 0 };
 	
+	private static float  ambientLight[];
+	
 	private static ArrayList<double[]> tempOffsets        = new ArrayList<double[]>();
 	private static ArrayList<double[]> tempScale          = new ArrayList<double[]>();
 	private static ArrayList<double[]> tempRenderLocation = new ArrayList<double[]>();
@@ -162,27 +168,58 @@ public class GL
 	private static float       zClose, zFar;
 	private static float       FOV;
 	
-	private static float       lastColor[];
-	
 	private static ArrayList<LightBuffer> rectVerticesBuffer, rectTexturesBuffer;
 	
-	public  static final int QUADS = GL11.GL_QUADS, TRIANGLES = GL11.GL_TRIANGLES, POINTS = GL11.GL_POINTS;
-	public  static final int ARRAYS = Base.ARRAYS, ELEMENTS = Base.ELEMENTS, IMMEDIATE = Base.IMMEDIATE;
-	public  static final int LEFT = 0, CENTER = 1, RIGHT = 2, TOP = 2, BOTTOM = 0;
-	public  static final int SMOOTH = GL11.GL_SMOOTH, FLAT = GL11.GL_FLAT;
+	public static final int FILL = GL_FILL;
 	
-	public  static boolean DRAW_MODE_ARRAYS, DRAW_MODE_ELEMENTS, DRAW_MODE_IMMEDIATE, USING_VBO;
+	/**
+	 * All of the available shape constants.
+	 */
+	public static final int QUADS = GL_QUADS, TRIANGLES = GL_TRIANGLES, POINTS = GL_POINTS;
+	
+	/**
+	 * All of the render mode constants.
+	 */
+	public static final int ARRAYS = Base.ARRAYS, ELEMENTS = Base.ELEMENTS, IMMEDIATE = Base.IMMEDIATE;
+	
+	/**
+	 * All of the directional constants.
+	 */
+	public static final int LEFT = 0, CENTER = 1, RIGHT = 2, TOP = 2, BOTTOM = 0, FRONT = GL_FRONT,
+								BACK = GL_BACK, FRONT_AND_BACK = GL_FRONT_AND_BACK, CLOCKWISE = GL_CW,
+								COUNTER_CLOCKWISE = GL_CCW;
+	
+	/**
+	 * All of the shading model constants.
+	 */
+	public static final int SMOOTH = GL11.GL_SMOOTH, FLAT = GL11.GL_FLAT;
+	
+	/**
+	 * All of the attribute bit constants.
+	 */
+	public static final int ALL_ATTRIB_BITS = GL_ALL_ATTRIB_BITS, ENABLE_BIT = GL_ENABLE_BIT, FOG_BIT = GL_FOG_BIT,
+								LIGHTING_BIT = GL_LIGHTING_BIT, LINE_BIT = GL_LINE_BIT, POINT_BIT = GL_POINT_BIT,
+								POLYGON_BIT = GL_POLYGON_BIT, TEXTURE_BIT = GL_TEXTURE_BIT,
+								COLOR_BUFFER_BIT = GL_COLOR_BUFFER_BIT, CURRENT_BIT = GL_CURRENT_BIT;
+	
+	private static boolean DRAW_MODE_ARRAYS, DRAW_MODE_ELEMENTS, DRAW_MODE_IMMEDIATE, USING_VBO;
 	
 	static
 	{
-		lastColor = new float[4];
-		
 		showColors = true;
 		
 		Base.setUsingVBO(true); 
 		Base.setDrawMode(ELEMENTS);
 		
 		update();
+		
+		Runtime.getRuntime().addShutdownHook(new Thread()
+		{
+			public void run()
+			{
+				
+			}
+		});
 	}
 	
 	public static void update()
@@ -192,6 +229,189 @@ public class GL
 		DRAW_MODE_ARRAYS    = Base.getDrawMode() == Base.ARRAYS;
 		DRAW_MODE_ELEMENTS  = Base.getDrawMode() == Base.ELEMENTS;
 		DRAW_MODE_IMMEDIATE = Base.getDrawMode() == Base.IMMEDIATE;
+	}
+	
+	public static boolean getBoolean(int pname)
+	{
+		return glGetBoolean(pname);
+	}
+	
+	public static void getBoolean(int pname, ByteBuffer params)
+	{
+		glGetBoolean(pname, params);
+	}
+	
+	public static int getInteger(int pname)
+	{
+		return glGetInteger(pname);
+	}
+	
+	public static void getInteger(int pname, IntBuffer params)
+	{
+		glGetInteger(pname, params);
+	}
+	
+	public static float getFloat(int pname)
+	{
+		return glGetFloat(pname);
+	}
+	
+	public static void getFloat(int pname, FloatBuffer params)
+	{
+		glGetFloat(pname, params);
+	}
+	
+	public static double getDouble(int pname)
+	{
+		return glGetDouble(pname);
+	}
+	
+	public static void getDouble(int pname, DoubleBuffer params)
+	{
+		glGetDouble(pname, params);
+	}
+	
+	public static String getString(int pname)
+	{
+		return glGetString(pname);
+	}
+	
+	public static ByteBuffer glGetPointer(int pname)
+	{
+		return glGetPointer(pname);
+	}
+	
+	public static ByteBuffer glGetPointer(int pname, long resultSize)
+	{
+		return glGetPointer(pname, resultSize);
+	}
+	
+	/**
+	 * Set the order in which you input the vertices to be define
+	 * the front of a polygon. if CLOCKWISE, then if you input the
+	 * vertices in a clockwise fashion, then it is the front. vice-
+	 * versa with the COUNTER_CLOCKWISE constant.
+	 * 
+	 * @param face CLOCKWISE or COUNTER_CLOCKWISE.
+	 */
+	public static void setFrontFace(int face)
+	{
+		glFrontFace(face);
+	}
+	
+	public static void setCullFace(int frontOrBack)
+	{
+		glCullFace(frontOrBack);
+	}
+	
+	public static void enableCulling()
+	{
+		glEnable(GL_CULL_FACE);
+	}
+	
+	public static void disableCulling()
+	{
+		glDisable(GL_CULL_FACE);
+	}
+	
+	public static void pushAttribute(int attribute)
+	{
+		glPushAttrib(attribute);
+	}
+	
+	public static void popAttribute()
+	{
+		glPopAttrib();
+	}
+	
+	public static void setLineWidth(float lineWidth)
+	{
+		glLineWidth(lineWidth);
+	}
+	
+	public static void setPointSize(float size)
+	{
+		glPointSize(size);
+	}
+	
+	public static void setLinePattern(int factor, short pattern)
+	{
+		glLineStipple(factor, pattern);
+	}
+	
+	public static boolean isLinePatternOn()
+	{
+		return glIsEnabled(GL_LINE_STIPPLE);
+	}
+	
+	public static void enableLinePattern()
+	{
+		glEnable(GL_LINE_STIPPLE);
+	}
+	
+	public static void disableLinePattern()
+	{
+		glDisable(GL_LINE_STIPPLE);
+	}
+	
+	public static int getPolygonMode()
+	{
+		return glGetInteger(GL_POLYGON_MODE);
+	}
+	
+	public static void setPolygonMode(int frontOrBack, int mode)
+	{
+		glPolygonMode(frontOrBack, mode);
+	}
+	
+	public static void setPolygonPattern(ByteBuffer mask)
+	{
+		glPolygonStipple(mask);
+	}
+	
+	public static boolean isPolygonPatternOn()
+	{
+		return glIsEnabled(GL_POLYGON_STIPPLE);
+	}
+	
+	public static void enablePolygonPattern()
+	{
+		glEnable(GL_POLYGON_STIPPLE);
+	}
+	
+	public static void disablePolygonPattern()
+	{
+		glDisable(GL_POLYGON_STIPPLE);
+	}
+	
+	public static boolean isPolygonAntialiasingOn()
+	{
+		return glIsEnabled(GL_POLYGON_SMOOTH);
+	}
+	
+	public static void enablePolygonAntialiasing()
+	{
+		glEnable(GL_POLYGON_SMOOTH);
+	}
+	
+	public static void disablePolygonAntialiasing()
+	{
+		glDisable(GL_POLYGON_SMOOTH);
+	}
+	
+	public static boolean isLineAntialiasingOn()
+	{
+		return glIsEnabled(GL_LINE_SMOOTH);
+	}
+	
+	public static void enableLineAntialiasing()
+	{
+		glEnable(GL_LINE_SMOOTH);
+	}
+	
+	public static void disableLineAntialiasing()
+	{
+		glDisable(GL_LINE_SMOOTH);
 	}
 	
 	public static int getDrawMode()
@@ -412,11 +632,6 @@ public class GL
 	public static void setColorf(float r, float g, float b, float a)
 	{
 		glColor4f(r, g, b, a);
-		
-		lastColor[0] = r;
-		lastColor[1] = g;
-		lastColor[2] = b;
-		lastColor[3] = a;
 	}
 	
 	/**
@@ -432,11 +647,6 @@ public class GL
 	public static void setColori(int r, int g, int b, int a)
 	{
 		glColor4f(r / 255f, g / 255f, b / 255f, a / 255f);
-	
-		lastColor[0] = r / 255f;
-		lastColor[1] = g / 255f;
-		lastColor[2] = b / 255f;
-		lastColor[3] = a / 255f;
 	}
 	
 	/**
@@ -743,31 +953,79 @@ public class GL
 		glShadeModel(model);
 	}
 	
+	public static void setAmbientLighti(int r, int g, int b)
+	{
+		setAmbientLightf(r / 255f, g / 255f, b / 255f);
+	}
+	
+	public static void setAmbientLightf(float r, float g, float b)
+	{
+//		glEnable(GL_LIGHT0);
+		
+		FloatBuffer ambLight = BufferUtils.createFloatBuffer(4).put(new float[]{ r, g, b, 1f });
+		ambLight.rewind();
+		
+		glLightModel(GL_LIGHT_MODEL_AMBIENT, ambLight);
+//		glLight(GL_LIGHT0, GL_AMBIENT, ambLight);
+		
+		ambientLight    = new float[4];
+		ambientLight[0] = r;
+		ambientLight[1] = g;
+		ambientLight[2] = b;
+		ambientLight[3] = 1;
+		
+		setLightProperties();
+	}
+	
+	public static void addLight(Vector direction, float degrees)
+	{
+		glEnable(GL_LIGHT0);
+		
+		FloatBuffer dif = BufferUtils.createFloatBuffer(4);
+		dif.put(new float[] { 1.5f, 1.5f, 1.5f, 1 });
+		dif.rewind();
+		
+		FloatBuffer amb = BufferUtils.createFloatBuffer(4);
+		amb.put(new float[] { 0.15f, 0.15f, 0.15f, 1 });
+		amb.rewind();
+		
+		FloatBuffer pos = BufferUtils.createFloatBuffer(4);
+		pos.put(new float[] { 0f, 0f, 0f, 1 });
+		pos.rewind();
+		
+		glLight(GL_LIGHT0, GL_AMBIENT, amb);
+		glLight(GL_LIGHT0, GL_DIFFUSE, dif);
+//		glLight(GL_LIGHT0, GL_SPECULAR, white);
+		
+		glLight(GL_LIGHT0, GL_POSITION, pos);
+		
+		glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, degrees / 2);
+		
+		FloatBuffer direc = BufferUtils.createFloatBuffer(4);
+		direc.put(new float[] { direction.getX(), direction.getY(), direction.getZ(), 1 });
+		direc.rewind();
+		
+		glLight(GL_LIGHT0, GL_SPOT_DIRECTION, direc);
+		
+		glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 128);
+	}
+	
 	/**
 	 * Initialize the OpenGL lighting.
 	 */
 	public static void initLighting()
 	{
-		FloatBuffer ambLight = BufferUtils.createFloatBuffer(4).put(new float[]{ 0.05f, 0.05f, 0.05f, 1f });
-		ambLight.rewind();
-		
-		FloatBuffer lightPos = BufferUtils.createFloatBuffer(4).put(new float[]{ 0.0f, 0.0f, 0.0f, 1f });
-		lightPos.rewind();
-		
-        glLightModel(GL_LIGHT_MODEL_AMBIENT, ambLight);
-        glLight(GL_LIGHT0, GL_POSITION, lightPos);
-        glEnable(GL_COLOR_MATERIAL);
-        glColorMaterial(GL_FRONT, GL_DIFFUSE);
+//		glEnable(GL_COLOR_MATERIAL);
+//		glColorMaterial(GL_FRONT, GL_DIFFUSE);
         
 		glEnable(GL_DEPTH_TEST);
-//		glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+		glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 //		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_LIGHTING);
-		glEnable(GL_LIGHT0);
+//		glEnable(GL_LIGHT0);
 //		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0);
 //		glLightModeli(GL_FRONT, GL_DIFFUSE);
 		glEnable(GL_NORMALIZE);
-//		glShadeModel(GL_SMOOTH);
 	}
 	
 //	public static void startNormal()
@@ -782,16 +1040,16 @@ public class GL
 	 * @param y The y position in the scene.
 	 * @param z The z position in the scene.
 	 */
-	public static void setLightLocation(float x, float y, float z)
+	private static void setLightLocation(int lightId, float x, float y, float z)
 	{
 		FloatBuffer pos = BufferUtils.createFloatBuffer(4);
 		pos.put(new float[] { x, y, z, 1.0f }).rewind();
 		
-		FloatBuffer dif = BufferUtils.createFloatBuffer(4);
-		dif.put(new float[] { 0.6f, 0.2f, 0.2f, 1.0f }).rewind();
+//		FloatBuffer dif = BufferUtils.createFloatBuffer(4);
+//		dif.put(new float[] { 0.6f, 0.2f, 0.2f, 1.0f }).rewind();
 		
-		glLight(GL_LIGHT0, GL_POSITION, pos);
-		glLight(GL_LIGHT0, GL_DIFFUSE, dif);
+//		glLight(lightId, GL_POSITION, pos);
+//		glLight(GL_LIGHT0, GL_DIFFUSE, dif);
 	}
 	
 //	/**
@@ -813,64 +1071,58 @@ public class GL
 ////		glLight(GL_LIGHT0, GL_SPECULAR, spe);
 //	}
 	
-//	public static void setLightProperties()
-//	{
-//		FloatBuffer black = BufferUtils.createFloatBuffer(8);
-//		black.put(new float[] { 0, 0, 0, 1 }).flip();
+	public static void setLightProperties()
+	{
+//		FloatBuffer black = BufferUtils.createFloatBuffer(4);
+//		black.put(new float[] { 0, 0, 0, 1 }).rewind();
 //		
-//		FloatBuffer green = BufferUtils.createFloatBuffer(8);
-//		green.put(new float[] { 0, 1, 0, 1 }).flip();
-//		
-//		FloatBuffer white = BufferUtils.createFloatBuffer(8);
-//		white.put(new float[] { 1, 1, 1, 1 }).flip();
-//		
-//		glMaterial(GL_FRONT, GL_AMBIENT, white);
-//		glMaterial(GL_FRONT, GL_DIFFUSE, white);
-//		glMaterial(GL_FRONT, GL_SPECULAR, black);
-//		
-////		glMaterialf(GL_FRONT, GL_SHININESS, 60.0f);
-//	}
+//		FloatBuffer green = BufferUtils.createFloatBuffer(4);
+//		green.put(new float[] { 0, 1, 0, 1 }).rewind();
+		
+		FloatBuffer amb = BufferUtils.createFloatBuffer(4);
+		amb.put(new float[] { ambientLight[0], ambientLight[1], ambientLight[2], ambientLight[3] }).rewind();
+		
+		glMaterial(GL_FRONT_AND_BACK, GL_AMBIENT, amb);
+//		glMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE, amb);
+//		glMaterial(GL_FRONT, GL_SPECULAR, amb);
+		
+//		glMaterialf(GL_FRONT, GL_SHININESS, 60.0f);
+	}
 	
 	public static int genFrameBuffer()
 	{
 		return GL30.glGenFramebuffers();
 	}
 	
-	public static int screenCapture(int frameBufferId)
+	public static int beginScreenCapture()
 	{
-		glEnable(GL21.GL_PIXEL_UNPACK_BUFFER_BINDING);
-		glEnable(GL21.GL_PIXEL_UNPACK_BUFFER);
+		return beginScreenCapture(genFrameBuffer());
+	}
+	
+	public static int beginScreenCapture(int frameBufferId)
+	{
+		glEnable(GL_TEXTURE_2D);
+		
+		// Bind Framebuffer
+		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, frameBufferId);
 		
 		// The texture we're going to render to
-		int renderedTexture;
-		
-		renderedTexture = glGenTextures();
-		 
-		// "Bind" the newly created texture : all future texture functions will modify this texture
+		int renderedTexture = glGenTextures();
 		glBindTexture(GL_TEXTURE_2D, renderedTexture);
-		 
-		// Give an empty image to OpenGL ( the last "0" )
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Frame.getWidth(), Frame.getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
-		 
-		// Poor filtering. Needed !
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		ByteBuffer buffer = BufferUtils.createByteBuffer(Frame.getWidth() * Frame.getHeight() * 4);
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, Frame.getWidth(), Frame.getHeight(), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
 		
 		// The depth buffer
-		int depthRenderBuffer;
-		depthRenderBuffer = GL30.glGenRenderbuffers();
+		int depthRenderBuffer = GL30.glGenRenderbuffers();
 		GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, depthRenderBuffer);
 		GL30.glRenderbufferStorage(GL30.GL_RENDERBUFFER, GL_DEPTH_COMPONENT, Frame.getWidth(), Frame.getHeight());
-		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER, depthRenderBuffer);
+		GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, 0);
 		
-		// Set "renderedTexture" as our colour attachement #0
-//		GL30.glFramebufferTexture(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, renderedTexture, 0);
-		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, renderedTexture, renderedTexture, 0);
-		 
-		// Set the list of draw buffers.
-//		GLenum DrawBuffers[2] = {GL_COLOR_ATTACHMENT0};
-//		glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
-		glDrawBuffer(GL30.GL_COLOR_ATTACHMENT0);
+		// Attach Texture to Framebuffer
+		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, GL11.GL_TEXTURE_2D, renderedTexture, 0);
+		
+		// Attach Renderbuffer to Framebuffer
+		GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, GL30.GL_RENDERBUFFER, depthRenderBuffer);
 		
 		// Always check that our framebuffer is ok
 		if(GL30.glCheckFramebufferStatus(GL30.GL_FRAMEBUFFER) != GL30.GL_FRAMEBUFFER_COMPLETE)
@@ -878,11 +1130,57 @@ public class GL
 			throw new RuntimeException("FrameBuffer unable to complete!");
 		}
 		
-		// Render to our framebuffer
+		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, frameBufferId);
-		glViewport(0, 0, Frame.getWidth(), Frame.getHeight()); // Render on the whole framebuffer, complete from the lower left corner to the upper right
+//		glPushAttrib(GL_VIEWPORT_BIT);
+//		glViewport(0, 0, Frame.getWidth(), Frame.getHeight());
+		
+		
+//		// "Bind" the newly created texture : all future texture functions will modify this texture
+//		glBindTexture(GL_TEXTURE_2D, renderedTexture);
+//		 
+//		// Give an empty image to OpenGL ( the last "0" )
+//		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Frame.getWidth(), Frame.getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+//		 
+//		// Poor filtering. Needed !
+//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		
+		
+		
+//		// Set "renderedTexture" as our colour attachement #0
+////		GL30.glFramebufferTexture(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, renderedTexture, 0);
+//		GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0, renderedTexture, renderedTexture, 0);
+//		 
+//		// Set the list of draw buffers.
+////		GLenum DrawBuffers[2] = {GL_COLOR_ATTACHMENT0};
+////		glDrawBuffers(1, DrawBuffers); // "1" is the size of DrawBuffers
+//		glDrawBuffer(GL30.GL_COLOR_ATTACHMENT0);
+//		
+//		// Always check that our framebuffer is ok
+//		if(GL30.glCheckFramebufferStatus(GL30.GL_FRAMEBUFFER) != GL30.GL_FRAMEBUFFER_COMPLETE)
+//		{
+//			throw new RuntimeException("FrameBuffer unable to complete!");
+//		}
+//		
+//		// Render to our framebuffer
+//		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, frameBufferId);
+//		glViewport(0, 0, Frame.getWidth(), Frame.getHeight()); // Render on the whole framebuffer, complete from the lower left corner to the upper right
+		
+//		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
+//		GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, 0);
+//		glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
 		
 		return renderedTexture;
+	}
+	
+	public static void endScreenCapture()
+	{
+//		glPopAttrib();
+		
+		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
+//		GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, 0);
+//		glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
 	}
 
 	/**
@@ -992,6 +1290,8 @@ public class GL
 		renderLocation[0] += x * scale[0];
 		renderLocation[1] += y * scale[1];
 		renderLocation[2] += z * scale[2];
+		
+//		updateLighting();
 	}
 	
 	/**
@@ -1680,38 +1980,38 @@ public class GL
 			y -= texture.getHeight() * scale;
 		}
 		
-		float lastColor[] = GL.lastColor.clone();
-		
-		GL.setColorf(1, 1, 1, 1);
-		
-		texture.bind();
-		
-		GL.beginManipulation();
+		GL.pushAttribute(CURRENT_BIT);
 		{
-			GL.translatef(x, y, z);
-			GL.scalef(scale, scale, 1);
+			GL.setColorf(1, 1, 1, 1);
 			
-			float offsets[] = texture.getImageOffsetsf();
+			texture.bind();
 			
-			GL.glBegin(GL.QUADS);
+			GL.beginManipulation();
 			{
-				GL.glTexCoord2f(offsets[2], offsets[1]);
-				GL.glVertex2f(texture.getWidth(), 0);
+				GL.translatef(x, y, z);
+				GL.scalef(scale, scale, 1);
 				
-				GL.glTexCoord2f(offsets[2], offsets[3]);
-				GL.glVertex2f(texture.getWidth(), texture.getHeight());
+				float offsets[] = texture.getImageOffsetsf();
 				
-				GL.glTexCoord2f(offsets[0], offsets[3]);
-				GL.glVertex2f(0, texture.getHeight());
-				
-				GL.glTexCoord2f(offsets[0], offsets[1]);
-				GL.glVertex2f(0, 0);
+				GL.glBegin(GL.QUADS);
+				{
+					GL.glTexCoord2f(offsets[2], offsets[1]);
+					GL.glVertex2f(texture.getWidth(), 0);
+					
+					GL.glTexCoord2f(offsets[2], offsets[3]);
+					GL.glVertex2f(texture.getWidth(), texture.getHeight());
+					
+					GL.glTexCoord2f(offsets[0], offsets[3]);
+					GL.glVertex2f(0, texture.getHeight());
+					
+					GL.glTexCoord2f(offsets[0], offsets[1]);
+					GL.glVertex2f(0, 0);
+				}
+				GL.glEnd();
 			}
-			GL.glEnd();
+			GL.endManipulation();
 		}
-		GL.endManipulation();
-		
-		GL.setColorf(lastColor[0], lastColor[1], lastColor[2], lastColor[3]);
+		GL.popAttribute();
 	}
 	
 	public static void loadIdentity()

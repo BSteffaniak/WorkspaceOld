@@ -37,7 +37,7 @@ void main()
 //	test.g = 1;
 //	test.b = 0;
 
-	testCol = uniformTest;
+	testCol = gl_Color.rgb;
 
 //	testCol.r = 0;
 //	testCol.g = (gl_Vertex.y * 0.1f) + (abs(gl_Vertex.x * 0.1f));

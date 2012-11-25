@@ -1,9 +1,11 @@
 package net.foxycorndog.nostalgia;
 
+import net.foxycorndog.jdooal.audio.AL;
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.activity.GameComponent;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.fonts.Font;
+import net.foxycorndog.jdoogl.geometry.Vector;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoogl.input.KeyboardInput;
@@ -21,10 +23,11 @@ import net.foxycorndog.nostalgia.map.Map;
 
 public class Main extends GameComponent
 {
-	private boolean     released;
+	private boolean     released, pic;
 	
 	private int         releasedDelay;
 	private int         frameBufferId;
+	private int         shot;
 	
 	private float       offsetY, offsetZ;
 	
@@ -36,9 +39,11 @@ public class Main extends GameComponent
 	
 	private Camera      camera;
 	
-	private Texture     grass;
+	private Texture     grass, texture;
 	
 	private static Main m;
+	
+	private int brightness;
 	
 	public static void main(String args[])
 	{
@@ -52,9 +57,13 @@ public class Main extends GameComponent
 	
 	public void onCreate()
 	{
+		brightness = 150;
+		
 		released = true;
 		
 		GL.setRender3D(true);
+		
+		AL.setMasterVolume(0.1f);
 		
 		map    = new Map();
 		
@@ -88,12 +97,25 @@ public class Main extends GameComponent
 		GL.initLighting();
 		GL.setShadeModel(GL.SMOOTH);
 		
+		GL.setAmbientLighti(brightness, brightness, brightness);
+		GL.setLightProperties();
+		
+		GL.setShadeModel(GL.SMOOTH);
+		
+		GL.addLight(new Vector(0, 0, -1), 15);
+		
 		frameBufferId = GL.genFrameBuffer();
+		
+		texture = new Texture(0);
+		
+		GL.enablePolygonAntialiasing();
 //		GL.initBasicLights();
 	}
 	
 	public void render2D(int dfps)
 	{
+//		GL.drawTexture(grass, 50, 50, 0, 7);
+		
 		if (player.getActiveGun() != null)
 		{
 			String gunAmmo = player.getActiveGun().getClipAmmo() + "/" + player.getActiveGun().getIdleAmmo();
@@ -125,7 +147,6 @@ public class Main extends GameComponent
 	
 	public void render3D(int dfps)
 	{
-		
 		player.lookThrough();
 //		camera.lookThrough();
 		
@@ -133,10 +154,19 @@ public class Main extends GameComponent
 		
 		map.render();
 //		GL.setLightLocation(player.getX() + player.getCenterX(), player.getY() + player.getCenterY(), player.getZ() + player.getCenterZ());
-		
-		Texture texture = new Texture(GL.screenCapture(frameBufferId));
-		
-		GL.drawTexture(texture, 50, 50, 0);
+//		if (pic)
+//		{
+//			pic = false;
+//			GL.endScreenCapture();
+//		}
+//		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_H))
+//		{
+//			pic     = true;
+//			
+//			int id  = GL.beginScreenCapture();
+//			
+//			texture = new Texture(id);
+//		}
 	}
 	
 	public void loop(int dfps)
@@ -147,22 +177,33 @@ public class Main extends GameComponent
 		{
 			float dWheel = MouseInput.getDWheel();
 			
-			if (dWheel != 0 && player.cameraAttached() && player.getPerspective() == Actor.THIRD)
+			if (dWheel != 0)
 			{
-				dWheel /= 100;
+				dWheel /= 112;
 				
-				offsetY += -1/5f * dWheel;
-				offsetZ += -5/5f * dWheel;
+				if (player.cameraAttached() && player.getPerspective() == Actor.THIRD)
+				{
+					offsetY += -1/5f * dWheel;
+					offsetZ += -5/5f * dWheel;
+					
+					if (offsetY > 0 && offsetZ > 0)
+					{
+						camera.move(0, -1/5f * dWheel, -5/5f * dWheel);
+					}
+					else
+					{
+						offsetY -= -1/5f * dWheel;
+						offsetZ -= -5/5f * dWheel;
+					}
 				
-				if (offsetY > 0 && offsetZ > 0)
-				{
-					camera.move(0, -1/5f * dWheel, -5/5f * dWheel);
 				}
-				else
-				{
-					offsetY -= -1/5f * dWheel;
-					offsetZ -= -5/5f * dWheel;
-				}
+				brightness += dWheel * 2;
+				
+				GL.setAmbientLighti(brightness, brightness, brightness);
+				
+				AL.setMasterVolume(AL.getMasterVolume() + dWheel / 20);
+				
+				System.out.println(AL.getMasterVolume());
 			}
 			
 			float dx = MouseInput.getDX();
@@ -233,6 +274,7 @@ public class Main extends GameComponent
 			
 			if (KeyboardInput.next(KeyboardInput.KEY_O))
 			{
+				
 				GL.setWireFrameMode(!GL.isWireFrame(), GL.isWireFrame(), true);
 		//			GL.setShowColors(!GL.isShowingColors());
 			}

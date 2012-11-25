@@ -1,5 +1,6 @@
 package net.foxycorndog.nostalgia.items.weapons.guns;
 
+import net.foxycorndog.jdooal.audio.AL;
 import net.foxycorndog.jdoogl.camera.Camera;
 import net.foxycorndog.jdoogl.geometry.Point;
 import net.foxycorndog.nostalgia.items.Item;
@@ -18,27 +19,52 @@ public abstract class Gun extends Item
 	
 	private Map     map;
 	
-	public Gun(int clipSize, int clipAmount, int shotDelay, final int reloadDelay, float velocity, Map map)
+	private int     shotSoundIds[], reloadSoundId;
+	
+	public Gun(int clipSize, int clipAmount, int shotDelay, final int reloadDelay, int shotSoundId, int reloadSoundId, float velocity, Map map)
 	{
-		this.clipSize    = clipSize;
-		this.clipAmount  = clipAmount;
-		this.shotDelay   = shotDelay;
-		this.reloadDelay = reloadDelay;
+		this.clipSize        = clipSize;
+		this.clipAmount      = clipAmount;
+		this.shotDelay       = shotDelay;
+		this.reloadDelay     = reloadDelay;
+		this.reloadSoundId   = reloadSoundId;
 		
-		this.velocity    = velocity;
+		this.velocity        = velocity;
 		
-		this.map         = map;
+		this.map             = map;
+		
+		this.shotSoundIds    = new int[5];
+		this.shotSoundIds[0] = shotSoundId;
+		
+		for (int i = 1; i < shotSoundIds.length; i ++)
+		{
+			this.shotSoundIds[i] = AL.copy(shotSoundId);
+		}
 	}
 	
 	public void shoot()
 	{
-		if (hasAmmoReady())
+		if (hasAmmoReady() && !reloading)
 		{
 			Bullet b = new Bullet(new Point(getX(), getY(), getZ()), velocity, getYaw(), getPitch(), getRoll(), getMap());
 			
 			getMap().shoot(b);
 			
 			removeClipAmmo(1);
+			
+			int ind = 0;
+			
+			for (int i = 0; i < shotSoundIds.length; i ++)
+			{
+				if (!AL.isPlaying(shotSoundIds[i]))
+				{
+					ind = i;
+					
+					break;
+				}
+			}
+			
+			AL.loop(shotSoundIds[ind], 3);
 		}
 	}
 	
@@ -84,6 +110,16 @@ public abstract class Gun extends Item
 	
 	public void reload()
 	{
+		if (clipAmmo >= clipSize)
+		{
+			return;
+		}
+		
+		if (!reloading)
+		{
+			AL.play(reloadSoundId);
+		}
+		
 		reloading = true;
 		
 		new Thread()

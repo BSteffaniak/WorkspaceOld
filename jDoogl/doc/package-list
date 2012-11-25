@@ -1,0 +1,14 @@
+net.foxycorndog.jdoogl
+net.foxycorndog.jdoogl.activity
+net.foxycorndog.jdoogl.camera
+net.foxycorndog.jdoogl.components
+net.foxycorndog.jdoogl.connector
+net.foxycorndog.jdoogl.fonts
+net.foxycorndog.jdoogl.geometry
+net.foxycorndog.jdoogl.image
+net.foxycorndog.jdoogl.image.imagemap
+net.foxycorndog.jdoogl.input
+net.foxycorndog.jdoogl.listeners
+net.foxycorndog.jdoogl.model
+net.foxycorndog.jdoogl.noise
+net.foxycorndog.jdoogl.shader

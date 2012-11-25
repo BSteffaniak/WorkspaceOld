@@ -41,6 +41,11 @@ public class Font
 		{
 			for (int x = 0; x < cols; x ++)
 			{
+				if (x + y * cols >= charSequence.length)
+				{
+					break;
+				}
+				
 				this.charSequence.put(charSequence[x + y * cols], new Point(x, y));
 			}
 		}
@@ -149,7 +154,14 @@ public class Font
 			}
 			catch (NullPointerException e)
 			{
-				return;
+				if (chars[i] == ' ')
+				{
+					
+				}
+				else
+				{
+					return;
+				}
 			}
 		}
 	}
