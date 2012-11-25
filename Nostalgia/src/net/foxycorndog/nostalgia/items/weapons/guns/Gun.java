@@ -64,7 +64,7 @@ public abstract class Gun extends Item
 				}
 			}
 			
-			AL.loop(shotSoundIds[ind], 3);
+			AL.play(shotSoundIds[ind]);
 		}
 	}
 	

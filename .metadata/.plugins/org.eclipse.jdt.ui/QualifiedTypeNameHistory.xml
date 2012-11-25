@@ -50,7 +50,6 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.geometry.Vector"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL21"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL40"/>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdooal.audio.AudioManager"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdooal.audio.AL"/>
 <fullyQualifiedTypeName name="java.util.HashSet"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="org.lwjgl.openal.AL10"/>
 <fullyQualifiedTypeName name="org.lwjgl.BufferUtils"/>
 <fullyQualifiedTypeName name="java.nio.FloatBuffer"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
 </qualifiedTypeNameHistroy>

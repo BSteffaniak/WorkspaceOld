@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;staticId&apos; in &apos;net.foxycorndog.jdoogl.fonts.Font&apos; to &apos;ids&apos;&#x0D;&#x0A;- Original project: &apos;jDoogl&apos;&#x0D;&#x0A;- Original element: &apos;net.foxycorndog.jdoogl.fonts.Font.staticId&apos;&#x0D;&#x0A;- Renamed element: &apos;net.foxycorndog.jdoogl.fonts.Font.ids&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="false" description="Rename field &apos;staticId&apos;" flags="589826" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/src&lt;net.foxycorndog.jdoogl.fonts{Font.java[Font^staticId" name="ids" references="true" setter="false" stamp="1353883523177" textual="false" version="1.0"/>
+</session>

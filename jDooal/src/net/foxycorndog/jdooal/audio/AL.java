@@ -177,6 +177,7 @@ public class AL
 	public static void setMasterVolume(float volume)
 	{
 		volume = volume < 0 ? 0 : volume;
+		volume = volume > 1 ? 1 : volume;
 		
 		float dif = 0;
 		
@@ -206,6 +207,21 @@ public class AL
 		}
 		
 		masterVolume = volume;
+	}
+	
+	public static float getVolume(int soundId)
+	{
+		return AL10.alGetSourcef(soundId, AL_GAIN) * (1 / masterVolume);
+	}
+	
+	public static void setVolume(int soundId, float volume)
+	{
+		volume = volume < 0 ? 0 : volume;
+		volume = volume > 1 ? 1 : volume;
+		
+		volume = (volume / 1) * masterVolume;
+		
+		AL10.alSourcef(soundId, AL_GAIN, volume);
 	}
 	
 	public static void play(int source)
