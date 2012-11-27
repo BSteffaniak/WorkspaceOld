@@ -215,12 +215,12 @@ public class LightBuffer extends Buffer
 		this.buffer = buffer;
 	}
 	
-//	public int getId()
-//	{
-//		buffer.position(0);
-//		
-//		return id;
-//	}
+	public int getId()
+	{
+		buffer.position(0);
+		
+		return id;
+	}
 	
 	public int size()
 	{
