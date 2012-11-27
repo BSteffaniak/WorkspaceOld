@@ -52,7 +52,7 @@ public class Main extends GameComponent
 	
 	public Main()
 	{
-		super("Nostalgia", 640, 512);
+		super("Nostalgia", 640, 512, 60);
 	}
 	
 	public void onCreate()
@@ -75,7 +75,7 @@ public class Main extends GameComponent
 		player = new Player(2, 2, 2, 1, 1, 1, map);
 		player.attachCamera(camera);
 		
-		Gun pistol = new MachineGun(map);
+		Gun pistol = new Pistol(map);
 		pistol.addAmmo(2500);
 		pistol.reload(false);
 		
@@ -173,6 +173,11 @@ public class Main extends GameComponent
 	{
 		map.update(dfps);
 		
+//		if (dfps == 0)
+//		{
+//			System.out.println(Frame.getFps());
+//		}
+		
 		if (MouseInput.isGrabbed())
 		{
 			float dWheel = MouseInput.getDWheel();
@@ -195,7 +200,6 @@ public class Main extends GameComponent
 						offsetY -= -1/5f * dWheel;
 						offsetZ -= -5/5f * dWheel;
 					}
-				
 				}
 				brightness += dWheel * 2;
 				

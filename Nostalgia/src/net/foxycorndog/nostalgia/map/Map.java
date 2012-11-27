@@ -161,13 +161,13 @@ public class Map
 		
 		if (collision)
 		{
-			cubes[0 + index * 6] = vertices[0];
-			cubes[1 + index * 6] = vertices[1];
-			cubes[2 + index * 6] = vertices[2];
+			cubes[0 + index * 6] = vertices[3];
+			cubes[1 + index * 6] = vertices[4];
+			cubes[2 + index * 6] = vertices[5];
 			
-			cubes[3 + index * 6] = vertices[12];
-			cubes[4 + index * 6] = vertices[16];
-			cubes[5 + index * 6] = vertices[20];
+			cubes[3 + index * 6] = vertices[0];
+			cubes[4 + index * 6] = vertices[7];
+			cubes[5 + index * 6] = vertices[14];
 		}
 	}
 	

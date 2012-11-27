@@ -1,13 +1,21 @@
 package net.foxycorndog.jdoogl.fonts;
 
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_DYNAMIC_DRAW;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glBufferData;
+
 import java.awt.Point;
 import java.util.HashMap;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
 
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
+import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 
 public class Font
 {
@@ -15,13 +23,14 @@ public class Font
 	private int yOff, xOff;
 	private int width, height;
 	private int glyphWidth, glyphHeight;
+	private int ids;
 	
 	private SpriteSheet characters;
 	
-	private HashMap<Character, Point> charSequence;
-	private HashMap<String, int[]>  history;
+	private int idArray[][];
 	
-	private int ids;
+	private HashMap<Character, int[]> charSequence;
+	private HashMap<String, int[]>  history;
 	
 	public static final int LEFT = 0, CENTER = 1, RIGHT = 2, TOP = 2, BOTTOM = 0;
 	
@@ -40,8 +49,10 @@ public class Font
 		this.glyphWidth   = width / cols;
 		this.glyphHeight  = height / rows;
 		
-		this.charSequence = new HashMap<Character, Point>();
+		this.charSequence = new HashMap<Character, int[]>();
 		this.history      = new HashMap<String, int[]>();
+		
+		this.idArray      = new int[100][];
 		
 		for (int y = 0; y < rows; y ++)
 		{
@@ -52,7 +63,7 @@ public class Font
 					break;
 				}
 				
-				this.charSequence.put(charSequence[x + y * cols], new Point(x, y));
+				this.charSequence.put(charSequence[x + y * cols], new int[] { x, y });
 			}
 		}
 	}
@@ -74,11 +85,21 @@ public class Font
 	
 	public void render(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment)
 	{
-		characters.bind();
+		renderVertexBuffer(text, x, y, z, scale, horizontalAlignment, verticalAlignment);
+	}
+	
+	public void renderVertexBuffer(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment)
+	{
+		renderVertexBuffer(text, x, y, z, scale, horizontalAlignment, verticalAlignment, null, null);
+	}
+	
+	private void renderVertexBuffer(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, VerticesBuffer vertices, LightBuffer textures)
+	{
+		int vId  = 0;
+		int tId  = 0;
+		int viId = 0;
 		
-		int id = 0;
-		
-		if (history.containsKey(text))
+		if (history.containsKey(text) && history.get(text)[1] == 1)
 		{
 			if (horizontalAlignment == CENTER)
 			{
@@ -101,11 +122,137 @@ public class Font
 				y -= glyphHeight * scale;
 			}
 			
-			id = history.get(text)[1];
+			vId  = history.get(text)[2];
+			tId  = history.get(text)[3];
+			viId = history.get(text)[4];
 		}
 		else
 		{
-			System.out.println("created");
+			if (vertices == null && textures == null)
+ 			{
+				vertices = new VerticesBuffer(text.length() * 4 * 2, 2);
+				textures = new LightBuffer(text.length() * 4 * 2);
+			}
+			else if (vertices != null || textures != null)
+			{
+				throw new IllegalArgumentException("vertices and textures must either both be null or both have a value.");
+			}
+			
+			char chars[]            = text.toCharArray();
+			
+			for (int i = 0; i < chars.length; i ++)
+			{
+				if (chars[i] == '\n')
+				{
+					renderVertexBuffer(text.substring(0, i), x, y /*+ ((glyphHeight + 1) / 2) * scale*/ , z, scale, horizontalAlignment, verticalAlignment, vertices, textures);
+					renderVertexBuffer(text.substring(i + 1), x, y - (glyphHeight + 1) * scale/*((glyphHeight + 1) / 2) * scale*/, z, scale, horizontalAlignment, verticalAlignment, vertices, textures);
+					
+					addToHistory(text, vId, tId, viId, vertices, textures, null);
+					
+					return;
+				}
+			}
+			
+			if (horizontalAlignment == CENTER)
+			{
+				x += Frame.getCenterX();
+				x -= text.length() * scale * glyphWidth / 2;
+			}
+			else if (horizontalAlignment == RIGHT)
+			{
+				x += Frame.getWidth();
+				x -= text.length() * scale * glyphWidth;
+			}
+			if (verticalAlignment == CENTER)
+			{
+				y += Frame.getCenterY();
+				y -= glyphHeight * scale / 2;
+			}
+			else if (verticalAlignment == TOP)
+			{
+				y += Frame.getHeight();
+				y -= glyphHeight * scale;
+			}
+			
+			for (int i = 0; i < chars.length; i ++)
+			{
+				try
+				{
+					int charX       = charSequence.get(chars[i])[0];
+					int charY       = charSequence.get(chars[i])[1];
+					
+					float offsets[] = characters.getImageOffsetsf(charX, charY, 1, 1);
+					
+					vertices.addData(GL.addRectVertexArrayf(i * glyphWidth, 0, glyphWidth, glyphHeight, 0, null));
+					textures.addData(GL.addRectTextureArrayf(offsets, 0, null));
+				}
+				catch (NullPointerException e)
+				{
+					if (chars[i] == ' ')
+					{
+						
+					}
+					else
+					{
+						addToHistory(text, vId, tId, viId, vertices, textures, null);
+						
+						return;
+					}
+				}
+			}
+			
+			vertices.genIndices(GL.QUADS, null);
+			
+			vId  = vertices.getId();
+			tId  = textures.getId();
+			viId = vertices.getIndicesId(0);
+			
+			addToHistory(text, vId, tId, viId, vertices, textures, null);
+		}
+		
+		GL.beginManipulation();
+		{
+			GL.translatef(x, y, z);
+			GL.scalef(scale, scale, 1);
+			
+			GL.renderQuads(vId, 2, tId, 0, 0, viId, characters, 0, text.length(), null);
+		}
+		GL.endManipulation();
+	}
+	
+	public void renderDisplayList(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment)
+	{
+		characters.bind();
+		
+		int id = 0;
+		
+		if (history.containsKey(text) && history.get(text)[1] == 0)
+		{
+			if (horizontalAlignment == CENTER)
+			{
+				x += Frame.getCenterX();
+				x -= text.length() * scale * glyphWidth / 2;
+			}
+			else if (horizontalAlignment == RIGHT)
+			{
+				x += Frame.getWidth();
+				x -= text.length() * scale * glyphWidth;
+			}
+			if (verticalAlignment == CENTER)
+			{
+				y += Frame.getCenterY();
+				y -= glyphHeight * scale / 2;
+			}
+			else if (verticalAlignment == TOP)
+			{
+				y += Frame.getHeight();
+				y -= glyphHeight * scale;
+			}
+			
+			id = history.get(text)[2];
+		}
+		else
+		{
 			id = GL11.glGenLists(1);
 			
 			GL11.glNewList(id, GL11.GL_COMPILE);
@@ -116,8 +263,8 @@ public class Font
 				{
 					if (chars[i] == '\n')
 					{
-						render(text.substring(0, i), x, y /*+ ((glyphHeight + 1) / 2) * scale*/ , z, scale, horizontalAlignment, verticalAlignment);
-						render(text.substring(i + 1), x, y - (glyphHeight + 1) * scale/*((glyphHeight + 1) / 2) * scale*/, z, scale, horizontalAlignment, verticalAlignment);
+						renderDisplayList(text.substring(0, i), x, y /*+ ((glyphHeight + 1) / 2) * scale*/ , z, scale, horizontalAlignment, verticalAlignment);
+						renderDisplayList(text.substring(i + 1), x, y - (glyphHeight + 1) * scale/*((glyphHeight + 1) / 2) * scale*/, z, scale, horizontalAlignment, verticalAlignment);
 						
 						GL11.glEndList();
 						addToHistory(text, id);
@@ -151,8 +298,8 @@ public class Font
 				{
 					try
 					{
-						int charX       = charSequence.get(chars[i]).x;
-						int charY       = charSequence.get(chars[i]).y;
+						int charX       = charSequence.get(chars[i])[0];
+						int charY       = charSequence.get(chars[i])[1];
 						
 						float offsets[] = characters.getImageOffsetsf(charX, charY, 1, 1);
 					
@@ -229,9 +376,33 @@ public class Font
 	
 	private void addToHistory(String text, int id)
 	{
-		ids = ids + 1 <= 100 ? ids + 1 : 0;
+		ids = ids + 1 < 100 ? ids + 1 : 0;
 		
-		history.put(text, new int[] { ids, id });
+//		if (idArray[ids] != null)
+//		{
+//			GL11.glDeleteLists(idArray[ids][0], 1);
+//		}
+//		
+//		idArray[ids] = new int[] { id };
+		
+		history.put(text, new int[] { ids, 0, id });
+	}
+
+	private void addToHistory(String text, int vId, int tId, int viId, LightBuffer s, LightBuffer s2, LightBuffer s3)
+	{
+		ids = ids + 1 < 100 ? ids + 1 : 0;
+		
+//		if (idArray[ids] != null)
+//		{
+//			GL15.glDeleteBuffers(idArray[ids][0]);
+//			GL15.glDeleteBuffers(idArray[ids][1]);
+//			GL15.glDeleteBuffers(idArray[ids][2]);
+//		}
+//		
+//		idArray[ids] = new int[] { vId, tId, viId };
+		
+		history.put(text, new int[] { ids, 1, vId, tId, viId });
+//		history2.put(text, new LightBuffer[] { s, s2, s3 });
 	}
 	
 	public int getGlyphWidth()

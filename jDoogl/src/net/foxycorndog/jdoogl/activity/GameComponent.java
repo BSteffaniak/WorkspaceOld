@@ -15,12 +15,12 @@ public abstract class GameComponent
 	
 	private GameComponent    thisGameComponent;
 	
-	public GameComponent(String title, int width, int height)
+	public GameComponent(String title, int width, int height, int targetFps)
 	{
-		onCreate(title, width, height);
+		onCreate(title, width, height, targetFps);
 	}
 	
-	private void onCreate(String title, int width, int height)
+	private void onCreate(String title, int width, int height, int targetFps)
 	{
 		thisGameComponent = this;
 		
@@ -53,7 +53,7 @@ public abstract class GameComponent
 		
 		FrameLoop frameLoop = new FrameLoop();
 		
-		frameLoop.start(60, new FrameTask()
+		frameLoop.start(targetFps, new FrameTask()
 		{
 			public void run()
 			{
