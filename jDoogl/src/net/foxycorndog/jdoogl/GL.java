@@ -231,6 +231,11 @@ public class GL
 		DRAW_MODE_IMMEDIATE = Base.getDrawMode() == Base.IMMEDIATE;
 	}
 	
+	public static String getVersion()
+	{
+		return GL11.glGetString(GL_VERSION);
+	}
+	
 	public static boolean getBoolean(int pname)
 	{
 		return glGetBoolean(pname);

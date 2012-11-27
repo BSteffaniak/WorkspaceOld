@@ -104,9 +104,11 @@ public class Main extends GameComponent
 		
 		GL.addLight(new Vector(0, 0, -1), 15);
 		
-		frameBufferId = GL.genFrameBuffer();
+//		frameBufferId = GL.genFrameBuffer();
 		
 		texture = new Texture(0);
+		
+		System.out.println(GL.getVersion());
 		
 		GL.enablePolygonAntialiasing();
 //		GL.initBasicLights();

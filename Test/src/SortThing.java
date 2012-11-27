@@ -21,7 +21,9 @@ import java.util.List;
  */
 public class SortThing
 {
-	private Comparable rArr[];
+	private int           qArr[];
+	
+	private Comparable    rArr[];
 	private List<Integer> list;
 	
 	/**
@@ -37,19 +39,30 @@ public class SortThing
 		
 		try
 		{
-			s.print(s.list, null, "Before insertion sort: ");
+			// Insertion sort
+			s.print(s.list, null, null, "Before insertion sort: ");
 			
 			s.insertionSort(s.list);
 			
-			s.print(s.list, null, "\nAfter insertion: ");
+			s.print(s.list, null, null, "\nAfter insertion: ");
 			
+			// Selection sort
 			s.rArr = s.genRandomArray(100);
 			
-			s.print(null, s.rArr, "\nBefore selection sort: ");
+			s.print(null, s.rArr, null, "\nBefore selection sort: ");
 
 			s.selectionSort(s.rArr);
 
-			s.print(null, s.rArr, "\nAfter selection sort: ");
+			s.print(null, s.rArr, null, "\nAfter selection sort: ");
+			
+			// Quick sort
+			s.qArr = s.genRandomArrayi(100);
+			
+			s.print(null, null, s.qArr, "\nBefore quick sort sort: ");
+
+			s.quickSort(s.qArr);
+
+			s.print(null, null, s.qArr, "\nAfter quick sort sort: ");
 		}
 		catch (Exception e)
 		{
@@ -85,6 +98,24 @@ public class SortThing
 	}
 	
 	/**
+	 * Generates random integers for an array
+	 * 
+	 * @param length
+	 * @return
+	 */
+	private int[] genRandomArrayi(int length)
+	{
+		int arr[] = new int[length];
+		
+		for (int i = 0; i < length; i ++)
+		{
+			arr[i] = (Integer)(int)(Math.random() * 100);
+		}
+		
+		return arr;
+	}
+	
+	/**
 	 * Generates random integers for a list.
 	 * 
 	 * @param length
@@ -110,7 +141,7 @@ public class SortThing
 	 * @param msg
 	 * @throws Exception
 	 */
-	public void print(List a, Comparable b[], String msg) throws Exception
+	public void print(List a, Comparable b[], int c[], String msg) throws Exception
 	{
 		String s = "";
 		
@@ -133,6 +164,18 @@ public class SortThing
 			for (int i = 0; i < b.length; i ++)
 			{
 				s += b[i] + ", ";
+				
+				if (i >= 10 && i % 10 == 0)
+				{
+					s += "\n";
+				}
+			}
+		}
+		else if (c != null)
+		{
+			for (int i = 0; i < c.length; i ++)
+			{
+				s += c[i] + ", ";
 				
 				if (i >= 10 && i % 10 == 0)
 				{
@@ -197,12 +240,12 @@ public class SortThing
 		}
 	}
 	
-	public void quickSort(Comparable arr[])
+	public void quickSort(int arr[])
 	{
 		quickSort(arr, 0, arr.length - 1);
 	}
 	
-	public void quickSort(Comparable arr[], int frontIndex, int backIndex)
+	public void quickSort(int arr[], int frontIndex, int backIndex)
 	{
 		int middleIndex = 0;
 		
@@ -215,9 +258,20 @@ public class SortThing
 		}
 	}
 	
-	private int partition(Comparable arr[], int frontIndex, int backIndex)
+	private int partition(int arr[], int frontIndex, int backIndex)
 	{
-		return 0;
+		int leftIndex    = frontIndex + 1;
+		int rightIndex   = backIndex;
+		
+		int pivotElement = arr[frontIndex];
+		
+		do
+		{
+			leftIndex ++;
+		}
+		while (leftIndex < rightIndex && pivotElement > arr[leftIndex]);
+		
+		return (frontIndex + backIndex) / 2;
 	}
 	
 	/**
