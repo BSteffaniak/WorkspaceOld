@@ -132,7 +132,8 @@ public class Map
 		
 		verticesBuffer.genIndices(GL.QUADS, null);
 		
-		bunny = new Model("res/bunny.obj", 20);
+		bunny = new Model("res/ironman/pin.obj", 0.1f);
+		bunny.move(0, 5, 0);
 		
 		house = new Model("res/house.obj", 1);
 		house.move(-1.5f, 0, 0);
@@ -273,16 +274,19 @@ public class Map
 	
 	public void render()
 	{
-		house.render();
+		ShaderUtils.useShaderProgram(shaderProgram);
+		{
+			house.render();
 		
-//		ShaderUtils.useShaderProgram(shaderProgram);
-//		{
+		
 //			ShaderUtils.uniform3f(ShaderUtils.getUniformLocation(shaderProgram, "uniformTest"), 1, 0, 1);
 			bunny.render();
-//		}
-//		ShaderUtils.useShaderProgram(0);
+			
+//			ShaderUtils.getUniformLocation(programId, uniformName)
 		
-		hat.render();
+			hat.render();
+		}
+		ShaderUtils.useShaderProgram(0);
 		
 		GL.renderCubes(verticesBuffer, texturesBuffer, null, colorsBuffer, sprites, 0, 1, null);
 		

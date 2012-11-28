@@ -108,15 +108,6 @@ public class ModelLoader
 					texts[i] = t.get(i);
 				}
 			}
-			if (normals)
-			{
-				norms = new float[n.size()];
-				
-				for (int i = 0; i < n.size(); i ++)
-				{
-					norms[i] = n.get(i);
-				}
-			}
 			if (colors)
 			{
 				cols = new float[c.size()];
@@ -129,8 +120,20 @@ public class ModelLoader
 			
 			vertsInds = new short[vi.size()];
 			
+			for (int i = 0; i < vi.size(); i ++)
+			{
+				vertsInds[i] = (short)(vi.get(i) - 1);
+			}
+			
 			if (normals)
 			{
+				norms = new float[n.size()];
+				
+				for (int i = 0; i < n.size(); i ++)
+				{
+					norms[i] = n.get(i);
+				}
+				
 				normsInds = new short[ni.size()];
 				
 				for (int i = 0; i < ni.size(); i ++)
@@ -138,12 +141,7 @@ public class ModelLoader
 					normsInds[i] = (short)(ni.get(i) - 1);
 				}
 				
-				norms = orderNormals(norms, normsInds, vertsInds, verts.length);
-			}
-			
-			for (int i = 0; i < vi.size(); i ++)
-			{
-				vertsInds[i] = (short)(vi.get(i) - 1);
+//				norms = orderNormals(norms, normsInds, vertsInds, verts.length);
 			}
 			
 //			if (vertices)
@@ -174,13 +172,15 @@ public class ModelLoader
 	
 	private static float[] orderNormals(float normals[], short normalIndices[], short vertexIndices[], int size)
 	{
-		float newNormals[] = new float[vertexIndices.length];
+		float newNormals[] = new float[vertexIndices.length * 3];
 		
-		System.out.println(normals.length + ", " + normalIndices.length + ", " + vertexIndices.length + ", " + size);
-		
-		for (int i = 0; i < normalIndices.length; i ++)
+		for (int i = 0; i < newNormals.length; i += 3)
 		{
-			newNormals[i] = normals[normalIndices[vertexIndices[i]]];
+			newNormals[i + 0] = normals[normalIndices[vertexIndices[i % 3]] + 0];
+			newNormals[i + 1] = normals[normalIndices[vertexIndices[i % 3]] + 1];
+			newNormals[i + 2] = normals[normalIndices[vertexIndices[i % 3]] + 2];
+			
+			System.out.println(newNormals[i] + ", " + newNormals[i + 1] + ", " + newNormals[i + 2]);
 		}
 		
 		return newNormals;

@@ -33,11 +33,20 @@ void main()
 {
 	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 
-//	test.r = 1;
-//	test.g = 1;
-//	test.b = 0;
+	vec3 surfaceNormal = (/*gl_NormalMatrix * */gl_Normal).xyz;
 
-	testCol = gl_Color.rgb;
+	vec3 eyeNormal = vec3(gl_ModelViewMatrix * vec4(gl_Normal,0.0));
+
+	float dotProd = dot(eyeNormal, surfaceNormal);
+
+	if (dotProd > 0 && dotProd < 0.3)
+	{
+		testCol = vec3(0, 0, 0);
+	}
+	else
+	{
+		testCol = vec3(1,1,1);//gl_Color.rgb;
+	}
 
 //	testCol.r = 0;
 //	testCol.g = (gl_Vertex.y * 0.1f) + (abs(gl_Vertex.x * 0.1f));
@@ -48,10 +57,12 @@ void main()
 //	 * modelview matrix and stores it in a 3D vertex.
 //	 */
 //	vec3 vertexPosition = (gl_ModelViewMatrix * gl_Vertex).xyz;
+//
 //	/* Retrieves the direction of the light and stores it in a
 //	 * normalized 3D vector (normalized = length of 1).
 //	 */
 //	vec3 lightDirection = normalize(gl_LightSource[0].position.xyz - vertexPosition);
+//
 //	/* Retrieves the surface normal by multiplying the normal
 //	 * by the normal matrix. If you don't use non-uniform scaling
 //	 * operations you could also do: '= gl_Normal.xyz;'.
@@ -64,10 +75,12 @@ void main()
 //	 * to show it.
 //	 */
 //	float diffuseLightIntensity = max(0, dot(surfaceNormal, lightDirection));
+//
 //	/* Sets the colour (which is passed to the fragment program) to the concatenation
 //	 * of the material colour and the diffuse light intensity.
 //	 */
 //	varyingColour.rgb = diffuseLightIntensity * gl_Color.rgb;
+//
 //	// Adds ambient colour to the colour so even the darkest part equals ambientColour.
 //	varyingColour += gl_LightModel.ambient.rgb;
 //
@@ -78,6 +91,7 @@ void main()
 //	 * the returned vector to be valid.
 //	 */
 //	vec3 reflectionDirection = normalize(reflect(-lightDirection, surfaceNormal));
+//
 //	/* Stores the dot-product of the surface normal and the direction of the reflection
 //	 * in a scalar. Also checks if the value is negative. If so, the scalar is set to 0.0.
 //	 */

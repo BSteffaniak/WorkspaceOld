@@ -94,15 +94,15 @@ public class Main extends GameComponent
 		
 		grass = new Texture("res/images/grass.png");
 		
-		GL.initLighting();
-		GL.setShadeModel(GL.SMOOTH);
-		
-		GL.setAmbientLighti(brightness, brightness, brightness);
-		GL.setLightProperties();
-		
-		GL.setShadeModel(GL.SMOOTH);
-		
-		GL.addLight(new Vector(0, 0, -1), 15);
+//		GL.initLighting();
+//		GL.setShadeModel(GL.SMOOTH);
+//		
+//		GL.setAmbientLighti(brightness, brightness, brightness);
+//		GL.setLightProperties();
+//		
+//		GL.setShadeModel(GL.SMOOTH);
+//		
+//		GL.addLight(new Vector(0, 0, -1), 15);
 		
 //		frameBufferId = GL.genFrameBuffer();
 		
