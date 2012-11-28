@@ -56,7 +56,7 @@ public class SortThing
 			s.print(null, s.rArr, null, "\nAfter selection sort: ");
 			
 			// Quick sort
-			s.qArr = s.genRandomArrayi(100);
+			s.qArr = s.genRandomArrayi(10);
 			
 			s.print(null, null, s.qArr, "\nBefore quick sort sort: ");
 
@@ -260,18 +260,43 @@ public class SortThing
 	
 	private int partition(int arr[], int frontIndex, int backIndex)
 	{
-		int leftIndex    = frontIndex + 1;
+		int leftIndex    = frontIndex;
 		int rightIndex   = backIndex;
 		
-		int pivotElement = arr[frontIndex];
+		int pivotIndex   = frontIndex;
+		int pivotElement = arr[pivotIndex];
 		
 		do
 		{
-			leftIndex ++;
+			do
+			{
+				leftIndex ++;
+			}
+			while (pivotElement < arr[leftIndex] && leftIndex < rightIndex);
+			
+			do
+			{
+				rightIndex --;
+			}
+			while (pivotElement > arr[rightIndex]);
+			
+			if (leftIndex < rightIndex)
+			{
+				swap(arr, leftIndex, rightIndex);
+			}
 		}
-		while (leftIndex < rightIndex && pivotElement > arr[leftIndex]);
+		while (leftIndex < rightIndex);
+		System.out.println(pivotIndex);
+		swap(arr, pivotIndex, rightIndex);
 		
-		return (frontIndex + backIndex) / 2;
+		return pivotIndex;
+	}
+	
+	private void swap(int arr[], int i1, int i2)
+	{
+		int temp = arr[i1];
+		arr[i1]  = arr[i2];
+		arr[i2]  = temp;
 	}
 	
 	/**
@@ -303,6 +328,8 @@ public class SortThing
 			{
 				str += line + "\n";
 			}
+			
+			br.close();
 			
 			PrintWriter pw    = new PrintWriter(new BufferedWriter(
 					new FileWriter(file)));

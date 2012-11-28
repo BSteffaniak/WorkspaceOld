@@ -253,26 +253,6 @@ public class Main extends GameComponent
 				}
 			}
 			
-			if (KeyboardInput.next(KeyboardInput.KEY_P))
-			{
-				if (GL.getDrawMode() == GL.ARRAYS)
-				{
-					GL.setDrawMode(GL.IMMEDIATE);
-				}
-				else if (GL.getDrawMode() == GL.IMMEDIATE)
-				{
-					map.genIndices();
-					
-					GL.setDrawMode(GL.ELEMENTS);
-				}
-				else if (GL.getDrawMode() == GL.ELEMENTS)
-				{
-					map.destroyIndices();
-					
-					GL.setDrawMode(GL.ARRAYS);
-				}
-			}
-			
 			if (KeyboardInput.next(KeyboardInput.KEY_L))
 			{
 				map.render = map.render == GL.POINTS ? GL.TRIANGLES : GL.POINTS;
