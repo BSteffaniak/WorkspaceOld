@@ -60,7 +60,7 @@ public class SortThing
 			
 			s.print(null, null, s.qArr, "\nBefore quick sort sort: ");
 
-			s.quickSort(s.qArr);
+			s.quickSort2(s.qArr);
 
 			s.print(null, null, s.qArr, "\nAfter quick sort sort: ");
 		}
@@ -290,6 +290,110 @@ public class SortThing
 		swap(arr, pivotIndex, rightIndex);
 		
 		return pivotIndex;
+	}
+
+	public void quickSort2(int arr[])
+	{
+		quickSort2(arr, 0, arr.length - 1);
+	}
+	
+	public void quickSort2(int arr[], int frontIndex, int backIndex)
+	{
+	      int middleI = partition2(arr, frontIndex, backIndex);
+	      
+	      
+	      
+	      if (frontIndex < middleI - 1)
+	      {
+	            quickSort2(arr, frontIndex, middleI - 1);
+	      }
+	      if (middleI < backIndex)
+	      {
+	            quickSort2(arr, middleI, backIndex);
+	      }
+	}
+	
+	private int partition2(int arr[], int left, int right)
+	{
+		int leftI  = left;
+		int rightI = right;
+		int pivotE = arr[(left + right) / 2];
+		 
+		while (leftI <= rightI)
+		{
+			while (arr[leftI] < pivotE)
+			{
+				leftI ++;
+			}
+			
+			while (arr[rightI] > pivotE)
+			{
+				rightI --;
+			}
+			
+			if (leftI <= rightI)
+			{
+				swap(arr, leftI, rightI);
+				leftI ++;
+				rightI --;
+			}
+		}
+		 
+		return leftI;
+	}
+	
+	public void mergeSort2(int[] A, int[] B, int[] C)
+	{
+	      int i = 0;
+	      int j = 0;
+	      int k = 0;
+	      int m = A.length;
+	      int n = B.length;
+	      
+	      while (i < m && j < n)
+	      {
+	            if (A[i] <= B[j])
+	            {
+	                  C[k] = A[i];
+	                  i ++;
+	            } else {
+	                  C[k] = B[j];
+	                  j ++;
+	            }
+	            k ++;
+	      }
+	      
+	      if (i < m)
+	      {
+	            for (int p = i; p < m; p ++)
+	            {
+	                  C[k] = A[p];
+	                  k ++;
+	            }
+	      }
+	      else
+	      {
+	            for (int p = j; p < n; p ++)
+	            {
+	                  C[k] = B[p];
+	                  k ++;
+	            }
+	      }
+	}
+	
+	public void mergeSort(int arr[])
+	{
+		mergeSort(arr, 0, arr.length - 1);
+	}
+	
+	public void mergeSort(int arr[], int frontIndex, int backIndex)
+	{
+		
+	}
+	
+	public void merge(int arr[], int frontIndex, int backIndex)
+	{
+		
 	}
 	
 	private void swap(int arr[], int i1, int i2)

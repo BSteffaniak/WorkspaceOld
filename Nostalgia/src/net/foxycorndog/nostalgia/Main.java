@@ -116,7 +116,7 @@ public class Main extends GameComponent
 	
 	public void render2D(int dfps)
 	{
-//		GL.drawTexture(grass, 50, 50, 0, 7);
+		GL.drawTexture(grass, 50, 50, 0, 11);
 		
 		if (player.getActiveGun() != null)
 		{
