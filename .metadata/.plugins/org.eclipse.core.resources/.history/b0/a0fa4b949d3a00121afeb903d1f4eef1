@@ -1,0 +1,457 @@
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * File:          SortThing.java
+ * Author:        Braden Steffaniak
+ * Programming:   APCS
+ * Last Modified: 18Nov2012
+ * Description:   Class that demonstrates the insertion and
+ * selection sorting methods. Fried Chicken.
+ */
+public class SortThing
+{
+	private int           qArr[];
+	
+	private Comparable    rArr[];
+	private List<Integer> list;
+	
+	/**
+	 * The main method used for testing.
+	 * 
+	 * @param args
+	 */
+	public static void main(String args[])
+	{
+		SortThing s = new SortThing();
+		
+		s.list = s.genRandomList(100);
+		
+		try
+		{
+			// Insertion sort
+			s.print(s.list, null, null, "Before insertion sort: ");
+			
+			s.insertionSort(s.list);
+			
+			s.print(s.list, null, null, "\nAfter insertion: ");
+			
+			// Selection sort
+			s.rArr = s.genRandomArray(100);
+			
+			s.print(null, s.rArr, null, "\nBefore selection sort: ");
+
+			s.selectionSort(s.rArr);
+
+			s.print(null, s.rArr, null, "\nAfter selection sort: ");
+			
+			// Quick sort
+			s.qArr = s.genRandomArrayi(10);
+			
+			s.print(null, null, s.qArr, "\nBefore quick sort sort: ");
+
+			s.quickSort2(s.qArr);
+
+			s.print(null, null, s.qArr, "\nAfter quick sort sort: ");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+	
+	/**
+	 * THIS IS A CONSTRUCTOR!!!!!!!!!!!!!!!!!!
+	 */
+	public SortThing()
+	{
+		
+	}
+	
+	/**
+	 * Generates random integers for an array
+	 * 
+	 * @param length
+	 * @return
+	 */
+	private Comparable[] genRandomArray(int length)
+	{
+		Comparable arr[] = new Comparable[length];
+		
+		for (int i = 0; i < length; i ++)
+		{
+			arr[i] = (Integer)(int)(Math.random() * 100);
+		}
+		
+		return arr;
+	}
+	
+	/**
+	 * Generates random integers for an array
+	 * 
+	 * @param length
+	 * @return
+	 */
+	private int[] genRandomArrayi(int length)
+	{
+		int arr[] = new int[length];
+		
+		for (int i = 0; i < length; i ++)
+		{
+			arr[i] = (Integer)(int)(Math.random() * 100);
+		}
+		
+		return arr;
+	}
+	
+	/**
+	 * Generates random integers for a list.
+	 * 
+	 * @param length
+	 * @return
+	 */
+	private List<Integer> genRandomList(int length)
+	{
+		List<Integer> arr = new ArrayList<Integer>();
+		
+		for (int i = 0; i < length; i ++)
+		{
+			arr.add(i, (Integer)(int)(Math.random() * 100));
+		}
+		
+		return arr;
+	}
+	
+	/**
+	 * Method that prints the array to the console and a text file.
+	 * 
+	 * @param a
+	 * @param b
+	 * @param msg
+	 * @throws Exception
+	 */
+	public void print(List a, Comparable b[], int c[], String msg) throws Exception
+	{
+		String s = "";
+		
+		s += msg + "\n\n";
+		
+		if (a != null)
+		{
+			for (int i = 0; i < a.size(); i ++)
+			{
+				s += a.get(i) + ", ";
+				
+				if (i >= 10 && i % 10 == 0)
+				{
+					s += "\n";
+				}
+			}
+		}
+		else if (b != null)
+		{
+			for (int i = 0; i < b.length; i ++)
+			{
+				s += b[i] + ", ";
+				
+				if (i >= 10 && i % 10 == 0)
+				{
+					s += "\n";
+				}
+			}
+		}
+		else if (c != null)
+		{
+			for (int i = 0; i < c.length; i ++)
+			{
+				s += c[i] + ", ";
+				
+				if (i >= 10 && i % 10 == 0)
+				{
+					s += "\n";
+				}
+			}
+		}
+		
+		System.out.println(s);
+		
+		write("log.txt", s);
+	}
+	
+	/**
+	 * Method that sorts using the insertion sort method.
+	 * 
+	 * @param arr
+	 */
+	public void insertionSort(List<Integer> arr)
+	{
+		for (int currentSorted = 1; currentSorted <
+				arr.size(); currentSorted ++)
+		{
+			Integer nextElement = arr.get(currentSorted);
+			
+			int compareI        = 0;
+			
+			for (compareI = currentSorted - 1; compareI >= 0 &&
+					arr.get(compareI) > nextElement; compareI --)
+			{
+				Integer temp = arr.get(compareI + 1);
+				arr.set(compareI + 1, arr.get(compareI));
+				arr.set(compareI, temp);
+			}
+		}
+	}
+	
+	/**
+	 * Sorts an array of Comaparables from least to greatest.
+	 * 
+	 * @param arr
+	 */
+	public void selectionSort(Comparable arr[])
+	{
+		for (int endOfArray = arr.length; endOfArray > 0; endOfArray --)
+		{
+			int        maxI = 0;
+			Comparable max  = arr[maxI];
+			
+			for (int i = 0; i < endOfArray; i ++)
+			{
+				if (arr[i].compareTo(max) > 0)
+				{
+					maxI = i;
+					max  = arr[maxI];
+				}
+			}
+			
+			Comparable temp     = arr[maxI];
+			arr[maxI]           = arr[endOfArray - 1];
+			arr[endOfArray - 1] = temp;
+		}
+	}
+	
+	public void quickSort(int arr[])
+	{
+		quickSort(arr, 0, arr.length - 1);
+	}
+	
+	public void quickSort(int arr[], int frontIndex, int backIndex)
+	{
+		int middleIndex = 0;
+		
+		if (frontIndex < backIndex)
+		{
+			middleIndex = partition(arr, frontIndex, backIndex);
+			
+			quickSort(arr, frontIndex, middleIndex - 1);
+			quickSort(arr, middleIndex + 1, backIndex);
+		}
+	}
+	
+	private int partition(int arr[], int frontIndex, int backIndex)
+	{
+		int leftIndex    = frontIndex;
+		int rightIndex   = backIndex;
+		
+		int pivotIndex   = frontIndex;
+		int pivotElement = arr[pivotIndex];
+		
+		do
+		{
+			do
+			{
+				leftIndex ++;
+			}
+			while (pivotElement < arr[leftIndex] && leftIndex < rightIndex);
+			
+			do
+			{
+				rightIndex --;
+			}
+			while (pivotElement > arr[rightIndex]);
+			
+			if (leftIndex < rightIndex)
+			{
+				swap(arr, leftIndex, rightIndex);
+			}
+		}
+		while (leftIndex < rightIndex);
+		System.out.println(pivotIndex);
+		swap(arr, pivotIndex, rightIndex);
+		
+		return pivotIndex;
+	}
+
+	public void quickSort2(int arr[])
+	{
+		quickSort2(arr, 0, arr.length - 1);
+	}
+	
+	public void quickSort2(int arr[], int frontIndex, int backIndex)
+	{
+	      if  (frontIndex < backIndex)
+	      {
+	    	  int middleI = partition2(arr, frontIndex, backIndex);
+	    	  
+	    	  quickSort2(arr, frontIndex, middleI - 1);
+	    	  quickSort2(arr, middleI, backIndex);
+	      }
+	}
+	
+	private int partition2(int arr[], int left, int right)
+	{
+		int leftI  = left;
+		int rightI = right;
+		int pivotE = arr[(left + right) / 2];
+		 
+		do
+		{
+			while (arr[leftI] < pivotE)
+			{
+				leftI ++;
+			}
+			
+			while (arr[rightI] > pivotE)
+			{
+				rightI --;
+			}
+			
+			if (leftI <= rightI)
+			{
+				swap(arr, leftI, rightI);
+				leftI ++;
+				rightI --;
+			}
+		}
+		while (leftI <= rightI);
+		 
+		return leftI;
+	}
+	
+	public void mergeSort2(int[] A, int[] B, int[] C)
+	{
+	      int i = 0;
+	      int j = 0;
+	      int k = 0;
+	      int m = A.length;
+	      int n = B.length;
+	      
+	      while (i < m && j < n)
+	      {
+	            if (A[i] <= B[j])
+	            {
+	                  C[k] = A[i];
+	                  i ++;
+	            }
+	            else
+	            {
+	                  C[k] = B[j];
+	                  j ++;
+	            }
+	            
+	            k ++;
+	      }
+	      
+	      if (i < m)
+	      {
+	            for (int p = i; p < m; p ++)
+	            {
+	                  C[k] = A[p];
+	                  k ++;
+	            }
+	      }
+	      else
+	      {
+	            for (int p = j; p < n; p ++)
+	            {
+	                  C[k] = B[p];
+	                  k ++;
+	            }
+	      }
+	}
+	
+	public void mergeSort(int arr[])
+	{
+		mergeSort(arr, 0, arr.length - 1);
+	}
+	
+	public void mergeSort(int arr[], int frontIndex, int backIndex)
+	{
+		
+	}
+	
+	public void merge(int arr[], int frontIndex, int backIndex)
+	{
+		
+	}
+	
+	private void swap(int arr[], int i1, int i2)
+	{
+		int temp = arr[i1];
+		arr[i1]  = arr[i2];
+		arr[i2]  = temp;
+	}
+	
+	/**
+	 * Writes the object to the specified file at the specified
+	 * location.
+	 * 
+	 * @param location The location of the file to write to.
+	 * @param obj The object to write to the file.
+	 */
+	private static void write(String location, Object obj)
+			throws IOException
+	{
+		if (obj instanceof String)
+		{
+			File file = new File(location);
+			
+			if (!file.exists())
+			{
+				file.createNewFile();
+			}
+			
+			String str        = "";
+			
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			
+			String line = "";
+			
+			while ((line = br.readLine()) != null)
+			{
+				str += line + "\n";
+			}
+			
+			br.close();
+			
+			PrintWriter pw    = new PrintWriter(new BufferedWriter(
+					new FileWriter(file)));
+			
+			str += (String)obj;
+			
+			pw.append(str);
+			
+			pw.close();
+		}
+		else
+		{
+			ObjectOutputStream out = new ObjectOutputStream(
+					new BufferedOutputStream(
+					new FileOutputStream(location)));
+
+			out.writeObject(obj);
+
+			out.close();
+		}
+	}
+}

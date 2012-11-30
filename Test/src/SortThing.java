@@ -39,32 +39,16 @@ public class SortThing
 		
 		try
 		{
-			// Insertion sort
-			s.print(s.list, null, null, "Before insertion sort: ");
-			
-			s.insertionSort(s.list);
-			
-			s.print(s.list, null, null, "\nAfter insertion: ");
-			
-			// Selection sort
-			s.rArr = s.genRandomArray(100);
-			
-			s.print(null, s.rArr, null, "\nBefore selection sort: ");
-
-			s.selectionSort(s.rArr);
-
-			s.print(null, s.rArr, null, "\nAfter selection sort: ");
-			
 			// Quick sort
-			s.qArr = s.genRandomArrayi(10);
+			s.qArr = s.genRandomArrayi(100);
 			
-			s.print(null, null, s.qArr, "\nBefore quick sort sort: ");
+			s.print(null, null, s.qArr, "Before quick sort sort: ");
 
-			s.quickSort2(s.qArr);
+			s.quickSort(s.qArr);
 
 			s.print(null, null, s.qArr, "\nAfter quick sort sort: ");
 		}
-		catch (Exception e)
+		catch (IOException e)
 		{
 			e.printStackTrace();
 			System.exit(1);
@@ -141,7 +125,7 @@ public class SortThing
 	 * @param msg
 	 * @throws Exception
 	 */
-	public void print(List a, Comparable b[], int c[], String msg) throws Exception
+	public void print(List a, Comparable b[], int c[], String msg) throws IOException
 	{
 		String s = "";
 		
@@ -151,7 +135,12 @@ public class SortThing
 		{
 			for (int i = 0; i < a.size(); i ++)
 			{
-				s += a.get(i) + ", ";
+				s += a.get(i);
+				
+				if (i < a.size() - 1)
+				{
+					s += ", ";
+				}
 				
 				if (i >= 10 && i % 10 == 0)
 				{
@@ -163,7 +152,12 @@ public class SortThing
 		{
 			for (int i = 0; i < b.length; i ++)
 			{
-				s += b[i] + ", ";
+				s += b[i];
+				
+				if (i < b.length - 1)
+				{
+					s += ", ";
+				}
 				
 				if (i >= 10 && i % 10 == 0)
 				{
@@ -175,7 +169,12 @@ public class SortThing
 		{
 			for (int i = 0; i < c.length; i ++)
 			{
-				s += c[i] + ", ";
+				s += c[i];
+				
+				if (i < c.length - 1)
+				{
+					s += ", ";
+				}
 				
 				if (i >= 10 && i % 10 == 0)
 				{
@@ -239,7 +238,7 @@ public class SortThing
 			arr[endOfArray - 1] = temp;
 		}
 	}
-	
+
 	public void quickSort(int arr[])
 	{
 		quickSort(arr, 0, arr.length - 1);
@@ -247,138 +246,44 @@ public class SortThing
 	
 	public void quickSort(int arr[], int frontIndex, int backIndex)
 	{
-		int middleIndex = 0;
-		
-		if (frontIndex < backIndex)
-		{
-			middleIndex = partition(arr, frontIndex, backIndex);
-			
-			quickSort(arr, frontIndex, middleIndex - 1);
-			quickSort(arr, middleIndex + 1, backIndex);
-		}
+	      if  (frontIndex < backIndex)
+	      {
+	    	  int middleI = partition(arr, frontIndex, backIndex);
+	    	  
+	    	  quickSort(arr, frontIndex, middleI - 1);
+	    	  quickSort(arr, middleI, backIndex);
+	      }
 	}
 	
-	private int partition(int arr[], int frontIndex, int backIndex)
+	private int partition(int arr[], int left, int right)
 	{
-		int leftIndex    = frontIndex;
-		int rightIndex   = backIndex;
-		
-		int pivotIndex   = frontIndex;
-		int pivotElement = arr[pivotIndex];
-		
+		int leftIndex    = left;
+		int rightIndex   = right;
+		int pivotElement = arr[leftIndex];
+		 
 		do
 		{
-			do
+			while (arr[leftIndex] < pivotElement)
 			{
 				leftIndex ++;
 			}
-			while (pivotElement < arr[leftIndex] && leftIndex < rightIndex);
 			
-			do
+			while (arr[rightIndex] > pivotElement)
 			{
 				rightIndex --;
 			}
-			while (pivotElement > arr[rightIndex]);
 			
-			if (leftIndex < rightIndex)
+			if (leftIndex <= rightIndex)
 			{
 				swap(arr, leftIndex, rightIndex);
+				
+				leftIndex ++;
+				rightIndex --;
 			}
 		}
-		while (leftIndex < rightIndex);
-		System.out.println(pivotIndex);
-		swap(arr, pivotIndex, rightIndex);
-		
-		return pivotIndex;
-	}
-
-	public void quickSort2(int arr[])
-	{
-		quickSort2(arr, 0, arr.length - 1);
-	}
-	
-	public void quickSort2(int arr[], int frontIndex, int backIndex)
-	{
-	      int middleI = partition2(arr, frontIndex, backIndex);
-	      
-	      
-	      
-	      if (frontIndex < middleI - 1)
-	      {
-	            quickSort2(arr, frontIndex, middleI - 1);
-	      }
-	      if (middleI < backIndex)
-	      {
-	            quickSort2(arr, middleI, backIndex);
-	      }
-	}
-	
-	private int partition2(int arr[], int left, int right)
-	{
-		int leftI  = left;
-		int rightI = right;
-		int pivotE = arr[(left + right) / 2];
+		while (leftIndex <= rightIndex);
 		 
-		while (leftI <= rightI)
-		{
-			while (arr[leftI] < pivotE)
-			{
-				leftI ++;
-			}
-			
-			while (arr[rightI] > pivotE)
-			{
-				rightI --;
-			}
-			
-			if (leftI <= rightI)
-			{
-				swap(arr, leftI, rightI);
-				leftI ++;
-				rightI --;
-			}
-		}
-		 
-		return leftI;
-	}
-	
-	public void mergeSort2(int[] A, int[] B, int[] C)
-	{
-	      int i = 0;
-	      int j = 0;
-	      int k = 0;
-	      int m = A.length;
-	      int n = B.length;
-	      
-	      while (i < m && j < n)
-	      {
-	            if (A[i] <= B[j])
-	            {
-	                  C[k] = A[i];
-	                  i ++;
-	            } else {
-	                  C[k] = B[j];
-	                  j ++;
-	            }
-	            k ++;
-	      }
-	      
-	      if (i < m)
-	      {
-	            for (int p = i; p < m; p ++)
-	            {
-	                  C[k] = A[p];
-	                  k ++;
-	            }
-	      }
-	      else
-	      {
-	            for (int p = j; p < n; p ++)
-	            {
-	                  C[k] = B[p];
-	                  k ++;
-	            }
-	      }
+		return leftIndex;
 	}
 	
 	public void mergeSort(int arr[])
