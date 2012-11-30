@@ -12,27 +12,23 @@ public class Main extends GameComponent
 		super("Test", 800, 600, 60);
 	}
 
-	@Override
-	public void loop(int arg0) {
-		// TODO Auto-generated method stub
+	public void loop(int dfps)
+	{
 		
 	}
 
-	@Override
-	public void onCreate() {
-		// TODO Auto-generated method stub
+	public void onCreate()
+	{
 		
 	}
 
-	@Override
-	public void render2D(int arg0) {
-		// TODO Auto-generated method stub
+	public void render2D(int dfps)
+	{
 		
 	}
 
-	@Override
-	public void render3D(int arg0) {
-		// TODO Auto-generated method stub
+	public void render3D(int dfps)
+	{
 		
 	}
 }

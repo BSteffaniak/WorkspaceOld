@@ -17,7 +17,7 @@ import java.util.List;
  * Programming:   APCS
  * Last Modified: 18Nov2012
  * Description:   Class that demonstrates the insertion and
- * selection sorting methods.
+ * selection sorting methods and the quick and merge sort.
  */
 public class SortThing
 {
@@ -239,11 +239,25 @@ public class SortThing
 		}
 	}
 
+	/**
+	 * The quick sort method that you pass the array and
+	 * it does the rest for you.
+	 * 
+	 * @param arr The array to quicksort
+	 */
 	public void quickSort(int arr[])
 	{
 		quickSort(arr, 0, arr.length - 1);
 	}
 	
+	/**
+	 * The quick sort method that you pass the array,
+	 * front index, and back index of the array.
+	 * 
+	 * @param arr The array to quicksort.
+	 * @param frontIndex the first index of the array.
+	 * @param backIndex The last index of the array.
+	 */
 	public void quickSort(int arr[], int frontIndex, int backIndex)
 	{
 	      if  (frontIndex < backIndex)
@@ -255,6 +269,14 @@ public class SortThing
 	      }
 	}
 	
+	/**
+	 * Method that sorts a portion of the array.
+	 * 
+	 * @param arr The array to partition.
+	 * @param left The left index.
+	 * @param right The right index.
+	 * @return The middle index.
+	 */
 	private int partition(int arr[], int left, int right)
 	{
 		int leftIndex    = left;
