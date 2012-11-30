@@ -17,7 +17,7 @@ import java.util.List;
  * Programming:   APCS
  * Last Modified: 18Nov2012
  * Description:   Class that demonstrates the insertion and
- * selection sorting methods. Fried Chicken.
+ * selection sorting methods.
  */
 public class SortThing
 {
