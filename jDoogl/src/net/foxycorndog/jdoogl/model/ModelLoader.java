@@ -61,29 +61,35 @@ public class ModelLoader
 			
 			while ((line = br.readLine()) != null)
 			{
+				String arr[] = line.split(" ");
+				
 				if (vertices && line.startsWith("v "))
 				{
-					v.add(Float.valueOf(line.split(" ")[1]));
-					v.add(Float.valueOf(line.split(" ")[2]));
-					v.add(Float.valueOf(line.split(" ")[3]));
+					v.add(Float.valueOf(arr[1]));
+					v.add(Float.valueOf(arr[2]));
+					v.add(Float.valueOf(arr[3]));
 				}
 				else if (normals && line.startsWith("vn "))
 				{
-					n.add(Float.valueOf(line.split(" ")[1]));
-					n.add(Float.valueOf(line.split(" ")[2]));
-					n.add(Float.valueOf(line.split(" ")[3]));
+					n.add(Float.valueOf(arr[1]));
+					n.add(Float.valueOf(arr[2]));
+					n.add(Float.valueOf(arr[3]));
 				}
 				else if (line.startsWith("f "))
 				{
-					vi.add(Short.valueOf(line.split(" ")[1].split("/")[0]));
-					vi.add(Short.valueOf(line.split(" ")[2].split("/")[0]));
-					vi.add(Short.valueOf(line.split(" ")[3].split("/")[0]));
+					String slash1[] = arr[1].split("/");
+					String slash2[] = arr[2].split("/");
+					String slash3[] = arr[3].split("/");
+					
+					vi.add(Short.valueOf(slash1[0]));
+					vi.add(Short.valueOf(slash2[0]));
+					vi.add(Short.valueOf(slash3[0]));
 					
 					if (normals)
 					{
-						ni.add(Short.valueOf(line.split(" ")[1].split("/")[2]));
-						ni.add(Short.valueOf(line.split(" ")[2].split("/")[2]));
-						ni.add(Short.valueOf(line.split(" ")[3].split("/")[2]));
+						ni.add(Short.valueOf(slash1[2]));
+						ni.add(Short.valueOf(slash2[2]));
+						ni.add(Short.valueOf(slash3[2]));
 					}
 				}
 			}
@@ -141,7 +147,7 @@ public class ModelLoader
 					normsInds[i] = (short)(ni.get(i) - 1);
 				}
 				
-//				norms = orderNormals(norms, normsInds, vertsInds, verts.length);
+				norms = orderNormals(norms, normsInds, vertsInds, verts.length);
 			}
 			
 //			if (vertices)
@@ -165,7 +171,7 @@ public class ModelLoader
 			e.printStackTrace();
 		}
 		
-		Object g[] = new Object[] {verts};
+		Object g[] = new Object[] { verts };
 		
 		return new Object[] { verts, texts, norms, cols, vertsInds, normsInds };
 	}
@@ -174,13 +180,19 @@ public class ModelLoader
 	{
 		float newNormals[] = new float[vertexIndices.length * 3];
 		
-		for (int i = 0; i < newNormals.length; i += 3)
+		for (int i = 0; i < newNormals.length / 3; i ++)
 		{
-			newNormals[i + 0] = normals[normalIndices[vertexIndices[i % 3]] + 0];
-			newNormals[i + 1] = normals[normalIndices[vertexIndices[i % 3]] + 1];
-			newNormals[i + 2] = normals[normalIndices[vertexIndices[i % 3]] + 2];
-			
-			System.out.println(newNormals[i] + ", " + newNormals[i + 1] + ", " + newNormals[i + 2]);
+//			try
+//			{
+				newNormals[vertexIndices[i] * 3 + 0] = normals[normalIndices[i] * 3 + 0];
+				newNormals[vertexIndices[i] * 3 + 1] = normals[normalIndices[i] * 3 + 1];
+				newNormals[vertexIndices[i] * 3 + 2] = normals[normalIndices[i] * 3 + 2];
+//			}
+//			catch (Exception e)
+//			{
+////				e.printStackTrace();
+//				System.out.println("ASDF: " + vertexIndices[i / 3]);
+//			}
 		}
 		
 		return newNormals;

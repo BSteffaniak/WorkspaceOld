@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.components.Frame.GameRenderer"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoutil.FrameLoop"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoutil.FrameTask"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.Vector"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.model.Model"/>
 <fullyQualifiedTypeName name="java.util.Vector"/>
@@ -10,9 +7,6 @@
 <fullyQualifiedTypeName name="net.foxycorndog.nostalgia.actor.Actor"/>
 <fullyQualifiedTypeName name="net.foxycorndog.nostalgia.weapons.Bullet"/>
 <fullyQualifiedTypeName name="net.foxycorndog.nostalgia.map.Map"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.geometry.Point"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.camera.Camera"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="net.foxycorndog.nostalgia.items.Item"/>
 <fullyQualifiedTypeName name="net.foxycorndog.nostalgia.items.weapons.guns.Pistol"/>
 <fullyQualifiedTypeName name="java.util.List"/>
@@ -33,12 +27,10 @@
 <fullyQualifiedTypeName name="java.awt.Point"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.fonts.Font"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.image.imagemap.Texture"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.components.Frame"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
 <fullyQualifiedTypeName name="java.io.FileReader"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL12"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.GL"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL13"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL14"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL20"/>
@@ -48,16 +40,24 @@
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL40"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdooal.audio.AudioManager"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdooal.audio.AL"/>
-<fullyQualifiedTypeName name="java.util.HashSet"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="org.lwjgl.util.WaveData"/>
 <fullyQualifiedTypeName name="org.lwjgl.openal.AL11"/>
 <fullyQualifiedTypeName name="org.lwjgl.openal.AL10"/>
 <fullyQualifiedTypeName name="org.lwjgl.BufferUtils"/>
 <fullyQualifiedTypeName name="java.nio.FloatBuffer"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL15"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoutil.VerticesBuffer"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoutil.LightBuffer"/>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.activity.GameComponent"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoutil.Point"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdobase.Base"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.camera.Camera"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.GL"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoutil.LightBuffer"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoutil.VerticesBuffer"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.input.KeyboardInput"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.geometry.Point"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.components.Frame"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.HashSet"/>
 </qualifiedTypeNameHistroy>

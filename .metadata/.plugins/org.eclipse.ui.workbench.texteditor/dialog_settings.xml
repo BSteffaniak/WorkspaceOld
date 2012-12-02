@@ -13,16 +13,16 @@
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="Syn" key="selection"/>
+		<item value="FOV" key="selection"/>
 		<list key="findhistory">
+			<item value="FOV"/>
+			<item value="glM"/>
+			<item value="setClear"/>
+			<item value="fps"/>
+			<item value="renderB"/>
+			<item value="renderb"/>
 			<item value="Syn"/>
 			<item value="Sy"/>
-			<item value="vSy"/>
-			<item value="translatef"/>
-			<item value="void U"/>
-			<item value="vertex"/>
-			<item value="Vertex"/>
-			<item value="Attrib"/>
 		</list>
 		<list key="replacehistory">
 			<item value="void u"/>

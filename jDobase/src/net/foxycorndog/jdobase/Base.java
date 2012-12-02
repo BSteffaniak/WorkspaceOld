@@ -30,7 +30,9 @@ public class Base
 		String pth = System.getProperty("java.class.path");
 		pth = pth.replace('\\', '/');
 		
-		if (pth.indexOf(";") >= 0)
+		int start = pth.indexOf(";");
+		
+		if (start >= 0)
 		{
 			int curInd = pth.indexOf("jDoogl");
 			
@@ -41,9 +43,21 @@ public class Base
 				curInd --;
 			}
 			
-			pth = pth.substring(curInd + 1, endIndex);
+			if (JAR)
+			{
+				endIndex = pth.indexOf("jDoogl.jar", start);
+				
+				pth = pth.substring(curInd + 1, endIndex - 1);
+//			
+				pth += "/";
+			}
+			else
+			{
+				pth = pth.substring(curInd + 1, endIndex);
 			
-			pth += "/";
+//				pth += "/natives";
+				pth += "/";
+			}
 		}
 		else if (pth.indexOf(":") >= 0 && OS_NAME.contains("lin"))
 		{
@@ -65,6 +79,11 @@ public class Base
 		{
 			setNatives();
 		}
+	}
+	
+	public static void init()
+	{
+		
 	}
 	
 	/**

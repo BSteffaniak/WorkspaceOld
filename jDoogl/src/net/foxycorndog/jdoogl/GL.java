@@ -170,7 +170,15 @@ public class GL
 	
 	private static ArrayList<LightBuffer> rectVerticesBuffer, rectTexturesBuffer;
 	
-	public static final int FILL = GL_FILL;
+	private static final String version = "0.5 Dev";
+	
+	public  static final int FILL = GL_FILL;
+	
+	/**
+	 * All of the available lights.
+	 */
+	public static final int LIGHT0 = GL_LIGHT0, LIGHT1 = GL_LIGHT1, LIGHT2 = GL_LIGHT2, LIGHT3 = GL_LIGHT3,
+							LIGHT4 = GL_LIGHT4, LIGHT5 = GL_LIGHT5, LIGHT6 = GL_LIGHT6, LIGHT7 = GL_LIGHT7;
 	
 	/**
 	 * All of the available shape constants.
@@ -232,6 +240,11 @@ public class GL
 	}
 	
 	public static String getVersion()
+	{
+		return version;
+	}
+	
+	public static String getOpenGLVersion()
 	{
 		return GL11.glGetString(GL_VERSION);
 	}
@@ -1015,6 +1028,51 @@ public class GL
 		glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 128);
 	}
 	
+	public static void addDiffuse(int lightNumber, Point color)
+	{
+		glEnable(lightNumber);
+		
+		FloatBuffer dif = BufferUtils.createFloatBuffer(4);
+		dif.put(new float[] { color.getX(), color.getY(), color.getZ(), 1 });
+		dif.rewind();
+		
+		glLight(lightNumber, GL_DIFFUSE, dif);
+	}
+	
+	public static void addSpecular(int lightNumber, Point color)
+	{
+		glEnable(lightNumber);
+		
+		FloatBuffer spec = BufferUtils.createFloatBuffer(4);
+		spec.put(new float[] { color.getX(), color.getY(), color.getZ(), 1 });
+		spec.rewind();
+		
+		glLight(lightNumber, GL_SPECULAR, spec);
+	}
+	
+	public static void setReflection(Point reflectColor)
+	{
+		FloatBuffer specReflec = BufferUtils.createFloatBuffer(4);
+		specReflec.put(new float[] { reflectColor.getX(), reflectColor.getY(), reflectColor.getZ(), 1 });
+		specReflec.rewind();
+		
+		glMaterial(GL_FRONT, GL_SPECULAR, specReflec);
+	}
+	
+	public static void setShininess(int shininess)
+	{
+		glMateriali(GL_FRONT, GL_SHININESS, shininess);
+	}
+	
+	public static void setLightLocation(int lightNumber, Point location)
+	{
+		FloatBuffer pos = BufferUtils.createFloatBuffer(4);
+		pos.put(new float[] { location.getX(), location.getY(), location.getZ(), 1 });
+		pos.rewind();
+		
+		glLight(lightNumber, GL_POSITION, pos);
+	}
+	
 	/**
 	 * Initialize the OpenGL lighting.
 	 */
@@ -1025,12 +1083,12 @@ public class GL
         
 		glEnable(GL_DEPTH_TEST);
 		glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
-//		glEnable(GL_COLOR_MATERIAL);
+		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_LIGHTING);
 //		glEnable(GL_LIGHT0);
 //		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0);
 //		glLightModeli(GL_FRONT, GL_DIFFUSE);
-		glEnable(GL_NORMALIZE);
+//		glEnable(GL_NORMALIZE);
 	}
 	
 //	public static void startNormal()
@@ -1087,7 +1145,7 @@ public class GL
 		FloatBuffer amb = BufferUtils.createFloatBuffer(4);
 		amb.put(new float[] { ambientLight[0], ambientLight[1], ambientLight[2], ambientLight[3] }).rewind();
 		
-		glMaterial(GL_FRONT_AND_BACK, GL_AMBIENT, amb);
+		glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, amb);
 //		glMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE, amb);
 //		glMaterial(GL_FRONT, GL_SPECULAR, amb);
 		
@@ -1449,6 +1507,11 @@ public class GL
 	 */
 	private static void renderBuffers(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, LightBuffer normalsBuffer, LightBuffer colorsBuffer, Texture texture, int start, int amount, int type, Task task)
 	{
+		if (verticesBuffer == null)
+		{
+			throw new IllegalArgumentException("verticesBuffer cannot be null.");
+		}
+		
 		int vId  = 0;
 		int vs   = 0;
 		int viId = 0;
@@ -1956,7 +2019,7 @@ public class GL
 			glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
 			glLoadIdentity(); // Reset The Projection Matrix
 			
-			FOV = 45.0f;
+			FOV = 55.0f;
 
 			// Calculate The Aspect Ratio Of The Window
 			gluPerspective(FOV, (float)Display.getWidth() / (float)Display.getHeight(), zClose, zFar);
@@ -2624,6 +2687,127 @@ public class GL
 		array[offset + index ++] = x + width;
 		array[offset + index ++] = y;
 		array[offset + index ++] = z + depth;
+		
+		return array;
+	}
+	
+	public static float[] addCubeNormalArrayf(int offset, float array[])
+	{
+		if (array == null)
+		{
+			array  = new float[3 * 4 * 6];
+			
+			offset = 0;
+		}
+		
+		int index = 0;
+		
+		// Front
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 0;
+		array[offset + index ++] = -1;
+		
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 0;
+		array[offset + index ++] = -1;
+		
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 0;
+		array[offset + index ++] = -1;
+		
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 0;
+		array[offset + index ++] = -1;
+		
+		
+		// Right
+		array[offset + index ++] = 1;
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 0;
+
+		array[offset + index ++] = 1;
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 0;
+
+		array[offset + index ++] = 1;
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 0;
+
+		array[offset + index ++] = 1;
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 0;
+		
+		
+		// Back
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 1;
+
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 1;
+
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 1;
+
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 1;
+		
+		
+		// Left
+		array[offset + index ++] = -1;
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 0;
+
+		array[offset + index ++] = -1;
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 0;
+
+		array[offset + index ++] = -1;
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 0;
+
+		array[offset + index ++] = -1;
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 0;
+		
+		
+		// Top
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 1;
+		array[offset + index ++] = 0;
+
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 1;
+		array[offset + index ++] = 0;
+
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 1;
+		array[offset + index ++] = 0;
+
+		array[offset + index ++] = 0;
+		array[offset + index ++] = 1;
+		array[offset + index ++] = 0;
+		
+		
+		// Bottom
+		array[offset + index ++] = 0;
+		array[offset + index ++] = -1;
+		array[offset + index ++] = 0;
+
+		array[offset + index ++] = 0;
+		array[offset + index ++] = -1;
+		array[offset + index ++] = 0;
+
+		array[offset + index ++] = 0;
+		array[offset + index ++] = -1;
+		array[offset + index ++] = 0;
+
+		array[offset + index ++] = 0;
+		array[offset + index ++] = -1;
+		array[offset + index ++] = 0;
 		
 		return array;
 	}

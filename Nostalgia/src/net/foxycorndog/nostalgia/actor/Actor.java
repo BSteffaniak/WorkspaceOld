@@ -3,6 +3,8 @@ package net.foxycorndog.nostalgia.actor;
 import java.util.ArrayList;
 
 import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.geometry.Point;
 import net.foxycorndog.jdoogl.model.Model;
 import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.nostalgia.actor.camera.Camera;
@@ -264,20 +266,22 @@ public class Actor
 	
 	public void update(int dfps)
 	{
+		float delta = 60f / Frame.getFps();
+		
 		if (cameraAttached())
 		{
 			if (moving && sprinting)
 			{
-				if (GL.getFOV() < 60)
+				if (GL.getFOV() < 55 + 15)
 				{
-					GL.setFOV(GL.getFOV() + 2);
+					GL.setFOV(GL.getFOV() + 2 * delta);
 				}
 			}
 			else
 			{
-				if (GL.getFOV() > 45)
+				if (GL.getFOV() > 55)
 				{
-					GL.setFOV(GL.getFOV() - 2);
+					GL.setFOV(GL.getFOV() - 2 * delta);
 				}
 			}
 		}
@@ -286,7 +290,7 @@ public class Actor
 		{
 			if (location.getY() < startY + 4)
 			{
-				if (!move(0, 0.6f, 0))
+				if (!move(0, 0.6f * delta, 0))
 				{
 					jumping = false;
 				}
@@ -299,7 +303,7 @@ public class Actor
 		}
 		else
 		{
-			move(0, -0.4f, 0);
+			move(0, -0.4f * delta, 0);
 		}
 	}
 	
@@ -547,10 +551,15 @@ public class Actor
 		return model.getVertices();
 	}
 	
+	public Point getLocation()
+	{
+		return location.getLocation();
+	}
+	
 	public String toString()
 	{
-		float location[] = this.location.getLocation();
+		Point location = this.location.getLocation();
 		
-		return "[ " + location[0] + ", " + location[1] + ", " + location[2] + " ]";
+		return "[ " + location.getX() + ", " + location.getY() + ", " + location.getZ() + " ]";
 	}
 }

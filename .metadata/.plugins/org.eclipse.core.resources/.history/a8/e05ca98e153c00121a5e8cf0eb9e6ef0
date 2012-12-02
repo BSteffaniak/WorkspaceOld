@@ -1,0 +1,101 @@
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.activity.GameComponent;
+import net.foxycorndog.jdoogl.camera.Camera;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.fonts.Font;
+import net.foxycorndog.jdoogl.input.KeyboardInput;
+import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
+
+public class Main extends GameComponent
+{
+	private Font font;
+	
+	private int counter = 0;
+	
+	private Camera camera;
+	
+	private LightBuffer    textures;
+	
+	private VerticesBuffer vertices;
+	
+	public static void main(String args[])
+	{
+		new Main();
+	}
+	
+	public Main()
+	{
+		super("Test", 800, 600, -60);
+	}
+
+	public void onCreate()
+	{
+		font = new Font("res/images/font/font.png", 26, 4,
+				new char[]
+				{
+					'A', 'B', 'C', 'D', 'E', 'F',  'G', 'H', 'I', 'J', 'K', 'L',  'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+					'a', 'b', 'c', 'd', 'e', 'f',  'g', 'h', 'i', 'j', 'k', 'l',  'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+					'0', '1', '2', '3', '4', '5',  '6', '7', '8', '9', '_', '-',  '+', '=', '~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')',
+					'?', '>', '<', ';', ':', '\'', '"', '{', '}', '[', ']', '\\', '|', ',', '.', '/', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+				});
+		
+		camera = new Camera();
+		
+		vertices = new VerticesBuffer(4 * 6 * 3, 3);
+		
+		vertices.addData(GL.addCubeVertexArrayf(0, 0, -3, 1, 1, 1, 0, null));
+	}
+
+	public void loop(int dfps)
+	{
+		if (Frame.getDFps() > 0)
+		{
+			float delta = 60f / Frame.getFps();
+			
+			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_W))
+			{
+				camera.move(0, 0, -1 * delta);
+			}
+		}
+	}
+
+	public void render2D(int dfps)
+	{
+		font.render("FPS: " + Frame.getFps(), 0, 0, 0, 3, Font.RIGHT, Font.TOP);
+		
+		float delta = 60f / Frame.getFps();
+		
+		if (Frame.getFps() == 1)
+		{
+			delta = 60f / Frame.getPredictedFps();
+		}
+		
+		if (counter >= 40 / delta)
+		{
+			font.render("!!!!", 0, 0, 0, 10, Font.CENTER, Font.CENTER);
+		}
+		else if (counter >= 20 / delta)
+		{
+			font.render("World!", 0, 0, 0, 10, Font.CENTER, Font.CENTER);
+		}
+		else if (counter >= 0 / delta)
+		{
+			font.render("Hello!", 0, 0, 0, 10, Font.CENTER, Font.CENTER);
+		}
+		
+		counter ++;
+		
+		if (Frame.getFps() == 1)
+		{
+			counter = counter >  ? 0 : counter;
+		}
+	}
+
+	public void render3D(int dfps)
+	{
+		camera.lookThrough();
+		
+		GL.renderCubes(vertices, 0, 1);
+	}
+}

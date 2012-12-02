@@ -6,15 +6,46 @@ import static org.lwjgl.opengl.GL11.GL_FALSE;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 
 public class ShaderUtils
 {
-	static int id;
+	private static int uniformCacheSize, uniformCacheId;
+	private static int currentProgram, lastProgramCreated;
+	
+	private static ArrayList<HashMap<String, Integer>> uniformCache;
+	
+	static
+	{
+		uniformCacheSize = 50;
+		
+		uniformCache     = new ArrayList<HashMap<String, Integer>>();
+	}
 	
 	public static int genShaderProgramId()
 	{
-		return id = glCreateProgram();
+		int id = glCreateProgram();
+		
+		try
+		{
+			uniformCache.add(id, new HashMap<String, Integer>());
+		}
+		catch (IndexOutOfBoundsException e)
+		{
+			for (int i = lastProgramCreated; i < id; i ++)
+			{
+				uniformCache.add(i, null);
+			}
+			
+			uniformCache.add(id, new HashMap<String, Integer>());
+		}
+		
+		lastProgramCreated = id;
+		
+		return id;
 	}
 	
 	public static void genShaderProgram(int programId)
@@ -25,6 +56,8 @@ public class ShaderUtils
 	public static void useShaderProgram(int programId)
 	{
 		glUseProgram(programId);
+		
+		currentProgram = programId;
 	}
 	
 	public static boolean validateProgram(int programId)
@@ -184,37 +217,92 @@ public class ShaderUtils
 	
 	public static int getUniformLocation(int programId, String uniformName)
 	{
-		return glGetUniformLocation(programId, uniformName);
+		int location = 0;
+		
+		try
+		{
+			HashMap<String, Integer> map = uniformCache.get(programId);
+			
+			if (map != null)
+			{
+				if (map.containsKey(uniformName))
+				{
+					location = map.get(uniformName);
+				}
+				else
+				{
+					location = glGetUniformLocation(programId, uniformName);
+					
+					map.put(uniformName, location);
+				}
+			}
+		}
+		catch (IndexOutOfBoundsException e)
+		{
+			throw new IllegalArgumentException("No such programId: " + programId);
+		}
+		
+		return location;
 	}
 	
-	public static void uniform3s(int attribLocation, short x, short y, short z)
+	public static void uniform3i(int uniformLocation, int x, int y, int z)
 	{
-		glUniform3i(attribLocation, x, y, z);
+		glUniform3i(uniformLocation, x, y, z);
 	}
 	
-	public static void uniform2s(int attribLocation, short x, short y)
+	public static void uniform3i(String uniformName, int x, int y, int z)
 	{
-		glUniform2i(attribLocation, x, y);
+		glUniform3i(getUniformLocation(currentProgram, uniformName), x, y, z);
 	}
 	
-	public static void uniform1i(int attribLocation, int x)
+	public static void uniform2i(int uniformLocation, int x, int y)
 	{
-		glUniform1i(attribLocation, x);
+		glUniform2i(uniformLocation, x, y);
 	}
 	
-	public static void uniform3f(int attribLocation, float x, float y, float z)
+	public static void uniform2i(String uniformName, int x, int y)
 	{
-		glUniform3f(attribLocation, x, y, z);
+		glUniform2i(getUniformLocation(currentProgram, uniformName), x, y);
 	}
 	
-	public static void uniform2f(int attribLocation, float x, float y)
+	public static void uniform1i(int uniformLocation, int x)
 	{
-		glUniform2f(attribLocation, x, y);
+		glUniform1i(uniformLocation, x);
 	}
 	
-	public static void uniform1f(int attribLocation, float x)
+	public static void uniform1i(String uniformName, int x)
 	{
-		glUniform1f(attribLocation, x);
+		glUniform1i(getUniformLocation(currentProgram, uniformName), x);
+	}
+	
+	public static void uniform3f(int uniformLocation, float x, float y, float z)
+	{
+		glUniform3f(uniformLocation, x, y, z);
+	}
+	
+	public static void uniform3f(String uniformName, float x, float y, float z)
+	{
+		glUniform3f(getUniformLocation(currentProgram, uniformName), x, y, z);
+	}
+	
+	public static void uniform2f(int uniformLocation, float x, float y)
+	{
+		glUniform2f(uniformLocation, x, y);
+	}
+	
+	public static void uniform2f(String uniformName, float x, float y)
+	{
+		glUniform2f(getUniformLocation(currentProgram, uniformName), x, y);
+	}
+	
+	public static void uniform1f(int uniformLocation, float x)
+	{
+		glUniform1f(uniformLocation, x);
+	}
+	
+	public static void uniform1f(String uniformName, float x)
+	{
+		glUniform1f(getUniformLocation(currentProgram, uniformName), x);
 	}
 	
 	public static int getAttribLocation(int programId, String attribName)
@@ -280,5 +368,10 @@ public class ShaderUtils
 	public static void vertexAttrib1d(int attribLocation, double x)
 	{
 		glVertexAttrib1d(attribLocation, x);
+	}
+	
+	public static void setUniformCacheSize(int size)
+	{
+		uniformCacheSize = size;
 	}
 }

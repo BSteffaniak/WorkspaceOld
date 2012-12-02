@@ -79,8 +79,9 @@ public abstract class Frame
 	private static boolean     resized;
 	private static boolean     stream;
 	private static boolean     fullscreen;
+	private static boolean     startedFps;
 	
-	private static short       dfps, fps;
+	private static short       dfps, fps, predictedFps;
 	
 	private static int         oldX, oldY;
 	private static int         width, height;
@@ -212,7 +213,7 @@ public abstract class Frame
 		
 		Frame.init(width, height, title, drawCanvas);
 		
-		setFont("res/images/font/pixel.ttf", 16);
+//		setFont("res/images/font/pixel.ttf", 16);
 	}
 	
 	public static class Cursor
@@ -316,20 +317,18 @@ public abstract class Frame
 //			
 //			wht = ImageIO.read(fle);
 //		} catch (IOException e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		} catch (URISyntaxException e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 		
-		GL.white = new Texture("res/images/White.png", Frame.class);
+		GL.white = new Texture("res/images/White.png");//, Frame.class);
 		
 		newTime = System.currentTimeMillis();
 		oldTime = newTime;
 		
-		dfps    = 0;
-		fps     = 0;
+		dfps    =  0;
+		fps     = -1;
 		
 		boolean antiAlias   = true;
 		java.awt.Graphics g = GlyphPage.getScratchGraphics();
@@ -714,13 +713,30 @@ public abstract class Frame
 		
 		newTime = System.currentTimeMillis();
 		
+		if (fps == -1)
+		{
+			oldTime = newTime - 20;
+		}
+		
 		if (newTime > oldTime + 1000)
 		{
 			fps = dfps;
+			fps --;
 			
-			dfps = 0;
+			dfps       = 0;
 			
-			oldTime = newTime;
+			oldTime    = newTime;
+			
+			startedFps = true;
+		}
+		else if (newTime != oldTime)
+		{
+			predictedFps = (short)((dfps) * (1000 / (float)(newTime - oldTime)));
+			
+			if (!startedFps)
+			{
+				fps = predictedFps;
+			}
 		}
 	}
 	
@@ -737,6 +753,11 @@ public abstract class Frame
 	public static int getFps()
 	{
 		return fps;
+	}
+	
+	public static int getPredictedFps()
+	{
+		return predictedFps;
 	}
 	
 	public static int getDFps()
@@ -1112,6 +1133,8 @@ public abstract class Frame
 			
 			GL.beginManipulation();
 			{
+				Frame.updateFps();
+				
 				if (Display.wasResized())
 				{
 					resized = true;
@@ -1129,8 +1152,6 @@ public abstract class Frame
 				
 				loop(getDFps());
 				render(getDFps());
-				
-				Frame.updateFps();
 				
 				if (cursor != null)
 				{

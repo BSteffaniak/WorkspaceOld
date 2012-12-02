@@ -1,0 +1,64 @@
+import net.foxycorndog.jdoogl.activity.GameComponent;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.fonts.Font;
+
+public class Main extends GameComponent
+{
+	Font font;
+	
+	int counter = 0;
+	
+	public static void main(String args[])
+	{
+		new Main();
+	}
+	
+	public Main()
+	{
+		super("Test", 800, 600, -60);
+	}
+
+	public void onCreate()
+	{
+		font = new Font("res/images/font/font.png", 26, 4,
+				new char[]
+				{
+					'A', 'B', 'C', 'D', 'E', 'F',  'G', 'H', 'I', 'J', 'K', 'L',  'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+					'a', 'b', 'c', 'd', 'e', 'f',  'g', 'h', 'i', 'j', 'k', 'l',  'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+					'0', '1', '2', '3', '4', '5',  '6', '7', '8', '9', '_', '-',  '+', '=', '~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')',
+					'?', '>', '<', ';', ':', '\'', '"', '{', '}', '[', ']', '\\', '|', ',', '.', '/', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+				});
+	}
+
+	public void loop(int dfps)
+	{
+		
+	}
+
+	public void render2D(int dfps)
+	{
+		font.render("FPS: " + Frame.getFps(), 0, 0, 0, 3, Font.RIGHT, Font.TOP);
+		
+		if (counter >= 40)
+		{
+			font.render("!!!!", 0, 0, 0, 10, Font.CENTER, Font.CENTER);
+		}
+		else if (counter >= 20)
+		{
+			font.render("World!", 0, 0, 0, 10, Font.CENTER, Font.CENTER);
+		}
+		else if (counter >= 0)
+		{
+			font.render("Hello!", 0, 0, 0, 10, Font.CENTER, Font.CENTER);
+		}
+		
+		counter ++;
+		
+		counter = counter > Frame.getFps() / 60 ? 0 : counter;
+	}
+
+	public void render3D(int dfps)
+	{
+		
+	}
+}

@@ -5,6 +5,7 @@ import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.activity.GameComponent;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.fonts.Font;
+import net.foxycorndog.jdoogl.geometry.Point;
 import net.foxycorndog.jdoogl.geometry.Vector;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
@@ -52,7 +53,7 @@ public class Main extends GameComponent
 	
 	public Main()
 	{
-		super("Nostalgia", 640, 512, 60);
+		super("Nostalgia", 640, 512, -60);
 	}
 	
 	public void onCreate()
@@ -94,11 +95,14 @@ public class Main extends GameComponent
 		
 		grass = new Texture("res/images/grass.png");
 		
-//		GL.initLighting();
-//		GL.setShadeModel(GL.SMOOTH);
-//		
-//		GL.setAmbientLighti(brightness, brightness, brightness);
-//		GL.setLightProperties();
+		GL.initLighting();
+		GL.setShadeModel(GL.SMOOTH);
+		
+		GL.setAmbientLighti(brightness, brightness, brightness);
+		GL.setLightProperties();
+		
+		GL.addDiffuse(GL.LIGHT0, new Point(0.35f, 0.35f, 0.35f));
+//		GL.addSpecular(GL.LIGHT1, new Point(01.0f, 01.0f, 01.0f));
 //		
 //		GL.setShadeModel(GL.SMOOTH);
 //		
@@ -108,43 +112,49 @@ public class Main extends GameComponent
 		
 		texture = new Texture(0);
 		
-		System.out.println(GL.getVersion());
-		
 		GL.enablePolygonAntialiasing();
 //		GL.initBasicLights();
 	}
 	
 	public void render2D(int dfps)
 	{
-		GL.drawTexture(grass, 50, 50, 0, 11);
+//		GL.drawTexture(grass, 50, 50, 0, 11);
 		
-		if (player.getActiveGun() != null)
+		GL.pushAttribute(GL.CURRENT_BIT);
 		{
-			String gunAmmo = player.getActiveGun().getClipAmmo() + "/" + player.getActiveGun().getIdleAmmo();
+			GL.setColori(255 - brightness, 255 - brightness, 255 - brightness, 255);
 			
-			String dots = "";
-			
-			for (int i = 1; i < 3 + 1; i ++)
+			if (player.getActiveGun() != null)
 			{
-				if (dfps > (i * 10))
+				String gunAmmo = player.getActiveGun().getClipAmmo() + "/" + player.getActiveGun().getIdleAmmo();
+				
+				String dots = "";
+				
+				for (int i = 1; i < 3 + 1; i ++)
 				{
-					dots += ".";
+					if (dfps > (i * 10))
+					{
+						dots += ".";
+					}
+					else
+					{
+						dots += " ";
+					}
 				}
-				else
+				
+				font.render(gunAmmo, 0, 0, 0, 5f);
+				
+				if (player.getActiveGun().isReloading())
 				{
-					dots += " ";
+					font.render("Reloading" + dots, font.getGlyphWidth() * (gunAmmo.length() + 1) * 5f, 0, 0, 5f);
 				}
 			}
 			
-			font.render(gunAmmo, 0, 0, 0, 5f);
+			font.render("+", 0, 0, 0, 4, Font.CENTER, Font.CENTER);
 			
-			if (player.getActiveGun().isReloading())
-			{
-				font.render("Reloading" + dots, font.getGlyphWidth() * (gunAmmo.length() + 1) * 5f, 0, 0, 5f);
-			}
+			font.render("FPS: " + Frame.getFps(), 0, 0, 0, 2, Font.RIGHT, Font.TOP);
 		}
-		
-		font.render("+", 0, 0, 0, 4, Font.CENTER, Font.CENTER);
+		GL.popAttribute();
 	}
 	
 	public void render3D(int dfps)
@@ -154,7 +164,10 @@ public class Main extends GameComponent
 		
 		player.render();
 		
-		map.render();
+		map.render(camera.getLocation());
+		
+		GL.setLightLocation(GL.LIGHT0, player.getLocation());
+//		GL.setLightLocation(GL.LIGHT1, new Point(-2, 2, 4));
 //		GL.setLightLocation(player.getX() + player.getCenterX(), player.getY() + player.getCenterY(), player.getZ() + player.getCenterZ());
 //		if (pic)
 //		{
@@ -173,6 +186,8 @@ public class Main extends GameComponent
 	
 	public void loop(int dfps)
 	{
+		float delta = 60f / Frame.getFps();
+		
 		map.update(dfps);
 		
 //		if (dfps == 0)
@@ -203,13 +218,13 @@ public class Main extends GameComponent
 						offsetZ -= -5/5f * dWheel;
 					}
 				}
+				
 				brightness += dWheel * 2;
 				
+				brightness = brightness < 0 ? 0 : brightness;
+				
 				GL.setAmbientLighti(brightness, brightness, brightness);
-				
-				AL.setMasterVolume(AL.getMasterVolume() + dWheel / 20);
-				
-				System.out.println(AL.getMasterVolume());
+				GL.setClearColori(brightness, brightness, brightness, 255);
 			}
 			
 			float dx = MouseInput.getDX();
@@ -219,19 +234,19 @@ public class Main extends GameComponent
 			
 			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_W))
 			{
-				player.move(0, 0, -0.1f);
+				player.move(0, 0, -0.1f * delta);
 			}
 			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_A))
 			{
-				player.move(-0.1f, 0, 0);
+				player.move(-0.1f * delta, 0, 0);
 			}
 			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_S))
 			{
-				player.move(0, 0, 0.1f);
+				player.move(0, 0, 0.1f * delta);
 			}
 			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_D))
 			{
-				player.move(0.1f, 0, 0);
+				player.move(0.1f * delta, 0, 0);
 			}
 			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_SPACE))
 			{

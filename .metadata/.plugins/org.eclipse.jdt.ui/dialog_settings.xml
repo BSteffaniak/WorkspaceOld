@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<item value="filter_imports;" key="filters_last_used"/>
-	<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDoutil" key="org.eclipse.jdt.ui.lastextjar"/>
+	<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDoogl" key="org.eclipse.jdt.ui.lastextjar"/>
 	<section name="OptionalMessageDialog.hide.">
 	</section>
 	<section name="JarPackageWizard">
@@ -17,13 +17,15 @@
 		<item value="true" key="JarPackageWizardPage.EXPORT_CLASS_FILES"/>
 		<item value="false" key="jarOptionsWizardPage.SAVE_DESCRIPTION"/>
 		<item value="false" key="JarManifestWizardPage.SAVE_MANIFEST"/>
-		<item value="false" key="JarPackageWizardPage.EXPORT_JAVA_FILES"/>
+		<item value="true" key="JarPackageWizardPage.EXPORT_JAVA_FILES"/>
 		<item value="false" key="JarPackageWizardPage.EXPORT_OUTPUT_FOLDER"/>
 		<item value="true" key="JarPackageWizardPage.COMPRESS"/>
 		<item value="true" key="jarOptionsWizardPage.BUILD_IF_NEEDED"/>
 		<item value="false" key="jarOptionsWizardPage.STORE_USE_SRC_FOLDERS"/>
 		<item value="" key="jarOptionsWizardPage.DESCRIPTION_LOCATION"/>
 		<list key="JarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="jDoogl\jDoogl.jar"/>
+			<item value="jDoutil/jDoutil.jar"/>
 			<item value="jDoutil/jDoutil2.jar"/>
 			<item value="jDoogl/jDoogl.jar"/>
 		</list>

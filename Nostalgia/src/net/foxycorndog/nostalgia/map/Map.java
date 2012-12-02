@@ -27,9 +27,9 @@ public class Map
 	
 	private SpriteSheet    sprites;
 	
-	private Model          bunny, house, hat;
+	private Model          pin, house, hat, bunny;
 	
-	private LightBuffer    texturesBuffer, colorsBuffer;
+	private LightBuffer    texturesBuffer, colorsBuffer, normalsBuffer;
 	
 	private VerticesBuffer verticesBuffer, bulletVertices;
 	public  int            render = GL.POINTS;
@@ -49,6 +49,7 @@ public class Map
 		cubes    = new float[6 * numCubes];
 		
 		verticesBuffer = new VerticesBuffer(4 * 3 * 6 * numCubes, 3);
+		normalsBuffer  = new LightBuffer(4 * 3 * 6 * numCubes);
 		texturesBuffer = new LightBuffer(2 * 4 * 6 * numCubes);
 		colorsBuffer   = new LightBuffer(4 * 4 * 6 * numCubes);
 		
@@ -132,8 +133,10 @@ public class Map
 		
 		verticesBuffer.genIndices(GL.QUADS, null);
 		
-		bunny = new Model("res/ironman/pin.obj", 0.1f);
-		bunny.move(0, 5, 0);
+		pin = new Model("res/ironman/pin.obj", 0.1f);
+		pin.move(0, 5, 0);
+		
+		bunny = new Model("res/bunny.obj", 20);
 		
 		house = new Model("res/house.obj", 1);
 		house.move(-1.5f, 0, 0);
@@ -141,7 +144,7 @@ public class Map
 		hat = new Model("res/crappyhat.obj", 2);
 		hat.move(1, 6, 0);
 		
-		shaderProgram = ShaderUtils.loadShaderProgram("res/shaders/vertex.vs", "res/shaders/vertex.fs");
+		shaderProgram     = ShaderUtils.loadShaderProgram("res/shaders/vertex.vs", "res/shaders/vertex.fs");
 	}
 	
 	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int colors[][], int index, boolean collision)
@@ -159,6 +162,7 @@ public class Map
 		verticesBuffer.addData(vertices);
 		texturesBuffer.addData(GL.addCubeTextureArrayf(textures, rx, ry, 0, null));
 		colorsBuffer.addData(GL.addCubeColorArrayif(colors , 0, null));
+		normalsBuffer.addData(GL.addCubeNormalArrayf(0, null));
 		
 		if (collision)
 		{
@@ -272,38 +276,54 @@ public class Map
 		}
 	}
 	
-	public void render()
+	public void render(Point cameraPosition)
 	{
 		ShaderUtils.useShaderProgram(shaderProgram);
 		{
+//			ShaderUtils.uniform3f(ShaderUtils.getUniformLocation(shaderProgram, "cameraPosition"), cameraPosition.getX(), cameraPosition.getY(), cameraPosition.getZ());
+			ShaderUtils.uniform3f("specColor", 1, 1, 1);
+			ShaderUtils.uniform1f("intensity", 1);
+			ShaderUtils.uniform1i("lightNumber", 1);
+			GL.setReflection(new Point(0.5f, 0.5f, 0.5f));
+			GL.setShininess(128);
 			house.render();
-		
-		
-//			ShaderUtils.uniform3f(ShaderUtils.getUniformLocation(shaderProgram, "uniformTest"), 1, 0, 1);
+
+			ShaderUtils.uniform3f("specColor", 4f, 3.6f, 2.9f);
+			ShaderUtils.uniform1f("intensity", 1);
+			ShaderUtils.uniform1i("lightNumber", 1);
+			GL.setReflection(new Point(0.5f, 0.5f, 0.5f));
+			GL.setShininess(15);
+			pin.render();
+
+			ShaderUtils.uniform3f("specColor", 4f, 3.6f, 2.9f);
+			ShaderUtils.uniform1f("intensity", 0.25f);
+			ShaderUtils.uniform1i("lightNumber", 1);
+			GL.setReflection(new Point(10.9f, 10.9f, 10.9f));
+			GL.setShininess(128);
 			bunny.render();
 			
 //			ShaderUtils.getUniformLocation(programId, uniformName)
 		
-			hat.render();
+//			hat.render();
 		}
 		ShaderUtils.useShaderProgram(0);
 		
-		GL.renderCubes(verticesBuffer, texturesBuffer, null, colorsBuffer, sprites, 0, 1, null);
+		GL.renderCubes(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, sprites, 0, 1, null);
 		
-		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, tile, 1, 1);
+		GL.renderCubes(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, tile, 1, 1, null);
 		
 		GL.beginManipulation();
 		{
 //			GL.rotatef(0, 0, rotY);
 			
-			GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, brick, 2, 1);
+			GL.renderCubes(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, brick, 2, 1, null);
 			
 			rotY += 1;
 			rotY %= 360;
 		}
 		GL.endManipulation();
 		
-		GL.renderCubes(verticesBuffer, texturesBuffer, colorsBuffer, brick, 3, 2);
+		GL.renderCubes(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, brick, 3, 2, null);
 		
 		renderBullets();
 		

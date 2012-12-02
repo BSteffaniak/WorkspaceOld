@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL11.glRotatef;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 
 import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.geometry.Point;
 
 import org.lwjgl.util.vector.Vector3f;
 
@@ -13,7 +14,7 @@ public class Camera implements Cloneable
 	private int      cameraMode;
 	
 	// 3d vector to store the camera's position in
-	private Vector3f location;
+	private Point location;
 	
 	// the rotation around the Y axis of the camera
 	private float	 yaw, maxYaw, minYaw;
@@ -31,8 +32,9 @@ public class Camera implements Cloneable
 	// Default constructor
 	public Camera()
 	{
-		// instantiate position Vector3f to the x y z params.
-		location = new Vector3f(0, 0, 0);
+		location = new Point(0, 0, 0);
+//		// instantiate position Vector3f to the x y z params.
+//		location = new Vector3f(0, 0, 0);
 		
 		this.cameraMode = FREE;
 		
@@ -47,8 +49,10 @@ public class Camera implements Cloneable
 	// Constructor that takes the starting x, y, z location of the camera
 	public Camera(float x, float y, float z)
 	{
-		// instantiate position Vector3f to the x y z params.
-		location = new Vector3f(x, y, z);
+		location = new Point(x, y, z);
+		
+//		// instantiate position Vector3f to the x y z params.
+//		location = new Vector3f(x, y, z);
 	}
 	
 	public void setMinYaw(float minYaw)
@@ -248,16 +252,20 @@ public class Camera implements Cloneable
 	
 	public void setLocation(float x, float y, float z)
 	{
-		location.x = -x;
-		location.y = -y;
-		location.z = -z;
+		location.set(-x, -y, -z);
+		
+//		location.x = -x;
+//		location.y = -y;
+//		location.z = -z;
 	}
 	
 	public void move(float dx, float dy, float dz)
 	{
-		location.x -= dx;
-		location.y -= dy;
-		location.z -= dz;
+		location.move(-dx, -dy, -dz);
+		
+//		location.x -= dx;
+//		location.y -= dy;
+//		location.z -= dz;
 	}
 	
 	public void moveDirection(float distX, float distY, float distZ)
@@ -293,58 +301,109 @@ public class Camera implements Cloneable
 			float slope = (float)Math.cos(Math.toRadians(pitch));
 			
 			xOff *= slope;
-			location.y -= distY * (float)Math.sin(Math.toRadians(pitch));
+//			location.y -= distY * (float)Math.sin(Math.toRadians(pitch));
+			location.move(0, -distY * (float)Math.sin(Math.toRadians(pitch)), 0);
 			zOff *= slope;
 		}
 		else
 		{
-			location.y -= distY;
+//			location.y -= distY;
+			location.move(0, -distY, 0);
 		}
 		
-		location.x += xOff;
-		location.y += yOff;
-		location.z += zOff;
+//		location.x += xOff;
+//		location.y += yOff;
+//		location.z += zOff;
+		location.move(xOff, yOff, zOff);
 	}
 	
 	public void move(int direction, float distance)
 	{
 		if (direction == FORWARD)
 		{
-			location.x -= distance * (float)Math.sin(Math.toRadians(yaw));
-			location.z += distance * (float)Math.cos(Math.toRadians(yaw));
+//			location.x -= distance * (float)Math.sin(Math.toRadians(yaw));
+//			location.z += distance * (float)Math.cos(Math.toRadians(yaw));
+			location.move
+				(
+					-distance * (float)Math.sin(Math.toRadians(yaw)),
+					0,
+					distance * (float)Math.cos(Math.toRadians(yaw))
+				);
 			
 			if (cameraMode == FREE)
 			{
-				location.y += distance * (float)Math.tan(Math.toRadians(pitch));
+//				location.y += distance * (float)Math.tan(Math.toRadians(pitch));
+				location.move
+					(
+						0,
+						distance * (float)Math.tan(Math.toRadians(pitch)),
+						0
+					);
 			}
 		}
 		else if (direction == BACKWARD)
 		{
-			location.x += distance * (float)Math.sin(Math.toRadians(yaw));
-			location.z -= distance * (float)Math.cos(Math.toRadians(yaw));
+//			location.x += distance * (float)Math.sin(Math.toRadians(yaw));
+//			location.z -= distance * (float)Math.cos(Math.toRadians(yaw));
+			location.move
+				(
+					distance * (float)Math.sin(Math.toRadians(yaw)),
+					0,
+					-distance * (float)Math.cos(Math.toRadians(yaw))
+				);
 
 			if (cameraMode == FREE)
 			{
-				location.y -= distance * (float)Math.tan(Math.toRadians(pitch));
+//				location.y -= distance * (float)Math.tan(Math.toRadians(pitch));
+				location.move
+					(
+						0,
+						-distance * (float)Math.tan(Math.toRadians(pitch)),
+						0
+					);
 			}
 		}
 		else if (direction == LEFT)
 		{
-			location.x -= distance * (float)Math.sin(Math.toRadians(yaw - 90));
-			location.z += distance * (float)Math.cos(Math.toRadians(yaw - 90));
+//			location.x -= distance * (float)Math.sin(Math.toRadians(yaw - 90));
+//			location.z += distance * (float)Math.cos(Math.toRadians(yaw - 90));
+			location.move
+				(
+					-distance * (float)Math.sin(Math.toRadians(yaw - 90)),
+					0,
+					distance * (float)Math.cos(Math.toRadians(yaw - 90))
+				);
 		}
 		else if (direction == RIGHT)
 		{
-			location.x -= distance * (float)Math.sin(Math.toRadians(yaw + 90));
-			location.z += distance * (float)Math.cos(Math.toRadians(yaw + 90));
+//			location.x -= distance * (float)Math.sin(Math.toRadians(yaw + 90));
+//			location.z += distance * (float)Math.cos(Math.toRadians(yaw + 90));
+			location.move
+				(
+					-distance * (float)Math.sin(Math.toRadians(yaw + 90)),
+					0,
+					distance * (float)Math.cos(Math.toRadians(yaw + 90))
+				);
 		}
 		else if (direction == UP)
 		{
-			location.y -= distance;
+//			location.y -= distance;
+			location.move
+				(
+					0,
+					-distance,
+					0
+				);
 		}
 		else if (direction == DOWN)
 		{
-			location.y += distance;
+//			location.y += distance;
+			location.move
+				(
+					0,
+					distance,
+					0
+				);
 		}
 	}
 	
@@ -354,27 +413,27 @@ public class Camera implements Cloneable
 	{
 		GL.rotatef(pitch, yaw, roll);
 		// translate to the position vector's location
-		GL.translatef(location.x, location.y, location.z);
+		GL.translatef(location.getX(), location.getY(), location.getZ());
 	}
 	
-	public float[] getLocation()
+	public Point getLocation()
 	{
-		return new float[] { -location.x, -location.y, -location.z };
+		return new Point(getX(), getY(), getZ());
 	}
 	
 	public float getX()
 	{
-		return -location.x;
+		return -location.getX();
 	}
 	
 	public float getY()
 	{
-		return -location.y;
+		return -location.getY();
 	}
 	
 	public float getZ()
 	{
-		return -location.z;
+		return -location.getZ();
 	}
 	
 	public void setCameraMode(int mode)
@@ -398,9 +457,7 @@ public class Camera implements Cloneable
 	
 	public String toString()
 	{
-		float location[] = getLocation();
-		
-		return "[ " + location[0] + ", " + location[1] + ", " + location[2] + " ]";
+		return "[ " + getX() + ", " + getY() + ", " + getZ() + " ]";
 	}
 }
 

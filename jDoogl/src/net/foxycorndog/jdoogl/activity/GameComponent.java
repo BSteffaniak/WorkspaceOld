@@ -2,6 +2,7 @@ package net.foxycorndog.jdoogl.activity;
 
 import org.lwjgl.opengl.GL11;
 
+import net.foxycorndog.jdobase.Base;
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.components.Frame.GameRenderer;
@@ -17,6 +18,8 @@ public abstract class GameComponent
 	
 	public GameComponent(String title, int width, int height, int targetFps)
 	{
+		Base.init();
+		
 		onCreate(title, width, height, targetFps);
 	}
 	
