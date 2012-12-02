@@ -40,11 +40,11 @@ import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoutil.GeneralCollection;
-import net.foxycorndog.jdoutil.HeavyBuffer;
 import net.foxycorndog.jdoutil.Intersection;
 import net.foxycorndog.jdoutil.Intersects;
 import net.foxycorndog.jdoutil.JMath;
 import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 
 public abstract class Map
 {
@@ -62,8 +62,9 @@ public abstract class Map
 	
 	private BufferedImage                 mapImage;
 	
-	private LightBuffer                   backgroundVerticesBuffer, backgroundTexturesBuffer;
-	private LightBuffer                   foregroundVerticesBuffer, foregroundTexturesBuffer;
+	private LightBuffer                   backgroundTexturesBuffer, foregroundTexturesBuffer;
+	
+	private VerticesBuffer                backgroundVerticesBuffer, foregroundVerticesBuffer;
 	
 	private Random                        random;
 	
@@ -136,7 +137,7 @@ public abstract class Map
 		random = new Random();
 		random.setSeed(getSeed());
 		
-		backgroundVerticesBuffer = new LightBuffer(width * height * OBJECT_SIZE);
+		backgroundVerticesBuffer = new VerticesBuffer(width * height * OBJECT_SIZE, 3);
 		backgroundTexturesBuffer = new LightBuffer(width * height * TEXTURE_SIZE);
 		
 //		backgroundVerticesBuffer.setBuffer(BufferUtils.createFloatBuffer(width * height * OBJECT_SIZE));
@@ -146,7 +147,7 @@ public abstract class Map
 //		backgroundTexturesBuffer.init();
 		
 		
-		foregroundVerticesBuffer = new LightBuffer(width * height * OBJECT_SIZE);
+		foregroundVerticesBuffer = new VerticesBuffer(width * height * OBJECT_SIZE, 3);
 		foregroundTexturesBuffer = new LightBuffer(width * height * TEXTURE_SIZE);
 		
 //		foregroundVerticesBuffer.setBuffer(BufferUtils.createFloatBuffer(width * height * OBJECT_SIZE));
@@ -306,7 +307,7 @@ public abstract class Map
 	*/
 	public static void init()
 	{
-		terrain = new SpriteSheet(Idk.prefix + "res/images/map/terrain/Terrain.png", "PNG", 64, 40, true, false);
+		terrain = new SpriteSheet(Idk.prefix + "res/images/map/terrain/Terrain.png", 64, 40);
 		
 		maps = new GeneralCollection<Map>();
 		
@@ -455,8 +456,8 @@ public abstract class Map
 	*/
 	private void renderBackground()
 	{
-		GL.beginTextureDraw(backgroundTexturesBuffer, 2);
-		GL.beginVertexDraw (backgroundVerticesBuffer, VERTEX_SIZE);
+		GL.beginTextureDraw(backgroundTexturesBuffer);
+		GL.beginVertexDraw (backgroundVerticesBuffer);
 		
 		terrain.bind();
 		
@@ -498,8 +499,8 @@ public abstract class Map
 	*/
 	private void renderForeground()
 	{
-		GL.beginTextureDraw(foregroundTexturesBuffer, 2);
-		GL.beginVertexDraw (foregroundVerticesBuffer, VERTEX_SIZE);
+		GL.beginTextureDraw(foregroundTexturesBuffer);
+		GL.beginVertexDraw (foregroundVerticesBuffer);
 		
 		terrain.bind();
 		

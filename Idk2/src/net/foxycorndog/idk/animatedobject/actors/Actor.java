@@ -25,6 +25,7 @@ import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 
 public class Actor extends AnimatedObject
 {
@@ -59,7 +60,8 @@ public class Actor extends AnimatedObject
 	private Weapon    weapon;
 	private Apparel   apparel[];
 	
-	private LightBuffer    verticesBuffer, texturesBuffer;
+	private LightBuffer    texturesBuffer;
+	private VerticesBuffer verticesBuffer;
 	
 	private Inventory inventory;
 	
@@ -205,7 +207,7 @@ public class Actor extends AnimatedObject
 	*/
 	public void init(int row)
 	{
-		verticesBuffer = new LightBuffer(OBJECT_SIZE * 3);
+		verticesBuffer = new VerticesBuffer(OBJECT_SIZE * 3, 3);
 		texturesBuffer = new LightBuffer(TEXTURE_SIZE * 3);
 		
 //		verticesBuffer.setBuffer(BufferUtils.createFloatBuffer(OBJECT_SIZE * 3));
@@ -246,7 +248,7 @@ public class Actor extends AnimatedObject
 	*/
 	public static void init()
 	{
-		actors = new SpriteSheet(Idk.prefix + "res/images/actors/Actors.png", "PNG", 49, 30, true, false);
+		actors = new SpriteSheet(Idk.prefix + "res/images/actors/Actors.png", 49, 30);
 	}
 	
 	/**

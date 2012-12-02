@@ -15,6 +15,8 @@ public class Player extends Actor
 	private short    level;
 	private short    xp;
 	private short    nextXp;
+	
+	private int      topBuffer, bottomBuffer, leftBuffer, rightBuffer;
 //	private short    points;
 	
 	/**
@@ -32,10 +34,10 @@ public class Player extends Actor
 		
 		this.focused = focused;
 		
-		Frame.setTopBuffer   ((short)(Frame.getHeight() / 4));
-		Frame.setBottomBuffer((short)(Frame.getHeight() / 4));
-		Frame.setLeftBuffer  ((short)(Frame.getWidth()  / 4));
-		Frame.setRightBuffer ((short)(Frame.getWidth()  / 4));
+		topBuffer    = Frame.getHeight() / 4;
+		bottomBuffer = Frame.getHeight() / 4;
+		leftBuffer   = Frame.getWidth()  / 4;
+		rightBuffer  = Frame.getWidth()  / 4;
 		
 		getInventory().addItem(Item.getItemById(ApparelId.MAGES_ROBE.getId()));
 		getInventory().addItem(Item.getItemById(PotionId.MINOR_HEALING_POTION.getId()));
@@ -78,11 +80,11 @@ public class Player extends Actor
 		{
 			if (canMove(dx, 0))
 			{
-				if (dx > 0 && getX() + dx > frameWidth - Frame.getRightBuffer())
+				if (dx > 0 && getX() + dx > frameWidth - rightBuffer)
 				{
 					moved = getMap().move(-dx, 0);//move((frameWidth - (frameWidth / 4)) - (getX() + dx), 0);//super.move((frameWidth - (frameWidth / 4)) - (getX() + dx), 0);
 				}
-				if (dx < 0 && getX() + dx < Frame.getLeftBuffer())
+				if (dx < 0 && getX() + dx < leftBuffer)
 				{
 					moved = getMap().move(-dx, 0);//move((frameWidth / 4) - (getX() + dx), 0);//super.move((frameWidth / 4) - (getX() + dx), 0);
 				}
@@ -94,11 +96,11 @@ public class Player extends Actor
 			}
 			if (canMove(0, dy))
 			{
-				if (dy > 0 && getY() + dy > frameHeight - Frame.getBottomBuffer())
+				if (dy > 0 && getY() + dy > frameHeight - bottomBuffer)
 				{
 					moved = getMap().move(0, -dy);//move(0, (frameHeight - (frameHeight / 4)) - (getY() + dy));//super.move(0, (frameHeight - (frameHeight / 4)) - (getY() + dy));
 				}
-				if (dy < 0 && getY() + dy < Frame.getTopBuffer())
+				if (dy < 0 && getY() + dy < topBuffer)
 				{
 					moved = getMap().move(0, -dy);//move(0, (frameHeight / 4) - (getY() + dy));//super.move(0, (frameHeight / 4) - (getY() + dy));
 				}

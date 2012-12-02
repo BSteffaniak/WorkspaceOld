@@ -12,6 +12,7 @@ import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoutil.Intersection;
 import net.foxycorndog.jdoutil.Intersects;
 import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 
 public class Building
 {
@@ -20,7 +21,8 @@ public class Building
 	
 	private float       x, y;
 	
-	private LightBuffer      verticesBuffer, texturesBuffer;
+	private LightBuffer texturesBuffer;
+	private VerticesBuffer verticesBuffer;
 	
 	private BuildingMap map;
 	
@@ -67,7 +69,7 @@ public class Building
 	*/
 	private void init(byte spriteX, byte spriteY, byte width, byte height)
 	{
-		verticesBuffer = new LightBuffer(OBJECT_SIZE);
+		verticesBuffer = new VerticesBuffer(OBJECT_SIZE, 3);
 //		verticesBuffer.setBuffer(BufferUtils.createFloatBuffer(OBJECT_SIZE));
 //		verticesBuffer.init();
 		
@@ -92,7 +94,7 @@ public class Building
 	*/
 	public static void init()
 	{
-		buildings = new SpriteSheet(Idk.prefix + "res/images/map/buildings/Buildings.png", "PNG", 50, 50, true, false);
+		buildings = new SpriteSheet(Idk.prefix + "res/images/map/buildings/Buildings.png", 50, 50);
 	}
 	
 	/**

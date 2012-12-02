@@ -52,7 +52,6 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.camera.Camera"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.GL"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.LightBuffer"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoutil.VerticesBuffer"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.input.KeyboardInput"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.geometry.Point"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.util.HashSet"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoutil.VerticesBuffer"/>
 </qualifiedTypeNameHistroy>

@@ -6,6 +6,7 @@ import net.foxycorndog.idk.items.targets.Target;
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 
 public class Apparel extends Item
 {
@@ -15,7 +16,9 @@ public class Apparel extends Item
 	
 	private Part   parts[];
 	
-	private LightBuffer verticesBuffer, texturesBuffer;
+	private LightBuffer texturesBuffer;
+	
+	private VerticesBuffer verticesBuffer;
 	
 	private static SpriteSheet apparelSprites;
 	
@@ -71,7 +74,7 @@ public class Apparel extends Item
 		
 		this.parts  = parts;
 		
-		this.verticesBuffer = new LightBuffer(Idk.OBJECT_SIZE * 16);
+		this.verticesBuffer = new VerticesBuffer(Idk.OBJECT_SIZE * 16, 3);
 		this.texturesBuffer = new LightBuffer(Idk.OBJECT_SIZE * 16);
 		
 		for (int i = 0; i < 16; i ++)
@@ -83,7 +86,7 @@ public class Apparel extends Item
 	
 	public static void init()
 	{
-		apparelSprites = new SpriteSheet("res/images/actors/Apparel.png", "PNG", 49, 30, true, false);
+		apparelSprites = new SpriteSheet("res/images/actors/Apparel.png", 49, 30);
 	}
 	
 	/**

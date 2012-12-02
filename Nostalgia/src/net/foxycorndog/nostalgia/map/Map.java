@@ -283,27 +283,32 @@ public class Map
 //			ShaderUtils.uniform3f(ShaderUtils.getUniformLocation(shaderProgram, "cameraPosition"), cameraPosition.getX(), cameraPosition.getY(), cameraPosition.getZ());
 			ShaderUtils.uniform3f("specColor", 1, 1, 1);
 			ShaderUtils.uniform1f("intensity", 1);
-			ShaderUtils.uniform1i("lightNumber", 1);
+			ShaderUtils.uniform1i("lightNumber", 0);
 			GL.setReflection(new Point(0.5f, 0.5f, 0.5f));
 			GL.setShininess(128);
 			house.render();
 
 			ShaderUtils.uniform3f("specColor", 4f, 3.6f, 2.9f);
 			ShaderUtils.uniform1f("intensity", 1);
-			ShaderUtils.uniform1i("lightNumber", 1);
+			ShaderUtils.uniform1i("lightNumber", 0);
 			GL.setReflection(new Point(0.5f, 0.5f, 0.5f));
 			GL.setShininess(15);
 			pin.render();
 
 			ShaderUtils.uniform3f("specColor", 4f, 3.6f, 2.9f);
-			ShaderUtils.uniform1f("intensity", 0.25f);
-			ShaderUtils.uniform1i("lightNumber", 1);
+			ShaderUtils.uniform1f("intensity", 0.85f);
+			ShaderUtils.uniform1i("lightNumber", 0);
 			GL.setReflection(new Point(10.9f, 10.9f, 10.9f));
 			GL.setShininess(128);
 			bunny.render();
 			
 //			ShaderUtils.getUniformLocation(programId, uniformName)
 		
+//			ShaderUtils.uniform3f("specColor", 4f, 3.6f, 2.9f);
+//			ShaderUtils.uniform1f("intensity", 0.85f);
+//			ShaderUtils.uniform1i("lightNumber", 0);
+//			GL.setReflection(new Point(10.9f, 10.9f, 10.9f));
+//			GL.setShininess(128);
 //			hat.render();
 		}
 		ShaderUtils.useShaderProgram(0);

@@ -18,6 +18,7 @@ import net.foxycorndog.jdoogl.components.TextButton;
 import net.foxycorndog.jdoogl.components.ToolTipText;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 
 public class Inventory
 {
@@ -34,7 +35,9 @@ public class Inventory
 	private ArrayList<Item>       items;
 	private ArrayList<Boolean>    inUse;
 	
-	private static LightBuffer         verticesBuffer, texturesBuffer;
+	private static LightBuffer    texturesBuffer;
+	private static VerticesBuffer verticesBuffer;
+	
 	private static SpriteSheet    inventorySprites;
 	
 	public Inventory()
@@ -89,9 +92,9 @@ public class Inventory
 	
 	public static void init()
 	{
-		inventorySprites = new SpriteSheet(Idk.prefix + "res/images/Inventory.png", "PNG", 1, 1, true, false);
+		inventorySprites = new SpriteSheet(Idk.prefix + "res/images/Inventory.png", 1, 1);
 		
-		verticesBuffer = new LightBuffer(OBJECT_SIZE);
+		verticesBuffer = new VerticesBuffer(OBJECT_SIZE, 3);
 		texturesBuffer = new LightBuffer(OBJECT_SIZE);
 		
 		verticesBuffer.addData(GL.addRectVertexArrayf(0, 0, 500, 400, 0, null));
@@ -277,7 +280,7 @@ public class Inventory
 	public void refresh()
 	{
 		int xoff = 20;
-		int yoff = inventorySprites.getImageHeight() - 15 - 16 - 1;
+		int yoff = inventorySprites.getHeight() - 15 - 16 - 1;
 		
 		compacted = getCompactedArray();
 		
@@ -339,7 +342,7 @@ public class Inventory
 		
 		GL.beginManipulation();
 		{
-			GL.translatef(Frame.getWidth() / 2 - inventorySprites.getImageWidth() / 2, 56, 0);
+			GL.translatef(Frame.getWidth() / 2 - inventorySprites.getWidth() / 2, 56, 0);
 			
 			GL.beginManipulation();
 			{
@@ -354,7 +357,7 @@ public class Inventory
 				int xoff = 20;
 				int yoff = 15;
 				
-				Frame.renderText(xoff, inventorySprites.getImageHeight() - yoff - Frame.getNormalFontHeight() * 2, "Items:", Color.WHITE, 2);
+				Frame.renderText(xoff, inventorySprites.getHeight() - yoff - Frame.getNormalFontHeight() * 2, "Items:", Color.WHITE, 2);
 			}
 			GL.endManipulation();
 			
