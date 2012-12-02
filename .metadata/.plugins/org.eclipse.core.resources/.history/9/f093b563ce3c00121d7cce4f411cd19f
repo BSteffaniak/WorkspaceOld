@@ -1,0 +1,44 @@
+package net.foxycorndog.shootcrap;
+
+import net.foxycorndog.jdoogl.activity.GameComponent;
+
+public class ShootCrap extends GameComponent
+{
+	
+	public static final String GAME_TITLE = "Shoot Crap";
+	
+	public static void main(String args[])
+	{
+		new ShootCrap();
+	}
+	
+	public ShootCrap()
+	{
+		super(GAME_TITLE, 800, 600, -1);
+	}
+
+	@Override
+	public void onCreate()
+	{
+		
+	}
+
+	@Override
+	public void render2D(int dfps)
+	{
+		
+	}
+
+	@Override
+	public void render3D(int dfps)
+	{
+		
+	}
+
+	@Override
+	public void loop(int dfps)
+	{
+		
+	}
+	
+}

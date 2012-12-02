@@ -1123,6 +1123,8 @@ public abstract class Frame
 		public GameRenderer(String title, int width, int height)
 		{
 			Frame.init(width, height, title, null, false);
+			
+			GL.initBasicView(999, -999);
 		}
 
 		public void onDrawFrame()

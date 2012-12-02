@@ -1982,6 +1982,9 @@ public class GL
 		GL.zClose = zClose;
 		GL.zFar   = zFar;
 		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
 		if (render3D)
 		{
 //			glViewport(0, 0, Display.getWidth(), Display.getHeight());
@@ -1999,9 +2002,6 @@ public class GL
 //			glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
 //			
 			glEnable(GL11.GL_TEXTURE_2D);
-			
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			
 //			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			

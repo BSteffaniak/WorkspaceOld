@@ -24,6 +24,7 @@ public class Font
 	private int width, height;
 	private int glyphWidth, glyphHeight;
 	private int ids;
+	private int letterMargin;
 	
 	private SpriteSheet characters;
 	
@@ -183,7 +184,7 @@ public class Font
 					
 					float offsets[] = characters.getImageOffsetsf(charX, charY, 1, 1);
 					
-					vertices.addData(GL.addRectVertexArrayf(i * glyphWidth, 0, glyphWidth, glyphHeight, 0, null));
+					vertices.addData(GL.addRectVertexArrayf(i * glyphWidth + (letterMargin * i), 0, glyphWidth, glyphHeight, 0, null));
 					textures.addData(GL.addRectTextureArrayf(offsets, 0, null));
 				}
 				catch (NullPointerException e)
@@ -313,16 +314,16 @@ public class Font
 			//					Correct View
 								
 								GL.glTexCoord2f(offsets[2], offsets[1]);
-								GL.glVertex2f(i * glyphWidth + glyphWidth, 0);
+								GL.glVertex2f(i * glyphWidth + glyphWidth + (letterMargin * i), 0);
 								
 								GL.glTexCoord2f(offsets[2], offsets[3]);
-								GL.glVertex2f(i * glyphWidth + glyphWidth, glyphHeight);
+								GL.glVertex2f(i * glyphWidth + glyphWidth + (letterMargin * i), glyphHeight);
 								
 								GL.glTexCoord2f(offsets[0], offsets[3]);
-								GL.glVertex2f(i * glyphWidth, glyphHeight);
+								GL.glVertex2f(i * glyphWidth + (letterMargin * i), glyphHeight);
 								
 								GL.glTexCoord2f(offsets[0], offsets[1]);
-								GL.glVertex2f(i * glyphWidth, 0);
+								GL.glVertex2f(i * glyphWidth + (letterMargin * i), 0);
 								
 			//					Reversed View
 			//					
@@ -413,5 +414,15 @@ public class Font
 	public int getGlyphHeight()
 	{
 		return glyphHeight;
+	}
+	
+	public int getLetterMargin()
+	{
+		return letterMargin;
+	}
+	
+	public void setLetterMargin(int letterMargin)
+	{
+		this.letterMargin = letterMargin;
 	}
 }
