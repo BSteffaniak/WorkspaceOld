@@ -82,6 +82,8 @@ public class Map
 		}
 		
 		backgroundVertices.genIndices(GL.QUADS, null);
+		
+		actors = new ArrayList<Actor>();
 	}
 	
 	public float getX()
@@ -98,6 +100,11 @@ public class Map
 	{
 		x += dx;
 		y += dy;
+	}
+	
+	public void addActor(Actor actor)
+	{
+		actors.add(actor);
 	}
 	
 	public void render()
@@ -124,6 +131,23 @@ public class Map
 	
 	public void renderActors()
 	{
-		GL.renderQuads(actorVertices, actorTextures, null, null, Actor.getSprites(), 0, actors.size(), null);
+		synchronized (actors)
+		{
+			for (int i = actors.size() - 1; i >= 0; i --)
+			{
+				synchronized (actors)
+				{
+					Actor actor = actors.get(i);
+					
+					GL.beginManipulation();
+					{
+						GL.translatef(actor.getX(), actor.getY(), 0);
+						
+						GL.renderQuads(actorVertices, actorTextures, null, null, Actor.getSprites(), actor.getId(), 1, null);
+					}
+					GL.endManipulation();
+				}
+			}
+		}
 	}
 }
