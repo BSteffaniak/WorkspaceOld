@@ -1,13 +1,12 @@
 package net.foxycorndog.shootcrap.actor;
 
-import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 
 public class Actor
 {
 	private int   width, height;
 	private int   spriteWidth, spriteHeight;
-	private int   spriteRow;
+	private int   spriteX, spriteY;
 	
 	private float x, y;
 	
@@ -18,16 +17,17 @@ public class Actor
 		sprites = new SpriteSheet("res/images/actors.png", 10, 10);
 	}
 	
-	public Actor(int spriteRow, int spriteWidth, int spriteHeight)
+	public Actor(int spriteX, int spriteY, int spriteWidth, int spriteHeight)
 	{
-		this.spriteRow    = spriteRow;
+		this.spriteX      = spriteX;
+		this.spriteY      = spriteY;
 		this.spriteWidth  = spriteWidth;
 		this.spriteHeight = spriteHeight;
 	}
 	
-	public static float[] getVertices()
+	public void render()
 	{
-		return GL.addRectVertexArrayf(0, 0, width, height, offset, array)
+		
 	}
 	
 	public static SpriteSheet getSprites()

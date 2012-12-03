@@ -1,6 +1,5 @@
 package net.foxycorndog.shootcrap.actor;
 
-import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 
 public class Actor
@@ -25,9 +24,9 @@ public class Actor
 		this.spriteHeight = spriteHeight;
 	}
 	
-	public static float[] getVertices()
+	public void render()
 	{
-		return GL.addRectVertexArrayf(0, 0, width, height, offset, array)
+		
 	}
 	
 	public static SpriteSheet getSprites()
