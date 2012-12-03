@@ -26,7 +26,7 @@ public class ImageTextField extends ImageButton implements KeyListener, ActionLi
 	private int     lastKeyPressed;
 	private int     maxLength;
 	
-	private long    lastNanoTime, lastKeyPress;
+	private long    lastTime, lastKeyPress;
 	private long    waitedTime, waitedMarker;
 	
 	private String  fieldText;
@@ -172,11 +172,13 @@ public class ImageTextField extends ImageButton implements KeyListener, ActionLi
 			
 			Frame.renderText(0, 0, displayText + underscore , Color.WHITE, 1);
 			
-			if (isFocused() && Util.nanoTime >= lastNanoTime + 500000000l)
+			long time = System.currentTimeMillis();
+			
+			if (isFocused() && time >= lastTime + 5000l)
 			{
 				flash = !flash;
 				
-				lastNanoTime = Util.nanoTime;
+				lastTime = time;
 			}
 			
 			GL.endClipping();
@@ -244,12 +246,14 @@ public class ImageTextField extends ImageButton implements KeyListener, ActionLi
 			}
 			
 			Frame.renderText(0, 0, fieldText + underscore , Color.WHITE, 1);
+
+			long time = System.currentTimeMillis();
 			
-			if (isFocused() && Util.nanoTime >= lastNanoTime + 500000000l)
+			if (isFocused() && time >= lastTime + 500000000l)
 			{
 				flash = !flash;
 				
-				lastNanoTime = Util.nanoTime;
+				lastTime = time;
 			}
 			
 			GL.endClipping();
@@ -272,9 +276,11 @@ public class ImageTextField extends ImageButton implements KeyListener, ActionLi
 			return;
 		}
 		
+		long time = System.currentTimeMillis();
+		
 		if (!activatable || lastKeyPressed == key)
 		{
-			waitedTime = Util.nanoTime - waitedMarker;
+			waitedTime = time - waitedMarker;
 			
 			if (waitedTime >= 500000000l)
 			{
@@ -288,12 +294,12 @@ public class ImageTextField extends ImageButton implements KeyListener, ActionLi
 		else
 		{
 			waitedTime = 0;
-			waitedMarker = Util.nanoTime;
+			waitedMarker = time;
 			
 			waited = false;
 		}
 		
-		if ((waited && Util.nanoTime >= lastKeyPress + 50000000l) || (keysPressed.containsKey(key) && !keysPressed.get(key)) || !keysPressed.containsKey(key))
+		if ((waited && time >= lastKeyPress + 50000000l) || (keysPressed.containsKey(key) && !keysPressed.get(key)) || !keysPressed.containsKey(key))
 		{
 			
 		}
@@ -307,7 +313,7 @@ public class ImageTextField extends ImageButton implements KeyListener, ActionLi
 		
 		if (activatable)
 		{
-			lastKeyPress = Util.nanoTime;
+			lastKeyPress = time;
 		}
 			
 		String keyName = KeyboardInput.getKeyName(key);
@@ -560,7 +566,7 @@ public class ImageTextField extends ImageButton implements KeyListener, ActionLi
 		}
 		
 		waitedTime = 0;
-		waitedMarker = Util.nanoTime;
+		waitedMarker = System.currentTimeMillis();
 		
 		waited = false;
 		

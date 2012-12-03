@@ -735,6 +735,7 @@ public abstract class Frame
 			
 			if (!startedFps)
 			{
+				System.out.println(newTime + " - " + oldTime + " = " + (newTime - oldTime) + ", " + predictedFps);
 				fps = predictedFps;
 			}
 		}
@@ -1130,8 +1131,6 @@ public abstract class Frame
 		public void onDrawFrame()
 		{
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_STENCIL_BUFFER_BIT);
-			
-			Util.nanoTime = System.nanoTime();
 			
 			GL.beginManipulation();
 			{

@@ -45,7 +45,6 @@ public class ShootCrap extends GameComponent
 
 	public void render2D(int dfps)
 	{
-		font.render("ASDF", 0, 0, 0, 5);
 		font.render("FPS: " + Frame.getFps(), 0, 0, 0, 5, Font.RIGHT, Font.TOP);
 		
 		GL.beginManipulation();

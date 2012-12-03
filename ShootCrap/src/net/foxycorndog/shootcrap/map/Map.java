@@ -30,7 +30,7 @@ public class Map
 	
 	private Tile             tiles[];
 	
-	private ArrayList<Actor> actors;
+	private Actor            actors[];
 	
 	public Map(String location)
 	{
@@ -59,8 +59,13 @@ public class Map
 		
 		tiles  = new Tile[width * height];
 		
+		actors = new Actor[1000];
+		
 		backgroundVertices = new VerticesBuffer(4 * 2 * width * height, 2);
 		foregroundVertices = new VerticesBuffer(4 * 2 * width * height, 2);
+		
+		actorVertices      = new VerticesBuffer(4 * 2 * actors.length, 2);
+		actorTextures      = new VerticesBuffer(4 * 2 * actors.length, 2);
 		
 		backgroundTextures = new LightBuffer(4 * 2 * width * height);
 		foregroundTextures = new LightBuffer(4 * 2 * width * height);
@@ -82,8 +87,7 @@ public class Map
 		}
 		
 		backgroundVertices.genIndices(GL.QUADS, null);
-		
-		actors = new ArrayList<Actor>();
+		actorVertices.genIndices(GL.QUADS, null);
 	}
 	
 	public float getX()
@@ -104,7 +108,10 @@ public class Map
 	
 	public void addActor(Actor actor)
 	{
-		actors.add(actor);
+		actorVertices.addData(actor.getVertices());
+		actorTextures.addData(actor.getTextures());
+		
+		actors[actor.getId()] = actor;
 	}
 	
 	public void render()
@@ -114,6 +121,7 @@ public class Map
 			GL.translatef(x, y, 0);
 			
 			renderBackground();
+			renderActors();
 			renderForeground();
 		}
 		GL.endManipulation();
@@ -133,19 +141,16 @@ public class Map
 	{
 		synchronized (actors)
 		{
-			for (int i = actors.size() - 1; i >= 0; i --)
+			for (int i = 0; i < actors.length; i ++)
 			{
 				synchronized (actors)
 				{
-					Actor actor = actors.get(i);
+					Actor actor = actors[i];
 					
-					GL.beginManipulation();
+					if (actor != null)
 					{
-						GL.translatef(actor.getX(), actor.getY(), 0);
-						
-						GL.renderQuads(actorVertices, actorTextures, null, null, Actor.getSprites(), actor.getId(), 1, null);
+						actor.render();
 					}
-					GL.endManipulation();
 				}
 			}
 		}
