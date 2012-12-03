@@ -1,0 +1,9 @@
+package net.foxycorndog.shootcrap.tile;
+
+public class Grass extends Tile
+{
+	public Grass()
+	{
+		super(0x065C1C);
+	}
+}

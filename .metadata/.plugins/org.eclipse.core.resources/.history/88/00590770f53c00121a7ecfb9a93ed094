@@ -1,0 +1,39 @@
+package net.foxycorndog.shootcrap.tile;
+
+public class Tile
+{
+	private int color;
+	
+	private static Tile tiles[];
+	
+	static
+	{
+		tiles = new Tile[]
+		{
+			
+		};
+	}
+	
+	public Tile(int color)
+	{
+		this.color = color;
+	}
+	
+	public int getColor()
+	{
+		return color;
+	}
+	
+	public static Tile getTile(int color)
+	{
+		for (Tile tile : tiles)
+		{
+			if (tile.getColor() == color)
+			{
+				return tile;
+			}
+		}
+		
+		return null;
+	}
+}

@@ -2,11 +2,16 @@ package net.foxycorndog.shootcrap;
 
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.activity.GameComponent;
+import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.fonts.Font;
+import net.foxycorndog.jdoogl.input.KeyboardInput;
+import net.foxycorndog.shootcrap.map.Map;
 
 public class ShootCrap extends GameComponent
 {
 	private Font font;
+	
+	private Map  map;
 	
 	public static final String GAME_TITLE = "Shoot Crap";
 	
@@ -33,20 +38,55 @@ public class ShootCrap extends GameComponent
 		
 		font.setLetterMargin(0);
 		
-		GL.setClearColori(125, 125, 125, 255);
+		GL.setClearColori(0 * 125, 0 * 125, 0 * 125, 255);
+		
+		map = new Map("res/images/maps/map1.png");
 	}
 
 	public void render2D(int dfps)
 	{
 		font.render("ASDF", 0, 0, 0, 5);
-	}
-
-	public void render3D(int dfps)
-	{
+		font.render("FPS: " + Frame.getFps(), 0, 0, 0, 5, Font.RIGHT, Font.TOP);
 		
+		GL.beginManipulation();
+		{
+			GL.scalef(3, 3, 1);
+			
+			map.render();
+		}
+		GL.endManipulation();
 	}
 
 	public void loop(int dfps)
+	{
+		float delta = 60f / Frame.getFps();
+		
+		boolean sprinting = false;
+		
+		sprinting = KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT_SHIFT);
+		
+		for (int i = 0; i < (sprinting ? 2 : 1); i ++)
+		{
+			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_W))
+			{
+				map.move(0, -1 * delta);
+			}
+			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_A))
+			{
+				map.move(1 * delta, 0);
+			}
+			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_S))
+			{
+				map.move(0, 1 * delta);
+			}
+			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_D))
+			{
+				map.move(-1 * delta, 0);
+			}
+		}
+	}
+
+	public void render3D(int dfps)
 	{
 		
 	}

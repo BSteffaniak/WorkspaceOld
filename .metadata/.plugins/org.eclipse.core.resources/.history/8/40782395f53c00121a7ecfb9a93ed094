@@ -1,0 +1,9 @@
+package net.foxycorndog.shootcrap.tile;
+
+public class Road extends Tile
+{
+	public Road()
+	{
+		super(0x323232);
+	}
+}

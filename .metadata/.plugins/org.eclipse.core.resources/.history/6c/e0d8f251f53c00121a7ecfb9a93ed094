@@ -1,0 +1,16 @@
+package net.foxycorndog.shootcrap.tile;
+
+public class Tile
+{
+	private int color;
+	
+	public Tile(int color)
+	{
+		this.color = color;
+	}
+	
+	public int getColor()
+	{
+		return color;
+	}
+}

@@ -1,0 +1,93 @@
+package net.foxycorndog.shootcrap;
+
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.activity.GameComponent;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.fonts.Font;
+import net.foxycorndog.jdoogl.input.KeyboardInput;
+import net.foxycorndog.shootcrap.map.Map;
+
+public class ShootCrap extends GameComponent
+{
+	private Font font;
+	
+	private Map  map;
+	
+	public static final String GAME_TITLE = "Shoot Crap";
+	
+	public static void main(String args[])
+	{
+		new ShootCrap();
+	}
+	
+	public ShootCrap()
+	{
+		super(GAME_TITLE, 800, 600, -1);
+	}
+
+	public void onCreate()
+	{
+		font = new Font("res/images/font/font.png", 26, 4,
+				new char[]
+				{
+					'A', 'B', 'C', 'D', 'E',  'F', 'G', 'H', 'I',  'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+					'a', 'b', 'c', 'd', 'e',  'f', 'g', 'h', 'i',  'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+					'1', '2', '3', '4', '5',  '6', '7', '8', '9',  '0', '`', '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+',
+					'[', '{', ']', '}', '\\', '|', ';', ':', '\'', '"', ',', '<', '.', '>', '/', '?', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+				});
+		
+		font.setLetterMargin(0);
+		
+		GL.setClearColori(0 * 125, 0 * 125, 0 * 125, 255);
+		
+		map = new Map("res/images/maps/map1.png");
+	}
+
+	public void render2D(int dfps)
+	{
+		font.render("ASDF", 0, 0, 0, 5);
+		font.render("FPS: " + Frame.getFps(), 0, 0, 0, 5, Font.RIGHT, Font.TOP);
+		
+		GL.beginManipulation();
+		{
+			GL.scalef(3, 3, 1);
+			
+			map.render();
+		}
+		GL.endManipulation();
+	}
+
+	public void loop(int dfps)
+	{
+		float delta = 60f / Frame.getFps();
+		
+		boolean sprinting = false;
+		
+		sprinting = KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT_SHIFT);
+		
+		for (int i = 0; i < sprinting ? 3 : 1; i ++)
+		{
+			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_W))
+			{
+				map.move(0, -0.01f);
+			}
+			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_A))
+			{
+				map.move(1 * 0.01f, 0);
+			}
+			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_S))
+			{
+				map.move(0, 1 * 0.01f);
+			}
+			if (KeyboardInput.isKeyDown(KeyboardInput.KEY_D))
+			{
+				map.move(-1 * 0.01f, 0);
+			}
+		}
+	}
+
+	public void render3D(int dfps)
+	{
+		
+	}
+}

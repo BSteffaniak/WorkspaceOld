@@ -1,0 +1,27 @@
+package net.foxycorndog.shootcrap.map;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import net.foxycorndog.jdoogl.image.Image;
+
+public class Map
+{
+	
+	
+	public Map(String location)
+	{
+		try
+		{
+			BufferedImage img = ImageIO.read(new File(location));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+}

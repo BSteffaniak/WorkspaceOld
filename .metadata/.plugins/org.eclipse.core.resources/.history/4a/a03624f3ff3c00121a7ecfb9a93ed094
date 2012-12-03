@@ -1,0 +1,15 @@
+package net.foxycorndog.shootcrap.actor;
+
+public class Actor
+{
+	private int   width, height;
+	private int   texWidth, texHeight;
+	private int   texX, texY;
+	
+	private float x, y;
+	
+	public Actor()
+	{
+		
+	}
+}
