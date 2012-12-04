@@ -45,12 +45,12 @@ public class Player extends Actor
 	@Override
 	public VerticesBuffer getVerticesBuffer()
 	{
-		return null;
+		return vertices;
 	}
 
 	@Override
 	public LightBuffer getTexturesBuffer()
 	{
-		return null;
+		return textures;
 	}
 }

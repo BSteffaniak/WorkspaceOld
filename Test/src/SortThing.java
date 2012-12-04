@@ -19,12 +19,13 @@ import java.util.List;
  * Description:   Class that demonstrates the insertion and
  * selection sorting methods and the quick and merge sort.
  */
-public class SortThing
+public class SortThing implements SortingInterface
 {
-	private int           qArr[];
+	private int              qArr[];
 	
-	private Comparable    rArr[];
-	private List<Integer> list;
+	private Comparable       rArr[];
+	private List<Integer>    list;
+	private List<Comparable> cList;
 	
 	/**
 	 * The main method used for testing.
@@ -47,6 +48,15 @@ public class SortThing
 			s.quickSort(s.qArr);
 
 			s.print(null, null, s.qArr, "\nAfter quick sort sort: ");
+			
+			// Temporary indices sort
+			s.cList = s.genRandomListc(100);
+			
+			s.print(s.cList, null, null, "\n\nBefore temporary indices sort sort: ");
+
+			s.mergeSort(s.cList);
+
+			s.print(s.cList, null, null, "\nAfter temporary indices sort sort: ");
 		}
 		catch (IOException e)
 		{
@@ -108,6 +118,24 @@ public class SortThing
 	private List<Integer> genRandomList(int length)
 	{
 		List<Integer> arr = new ArrayList<Integer>();
+		
+		for (int i = 0; i < length; i ++)
+		{
+			arr.add(i, (Integer)(int)(Math.random() * 100));
+		}
+		
+		return arr;
+	}
+	
+	/**
+	 * Generates random integers for a list.
+	 * 
+	 * @param length
+	 * @return
+	 */
+	private List<Comparable> genRandomListc(int length)
+	{
+		List<Comparable> arr = new ArrayList<Comparable>();
 		
 		for (int i = 0; i < length; i ++)
 		{
@@ -308,12 +336,12 @@ public class SortThing
 		return leftIndex;
 	}
 	
-	public void mergeSort(int arr[])
+	public void mergeSort(List<Comparable> arr)
 	{
-		mergeSort(arr, 0, arr.length - 1);
+		mergeSort(arr, 0, arr.size() - 1);
 	}
 	
-	public void mergeSort(int arr[], int frontIndex, int backIndex)
+	public void mergeSort(List<Comparable> arr, int frontIndex, int backIndex)
 	{
 		
 	}

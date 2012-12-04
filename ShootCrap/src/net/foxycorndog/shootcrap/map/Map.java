@@ -120,9 +120,9 @@ public class Map
 		{
 			GL.translatef(x, y, 0);
 			
-			renderBackground();
-			renderActors();
 			renderForeground();
+			renderActors();
+			renderBackground();
 		}
 		GL.endManipulation();
 	}

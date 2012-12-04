@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.foxycorndog.nostalgia.map.Map"/>
 <fullyQualifiedTypeName name="net.foxycorndog.nostalgia.items.Item"/>
 <fullyQualifiedTypeName name="net.foxycorndog.nostalgia.items.weapons.guns.Pistol"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="net.foxycorndog.nostalgia.items.weapons.guns.Gun"/>
 <fullyQualifiedTypeName name="net.foxycorndog.nostalgia.items.weapons.guns.MachineGun"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.fonts.SimpleText"/>
@@ -60,4 +58,6 @@
 <fullyQualifiedTypeName name="net.foxycorndog.shootcrap.actor.Actor"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.image.imagemap.SpriteSheet"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.GL"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="net.foxycorndog.shootcrap.actor.Player"/>
 </qualifiedTypeNameHistroy>
