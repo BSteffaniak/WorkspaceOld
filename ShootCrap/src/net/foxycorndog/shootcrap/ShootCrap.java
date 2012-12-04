@@ -47,7 +47,7 @@ public class ShootCrap extends GameComponent
 		
 		map.addActor(player);
 		
-		player.move(30, 30);
+		player.setLocation(-map.getX() + Frame.getCenterX(player.getWidth()), -map.getY() + Frame.getCenterY(player.getHeight()));
 	}
 
 	public void render2D(int dfps)
@@ -90,6 +90,8 @@ public class ShootCrap extends GameComponent
 				map.move(-1 * delta, 0);
 			}
 		}
+		
+		player.setLocation(-map.getX() + Frame.getCenterX(player.getWidth()), -map.getY() + Frame.getCenterY(player.getHeight()));
 	}
 
 	public void render3D(int dfps)
