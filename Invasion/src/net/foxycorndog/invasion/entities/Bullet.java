@@ -3,8 +3,9 @@ package net.foxycorndog.invasion.entities;
 import net.foxycorndog.invasion.Invasion;
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
-import net.foxycorndog.jdoogl.util.LightBuffer;
-import net.foxycorndog.jdoogl.util.Point;
+import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
+import net.foxycorndog.jdoogl.geometry.Point;
 
 public class Bullet extends Entity implements Cloneable
 {
@@ -18,7 +19,7 @@ public class Bullet extends Entity implements Cloneable
 	
 	public Bullet(String location, Ship shotFrom)
 	{
-		super(new Texture(location, "PNG", true, false));
+		super(new Texture(location));
 		
 		thisBullet    = this;
 		
@@ -29,7 +30,7 @@ public class Bullet extends Entity implements Cloneable
 		float width   = getWidth();
 		float height  = getHeight();
 		
-		setVerticesBuffer(new LightBuffer(4 * 2));
+		setVerticesBuffer(new VerticesBuffer(4 * 2, 2));
 		setTexturesBuffer(new LightBuffer(4 * 2));
 		
 		LightBuffer verticesBuffer = getVerticesBuffer();
@@ -45,18 +46,18 @@ public class Bullet extends Entity implements Cloneable
 		{
 			public void run()
 			{
-				setLocation(start.x, start.y);
+				setLocation(start.getX(), start.getY());
 				
 				setRenderable(true);
 				
 				float distanceTravelled = 0;
-				float totalDistance     = (float)Math.sqrt(Math.pow(start.x - destination.x, 2) + Math.pow(start.y - destination.y, 2));
+				float totalDistance     = (float)Math.sqrt(Math.pow(start.getX() - destination.getX(), 2) + Math.pow(start.getY() - destination.getY(), 2));
 				
 				while (distanceTravelled < totalDistance)
 				{
 					distanceTravelled += (Invasion.getScale() / 5f);
 					
-					move(0, (start.y > destination.y ? -1 : 1) * (Invasion.getScale() / 5f));
+					move(0, (start.getY() > destination.getY() ? -1 : 1) * (Invasion.getScale() / 5f));
 					
 					try
 					{

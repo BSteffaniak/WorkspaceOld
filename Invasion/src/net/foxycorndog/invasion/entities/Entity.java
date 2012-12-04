@@ -3,7 +3,8 @@ package net.foxycorndog.invasion.entities;
 import net.foxycorndog.invasion.Invasion;
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
-import net.foxycorndog.jdoogl.util.LightBuffer;
+import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 
 public abstract class Entity
 {
@@ -14,7 +15,9 @@ public abstract class Entity
 	
 	private Texture texture;
 	
-	private LightBuffer  verticesBuffer, texturesBuffer;
+	private LightBuffer  texturesBuffer;
+	
+	private VerticesBuffer verticesBuffer;
 	
 	public Entity(Texture texture)
 	{
@@ -103,7 +106,7 @@ public abstract class Entity
 		return verticesBuffer;
 	}
 	
-	public void setVerticesBuffer(LightBuffer buffer)
+	public void setVerticesBuffer(VerticesBuffer buffer)
 	{
 		this.verticesBuffer = buffer;
 	}

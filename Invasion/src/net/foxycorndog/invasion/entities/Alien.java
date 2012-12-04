@@ -1,7 +1,7 @@
 package net.foxycorndog.invasion.entities;
 
 import net.foxycorndog.invasion.Invasion;
-import net.foxycorndog.jdoogl.util.Point;
+import net.foxycorndog.jdoogl.geometry.Point;
 
 public class Alien extends Ship
 {
@@ -31,8 +31,8 @@ public class Alien extends Ship
 			float x = getX();
 			float y = getY();
 		
-			Point start       = new Point(x + getScaledWidth() / 2 - bullet.getScaledWidth() / 2, y);
-			Point destination = new Point(x + getScaledWidth() / 2 - bullet.getScaledWidth() / 2, 0 - bullet.getScaledHeight());
+			Point start       = new Point(x + getScaledWidth() / 2 - bullet.getScaledWidth() / 2, y, 0);
+			Point destination = new Point(x + getScaledWidth() / 2 - bullet.getScaledWidth() / 2, 0 - bullet.getScaledHeight(), 0);
 			
 			bullet.shoot(start, destination, this);
 		

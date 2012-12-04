@@ -7,6 +7,7 @@ import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.shootcrap.tile.Tile;
+import net.foxycorndog.shootcrap.weapons.Gun;
 
 public abstract class Actor
 {
@@ -17,6 +18,8 @@ public abstract class Actor
 	private int                id;
 	
 	private float              x, y;
+	
+	private Gun                gun;
 	
 	private static int         staticId;
 	
@@ -132,6 +135,16 @@ public abstract class Actor
 		return spriteHeight;
 	}
 	
+	public int getWidth()
+	{
+		return spriteWidth * spriteSheetColWidth;
+	}
+	
+	public int getHeight()
+	{
+		return spriteHeight * spriteSheetRowHeight;
+	}
+	
 	public int getSpriteSheetColWidth()
 	{
 		return spriteSheetColWidth;
@@ -140,6 +153,16 @@ public abstract class Actor
 	public int getSpriteSheetRowHeight()
 	{
 		return spriteSheetRowHeight;
+	}
+	
+	public Gun getGun()
+	{
+		return gun;
+	}
+	
+	public void setGun(Gun gun)
+	{
+		this.gun = gun;
 	}
 	
 	public abstract VerticesBuffer getVerticesBuffer();

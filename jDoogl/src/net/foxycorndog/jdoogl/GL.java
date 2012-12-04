@@ -3058,9 +3058,9 @@ public class GL
 		{
 			array[0] = rx * offsets[0];
 			
-			array[2] = rx * offsets[2];// - offsets[2] * 0.01f;
+			array[2] = rx * offsets[2];
 			
-			array[4] = rx * offsets[2];// - offsets[2] * 0.01f;
+			array[4] = rx * offsets[2];
 			
 			array[6] = rx * offsets[0];
 		}
@@ -3081,9 +3081,9 @@ public class GL
 			
 			array[3] = ry * offsets[1];
 			
-			array[5] = ry * offsets[3];// - offsets[3] * 0.01f;
+			array[5] = ry * offsets[3];
 			
-			array[7] = ry * offsets[3];// - offsets[3] * 0.01f;
+			array[7] = ry * offsets[3];
 		}
 		
 		return array;

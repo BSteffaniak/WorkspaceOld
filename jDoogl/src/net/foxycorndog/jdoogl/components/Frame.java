@@ -746,9 +746,19 @@ public abstract class Frame
 		return (float)Display.getWidth() / 2;
 	}
 	
+	public static float getCenterX(float width)
+	{
+		return (Display.getWidth() / 2f) - (width / 2);
+	}
+	
 	public static float getCenterY()
 	{
 		return (float)Display.getHeight() / 2;
+	}
+	
+	public static float getCenterY(float height)
+	{
+		return (Display.getHeight() / 2f) - (height / 2);
 	}
 	
 	public static int getFps()

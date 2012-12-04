@@ -5,14 +5,18 @@ import net.foxycorndog.jdoogl.activity.GameComponent;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.fonts.Font;
 import net.foxycorndog.jdoogl.input.KeyboardInput;
+import net.foxycorndog.jdoogl.input.MouseInput;
 import net.foxycorndog.shootcrap.actor.Player;
 import net.foxycorndog.shootcrap.map.Map;
+import net.foxycorndog.shootcrap.weapons.Gun;
 
 public class ShootCrap extends GameComponent
 {
-	private Font font;
+	private Player player;
 	
-	private Map  map;
+	private Font   font;
+	
+	private Map    map;
 	
 	public static final String GAME_TITLE = "Shoot Crap";
 	
@@ -43,11 +47,12 @@ public class ShootCrap extends GameComponent
 		
 		map = new Map("res/images/maps/map1.png");
 		
-		Player player = new Player();
+		player = new Player();
+		player.setGun(new Gun(5, 5, -1, 1000, 0, 0, 1, map));
 		
 		map.addActor(player);
 		
-		player.setLocation(-map.getX() + Frame.getCenterX(player.getWidth()), -map.getY() + Frame.getCenterY(player.getHeight()));
+		player.setLocation(-map.getX() + Frame.getCenterX(player.getWidth()) / 3f, -map.getY() + Frame.getCenterY(player.getHeight()) / 3f);
 	}
 
 	public void render2D(int dfps)
@@ -91,7 +96,14 @@ public class ShootCrap extends GameComponent
 			}
 		}
 		
-		player.setLocation(-map.getX() + Frame.getCenterX(player.getWidth()), -map.getY() + Frame.getCenterY(player.getHeight()));
+		player.setLocation(-map.getX() + Frame.getCenterX(player.getWidth()) / 3f, -map.getY() + Frame.getCenterY(player.getHeight()) / 3f);
+		
+		if (MouseInput.isButtonDown(MouseInput.LEFT_MOUSE_BUTTON))
+		{
+			player.getGun().shoot();
+		}
+		
+		map.update(dfps);
 	}
 
 	public void render3D(int dfps)

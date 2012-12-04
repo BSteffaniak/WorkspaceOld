@@ -6,9 +6,10 @@ import net.foxycorndog.invasion.Invasion;
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
-import net.foxycorndog.jdoogl.util.Intersects;
-import net.foxycorndog.jdoogl.util.LightBuffer;
-import net.foxycorndog.jdoogl.util.Point;
+import net.foxycorndog.jdoutil.Intersects;
+import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoogl.geometry.Point;
+import net.foxycorndog.jdoutil.VerticesBuffer;
 
 public class Ship extends Entity
 {
@@ -30,12 +31,12 @@ public class Ship extends Entity
 	
 	public Ship(String location)
 	{
-		super(new Texture(location, "PNG", true, false));
+		super(new Texture(location));
 		
 		float width  = getWidth();
 		float height = getHeight();
 		
-		setVerticesBuffer(new LightBuffer(4 * 2));
+		setVerticesBuffer(new VerticesBuffer(4 * 2, 2));
 		setTexturesBuffer(new LightBuffer(4 * 2));
 		
 		LightBuffer verticesBuffer = getVerticesBuffer();
@@ -107,11 +108,11 @@ public class Ship extends Entity
 			{
 				Bullet bullet2 = bullet.clone();
 				
-				Point start1       = new Point(x, y + getScaledHeight() - bullet.getScaledHeight());
-				Point destination1 = new Point(x, 512);
+				Point start1       = new Point(x, y + getScaledHeight() - bullet.getScaledHeight(), 0);
+				Point destination1 = new Point(x, 512, 0);
 				
-				Point start2       = new Point(x + getScaledWidth() - bullet.getScaledWidth(), y + getScaledHeight() - bullet.getScaledHeight());
-				Point destination2 = new Point(x + getScaledWidth() - bullet.getScaledWidth(), 512);
+				Point start2       = new Point(x + getScaledWidth() - bullet.getScaledWidth(), y + getScaledHeight() - bullet.getScaledHeight(), 0);
+				Point destination2 = new Point(x + getScaledWidth() - bullet.getScaledWidth(), 512, 0);
 				
 				bullet.shoot(start1, destination1, this);
 				bullet2.shoot(start2, destination2, this);
@@ -121,8 +122,8 @@ public class Ship extends Entity
 			}
 			else
 			{
-				Point start       = new Point(x + getScaledWidth() / 2 - bullet.getScaledWidth() / 2, y + getScaledHeight() - bullet.getScaledHeight());
-				Point destination = new Point(x + getScaledWidth() / 2 - bullet.getScaledWidth() / 2, 512);
+				Point start       = new Point(x + getScaledWidth() / 2 - bullet.getScaledWidth() / 2, y + getScaledHeight() - bullet.getScaledHeight(), 0);
+				Point destination = new Point(x + getScaledWidth() / 2 - bullet.getScaledWidth() / 2, 512, 0);
 				
 				bullet.shoot(start, destination, this);
 			

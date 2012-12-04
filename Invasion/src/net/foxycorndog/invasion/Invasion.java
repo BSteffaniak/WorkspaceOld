@@ -10,11 +10,10 @@ import net.foxycorndog.invasion.entities.Ship.PowerUp;
 import net.foxycorndog.invasion.levels.Level;
 import net.foxycorndog.jdoogl.Color;
 import net.foxycorndog.jdoogl.GL;
-import net.foxycorndog.jdoogl.audio.AudioManager;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.input.KeyboardInput;
-import net.foxycorndog.jdoogl.util.Intersects;
-import net.foxycorndog.jdoogl.util.Point;
+import net.foxycorndog.jdoutil.Intersects;
+import net.foxycorndog.jdoogl.geometry.Point;
 
 public class Invasion
 {
@@ -38,8 +37,6 @@ public class Invasion
 	public  static ArrayList<Entity> entities;
 	
 	public  static Ship aliens[];
-	
-	public  static AudioManager      soundManager;
 	
 	public  static Level             currentLevel;
 	

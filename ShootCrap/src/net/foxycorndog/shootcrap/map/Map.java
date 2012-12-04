@@ -15,22 +15,26 @@ import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.VerticesBuffer;
 import net.foxycorndog.shootcrap.actor.Actor;
 import net.foxycorndog.shootcrap.tile.Tile;
+import net.foxycorndog.shootcrap.weapons.Bullet;
 
 public class Map
 {
 	private int              width, height;
+	private int              bulletId;
 	
 	private float            x, y;
 	
-	private LightBuffer      backgroundTextures, foregroundTextures, actorTextures;
+	private LightBuffer      backgroundTextures, foregroundTextures, actorTextures, bulletTextures;
 	
-	private VerticesBuffer   backgroundVertices, foregroundVertices, actorVertices;
+	private VerticesBuffer   backgroundVertices, foregroundVertices, actorVertices, bulletVertices;
 	
 	private int              pixels[];
 	
 	private Tile             tiles[];
 	
 	private Actor            actors[];
+	
+	private Bullet           bullets[];
 	
 	public Map(String location)
 	{
@@ -55,17 +59,22 @@ public class Map
 		this.width  = map.getWidth();
 		this.height = map.getHeight();
 		
-		pixels = ((DataBufferInt)map.getRaster().getDataBuffer()).getData();
+		pixels  = ((DataBufferInt)map.getRaster().getDataBuffer()).getData();
 		
-		tiles  = new Tile[width * height];
+		tiles   = new Tile[width * height];
 		
-		actors = new Actor[1000];
+		actors  = new Actor[1000];
+		
+		bullets = new Bullet[1000];
 		
 		backgroundVertices = new VerticesBuffer(4 * 2 * width * height, 2);
 		foregroundVertices = new VerticesBuffer(4 * 2 * width * height, 2);
 		
 		actorVertices      = new VerticesBuffer(4 * 2 * actors.length, 2);
 		actorTextures      = new VerticesBuffer(4 * 2 * actors.length, 2);
+		
+		bulletVertices      = new VerticesBuffer(4 * 2 * bullets.length, 2);
+		bulletTextures      = new VerticesBuffer(4 * 2 * bullets.length, 2);
 		
 		backgroundTextures = new LightBuffer(4 * 2 * width * height);
 		foregroundTextures = new LightBuffer(4 * 2 * width * height);
@@ -84,6 +93,13 @@ public class Map
 					backgroundTextures.addData(tile.getTextureCoords());
 				}
 			}
+		}
+		
+		float bullet[] = GL.addRectVertexArrayf(0, 0, 2, 2, 0, null);
+		
+		for (int i = 0; i < bullets.length; i ++)
+		{
+			bulletVertices.addData(bullet);
 		}
 		
 		backgroundVertices.genIndices(GL.QUADS, null);
@@ -120,6 +136,7 @@ public class Map
 		{
 			GL.translatef(x, y, 0);
 			
+			renderBullets();
 			renderForeground();
 			renderActors();
 			renderBackground();
@@ -152,6 +169,43 @@ public class Map
 						actor.render();
 					}
 				}
+			}
+		}
+	}
+	
+	private void renderBullets()
+	{
+		for (int i = 0; i < bullets.length; i ++)
+		{
+			Bullet bullet = bullets[i];
+			
+			if (bullet != null)
+			{
+				GL.beginManipulation();
+				{
+					GL.translatef(bullet.getX(), bullet.getY(), 0);
+					
+					GL.renderCubes(bulletVertices, i, 1);
+				}
+				GL.endManipulation();
+			}
+		}
+	}
+	
+	public void shoot(Bullet bullet)
+	{
+		bulletId = bulletId + 1 < bullets.length ? bulletId + 1 : 0;
+		
+		bullets[bulletId] = bullet;
+	}
+	
+	public void update(int dfps)
+	{
+		for (int i = 0; i < bullets.length; i ++)
+		{
+			if (bullets[i] != null)
+			{
+				bullets[i].update();
 			}
 		}
 	}
