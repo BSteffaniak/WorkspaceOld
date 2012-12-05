@@ -31,6 +31,17 @@ public class Building
 	private static SpriteSheet buildings;
 	
 	/**
+	* The static initialization method. Used to create the sprite-sheet
+	* that is used in every building.
+	* 
+	* Must be called before any Building objects are made!
+	*/
+	static
+	{
+		buildings = new SpriteSheet(Idk.prefix + "res/images/map/buildings/Buildings.png", Building.class, 50, 50);
+	}
+	
+	/**
 	* Creates a new Building used for holding a map, and the
 	* coordinates of it in the sprite-sheet. Along with its
 	* relative width and height.
@@ -84,17 +95,6 @@ public class Building
 		texturesBuffer.addData(GL.addRectTextureArrayf(buildings, spriteX, spriteY, width, height, 0, null));
 		
 //		map = new BuildingMap(this, idk);
-	}
-	
-	/**
-	* The static initialization method. Used to create the sprite-sheet
-	* that is used in every building.
-	* 
-	* Must be called before any Building objects are made!
-	*/
-	public static void init()
-	{
-		buildings = new SpriteSheet(Idk.prefix + "res/images/map/buildings/Buildings.png", 50, 50);
 	}
 	
 	/**

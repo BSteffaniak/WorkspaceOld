@@ -51,7 +51,7 @@ public class Texture extends ImageMap
 		{
 			try
 			{
-//				System.out.println(clazz.getResource(location));
+//				System.out.println(clazz.getClassLoader().getResource(location));
 				image = ImageIO.read(new File(clazz.getClassLoader().getResource(location).toURI()));
 			}
 			catch (URISyntaxException e)

@@ -1,0 +1,840 @@
+// Aubuk
+// Seril Sebil 
+
+package net.foxycorndog.idk;
+
+import static net.foxycorndog.idk.animatedobject.actors.Actor.Direction.DOWN;
+import static net.foxycorndog.idk.animatedobject.actors.Actor.Direction.LEFT;
+import static net.foxycorndog.idk.animatedobject.actors.Actor.Direction.RIGHT;
+import static net.foxycorndog.idk.animatedobject.actors.Actor.Direction.UP;
+import static net.foxycorndog.jdoogl.GL.beginManipulation;
+import static net.foxycorndog.jdoogl.GL.endManipulation;
+import static net.foxycorndog.jdoogl.GL.scalef;
+import static net.foxycorndog.jdoogl.GL.translatef;
+
+import java.awt.Canvas;
+import java.util.ArrayList;
+import java.util.Random;
+
+import net.foxycorndog.idk.animatedobject.AnimatedObject;
+import net.foxycorndog.idk.animatedobject.actors.Actor;
+import net.foxycorndog.idk.animatedobject.actors.Inventory;
+import net.foxycorndog.idk.animatedobject.actors.Rogue;
+import net.foxycorndog.idk.animatedobject.actors.Actor.Direction;
+import net.foxycorndog.idk.animatedobject.actors.player.Player;
+import net.foxycorndog.idk.items.Apparel;
+import net.foxycorndog.idk.items.Item;
+import net.foxycorndog.idk.maps.BuildingLocation;
+import net.foxycorndog.idk.maps.Location;
+import net.foxycorndog.idk.maps.Map;
+import net.foxycorndog.idk.maps.MapLocation;
+import net.foxycorndog.idk.maps.PortalInfo;
+import net.foxycorndog.idk.maps.buildings.Building;
+import net.foxycorndog.idk.menus.MainMenu;
+import net.foxycorndog.idk.menus.Menu;
+import net.foxycorndog.idk.network.Client;
+import net.foxycorndog.idk.network.Network;
+import net.foxycorndog.idk.network.Server;
+import net.foxycorndog.idk.tiles.Tile;
+import net.foxycorndog.jdoogl.Color;
+import net.foxycorndog.jdoogl.activity.GameComponent;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.components.Frame.Cursor;
+import net.foxycorndog.jdoogl.fonts.Font;
+import net.foxycorndog.jdoogl.input.KeyboardInput;
+import net.foxycorndog.jdoogl.input.MouseInput;
+
+public class Idk extends GameComponent
+{
+	private float              oldY;
+	private float              oldX;
+	
+	private boolean            started;
+	
+	private static boolean     playingGame;
+	
+	private static Map         map[];
+	
+	private static Player      players[];
+	
+	private static Network     network;
+	
+	private static Thread      gameThread;
+	
+	private static Map         mainMap;
+	
+	private static Menu        menu;
+	
+	private static boolean     debugging;
+	
+	public static float        viewScale, viewScale2;
+	
+	public static int          offsetY;
+	public static int          counter;
+	
+	public static String       prefix;
+	
+	private static Frame       frame;
+	
+	private static Font        font;
+	
+	public static final float  tileSize = 30f;
+	public static final float  scale    = tileSize / 30f;
+	
+	public static final String GAME_TITLE = "Idk";
+	
+	public static final int    AMOUNT_OF_VERTICES = 4;
+	public static final int    VERTEX_SIZE        = 3;
+	public static final int    OBJECT_SIZE        = AMOUNT_OF_VERTICES * VERTEX_SIZE;
+	public static final int    TEXTURE_SIZE       = 2 * AMOUNT_OF_VERTICES;
+	
+	public static final Random random = new Random();
+	
+	static
+	{
+		viewScale = scale;
+		
+		counter   = 0;
+		
+		Idk.prefix = "";
+		
+		System.out.println(Map.getMap(5, 5));
+	}
+	
+	/**
+	* Assigns the tile size to whatever you want to display in pixels.
+	* Instantiates a new Idk and inits it.
+	* 
+	* @param args
+	*/
+	public static void main(String args[])
+	{
+		new Idk();
+	}
+	
+//	public void start(Canvas drawCanvas)
+//	{
+//		init(drawCanvas);
+//	}
+
+	public void onCreate()
+	{
+		font = new Font("res/images/font/font.png", 26, 4,
+				new char[]
+				{
+					'A', 'B', 'C', 'D', 'E', 'F',  'G', 'H', 'I', 'J', 'K', 'L',  'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+					'a', 'b', 'c', 'd', 'e', 'f',  'g', 'h', 'i', 'j', 'k', 'l',  'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+					'0', '1', '2', '3', '4', '5',  '6', '7', '8', '9', '_', '-',  '+', '=', '~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')',
+					'?', '>', '<', ';', ':', '\'', '"', '{', '}', '[', ']', '\\', '|', ',', '.', '/', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+				});
+		
+		menu = new MainMenu();
+	}
+
+	public void render2D(int dfps)
+	{
+		if (menu != null)
+		{
+			menu.render();
+		}
+		else if (playingGame)
+		{
+			debug();
+			
+			font.render("FPS: " + Frame.getFps(), 0, 0, 0, 2, Font.RIGHT, Font.TOP);
+			
+			if (debugging)
+			{
+				font.render("Loc: (" + (int)(players[0].getAbsoluteX() / tileSize) + ", " + (int)(players[0].getAbsoluteY() / tileSize) + ")", 0, 0, 2, Font.LEFT, Font.TOP);
+			}
+			
+			if (Frame.wasResized())
+			{
+				if (started)
+				{
+					float offsetX = (Frame.getCenterX() - oldX);
+					float offsetY = (Frame.getCenterY() - oldY);
+					
+					players[0].setX(players[0].getX() + offsetX);
+					players[0].setY(players[0].getY() + offsetY);
+					
+					players[0].getMap().move(offsetX, offsetY);
+					
+					System.out.println("resized");
+				}
+				
+				started = true;
+				
+				oldX = Frame.getCenterX();
+				oldY = Frame.getCenterY();
+			}
+			
+			beginManipulation();
+			{
+				float cx = Frame.getCenterX();
+				float cy = Frame.getCenterY();
+				
+				translatef(cx, cy, 0);
+				
+				scalef(viewScale, viewScale, 1);
+				
+				translatef(-cx, -cy, 0);
+				
+//					for (Player player : players)
+//					{
+//						if (players[0] == null)
+//						{
+//							continue;
+//						}
+					
+//						if (!players[0].hasInitialized())
+//						{
+//							players[0].init(player.getRow());
+//						}
+					
+				if (players[0] != null)
+				{
+					players[0].render();
+					
+//						System.out.println(players[0].getAbsoluteX() + ", " + players[0].getAbsoluteY());
+				}
+				
+				if (map != null)
+				{
+					mainMap.render();
+					
+					mainMap.renderActorsHealthLoss();
+					players[0].continueHealthLossIndicator();
+					
+					mainMap.randomMoveActors();
+					mainMap.makeActorsTalk();
+				}
+			}
+			endManipulation();
+			
+			beginManipulation();
+			{
+				scalef(Frame.getWidth() / 640f, Frame.getHeight() / 512f, 1);
+				
+				if (players[0].isViewingInventory())
+				{
+					players[0].getInventory().render();
+				}
+			}
+			endManipulation();
+		}
+		else
+		{
+			
+		}
+	}
+
+	public void render3D(int dfps)
+	{
+		
+	}
+
+	public void loop(int dfps)
+	{
+		checkInput();
+						
+		counter = (counter + 1) % 9999999;
+		
+		if (players != null && counter % 60 == 0)
+		{
+			players[0].addHealth(4);
+		}
+		
+		if (mainMap != null)
+		{
+			for (Actor actor : mainMap.getActors())
+			{
+				if (counter % (60 + actor.getOffset()) == 0)
+				{
+					actor.addHealth(4);
+				}
+			}
+		}
+	}
+	
+	public Idk()
+	{
+		super(GAME_TITLE, 640, 512, 60);
+	}
+	
+	/**
+	* Creates a game. Instantiates new maps, and initializes many of the
+	* needed sprites.
+	*/
+	public static void createGame()
+	{
+		map = new Map[3 * 3];
+		
+		map[1 + 1 * 3] = Map.getMap(0, 0);
+		
+		mainMap = map[1 + 1 * 3];
+		
+		fillEmptyMaps();
+		
+		players = new Player[2];
+		
+		players[0] = new Player(map[1 + 1 * 3], true, true);
+		//p.setLocation((getWidth() / 2) - (p.getWidth() / 2), (getHeight() / 2) - (p.getHeight() / 2));
+		players[0].setLocation(tileSize * 269, tileSize * 271);
+		
+		menu = null;
+		
+		playingGame = true;
+	}
+	
+	/**
+	* The method that checks what keys are pressed and does activity
+	* according to it.
+	*/
+	private void checkInput()
+	{
+		if (playingGame)
+		{
+			if (players[0] == null) return;
+			
+			boolean viewingInventory = players[0].isViewingInventory();
+			
+			if (viewingInventory)
+			{
+				players[0].disable();
+			}
+			else
+			{
+				players[0].enable();
+			}
+			
+			boolean left    = players[0].isAlive() && (KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT)  || KeyboardInput.isKeyDown(KeyboardInput.KEY_A));
+			boolean right   = players[0].isAlive() && (KeyboardInput.isKeyDown(KeyboardInput.KEY_RIGHT) || KeyboardInput.isKeyDown(KeyboardInput.KEY_D));
+			boolean up      = players[0].isAlive() && (KeyboardInput.isKeyDown(KeyboardInput.KEY_UP)    || KeyboardInput.isKeyDown(KeyboardInput.KEY_W));
+			boolean down    = players[0].isAlive() && (KeyboardInput.isKeyDown(KeyboardInput.KEY_DOWN)  || KeyboardInput.isKeyDown(KeyboardInput.KEY_S));
+			
+			boolean attack  = players[0].isAlive() && (KeyboardInput.isKeyDown(KeyboardInput.KEY_ENTER));
+			
+			boolean zoomIn  = (KeyboardInput.isKeyDown(KeyboardInput.KEY_I));
+			boolean zoomOut = (KeyboardInput.isKeyDown(KeyboardInput.KEY_O));
+			
+			boolean sprint  = players[0].isAlive() && (KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT_SHIFT) || KeyboardInput.isKeyDown(KeyboardInput.KEY_RIGHT_SHIFT));
+			
+			boolean createServer = players[0].isAlive() && false;
+			boolean createClient = players[0].isAlive() && false;
+			
+	//		Keyboard.enableRepeatEvents(false);
+			
+			if ((left || right) && (up || down))
+			{
+				Direction direction = left ? Direction.LEFT : Direction.RIGHT;
+				
+				if (left)
+				{
+					players[0].move(LEFT, 0.75f, false);
+				}
+				if (right)
+				{
+					players[0].move(RIGHT, 0.75f, false);
+				}
+				if (up)
+				{
+					players[0].move(UP, 0.75f, false);
+				}
+				if (down)
+				{
+					players[0].move(DOWN, 0.75f, false);
+				}
+				
+				players[0].incrementWalkCycle();
+				players[0].setSprite(direction, true);
+			}
+			else if (left || right || up || down)
+			{
+				if (left)
+				{
+					players[0].move(LEFT);
+				}
+				if (right)
+				{
+					players[0].move(RIGHT);
+				}
+				if (up)
+				{
+					players[0].move(UP);
+				}
+				if (down)
+				{
+					players[0].move(DOWN);
+				}
+			}
+			else
+			{
+				players[0].setDefaultPhase();
+			}
+			
+			if (KeyboardInput.next())
+			{
+				if (attack && KeyboardInput.getEventKey() == KeyboardInput.KEY_ENTER)
+				{
+					players[0].attack();
+					
+					mainMap.removeTreesAround(players[0], 40);
+				}
+			
+				if (createServer && KeyboardInput.getEventKey() == KeyboardInput.KEY_M)
+				{
+					network = new Server(9999, this);
+					
+					new Thread()
+					{
+						public void run()
+						{
+							Server server = ((Server)network);
+							
+							boolean playerAccepted = server.waitPlayer();
+							
+							if (playerAccepted)
+							{
+								System.out.println("Player accepted!");
+							}
+						}
+					}.start();
+				}
+				
+				if (createClient && KeyboardInput.getEventKey() == KeyboardInput.KEY_N)
+				{
+					network = new Client("0.0.0.0", 9999, this);
+					
+					new Thread()
+					{
+						public void run()
+						{
+							Client client = ((Client)network);
+							
+							client.start();
+							
+						}
+					}.start();
+				}
+				
+				if (KeyboardInput.isKeyDown(KeyboardInput.KEY_E))
+				{
+					if (players[0].isViewingInventory())
+					{
+						players[0].closeInventory();
+					}
+					else
+					{
+						players[0].viewInventory();
+					}
+				}
+			}
+			
+			if (zoomIn)
+			{
+				float scaleOff = .112f / 2;
+				
+				viewScale2 = viewScale + scaleOff > 4 ? viewScale2 : viewScale2 - scaleOff;
+				viewScale  = viewScale + scaleOff > 4 ? viewScale  : viewScale  + scaleOff;
+			}
+			else if (zoomOut)
+			{
+				float scaleOff = -.112f / 2;
+				
+				viewScale2 = viewScale + scaleOff < .44f ? viewScale2 : viewScale2 - scaleOff;
+				viewScale  = viewScale + scaleOff < .44f ? viewScale  : viewScale  + scaleOff;
+			}
+			
+			players[0].setSprinting(sprint);
+			
+			if (players[1] != null && network != null)
+			{
+				network.sendPlayerLocation(new float[] { players[0].getAbsoluteX(), players[0].getAbsoluteY(), 0, 0 });
+			}
+			
+			float scaleOff = (float)MouseInput.getDWheel() * .001f;
+			
+			viewScale2 = viewScale + scaleOff < .44f ? viewScale2 : (viewScale + scaleOff > 4 ? viewScale2 : viewScale2 - scaleOff);
+			viewScale  = viewScale + scaleOff < .44f ? viewScale  : (viewScale + scaleOff > 4 ? viewScale  : viewScale  + scaleOff);
+		}
+		
+		if (MouseInput.isButtonDown(0))
+		{
+			MouseInput.setGrabbed(true);
+		}
+		
+		if (KeyboardInput.isKeyDown(KeyboardInput.KEY_ESCAPE))
+		{
+			MouseInput.setGrabbed(false);
+		}
+	}
+	
+	/**
+	* Shift the array of maps to a direction. The maps on the opposite
+	* side of the translation will be lost!
+	* 
+	* @param direction The direction to shift the maps.
+	*/
+	public static void shiftMaps(Direction direction)
+	{
+		byte wid = 3;
+		byte hei = 3;
+		
+		for (int yy = 0; yy < hei; yy ++)
+		{
+			for (int xx = 0; xx < wid; xx ++)
+			{
+				if (direction == Direction.UP)
+				{
+					if (yy == 2)
+					{
+						map[xx + yy * wid] = null;
+					}
+					else
+					{
+						map[xx + yy * wid] = map[xx + (yy + 1) * wid];
+					}
+				}
+				else if (direction == Direction.DOWN)
+				{
+					int d = (wid - yy - 1);
+					
+					if (d == 0)
+					{
+						map[xx + d * wid] = null;
+					}
+					else
+					{
+						map[xx + (wid - yy - 1) * wid] = map[xx + (wid - yy - 2) * wid];
+					}
+				}
+				else if (direction == Direction.LEFT)
+				{
+					if (yy == 2)
+					{
+						map[yy + xx * wid] = null;
+					}
+					else
+					{
+						map[yy + xx * wid] = map[yy + 1 + xx * wid];
+					}
+				}
+				else if (direction == Direction.RIGHT)
+				{
+					int d = (wid - yy - 1);
+					
+					// might have to be (wid - yy - 1)
+					if (d == 0)
+					{
+						map[d + xx * wid] = null;
+					}
+					else
+					{
+						map[d + xx * wid] = map[d - 1 + xx * wid];
+					}
+				}
+			}
+		}
+		
+		fillEmptyMaps();
+	}
+	
+	/**
+	* Searches the empty maps in the map array that are null and sets
+	* the map accordingly.
+	*/
+	public static void fillEmptyMaps()
+	{
+		byte wid = 3;
+		byte hei = 3;
+		
+		byte rx = map[1 + 1 * wid].getRelativeX();
+		byte ry = map[1 + 1 * wid].getRelativeY();
+		
+		for (int yy = 0; yy < hei; yy ++)
+		{
+			for (int xx = 0; xx < wid; xx ++)
+			{
+				if (map[xx + yy * wid] == null)
+				{
+					map[xx + yy * wid] = getMap((byte)(rx + (xx) - 1), (byte)(ry + (hei - yy - 1) - 1));
+				}
+			}
+		}
+		
+//		for (int yy = 0; yy < hei; yy ++)
+//		{
+//			for (int xx = 0; xx < wid; xx ++)
+//			{
+//				Map m = map[xx + yy * wid];
+//				
+//				System.out.print((m != null ? m.getRelativeX() : "") + "," + (m != null ? m.getRelativeY() : "") + "\t");
+//			}
+//			
+//			System.out.println();
+//		}
+	}
+	
+	/**
+	* Returns a new instance of the map at the specific location.
+	* 
+	* @param rx The relative x of the map.
+	* @param ry The relative y of the map.
+	* @return The map at the position.
+	*/
+	public static Map getMap(byte rx, byte ry)
+	{
+		return Map.getMap(rx, ry);
+	}
+	
+	/**
+	* Sets the map according to where the portal info was sending you.
+	* 
+	* @param info The portal info given by the portal.
+	*/
+	public static void sendThroughPortal(AnimatedObject animatedObject, PortalInfo info)
+	{
+		boolean isPlayer = animatedObject instanceof Player;
+		
+		if (animatedObject instanceof Actor && !isPlayer)
+		{
+			animatedObject.getMap().removeActor((Actor)animatedObject);
+		}
+		
+		Map m = null;
+		
+		Map m1 = map[1 + 1 * 3];
+		
+		byte rx = m1.getRelativeX();
+		byte ry = m1.getRelativeY();
+		
+		byte xo = 0;
+		byte yo = 0;
+		
+		Location location = info.getLocation();
+		
+		if (location instanceof MapLocation)
+		{
+			MapLocation mapLoc = ((MapLocation)location);
+			
+			if (mapLoc.getX() > rx)
+			{
+				xo = 2;
+			}
+			else if (mapLoc.getX() == rx)
+			{
+				xo = 1;
+			}
+			else
+			{
+				xo = 0;
+			}
+			
+			if (mapLoc.getY() > ry)
+			{
+				yo = 0;
+			}
+			else if (mapLoc.getY() == ry)
+			{
+				yo = 1;
+			}
+			else
+			{
+				yo = 2;
+			}
+			
+			m = map[xo + yo * 3];
+			
+			if (isPlayer)
+			{
+				if (xo == 1 && yo == 1)
+				{
+					
+				}
+				else
+				{
+					shiftMaps(Direction.getOpposite(info.getDirection()));
+				}
+			
+				mainMap = map[1 + 1 * 3];
+			}
+		}
+		else if (location instanceof BuildingLocation)
+		{
+			BuildingLocation bLoc = ((BuildingLocation)location);
+			
+			m = bLoc.getBuilding().getMap();
+			
+			if (isPlayer)
+			{
+				mainMap = m;
+			}
+		}
+		
+		float newX = 0;
+		float newY = 0;
+		
+		if (info.getDirection() == Direction.LEFT || info.getDirection() == Direction.RIGHT)
+		{
+			if (info.getDirection() == Direction.LEFT)
+			{
+				newX = info.getDx() * tileSize - tileSize - animatedObject.getScaledWidth();
+			}
+			else
+			{
+				newX = info.getDx() * tileSize;
+			}
+			
+			newY = info.getDy() * tileSize - tileSize + (tileSize / 2) - 10;
+		}
+		else if (info.getDirection() == Direction.UP || info.getDirection() == Direction.DOWN)
+		{
+			if (info.getDirection() == Direction.UP)
+			{
+				newY = info.getDy() * tileSize;
+			}
+			else
+			{
+				float poff = animatedObject.getScaledHeight();
+				
+				if (animatedObject instanceof Player || animatedObject instanceof Rogue)
+				{
+					poff /= 2;
+				}
+				
+				newY = info.getDy() * tileSize - tileSize - (poff);
+			}
+			
+			newX = info.getDx() * tileSize - tileSize + ((tileSize - animatedObject.getScaledWidth()) / 2);//p.getAbsoluteX();
+		}
+
+		animatedObject.setMap(m);
+		
+		animatedObject.setLocation(newX, newY);
+		
+		if (animatedObject instanceof Actor && !isPlayer)
+		{
+			animatedObject.getMap().addActor((Actor)animatedObject);
+		}
+	}
+	
+	public Frame getDisplay()
+	{
+		return frame;
+	}
+	
+	public static Player getPlayer()
+	{
+		return players[0];
+	}
+	
+	public void addPlayer(float ax, float ay, float mrx, float mry)
+	{
+		Map m = Map.getMap((int)mrx, (int)mry);
+		
+		players[1] = new Player(m, false, false);
+		
+		players[1].setLocation(ax, ay);
+		
+		players[1].setX(ax);
+		players[1].setY(ay);
+		
+		m.addActor(players[1]);
+	}
+	
+	public void setPlayerLocation(float loc[])
+	{
+		ArrayList<Actor> list = Map.getMap(0, 0).getActors();
+		
+		Player playerd = (Player)list.get(list.size() - 1);
+		
+		playerd.setLocation(loc[0], loc[1]);
+		
+		playerd.setX(loc[0]);
+		playerd.setY(loc[1]);
+	}
+	
+	public static Map getMap()
+	{
+		return mainMap;
+	}
+	
+	public Thread getGameThread()
+	{
+		return gameThread;
+	}
+	
+	public void debug()
+	{
+		debugging = true;
+	}
+	
+	public void stopDebugging()
+	{
+		debugging = false;
+	}
+	
+	public static float getScaledCenterX()
+	{
+		return getScaledWidth() / 2;
+	}
+	
+	public static float getScaledCenterY()
+	{
+		return getScaledHeight() / 2;
+	}
+	
+	public static float getScaledWidth()
+	{
+		return ((((float)Frame.getWidth()) / Idk.viewScale));
+	}
+	
+	public static float getScaledHeight()
+	{
+		return ((((float)Frame.getHeight()) / Idk.viewScale));
+	}
+	
+	public static float[] getViewDimensions()
+	{
+		float xo = -Idk.getMap().getX();
+		float yo = -Idk.getMap().getY();
+		
+		xo -= getScaledCenterX() - Frame.getCenterX();
+		yo -= getScaledCenterY() - Frame.getCenterY();
+		
+		return new float[] { xo, yo, getScaledWidth() + 3 * tileSize, getScaledHeight() + 3 * tileSize};
+	}
+	
+	public static int getPoint(int point)
+	{
+		return counter - point;
+	}
+	
+	public static long randomLong()
+	{
+		long x = System.currentTimeMillis();
+		
+		x ^= (x << 21);
+		x ^= (x >>> 35);
+		x ^= (x << 4);
+		
+		return x;
+	}
+	
+	public static int randomInt()
+	{
+		long x = System.currentTimeMillis();
+		
+		x ^= (x << 21);
+		x ^= (x >>> 35);
+		x ^= (x << 4);
+		
+		return (int)x;
+	}
+	
+	public static Font getFont()
+	{
+		return font;
+	}
+}

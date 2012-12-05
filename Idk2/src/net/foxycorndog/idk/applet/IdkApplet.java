@@ -41,7 +41,7 @@ public class IdkApplet extends Applet
 //		};
 //		gameThread.start();
 		
-		idk.start(drawCanvas);
+//		idk.start(drawCanvas);
 	}
 	
 	/**
@@ -92,8 +92,6 @@ public class IdkApplet extends Applet
 //		System.out.println(System.getProperty("user.dir") + " ANNNNND " + System.getProperty("org.lwjgl.librarypath"));
 		
 		Idk.prefix = "";
-		
-		Idk.init();
 		
 		idk = new Idk();
 		

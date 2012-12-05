@@ -735,7 +735,7 @@ public abstract class Frame
 			
 			if (!startedFps)
 			{
-				System.out.println(newTime + " - " + oldTime + " = " + (newTime - oldTime) + ", " + predictedFps);
+//				System.out.println(newTime + " - " + oldTime + " = " + (newTime - oldTime) + ", " + predictedFps);
 				fps = predictedFps;
 			}
 		}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.components.Frame.Alignment;
+import net.foxycorndog.jdoogl.fonts.Font;
 import net.foxycorndog.jdoogl.listeners.ActionListener;
 import net.foxycorndog.jdoogl.listeners.KeyListener;
 import net.foxycorndog.jdoogl.listeners.MouseListener;
@@ -20,7 +21,7 @@ public abstract class Component
 	
 	private int       width, height;
 	
-	private Alignment horizontalAlignment, verticalAlignment;
+	private int       horizontalAlignment, verticalAlignment;
 	
 	private ArrayList<ActionListener> actionListeners;
 	private ArrayList<MouseListener>  mouseListeners;
@@ -115,27 +116,22 @@ public abstract class Component
 			return;
 		}
 		
-		if (horizontalAlignment != null)
+		if (horizontalAlignment == Font.CENTER)
 		{
-			if (horizontalAlignment == Alignment.CENTER)
-			{
-				offsetX = (Frame.getWidth() / 2) - (getWidth() / 2);
-			}
-			else if (horizontalAlignment == Alignment.RIGHT)
-			{
-				
-			}
+			offsetX = (Frame.getWidth() / 2) - (getWidth() / 2);
 		}
-		if (verticalAlignment != null)
+		else if (horizontalAlignment == Font.RIGHT)
 		{
-			if (verticalAlignment == Alignment.CENTER)
-			{
-				offsetY = (Frame.getHeight()) / 2 - (getHeight() / 2) + Frame.getNormalFontHeight() * scaleHeight;
-			}
-			else if (verticalAlignment == Alignment.TOP)
-			{
-				
-			}
+			
+		}
+		
+		if (verticalAlignment == Font.CENTER)
+		{
+			offsetY = (Frame.getHeight()) / 2 - (getHeight() / 2) + Frame.getNormalFontHeight() * scaleHeight;
+		}
+		else if (verticalAlignment == Font.TOP)
+		{
+			
 		}
 	}
 	
@@ -283,27 +279,27 @@ public abstract class Component
 		this.focused = focused;
 	}
 	
-	public Alignment getHorizontalAlignment()
+	public int getHorizontalAlignment()
 	{
 		return horizontalAlignment;
 	}
 	
-	public void setHorizontalAlignment(Alignment alignment)
+	public void setHorizontalAlignment(int alignment)
 	{
 		this.horizontalAlignment = alignment;
 	}
 	
-	public Alignment getVerticalAlignment()
+	public int getVerticalAlignment()
 	{
 		return verticalAlignment;
 	}
 	
-	public void setVerticalAlignment(Alignment alignment)
+	public void setVerticalAlignment(int alignment)
 	{
 		this.verticalAlignment = alignment;
 	}
 	
-	public void setAlignment(Alignment horizontal, Alignment vertical)
+	public void setAlignment(int horizontal, int vertical)
 	{
 		this.horizontalAlignment = horizontal;
 		this.verticalAlignment   = vertical;

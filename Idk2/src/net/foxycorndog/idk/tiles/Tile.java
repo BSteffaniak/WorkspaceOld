@@ -48,6 +48,21 @@ public class Tile
 	}
 	
 	/**
+	* The static initialization method that initializes and allocates
+	* space for the static tiles array.
+	* 
+	* This method must be called before initTiles() is called.
+	*/
+	static
+	{
+		tilesQuantity = 0;
+		
+		tiles         = new Tile[256];
+		
+		initTiles();
+	}
+	
+	/**
 	* Creates a new Tile used for adding to maps to walk or collide
 	* into. They hold several variables, including position on
 	* the sprite-sheet, width, height, color, whether its collidable, 
@@ -85,21 +100,6 @@ public class Tile
 		this.color        = color;
 		
 		this.id           = ++ tilesQuantity;
-	}
-	
-	/**
-	* The static initialization method that initializes and allocates
-	* space for the static tiles array.
-	* 
-	* This method must be called before initTiles() is called.
-	*/
-	public static void init()
-	{
-		tilesQuantity = 0;
-		
-		tiles         = new Tile[256];
-		
-		initTiles();
 	}
 	
 	public void initTile()

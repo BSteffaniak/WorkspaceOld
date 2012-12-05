@@ -75,6 +75,11 @@ public class Actor extends AnimatedObject
 	
 	private static SpriteSheet actors;
 	
+	static
+	{
+		actors = new SpriteSheet(Idk.prefix + "res/images/actors/Actors.png", Actor.class, 49, 30);
+	}
+	
 	/**
 	* A enumeration that is used for telling directions.
 	*/
@@ -239,16 +244,6 @@ public class Actor extends AnimatedObject
 		healthLossY           = new ArrayList<Integer>();
 		
 		initialized = true;
-	}
-	
-	/**
-	* The static initialization method that creates the sprite-sheet.
-	* 
-	* Must be called before any actors are created!
-	*/
-	public static void init()
-	{
-		actors = new SpriteSheet(Idk.prefix + "res/images/actors/Actors.png", 49, 30);
 	}
 	
 	/**

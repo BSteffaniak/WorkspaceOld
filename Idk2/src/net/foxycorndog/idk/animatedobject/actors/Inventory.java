@@ -40,6 +40,17 @@ public class Inventory
 	
 	private static SpriteSheet    inventorySprites;
 	
+	static
+	{
+		inventorySprites = new SpriteSheet(Idk.prefix + "res/images/Inventory.png", 1, 1);
+		
+		verticesBuffer = new VerticesBuffer(OBJECT_SIZE, 3);
+		texturesBuffer = new LightBuffer(OBJECT_SIZE);
+		
+		verticesBuffer.addData(GL.addRectVertexArrayf(0, 0, 500, 400, 0, null));
+		texturesBuffer.addData(GL.addRectTextureArrayf(inventorySprites, 0, 0, 1, 1, 0, null));
+	}
+	
 	public Inventory()
 	{
 		if (verticesBuffer == null)
@@ -88,17 +99,6 @@ public class Inventory
 				
 			}
 		};
-	}
-	
-	public static void init()
-	{
-		inventorySprites = new SpriteSheet(Idk.prefix + "res/images/Inventory.png", 1, 1);
-		
-		verticesBuffer = new VerticesBuffer(OBJECT_SIZE, 3);
-		texturesBuffer = new LightBuffer(OBJECT_SIZE);
-		
-		verticesBuffer.addData(GL.addRectVertexArrayf(0, 0, 500, 400, 0, null));
-		texturesBuffer.addData(GL.addRectTextureArrayf(inventorySprites, 0, 0, 1, 1, 0, null));
 	}
 	
 	public void useItem(int index)
@@ -295,7 +295,7 @@ public class Inventory
 			Item item     = ((Item)compacted[i]);
 			int  quantity = ((Integer)compacted[i + 1]);
 			
-			TextButton button = new TextButton(item.getName() + (quantity > 1 ? " (" + quantity + ")" : ""), 2);
+			TextButton button = new TextButton(item.getName() + (quantity > 1 ? " (" + quantity + ")" : ""), 2, Idk.getFont());
 			button.setLocation(xoff, yoff - (25 + (i / 2) * 25));
 			button.addActionListener(menu);
 			button.setToolTipText(item.getToolTipText());

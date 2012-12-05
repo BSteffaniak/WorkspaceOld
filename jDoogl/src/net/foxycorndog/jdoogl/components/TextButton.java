@@ -8,6 +8,7 @@ import net.foxycorndog.jdoogl.Color;
 import net.foxycorndog.jdoogl.GL;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.components.Frame.Alignment;
+import net.foxycorndog.jdoogl.fonts.Font;
 import net.foxycorndog.jdoutil.StringUtil;
 
 public class TextButton extends Button
@@ -22,7 +23,9 @@ public class TextButton extends Button
 	
 	private ToolTipText toolTipText;
 	
-	public TextButton(String text, float scale)
+	private Font        font;
+	
+	public TextButton(String text, float scale, Font font)
 	{
 		this.text       = text;
 		
@@ -31,8 +34,10 @@ public class TextButton extends Button
 		this.foreground = Color.WHITE;
 		this.background = Color.BLACK;
 		
-		setWidth((int)((Frame.getFont().getLegitWidth(text)  + leftMargin + rightMargin)));
-		setHeight((int)((Frame.getNormalFontHeight() + topMargin  + bottomMargin)));
+		this.font       = font;
+		
+		setWidth((int)((font.getWidth(text)  + leftMargin + rightMargin)));
+		setHeight((int)((font.getGlyphHeight() + topMargin  + bottomMargin)));
 	}
 	
 	public void setMargins(int left, int right, int top, int bottom)
@@ -114,7 +119,7 @@ public class TextButton extends Button
 		}
 		GL.endManipulation();
 		
-		float location[] = Frame.renderText(getX(), getY(), text, foreground, scale, getHorizontalAlignment(), getVerticalAlignment());
+		font.render(text, getX(), getY(), 0, scale, getHorizontalAlignment(), getVerticalAlignment());
 		
 //		if (isMouseOver())
 //		{

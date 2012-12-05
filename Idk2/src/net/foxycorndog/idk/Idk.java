@@ -37,13 +37,20 @@ import net.foxycorndog.idk.network.Network;
 import net.foxycorndog.idk.network.Server;
 import net.foxycorndog.idk.tiles.Tile;
 import net.foxycorndog.jdoogl.Color;
+import net.foxycorndog.jdoogl.activity.GameComponent;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.components.Frame.Cursor;
+import net.foxycorndog.jdoogl.fonts.Font;
 import net.foxycorndog.jdoogl.input.KeyboardInput;
 import net.foxycorndog.jdoogl.input.MouseInput;
 
-public class Idk
+public class Idk extends GameComponent
 {
+	private float              oldY;
+	private float              oldX;
+	
+	private boolean            started;
+	
 	private static boolean     playingGame;
 	
 	private static Map         map[];
@@ -69,6 +76,8 @@ public class Idk
 	
 	private static Frame       frame;
 	
+	private static Font        font;
+	
 	public static final float  tileSize = 30f;
 	public static final float  scale    = tileSize / 30f;
 	
@@ -81,6 +90,14 @@ public class Idk
 	
 	public static final Random random = new Random();
 	
+	static
+	{
+		viewScale = scale;
+		
+		counter   = 0;
+		
+		Idk.prefix = "";
+	}
 	
 	/**
 	* Assigns the tile size to whatever you want to display in pixels.
@@ -90,200 +107,157 @@ public class Idk
 	*/
 	public static void main(String args[])
 	{
-		Idk.init();
-		
-		Idk idk   = new Idk();
-		idk.init(null);
+		new Idk();
 	}
 	
-	public static void init()
-	{
-		viewScale = scale;
-		
-		counter = 0;
-	}
-	
-	public void start(Canvas drawCanvas)
-	{
-		init(drawCanvas);
-	}
-	
-	/**
-	* The initialization method. Creates the display and starts running
-	* it.
-	*/
-	private void init(final Canvas drawCanvas)
-	{
-		gameThread = new Thread()
-		{
-			public void run()
-			{
-				int width  = 640;
-				int height = 512;
-				
-				if (drawCanvas == null)
-				{
-					prefix = "";
-				}
-				else
-				{
-					//prefix = "../";
-//					prefix = "";
-					
-					width  = drawCanvas.getWidth();
-					height = drawCanvas.getHeight();
-				}
-				
-				frame = new Frame(width, height, "", drawCanvas)
-				{
-					private float oldY;
-					private float oldX;
-					
-					private boolean started;
-					
-					@Override
-					public void loop()
-					{
-						checkInput();
-						
-						counter = (counter + 1) % 9999999;
-						
-						if (players != null && counter % 60 == 0)
-						{
-							players[0].addHealth(4);
-						}
-						
-						if (mainMap != null)
-						{
-							for (Actor actor : mainMap.getActors())
-							{
-								if (counter % (60 + actor.getOffset()) == 0)
-								{
-									actor.addHealth(4);
-								}
-							}
-						}
-					}
-					
-					@Override
-					public void render()
-					{
-						if (menu != null)
-						{
-							menu.render();
-						}
-						else if (playingGame)
-						{
-							debug();
-							
-							renderText(0, 0, "FPS: " + Frame.getFps(), Color.WHITE, 2, Alignment.RIGHT, Alignment.TOP);
-							
-							if (debugging)
-							{
-								renderText(0, 0, "Loc: (" + (int)(players[0].getAbsoluteX() / tileSize) + ", " + (int)(players[0].getAbsoluteY() / tileSize) + ")", Color.WHITE, 2, Alignment.LEFT, Alignment.TOP);
-							}
-							
-							if (Frame.wasResized())
-							{
-								if (started)
-								{
-									float offsetX = (Frame.getCenterX() - oldX);
-									float offsetY = (Frame.getCenterY() - oldY);
-									
-									players[0].setX(players[0].getX() + offsetX);
-									players[0].setY(players[0].getY() + offsetY);
-									
-									players[0].getMap().move(offsetX, offsetY);
-									
-									System.out.println("resized");
-								}
-								
-								started = true;
-								
-								oldX = Frame.getCenterX();
-								oldY = Frame.getCenterY();
-							}
-							
-							beginManipulation();
-							{
-								float cx = Frame.getCenterX();
-								float cy = Frame.getCenterY();
-								
-								translatef(cx, cy, 0);
-								
-								scalef(viewScale, viewScale, 1);
-								
-								translatef(-cx, -cy, 0);
-								
-			//					for (Player player : players)
-			//					{
-			//						if (players[0] == null)
-			//						{
-			//							continue;
-			//						}
-									
-			//						if (!players[0].hasInitialized())
-			//						{
-			//							players[0].init(player.getRow());
-			//						}
-									
-								if (players[0] != null)
-								{
-									players[0].render();
-									
-			//						System.out.println(players[0].getAbsoluteX() + ", " + players[0].getAbsoluteY());
-								}
-								
-								if (map != null)
-								{
-									mainMap.render();
-									
-									mainMap.renderActorsHealthLoss();
-									players[0].continueHealthLossIndicator();
-									
-									mainMap.randomMoveActors();
-									mainMap.makeActorsTalk();
-								}
-							}
-							endManipulation();
-							
-							beginManipulation();
-							{
-								scalef(Frame.getWidth() / 640f, Frame.getHeight() / 512f, 1);
-								
-								if (players[0].isViewingInventory())
-								{
-									players[0].getInventory().render();
-								}
-							}
-							endManipulation();
-						}
-						else
-						{
-							
-						}
-					}
+//	public void start(Canvas drawCanvas)
+//	{
+//		init(drawCanvas);
+//	}
 
-					@Override
-					public void init()
-					{
-						// TODO Auto-generated method stub
-						
-					}
-				};
-				
-				Frame.setFont(prefix + "res/images/font/pixel.ttf", 16);
-				Frame.setCursor(new Cursor(30, 30, "res/images/cursors/Cursor.png", true));
-				
-				menu = new MainMenu();
-				
-//				createGame();
+	public void onCreate()
+	{
+		font = new Font("res/images/font/font.png", 26, 4,
+				new char[]
+				{
+					'A', 'B', 'C', 'D', 'E', 'F',  'G', 'H', 'I', 'J', 'K', 'L',  'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+					'a', 'b', 'c', 'd', 'e', 'f',  'g', 'h', 'i', 'j', 'k', 'l',  'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+					'0', '1', '2', '3', '4', '5',  '6', '7', '8', '9', '_', '-',  '+', '=', '~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')',
+					'?', '>', '<', ';', ':', '\'', '"', '{', '}', '[', ']', '\\', '|', ',', '.', '/', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+				});
 		
-				frame.startLoop(60);
+		menu = new MainMenu();
+	}
+
+	public void render2D(int dfps)
+	{
+		if (menu != null)
+		{
+			menu.render();
+		}
+		else if (playingGame)
+		{
+			debug();
+			
+			font.render("FPS: " + Frame.getFps(), 0, 0, 0, 2, Font.RIGHT, Font.TOP);
+			
+			if (debugging)
+			{
+				font.render("Loc: (" + (int)(players[0].getAbsoluteX() / tileSize) + ", " + (int)(players[0].getAbsoluteY() / tileSize) + ")", 0, 0, 2, Font.LEFT, Font.TOP);
 			}
-		};
+			
+			if (Frame.wasResized())
+			{
+				if (started)
+				{
+					float offsetX = (Frame.getCenterX() - oldX);
+					float offsetY = (Frame.getCenterY() - oldY);
+					
+					players[0].setX(players[0].getX() + offsetX);
+					players[0].setY(players[0].getY() + offsetY);
+					
+					players[0].getMap().move(offsetX, offsetY);
+					
+					System.out.println("resized");
+				}
+				
+				started = true;
+				
+				oldX = Frame.getCenterX();
+				oldY = Frame.getCenterY();
+			}
+			
+			beginManipulation();
+			{
+				float cx = Frame.getCenterX();
+				float cy = Frame.getCenterY();
+				
+				translatef(cx, cy, 0);
+				
+				scalef(viewScale, viewScale, 1);
+				
+				translatef(-cx, -cy, 0);
+				
+//					for (Player player : players)
+//					{
+//						if (players[0] == null)
+//						{
+//							continue;
+//						}
+					
+//						if (!players[0].hasInitialized())
+//						{
+//							players[0].init(player.getRow());
+//						}
+					
+				if (players[0] != null)
+				{
+					players[0].render();
+					
+//						System.out.println(players[0].getAbsoluteX() + ", " + players[0].getAbsoluteY());
+				}
+				
+				if (map != null)
+				{
+					mainMap.render();
+					
+					mainMap.renderActorsHealthLoss();
+					players[0].continueHealthLossIndicator();
+					
+					mainMap.randomMoveActors();
+					mainMap.makeActorsTalk();
+				}
+			}
+			endManipulation();
+			
+			beginManipulation();
+			{
+				scalef(Frame.getWidth() / 640f, Frame.getHeight() / 512f, 1);
+				
+				if (players[0].isViewingInventory())
+				{
+					players[0].getInventory().render();
+				}
+			}
+			endManipulation();
+		}
+		else
+		{
+			
+		}
+	}
+
+	public void render3D(int dfps)
+	{
 		
-		gameThread.start();
+	}
+
+	public void loop(int dfps)
+	{
+		checkInput();
+						
+		counter = (counter + 1) % 9999999;
+		
+		if (players != null && counter % 60 == 0)
+		{
+			players[0].addHealth(4);
+		}
+		
+		if (mainMap != null)
+		{
+			for (Actor actor : mainMap.getActors())
+			{
+				if (counter % (60 + actor.getOffset()) == 0)
+				{
+					actor.addHealth(4);
+				}
+			}
+		}
+	}
+	
+	public Idk()
+	{
+		super(GAME_TITLE, 640, 512, 60);
 	}
 	
 	/**
@@ -293,14 +267,6 @@ public class Idk
 	public static void createGame()
 	{
 		map = new Map[3 * 3];
-		
-		Tile.init();
-		Apparel.init();
-		Actor.init();
-		Building.init();
-		Item.init();
-		Inventory.init();
-		Map.init();
 		
 		map[1 + 1 * 3] = Map.getMap(0, 0);
 		
@@ -863,5 +829,10 @@ public class Idk
 		x ^= (x << 4);
 		
 		return (int)x;
+	}
+	
+	public static Font getFont()
+	{
+		return font;
 	}
 }

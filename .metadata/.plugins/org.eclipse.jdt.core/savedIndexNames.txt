@@ -6,14 +6,11 @@ INDEX VERSION 1.126+C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\.metad
 1389783681.index
 2355123077.index
 242316947.index
-2479909925.index
 2501520862.index
 3402208619.index
 187995858.index
-529437705.index
 1385442301.index
 1197942741.index
-4284093014.index
 254749555.index
 1966203767.index
 241613544.index
@@ -21,14 +18,12 @@ INDEX VERSION 1.126+C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\.metad
 408559272.index
 751101218.index
 849342524.index
-989118166.index
 3398193654.index
 2727942736.index
 2566507409.index
 3142001522.index
 2432580729.index
 1018693375.index
-3140045379.index
 4062865154.index
 1900391107.index
 3526847495.index
@@ -56,8 +51,6 @@ INDEX VERSION 1.126+C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\.metad
 34527634.index
 3262272112.index
 4110329940.index
-4050959524.index
-1962638457.index
 3917384095.index
 1621782374.index
 1917480886.index
@@ -68,7 +61,6 @@ INDEX VERSION 1.126+C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\.metad
 3017074752.index
 2599613754.index
 2891660487.index
-2375370348.index
 3863101759.index
 883357855.index
 3754714908.index
@@ -76,7 +68,6 @@ INDEX VERSION 1.126+C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\.metad
 1581115291.index
 954527506.index
 3705487984.index
-3291799386.index
 1987182299.index
 202718518.index
 134898765.index
@@ -89,7 +80,6 @@ INDEX VERSION 1.126+C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\.metad
 1237108765.index
 1376385320.index
 2215006104.index
-848959954.index
 2992074478.index
 1657330681.index
 2667753014.index

@@ -406,6 +406,25 @@ public class Font
 //		history2.put(text, new LightBuffer[] { s, s2, s3 });
 	}
 	
+	public int getWidth(String text)
+	{
+		int width = 0;
+		
+		for (int i = 0; i < text.length(); i ++)
+		{
+			if (text.charAt(i) == ' ')
+			{
+				width += glyphWidth;
+			}
+			else
+			{
+				width += glyphWidth;
+			}
+		}
+		
+		return width;
+	}
+	
 	public int getGlyphWidth()
 	{
 		return glyphWidth;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.foxycorndog.jdoogl.Color;
 import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.fonts.Font;
 import net.foxycorndog.jdoutil.LightBuffer;
 import net.foxycorndog.jdoutil.StringUtil;
 import net.foxycorndog.jdoutil.VerticesBuffer;
@@ -18,11 +19,15 @@ public class ToolTipText extends Component
 	private VerticesBuffer vertices;
 	private LightBuffer    textures;
 	
+	private Font           font;
+	
 	private String text[];
 	
-	public ToolTipText(String text)
+	public ToolTipText(String text, Font font)
 	{
 		this.text = StringUtil.splitBetweenOccurrence(text, '\n');
+		
+		this.font = font;
 		
 		init();
 	}
@@ -49,12 +54,12 @@ public class ToolTipText extends Component
 		{
 			int length  = 0;
 			
-			if ((length = Frame.getFont().getLegitWidth(st)) > longestLine)
+			if ((length = font.getWidth(st)) > longestLine)
 			{
 				longestLine = length;
 			}
 			
-			tipHeight += Frame.getFont().getHeight(st);
+			tipHeight += font.getGlyphHeight();
 		}
 		
 		this.linePadding = 2;
@@ -107,7 +112,7 @@ public class ToolTipText extends Component
 			
 			for (int i = 0; i < text.length; i ++)
 			{
-				Frame.renderText(leftMargin, topMargin + ((Frame.getFont().getHeight(text[i]) + linePadding) * i), text[i], Color.WHITE, 1);
+				font.render(text[i], leftMargin, topMargin + ((Frame.getFont().getHeight(text[i]) + linePadding) * i), 1);
 			}
 			
 //			setOffsets();
