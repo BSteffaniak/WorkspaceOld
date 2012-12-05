@@ -101,7 +101,9 @@ public class Main extends GameComponent
 		GL.setAmbientLighti(brightness, brightness, brightness);
 		GL.setLightProperties();
 		
-		GL.addDiffuse(GL.LIGHT0, new Point(0.35f, 0.35f, 0.35f));
+		GL.setLighting();
+		
+//		GL.addDiffuse(GL.LIGHT0, new Point(0.35f, 0.35f, 0.35f));
 //		GL.addSpecular(GL.LIGHT1, new Point(01.0f, 01.0f, 01.0f));
 //		
 //		GL.setShadeModel(GL.SMOOTH);

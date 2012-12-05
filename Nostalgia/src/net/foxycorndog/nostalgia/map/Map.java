@@ -281,6 +281,7 @@ public class Map
 		ShaderUtils.useShaderProgram(shaderProgram);
 		{
 //			ShaderUtils.uniform3f(ShaderUtils.getUniformLocation(shaderProgram, "cameraPosition"), cameraPosition.getX(), cameraPosition.getY(), cameraPosition.getZ());
+			ShaderUtils.uniform3f("cameraPosition", cameraPosition.getX(), cameraPosition.getY(), cameraPosition.getZ());
 			ShaderUtils.uniform3f("specColor", 1, 1, 1);
 			ShaderUtils.uniform1f("intensity", 1);
 			ShaderUtils.uniform1i("lightNumber", 0);

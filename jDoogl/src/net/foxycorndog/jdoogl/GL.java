@@ -1028,6 +1028,28 @@ public class GL
 		glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 128);
 	}
 	
+	public static void setLighting()
+	{
+		glEnable(GL_LIGHT0);
+		
+		FloatBuffer dif = BufferUtils.createFloatBuffer(4);
+		dif.put(new float[] { 0.f, 0.f, 0.f, 1 }); //set the LightPosition to the specified values
+		dif.rewind();
+		    
+	    FloatBuffer amb = BufferUtils.createFloatBuffer(4);
+	    amb.put(new float[] { 0.f, 0.f, 0.f, 1 }); //set the LightPosition to the specified values
+	    amb.rewind();
+	    
+	    glLight(GL_LIGHT0, GL_DIFFUSE, dif); //change the light accordingly
+	    glLight(GL_LIGHT0, GL_AMBIENT, amb); //change the light accordingly
+	    
+	    FloatBuffer pos = BufferUtils.createFloatBuffer(4);
+	    pos.put(new float[] { 0, 0, 0, 1 }); //set the LightPosition to the specified values
+	    pos.rewind();
+	    
+	    glLight(GL_LIGHT0, GL_POSITION, pos); //change the light accordingly
+	}
+	
 	public static void addDiffuse(int lightNumber, Point color)
 	{
 		glEnable(lightNumber);

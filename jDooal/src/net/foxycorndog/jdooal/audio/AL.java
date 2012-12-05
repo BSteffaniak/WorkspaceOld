@@ -24,6 +24,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.openal.AL10;
 import org.lwjgl.openal.AL11;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.util.WaveData;
 
 public class AL
@@ -48,6 +49,7 @@ public class AL
 		
 		try
 		{
+			System.out.println(Display.isActive());
 			org.lwjgl.openal.AL.create();
 		}
 		catch (LWJGLException e)
@@ -81,6 +83,11 @@ public class AL
 	
 	public static int genSound(String location)
 	{
+		if (!org.lwjgl.openal.AL.isCreated())
+		{
+			return 0;
+		}
+		
 		WaveData sound = null;
 		
 		try
@@ -117,6 +124,11 @@ public class AL
 	
 	public static int copy(int id)
 	{
+		if (!org.lwjgl.openal.AL.isCreated())
+		{
+			return 0;
+		}
+		
 		int old = buffers.get(id);
 		
 		WaveData sound = audio.get(id);
@@ -143,26 +155,51 @@ public class AL
 	
 	public static boolean isPlaying(int source)
 	{
+		if (!org.lwjgl.openal.AL.isCreated())
+		{
+			return false;
+		}
+		
 		return AL10.alGetSourcei(source, AL10.AL_SOURCE_STATE) == AL10.AL_PLAYING;
 	}
 	
 	public static boolean isStopped(int source)
 	{
+		if (!org.lwjgl.openal.AL.isCreated())
+		{
+			return false;
+		}
+		
 		return AL10.alGetSourcei(source, AL10.AL_SOURCE_STATE) == AL10.AL_STOPPED;
 	}
 	
 	public static boolean isPaused(int source)
 	{
+		if (!org.lwjgl.openal.AL.isCreated())
+		{
+			return false;
+		}
+		
 		return AL10.alGetSourcei(source, AL10.AL_SOURCE_STATE) == AL10.AL_PAUSED;
 	}
 	
 	public static boolean isInitial(int source)
 	{
+		if (!org.lwjgl.openal.AL.isCreated())
+		{
+			return false;
+		}
+		
 		return AL10.alGetSourcei(source, AL10.AL_SOURCE_STATE) == AL10.AL_INITIAL;
 	}
 	
 	public static void loop(int source, int times)
 	{
+		if (!org.lwjgl.openal.AL.isCreated())
+		{
+			return;
+		}
+		
 		for (int i = 0; i < times; i ++)
 		{
 			alSourcePlay(source);
@@ -171,11 +208,21 @@ public class AL
 	
 	public static float getMasterVolume()
 	{
+		if (!org.lwjgl.openal.AL.isCreated())
+		{
+			return 0;
+		}
+		
 		return masterVolume;
 	}
 	
 	public static void setMasterVolume(float volume)
 	{
+		if (!org.lwjgl.openal.AL.isCreated())
+		{
+			return;
+		}
+		
 		volume = volume < 0 ? 0 : volume;
 		volume = volume > 1 ? 1 : volume;
 		
@@ -211,11 +258,21 @@ public class AL
 	
 	public static float getVolume(int soundId)
 	{
+		if (!org.lwjgl.openal.AL.isCreated())
+		{
+			return 0;
+		}
+		
 		return AL10.alGetSourcef(soundId, AL_GAIN) * (1 / masterVolume);
 	}
 	
 	public static void setVolume(int soundId, float volume)
 	{
+		if (!org.lwjgl.openal.AL.isCreated())
+		{
+			return;
+		}
+		
 		volume = volume < 0 ? 0 : volume;
 		volume = volume > 1 ? 1 : volume;
 		
@@ -226,16 +283,31 @@ public class AL
 	
 	public static void play(int source)
 	{
+		if (!org.lwjgl.openal.AL.isCreated())
+		{
+			return;
+		}
+		
 		alSourcePlay(source);
 	}
 	
 	public static void stop(int source)
 	{
+		if (!org.lwjgl.openal.AL.isCreated())
+		{
+			return;
+		}
+		
 		alSourceStop(source);
 	}
 	
 	public static void pause(int source)
 	{
+		if (!org.lwjgl.openal.AL.isCreated())
+		{
+			return;
+		}
+		
 		AL10.alSourcePause(source);
 	}
 }
