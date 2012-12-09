@@ -2,6 +2,7 @@ package net.foxycorndog.nostalgia.map;
 import java.util.ArrayList;
 
 import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.animation.Animation;
 import net.foxycorndog.jdoogl.geometry.Point;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
@@ -28,6 +29,9 @@ public class Map
 	private SpriteSheet    sprites;
 	
 	private Model          pin, house, hat, bunny;
+	private Animation      cloth;
+	
+	private int animFrame;
 	
 	private LightBuffer    texturesBuffer, colorsBuffer, normalsBuffer;
 	
@@ -143,6 +147,9 @@ public class Map
 		
 		hat = new Model("res/crappyhat.obj", 2);
 		hat.move(1, 6, 0);
+		
+//		cloth = Animation.loadAnimation("res/cloth/", "anim_", 6, 250);
+		animFrame = 1;
 		
 		shaderProgram     = ShaderUtils.loadShaderProgram("res/shaders/vertex.vs", "res/shaders/vertex.fs");
 	}
@@ -262,7 +269,7 @@ public class Map
 		return false;
 	}
 	
-	public void update(int dfps)
+	public void update(int dfps, float delta)
 	{
 		for (int i = 0; i < bullets.size(); i ++)
 		{
@@ -270,37 +277,44 @@ public class Map
 			{
 				for (int j = 0; j < 5; j ++)
 				{
-					bullets.get(i).update(dfps);
+					bullets.get(i).update(dfps, delta);
 				}
 			}
 		}
 	}
 	
-	public void render(Point cameraPosition)
+	public void render(Point cameraPosition, int dfps)
 	{
+//		System.out.println(cameraPosition.getX() + ", " + cameraPosition.getY() + ", " + cameraPosition.getZ());
+		
 		ShaderUtils.useShaderProgram(shaderProgram);
 		{
 //			ShaderUtils.uniform3f(ShaderUtils.getUniformLocation(shaderProgram, "cameraPosition"), cameraPosition.getX(), cameraPosition.getY(), cameraPosition.getZ());
-			ShaderUtils.uniform3f("cameraPosition", cameraPosition.getX(), cameraPosition.getY(), cameraPosition.getZ());
+			ShaderUtils.uniform1i("ScreenWidth", 640);
+			ShaderUtils.uniform1i("ScreenHeight", 512);
+			ShaderUtils.uniform1i("time", (int)System.currentTimeMillis());
+			ShaderUtils.uniform1i("counter", dfps % 8);
+			ShaderUtils.uniform3f("camPos", cameraPosition.getX(), cameraPosition.getY(), cameraPosition.getZ());
+			ShaderUtils.uniform3f("flashlightPos", cameraPosition.getX(), cameraPosition.getY(), cameraPosition.getZ());
 			ShaderUtils.uniform3f("specColor", 1, 1, 1);
 			ShaderUtils.uniform1f("intensity", 1);
 			ShaderUtils.uniform1i("lightNumber", 0);
 			GL.setReflection(new Point(0.5f, 0.5f, 0.5f));
 			GL.setShininess(128);
-			house.render();
-
-			ShaderUtils.uniform3f("specColor", 4f, 3.6f, 2.9f);
-			ShaderUtils.uniform1f("intensity", 1);
-			ShaderUtils.uniform1i("lightNumber", 0);
-			GL.setReflection(new Point(0.5f, 0.5f, 0.5f));
-			GL.setShininess(15);
-			pin.render();
-
-			ShaderUtils.uniform3f("specColor", 4f, 3.6f, 2.9f);
-			ShaderUtils.uniform1f("intensity", 0.85f);
-			ShaderUtils.uniform1i("lightNumber", 0);
-			GL.setReflection(new Point(10.9f, 10.9f, 10.9f));
-			GL.setShininess(128);
+//			house.render();
+//
+//			ShaderUtils.uniform3f("specColor", 4f, 3.6f, 2.9f);
+//			ShaderUtils.uniform1f("intensity", 1);
+//			ShaderUtils.uniform1i("lightNumber", 0);
+//			GL.setReflection(new Point(0.5f, 0.5f, 0.5f));
+//			GL.setShininess(15);
+//			pin.render();
+//
+//			ShaderUtils.uniform3f("specColor", 4f, 3.6f, 2.9f);
+//			ShaderUtils.uniform1f("intensity", 0.85f);
+//			ShaderUtils.uniform1i("lightNumber", 0);
+//			GL.setReflection(new Point(10.9f, 10.9f, 10.9f));
+//			GL.setShininess(128);
 			bunny.render();
 			
 //			ShaderUtils.getUniformLocation(programId, uniformName)
@@ -311,27 +325,29 @@ public class Map
 //			GL.setReflection(new Point(10.9f, 10.9f, 10.9f));
 //			GL.setShininess(128);
 //			hat.render();
+			
+			GL.renderCubes(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, sprites, 0, 1, null);
+			
+			GL.renderCubes(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, tile, 1, 1, null);
+			
+			GL.beginManipulation();
+			{
+		//			GL.rotatef(0, 0, rotY);
+				
+				GL.renderCubes(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, brick, 2, 1, null);
+				
+				rotY += 1;
+				rotY %= 360;
+			}
+			GL.endManipulation();
+			
+			GL.renderCubes(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, brick, 3, 2, null);
+			
+			renderBullets();
+			
+//			cloth.play(animFrame);
 		}
 		ShaderUtils.useShaderProgram(0);
-		
-		GL.renderCubes(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, sprites, 0, 1, null);
-		
-		GL.renderCubes(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, tile, 1, 1, null);
-		
-		GL.beginManipulation();
-		{
-//			GL.rotatef(0, 0, rotY);
-			
-			GL.renderCubes(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, brick, 2, 1, null);
-			
-			rotY += 1;
-			rotY %= 360;
-		}
-		GL.endManipulation();
-		
-		GL.renderCubes(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, brick, 3, 2, null);
-		
-		renderBullets();
 		
 //		GL.drawImage("res/images/grass.png", 5, 5);
 	}

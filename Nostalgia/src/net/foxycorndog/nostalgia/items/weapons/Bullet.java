@@ -1,6 +1,7 @@
 package net.foxycorndog.nostalgia.items.weapons;
 
 import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.geometry.Point;
 import net.foxycorndog.jdoogl.geometry.Vector;
 import net.foxycorndog.nostalgia.map.Map;
@@ -45,13 +46,13 @@ public class Bullet
 		}
 	}
 	
-	public void update(int dfps)
+	public void update(int dfps, float delta)
 	{
 		float slope = (float)Math.cos(Math.toRadians(pitch));
 		
-		x += velocity * (float)Math.sin(Math.toRadians(yaw)) * slope;
-		y -= velocity * (float)Math.sin(Math.toRadians(pitch));
-		z -= velocity * (float)Math.cos(Math.toRadians(yaw)) * slope;
+		x += velocity * delta * (float)Math.sin(Math.toRadians(yaw)) * slope;
+		y -= velocity * delta * (float)Math.sin(Math.toRadians(pitch));
+		z -= velocity * delta * (float)Math.cos(Math.toRadians(yaw)) * slope;
 		
 		times ++;
 		

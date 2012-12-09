@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.foxycorndog.nostalgia.items.weapons.guns.Pistol"/>
-<fullyQualifiedTypeName name="net.foxycorndog.nostalgia.items.weapons.guns.Gun"/>
 <fullyQualifiedTypeName name="net.foxycorndog.nostalgia.items.weapons.guns.MachineGun"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.fonts.SimpleText"/>
 <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
@@ -19,7 +17,6 @@
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL13"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL14"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL20"/>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.GL30"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.geometry.Vector"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL21"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL40"/>
@@ -46,18 +43,21 @@
 <fullyQualifiedTypeName name="java.awt.image.DataBufferInt"/>
 <fullyQualifiedTypeName name="net.foxycorndog.shootcrap.tile.Grass"/>
 <fullyQualifiedTypeName name="net.foxycorndog.shootcrap.tile.Tile"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoutil.VerticesBuffer"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoutil.LightBuffer"/>
 <fullyQualifiedTypeName name="net.foxycorndog.shootcrap.map.Map"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.input.KeyboardInput"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.components.Frame"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="net.foxycorndog.shootcrap.actor.Actor"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.image.imagemap.SpriteSheet"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.GL"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="net.foxycorndog.shootcrap.actor.Player"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.activity.GameComponent"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.fonts.Font"/>
 <fullyQualifiedTypeName name="net.foxycorndog.idk.Idk"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoutil.LightBuffer"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.model.ModelLoader"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoutil.VerticesBuffer"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.GL"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.animation.Animation"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GL30"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jdoogl.components.Frame"/>
 </qualifiedTypeNameHistroy>

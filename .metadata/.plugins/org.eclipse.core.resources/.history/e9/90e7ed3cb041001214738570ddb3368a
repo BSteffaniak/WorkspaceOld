@@ -1,0 +1,402 @@
+package net.foxycorndog.nostalgia.map;
+import java.util.ArrayList;
+
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.animation.Animation;
+import net.foxycorndog.jdoogl.geometry.Point;
+import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
+import net.foxycorndog.jdoogl.image.imagemap.Texture;
+import net.foxycorndog.jdoogl.input.KeyboardInput;
+import net.foxycorndog.jdoogl.model.Model;
+import net.foxycorndog.jdoogl.model.ModelLoader;
+import net.foxycorndog.jdoogl.shader.ShaderUtils;
+import net.foxycorndog.jdoutil.ArrayUtil;
+import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.Task;
+import net.foxycorndog.jdoutil.VerticesBuffer;
+import net.foxycorndog.nostalgia.actor.Actor;
+import net.foxycorndog.nostalgia.items.weapons.Bullet;
+
+public class Map
+{
+	private int            numCubes, maxBullets;
+	private int            shaderProgram;
+	
+	private float          rotY;
+	
+	private Texture        brick, tile;
+	
+	private SpriteSheet    sprites;
+	
+	private Model          pin, house, hat, bunny;
+	private Animation      cloth;
+	
+	private int animFrame;
+	
+	private LightBuffer    texturesBuffer, colorsBuffer, normalsBuffer;
+	
+	private VerticesBuffer verticesBuffer, bulletVertices;
+	public  int            render = GL.POINTS;
+	private float          cubes[];
+	
+	private ArrayList<Bullet> bullets;
+	
+	public Map()
+	{
+		numCubes = 5;
+		
+		sprites  = new SpriteSheet("res/images/sprites.png", 36, 18);
+		
+		brick = new Texture("res/images/brick.png");
+		tile  = new Texture("res/images/tile.png");
+		
+		cubes    = new float[6 * numCubes];
+		
+		verticesBuffer = new VerticesBuffer(4 * 3 * 6 * numCubes, 3);
+		normalsBuffer  = new LightBuffer(4 * 3 * 6 * numCubes);
+		texturesBuffer = new LightBuffer(2 * 4 * 6 * numCubes);
+		colorsBuffer   = new LightBuffer(4 * 4 * 6 * numCubes);
+		
+		maxBullets     = 100;
+		bulletVertices = new VerticesBuffer(4 * 3 * 6 * maxBullets, 3);
+		bullets        = new ArrayList<Bullet>(maxBullets);
+		
+		for (int i = 0; i < maxBullets; i ++)
+		{
+			bullets.add(null);
+			
+			bulletVertices.setData(4 * 3 * 6 * i, GL.addCubeVertexArrayf(0, 0, 0, 0.05f, 0.05f, 0.05f, 0, null));
+		}
+		
+		bulletVertices.genIndices(GL.QUADS, null);
+		
+		int index = 0;
+		
+		addCube(0, 2.5f, -10, 2, 2, 2,
+				new float[][]
+				{
+					sprites.getImageOffsetsf(1, 0, 1, 1),
+					sprites.getImageOffsetsf(1, 0, 1, 1),
+					sprites.getImageOffsetsf(1, 0, 1, 1),
+					sprites.getImageOffsetsf(1, 0, 1, 1),
+					sprites.getImageOffsetsf(7, 2, 1, 1),
+					sprites.getImageOffsetsf(2, 0, 1, 1),
+				},
+				new int[][]
+				{
+					new int[] { 255, 255, 255, 255 },
+					new int[] { 255, 255, 255, 255 },
+					new int[] { 255, 255, 255, 255 }, 
+					new int[] { 255, 255, 255, 255 },
+					new int[] { 151, 255, 100, 255 },
+					new int[] { 255, 255, 255, 255 }
+				}, index ++, true);
+		
+		float vrts[] = new float[]
+		{
+			 0,  0,  1,
+			 0,  2, -1,
+			 1,  2, -1,
+			 1,  0,  1
+		};
+		
+		boolean sides[] = new boolean[]
+		{
+			false,
+			true,
+			false,
+			true,
+			false,
+			false
+		};
+		
+		boolean allSides[] = new boolean[]
+		{
+			true,
+			true,
+			true,
+			true,
+			true,
+			true
+		};
+		
+		boolean topOnly[] = new boolean[]
+		{
+			true,
+			true,
+			true,
+			true,
+			true,
+			true
+		};
+		
+		addCube(-10, -2, -100, 20, 2, 200, tile, topOnly, 3, 30, 200, 200, 200, 255, index ++, true);
+		addCube(GL.addCubeVertexArrayf(vrts, 2, 0, null), brick, 1, 1, 180, 180, 180, 255, index ++, false);
+		addCube(-10, 0, -100, 2, 10, 200, brick, sides, 50, 3, 180, 180, 180, 255, index ++, true);
+		addCube(8, 0, -100, 2, 10, 200, brick, sides, 50, 3, 180, 180, 180, 255, index ++, true);
+		
+		verticesBuffer.genIndices(GL.QUADS, null);
+		
+		pin = new Model("res/ironman/pin.obj", 0.1f);
+		pin.move(0, 5, 0);
+		
+		bunny = new Model("res/bunny.obj", 20);
+		
+		house = new Model("res/house.obj", 1);
+		house.move(-1.5f, 0, 0);
+		
+		hat = new Model("res/crappyhat.obj", 2);
+		hat.move(1, 6, 0);
+		
+//		cloth = Animation.loadAnimation("res/cloth/", "anim_", 6, 250);
+		animFrame = 1;
+		
+		shaderProgram     = ShaderUtils.loadShaderProgram("res/shaders/vertex.vs", "res/shaders/vertex.fs");
+	}
+	
+	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int colors[][], int index, boolean collision)
+	{
+		addCube(x, y, z, width, height, depth, textures, 1, 1, colors, index, collision);
+	}
+	
+	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int rx, int ry, int colors[][], int index, boolean collision)
+	{
+		addCube(GL.addCubeVertexArrayf(x, y, z, width, height, depth, 0, null), textures, rx, ry, colors, index, collision);
+	}
+	
+	public void addCube(float vertices[], float textures[][], int rx, int ry, int colors[][], int index, boolean collision)
+	{
+		verticesBuffer.addData(vertices);
+		texturesBuffer.addData(GL.addCubeTextureArrayf(textures, rx, ry, 0, null));
+		colorsBuffer.addData(GL.addCubeColorArrayif(colors , 0, null));
+		normalsBuffer.addData(GL.addCubeNormalArrayf(0, null));
+		
+		if (collision)
+		{
+			cubes[0 + index * 6] = vertices[3];
+			cubes[1 + index * 6] = vertices[4];
+			cubes[2 + index * 6] = vertices[5];
+			
+			cubes[3 + index * 6] = vertices[0];
+			cubes[4 + index * 6] = vertices[7];
+			cubes[5 + index * 6] = vertices[14];
+		}
+	}
+	
+	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int r, int g, int b, int a, int index, boolean collision)
+	{
+		int colors[][] = new int[][]
+		{
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a }
+		};
+		
+		addCube(x, y, z, width, height, depth, textures, colors, index, collision);
+	}
+	
+	public void addCube(float x, float y, float z, float width, float height, float depth, Texture texture, boolean sides[], int r, int g, int b, int a, int index, boolean collision)
+	{
+		addCube(x, y, z, width, height, depth, texture, sides, 1, 1, r, g, b, a, index, collision);
+	}
+	
+	public void addCube(float x, float y, float z, float width, float height, float depth, Texture texture, boolean sides[], int rx, int ry, int r, int g, int b, int a, int index, boolean collision)
+	{
+		int colors[][] = new int[][]
+		{
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a }
+		};
+		
+		float textures[][] = new float[6][];
+		
+		for (int i = 0; i < textures.length; i ++)
+		{
+			if (sides[i])
+			{
+				textures[i] = texture.getImageOffsetsf();
+			}
+			else
+			{
+				textures[i] = new float[4];
+			}
+		}
+		
+		addCube(x, y, z, width, height, depth, textures, rx, ry, colors, index, collision);
+	}
+	
+	public void addCube(float vertices[], Texture texture, int rx, int ry, int r, int g, int b, int a, int index, boolean collision)
+	{
+		int colors[][] = new int[][]
+		{
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a },
+			{ r, g, b, a }
+		};
+		
+		float textures[][] = new float[][]
+		{
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+			texture.getImageOffsetsf(),
+		};
+		
+		addCube(vertices, textures, rx, ry, colors, index, collision);
+	}
+	
+	public boolean collided(Actor actor)
+	{
+		float vertices[] = actor.getVertices();
+		
+//		if (bunny.collision(vertices, new Point(actor.getX(), actor.getY(), actor.getZ())))
+//		{
+//			return true;
+//		}
+		
+		return false;
+	}
+	
+	public void update(int dfps)
+	{
+		for (int i = 0; i < bullets.size(); i ++)
+		{
+			if (bullets.get(i) != null)
+			{
+				for (int j = 0; j < 5; j ++)
+				{
+					bullets.get(i).update(dfps);
+				}
+			}
+		}
+	}
+	
+	public void render(Point cameraPosition, int dfps)
+	{
+//		System.out.println(cameraPosition.getX() + ", " + cameraPosition.getY() + ", " + cameraPosition.getZ());
+		
+		ShaderUtils.useShaderProgram(shaderProgram);
+		{
+//			ShaderUtils.uniform3f(ShaderUtils.getUniformLocation(shaderProgram, "cameraPosition"), cameraPosition.getX(), cameraPosition.getY(), cameraPosition.getZ());
+			ShaderUtils.uniform1i("ScreenWidth", 640);
+			ShaderUtils.uniform1i("ScreenHeight", 512);
+			ShaderUtils.uniform1i("time", (int)System.currentTimeMillis());
+			ShaderUtils.uniform1i("counter", dfps % 8);
+			ShaderUtils.uniform3f("cameraPosition", cameraPosition.getX(), 0, cameraPosition.getZ());
+			ShaderUtils.uniform3f("specColor", 1, 1, 1);
+			ShaderUtils.uniform1f("intensity", 1);
+			ShaderUtils.uniform1i("lightNumber", 0);
+			GL.setReflection(new Point(0.5f, 0.5f, 0.5f));
+			GL.setShininess(128);
+//			house.render();
+//
+//			ShaderUtils.uniform3f("specColor", 4f, 3.6f, 2.9f);
+//			ShaderUtils.uniform1f("intensity", 1);
+//			ShaderUtils.uniform1i("lightNumber", 0);
+//			GL.setReflection(new Point(0.5f, 0.5f, 0.5f));
+//			GL.setShininess(15);
+//			pin.render();
+//
+//			ShaderUtils.uniform3f("specColor", 4f, 3.6f, 2.9f);
+//			ShaderUtils.uniform1f("intensity", 0.85f);
+//			ShaderUtils.uniform1i("lightNumber", 0);
+//			GL.setReflection(new Point(10.9f, 10.9f, 10.9f));
+//			GL.setShininess(128);
+//			bunny.render();
+			
+//			ShaderUtils.getUniformLocation(programId, uniformName)
+		
+//			ShaderUtils.uniform3f("specColor", 4f, 3.6f, 2.9f);
+//			ShaderUtils.uniform1f("intensity", 0.85f);
+//			ShaderUtils.uniform1i("lightNumber", 0);
+//			GL.setReflection(new Point(10.9f, 10.9f, 10.9f));
+//			GL.setShininess(128);
+//			hat.render();
+			
+			GL.renderCubes(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, sprites, 0, 1, null);
+			
+			GL.renderCubes(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, tile, 1, 1, null);
+			
+			GL.beginManipulation();
+			{
+		//			GL.rotatef(0, 0, rotY);
+				
+				GL.renderCubes(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, brick, 2, 1, null);
+				
+				rotY += 1;
+				rotY %= 360;
+			}
+			GL.endManipulation();
+			
+			GL.renderCubes(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, brick, 3, 2, null);
+			
+			renderBullets();
+			
+//			cloth.play(animFrame);
+		}
+		ShaderUtils.useShaderProgram(0);
+		
+//		GL.drawImage("res/images/grass.png", 5, 5);
+	}
+	
+	private void renderBullets()
+	{
+		for (int i = 0; i < bullets.size(); i ++)
+		{
+			Bullet bullet = bullets.get(i);
+			
+			if (bullet != null)
+			{
+				GL.beginManipulation();
+				{
+					GL.translatef(bullet.getX(), bullet.getY(), bullet.getZ());
+					
+					GL.renderCubes(bulletVertices, i, 1);
+				}
+				GL.endManipulation();
+			}
+		}
+	}
+	
+	public void shoot(Bullet bullet)
+	{
+		bullets.set(bullet.getId(), bullet);
+	}
+	
+	public void removeBullet(int id)
+	{
+		bullets.set(id, null);
+	}
+	
+	public int getMaxBullets()
+	{
+		return maxBullets;
+	}
+	
+	public float[] getCubes()
+	{
+		return cubes;
+	}
+	
+	public void genIndices()
+	{
+		verticesBuffer.genIndices(GL.QUADS, null);
+	}
+	
+	public void destroyIndices()
+	{
+		verticesBuffer.destroyIndices();
+	}
+}

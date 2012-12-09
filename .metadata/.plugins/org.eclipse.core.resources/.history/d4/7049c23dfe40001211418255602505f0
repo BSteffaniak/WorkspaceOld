@@ -1,0 +1,56 @@
+package net.foxycorndog.jdoogl.animation;
+
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.model.ModelLoader;
+import net.foxycorndog.jdoutil.VerticesBuffer;
+
+public class Animation
+{
+	private boolean playing;
+	
+	private int     vertexIds[], vertexIndicesIds[];
+	
+	public Animation(int vertexIds[], int vertexIndicesIds[])
+	{
+		this.vertexIds        = vertexIds;
+		this.vertexIndicesIds = vertexIndicesIds;
+	}
+	
+	public void play(int frame)
+	{
+		
+	}
+	
+	public static Animation loadAnimation(String location, String prefix, int digitCount, int frameCount)
+	{
+		if (location.endsWith("/") || location.endsWith("\\"))
+		{
+			
+		}
+		else
+		{
+			location += "/";
+		}
+		
+		int vertexIds[] = new int[frameCount];
+		int vertexIndicesIds[] = new int[frameCount];
+		
+		for (int i = 1; i <= frameCount; i ++)
+		{
+			Object arrays[] = ModelLoader.loadModel(location, true, false, true, false, 1);
+			
+			int vertsArray[] = (int[])arrays[0];
+			
+			VerticesBuffer verts = new VerticesBuffer(vertsArray.length, 3);
+			
+			verts.genIndices(GL.TRIANGLES);
+			
+			vertexIds[i - 1]        = verts.getId();
+			vertexIndicesIds[i - 1] = verts.getIndicesId(0);
+		}
+		
+		Animation a = new Animation(vertexIds, vertexIndicesIds);
+		
+		return a;
+	}
+}

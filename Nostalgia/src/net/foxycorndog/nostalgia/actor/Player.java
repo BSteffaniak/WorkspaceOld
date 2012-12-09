@@ -15,7 +15,7 @@ public class Player extends Actor
 {
 	public Player(float width, float height, float depth, float centerX, float centerY, float centerZ, Map map)
 	{
-		super(width, height, depth, centerX, centerY, centerZ, map);
+		super(width, height, depth, centerX, centerY, centerZ, 4, map);
 	}
 	
 	public void render()
@@ -38,10 +38,5 @@ public class Player extends Actor
 			getModel().render();
 		}
 		GL.endManipulation();
-	}
-	
-	public void update(int dfps)
-	{
-		super.update(dfps);
 	}
 }

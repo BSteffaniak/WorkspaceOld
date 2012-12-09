@@ -1,0 +1,16 @@
+package net.foxycorndog.jdoogl.animation;
+
+public class Animation
+{
+	public Animation()
+	{
+		
+	}
+	
+	public static Animation loadAnimation(String prefix, int digitCount)
+	{
+		Animation a = new Animation();
+		
+		return a;
+	}
+}

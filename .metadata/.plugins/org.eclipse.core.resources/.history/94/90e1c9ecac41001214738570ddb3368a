@@ -1,0 +1,55 @@
+#version 120
+
+/* Per-vertex Phong lighting model
+ *
+ * Varying is set by the vertex program and read by the fragment
+ * program.
+ * Uniform is set by the Java code and read by the vertex and fragment
+ * program.
+ * Attribute is set by the Java code and read by the vertex program.
+ */
+uniform int   lightNumber;
+uniform int   time;
+uniform int   screenWidth, screenHeight;
+
+uniform float intensity;
+
+uniform vec3  cameraPosition;
+
+uniform vec3  specColor;
+
+varying vec4  fragScreenPos;
+varying vec3  fragWorldPos;
+varying vec3  camPos;
+varying vec4  color;
+
+attribute vec2 texCoord;
+
+/* Object Space: Vertices you specify with glVertex(Pointer)
+ * Eye Space: Vertices transformed by the modelview matrix
+ * (affected by glTranslate/glRotate)
+ * Clip Space: Vertices transformed by the projection matrix
+ * (affected by gluPerspective/glOrtho)
+ *
+ * Diffuse lighting: light is reflected in every direction evenly
+ * To calculate the intensity of the reflected lighting we need the cosine
+ * of the angle between the light and the surface normal. We could also use
+ * diffuse attributes of the material and of the light.
+ * specular lighting:
+ */
+
+void main()
+{
+	camPos        = cameraPosition;
+
+	fragScreenPos = gl_ModelViewMatrix * gl_Vertex;
+	fragWorldPos  = gl_Vertex.xyz;
+
+	vec4 pos;
+
+	pos = vec4(gl_Vertex.x, (gl_Vertex.y + (fragScreenPos)), gl_Vertex.z, gl_Vertex.w);
+
+	gl_TexCoord[0] = gl_MultiTexCoord0;
+
+	gl_Position    = gl_ModelViewProjectionMatrix * pos;
+}

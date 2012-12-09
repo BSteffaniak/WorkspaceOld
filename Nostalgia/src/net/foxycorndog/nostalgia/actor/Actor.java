@@ -26,6 +26,7 @@ public class Actor
 	private float   centerX, centerY, centerZ;
 	private float   offsetX, offsetY, offsetZ;
 	private float   startY;
+	private float   jumpHeight;
 	
 	private Camera  camera, location;
 	
@@ -42,32 +43,34 @@ public class Actor
 	
 	private static final float TOLERANCE = 0.0001f;
 	
-	public Actor(float width, float height, float depth, float centerX, float centerY, float centerZ, Map map)
+	public Actor(float width, float height, float depth, float centerX, float centerY, float centerZ, float jumpHeight, Map map)
 	{
-		this.width     = width;
-		this.height    = height;
-		this.depth     = depth;
+		this.width      = width;
+		this.height     = height;
+		this.depth      = depth;
 		
-		this.centerX   = centerX;
-		this.centerY   = centerY;
-		this.centerZ   = centerZ;
+		this.centerX    = centerX;
+		this.centerY    = centerY;
+		this.centerZ    = centerZ;
 		
-		this.offsetX   = centerX;
-		this.offsetY   = centerY;
-		this.offsetZ   = centerZ;
+		this.offsetX    = centerX;
+		this.offsetY    = centerY;
+		this.offsetZ    = centerZ;
 		
-		location       = new Camera();
+		this.jumpHeight = jumpHeight;
+		
+		location        = new Camera();
 		location.setActor(this);
 		location.setCameraMode(Camera.XZ_ONLY);
 		
-		camera         = new Camera();
+		camera          = new Camera();
 		camera.setActor(this);
 		camera.setCameraMode(Camera.XZ_ONLY);
 		camera.moveDirection(centerX, centerY, centerZ);
 		
-		this.map       = map;
+		this.map        = map;
 		
-//		verticesBuffer = new VerticesBuffer(3 * 4 * 6, 3);
+//		verticesBuffer  = new VerticesBuffer(3 * 4 * 6, 3);
 //		
 //		verticesBuffer.addData(GL.addCubeVertexArrayf(0, 0, 0, width, height, depth, 0, null));
 //		verticesBuffer.genIndices(GL.QUADS, null);
@@ -76,7 +79,7 @@ public class Actor
 		
 		guns  = new ArrayList<Gun>();
 		
-		perspective    = FIRST;
+		perspective     = FIRST;
 	}
 	
 	public boolean collided(Map map)
@@ -264,10 +267,8 @@ public class Actor
 		}
 	}
 	
-	public void update(int dfps)
+	public void update(int dfps, float delta)
 	{
-		float delta = 60f / Frame.getFps();
-		
 		if (cameraAttached())
 		{
 			if (moving && sprinting)
@@ -288,6 +289,8 @@ public class Actor
 		
 		if (jumping)
 		{
+			float height = location.getY() - startY;
+			
 			if (location.getY() < startY + 4)
 			{
 				if (!move(0, 0.6f * delta, 0))

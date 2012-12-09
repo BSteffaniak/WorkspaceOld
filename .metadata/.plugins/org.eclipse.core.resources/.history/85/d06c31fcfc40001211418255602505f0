@@ -1,0 +1,43 @@
+package net.foxycorndog.jdoogl.animation;
+
+import net.foxycorndog.jdoogl.model.ModelLoader;
+
+public class Animation
+{
+	private boolean playing;
+	
+	private int     ids[];
+	
+	public Animation(int ids[])
+	{
+		this.ids = ids;
+	}
+	
+	public void play()
+	{
+		
+	}
+	
+	public static Animation loadAnimation(String location, String prefix, int digitCount, int frameCount)
+	{
+		if (location.endsWith("/") || location.endsWith("\\"))
+		{
+			
+		}
+		else
+		{
+			location += "/";
+		}
+		
+		int ids[] = new int[frameCount];
+		
+		for (int i = 1; i <= frameCount; i ++)
+		{
+			ids[i - 1] = ModelLoader.loadModel(location, true, false, true, false, 1);
+		}
+		
+		Animation a = new Animation(ids);
+		
+		return a;
+	}
+}

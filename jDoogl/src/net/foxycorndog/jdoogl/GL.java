@@ -1069,7 +1069,7 @@ public class GL
 		spec.put(new float[] { color.getX(), color.getY(), color.getZ(), 1 });
 		spec.rewind();
 		
-		glLight(lightNumber, GL_SPECULAR, spec);
+//		glLight(lightNumber, GL_SPECULAR, spec);
 	}
 	
 	public static void setReflection(Point reflectColor)
@@ -1493,6 +1493,11 @@ public class GL
 	public static void renderQuads(VerticesBuffer verticesBuffer, LightBuffer texturesBuffer, LightBuffer normalsBuffer, LightBuffer colorsBuffer, Texture texture, int start, int amount, Task task)
 	{
 		renderBuffers(verticesBuffer, texturesBuffer, normalsBuffer, colorsBuffer, texture, start, amount, QUADS, task);
+	}
+	
+	public static void renderTriangles(int verticesBufferId, int vertexIndicesId, int start, int amount)
+	{
+		renderBuffers(verticesBufferId, 3, 0, 0, 0, vertexIndicesId, null, start, amount, TRIANGLES, null);
 	}
 	
 	public static void renderTriangles(VerticesBuffer verticesBuffer, int start, int amount)
