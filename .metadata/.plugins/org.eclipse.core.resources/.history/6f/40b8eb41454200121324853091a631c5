@@ -50,7 +50,7 @@ public class SortThing implements SortingInterface
 			s.print(null, null, s.qArr, "\nAfter quick sort sort: ");
 			
 			// Temporary indices sort
-			s.cList = s.genRandomListc(10);
+			s.cList = s.genRandomListc(100);
 			
 			s.print(s.cList, null, null, "\n\nBefore temporary indices sort sort: ");
 
@@ -362,7 +362,7 @@ public class SortThing implements SortingInterface
 	
 	public void merge(List<Comparable> arr, int frontIndex, int backIndex)
 	{
-		List<Comparable> arr2 = arr.subList(0, arr.size());
+		List<Comparable> arr2 = arr.subList(0, arr.size() - 1);
 		
 		int aCounter = frontIndex;
 		int middleIndex = (frontIndex + backIndex) / 2;

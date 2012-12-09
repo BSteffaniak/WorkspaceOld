@@ -50,7 +50,7 @@ public class SortThing implements SortingInterface
 			s.print(null, null, s.qArr, "\nAfter quick sort sort: ");
 			
 			// Temporary indices sort
-			s.cList = s.genRandomListc(10);
+			s.cList = s.genRandomListc(100);
 			
 			s.print(s.cList, null, null, "\n\nBefore temporary indices sort sort: ");
 
@@ -345,60 +345,22 @@ public class SortThing implements SortingInterface
 			int backIndex)
 	{
 		// If the number of elements between front and back
-		// index is less than two then quit.
-		if (backIndex - frontIndex < 2)
+		// index is less than two.
+		if (frontIndex - backIndex < 2)
 		{
-			return;
+			
 		}
 		else
 		{
-			int middleIndex = (frontIndex + backIndex) / 2;
-			
-			mergeSort(arr, frontIndex, middleIndex);
-			mergeSort(arr, middleIndex + 1, backIndex);
+			mergeSort(arr, frontIndex, backIndex);
+			mergeSort(arr, frontIndex, backIndex);
 			merge(arr, frontIndex, backIndex);
 		}
 	}
 	
-	public void merge(List<Comparable> arr, int frontIndex, int backIndex)
+	public void merge(List<Comparable>, int frontIndex, int backIndex)
 	{
-		List<Comparable> arr2 = arr.subList(0, arr.size());
 		
-		int aCounter = frontIndex;
-		int middleIndex = (frontIndex + backIndex) / 2;
-		int leftIndex = frontIndex;
-		int rightIndex = middleIndex;
-		
-		while (leftIndex < middleIndex && rightIndex < backIndex)
-		{
-			if (arr2.get(leftIndex).compareTo(arr2.get(rightIndex)) > 1)
-			{
-				arr.set(aCounter, arr2.get(rightIndex));
-				rightIndex ++;
-			}
-			else
-			{
-				arr.set(aCounter, arr2.get(leftIndex));
-				leftIndex ++;
-			}
-			
-			aCounter ++;
-		}
-		
-		if (leftIndex == middleIndex)
-		{
-			for (int i = aCounter; i < arr.size(); i ++)
-			{
-				arr.set(i, arr2.get(i));
-			}
-		}
-		else
-		{
-			for (int i = aCounter; i < middleIndex; i ++)
-			{
-				arr.set(i, arr2.get(i));
-			}
-		}
 	}
 	
 	private void swap(int arr[], int i1, int i2)
