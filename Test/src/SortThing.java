@@ -50,7 +50,7 @@ public class SortThing implements SortingInterface
 			s.print(null, null, s.qArr, "\nAfter quick sort sort: ");
 			
 			// Temporary indices sort
-			s.cList = s.genRandomListc(10);
+			s.cList = s.genRandomListc(8);
 			
 			s.print(s.cList, null, null, "\n\nBefore temporary indices sort sort: ");
 
@@ -336,11 +336,17 @@ public class SortThing implements SortingInterface
 		return leftIndex;
 	}
 	
+	/**
+	 * call the other mergesort method.
+	 */
 	public void mergeSort(List<Comparable> arr)
 	{
 		mergeSort(arr, 0, arr.size() - 1);
 	}
 	
+	/**
+	 * The more complicated recursive method that mergesorts.
+	 */
 	public void mergeSort(List<Comparable> arr, int frontIndex,
 			int backIndex)
 	{
@@ -356,96 +362,52 @@ public class SortThing implements SortingInterface
 			
 			mergeSort(arr, frontIndex, middleIndex);
 			mergeSort(arr, middleIndex + 1, backIndex);
-			merge2(arr, frontIndex, backIndex);
+			merge(arr, frontIndex, backIndex);
 		}
 	}
 	
+	/**
+	 * Puts the elements in order.
+	 */
 	public void merge(List<Comparable> arr, int frontIndex, int backIndex)
 	{
-		List<Comparable> arr2 = arr.subList(0, arr.size());
+		List<Comparable> arr2 = new ArrayList<Comparable>();
 		
-		int aCounter = frontIndex;
+		for (int i = 0; i < backIndex; i ++)
+		{
+			arr2.add(arr.get(i));
+		}
+		
+		int aCounter    = frontIndex;
 		int middleIndex = (frontIndex + backIndex) / 2;
-		int leftIndex = frontIndex;
-		int rightIndex = middleIndex;
+		int leftIndex   = frontIndex;
+		int rightIndex  = middleIndex;
 		
 		while (leftIndex < middleIndex && rightIndex < backIndex)
 		{
-			if (arr2.get(leftIndex).compareTo(arr2.get(rightIndex)) > 1)
+			if (arr2.get(leftIndex).compareTo(arr2.get(rightIndex)) > 0)
 			{
-				arr.set(aCounter, arr2.get(rightIndex));
-				rightIndex ++;
+				arr.set(aCounter ++, arr2.get(rightIndex ++));
 			}
 			else
 			{
-				arr.set(aCounter, arr2.get(leftIndex));
-				leftIndex ++;
+				arr.set(aCounter ++, arr2.get(leftIndex ++));
 			}
-			
-			aCounter ++;
 		}
 		
-		if (leftIndex == middleIndex)
+		if (leftIndex >= middleIndex)
 		{
-			for (int i = aCounter; i < arr.size(); i ++)
+			for (int i = rightIndex + middleIndex; i < backIndex; i ++)
 			{
-				arr.set(i, arr2.get(i));
+				arr.set(aCounter ++, arr2.get(i));
 			}
 		}
 		else
 		{
 			for (int i = aCounter; i < middleIndex; i ++)
 			{
-				arr.set(i, arr2.get(i));
+				arr.set(aCounter ++, arr2.get(i));
 			}
-		}
-	}
-	
-	public void merge2(List<Comparable> array, int frontIndex, int backIndex)
-	{
-		int middleIndex = (frontIndex + backIndex) / 2;
-		
-		List<Comparable> arr2 = new ArrayList<Comparable>();
-		
-		for (int i = 0; i < backIndex - frontIndex; i ++)
-		{
-			arr2.add(array.get(frontIndex + i));
-		}
-//		T[] merge = new T[end-start];
-	    int l = 0, r = 0, i = 0;
-	    
-	    while ((l < middleIndex - frontIndex) && (r < backIndex - middleIndex))
-	    {
-	    	if (array.get(frontIndex + l).compareTo(array.get(middleIndex + r)) < 0)
-	    	{
-	    		arr2.set(i ++, array.get(frontIndex + l ++));
-	    	}
-	    	else
-	    	{
-	    		arr2.set(i ++, array.get(middleIndex + r ++));
-	    	}
-	    	
-//	        merge[i++] = comparer.Compare(array[start + l], array[middle + r]) < 0
-//	            ? array[start + l++]
-//	            : array[middle + r++];
-	    }
-	 
-	    while (r < backIndex - middleIndex)
-	    {
-	    	arr2.set(i ++, array.get(middleIndex + r ++));
-//	    	merge[i++] = array[middle + r++];
-	    }
-	 
-	    while (l < middleIndex - frontIndex)
-	    {
-	    	arr2.set(i ++, array.get(frontIndex + l ++));
-//	    	merge[i++] = array[start + l++];
-	    }
-	 
-//	    Array.Copy(merge, 0, array, start, merge.Length);
-		for (int f = frontIndex; f < backIndex; f ++)
-		{
-			array.set(f, array.get(f - frontIndex));
 		}
 	}
 	
