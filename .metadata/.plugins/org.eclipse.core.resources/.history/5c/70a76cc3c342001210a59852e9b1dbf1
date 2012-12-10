@@ -356,7 +356,7 @@ public class SortThing implements SortingInterface
 			
 			mergeSort(arr, frontIndex, middleIndex);
 			mergeSort(arr, middleIndex + 1, backIndex);
-			merge2(arr, frontIndex, backIndex);
+			merge(arr, frontIndex, backIndex);
 		}
 	}
 	
@@ -405,48 +405,21 @@ public class SortThing implements SortingInterface
 	{
 		int middleIndex = (frontIndex + backIndex) / 2;
 		
-		List<Comparable> arr2 = new ArrayList<Comparable>();
-		
-		for (int i = 0; i < backIndex - frontIndex; i ++)
-		{
-			arr2.add(array.get(frontIndex + i));
-		}
 //		T[] merge = new T[end-start];
 	    int l = 0, r = 0, i = 0;
 	    
 	    while ((l < middleIndex - frontIndex) && (r < backIndex - middleIndex))
 	    {
-	    	if (array.get(frontIndex + l).compareTo(array.get(middleIndex + r)) < 0)
-	    	{
-	    		arr2.set(i ++, array.get(frontIndex + l ++));
-	    	}
-	    	else
-	    	{
-	    		arr2.set(i ++, array.get(middleIndex + r ++));
-	    	}
-	    	
-//	        merge[i++] = comparer.Compare(array[start + l], array[middle + r]) < 0
-//	            ? array[start + l++]
-//	            : array[middle + r++];
+	        merge[i++] = comparer.Compare(array[start + l], array[middle + r]) < 0
+	            ? array[start + l++]
+	            : array[middle + r++];
 	    }
 	 
-	    while (r < backIndex - middleIndex)
-	    {
-	    	arr2.set(i ++, array.get(middleIndex + r ++));
-//	    	merge[i++] = array[middle + r++];
-	    }
+	    while (r < end – middle) merge[i++] = array[middle + r++];
 	 
-	    while (l < middleIndex - frontIndex)
-	    {
-	    	arr2.set(i ++, array.get(frontIndex + l ++));
-//	    	merge[i++] = array[start + l++];
-	    }
+	    while (l < middle – start) merge[i++] = array[start + l++];
 	 
-//	    Array.Copy(merge, 0, array, start, merge.Length);
-		for (int f = frontIndex; f < backIndex; f ++)
-		{
-			array.set(f, array.get(f - frontIndex));
-		}
+	    Array.Copy(merge, 0, array, start, merge.Length);
 	}
 	
 	private void swap(int arr[], int i1, int i2)

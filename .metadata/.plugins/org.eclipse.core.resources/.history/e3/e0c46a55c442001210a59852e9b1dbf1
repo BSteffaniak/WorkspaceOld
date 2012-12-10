@@ -430,23 +430,23 @@ public class SortThing implements SortingInterface
 //	            : array[middle + r++];
 	    }
 	 
-	    while (r < backIndex - middleIndex)
-	    {
-	    	arr2.set(i ++, array.get(middleIndex + r ++));
-//	    	merge[i++] = array[middle + r++];
-	    }
-	 
-	    while (l < middleIndex - frontIndex)
-	    {
-	    	arr2.set(i ++, array.get(frontIndex + l ++));
-//	    	merge[i++] = array[start + l++];
-	    }
-	 
-//	    Array.Copy(merge, 0, array, start, merge.Length);
-		for (int f = frontIndex; f < backIndex; f ++)
-		{
-			array.set(f, array.get(f - frontIndex));
-		}
+//	    while (r < backIndex - middleIndex)
+//	    {
+//	    	arr2.set(i ++, array.get(middleIndex + r ++));
+////	    	merge[i++] = array[middle + r++];
+//	    }
+//	 
+//	    while (l < middleIndex - frontIndex)
+//	    {
+//	    	arr2.set(i ++, array.get(frontIndex + l ++));
+////	    	merge[i++] = array[start + l++];
+//	    }
+//	 
+////	    Array.Copy(merge, 0, array, start, merge.Length);
+//		for (int f = frontIndex; f < backIndex; f ++)
+//		{
+//			array.set(f, array.get(f - frontIndex));
+//		}
 	}
 	
 	private void swap(int arr[], int i1, int i2)

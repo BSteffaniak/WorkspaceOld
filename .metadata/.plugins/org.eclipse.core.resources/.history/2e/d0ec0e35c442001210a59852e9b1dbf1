@@ -443,9 +443,9 @@ public class SortThing implements SortingInterface
 	    }
 	 
 //	    Array.Copy(merge, 0, array, start, merge.Length);
-		for (int f = frontIndex; f < backIndex; f ++)
+		for (int i = frontIndex; i < backIndex; i ++)
 		{
-			array.set(f, array.get(f - frontIndex));
+			array.set(i, array.get(i - frontIndex));
 		}
 	}
 	
