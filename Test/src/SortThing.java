@@ -244,7 +244,7 @@ public class SortThing implements SortingInterface
 		
 		System.out.println(s);
 		
-		write("log.txt", s);
+//		write("log.txt", s);
 	}
 	
 	/**

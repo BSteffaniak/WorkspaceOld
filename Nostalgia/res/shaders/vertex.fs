@@ -25,7 +25,7 @@ void main()
 	finalColor = flashlight(origColor);
 
 //	// Apply lighting to the scene.
-	finalColor *= applyLighting(amb, origColor);
+//	finalColor *= applyLighting(amb, origColor);
 
 	gl_FragColor = vec4(finalColor, 1);
 }

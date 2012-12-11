@@ -26,11 +26,11 @@ vec3 flashlight(vec3 origColor)
 
 	float radius      = 3;
 	float largeRadius = radius + (radius * 1);
-	float radDist     = sqrt(pow(fragScreenPos.x - flashlightPos.x * 0, 2) + pow(fragScreenPos.y - flashlightPos.y * 0, 2));
+	float radDist     = sqrt((fragScreenPos.x * fragScreenPos.x) + (fragScreenPos.y * fragScreenPos.y));
 
 //	radius  = 0.1f + dist;
 
-	if (radDist <= largeRadius)
+	if (radDist <= radius)
 	{
 //		lightCol.r = lightCol.r < 0 ? 0 : lightCol.r;
 //		lightCol.g = lightCol.g < 0 ? 0 : lightCol.g;
@@ -42,10 +42,18 @@ vec3 flashlight(vec3 origColor)
 
 		if (radDist <= radius)
 		{
-			lightCol.rgb *= min(1, radius - (radDist * 1));
+			float num = radius - (radDist * 1);
+			
+			if (num > 1)
+			{
+				num = 1;
+			}
+			
+			lightCol.rgb = lightCol.rgb * num;
 
-//			thing = origColor * lightCol;
-		thing = upToOriginal(origColor, lightCol);
+			thing = origColor * lightCol;
+			
+//			thing = upToOriginal(origColor, lightCol);
 		}
 		else
 		{
@@ -59,9 +67,9 @@ vec3 flashlight(vec3 origColor)
 			thing = finalColor;
 		}
 
-//		thing.r = lightCol.r < amb.r ? finalColor.r : thing.r;
-//		thing.g = lightCol.g < amb.g ? finalColor.g : thing.g;
-//		thing.b = lightCol.b < amb.b ? finalColor.b : thing.b;
+		thing.r = lightCol.r < amb.r ? finalColor.r : thing.r;
+		thing.g = lightCol.g < amb.g ? finalColor.g : thing.g;
+		thing.b = lightCol.b < amb.b ? finalColor.b : thing.b;
 		
 
 		finalColor = thing;

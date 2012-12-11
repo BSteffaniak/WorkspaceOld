@@ -186,7 +186,7 @@ public class Main extends GameComponent
 	
 	public void loop(int dfps)
 	{
-		float delta = 60f / Frame.getFps();
+		float delta = 2f / Frame.getFps();
 		
 		map.update(dfps, delta);
 		
