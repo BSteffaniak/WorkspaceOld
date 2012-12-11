@@ -6,9 +6,12 @@ import static org.lwjgl.opengl.GL11.GL_FALSE;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import org.lwjgl.BufferUtils;
 
 
 public class ShaderUtils
@@ -57,7 +60,7 @@ public class ShaderUtils
 	{
 		glUseProgram(programId);
 		
-		currentProgram = programId;
+		currentProgram = programId == 0 ? currentProgram : programId;
 	}
 	
 	public static boolean validateProgram(int programId)
@@ -203,6 +206,16 @@ public class ShaderUtils
 		return formattedError;
 	}
 	
+	public static int loadShaderProgram(String vertexShaderLocations[], String fragmentShaderLocation)
+	{
+		return loadShaderProgram(vertexShaderLocations, new String[] { fragmentShaderLocation });
+	}
+	
+	public static int loadShaderProgram(String vertexShaderLocation, String fragmentShaderLocations[])
+	{
+		return loadShaderProgram(new String[] { vertexShaderLocation }, fragmentShaderLocations);
+	}
+	
 	public static int loadShaderProgram(String vertexShaderLocation, String fragmentShaderLocation)
 	{
 		int shaderProgram  = ShaderUtils.genShaderProgramId();
@@ -210,6 +223,27 @@ public class ShaderUtils
 		int fragmentShader = ShaderUtils.loadFragmentShader(fragmentShaderLocation);
 		ShaderUtils.attachShader(vertexShader, shaderProgram);
 		ShaderUtils.attachShader(fragmentShader, shaderProgram);
+		ShaderUtils.genShaderProgram(shaderProgram);
+		
+		return shaderProgram;
+	}
+	
+	public static int loadShaderProgram(String vertexShaderLocations[], String fragmentShaderLocations[])
+	{
+		int shaderProgram  = ShaderUtils.genShaderProgramId();
+		
+		for (int i = 0; i < vertexShaderLocations.length; i ++)
+		{
+			int vertexShader   = ShaderUtils.loadVertexShader(vertexShaderLocations[i]);
+			ShaderUtils.attachShader(vertexShader, shaderProgram);
+		}
+		
+		for (int i = 0; i < fragmentShaderLocations.length; i ++)
+		{
+			int fragmentShader = ShaderUtils.loadFragmentShader(fragmentShaderLocations[i]);
+			ShaderUtils.attachShader(fragmentShader, shaderProgram);
+		}
+		
 		ShaderUtils.genShaderProgram(shaderProgram);
 		
 		return shaderProgram;
@@ -245,6 +279,16 @@ public class ShaderUtils
 		return location;
 	}
 	
+	public static void uniform4i(int uniformLocation, int x, int y, int z, int w)
+	{
+		glUniform4i(uniformLocation, x, y, z, w);
+	}
+	
+	public static void uniform4i(String uniformName, int x, int y, int z, int w)
+	{
+		glUniform4i(getUniformLocation(currentProgram, uniformName), x, y, z, w);
+	}
+	
 	public static void uniform3i(int uniformLocation, int x, int y, int z)
 	{
 		glUniform3i(uniformLocation, x, y, z);
@@ -275,6 +319,16 @@ public class ShaderUtils
 		glUniform1i(getUniformLocation(currentProgram, uniformName), x);
 	}
 	
+	public static void uniform4f(int uniformLocation, float x, float y, float z, float w)
+	{
+		glUniform4f(uniformLocation, x, y, z, w);
+	}
+	
+	public static void uniform4f(String uniformName, float x, float y, float z, float w)
+	{
+		glUniform4f(getUniformLocation(currentProgram, uniformName), x, y, z, w);
+	}
+	
 	public static void uniform3f(int uniformLocation, float x, float y, float z)
 	{
 		glUniform3f(uniformLocation, x, y, z);
@@ -303,6 +357,90 @@ public class ShaderUtils
 	public static void uniform1f(String uniformName, float x)
 	{
 		glUniform1f(getUniformLocation(currentProgram, uniformName), x);
+	}
+	
+	public static void uniformMatrix2f(String uniformName, FloatBuffer buffer)
+	{
+		glUniformMatrix2(getUniformLocation(currentProgram, uniformName), false, buffer);
+	}
+	
+	public static void uniformMatrix2f(String uniformName, boolean transpose, FloatBuffer buffer)
+	{
+		glUniformMatrix2(getUniformLocation(currentProgram, uniformName), transpose, buffer);
+	}
+	
+	public static void uniformMatrix2f(String uniformName, float array[])
+	{
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(array.length);
+		buffer.put(array);
+		buffer.rewind();
+		
+		glUniformMatrix2(getUniformLocation(currentProgram, uniformName), false, buffer);
+	}
+	
+	public static void uniformMatrix2f(String uniformName, boolean transpose, float array[])
+	{
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(array.length);
+		buffer.put(array);
+		buffer.rewind();
+		
+		glUniformMatrix2(getUniformLocation(currentProgram, uniformName), transpose, buffer);
+	}
+	
+	public static void uniformMatrix3f(String uniformName, FloatBuffer buffer)
+	{
+		glUniformMatrix3(getUniformLocation(currentProgram, uniformName), false, buffer);
+	}
+	
+	public static void uniformMatrix3f(String uniformName, boolean transpose, FloatBuffer buffer)
+	{
+		glUniformMatrix3(getUniformLocation(currentProgram, uniformName), transpose, buffer);
+	}
+	
+	public static void uniformMatrix3f(String uniformName, float array[])
+	{
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(array.length);
+		buffer.put(array);
+		buffer.rewind();
+		
+		glUniformMatrix3(getUniformLocation(currentProgram, uniformName), false, buffer);
+	}
+	
+	public static void uniformMatrix3f(String uniformName, boolean transpose, float array[])
+	{
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(array.length);
+		buffer.put(array);
+		buffer.rewind();
+		
+		glUniformMatrix3(getUniformLocation(currentProgram, uniformName), transpose, buffer);
+	}
+	
+	public static void uniformMatrix4f(String uniformName, FloatBuffer buffer)
+	{
+		glUniformMatrix4(getUniformLocation(currentProgram, uniformName), false, buffer);
+	}
+	
+	public static void uniformMatrix4f(String uniformName, boolean transpose, FloatBuffer buffer)
+	{
+		glUniformMatrix4(getUniformLocation(currentProgram, uniformName), transpose, buffer);
+	}
+	
+	public static void uniformMatrix4f(String uniformName, float array[])
+	{
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(array.length);
+		buffer.put(array);
+		buffer.rewind();
+		
+		glUniformMatrix4(getUniformLocation(currentProgram, uniformName), false, buffer);
+	}
+	
+	public static void uniformMatrix4f(String uniformName, boolean transpose, float array[])
+	{
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(array.length);
+		buffer.put(array);
+		buffer.rewind();
+		
+		glUniformMatrix4(getUniformLocation(currentProgram, uniformName), transpose, buffer);
 	}
 	
 	public static int getAttribLocation(int programId, String attribName)

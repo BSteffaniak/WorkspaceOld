@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="35" version="2.0">
+<workbench progressCount="28" version="2.0">
 <workbenchAdvisor/>
 <window height="741" maximized="true" width="960" x="435" y="-15">
 <fastViewData fastViewLocation="1024"/>
@@ -38,6 +38,8 @@
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="1"/>
 <part id="0"/>
+<part id="12"/>
+<part id="13"/>
 <part id="2"/>
 <part id="3"/>
 <part id="4"/>
@@ -54,11 +56,11 @@
 </editorArea>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="vertex.fs" partName="vertex.fs" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/res/shaders/vertex.fs" title="vertex.fs" tooltip="Nostalgia/res/shaders/vertex.fs" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/res/shaders/vertex.fs"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="335" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="372" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="vertex.vs" partName="vertex.vs" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/res/shaders/vertex.vs" title="vertex.vs" tooltip="Nostalgia/res/shaders/vertex.vs" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/res/shaders/vertex.vs"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="321" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1583" selectionTopPixel="101"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" partName="Main.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/Main.java" title="Main.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/Main.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/Main.java"/>
@@ -66,15 +68,15 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Map.java" partName="Map.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/map/Map.java" title="Map.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/map/Map.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/map/Map.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="8203" selectionTopPixel="3897"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3241" selectionTopPixel="1785"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GL.java" partName="GL.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/GL.java" title="GL.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/GL.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/GL.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="42880" selectionTopPixel="22151"/>
+<editorState selectionHorizontalPixel="0" selectionLength="19" selectionOffset="77295" selectionTopPixel="42105"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ShaderUtils.java" partName="ShaderUtils.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/shader/ShaderUtils.java" title="ShaderUtils.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/shader/ShaderUtils.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/shader/ShaderUtils.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3580" selectionTopPixel="1740"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5096" selectionTopPixel="2871"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Actor.java" partName="Actor.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/actor/Actor.java" title="Actor.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/actor/Actor.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/Actor.java"/>
@@ -82,7 +84,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Animation.java" partName="Animation.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/animation/Animation.java" title="Animation.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/animation/Animation.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/animation/Animation.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="543" selectionTopPixel="134"/>
+<editorState selectionHorizontalPixel="0" selectionLength="9" selectionOffset="226" selectionTopPixel="120"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ObjLoader.java" partName="ObjLoader.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/jDoogl/src/net/foxycorndog/jdoogl/obj/ObjLoader.java" title="ObjLoader.java" tooltip="jDoogl/src/net/foxycorndog/jdoogl/obj/ObjLoader.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/jDoogl/src/net/foxycorndog/jdoogl/obj/ObjLoader.java"/>
@@ -94,11 +96,19 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" partName="Player.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/actor/Player.java" title="Player.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/actor/Player.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/Player.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="682" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="238" selectionTopPixel="0"/>
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SortThing.java" partName="SortThing.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Test/src/SortThing.java" title="SortThing.java" tooltip="Test/src/SortThing.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Test/src/SortThing.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="8951" selectionTopPixel="5993"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1233" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="flashlight.shade" partName="flashlight.shade" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/res/shaders/flashlight.shade" title="flashlight.shade" tooltip="Nostalgia/res/shaders/flashlight.shade" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/res/shaders/flashlight.shade"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1853" selectionTopPixel="284"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="diffuseLights.shade" partName="diffuseLights.shade" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/res/shaders/diffuseLights.shade" title="diffuseLights.shade" tooltip="Nostalgia/res/shaders/diffuseLights.shade" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/res/shaders/diffuseLights.shade"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="293" selectionTopPixel="206"/>
 </editor>
 </editors>
 <views>
@@ -126,9 +136,6 @@
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
-<expanded>
-<category IMemento.internal.id="Errors"/>
-</expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
@@ -137,7 +144,33 @@
 <visible IMemento.internal.id="org.eclipse.ui.ide.markerType"/>
 </viewState>
 </view>
-<view id="org.eclipse.jdt.ui.PackageExplorer" partName="Package Explorer"/>
+<view id="org.eclipse.jdt.ui.PackageExplorer" partName="Package Explorer">
+<viewState group_libraries="1" layout="2" linkWithEditor="0" rootMode="1" workingSetName="">
+<customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.LocalTypesFilter" isEnabled="false"/>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.StaticsFilter" isEnabled="false"/>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.ClosedProjectsFilter" isEnabled="false"/>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.NonSharedProjectsFilter" isEnabled="false"/>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.NonJavaElementFilter" isEnabled="false"/>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.ContainedLibraryFilter" isEnabled="false"/>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.CuAndClassFileFilter" isEnabled="false"/>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.NonJavaProjectsFilter" isEnabled="false"/>
+<child filterId="org.eclipse.jdt.internal.ui.PackageExplorer.EmptyInnerPackageFilter" isEnabled="true"/>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.PackageDeclarationFilter" isEnabled="true"/>
+<child filterId="org.eclipse.jdt.internal.ui.PackageExplorer.EmptyPackageFilter" isEnabled="false"/>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.ImportDeclarationFilter" isEnabled="true"/>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.FieldsFilter" isEnabled="false"/>
+<child filterId="org.eclipse.jdt.internal.ui.PackageExplorer.HideInnerClassFilesFilter" isEnabled="true"/>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.NonPublicFilter" isEnabled="false"/>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer_patternFilterId_.*" isEnabled="true"/>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.EmptyLibraryContainerFilter" isEnabled="true"/>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.SyntheticMembersFilter" isEnabled="true"/>
+<child filterId="org.eclipse.mylyn.java.ui.MembersFilter" isEnabled="false"/>
+<child filterId="org.eclipse.m2e.MavenModuleFilter" isEnabled="false"/>
+</xmlDefinedFilters>
+</customFilters>
+</viewState>
+</view>
 <view id="org.eclipse.ui.console.ConsoleView" partName="Console">
 <viewState/>
 </view>
@@ -354,30 +387,21 @@
 <view id="org.eclipse.ui.views.ContentOutline"/>
 <view id="com.android.ide.eclipse.ddms.views.LogCatView"/>
 <fastViewBars/>
-<layout>
-<mainWindow>
-<info folder="true" part="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder activePageID="org.eclipse.debug.ui.DebugView" appearance="2" expanded="2">
-<page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
+<layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.debug.ui.DebugView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
 <page content="org.eclipse.dltk.ui.ScriptExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.PackageExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.TypeHierarchy" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="stickyFolderRight" ratio="0.74960214" ratioLeft="1413" ratioRight="472" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<info folder="true" part="stickyFolderRight" ratio="0.74960214" ratioLeft="1413" ratioRight="472" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.debug.internal.ui.ConsoleFolderView" ratio="0.7497326" ratioLeft="701" ratioRight="234" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
-<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.ConsoleFolderView" ratio="0.7497326" ratioLeft="701" ratioRight="234" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.cdt.debug.ui.executablesView" label="Executables"/>
@@ -385,45 +409,35 @@
 <page content="org.eclipse.ui.views.PropertySheet" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.debug.ui.DisplayView" label="LabelNotFound"/>
 <page content="org.eclipse.search.SearchResultView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 <part id="2"/>
 <part id="3"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@1f034c" ratio="0.49973476" ratioLeft="942" ratioRight="943" relationship="2" relative="org.eclipse.debug.internal.ui.ConsoleFolderView">
-<folder activePageID="com.android.ide.eclipse.ddms.views.LogCatView" appearance="2" expanded="2">
-<page content="com.android.ide.eclipse.ddms.views.LogCatView" label="LogCat"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@1f034c" ratio="0.49973476" ratioLeft="942" ratioRight="943" relationship="2" relative="org.eclipse.debug.internal.ui.ConsoleFolderView">&#x0A;<folder activePageID="com.android.ide.eclipse.ddms.views.LogCatView" appearance="2" expanded="2">&#x0A;<page content="com.android.ide.eclipse.ddms.views.LogCatView" label="LogCat"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.44935805" ratioLeft="315" ratioRight="386" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView"/>
-<info folder="true" part="org.eclipse.debug.internal.ui.OutlineFolderView" ratio="0.74960214" ratioLeft="1413" ratioRight="472" relationship="2" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.OutlineFolderView" ratio="0.74960214" ratioLeft="1413" ratioRight="472" relationship="2" relative="org.eclipse.ui.editorss">&#x0A;<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
 <page content="org.eclipse.ant.ui.views.AntView" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.dsf.gdb.ui.tracecontrol.view" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.dsf.debug.ui.disassembly.view" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.debug.internal.ui.ToolsFolderView" ratio="0.49973476" ratioLeft="942" ratioRight="943" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder activePageID="org.eclipse.debug.ui.VariableView" appearance="2" expanded="2">
-<page content="org.eclipse.debug.ui.VariableView" label="Variables"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.ToolsFolderView" ratio="0.49973476" ratioLeft="942" ratioRight="943" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.debug.ui.VariableView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.debug.ui.VariableView" label="Variables"/>
 <page content="org.eclipse.debug.ui.BreakpointView" label="Breakpoints"/>
 <page content="org.eclipse.debug.ui.ExpressionView" label="Expressions"/>
 <page content="org.eclipse.dltk.debug.ui.ScriptDisplayView" label="Interactive Console"/>
 <page content="org.eclipse.debug.ui.RegisterView" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.debug.ui.SignalsView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.ModuleView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 <part id="2"/>
 <part id="3"/>
@@ -440,154 +454,154 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Test/src/SortThing.java"/>
 </editors>
 <item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
+<position info="not_deleted" x="8129" y="0"/>
 </item>
 <item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
+<position info="not_deleted" x="8175" y="0"/>
 </item>
 <item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
+<position info="not_deleted" x="8129" y="0"/>
 </item>
 <item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
+<position info="not_deleted" x="8210" y="0"/>
 </item>
 <item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
+<position info="not_deleted" x="8243" y="0"/>
 </item>
 <item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
+<position info="not_deleted" x="8298" y="0"/>
 </item>
 <item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="1302" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7500" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7566" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7724" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7769" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7799" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7500" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7825" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7863" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="7918" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="8374" y="0"/>
+<position info="not_deleted" x="8331" y="0"/>
 </item>
 <item historyLabel="SortThing.java" index="0">
 <position info="not_deleted" x="8369" y="0"/>
 </item>
 <item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="8264" y="0"/>
+<position info="not_deleted" x="8499" y="0"/>
 </item>
 <item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="8644" y="0"/>
+<position info="not_deleted" x="8692" y="0"/>
 </item>
 <item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="8646" y="1"/>
+<position info="not_deleted" x="8369" y="0"/>
 </item>
 <item historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="8676" y="0"/>
+<position info="not_deleted" x="8499" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8619" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8369" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8499" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8619" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8369" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8499" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8692" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8369" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8499" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8692" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8369" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8499" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8619" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8369" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8499" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8619" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8369" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8796" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8967" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="9024" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8967" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="9075" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="7940" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="7317" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="1510" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="3712" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="3734" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="3760" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="3783" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="1510" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="1303" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="7803" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="1303" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="7279" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8949" y="0"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8976" y="38"/>
+</item>
+<item historyLabel="SortThing.java" index="0">
+<position info="not_deleted" x="8227" y="0"/>
 </item>
 <item active="true" historyLabel="SortThing.java" index="0">
-<position info="not_deleted" x="9053" y="0"/>
+<position info="not_deleted" x="8976" y="38"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -611,6 +625,12 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="diffuseLights.shade" tooltip="Nostalgia/res/shaders/diffuseLights.shade">
+<persistable path="/Nostalgia/res/shaders/diffuseLights.shade"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="flashlight.shade" tooltip="Nostalgia/res/shaders/flashlight.shade">
+<persistable path="/Nostalgia/res/shaders/flashlight.shade"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SortThing.java" tooltip="Test/src/SortThing.java">
 <persistable path="/Test/src/SortThing.java"/>
 </file>
@@ -646,15 +666,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/Main.java">
 <persistable path="/Nostalgia/src/net/foxycorndog/nostalgia/Main.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="vertex.vs" tooltip="Nostalgia/res/shaders/vertex.vs">
-<persistable path="/Nostalgia/res/shaders/vertex.vs"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="vertex.fs" tooltip="Nostalgia/res/shaders/vertex.fs">
-<persistable path="/Nostalgia/res/shaders/vertex.fs"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Apparel.java" tooltip="Idk2/src/net/foxycorndog/idk/items/Apparel.java">
-<persistable path="/Idk2/src/net/foxycorndog/idk/items/Apparel.java"/>
 </file>
 </mruList>
 </workbench>

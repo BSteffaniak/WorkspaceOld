@@ -25,8 +25,6 @@
 <fullyQualifiedTypeName name="org.lwjgl.util.WaveData"/>
 <fullyQualifiedTypeName name="org.lwjgl.openal.AL11"/>
 <fullyQualifiedTypeName name="org.lwjgl.openal.AL10"/>
-<fullyQualifiedTypeName name="org.lwjgl.BufferUtils"/>
-<fullyQualifiedTypeName name="java.nio.FloatBuffer"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL15"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoutil.Point"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdobase.Base"/>
@@ -60,4 +58,6 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.animation.Animation"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL30"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jdoogl.components.Frame"/>
+<fullyQualifiedTypeName name="org.lwjgl.BufferUtils"/>
+<fullyQualifiedTypeName name="java.nio.FloatBuffer"/>
 </qualifiedTypeNameHistroy>

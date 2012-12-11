@@ -15,7 +15,7 @@ import java.util.List;
  * File:          SortThing.java
  * Author:        Braden Steffaniak
  * Programming:   APCS
- * Last Modified: 18Nov2012
+ * Last Modified: 10Dec2012
  * Description:   Class that demonstrates the insertion and
  * selection sorting methods and the quick and merge sort.
  */
@@ -50,13 +50,19 @@ public class SortThing implements SortingInterface
 			s.print(null, null, s.qArr, "\nAfter quick sort sort: ");
 			
 			// Temporary indices sort
-			s.cList = s.genRandomListc(8);
+			s.cList = s.genRandomListc(100);
+//			s.cList = s.putListc(new int[]
+//				{
+//					5, 7, 9, 2, 8, 2, 7, 3, 
+//				});
 			
-			s.print(s.cList, null, null, "\n\nBefore temporary indices sort sort: ");
+			s.print(s.cList, null, null, "\n\nBefore temporary " +
+					"indices sort sort: ");
 
 			s.mergeSort(s.cList);
 
-			s.print(s.cList, null, null, "\nAfter temporary indices sort sort: ");
+			s.print(s.cList, null, null, "\nAfter temporary indices " +
+					"sort sort: ");
 		}
 		catch (IOException e)
 		{
@@ -127,6 +133,18 @@ public class SortThing implements SortingInterface
 		return arr;
 	}
 	
+	private List<Integer> putListi(int array[])
+	{
+		List<Integer> arr = new ArrayList<Integer>();
+		
+		for (int i = 0; i < array.length; i ++)
+		{
+			arr.add(array[i]);
+		}
+		
+		return arr;
+	}
+	
 	/**
 	 * Generates random integers for a list.
 	 * 
@@ -145,6 +163,18 @@ public class SortThing implements SortingInterface
 		return arr;
 	}
 	
+	private List<Comparable> putListc(int array[])
+	{
+		List<Comparable> arr = new ArrayList<Comparable>();
+		
+		for (int i = 0; i < array.length; i ++)
+		{
+			arr.add(array[i]);
+		}
+		
+		return arr;
+	}
+	
 	/**
 	 * Method that prints the array to the console and a text file.
 	 * 
@@ -153,7 +183,8 @@ public class SortThing implements SortingInterface
 	 * @param msg
 	 * @throws Exception
 	 */
-	public void print(List a, Comparable b[], int c[], String msg) throws IOException
+	public void print(List a, Comparable b[], int c[], String msg)
+			throws IOException
 	{
 		String s = "";
 		
@@ -351,8 +382,8 @@ public class SortThing implements SortingInterface
 			int backIndex)
 	{
 		// If the number of elements between front and back
-		// index is less than two then quit.
-		if (backIndex - frontIndex < 2)
+		// index is less than or equal to 1 then quit.
+		if (backIndex - frontIndex < 1)
 		{
 			return;
 		}
@@ -373,7 +404,7 @@ public class SortThing implements SortingInterface
 	{
 		List<Comparable> arr2 = new ArrayList<Comparable>();
 		
-		for (int i = 0; i < backIndex; i ++)
+		for (int i = 0; i < arr.size(); i ++)
 		{
 			arr2.add(arr.get(i));
 		}
@@ -381,12 +412,14 @@ public class SortThing implements SortingInterface
 		int aCounter    = frontIndex;
 		int middleIndex = (frontIndex + backIndex) / 2;
 		int leftIndex   = frontIndex;
-		int rightIndex  = middleIndex;
+		int rightIndex  = middleIndex + 1;
 		
-		while (leftIndex < middleIndex && rightIndex < backIndex)
+		while (leftIndex <= middleIndex && rightIndex <= backIndex)
 		{
+			// If element on the left is bigger than one on the right.
 			if (arr2.get(leftIndex).compareTo(arr2.get(rightIndex)) > 0)
 			{
+				// Set the element to the one on the right.
 				arr.set(aCounter ++, arr2.get(rightIndex ++));
 			}
 			else
@@ -395,16 +428,18 @@ public class SortThing implements SortingInterface
 			}
 		}
 		
-		if (leftIndex >= middleIndex)
+		// If all left elements were used.
+		if (leftIndex > middleIndex + 1)
 		{
-			for (int i = rightIndex + middleIndex; i < backIndex; i ++)
+			for (int i = rightIndex + middleIndex + 1; i < backIndex;
+					i ++)
 			{
 				arr.set(aCounter ++, arr2.get(i));
 			}
 		}
 		else
 		{
-			for (int i = aCounter; i < middleIndex; i ++)
+			for (int i = leftIndex; i <= middleIndex; i ++)
 			{
 				arr.set(aCounter ++, arr2.get(i));
 			}

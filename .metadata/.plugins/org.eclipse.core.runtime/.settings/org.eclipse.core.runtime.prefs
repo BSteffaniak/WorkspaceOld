@@ -1,2 +1,3 @@
 content-types/org.eclipse.cdt.core.cxxSource/file-extensions=vs,fs
+content-types/org.eclipse.cdt.core.cxxSource/file-names=.shade,.sha,.shad
 eclipse.preferences.version=1

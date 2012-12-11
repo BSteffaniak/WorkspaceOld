@@ -1,0 +1,39 @@
+#version 120
+
+varying vec4  color;
+varying vec4  fragScreenPos;
+varying vec4  fragWorldPos;
+
+uniform vec3  camPos;
+uniform vec3  flashlightPos;
+
+// The colour that we passed in through the vertex shader.
+varying vec4 varyingColour;
+// The normal that we passed in through the vertex shader.
+varying vec3 varyingNormal;
+
+vec3 applyLighting()
+{
+	vec3 lightColor;
+
+	vec3 vertexPosition = (gl_ModelViewMatrix * fragWorldPos).xyz;
+	vec3 surfaceNormal = (gl_NormalMatrix * varyingNormal).xyz;
+	vec3 lightDirection = normalize(camPos.xyz - vertexPosition);
+
+	float diffuseLightIntensity = max(0, dot(surfaceNormal, lightDirection));
+
+	lightColor.rgb = diffuseLightIntensity * varyingColour.rgb;
+	lightColor += amb;
+
+	vec3 reflectionDirection = normalize(reflect(-lightDirection, surfaceNormal));
+
+	float specular = max(0.0, dot(surfaceNormal, reflectionDirection));
+
+	if (diffuseLightIntensity != 0)
+	{
+		float fspecular = pow(specular, gl_FrontMaterial.shininess);
+		lightColor += fspecular;
+	}
+
+	return lightColor;
+}

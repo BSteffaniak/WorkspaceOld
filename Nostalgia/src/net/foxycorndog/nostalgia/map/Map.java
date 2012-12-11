@@ -2,7 +2,7 @@ package net.foxycorndog.nostalgia.map;
 import java.util.ArrayList;
 
 import net.foxycorndog.jdoogl.GL;
-import net.foxycorndog.jdoogl.animation.Animation;
+//import net.foxycorndog.jdoogl.animation.Animation;
 import net.foxycorndog.jdoogl.geometry.Point;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
@@ -29,7 +29,7 @@ public class Map
 	private SpriteSheet    sprites;
 	
 	private Model          pin, house, hat, bunny;
-	private Animation      cloth;
+//	private Animation      cloth;
 	
 	private int animFrame;
 	
@@ -151,7 +151,7 @@ public class Map
 //		cloth = Animation.loadAnimation("res/cloth/", "anim_", 6, 250);
 		animFrame = 1;
 		
-		shaderProgram     = ShaderUtils.loadShaderProgram("res/shaders/vertex.vs", "res/shaders/vertex.fs");
+		shaderProgram     = ShaderUtils.loadShaderProgram("res/shaders/vertex.vs", new String[] { "res/shaders/vertex.fs" , "res/shaders/flashlight.shade", "res/shaders/diffuseLights.shade" });
 	}
 	
 	public void addCube(float x, float y, float z, float width, float height, float depth, float textures[][], int colors[][], int index, boolean collision)
@@ -300,7 +300,7 @@ public class Map
 			ShaderUtils.uniform1f("intensity", 1);
 			ShaderUtils.uniform1i("lightNumber", 0);
 			GL.setReflection(new Point(0.5f, 0.5f, 0.5f));
-			GL.setShininess(128);
+			GL.setShininess(100);
 //			house.render();
 //
 //			ShaderUtils.uniform3f("specColor", 4f, 3.6f, 2.9f);

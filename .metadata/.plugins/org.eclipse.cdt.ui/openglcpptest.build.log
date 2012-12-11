@@ -1,5 +1,5 @@
 
-**** Rebuild of configuration Debug for project openglcpptest ****
+**** Build of configuration Debug for project openglcpptest ****
 
 **** Internal Builder is used for build               ****
 g++ -includeC:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h -O0 -g3 -Wall -c -fmessage-length=0 -o opengl.o ..\opengl.cpp
@@ -13,4 +13,4 @@ C:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h:77:0: warning: ignoring #p
 ..\opengl.cpp:7:18: fatal error: glut.h: No such file or directory
 compilation terminated.
 Build error occurred, build is stopped
-Time consumed: 178  ms.  
+Time consumed: 181  ms.  

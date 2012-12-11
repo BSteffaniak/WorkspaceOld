@@ -13,18 +13,19 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="ambient" key="selection"/>
+		<item value="varyingColour" key="selection"/>
 		<list key="findhistory">
+			<item value="varyingColour"/>
+			<item value="gl_FragColor"/>
 			<item value="ambient"/>
 			<item value="Blend"/>
 			<item value="Blending"/>
 			<item value="Alpha"/>
 			<item value="System.out"/>
 			<item value="System."/>
-			<item value="RectT"/>
-			<item value="QuadT"/>
 		</list>
 		<list key="replacehistory">
+			<item value="lightColor"/>
 			<item value="void u"/>
 			<item value=""/>
 			<item value="Uniform"/>
@@ -32,7 +33,6 @@
 			<item value="[3 * 0 + 1]"/>
 			<item value="[3 * 0 + 2]"/>
 			<item value="[3 * 1 + 0]"/>
-			<item value="[3 * 1 + 1]"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">

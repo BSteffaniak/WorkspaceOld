@@ -1,0 +1,74 @@
+#version 120
+
+varying vec4  color;
+varying vec4  fragScreenPos;
+varying vec4  fragWorldPos;
+varying vec3  fragNormal;
+
+uniform vec3  camPos;
+uniform vec3  flashlightPos;
+
+// The normal that we passed in through the vertex shader.
+varying vec3 varyingNormal;
+
+vec3 applyLighting(vec3 amb)
+{
+	vec3 lightColor;
+
+//	vec3 vertexPosition         = (gl_ModelViewMatrix * fragWorldPos).xyz;
+//	vec3 surfaceNormal          = (gl_NormalMatrix * varyingNormal).xyz;
+//	vec3 lightDirection         = normalize(camPos.xyz - vertexPosition);
+//
+//	float diffuseLightIntensity = max(0, dot(surfaceNormal, lightDirection));
+//
+//	lightColor.rgb              = diffuseLightIntensity * color.rgb;
+//	lightColor                 += amb;
+//
+//	vec3 reflectionDirection    = normalize(reflect(-lightDirection, surfaceNormal));
+//
+//	float specular              = max(0.0, dot(surfaceNormal, reflectionDirection));
+//
+//	if (diffuseLightIntensity != 0)
+//	{
+//		float fspecular = pow(specular, gl_FrontMaterial.shininess);
+//		lightColor     += fspecular;
+//	}
+	
+	// Retrieves the direction of the light and stores it in a
+	// normalized 3D vector (normalized = length of 1).
+	vec3 lightDirection = normalize(camPos - fragScreenPos.rgb);
+	
+	// Retrieves the intensity of the diffuse light by taking the dot-product of
+	// the surface normal and the light direction vectors and stores the value in a scalar.
+	// If the value is lower than 0, the light is messed up and we don't want
+	// to show it.
+	float diffuseLightIntensity = max(0, dot(fragNormal, lightDirection));
+	
+	// Sets the colour (which is passed to the fragment program) to the concatenation
+	// of the material colour and the diffuse light intensity.
+	lightColor.rgb = diffuseLightIntensity * color.rgb;
+	
+	// Adds ambient colour to the colour so even the darkest part equals ambientColour.
+	lightColor += amb;
+	
+	// Calculates the direction of the reflectionDirection by using the method reflect, which takes
+	// the normalized direction from the light source to the surface as the 1st parameter,
+	// and the normalized surface normal as the second. Since lightDirection points to
+	// the direction of the light and not the surface, we need to negate it in order for
+	// the returned vector to be valid.
+	vec3 reflectionDirection = normalize(reflect(-lightDirection, fragNormal));
+	
+	// Stores the dot-product of the surface normal and the direction of the reflection
+	// in a scalar. Also checks if the value is negative. If so, the scalar is set to 0.0.
+	float specular = max(0.0, dot(surfaceNormal, reflectionDirection));
+	
+	if (diffuseLightIntensity != 0)
+	{
+		// Enhances the specular scalar value by raising it to the exponent of the shininess.
+		float fspecular = pow(specular, gl_FrontMaterial.shininess);
+		// Adds the specular value to the colour.
+		lightColor.rgb += vec3(fspecular, fspecular, fspecular);
+	}
+
+	return vec3(1);//lightColor;
+}

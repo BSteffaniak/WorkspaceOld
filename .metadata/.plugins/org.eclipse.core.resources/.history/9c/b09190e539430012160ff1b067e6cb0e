@@ -1,0 +1,62 @@
+#version 120
+
+// Per-vertex Phong lighting model
+
+varying vec4  color;
+varying vec4  fragScreenPos;
+varying vec4  fragWorldPos;
+
+uniform vec3  camPos;
+uniform vec3  flashlightPos;
+
+uniform sampler2D texture;
+
+// The colour that we passed in through the vertex shader.
+varying vec4 varyingColour;
+// The normal that we passed in through the vertex shader.
+varying vec3 varyingNormal;
+// The vertex that we passed in through the vertex shader.
+varying vec4 varyingVertex;
+
+vec3 flashlight(void);
+
+void main()
+{
+	vec3 origColor  = gl_FragColor.rgb;
+	vec3 amb        = gl_LightModel.ambient.rgb;
+	vec3 finalColor = origColor * amb;
+
+	finalColor = flashlight();
+
+	gl_FragColor    = texture2D(texture, gl_TexCoord[0].st);
+
+	/**
+	 * Add light to the scene.
+	 */
+	{
+		vec3 lightColor;
+
+		vec3 vertexPosition = (gl_ModelViewMatrix * fragWorldPos).xyz;
+		vec3 surfaceNormal = (gl_NormalMatrix * varyingNormal).xyz;
+		vec3 lightDirection = normalize(camPos.xyz - vertexPosition);
+
+		float diffuseLightIntensity = max(0, dot(surfaceNormal, lightDirection));
+
+		lightColor.rgb = diffuseLightIntensity * varyingColour.rgb;
+		lightColor += amb;
+
+		vec3 reflectionDirection = normalize(reflect(-lightDirection, surfaceNormal));
+
+		float specular = max(0.0, dot(surfaceNormal, reflectionDirection));
+
+		if (diffuseLightIntensity != 0)
+		{
+			float fspecular = pow(specular, gl_FrontMaterial.shininess);
+			lightColor += fspecular;
+		}
+
+		finalColor *= lightColor;
+	}
+
+	gl_FragColor = vec4(finalColor, 1);
+}
