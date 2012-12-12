@@ -1,0 +1,16 @@
+Summer Assignment for AP Computer Science
+1. Install Gridworld so that it runs on your home computer.
+   RESOURCES: AP07_gridworld_installation_guide.pdf
+              GridWorldCode.zip
+   PROOF:     screenshot of gridworld running
+
+2. Read and become familiar with the student manual
+   RESOURCES: GridWorld_Case_Study_Student_Manual_with_Appendixes_Aug_2007_updated.pdf
+   PROOF:     Answer basic questions/quiz on first day regarding structure of student manual 
+              (i.e. Chapter headings and organization of chapters) 
+   
+3. Attempt to complete instructions included in the student manual
+   RESOURCES: GridWorld_Case_Study_Student_Manual_with_Appendixes_Aug_2007_updated.pdf
+   PROOF:     Answer questions from the student manual on a chapter by chapter basis.
+              (i.e. Chapter 1 questions followed by Chapter 2 questions, etc.)
+   
