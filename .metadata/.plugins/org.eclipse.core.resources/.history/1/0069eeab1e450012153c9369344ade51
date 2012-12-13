@@ -22,19 +22,18 @@ vec3 flashlight(vec3 origColor)
 	/*
 	 * Calculates the distance that the light shows for.
 	 */
-	dist = sqrt(((flashlightPos.x - fragWorldPos.x) * (flashlightPos.x - fragWorldPos.x)) +
-				((flashlightPos.y - fragWorldPos.y) * (flashlightPos.y - fragWorldPos.y)) +
-				((flashlightPos.z - fragWorldPos.z) * (flashlightPos.z - fragWorldPos.z)));
+	dist      = sqrt(pow(flashlightPos.x - fragWorldPos.x,  2) + pow(flashlightPos.y - fragWorldPos.y,  2) + pow(flashlightPos.z - fragWorldPos.z,  2));
 
 	float radius      = 3;
 	float largeRadius = radius + (radius * 1);
 	float radDist     = sqrt((fragScreenPos.x * fragScreenPos.x) + (fragScreenPos.y * fragScreenPos.y));
 
 //	radius  = 0.1f + dist;
-//	radius = 
 
 	if (radDist <= radius)
 	{
+		radDist *= fragScreenPos.z;
+		
 //		lightCol.r = lightCol.r < 0 ? 0 : lightCol.r;
 //		lightCol.g = lightCol.g < 0 ? 0 : lightCol.g;
 //		lightCol.b = lightCol.b < 0 ? 0 : lightCol.b;

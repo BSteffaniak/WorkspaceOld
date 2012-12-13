@@ -22,9 +22,7 @@ vec3 flashlight(vec3 origColor)
 	/*
 	 * Calculates the distance that the light shows for.
 	 */
-	dist = sqrt(((flashlightPos.x - fragWorldPos.x) * (flashlightPos.x - fragWorldPos.x)) +
-				((flashlightPos.y - fragWorldPos.y) * (flashlightPos.y - fragWorldPos.y)) +
-				((flashlightPos.z - fragWorldPos.z) * (flashlightPos.z - fragWorldPos.z)));
+	dist      = abs(fragScreenPos.z);//sqrt(pow(flashlightPos.x - fragWorldPos.x,  2) + pow(flashlightPos.y - fragWorldPos.y,  2) + pow(flashlightPos.z - fragWorldPos.z,  2));
 
 	float radius      = 3;
 	float largeRadius = radius + (radius * 1);
@@ -78,7 +76,7 @@ vec3 flashlight(vec3 origColor)
 		finalColor = thing;
 	}
 	
-	return finalColor;
+	return vec3(dist / 10);//finalColor;
 }
 
 vec3 upToOriginal(vec3 oldColor, vec3 newColor)
