@@ -39,9 +39,9 @@ vec3 flashlight(vec3 origColor)
 //		lightCol.g = lightCol.g < 0 ? 0 : lightCol.g;
 //		lightCol.b = lightCol.b < 0 ? 0 : lightCol.b;
 
-		vec3 thing = finalColor;
+		vec3 litColor = finalColor;
 
-//		thing = origColor * (lightCol * 0.1f);
+//		litColor = origColor * (lightCol * 0.1f);
 
 		if (radDist <= radius)
 		{
@@ -54,9 +54,9 @@ vec3 flashlight(vec3 origColor)
 			
 			lightCol.rgb = lightCol.rgb * num;
 
-			thing = origColor * lightCol;
+			litColor = origColor * lightCol;
 			
-//			thing = upToOriginal(origColor, lightCol);
+//			litColor = upToOriginal(origColor, lightCol);
 		}
 		else
 		{
@@ -64,18 +64,18 @@ vec3 flashlight(vec3 origColor)
 			{
 //				lightCol.rgb *= min(1, largeRadius - (radDist * 1));
 
-				thing = origColor * (lightCol * 0.5f);
+				litColor = origColor * (lightCol * 0.5f);
 			}
 			
-			thing = finalColor;
+			litColor = finalColor;
 		}
 
-		thing.r = lightCol.r < amb.r ? finalColor.r : thing.r;
-		thing.g = lightCol.g < amb.g ? finalColor.g : thing.g;
-		thing.b = lightCol.b < amb.b ? finalColor.b : thing.b;
+		litColor.r = lightCol.r < amb.r ? finalColor.r : litColor.r;
+		litColor.g = lightCol.g < amb.g ? finalColor.g : litColor.g;
+		litColor.b = lightCol.b < amb.b ? finalColor.b : litColor.b;
 		
 
-		finalColor = thing;
+		finalColor = litColor;
 	}
 	
 	return finalColor;
