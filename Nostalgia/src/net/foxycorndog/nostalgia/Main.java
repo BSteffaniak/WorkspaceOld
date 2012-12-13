@@ -76,7 +76,7 @@ public class Main extends GameComponent
 		player = new Player(2, 2, 2, 1, 1, 1, map);
 		player.attachCamera(camera);
 		
-		Gun pistol = new MachineGun(map);
+		Gun pistol = new Pistol(map);
 		pistol.addAmmo(2500);
 		pistol.reload(false);
 		
@@ -186,7 +186,7 @@ public class Main extends GameComponent
 	
 	public void loop(int dfps)
 	{
-		float delta = 60f / Frame.getFps();
+		float delta = 2f / Frame.getFps();
 		
 		map.update(dfps, delta);
 		
