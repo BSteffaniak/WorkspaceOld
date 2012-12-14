@@ -17,6 +17,7 @@
 import info.gridworld.actor.ActorWorld;
 import info.gridworld.actor.Bug;
 import info.gridworld.actor.Rock;
+import info.gridworld.grid.Location;
 
 /**
  * This class runs a world that contains a bug and a rock, added at random
@@ -32,7 +33,7 @@ public class BugRunner
     {
         ActorWorld world = new ActorWorld();
         
-        world.add(new Bug());
+        world.add(new Location(2, 2), new ZBug(3));
         world.add(new Rock());
         world.show();
     }
