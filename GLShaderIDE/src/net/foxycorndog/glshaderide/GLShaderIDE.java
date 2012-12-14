@@ -1,0 +1,88 @@
+package net.foxycorndog.glshaderide;
+
+import java.awt.BorderLayout;
+import java.awt.TextField;
+
+import net.foxycorndog.glshaderide.components.CodeField;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Monitor;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+
+import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
+
+public class GLShaderIDE
+{
+	private CodeField codeField;
+	
+	public static void main(String args[])
+	{
+		Display display        = new Display();
+		
+		Monitor monitor        = display.getPrimaryMonitor();
+		final Rectangle screenBounds = monitor.getBounds();
+		
+		final Shell shell            = new Shell(display);//, SWT.SHELL_TRIM & (~SWT.RESIZE));
+		shell.setSize(800, 600);
+		final Rectangle shellBounds = shell.getBounds();
+		
+		shell.setLocation(screenBounds.width / 2 - shellBounds.width / 2, screenBounds.height / 2 - shellBounds.height / 2);
+		shell.setText("GLShader IDE");
+		
+		GLShaderIDE ide = new GLShaderIDE(display, shell);
+		
+		shell.open();
+		
+		while (!shell.isDisposed())
+		{
+			if (!display.readAndDispatch())
+			{
+				display.sleep();
+			}
+		}
+		
+		display.dispose();
+	}
+	
+	public GLShaderIDE(final Display display, final Shell shell)
+	{
+//		GridLayout b = new GridLayout();
+//		b.makeColumnsEqualWidth = false;
+//		
+//		shell.setLayout(b);
+		
+		codeField = new CodeField(display, shell);
+	    
+	    shell.addControlListener(new ControlListener()
+		{
+			@Override
+			public void controlMoved(ControlEvent e)
+			{
+				
+			}
+
+			@Override
+			public void controlResized(ControlEvent e)
+			{
+				codeField.setSize((int)(shell.getClientArea().width / 100f * 80), shell.getClientArea().height);
+				codeField.setLocation(shell.getClientArea().width - codeField.getWidth(), shell.getClientArea().height - codeField.getHeight());
+			}
+		});
+	}
+}

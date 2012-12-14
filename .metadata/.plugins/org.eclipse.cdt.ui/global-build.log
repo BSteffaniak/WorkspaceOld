@@ -6815,3 +6815,27 @@ C:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h:503:21: warning: 'int glut
 C:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h:549:21: warning: 'int glutCreateMenu_ATEXIT_HACK(void (__attribute__((__cdecl__)) *)(int))' defined but not used [-Wunused-function]
 Build error occurred, build is stopped
 Time consumed: 225  ms.  
+
+**** Clean-only build of configuration Debug for project P1XELANDC++ ****
+rm -rf net/foxycorndog/p1xeland/P1XELAND.o net/foxycorndog/p1xeland/P1XELAND.d net/foxycorndog/p1xeland/actors/Actor.o P1XELANDC++.exe net/foxycorndog/p1xeland/actors/Actor.d
+Build complete for project P1XELANDC++
+
+**** Clean-only build of configuration Debug for project openglcpptest ****
+rm -rf opengl.d openglcpptest.exe opengl.o
+Build complete for project openglcpptest
+
+**** Clean-only build of configuration Debug for project testcpp2 ****
+rm -rf testcpp2.exe test2.d test2.o
+Build complete for project testcpp2
+
+**** Clean-only build of configuration Debug for project P1XELANDC++ ****
+rm -rf net/foxycorndog/p1xeland/P1XELAND.o net/foxycorndog/p1xeland/P1XELAND.d net/foxycorndog/p1xeland/actors/Actor.o P1XELANDC++.exe net/foxycorndog/p1xeland/actors/Actor.d
+Build complete for project P1XELANDC++
+
+**** Clean-only build of configuration Debug for project openglcpptest ****
+rm -rf opengl.d openglcpptest.exe opengl.o
+Build complete for project openglcpptest
+
+**** Clean-only build of configuration Debug for project testcpp2 ****
+rm -rf testcpp2.exe test2.d test2.o
+Build complete for project testcpp2
