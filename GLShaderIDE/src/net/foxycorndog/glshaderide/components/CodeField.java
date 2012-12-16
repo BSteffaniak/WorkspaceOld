@@ -369,18 +369,10 @@ public class CodeField extends StyledText
 		Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
 		
 		return (!Character.isISOControl(c) && block != null && block != Character.UnicodeBlock.SPECIALS);
-	}
-	
-//	private char lastCharacterIsTab(int charactersBack)
-//	{
-//		return tabs.get(textField.getText().length() - charactersBack);
-//	}
-	
+	}	
 	
 	public void paste()
 	{
-//		super.paste();
-		
 		Clipboard clip     = new Clipboard(GLShaderIDE.display);
 		
 		Transfer  trans    = TextTransfer.getInstance();
