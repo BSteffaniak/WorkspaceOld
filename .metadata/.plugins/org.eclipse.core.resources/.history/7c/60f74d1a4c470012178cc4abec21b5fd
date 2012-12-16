@@ -1,0 +1,31 @@
+package net.foxycorndog.glshaderide.menubar;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
+
+public class Menubar
+{
+	private Menu  menu;
+	
+	private Shell shell;
+	
+	public Menubar(Shell shell)
+	{
+		menu       = new Menu(shell, SWT.BAR);
+		
+		this.shell = shell;
+		
+		shell.setMenuBar(menu);
+	}
+	
+	public void addMenuItem(String name)
+	{
+		MenuItem item = new MenuItem(menu, SWT.CASCADE);
+		item.setText(name);
+		
+		Menu itemMenu = new Menu(shell, SWT.DROP_DOWN);
+		item.setMenu(itemMenu);
+	}
+}

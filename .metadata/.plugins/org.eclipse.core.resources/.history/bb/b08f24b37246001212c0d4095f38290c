@@ -1,0 +1,5 @@
+package net.foxycorndog.glshaderide.shaderlanguage;
+public class Keyword
+{
+	
+}

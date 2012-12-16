@@ -1,0 +1,6 @@
+package net.foxycorndog.glshaderide.shaderlanguage;
+
+public class Keyword
+{
+	public static final Keyword INT, FLOAT, VEC2, VEC3, VEC4, MAT2, MAT3, MAT4;
+}

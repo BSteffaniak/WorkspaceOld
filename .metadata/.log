@@ -3167,3 +3167,754 @@ java.lang.NullPointerException
 
 !ENTRY org.eclipse.core.jobs 2 2 2012-12-14 14:28:38.373
 !MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: com.android.ide.eclipse.adt.internal.sdk.Sdk$5
+!SESSION 2012-12-14 14:31:54.562 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.7.0_03
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.equinox.p2.reconciler.dropins 4 0 2012-12-14 14:31:55.422
+!MESSAGE FrameworkEvent ERROR
+!STACK 0
+org.osgi.framework.BundleException: Exception in org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start() of bundle org.eclipse.equinox.p2.reconciler.dropins.
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:734)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.resume(AbstractBundle.java:389)
+	at org.eclipse.osgi.framework.internal.core.Framework.resumeBundle(Framework.java:1131)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:559)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:544)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.incFWSL(StartLevelManager.java:457)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:243)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:438)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+Caused by: java.lang.IllegalArgumentException: Malformed \uxxxx encoding.
+	at java.util.Properties.loadConvert(Properties.java:568)
+	at java.util.Properties.load0(Properties.java:391)
+	at java.util.Properties.load(Properties.java:341)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.DropinsRepositoryListener.getLinkedRepository(DropinsRepositoryListener.java:135)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getDropinsToCheck(Activator.java:371)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getFilesToCheck(Activator.java:350)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.isUpToDate(Activator.java:239)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start(Activator.java:163)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	... 12 more
+Root exception:
+java.lang.IllegalArgumentException: Malformed \uxxxx encoding.
+	at java.util.Properties.loadConvert(Properties.java:568)
+	at java.util.Properties.load0(Properties.java:391)
+	at java.util.Properties.load(Properties.java:341)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.DropinsRepositoryListener.getLinkedRepository(DropinsRepositoryListener.java:135)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getDropinsToCheck(Activator.java:371)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getFilesToCheck(Activator.java:350)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.isUpToDate(Activator.java:239)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start(Activator.java:163)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.resume(AbstractBundle.java:389)
+	at org.eclipse.osgi.framework.internal.core.Framework.resumeBundle(Framework.java:1131)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:559)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:544)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.incFWSL(StartLevelManager.java:457)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:243)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:438)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+
+!ENTRY org.eclipse.core.resources 2 10035 2012-12-14 14:31:55.821
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2012-12-14 14:32:00.238
+!MESSAGE loadAndParseRClass failed to find class net.foxycorndog.idk.R
+!STACK 0
+java.lang.NoClassDefFoundError: net/foxycorndog/idk/R$raw
+	at java.lang.Class.getDeclaredClasses0(Native Method)
+	at java.lang.Class.getDeclaredClasses(Class.java:1716)
+	at com.android.ide.eclipse.adt.internal.resources.manager.CompiledResourcesMonitor.parseClass(CompiledResourcesMonitor.java:250)
+	at com.android.ide.eclipse.adt.internal.resources.manager.CompiledResourcesMonitor.loadAndParseRClass(CompiledResourcesMonitor.java:220)
+	at com.android.ide.eclipse.adt.internal.resources.manager.CompiledResourcesMonitor.projectOpenedWithWorkspace(CompiledResourcesMonitor.java:183)
+	at com.android.ide.eclipse.adt.internal.resources.manager.GlobalProjectMonitor.addProjectListener(GlobalProjectMonitor.java:397)
+	at com.android.ide.eclipse.adt.internal.resources.manager.CompiledResourcesMonitor.setupMonitor(CompiledResourcesMonitor.java:61)
+	at com.android.ide.eclipse.adt.internal.resources.manager.ResourceManager.setup(ResourceManager.java:121)
+	at com.android.ide.eclipse.adt.AdtPlugin.startEditors(AdtPlugin.java:1478)
+	at com.android.ide.eclipse.adt.AdtPlugin.start(AdtPlugin.java:266)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:299)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:440)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:268)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:107)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:463)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:400)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:476)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:345)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1207)
+	at org.eclipse.core.internal.registry.osgi.RegistryStrategyOSGI.createExecutableExtension(RegistryStrategyOSGI.java:174)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.createExecutableExtension(ExtensionRegistry.java:905)
+	at org.eclipse.core.internal.registry.ConfigurationElement.createExecutableExtension(ConfigurationElement.java:243)
+	at org.eclipse.core.internal.registry.ConfigurationElementHandle.createExecutableExtension(ConfigurationElementHandle.java:55)
+	at org.eclipse.jdt.core.JavaCore.computeClasspathContainerInitializer(JavaCore.java:2858)
+	at org.eclipse.jdt.core.JavaCore.getClasspathContainerInitializer(JavaCore.java:2834)
+	at org.eclipse.jdt.internal.core.JavaModelManager.initializeContainer(JavaModelManager.java:2822)
+	at org.eclipse.jdt.internal.core.JavaModelManager.getClasspathContainer(JavaModelManager.java:1876)
+	at org.eclipse.jdt.core.JavaCore.getClasspathContainer(JavaCore.java:2811)
+	at org.eclipse.jdt.internal.core.JavaProject.resolveClasspath(JavaProject.java:2689)
+	at org.eclipse.jdt.internal.core.JavaProject.resolveClasspath(JavaProject.java:2853)
+	at org.eclipse.jdt.internal.core.ClasspathChange.generateDelta(ClasspathChange.java:219)
+	at org.eclipse.jdt.internal.core.DeltaProcessor.resourceChanged(DeltaProcessor.java:2040)
+	at org.eclipse.jdt.internal.core.DeltaProcessingState.resourceChanged(DeltaProcessingState.java:470)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:291)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:285)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:186)
+	at org.eclipse.core.internal.resources.SavedState.processResourceChangeEvents(SavedState.java:77)
+	at org.eclipse.jdt.internal.core.JavaModelManager$20.run(JavaModelManager.java:4919)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2344)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2326)
+	at org.eclipse.jdt.internal.core.JavaModelManager$19.run(JavaModelManager.java:4911)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Caused by: java.lang.ClassNotFoundException: net.foxycorndog.idk.R$raw
+	at com.android.ide.eclipse.adt.internal.resources.manager.ProjectClassLoader.findClass(ProjectClassLoader.java:105)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
+	... 54 more
+
+!ENTRY org.eclipse.jdt.ui 4 0 2012-12-14 14:32:01.567
+!MESSAGE Could not read: '�', where the bad characters are replaced by '�'. Check the encoding of the spelling dictionary (file:C:\words.txt).
+!STACK 0
+java.nio.charset.MalformedInputException: Input length = 1
+	at java.nio.charset.CoderResult.throwException(CoderResult.java:277)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:338)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:177)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:154)
+	at java.io.BufferedReader.readLine(BufferedReader.java:317)
+	at java.io.BufferedReader.readLine(BufferedReader.java:382)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.AbstractSpellDictionary.load(AbstractSpellDictionary.java:631)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.AbstractSpellDictionary.isCorrect(AbstractSpellDictionary.java:515)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.DefaultSpellChecker.isCorrect(DefaultSpellChecker.java:323)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.DefaultSpellChecker.execute(DefaultSpellChecker.java:250)
+	at org.eclipse.jdt.internal.ui.text.spelling.JavaSpellingEngine.check(JavaSpellingEngine.java:63)
+	at org.eclipse.jdt.internal.ui.text.spelling.SpellingEngine.check(SpellingEngine.java:90)
+	at org.eclipse.jdt.internal.ui.text.spelling.DefaultSpellingEngine.check(DefaultSpellingEngine.java:75)
+	at org.eclipse.ui.texteditor.spelling.SpellingService$1.run(SpellingService.java:104)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.ui.texteditor.spelling.SpellingService.check(SpellingService.java:109)
+	at org.eclipse.ui.texteditor.spelling.SpellingReconcileStrategy.reconcile(SpellingReconcileStrategy.java:198)
+	at org.eclipse.jdt.internal.ui.text.spelling.JavaSpellingReconcileStrategy.reconcile(JavaSpellingReconcileStrategy.java:127)
+	at org.eclipse.ui.texteditor.spelling.SpellingReconcileStrategy.initialReconcile(SpellingReconcileStrategy.java:169)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.initialReconcile(CompositeReconcilingStrategy.java:114)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.initialReconcile(JavaCompositeReconcilingStrategy.java:136)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.initialProcess(MonoReconciler.java:105)
+	at org.eclipse.jdt.internal.ui.text.JavaReconciler.initialProcess(JavaReconciler.java:406)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:173)
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2012-12-14 14:32:09.327
+!MESSAGE Failed to create BuildConfig class
+!STACK 0
+java.io.FileNotFoundException: C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELANDroid\gen\net\foxycorndog\p1xelandroid\BuildConfig.java (Access is denied)
+	at java.io.FileOutputStream.open(Native Method)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:212)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:165)
+	at com.android.sdklib.internal.build.BuildConfigGenerator.writeFile(BuildConfigGenerator.java:119)
+	at com.android.sdklib.internal.build.BuildConfigGenerator.generate(BuildConfigGenerator.java:88)
+	at com.android.ide.eclipse.adt.internal.build.builders.PreCompilerBuilder.handleBuildConfig(PreCompilerBuilder.java:796)
+	at com.android.ide.eclipse.adt.internal.build.builders.PreCompilerBuilder.build(PreCompilerBuilder.java:606)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:199)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:239)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:292)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:295)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:256)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:394)
+	at org.eclipse.core.internal.resources.Project$1.run(Project.java:618)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2344)
+	at org.eclipse.core.internal.resources.Project.internalBuild(Project.java:597)
+	at org.eclipse.core.internal.resources.Project.build(Project.java:114)
+	at com.android.ide.eclipse.adt.internal.sdk.Sdk$3$1.run(Sdk.java:1202)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+!SESSION 2012-12-14 14:33:44.145 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.7.0_03
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.equinox.p2.reconciler.dropins 4 0 2012-12-14 14:33:44.980
+!MESSAGE FrameworkEvent ERROR
+!STACK 0
+org.osgi.framework.BundleException: Exception in org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start() of bundle org.eclipse.equinox.p2.reconciler.dropins.
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:734)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.resume(AbstractBundle.java:389)
+	at org.eclipse.osgi.framework.internal.core.Framework.resumeBundle(Framework.java:1131)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:559)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:544)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.incFWSL(StartLevelManager.java:457)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:243)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:438)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+Caused by: java.lang.IllegalArgumentException: Malformed \uxxxx encoding.
+	at java.util.Properties.loadConvert(Properties.java:568)
+	at java.util.Properties.load0(Properties.java:391)
+	at java.util.Properties.load(Properties.java:341)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.DropinsRepositoryListener.getLinkedRepository(DropinsRepositoryListener.java:135)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getDropinsToCheck(Activator.java:371)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getFilesToCheck(Activator.java:350)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.isUpToDate(Activator.java:239)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start(Activator.java:163)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	... 12 more
+Root exception:
+java.lang.IllegalArgumentException: Malformed \uxxxx encoding.
+	at java.util.Properties.loadConvert(Properties.java:568)
+	at java.util.Properties.load0(Properties.java:391)
+	at java.util.Properties.load(Properties.java:341)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.DropinsRepositoryListener.getLinkedRepository(DropinsRepositoryListener.java:135)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getDropinsToCheck(Activator.java:371)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getFilesToCheck(Activator.java:350)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.isUpToDate(Activator.java:239)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start(Activator.java:163)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.resume(AbstractBundle.java:389)
+	at org.eclipse.osgi.framework.internal.core.Framework.resumeBundle(Framework.java:1131)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:559)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:544)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.incFWSL(StartLevelManager.java:457)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:243)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:438)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2012-12-14 14:33:51.330
+!MESSAGE Could not read: '�', where the bad characters are replaced by '�'. Check the encoding of the spelling dictionary (file:C:\words.txt).
+!STACK 0
+java.nio.charset.MalformedInputException: Input length = 1
+	at java.nio.charset.CoderResult.throwException(CoderResult.java:277)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:338)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:177)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:154)
+	at java.io.BufferedReader.readLine(BufferedReader.java:317)
+	at java.io.BufferedReader.readLine(BufferedReader.java:382)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.AbstractSpellDictionary.load(AbstractSpellDictionary.java:631)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.AbstractSpellDictionary.isCorrect(AbstractSpellDictionary.java:515)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.DefaultSpellChecker.isCorrect(DefaultSpellChecker.java:323)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.DefaultSpellChecker.execute(DefaultSpellChecker.java:250)
+	at org.eclipse.jdt.internal.ui.text.spelling.JavaSpellingEngine.check(JavaSpellingEngine.java:63)
+	at org.eclipse.jdt.internal.ui.text.spelling.SpellingEngine.check(SpellingEngine.java:90)
+	at org.eclipse.jdt.internal.ui.text.spelling.DefaultSpellingEngine.check(DefaultSpellingEngine.java:75)
+	at org.eclipse.ui.texteditor.spelling.SpellingService$1.run(SpellingService.java:104)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.ui.texteditor.spelling.SpellingService.check(SpellingService.java:109)
+	at org.eclipse.ui.texteditor.spelling.SpellingReconcileStrategy.reconcile(SpellingReconcileStrategy.java:198)
+	at org.eclipse.jdt.internal.ui.text.spelling.JavaSpellingReconcileStrategy.reconcile(JavaSpellingReconcileStrategy.java:127)
+	at org.eclipse.ui.texteditor.spelling.SpellingReconcileStrategy.initialReconcile(SpellingReconcileStrategy.java:169)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.initialReconcile(CompositeReconcilingStrategy.java:114)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.initialReconcile(JavaCompositeReconcilingStrategy.java:136)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.initialProcess(MonoReconciler.java:105)
+	at org.eclipse.jdt.internal.ui.text.JavaReconciler.initialProcess(JavaReconciler.java:406)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:173)
+!SESSION 2012-12-14 21:16:51.602 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.7.0_03
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.equinox.p2.reconciler.dropins 4 0 2012-12-14 21:16:52.440
+!MESSAGE FrameworkEvent ERROR
+!STACK 0
+org.osgi.framework.BundleException: Exception in org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start() of bundle org.eclipse.equinox.p2.reconciler.dropins.
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:734)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.resume(AbstractBundle.java:389)
+	at org.eclipse.osgi.framework.internal.core.Framework.resumeBundle(Framework.java:1131)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:559)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:544)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.incFWSL(StartLevelManager.java:457)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:243)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:438)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+Caused by: java.lang.IllegalArgumentException: Malformed \uxxxx encoding.
+	at java.util.Properties.loadConvert(Properties.java:568)
+	at java.util.Properties.load0(Properties.java:391)
+	at java.util.Properties.load(Properties.java:341)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.DropinsRepositoryListener.getLinkedRepository(DropinsRepositoryListener.java:135)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getDropinsToCheck(Activator.java:371)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getFilesToCheck(Activator.java:350)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.isUpToDate(Activator.java:239)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start(Activator.java:163)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	... 12 more
+Root exception:
+java.lang.IllegalArgumentException: Malformed \uxxxx encoding.
+	at java.util.Properties.loadConvert(Properties.java:568)
+	at java.util.Properties.load0(Properties.java:391)
+	at java.util.Properties.load(Properties.java:341)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.DropinsRepositoryListener.getLinkedRepository(DropinsRepositoryListener.java:135)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getDropinsToCheck(Activator.java:371)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getFilesToCheck(Activator.java:350)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.isUpToDate(Activator.java:239)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start(Activator.java:163)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.resume(AbstractBundle.java:389)
+	at org.eclipse.osgi.framework.internal.core.Framework.resumeBundle(Framework.java:1131)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:559)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:544)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.incFWSL(StartLevelManager.java:457)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:243)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:438)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2012-12-14 21:17:52.996
+!MESSAGE Could not read: '�', where the bad characters are replaced by '�'. Check the encoding of the spelling dictionary (file:C:\words.txt).
+!STACK 0
+java.nio.charset.MalformedInputException: Input length = 1
+	at java.nio.charset.CoderResult.throwException(CoderResult.java:277)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:338)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:177)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:154)
+	at java.io.BufferedReader.readLine(BufferedReader.java:317)
+	at java.io.BufferedReader.readLine(BufferedReader.java:382)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.AbstractSpellDictionary.load(AbstractSpellDictionary.java:631)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.AbstractSpellDictionary.isCorrect(AbstractSpellDictionary.java:515)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.DefaultSpellChecker.isCorrect(DefaultSpellChecker.java:323)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.DefaultSpellChecker.execute(DefaultSpellChecker.java:250)
+	at org.eclipse.jdt.internal.ui.text.spelling.JavaSpellingEngine.check(JavaSpellingEngine.java:63)
+	at org.eclipse.jdt.internal.ui.text.spelling.SpellingEngine.check(SpellingEngine.java:90)
+	at org.eclipse.jdt.internal.ui.text.spelling.DefaultSpellingEngine.check(DefaultSpellingEngine.java:75)
+	at org.eclipse.ui.texteditor.spelling.SpellingService$1.run(SpellingService.java:104)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.ui.texteditor.spelling.SpellingService.check(SpellingService.java:109)
+	at org.eclipse.ui.texteditor.spelling.SpellingReconcileStrategy.reconcile(SpellingReconcileStrategy.java:198)
+	at org.eclipse.jdt.internal.ui.text.spelling.JavaSpellingReconcileStrategy.reconcile(JavaSpellingReconcileStrategy.java:127)
+	at org.eclipse.ui.texteditor.spelling.SpellingReconcileStrategy.initialReconcile(SpellingReconcileStrategy.java:169)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.initialReconcile(CompositeReconcilingStrategy.java:114)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.initialReconcile(JavaCompositeReconcilingStrategy.java:136)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.initialProcess(MonoReconciler.java:105)
+	at org.eclipse.jdt.internal.ui.text.JavaReconciler.initialProcess(JavaReconciler.java:406)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:173)
+!SESSION 2012-12-14 22:46:47.788 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.7.0_03
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.equinox.p2.reconciler.dropins 4 0 2012-12-14 22:46:48.628
+!MESSAGE FrameworkEvent ERROR
+!STACK 0
+org.osgi.framework.BundleException: Exception in org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start() of bundle org.eclipse.equinox.p2.reconciler.dropins.
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:734)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.resume(AbstractBundle.java:389)
+	at org.eclipse.osgi.framework.internal.core.Framework.resumeBundle(Framework.java:1131)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:559)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:544)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.incFWSL(StartLevelManager.java:457)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:243)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:438)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+Caused by: java.lang.IllegalArgumentException: Malformed \uxxxx encoding.
+	at java.util.Properties.loadConvert(Properties.java:568)
+	at java.util.Properties.load0(Properties.java:391)
+	at java.util.Properties.load(Properties.java:341)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.DropinsRepositoryListener.getLinkedRepository(DropinsRepositoryListener.java:135)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getDropinsToCheck(Activator.java:371)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getFilesToCheck(Activator.java:350)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.isUpToDate(Activator.java:239)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start(Activator.java:163)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	... 12 more
+Root exception:
+java.lang.IllegalArgumentException: Malformed \uxxxx encoding.
+	at java.util.Properties.loadConvert(Properties.java:568)
+	at java.util.Properties.load0(Properties.java:391)
+	at java.util.Properties.load(Properties.java:341)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.DropinsRepositoryListener.getLinkedRepository(DropinsRepositoryListener.java:135)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getDropinsToCheck(Activator.java:371)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getFilesToCheck(Activator.java:350)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.isUpToDate(Activator.java:239)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start(Activator.java:163)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.resume(AbstractBundle.java:389)
+	at org.eclipse.osgi.framework.internal.core.Framework.resumeBundle(Framework.java:1131)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:559)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:544)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.incFWSL(StartLevelManager.java:457)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:243)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:438)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+
+!ENTRY org.eclipse.core.resources 2 10035 2012-12-14 22:46:49.009
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.jdt.ui 4 0 2012-12-14 22:46:56.683
+!MESSAGE Could not read: '�', where the bad characters are replaced by '�'. Check the encoding of the spelling dictionary (file:C:\words.txt).
+!STACK 0
+java.nio.charset.MalformedInputException: Input length = 1
+	at java.nio.charset.CoderResult.throwException(CoderResult.java:277)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:338)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:177)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:154)
+	at java.io.BufferedReader.readLine(BufferedReader.java:317)
+	at java.io.BufferedReader.readLine(BufferedReader.java:382)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.AbstractSpellDictionary.load(AbstractSpellDictionary.java:631)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.AbstractSpellDictionary.isCorrect(AbstractSpellDictionary.java:515)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.DefaultSpellChecker.isCorrect(DefaultSpellChecker.java:323)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.DefaultSpellChecker.execute(DefaultSpellChecker.java:250)
+	at org.eclipse.jdt.internal.ui.text.spelling.JavaSpellingEngine.check(JavaSpellingEngine.java:63)
+	at org.eclipse.jdt.internal.ui.text.spelling.SpellingEngine.check(SpellingEngine.java:90)
+	at org.eclipse.jdt.internal.ui.text.spelling.DefaultSpellingEngine.check(DefaultSpellingEngine.java:75)
+	at org.eclipse.ui.texteditor.spelling.SpellingService$1.run(SpellingService.java:104)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.ui.texteditor.spelling.SpellingService.check(SpellingService.java:109)
+	at org.eclipse.ui.texteditor.spelling.SpellingReconcileStrategy.reconcile(SpellingReconcileStrategy.java:198)
+	at org.eclipse.jdt.internal.ui.text.spelling.JavaSpellingReconcileStrategy.reconcile(JavaSpellingReconcileStrategy.java:127)
+	at org.eclipse.ui.texteditor.spelling.SpellingReconcileStrategy.initialReconcile(SpellingReconcileStrategy.java:169)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.initialReconcile(CompositeReconcilingStrategy.java:114)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.initialReconcile(JavaCompositeReconcilingStrategy.java:136)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.initialProcess(MonoReconciler.java:105)
+	at org.eclipse.jdt.internal.ui.text.JavaReconciler.initialProcess(JavaReconciler.java:406)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:173)
+!SESSION 2012-12-15 17:04:26.605 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.7.0_03
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.equinox.p2.reconciler.dropins 4 0 2012-12-15 17:04:27.477
+!MESSAGE FrameworkEvent ERROR
+!STACK 0
+org.osgi.framework.BundleException: Exception in org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start() of bundle org.eclipse.equinox.p2.reconciler.dropins.
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:734)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.resume(AbstractBundle.java:389)
+	at org.eclipse.osgi.framework.internal.core.Framework.resumeBundle(Framework.java:1131)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:559)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:544)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.incFWSL(StartLevelManager.java:457)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:243)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:438)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+Caused by: java.lang.IllegalArgumentException: Malformed \uxxxx encoding.
+	at java.util.Properties.loadConvert(Properties.java:568)
+	at java.util.Properties.load0(Properties.java:391)
+	at java.util.Properties.load(Properties.java:341)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.DropinsRepositoryListener.getLinkedRepository(DropinsRepositoryListener.java:135)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getDropinsToCheck(Activator.java:371)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getFilesToCheck(Activator.java:350)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.isUpToDate(Activator.java:239)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start(Activator.java:163)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	... 12 more
+Root exception:
+java.lang.IllegalArgumentException: Malformed \uxxxx encoding.
+	at java.util.Properties.loadConvert(Properties.java:568)
+	at java.util.Properties.load0(Properties.java:391)
+	at java.util.Properties.load(Properties.java:341)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.DropinsRepositoryListener.getLinkedRepository(DropinsRepositoryListener.java:135)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getDropinsToCheck(Activator.java:371)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getFilesToCheck(Activator.java:350)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.isUpToDate(Activator.java:239)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start(Activator.java:163)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.resume(AbstractBundle.java:389)
+	at org.eclipse.osgi.framework.internal.core.Framework.resumeBundle(Framework.java:1131)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:559)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:544)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.incFWSL(StartLevelManager.java:457)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:243)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:438)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2012-12-15 17:04:36.891
+!MESSAGE Could not read: '�', where the bad characters are replaced by '�'. Check the encoding of the spelling dictionary (file:C:\words.txt).
+!STACK 0
+java.nio.charset.MalformedInputException: Input length = 1
+	at java.nio.charset.CoderResult.throwException(CoderResult.java:277)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:338)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:177)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:154)
+	at java.io.BufferedReader.readLine(BufferedReader.java:317)
+	at java.io.BufferedReader.readLine(BufferedReader.java:382)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.AbstractSpellDictionary.load(AbstractSpellDictionary.java:631)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.AbstractSpellDictionary.isCorrect(AbstractSpellDictionary.java:515)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.DefaultSpellChecker.isCorrect(DefaultSpellChecker.java:323)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.DefaultSpellChecker.execute(DefaultSpellChecker.java:250)
+	at org.eclipse.jdt.internal.ui.text.spelling.JavaSpellingEngine.check(JavaSpellingEngine.java:63)
+	at org.eclipse.jdt.internal.ui.text.spelling.SpellingEngine.check(SpellingEngine.java:90)
+	at org.eclipse.jdt.internal.ui.text.spelling.DefaultSpellingEngine.check(DefaultSpellingEngine.java:75)
+	at org.eclipse.ui.texteditor.spelling.SpellingService$1.run(SpellingService.java:104)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.ui.texteditor.spelling.SpellingService.check(SpellingService.java:109)
+	at org.eclipse.ui.texteditor.spelling.SpellingReconcileStrategy.reconcile(SpellingReconcileStrategy.java:198)
+	at org.eclipse.jdt.internal.ui.text.spelling.JavaSpellingReconcileStrategy.reconcile(JavaSpellingReconcileStrategy.java:127)
+	at org.eclipse.ui.texteditor.spelling.SpellingReconcileStrategy.initialReconcile(SpellingReconcileStrategy.java:169)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.initialReconcile(CompositeReconcilingStrategy.java:114)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.initialReconcile(JavaCompositeReconcilingStrategy.java:136)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.initialProcess(MonoReconciler.java:105)
+	at org.eclipse.jdt.internal.ui.text.JavaReconciler.initialProcess(JavaReconciler.java:406)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:173)
+!SESSION 2012-12-16 01:20:27.323 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.7.0_03
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.equinox.p2.reconciler.dropins 4 0 2012-12-16 01:20:28.172
+!MESSAGE FrameworkEvent ERROR
+!STACK 0
+org.osgi.framework.BundleException: Exception in org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start() of bundle org.eclipse.equinox.p2.reconciler.dropins.
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:734)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.resume(AbstractBundle.java:389)
+	at org.eclipse.osgi.framework.internal.core.Framework.resumeBundle(Framework.java:1131)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:559)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:544)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.incFWSL(StartLevelManager.java:457)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:243)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:438)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+Caused by: java.lang.IllegalArgumentException: Malformed \uxxxx encoding.
+	at java.util.Properties.loadConvert(Properties.java:568)
+	at java.util.Properties.load0(Properties.java:391)
+	at java.util.Properties.load(Properties.java:341)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.DropinsRepositoryListener.getLinkedRepository(DropinsRepositoryListener.java:135)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getDropinsToCheck(Activator.java:371)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getFilesToCheck(Activator.java:350)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.isUpToDate(Activator.java:239)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start(Activator.java:163)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	... 12 more
+Root exception:
+java.lang.IllegalArgumentException: Malformed \uxxxx encoding.
+	at java.util.Properties.loadConvert(Properties.java:568)
+	at java.util.Properties.load0(Properties.java:391)
+	at java.util.Properties.load(Properties.java:341)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.DropinsRepositoryListener.getLinkedRepository(DropinsRepositoryListener.java:135)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getDropinsToCheck(Activator.java:371)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getFilesToCheck(Activator.java:350)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.isUpToDate(Activator.java:239)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start(Activator.java:163)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.resume(AbstractBundle.java:389)
+	at org.eclipse.osgi.framework.internal.core.Framework.resumeBundle(Framework.java:1131)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:559)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:544)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.incFWSL(StartLevelManager.java:457)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:243)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:438)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+
+!ENTRY org.eclipse.core.resources 2 10035 2012-12-16 01:20:28.560
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.jdt.ui 4 0 2012-12-16 01:20:34.647
+!MESSAGE Could not read: '�', where the bad characters are replaced by '�'. Check the encoding of the spelling dictionary (file:C:\words.txt).
+!STACK 0
+java.nio.charset.MalformedInputException: Input length = 1
+	at java.nio.charset.CoderResult.throwException(CoderResult.java:277)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:338)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:177)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:154)
+	at java.io.BufferedReader.readLine(BufferedReader.java:317)
+	at java.io.BufferedReader.readLine(BufferedReader.java:382)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.AbstractSpellDictionary.load(AbstractSpellDictionary.java:631)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.AbstractSpellDictionary.isCorrect(AbstractSpellDictionary.java:515)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.DefaultSpellChecker.isCorrect(DefaultSpellChecker.java:323)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.DefaultSpellChecker.execute(DefaultSpellChecker.java:250)
+	at org.eclipse.jdt.internal.ui.text.spelling.JavaSpellingEngine.check(JavaSpellingEngine.java:63)
+	at org.eclipse.jdt.internal.ui.text.spelling.SpellingEngine.check(SpellingEngine.java:90)
+	at org.eclipse.jdt.internal.ui.text.spelling.DefaultSpellingEngine.check(DefaultSpellingEngine.java:75)
+	at org.eclipse.ui.texteditor.spelling.SpellingService$1.run(SpellingService.java:104)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.ui.texteditor.spelling.SpellingService.check(SpellingService.java:109)
+	at org.eclipse.ui.texteditor.spelling.SpellingReconcileStrategy.reconcile(SpellingReconcileStrategy.java:198)
+	at org.eclipse.jdt.internal.ui.text.spelling.JavaSpellingReconcileStrategy.reconcile(JavaSpellingReconcileStrategy.java:127)
+	at org.eclipse.ui.texteditor.spelling.SpellingReconcileStrategy.initialReconcile(SpellingReconcileStrategy.java:169)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.initialReconcile(CompositeReconcilingStrategy.java:114)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.initialReconcile(JavaCompositeReconcilingStrategy.java:136)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.initialProcess(MonoReconciler.java:105)
+	at org.eclipse.jdt.internal.ui.text.JavaReconciler.initialProcess(JavaReconciler.java:406)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:173)
+!SESSION 2012-12-16 08:25:55.879 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.7.0_03
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.equinox.p2.reconciler.dropins 4 0 2012-12-16 08:25:57.004
+!MESSAGE FrameworkEvent ERROR
+!STACK 0
+org.osgi.framework.BundleException: Exception in org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start() of bundle org.eclipse.equinox.p2.reconciler.dropins.
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:734)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.resume(AbstractBundle.java:389)
+	at org.eclipse.osgi.framework.internal.core.Framework.resumeBundle(Framework.java:1131)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:559)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:544)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.incFWSL(StartLevelManager.java:457)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:243)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:438)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+Caused by: java.lang.IllegalArgumentException: Malformed \uxxxx encoding.
+	at java.util.Properties.loadConvert(Properties.java:568)
+	at java.util.Properties.load0(Properties.java:391)
+	at java.util.Properties.load(Properties.java:341)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.DropinsRepositoryListener.getLinkedRepository(DropinsRepositoryListener.java:135)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getDropinsToCheck(Activator.java:371)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getFilesToCheck(Activator.java:350)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.isUpToDate(Activator.java:239)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start(Activator.java:163)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	... 12 more
+Root exception:
+java.lang.IllegalArgumentException: Malformed \uxxxx encoding.
+	at java.util.Properties.loadConvert(Properties.java:568)
+	at java.util.Properties.load0(Properties.java:391)
+	at java.util.Properties.load(Properties.java:341)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.DropinsRepositoryListener.getLinkedRepository(DropinsRepositoryListener.java:135)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getDropinsToCheck(Activator.java:371)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.getFilesToCheck(Activator.java:350)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.isUpToDate(Activator.java:239)
+	at org.eclipse.equinox.internal.p2.reconciler.dropins.Activator.start(Activator.java:163)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.resume(AbstractBundle.java:389)
+	at org.eclipse.osgi.framework.internal.core.Framework.resumeBundle(Framework.java:1131)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:559)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.resumeBundles(StartLevelManager.java:544)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.incFWSL(StartLevelManager.java:457)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.doSetStartLevel(StartLevelManager.java:243)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:438)
+	at org.eclipse.osgi.framework.internal.core.StartLevelManager.dispatchEvent(StartLevelManager.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:230)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:340)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2012-12-16 08:26:04.597
+!MESSAGE Could not read: '�', where the bad characters are replaced by '�'. Check the encoding of the spelling dictionary (file:C:\words.txt).
+!STACK 0
+java.nio.charset.MalformedInputException: Input length = 1
+	at java.nio.charset.CoderResult.throwException(CoderResult.java:277)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:338)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:177)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:154)
+	at java.io.BufferedReader.readLine(BufferedReader.java:317)
+	at java.io.BufferedReader.readLine(BufferedReader.java:382)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.AbstractSpellDictionary.load(AbstractSpellDictionary.java:631)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.AbstractSpellDictionary.isCorrect(AbstractSpellDictionary.java:515)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.DefaultSpellChecker.isCorrect(DefaultSpellChecker.java:323)
+	at org.eclipse.jdt.internal.ui.text.spelling.engine.DefaultSpellChecker.execute(DefaultSpellChecker.java:250)
+	at org.eclipse.jdt.internal.ui.text.spelling.JavaSpellingEngine.check(JavaSpellingEngine.java:63)
+	at org.eclipse.jdt.internal.ui.text.spelling.SpellingEngine.check(SpellingEngine.java:90)
+	at org.eclipse.jdt.internal.ui.text.spelling.DefaultSpellingEngine.check(DefaultSpellingEngine.java:75)
+	at org.eclipse.ui.texteditor.spelling.SpellingService$1.run(SpellingService.java:104)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.ui.texteditor.spelling.SpellingService.check(SpellingService.java:109)
+	at org.eclipse.ui.texteditor.spelling.SpellingReconcileStrategy.reconcile(SpellingReconcileStrategy.java:198)
+	at org.eclipse.jdt.internal.ui.text.spelling.JavaSpellingReconcileStrategy.reconcile(JavaSpellingReconcileStrategy.java:127)
+	at org.eclipse.ui.texteditor.spelling.SpellingReconcileStrategy.initialReconcile(SpellingReconcileStrategy.java:169)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.initialReconcile(CompositeReconcilingStrategy.java:114)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.initialReconcile(JavaCompositeReconcilingStrategy.java:136)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.initialProcess(MonoReconciler.java:105)
+	at org.eclipse.jdt.internal.ui.text.JavaReconciler.initialProcess(JavaReconciler.java:406)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:173)

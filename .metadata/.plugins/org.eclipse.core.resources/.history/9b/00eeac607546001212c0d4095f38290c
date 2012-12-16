@@ -1,0 +1,66 @@
+package net.foxycorndog.glshaderide.shaderlanguage;
+
+import java.util.HashMap;
+
+import net.foxycorndog.glshaderide.GLShaderIDE;
+
+import org.eclipse.swt.graphics.Color;
+
+public class Keyword
+{
+	private String word;
+	
+	private Color  color;
+	
+	private static int mapId;
+	
+	private static HashMap<Integer, String> keywords;
+	
+	static
+	{
+		keywords = new HashMap<Integer, String>();
+	}
+	
+	public static final Keyword INT = new Keyword("int"), FLOAT = new Keyword("float"), VEC2 = new Keyword("vec2"),
+			VEC3 = new Keyword("vec3"), VEC4 = new Keyword("vec4"), MAT2 = new Keyword("mat2"), MAT3 = new Keyword("mat3"),
+			MAT4 = new Keyword("mat4");
+	
+	static
+	{
+		INT.setColor(new Color(GLShaderIDE.display, 150, 0, 0));
+		FLOAT.setColor(new Color(GLShaderIDE.display, 150, 0, 0));
+		VEC2.setColor(new Color(GLShaderIDE.display, 150, 0, 0));
+		VEC3.setColor(new Color(GLShaderIDE.display, 150, 0, 0));
+		VEC4.setColor(new Color(GLShaderIDE.display, 150, 0, 0));
+		MAT2.setColor(new Color(GLShaderIDE.display, 150, 0, 0));
+		MAT3.setColor(new Color(GLShaderIDE.display, 150, 0, 0));
+		MAT4.setColor(new Color(GLShaderIDE.display, 150, 0, 0));
+	}
+	
+	public Keyword(String word)
+	{
+		this.word = word;
+		
+		keywords.put(mapId++, word);
+	}
+	
+	public String getWord()
+	{
+		return word;
+	}
+	
+	public Color getColor()
+	{
+		return color;
+	}
+	
+	public void setColor(Color color)
+	{
+		this.color = color;
+	}
+	
+	public static boolean isKeyword(String word)
+	{
+		return keywords.containsValue(word);
+	}
+}

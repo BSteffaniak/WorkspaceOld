@@ -81,11 +81,6 @@ public class Base
 		}
 	}
 	
-	public static void init()
-	{
-		
-	}
-	
 	/**
 	 * Sets the location to the "natives" folder that contains all
 	 * of the needed natives for the operating system.

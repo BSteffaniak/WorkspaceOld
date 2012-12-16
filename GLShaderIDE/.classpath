@@ -7,5 +7,18 @@
 			<attribute name="javadoc_location" value="file:/C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/SWT/doc/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/gafggfds/LWJGL/lwjgl-2.8.4/lwjgl-2.8.4/jar/lwjgl_util.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="gafggfds/LWJGL/lwjgl-2.8.4/lwjgl-2.8.4/native/windows"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/gafggfds/LWJGL/lwjgl-2.8.4/lwjgl-2.8.4/jar/lwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="gafggfds/LWJGL/lwjgl-2.8.4/lwjgl-2.8.4/native/windows"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/stuff/swt/eclipse-jface-2.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/stuff/swt/eclipsecore.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/stuff/equinox/eclipse-equinox-3.3/eclipse/plugins/org.eclipse.equinox.common_3.3.0.v20070426.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

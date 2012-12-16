@@ -18,8 +18,6 @@ public abstract class GameComponent
 	
 	public GameComponent(String title, int width, int height, int targetFps)
 	{
-		Base.init();
-		
 		onCreate(title, width, height, targetFps);
 	}
 	

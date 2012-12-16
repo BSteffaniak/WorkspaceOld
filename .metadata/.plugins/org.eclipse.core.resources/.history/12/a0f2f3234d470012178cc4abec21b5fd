@@ -1,0 +1,60 @@
+package net.foxycorndog.glshaderide.menubar;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
+
+public class Menubar
+{
+	private Menu  menu;
+	
+	private Shell shell;
+	
+	private HashMap<String, MenuItem> headers;
+	private HashMap<String, Menu>     headerMenus;
+	private HashMap<String, MenuItem> subItems;
+	
+	public Menubar(Shell shell)
+	{
+		menu       = new Menu(shell, SWT.BAR);
+		
+		this.shell = shell;
+		
+		shell.setMenuBar(menu);
+		
+		headers      = new HashMap<String, MenuItem>();
+		headerMenus  = new HashMap<String, Menu>();
+		subItems     = new HashMap<String, MenuItem>();
+	}
+	
+	public void addMenuHeader(String name)
+	{
+		MenuItem item = new MenuItem(menu, SWT.CASCADE);
+		item.setText(name);
+		
+		Menu headerMenu = new Menu(shell, SWT.DROP_DOWN);
+		item.setMenu(headerMenu);
+	}
+	
+	public void addMenuSubItem(String name, String header)
+	{
+		Menu headerMenu = getHeaderMenu(header);
+		
+		MenuItem item   = new MenuItem(headerMenu, SWT.PUSH);
+		item.setText(name);
+	}
+	
+	public MenuItem getHeader(String name)
+	{
+		return headers.get(name);
+	}
+	
+	public Menu getHeaderMenu(String name)
+	{
+		return headerMenus.get(name);
+	}
+}
