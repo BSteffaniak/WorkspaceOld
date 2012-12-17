@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="35" version="2.0">
+<workbench progressCount="25" version="2.0">
 <workbenchAdvisor/>
 <window height="799" maximized="true" width="1016" x="435" y="0">
 <fastViewData fastViewLocation="1024"/>
@@ -59,6 +59,7 @@
 <part id="20"/>
 <part id="21"/>
 <part id="22"/>
+<part id="23"/>
 </presentation>
 </folder>
 </info>
@@ -69,7 +70,7 @@
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="vertex.vs" partName="vertex.vs" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/res/shaders/vertex.vs" title="vertex.vs" tooltip="Nostalgia/res/shaders/vertex.vs" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/res/shaders/vertex.vs"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1583" selectionTopPixel="101"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="521" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" partName="Main.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/src/net/foxycorndog/nostalgia/Main.java" title="Main.java" tooltip="Nostalgia/src/net/foxycorndog/nostalgia/Main.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/src/net/foxycorndog/nostalgia/Main.java"/>
@@ -119,17 +120,17 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/res/shaders/diffuseLights.shade"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="293" selectionTopPixel="206"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GLShaderIDE.java" partName="GLShaderIDE.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/GLShaderIDE.java" title="GLShaderIDE.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/GLShaderIDE.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GLShaderIDE.java" partName="GLShaderIDE.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/GLShaderIDE.java" title="GLShaderIDE.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/GLShaderIDE.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/GLShaderIDE.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="7094" selectionTopPixel="3674"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="7013" selectionTopPixel="3587"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CodeField.java" partName="CodeField.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/components/CodeField.java" title="CodeField.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/components/CodeField.java" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CodeField.java" partName="CodeField.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/components/CodeField.java" title="CodeField.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/components/CodeField.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/components/CodeField.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="11117" selectionTopPixel="6191"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="8984" selectionTopPixel="4973"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Compiler.java" partName="Compiler.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java" title="Compiler.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4096" selectionTopPixel="1710"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="485" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Keyword.java" partName="Keyword.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/shaderlanguage/Keyword.java" title="Keyword.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/shaderlanguage/Keyword.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/shaderlanguage/Keyword.java"/>
@@ -149,11 +150,15 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Menubar.java" partName="Menubar.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/menubar/Menubar.java" title="Menubar.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/menubar/Menubar.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/menubar/Menubar.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1953" selectionTopPixel="300"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1709" selectionTopPixel="296"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FileViewer.java" partName="FileViewer.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/filebrowser/FileViewer.java" title="FileViewer.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/filebrowser/FileViewer.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/filebrowser/FileViewer.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="420" selectionTopPixel="0"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="JavaCompiler.java" partName="JavaCompiler.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/JavaCompiler.java" title="JavaCompiler.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/JavaCompiler.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/JavaCompiler.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="775" selectionTopPixel="48"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Toolbar.java" partName="Toolbar.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/toolbar/Toolbar.java" title="Toolbar.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/toolbar/Toolbar.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/toolbar/Toolbar.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1758" selectionTopPixel="225"/>
 </editor>
 </editors>
 <views>
@@ -181,6 +186,9 @@
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
+<expanded>
+<category IMemento.internal.id="Errors"/>
+</expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
@@ -191,7 +199,9 @@
 </view>
 <view id="org.eclipse.jdt.ui.PackageExplorer" partName="Package Explorer">
 <viewState group_libraries="1" layout="2" linkWithEditor="0" rootMode="1" workingSetName="">
-<customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
+<customFilters userDefinedPatternsEnabled="false">
+<xmlDefinedFilters>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.LocalTypesFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.StaticsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.ClosedProjectsFilter" isEnabled="false"/>
@@ -432,30 +442,21 @@
 <view id="org.eclipse.ui.views.ContentOutline"/>
 <view id="com.android.ide.eclipse.ddms.views.LogCatView"/>
 <fastViewBars/>
-<layout>
-<mainWindow>
-<info folder="true" part="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder activePageID="org.eclipse.debug.ui.DebugView" appearance="2" expanded="2">
-<page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
+<layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.debug.ui.DebugView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
 <page content="org.eclipse.dltk.ui.ScriptExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.PackageExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.TypeHierarchy" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="stickyFolderRight" ratio="0.74960214" ratioLeft="1413" ratioRight="472" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<info folder="true" part="stickyFolderRight" ratio="0.74960214" ratioLeft="1413" ratioRight="472" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.debug.internal.ui.ConsoleFolderView" ratio="0.7497326" ratioLeft="701" ratioRight="234" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
-<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.ConsoleFolderView" ratio="0.7497326" ratioLeft="701" ratioRight="234" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.cdt.debug.ui.executablesView" label="Executables"/>
@@ -463,45 +464,35 @@
 <page content="org.eclipse.ui.views.PropertySheet" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.debug.ui.DisplayView" label="LabelNotFound"/>
 <page content="org.eclipse.search.SearchResultView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 <part id="2"/>
 <part id="3"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@1f034c" ratio="0.49973476" ratioLeft="942" ratioRight="943" relationship="2" relative="org.eclipse.debug.internal.ui.ConsoleFolderView">
-<folder activePageID="com.android.ide.eclipse.ddms.views.LogCatView" appearance="2" expanded="2">
-<page content="com.android.ide.eclipse.ddms.views.LogCatView" label="LogCat"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@1f034c" ratio="0.49973476" ratioLeft="942" ratioRight="943" relationship="2" relative="org.eclipse.debug.internal.ui.ConsoleFolderView">&#x0A;<folder activePageID="com.android.ide.eclipse.ddms.views.LogCatView" appearance="2" expanded="2">&#x0A;<page content="com.android.ide.eclipse.ddms.views.LogCatView" label="LogCat"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.44935805" ratioLeft="315" ratioRight="386" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView"/>
-<info folder="true" part="org.eclipse.debug.internal.ui.OutlineFolderView" ratio="0.74960214" ratioLeft="1413" ratioRight="472" relationship="2" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.OutlineFolderView" ratio="0.74960214" ratioLeft="1413" ratioRight="472" relationship="2" relative="org.eclipse.ui.editorss">&#x0A;<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
 <page content="org.eclipse.ant.ui.views.AntView" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.dsf.gdb.ui.tracecontrol.view" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.dsf.debug.ui.disassembly.view" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.debug.internal.ui.ToolsFolderView" ratio="0.49973476" ratioLeft="942" ratioRight="943" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder activePageID="org.eclipse.debug.ui.VariableView" appearance="2" expanded="2">
-<page content="org.eclipse.debug.ui.VariableView" label="Variables"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.ToolsFolderView" ratio="0.49973476" ratioLeft="942" ratioRight="943" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.debug.ui.VariableView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.debug.ui.VariableView" label="Variables"/>
 <page content="org.eclipse.debug.ui.BreakpointView" label="Breakpoints"/>
 <page content="org.eclipse.debug.ui.ExpressionView" label="Expressions"/>
 <page content="org.eclipse.dltk.debug.ui.ScriptDisplayView" label="Interactive Console"/>
 <page content="org.eclipse.debug.ui.RegisterView" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.debug.ui.SignalsView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.ModuleView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 <part id="2"/>
 <part id="3"/>
@@ -515,161 +506,164 @@
 <workingSets/>
 <navigationHistory>
 <editors>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/JavaCompiler.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/GLShaderIDE.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/components/CodeField.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/GLShaderIDE.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Test/src/SortThing.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/shaderlanguage/Keyword.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/GLShaderIDE.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/toolbar/Toolbar.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/GLSLCompiler.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/Player.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/menubar/Menubar.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/Nostalgia/res/shaders/vertex.vs"/>
 </editors>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="10667" y="0"/>
+<item historyLabel="Toolbar.java" index="3">
+<position info="not_deleted" x="2613" y="0"/>
+</item>
+<item historyLabel="Toolbar.java" index="3">
+<position info="not_deleted" x="2326" y="0"/>
+</item>
+<item historyLabel="JavaCompiler.java" index="0">
+<position info="not_deleted" x="775" y="0"/>
 </item>
 <item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="6320" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="10667" y="0"/>
+<position info="not_deleted" x="6722" y="0"/>
 </item>
 <item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="6194" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="3412" y="9"/>
-</item>
-<item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="6194" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="3412" y="9"/>
-</item>
-<item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="5810" y="0"/>
-</item>
-<item historyLabel="SortThing.java" index="2">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="4154" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="3412" y="9"/>
-</item>
-<item historyLabel="Keyword.java" index="3">
-<position info="not_deleted" x="1551" y="0"/>
-</item>
-<item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="5712" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="3601" y="31"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="10456" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="3412" y="9"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="3737" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="10962" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="10446" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="10962" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="11024" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="10446" y="74"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="10288" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="10368" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="10446" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="9630" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="10446" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="3548" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="3580" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="3601" y="0"/>
-</item>
-<item historyLabel="GLShaderIDE.java" index="4">
-<position info="not_deleted" x="6246" y="0"/>
-</item>
-<item historyLabel="GLShaderIDE.java" index="4">
-<position info="not_deleted" x="4606" y="0"/>
-</item>
-<item historyLabel="GLShaderIDE.java" index="4">
-<position info="not_deleted" x="6363" y="0"/>
-</item>
-<item historyLabel="GLShaderIDE.java" index="4">
-<position info="not_deleted" x="7675" y="0"/>
-</item>
-<item historyLabel="GLShaderIDE.java" index="4">
-<position info="not_deleted" x="7805" y="0"/>
-</item>
-<item historyLabel="GLShaderIDE.java" index="4">
-<position info="not_deleted" x="7806" y="0"/>
-</item>
-<item historyLabel="GLShaderIDE.java" index="4">
 <position/>
 </item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="10520" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="11161" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="11171" y="0"/>
-</item>
-<item historyLabel="GLShaderIDE.java" index="4">
-<position info="not_deleted" x="7636" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
+<item historyLabel="GLShaderIDE.java" index="1">
 <position/>
 </item>
-<item historyLabel="GLShaderIDE.java" index="4">
-<position info="not_deleted" x="7529" y="0"/>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position/>
 </item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="11142" y="0"/>
+<item historyLabel="Toolbar.java" index="3">
+<position info="not_deleted" x="2322" y="0"/>
 </item>
-<item historyLabel="GLShaderIDE.java" index="4">
-<position info="not_deleted" x="7060" y="0"/>
+<item historyLabel="GLSLCompiler.java" index="4">
+<position info="not_deleted" x="4683" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="10434" y="0"/>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="4674" y="0"/>
 </item>
-<item historyLabel="GLShaderIDE.java" index="4">
-<position info="not_deleted" x="7060" y="0"/>
+<item historyLabel="Toolbar.java" index="3">
+<position info="not_deleted" x="1512" y="0"/>
 </item>
-<item historyLabel="GLShaderIDE.java" index="4">
-<position info="not_deleted" x="7847" y="0"/>
+<item historyLabel="Player.java" index="5">
+<position info="not_deleted" x="238" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="11117" y="0"/>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="8241" y="0"/>
 </item>
-<item active="true" historyLabel="GLShaderIDE.java" index="4">
-<position info="not_deleted" x="7799" y="0"/>
+<item historyLabel="Menubar.java" index="6">
+<position info="not_deleted" x="413" y="1786"/>
+</item>
+<item historyLabel="Toolbar.java" index="3">
+<position info="not_deleted" x="1250" y="0"/>
+</item>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="5209" y="0"/>
+</item>
+<item historyLabel="Toolbar.java" index="3">
+<position info="not_deleted" x="1758" y="0"/>
+</item>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="4419" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="2">
+<position info="not_deleted" x="13690" y="8"/>
+</item>
+<item historyLabel="CodeField.java" index="2">
+<position info="not_deleted" x="6870" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="2">
+<position info="not_deleted" x="6883" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="2">
+<position info="not_deleted" x="7420" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="2">
+<position info="not_deleted" x="7572" y="21"/>
+</item>
+<item historyLabel="CodeField.java" index="2">
+<position info="not_deleted" x="8472" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="2">
+<position info="not_deleted" x="7703" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="2">
+<position info="not_deleted" x="8472" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="2">
+<position info="not_deleted" x="8733" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="2">
+<position info="not_deleted" x="6958" y="26"/>
+</item>
+<item historyLabel="CodeField.java" index="2">
+<position info="not_deleted" x="8365" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="2">
+<position info="not_deleted" x="8377" y="27"/>
+</item>
+<item historyLabel="vertex.vs" index="7">
+<position info="not_deleted" x="2030" y="0"/>
+</item>
+<item historyLabel="vertex.vs" index="7">
+<position info="not_deleted" x="321" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="2">
+<position info="not_deleted" x="7774" y="0"/>
+</item>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="4419" y="0"/>
+</item>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="3922" y="0"/>
+</item>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="2499" y="0"/>
+</item>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="2679" y="0"/>
+</item>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="2593" y="0"/>
+</item>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="2564" y="0"/>
+</item>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="6196" y="0"/>
+</item>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="2460" y="0"/>
+</item>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="2462" y="0"/>
+</item>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="2711" y="34"/>
+</item>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="6452" y="0"/>
+</item>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="4944" y="0"/>
+</item>
+<item historyLabel="Menubar.java" index="6">
+<position info="not_deleted" x="1709" y="0"/>
+</item>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="6000" y="0"/>
+</item>
+<item historyLabel="vertex.vs" index="7">
+<position info="not_deleted" x="521" y="0"/>
+</item>
+<item historyLabel="GLShaderIDE.java" index="1">
+<position info="not_deleted" x="7013" y="0"/>
+</item>
+<item active="true" historyLabel="CodeField.java" index="2">
+<position info="not_deleted" x="7774" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -693,6 +687,24 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Toolbar.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/toolbar/Toolbar.java">
+<persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/toolbar/Toolbar.java"/>
+</file>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="JavaCompilerFactory.class" tooltip="org.apache.commons.jci.compilers.JavaCompilerFactory">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=GLShaderIDE/C:\/Users\/Braden Steffaniak\/Documents\/GitHub\/Workspace\/stuff\/jci\/commons-jci-core-1.0-406301.jar\/commons-jci-core-1.0.jar&lt;org.apache.commons.jci.compilers(JavaCompilerFactory.class"/>
+</file>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="String.class" tooltip="java.lang.String">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=CameraTests/C:\/Program Files\/Java\/jdk1.7.0_03\/jre\/lib\/rt.jar&lt;java.lang(String.class"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GLSLCompiler.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/GLSLCompiler.java">
+<persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/GLSLCompiler.java"/>
+</file>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="MemoryResourceStore.class" tooltip="org.apache.commons.jci.stores.MemoryResourceStore">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=GLShaderIDE/C:\/Users\/Braden Steffaniak\/Documents\/GitHub\/Workspace\/stuff\/jci\/commons-jci-core-1.0-406301.jar\/commons-jci-core-1.0.jar&lt;org.apache.commons.jci.stores(MemoryResourceStore.class"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="JavaCompiler.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/JavaCompiler.java">
+<persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/JavaCompiler.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FileViewer.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/filebrowser/FileViewer.java">
 <persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/filebrowser/FileViewer.java"/>
 </file>
@@ -719,21 +731,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Compiler.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java">
 <persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java"/>
-</file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="OS.class" tooltip="org.eclipse.swt.internal.win32.OS">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=GLShaderIDE/C:\/Users\/Braden Steffaniak\/Documents\/GitHub\/Workspace\/stuff\/swt\/swt.jar&lt;org.eclipse.swt.internal.win32(OS.class"/>
-</file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="Text.class" tooltip="org.eclipse.swt.widgets.Text">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=GLShaderIDE/C:\/Users\/Braden Steffaniak\/Documents\/GitHub\/Workspace\/stuff\/swt\/swt.jar&lt;org.eclipse.swt.widgets(Text.class"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GeneralCollection.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/GeneralCollection.java">
-<persistable path="/jDoutil/src/net/foxycorndog/jdoutil/GeneralCollection.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Map.java" tooltip="P1XELAND/src/net/foxycorndog/p1xeland/map/Map.java">
-<persistable path="/P1XELAND/src/net/foxycorndog/p1xeland/map/Map.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CodeField.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/components/CodeField.java">
-<persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/components/CodeField.java"/>
 </file>
 </mruList>
 </workbench>

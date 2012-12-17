@@ -3,3 +3,6 @@
 1355641230308	Rename local variable 'name'
 1355642134950	Delete element
 1355669454033	Rename method 'getReadableText'
+1355688991054	Rename type 'Compiler'
+1355692942456	Rename local variable 'compilationOptionss'
+1355711115857	Delete element

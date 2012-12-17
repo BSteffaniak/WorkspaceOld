@@ -2,8 +2,15 @@
 <section name="Workbench">
 	<item value="filter_imports;" key="filters_last_used"/>
 	<item value="480,510" key="UserLibraryLoadSaveDialog.size"/>
-	<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\stuff\equinox\eclipse-equinox-3.3\eclipse\plugins" key="org.eclipse.jdt.ui.lastextjar"/>
+	<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\stuff\jci\commons-jci-javac-1.0.jar" key="org.eclipse.jdt.ui.lastextjar"/>
 	<section name="OptionalMessageDialog.hide.">
+	</section>
+	<section name="org.eclipse.jdt.internal.ui.wizards.buildpaths.NewVariableEntryDialog">
+		<item value="577" key="DIALOG_WIDTH"/>
+		<item value="13" key="DIALOG_Y_ORIGIN"/>
+		<item value="78" key="DIALOG_X_ORIGIN"/>
+		<item value="397" key="DIALOG_HEIGHT"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="JarPackageWizard">
 		<item value="false" key="JarPackageWizardPage.INCLUDE_DIRECTORY_ENTRIES"/>

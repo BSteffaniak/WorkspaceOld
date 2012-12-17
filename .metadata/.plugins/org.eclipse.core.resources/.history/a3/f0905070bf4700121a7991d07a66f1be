@@ -1,0 +1,25 @@
+package net.foxycorndog.glshaderide.compiler;
+
+import org.apache.commons.jci.compilers.CompilationResult;
+import org.apache.commons.jci.compilers.JavaCompilerFactory;
+import org.apache.commons.jci.readers.MemoryResourceReader;
+import org.apache.commons.jci.stores.MemoryResourceStore;
+
+public class JavaCompiler
+{
+	public static String compile(String code)
+	{
+		org.apache.commons.jci.compilers.JavaCompiler compiler = JavaCompilerFactory.getInstance().createCompiler("javac");
+
+		MemoryResourceReader mrr = new MemoryResourceReader();
+		mrr.add("resource name string", code.getBytes());
+
+		MemoryResourceStore mrs = new MemoryResourceStore();
+		
+		System.out.println(compiler);
+
+		CompilationResult result = compiler.compile(new String[] { code }, mrr, mrs);
+		
+		return result.toString();
+	}
+}

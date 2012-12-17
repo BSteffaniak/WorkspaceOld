@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.TextField;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -25,6 +26,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -44,11 +46,12 @@ import org.eclipse.swt.widgets.Text;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.GLContext;
 
+import net.foxycorndog.glshaderide.compiler.GLSLCompiler;
+import net.foxycorndog.glshaderide.compiler.JavaCompiler;
 import net.foxycorndog.glshaderide.compiler.Compiler;
-import net.foxycorndog.glshaderide.filebrowser.FileBrowser;
-import net.foxycorndog.glshaderide.filebrowser.FileViewer;
 import net.foxycorndog.glshaderide.menubar.Menubar;
 import net.foxycorndog.glshaderide.shaderlanguage.Keyword;
+import net.foxycorndog.glshaderide.toolbar.Toolbar;
 
 public class GLShaderIDE
 {
@@ -56,18 +59,44 @@ public class GLShaderIDE
 	
 	private CodeField codeField, console;
 	
-	private String    fileLocation;
+	private String    fileLocation, fileName;
 	
 	private Menubar   menubar;
 	
-	private FileViewer fileViewer;
+	private Toolbar   toolbar;
+	
+	private static boolean restarting;
 	
 	public static Display display;
 	public static Shell   shell;
 	
 	public static void main(String args[])
 	{
-		display        = new Display();
+		start();
+	}
+	
+	public static void restart()
+	{
+		restarting = true;
+		
+		shell.dispose();
+		
+		start();
+		
+		restarting = false;
+	}
+	
+	public void exit()
+	{
+		System.exit(0);
+	}
+	
+	public static void start()
+	{
+		if (!restarting)
+		{
+			display        = new Display();
+		}
 		
 		Monitor monitor        = display.getPrimaryMonitor();
 		final Rectangle screenBounds = monitor.getBounds();
@@ -114,7 +143,10 @@ public class GLShaderIDE
 			}
 		}
 		
-		display.dispose();
+		if (!restarting)
+		{
+			display.dispose();
+		}
 	}
 	
 	public GLShaderIDE(final Display display, final Shell shell)
@@ -132,7 +164,7 @@ public class GLShaderIDE
 			{
 				if (e.widget == compileButton)
 				{
-					console.setText(Compiler.loadVertexShader("name.vs", codeField.getRawText()));
+					console.setText(Compiler.compile(fileLocation, codeField.getRawText()));//GLSLCompiler.loadVertexShader("name.vs", codeField.getRawText()));
 				}
 			}
 		};
@@ -140,17 +172,33 @@ public class GLShaderIDE
 		codeField     = new CodeField(display, shell);
 		console       = new CodeField(display, shell);
 		
-		compileButton = new Button(shell, SWT.PUSH);
-		compileButton.setSize(100, 20);
-		compileButton.setLocation(0, 0);
-		compileButton.setText("Compile");
-		compileButton.addListener(SWT.Selection, buttonListener);
+//		compileButton = new Button(shell, SWT.PUSH);
+//		compileButton.setSize(100, 20);
+//		compileButton.setLocation(0, 0);
+//		compileButton.setText("Compile");
+//		compileButton.addListener(SWT.Selection, buttonListener);
 		
 		menubar       = new Menubar(shell);
 		menubar.addMenuHeader("File");
 		menubar.addMenuSubItem("Open", "File");
+		menubar.addSeparator("File");
 		menubar.addMenuSubItem("Save", "File");
 		menubar.addMenuSubItem("Save as...", "File");
+		menubar.addSeparator("File");
+		menubar.addMenuSubItem("Restart", "File");
+		menubar.addMenuSubItem("Exit", "File");
+		
+		toolbar       = new Toolbar(shell);
+		try
+		{
+			toolbar.addToolItem("Compile", new Image(display, new FileInputStream("res/images/compilebutton.png")));
+			toolbar.addSeparator();
+			toolbar.addToolItem("Run", new Image(display, new FileInputStream("res/images/runbutton.png")));
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
 		
 		menubar.addSelectionListener("File", "Save", new SelectionListener()
 		{
@@ -178,6 +226,32 @@ public class GLShaderIDE
 			}
 		});
 		
+		menubar.addSelectionListener("File", "Restart", new SelectionListener()
+		{
+			public void widgetSelected(SelectionEvent e)
+			{
+				restart();
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e)
+			{
+				widgetSelected(e);
+			}
+		});
+		
+		menubar.addSelectionListener("File", "Exit", new SelectionListener()
+		{
+			public void widgetSelected(SelectionEvent e)
+			{
+				exit();
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e)
+			{
+				widgetSelected(e);
+			}
+		});
+		
 		menubar.addSelectionListener("File", "Open", new SelectionListener()
 		{
 			public void widgetSelected(SelectionEvent e)
@@ -188,6 +262,28 @@ public class GLShaderIDE
 			public void widgetDefaultSelected(SelectionEvent e)
 			{
 				widgetSelected(e);
+			}
+		});
+		
+		toolbar.addSelectionListener("Compile", new SelectionListener()
+		{
+			public void widgetDefaultSelected(SelectionEvent e)
+			{
+				if (fileLocation == null)
+				{
+					openFile();
+				}
+				else
+				{
+					saveFile(fileLocation);
+				}
+				
+				console.setText(Compiler.compile(fileLocation, codeField.getRawText()));//GLSLCompiler.loadVertexShader("name.vs", codeField.getRawText()));
+			}
+
+			public void widgetSelected(SelectionEvent e)
+			{
+				widgetDefaultSelected(e);
 			}
 		});
 		
@@ -202,14 +298,18 @@ public class GLShaderIDE
 			@Override
 			public void controlResized(ControlEvent e)
 			{
-				int width     = (int)(shell.getClientArea().width / 100f * 80);
-				int conHeight = (int)(shell.getClientArea().height / 100f * 20);
+				int width         = (int)(shell.getClientArea().width / 100f * 80);
+				int conHeight     = (int)(shell.getClientArea().height / 100f * 20);
+				int toolbarHeight = (int)(25);
 				
-				codeField.setSize(width, shell.getClientArea().height - conHeight);
-				codeField.setLocation(shell.getClientArea().width - codeField.getWidth(), 0);//shell.getClientArea().height - codeField.getHeight());
+				codeField.setSize(width, shell.getClientArea().height - conHeight - toolbarHeight);
+				codeField.setLocation(shell.getClientArea().width - codeField.getWidth(), toolbarHeight);//shell.getClientArea().height - codeField.getHeight());
 				
 				console.setSize(width, conHeight);
 				console.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y);
+				
+				toolbar.setSize(toolbar.getWidth(), toolbarHeight);
+				toolbar.setLocation(codeField.getX(), 0);
 			}
 		});
 	}
@@ -229,6 +329,11 @@ public class GLShaderIDE
 		FileDialog dialog = openFileBrowseDialog();
 		
 		String location = dialog.open();
+		
+		if (location == null)
+		{
+			return;
+		}
 		
 		File file = new File(location);
 		
@@ -256,11 +361,14 @@ public class GLShaderIDE
 			
 			reader.close();
 			
-			codeField.setText(builder.substring(1).toString());
+			if (builder.length() > 0)
+			{
+				codeField.setText(builder.substring(1).toString());
+			}
 			
 			codeField.highlightSyntax();
 			
-			fileLocation = location;
+			fileLocation = location.replace('\\', '/');
 		}
 		catch (FileNotFoundException e)
 		{
@@ -290,6 +398,11 @@ public class GLShaderIDE
 			location = dialog.open();
 		}
 		
+		if (location == null)
+		{
+			return;
+		}
+		
 		File file = new File(location);
 		
 		try
@@ -304,5 +417,7 @@ public class GLShaderIDE
 		{
 			e.printStackTrace();
 		}
+		
+		fileLocation = location.replace('\\', '/');
 	}
 }

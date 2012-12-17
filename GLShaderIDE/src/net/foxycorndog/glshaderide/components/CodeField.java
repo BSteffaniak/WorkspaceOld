@@ -31,6 +31,12 @@ import org.eclipse.swt.widgets.Text;
 
 public class CodeField extends StyledText
 {
+	private boolean commentStarting, commentStarted, commentEnding;
+	
+	private int     commentType, commentStart;
+	
+	private static final int MULTI_LINE = 1, SINGLE_LINE = 2;
+	
 	private ArrayList<ArrayList<Boolean>> tabs;
 	
 	public CodeField(final Display display, Composite comp)
@@ -217,6 +223,13 @@ public class CodeField extends StyledText
 		
 		charCount += calculateSpaceBetween(text, 0, whitespace);
 		
+		commentStarting = false;
+		commentStarted  = false;
+		commentEnding   = false;
+		
+		commentType     = 0;
+		commentStart    = 0;
+		
 		for (int i = 0; i < strings.length; i ++)
 		{
 			String word = strings[i];
@@ -227,7 +240,22 @@ public class CodeField extends StyledText
 				
 //				System.out.println("i: " + i + ",\tword: " + word + ",\toffset: " + offsets[i] + ",\tlength: " + word.length() + ",\tsize: " + text.length());
 				
-				if (Keyword.isKeyword(word))
+				if (commentStarted)
+				{
+//					int offset       = commentStart;//offsets[i];
+//					int length       = commentStart - charCount;//word.length();
+//					
+//					range            = new StyleRange();
+//					
+//					range.start      = offset;
+//					range.length     = length;
+//					range.foreground = new Color(Display.getCurrent(), 40, 140, 0);
+//					
+//					System.out.println(offset + ", " + length);
+//					
+//					setStyleRange(range);
+				}
+				else if (Keyword.isKeyword(word))
 				{
 					Keyword keyword = Keyword.getKeyword(word);
 					
@@ -256,7 +284,96 @@ public class CodeField extends StyledText
 		
 		for (int i = start; i < text.length(); i ++)
 		{
-			if (containsChar(chars, text.charAt(i)))
+			char c = text.charAt(i);
+			
+			if (c == '/')
+			{
+				if (commentStarting)
+				{
+					commentStarted = true;
+					
+					commentType  = SINGLE_LINE;
+					
+					commentStart = start + count - 1;
+				}
+				else
+				{
+					if (commentEnding)
+					{
+						commentStarted = false;
+						
+						{
+							int offset       = commentStart;//offsets[i];
+							int length       = start + count - commentStart + 1;//word.length();
+							
+							StyleRange range = new StyleRange();
+							
+							range.start      = offset;
+							range.length     = length;
+							range.foreground = new Color(Display.getCurrent(), 40, 140, 0);
+							
+							setStyleRange(range);
+						}
+						
+						commentType = 0;
+					}
+					else
+					{
+						commentStarting = true;
+					}
+				}
+			}
+			else if (c == '*')
+			{
+				if (commentStarting)
+				{
+					commentStarted = true;
+					
+					commentType = MULTI_LINE;
+					
+					commentStart = start + count - 1;
+				}
+				
+				if (commentStarted)
+				{
+					commentEnding = true;
+				}
+				else
+				{
+					
+				}
+			}
+			else
+			{
+				commentEnding   = false;
+				commentStarting = false;
+			}
+			
+			if (c == '\n')
+			{
+				if (commentStarted && commentType == SINGLE_LINE)
+				{
+					commentStarted  = false;
+					commentStarting = false;
+					
+					{
+						int offset       = commentStart;//offsets[i];
+						int length       = start + count - commentStart + 1;//word.length();
+						
+						StyleRange range = new StyleRange();
+						
+						range.start      = offset;
+						range.length     = length;
+						range.foreground = new Color(Display.getCurrent(), 40, 140, 0);
+						
+						setStyleRange(range);
+					}
+					
+					commentType = 0;
+				}
+			}
+			
+			if (containsChar(chars, c))
 			{
 				count++;
 			}
@@ -450,6 +567,16 @@ public class CodeField extends StyledText
 	public String getWritableText()
 	{
 		return getText().replace("\n", "\r\n");
+	}
+	
+	public int getX()
+	{
+		return getBounds().x;
+	}
+	
+	public int getY()
+	{
+		return getBounds().y;
 	}
 	
 	public int getWidth()

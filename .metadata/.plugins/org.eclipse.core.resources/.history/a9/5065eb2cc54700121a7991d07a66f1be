@@ -1,0 +1,9 @@
+package net.foxycorndog.glshaderide.compiler;
+
+public class Compiler
+{
+	public static String compile(String fileLocation, String code)
+	{
+		
+	}
+}

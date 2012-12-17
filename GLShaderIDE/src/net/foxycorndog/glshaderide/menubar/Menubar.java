@@ -57,6 +57,13 @@ public class Menubar
 		subItems.get(headerName).put(subItemName, item);
 	}
 	
+	public void addSeparator(String headerName)
+	{
+		Menu headerMenu = getHeaderMenu(headerName);
+		
+		MenuItem item   = new MenuItem(headerMenu, SWT.SEPARATOR);
+	}
+	
 	public MenuItem getHeaderItem(String name)
 	{
 		return headers.get(name);
