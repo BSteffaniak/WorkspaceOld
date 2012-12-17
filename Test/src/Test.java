@@ -4,14 +4,9 @@ public class Test
 {
 	public static void main(String args[])
 	{
-		ArrayList names = new ArrayList();
+		Max m = new Max(4);
+		Henry h = new Henry(4);
 		
-		names.add("Tom");
-		names.add("Tom");
-		names.add("Tom");
-		names.add("Tom");
-		names.remove(1);
-		names.remove(3);
-		
+		System.out.println(m.equals(h));
 	}
 }
