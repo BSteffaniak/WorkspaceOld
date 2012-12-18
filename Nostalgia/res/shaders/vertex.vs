@@ -49,7 +49,7 @@ void main()
 {
 	fragScreenPos = gl_ModelViewMatrix * gl_Vertex;
 	fragWorldPos  = gl_Vertex;
-
+	
 	gl_TexCoord[0] = gl_MultiTexCoord0;
 
 	/* Pass the vertex normal attribute to the fragment shader.

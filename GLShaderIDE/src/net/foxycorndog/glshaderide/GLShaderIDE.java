@@ -49,8 +49,9 @@ import org.lwjgl.opengl.GLContext;
 import net.foxycorndog.glshaderide.compiler.GLSLCompiler;
 import net.foxycorndog.glshaderide.compiler.JavaCompiler;
 import net.foxycorndog.glshaderide.compiler.Compiler;
+import net.foxycorndog.glshaderide.language.Keyword;
+import net.foxycorndog.glshaderide.language.Language;
 import net.foxycorndog.glshaderide.menubar.Menubar;
-import net.foxycorndog.glshaderide.shaderlanguage.Keyword;
 import net.foxycorndog.glshaderide.toolbar.Toolbar;
 
 public class GLShaderIDE
@@ -180,6 +181,8 @@ public class GLShaderIDE
 		
 		menubar       = new Menubar(shell);
 		menubar.addMenuHeader("File");
+		menubar.addMenuSubItem("New", "File");
+		menubar.addSeparator("File");
 		menubar.addMenuSubItem("Open", "File");
 		menubar.addSeparator("File");
 		menubar.addMenuSubItem("Save", "File");
@@ -199,6 +202,19 @@ public class GLShaderIDE
 		{
 			e.printStackTrace();
 		}
+		
+		menubar.addSelectionListener("File", "New", new SelectionListener()
+		{
+			public void widgetSelected(SelectionEvent e)
+			{
+				newFile();
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e)
+			{
+				widgetSelected(e);
+			}
+		});
 		
 		menubar.addSelectionListener("File", "Save", new SelectionListener()
 		{
@@ -314,6 +330,18 @@ public class GLShaderIDE
 		});
 	}
 	
+	public void newFile()
+	{
+		if (fileLocation != null)
+		{
+			saveFile(fileLocation);
+		}
+		
+		fileLocation = null;
+		
+		codeField.setText("");
+	}
+	
 	public FileDialog openFileBrowseDialog()
 	{
 		FileDialog dialog = new FileDialog(shell, SWT.OPEN);
@@ -345,30 +373,26 @@ public class GLShaderIDE
 			
 			String line = "";
 			
-			int lineNum = 0;
-			
-			int offset = 0;
-			
 			for (int i = 0; (line = reader.readLine()) != null; i ++)
 			{
-				codeField.parseString(line, builder, 0, 0, lineNum, offset + lineNum, true, false);
-				codeField.parseChar('\n', builder, 0, 0, lineNum, offset + lineNum, true, false);
-				
-				lineNum ++;
-				
-				offset += line.length();
+				builder.append(line + "\n");
 			}
 			
 			reader.close();
 			
 			if (builder.length() > 0)
 			{
-				codeField.setText(builder.substring(1).toString());
+				builder.deleteCharAt(builder.length() - 1);
+			
+				codeField.setText(builder.toString());
 			}
 			
-			codeField.highlightSyntax();
-			
 			fileLocation = location.replace('\\', '/');
+			
+			codeField.setLanugage(Language.getLanguage(fileLocation));
+			System.out.println(codeField.getLanguage());
+			
+			codeField.highlightSyntax();
 		}
 		catch (FileNotFoundException e)
 		{
@@ -409,7 +433,9 @@ public class GLShaderIDE
 		{
 			PrintWriter writer = new PrintWriter(new FileWriter(file));
 			
-			writer.print(codeField.getWritableText());
+			String text = codeField.getWritableText();
+			
+			writer.print(text);
 			
 			writer.close();
 		}
@@ -419,5 +445,8 @@ public class GLShaderIDE
 		}
 		
 		fileLocation = location.replace('\\', '/');
+		
+		codeField.setLanugage(Language.getLanguage(fileLocation));
+		System.out.println(codeField.getLanguage());
 	}
 }

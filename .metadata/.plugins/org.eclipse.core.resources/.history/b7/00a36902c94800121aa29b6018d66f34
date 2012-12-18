@@ -1,0 +1,27 @@
+package net.foxycorndog.glshaderide.language;
+
+import net.foxycorndog.glshaderide.GLShaderIDE;
+
+import org.eclipse.swt.graphics.Color;
+
+import static net.foxycorndog.glshaderide.language.Language.JAVA;
+
+public class JavaKeyword
+{
+	public static final Keyword
+			INT                          = new Keyword(JAVA, "int"),
+			FLOAT                        = new Keyword(JAVA, "float"),
+			VOID                         = new Keyword(JAVA, "void");
+	
+	static
+	{
+		INT.setColor(new Color(GLShaderIDE.display, 150, 0, 0));
+		FLOAT.setColor(new Color(GLShaderIDE.display, 150, 0, 0));
+		VOID.setColor(new Color(GLShaderIDE.display, 150, 0, 0));
+	}
+	
+	public static void init()
+	{
+		
+	}
+}

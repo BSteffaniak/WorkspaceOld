@@ -6,3 +6,8 @@
 1355688991054	Rename type 'Compiler'
 1355692942456	Rename local variable 'compilationOptionss'
 1355711115857	Delete element
+1355788458772	Rename local variable 'j'
+1355789685858	Rename local variable 'counter'
+1355802279594	Rename package 'net.foxycorndog.glshaderide.shaderlanguage'
+1355833091939	Move compilation unit
+1355833124091	Move compilation unit

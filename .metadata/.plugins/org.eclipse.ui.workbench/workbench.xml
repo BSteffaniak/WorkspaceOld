@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="25" version="2.0">
+<workbench progressCount="28" version="2.0">
 <workbenchAdvisor/>
 <window height="799" maximized="true" width="1016" x="435" y="0">
 <fastViewData fastViewLocation="1024"/>
@@ -54,19 +54,25 @@
 <part id="15"/>
 <part id="16"/>
 <part id="17"/>
+<part id="24"/>
 <part id="18"/>
 <part id="19"/>
 <part id="20"/>
 <part id="21"/>
 <part id="22"/>
 <part id="23"/>
+<part id="25"/>
+<part id="26"/>
+<part id="27"/>
+<part id="28"/>
+<part id="29"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="vertex.fs" partName="vertex.fs" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/res/shaders/vertex.fs" title="vertex.fs" tooltip="Nostalgia/res/shaders/vertex.fs" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/res/shaders/vertex.fs"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="589" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="vertex.vs" partName="vertex.vs" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Nostalgia/res/shaders/vertex.vs" title="vertex.vs" tooltip="Nostalgia/res/shaders/vertex.vs" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Nostalgia/res/shaders/vertex.vs"/>
@@ -122,19 +128,19 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GLShaderIDE.java" partName="GLShaderIDE.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/GLShaderIDE.java" title="GLShaderIDE.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/GLShaderIDE.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/GLShaderIDE.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="7013" selectionTopPixel="3587"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="9556" selectionTopPixel="5265"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CodeField.java" partName="CodeField.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/components/CodeField.java" title="CodeField.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/components/CodeField.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CodeField.java" partName="CodeField.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/components/CodeField.java" title="CodeField.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/components/CodeField.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/components/CodeField.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="8984" selectionTopPixel="4973"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="15591" selectionTopPixel="9747"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Compiler.java" partName="Compiler.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java" title="Compiler.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="485" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="713" selectionTopPixel="0"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Keyword.java" partName="Keyword.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/shaderlanguage/Keyword.java" title="Keyword.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/shaderlanguage/Keyword.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/shaderlanguage/Keyword.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1551" selectionTopPixel="75"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Keyword.java" partName="Keyword.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/language/Keyword.java" title="Keyword.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/language/Keyword.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/language/Keyword.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="47" selectionTopPixel="15"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FileDropListener.java" partName="FileDropListener.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/filebrowser/FileDropListener.java" title="FileDropListener.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/filebrowser/FileDropListener.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/filebrowser/FileDropListener.java"/>
@@ -154,11 +160,35 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="JavaCompiler.java" partName="JavaCompiler.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/JavaCompiler.java" title="JavaCompiler.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/JavaCompiler.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/JavaCompiler.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="775" selectionTopPixel="48"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3473" selectionTopPixel="636"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Toolbar.java" partName="Toolbar.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/toolbar/Toolbar.java" title="Toolbar.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/toolbar/Toolbar.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/toolbar/Toolbar.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1758" selectionTopPixel="225"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GLSLKeyword.java" partName="GLSLKeyword.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/language/GLSLKeyword.java" title="GLSLKeyword.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/language/GLSLKeyword.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/language/GLSLKeyword.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="43" selectionOffset="2927" selectionTopPixel="26"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FileUtils.java" partName="FileUtils.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/file/FileUtils.java" title="FileUtils.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/file/FileUtils.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/file/FileUtils.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="476" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Language.java" partName="Language.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/language/Language.java" title="Language.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/language/Language.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/language/Language.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="251" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="JavaKeyword.java" partName="JavaKeyword.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/language/JavaKeyword.java" title="JavaKeyword.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/language/JavaKeyword.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/language/JavaKeyword.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="96" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Java.java" partName="Java.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/language/java/Java.java" title="Java.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/language/java/Java.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/language/java/Java.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="135" selectionTopPixel="0"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Map.java" partName="Map.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Idk2/src/net/foxycorndog/idk/maps/Map.java" title="Map.java" tooltip="Idk2/src/net/foxycorndog/idk/maps/Map.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Idk2/src/net/foxycorndog/idk/maps/Map.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="4" selectionOffset="7675" selectionTopPixel="5154"/>
 </editor>
 </editors>
 <views>
@@ -186,9 +216,6 @@
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
-<expanded>
-<category IMemento.internal.id="Errors"/>
-</expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
@@ -506,164 +533,168 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/JavaCompiler.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/GLShaderIDE.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/components/CodeField.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/toolbar/Toolbar.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/GLSLCompiler.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/actor/Player.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/menubar/Menubar.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/Nostalgia/res/shaders/vertex.vs"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/GLShaderIDE.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/language/Keyword.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/language/GLSLKeyword.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/file/FileUtils.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/language/Language.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/language/JavaKeyword.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/Nostalgia/res/shaders/vertex.fs"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/language/java/Java.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/JavaCompiler.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Idk2/src/net/foxycorndog/idk/maps/Map.java"/>
 </editors>
-<item historyLabel="Toolbar.java" index="3">
-<position info="not_deleted" x="2613" y="0"/>
-</item>
-<item historyLabel="Toolbar.java" index="3">
-<position info="not_deleted" x="2326" y="0"/>
-</item>
-<item historyLabel="JavaCompiler.java" index="0">
-<position info="not_deleted" x="775" y="0"/>
+<item historyLabel="FileUtils.java" index="5">
+<position info="not_deleted" x="762" y="0"/>
 </item>
 <item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="6722" y="0"/>
+<position info="not_deleted" x="9819" y="0"/>
 </item>
 <item historyLabel="GLShaderIDE.java" index="1">
-<position/>
+<position info="not_deleted" x="9891" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="0">
+<position info="not_deleted" x="16409" y="0"/>
 </item>
 <item historyLabel="GLShaderIDE.java" index="1">
-<position/>
+<position info="not_deleted" x="10977" y="0"/>
 </item>
-<item historyLabel="GLShaderIDE.java" index="1">
-<position/>
+<item historyLabel="Language.java" index="6">
+<position info="not_deleted" x="251" y="0"/>
 </item>
-<item historyLabel="Toolbar.java" index="3">
-<position info="not_deleted" x="2322" y="0"/>
+<item historyLabel="Keyword.java" index="3">
+<position info="not_deleted" x="560" y="0"/>
 </item>
-<item historyLabel="GLSLCompiler.java" index="4">
-<position info="not_deleted" x="4683" y="0"/>
+<item historyLabel="GLSLKeyword.java" index="4">
+<position info="not_deleted" x="268" y="0"/>
 </item>
-<item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="4674" y="0"/>
+<item historyLabel="Keyword.java" index="3">
+<position info="not_deleted" x="560" y="0"/>
 </item>
-<item historyLabel="Toolbar.java" index="3">
-<position info="not_deleted" x="1512" y="0"/>
+<item historyLabel="GLSLKeyword.java" index="4">
+<position info="not_deleted" x="268" y="0"/>
 </item>
-<item historyLabel="Player.java" index="5">
-<position info="not_deleted" x="238" y="0"/>
+<item historyLabel="Compiler.java" index="2">
+<position info="not_deleted" x="713" y="0"/>
 </item>
-<item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="8241" y="0"/>
+<item historyLabel="Keyword.java" index="3">
+<position info="not_deleted" x="560" y="0"/>
 </item>
-<item historyLabel="Menubar.java" index="6">
-<position info="not_deleted" x="413" y="1786"/>
+<item historyLabel="CodeField.java" index="0">
+<position info="not_deleted" x="7760" y="0"/>
 </item>
-<item historyLabel="Toolbar.java" index="3">
+<item historyLabel="Keyword.java" index="3">
+<position info="not_deleted" x="640" y="0"/>
+</item>
+<item historyLabel="GLSLKeyword.java" index="4">
+<position info="not_deleted" x="268" y="0"/>
+</item>
+<item historyLabel="Keyword.java" index="3">
+<position info="not_deleted" x="702" y="0"/>
+</item>
+<item historyLabel="GLSLKeyword.java" index="4">
+<position info="not_deleted" x="268" y="0"/>
+</item>
+<item historyLabel="Keyword.java" index="3">
 <position info="not_deleted" x="1250" y="0"/>
 </item>
-<item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="5209" y="0"/>
+<item historyLabel="GLSLKeyword.java" index="4">
+<position info="not_deleted" x="2966" y="0"/>
 </item>
-<item historyLabel="Toolbar.java" index="3">
-<position info="not_deleted" x="1758" y="0"/>
+<item historyLabel="Keyword.java" index="3">
+<position info="not_deleted" x="47" y="0"/>
 </item>
-<item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="4419" y="0"/>
+<item historyLabel="GLSLKeyword.java" index="4">
+<position info="not_deleted" x="2927" y="43"/>
 </item>
-<item historyLabel="CodeField.java" index="2">
-<position info="not_deleted" x="13690" y="8"/>
+<item historyLabel="Keyword.java" index="3">
+<position info="not_deleted" x="702" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="2">
-<position info="not_deleted" x="6870" y="0"/>
+<item historyLabel="JavaKeyword.java" index="7">
+<position info="not_deleted" x="2260" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="2">
-<position info="not_deleted" x="6883" y="0"/>
+<item historyLabel="Compiler.java" index="2">
+<position info="not_deleted" x="713" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="2">
-<position info="not_deleted" x="7420" y="0"/>
+<item historyLabel="Keyword.java" index="3">
+<position info="not_deleted" x="47" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="2">
-<position info="not_deleted" x="7572" y="21"/>
+<item historyLabel="Language.java" index="6">
+<position info="not_deleted" x="251" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="2">
-<position info="not_deleted" x="8472" y="0"/>
+<item historyLabel="JavaKeyword.java" index="7">
+<position info="not_deleted" x="96" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="2">
-<position info="not_deleted" x="7703" y="0"/>
+<item historyLabel="Language.java" index="6">
+<position info="not_deleted" x="251" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="2">
-<position info="not_deleted" x="8472" y="0"/>
+<item historyLabel="FileUtils.java" index="5">
+<position info="not_deleted" x="476" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="2">
-<position info="not_deleted" x="8733" y="0"/>
+<item historyLabel="Language.java" index="6">
+<position info="not_deleted" x="251" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="2">
-<position info="not_deleted" x="6958" y="26"/>
+<item historyLabel="Compiler.java" index="2">
+<position info="not_deleted" x="713" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="2">
-<position info="not_deleted" x="8365" y="0"/>
+<item historyLabel="Keyword.java" index="3">
+<position info="not_deleted" x="47" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="2">
-<position info="not_deleted" x="8377" y="27"/>
-</item>
-<item historyLabel="vertex.vs" index="7">
-<position info="not_deleted" x="2030" y="0"/>
-</item>
-<item historyLabel="vertex.vs" index="7">
-<position info="not_deleted" x="321" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="2">
-<position info="not_deleted" x="7774" y="0"/>
+<item historyLabel="CodeField.java" index="0">
+<position info="not_deleted" x="15591" y="0"/>
 </item>
 <item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="4419" y="0"/>
+<position info="not_deleted" x="10977" y="0"/>
 </item>
 <item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="3922" y="0"/>
+<position info="not_deleted" x="7389" y="0"/>
 </item>
 <item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="2499" y="0"/>
+<position info="not_deleted" x="9080" y="8"/>
 </item>
 <item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="2679" y="0"/>
+<position info="not_deleted" x="9581" y="0"/>
 </item>
 <item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="2593" y="0"/>
+<position info="not_deleted" x="9551" y="0"/>
+</item>
+<item historyLabel="vertex.fs" index="8">
+<position info="not_deleted" x="647" y="0"/>
 </item>
 <item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="2564" y="0"/>
+<position info="not_deleted" x="9545" y="0"/>
+</item>
+<item historyLabel="vertex.fs" index="8">
+<position info="not_deleted" x="589" y="0"/>
 </item>
 <item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="6196" y="0"/>
+<position info="not_deleted" x="9545" y="0"/>
 </item>
-<item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="2460" y="0"/>
+<item historyLabel="Java.java" index="9">
+<position info="not_deleted" x="142" y="0"/>
 </item>
-<item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="2462" y="0"/>
+<item historyLabel="JavaCompiler.java" index="10">
+<position info="not_deleted" x="3473" y="0"/>
 </item>
-<item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="2711" y="34"/>
+<item historyLabel="Java.java" index="9">
+<position info="not_deleted" x="135" y="0"/>
 </item>
-<item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="6452" y="0"/>
+<item historyLabel="Map.java" index="11">
+<position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="4944" y="0"/>
+<item historyLabel="Map.java" index="11">
+<position info="not_deleted" x="5658" y="0"/>
 </item>
-<item historyLabel="Menubar.java" index="6">
-<position info="not_deleted" x="1709" y="0"/>
+<item historyLabel="Map.java" index="11">
+<position info="not_deleted" x="6139" y="3"/>
 </item>
-<item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="6000" y="0"/>
+<item historyLabel="Map.java" index="11">
+<position info="not_deleted" x="7363" y="0"/>
 </item>
-<item historyLabel="vertex.vs" index="7">
-<position info="not_deleted" x="521" y="0"/>
-</item>
-<item historyLabel="GLShaderIDE.java" index="1">
-<position info="not_deleted" x="7013" y="0"/>
-</item>
-<item active="true" historyLabel="CodeField.java" index="2">
-<position info="not_deleted" x="7774" y="0"/>
+<item active="true" historyLabel="Map.java" index="11">
+<position info="not_deleted" x="7675" y="4"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -687,6 +718,30 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Map.java" tooltip="Idk2/src/net/foxycorndog/idk/maps/Map.java">
+<persistable path="/Idk2/src/net/foxycorndog/idk/maps/Map.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Java.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/language/java/Java.java">
+<persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/language/java/Java.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="JavaKeyword.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/language/JavaKeyword.java">
+<persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/language/JavaKeyword.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Language.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/language/Language.java">
+<persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/language/Language.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FileUtils.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/file/FileUtils.java">
+<persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/file/FileUtils.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GLSLKeyword.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/shaderlanguage/GLSLKeyword.java">
+<persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/shaderlanguage/GLSLKeyword.java"/>
+</file>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="StyledText.class" tooltip="org.eclipse.swt.custom.StyledText">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=GLShaderIDE/C:\/Users\/Braden Steffaniak\/Documents\/GitHub\/Workspace\/stuff\/swt\/swt-3.6.1-64\/swt.jar&lt;org.eclipse.swt.custom(StyledText.class"/>
+</file>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="ArrayList.class" tooltip="java.util.ArrayList">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=CameraTests/C:\/Program Files\/Java\/jdk1.7.0_03\/jre\/lib\/rt.jar&lt;java.util(ArrayList.class"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Toolbar.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/toolbar/Toolbar.java">
 <persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/toolbar/Toolbar.java"/>
 </file>
@@ -707,30 +762,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FileViewer.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/filebrowser/FileViewer.java">
 <persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/filebrowser/FileViewer.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Menubar.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/menubar/Menubar.java">
-<persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/menubar/Menubar.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FileDragListener.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/filebrowser/FileDragListener.java">
-<persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/filebrowser/FileDragListener.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FileBrowser.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/filebrowser/FileBrowser.java">
-<persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/filebrowser/FileBrowser.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FileDropListener.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/filebrowser/FileDropListener.java">
-<persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/filebrowser/FileDropListener.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Keywords.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/shaderlanguage/Keywords.java">
-<persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/shaderlanguage/Keywords.java"/>
-</file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="GL20.class" tooltip="org.lwjgl.opengl.GL20">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=GLShaderIDE/\/gafggfds\/LWJGL\/lwjgl-2.8.4\/lwjgl-2.8.4\/jar\/lwjgl.jar&lt;org.lwjgl.opengl(GL20.class"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Base.java" tooltip="jDobase/src/net/foxycorndog/jdobase/Base.java">
-<persistable path="/jDobase/src/net/foxycorndog/jdobase/Base.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Compiler.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java">
-<persistable path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java"/>
 </file>
 </mruList>
 </workbench>

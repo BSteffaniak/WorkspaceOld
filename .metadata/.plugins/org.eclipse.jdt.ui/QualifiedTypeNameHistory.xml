@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.eclipse.jface.viewers.LabelProvider"/>
-<fullyQualifiedTypeName name="org.eclipse.jface.viewers.IStructuredContentProvider"/>
-<fullyQualifiedTypeName name="org.eclipse.jface.viewers.ViewerSorter"/>
-<fullyQualifiedTypeName name="org.eclipse.jface.viewers.Viewer"/>
-<fullyQualifiedTypeName name="org.eclipse.jface.viewers.IDoubleClickListener"/>
-<fullyQualifiedTypeName name="org.eclipse.jface.viewers.DoubleClickEvent"/>
 <fullyQualifiedTypeName name="org.eclipse.jface.viewers.IStructuredSelection"/>
 <fullyQualifiedTypeName name="java.util.LinkedList"/>
 <fullyQualifiedTypeName name="java.util.List"/>
@@ -60,4 +54,10 @@
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Image"/>
 <fullyQualifiedTypeName name="java.io.FileInputStream"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Color"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="java.util.HashSet"/>
+<fullyQualifiedTypeName name="net.foxycorndog.glshaderide.shaderlanguage.Keyword"/>
+<fullyQualifiedTypeName name="net.foxycorndog.glshaderide.language.Keyword"/>
+<fullyQualifiedTypeName name="net.foxycorndog.glshaderide.file.FileUtils"/>
+<fullyQualifiedTypeName name="net.foxycorndog.glshaderide.language.Language"/>
 </qualifiedTypeNameHistroy>
