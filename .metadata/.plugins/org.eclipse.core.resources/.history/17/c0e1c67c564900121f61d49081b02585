@@ -1,0 +1,29 @@
+package net.foxycorndog.glshaderide.console;
+
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+
+public class ConsoleStream extends PrintStream
+{
+	private ConsoleListener listener;
+	
+	public ConsoleStream(String location) throws FileNotFoundException
+	{
+		super(location);
+	}
+	
+	public void println(String s)
+	{
+		super.println(s);
+		
+		if (listener != null)
+		{
+			listener.onPrintln(s);
+		}
+	}
+	
+	public void addConsoleListener(ConsoleListener listener)
+	{
+		this.listener = listener;
+	}
+}

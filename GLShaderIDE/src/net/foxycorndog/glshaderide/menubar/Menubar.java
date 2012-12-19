@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -17,8 +18,10 @@ public class Menubar
 	
 	private Shell shell;
 	
-	private HashMap<String, MenuItem> headers;
-	private HashMap<String, Menu>     headerMenus;
+	private ArrayList<MenubarListener> listeners;
+	
+	private HashMap<String, MenuItem>  headers;
+	private HashMap<String, Menu>      headerMenus;
 	private HashMap<String, HashMap<String, MenuItem>> subItems;
 	
 	public Menubar(Shell shell)
@@ -32,6 +35,8 @@ public class Menubar
 		headers      = new HashMap<String, MenuItem>();
 		headerMenus  = new HashMap<String, Menu>();
 		subItems     = new HashMap<String, HashMap<String, MenuItem>>();
+		
+		listeners    = new ArrayList<MenubarListener>();
 	}
 	
 	public void addMenuHeader(String name)
@@ -47,7 +52,7 @@ public class Menubar
 		subItems.put(name, new HashMap<String, MenuItem>());
 	}
 	
-	public void addMenuSubItem(String subItemName, String headerName)
+	public void addMenuSubItem(final String subItemName, String headerName)
 	{
 		Menu headerMenu = getHeaderMenu(headerName);
 		
@@ -55,6 +60,24 @@ public class Menubar
 		item.setText(subItemName);
 		
 		subItems.get(headerName).put(subItemName, item);
+		
+		item.addSelectionListener(new SelectionListener()
+		{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e)
+			{
+				for (int i = listeners.size() - 1; i >= 0; i --)
+				{
+					listeners.get(i).subItemPressed(subItemName);
+				}
+			}
+
+			@Override
+			public void widgetSelected(SelectionEvent e)
+			{
+				widgetDefaultSelected(e);
+			}
+		});
 	}
 	
 	public void addSeparator(String headerName)
@@ -79,8 +102,13 @@ public class Menubar
 		return subItems.get(headerName).get(subItemName);
 	}
 	
-	public void addSelectionListener(String headerName, String subItemName, SelectionListener listener)
+//	public void addSelectionListener(String headerName, String subItemName, SelectionListener listener)
+//	{
+//		getSubItem(headerName, subItemName).addSelectionListener(listener);
+//	}
+	
+	public void addListener(MenubarListener listener)
 	{
-		getSubItem(headerName, subItemName).addSelectionListener(listener);
+		listeners.add(listener);
 	}
 }

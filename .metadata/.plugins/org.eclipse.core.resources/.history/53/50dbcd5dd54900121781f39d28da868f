@@ -1,0 +1,495 @@
+package net.foxycorndog.glshaderide;
+
+import java.awt.BorderLayout;
+import java.awt.TextField;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
+import net.foxycorndog.glshaderide.components.CodeField;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.opengl.GLCanvas;
+import org.eclipse.swt.opengl.GLData;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Monitor;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.GLContext;
+
+import net.foxycorndog.glshaderide.compiler.GLSLCompiler;
+import net.foxycorndog.glshaderide.compiler.JavaCompiler;
+import net.foxycorndog.glshaderide.compiler.Compiler;
+import net.foxycorndog.glshaderide.console.ConsoleListener;
+import net.foxycorndog.glshaderide.console.ConsoleStream;
+import net.foxycorndog.glshaderide.language.Keyword;
+import net.foxycorndog.glshaderide.language.Language;
+import net.foxycorndog.glshaderide.language.java.Java;
+import net.foxycorndog.glshaderide.menubar.Menubar;
+import net.foxycorndog.glshaderide.menubar.MenubarListener;
+import net.foxycorndog.glshaderide.toolbar.Toolbar;
+import net.foxycorndog.glshaderide.toolbar.ToolbarListener;
+import net.foxycorndog.glshaderide.treemenu.TreeMenu;
+import net.foxycorndog.glshaderide.treemenu.TreeMenuListener;
+
+public class GLShaderIDE
+{
+	private Button    compileButton;
+	
+	private CodeField codeField, console;
+	
+	private String    fileLocation, fileName;
+	
+	private Menubar   menubar;
+	
+	private Toolbar   toolbar;
+	
+	private TreeMenu  treeMenu;
+	
+	private HashMap<Integer, String> treeItems;
+	
+	private static boolean restarting;
+	
+	private ConsoleStream consoleStream;
+	
+	public static Display display;
+	public static Shell   shell;
+	
+	public static void main(String args[])
+	{
+		start();
+	}
+	
+	public static void restart()
+	{
+		restarting = true;
+		
+		shell.dispose();
+		
+		start();
+		
+		restarting = false;
+	}
+	
+	public void exit()
+	{
+		System.exit(0);
+	}
+	
+	public static void start()
+	{
+		if (!restarting)
+		{
+			display        = new Display();
+		}
+		
+		Monitor monitor        = display.getPrimaryMonitor();
+		final Rectangle screenBounds = monitor.getBounds();
+		
+		final Shell shell            = new Shell(display);//, SWT.SHELL_TRIM & (~SWT.RESIZE));
+		shell.setSize(800, 600);
+		final Rectangle shellBounds = shell.getBounds();
+		
+		shell.setLocation(screenBounds.width / 2 - shellBounds.width / 2, screenBounds.height / 2 - shellBounds.height / 2);
+		shell.setText("GLShader IDE");
+		
+		/**
+		 * Set up the OpenGL (lwjgl) capabilities for the program.
+		 */
+		{
+			Composite comp = new Composite(shell, SWT.NONE);
+			comp.setLayout(new FillLayout());
+			
+			GLData data = new GLData ();
+			data.doubleBuffer = true;
+			final GLCanvas canvas = new GLCanvas(comp, SWT.NONE, data);
+			
+			canvas.setCurrent();
+			
+			try
+			{
+				GLContext.useContext(canvas);
+			}
+			catch(LWJGLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		GLShaderIDE ide = new GLShaderIDE(display, shell);
+		
+		shell.open();
+		
+		while (!shell.isDisposed())
+		{
+			if (!display.readAndDispatch())
+			{
+				display.sleep();
+			}
+		}
+		
+		if (!restarting)
+		{
+			display.dispose();
+		}
+	}
+	
+	public GLShaderIDE(final Display display, final Shell shell)
+	{
+		this.shell = shell;
+		
+		shell.setBackground(new Color(display, 170, 170, 170));
+		
+//		GridLayout b = new GridLayout();
+//		b.makeColumnsEqualWidth = false;
+//		
+//		shell.setLayout(b);
+		
+		Listener buttonListener = new Listener()
+		{
+			public void handleEvent(Event e)
+			{
+				if (e.widget == compileButton)
+				{
+					console.setText(Compiler.compile(fileLocation, codeField.getRawText()));//GLSLCompiler.loadVertexShader("name.vs", codeField.getRawText()));
+				}
+			}
+		};
+		
+		codeField     = new CodeField(display, shell);
+		console       = new CodeField(display, shell);
+		
+		int width         = (int)(shell.getClientArea().width / 100f * 80);
+		int conHeight     = (int)(shell.getClientArea().height / 100f * 20);
+		int toolbarHeight = (int)(25);
+		
+		codeField.setSize(width, shell.getClientArea().height - conHeight - toolbarHeight);
+		codeField.setLocation(shell.getClientArea().width - codeField.getWidth(), toolbarHeight);//shell.getClientArea().height - codeField.getHeight());
+		
+		console.setSize(width, conHeight);
+		console.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y);
+		
+		try
+		{
+			consoleStream = new ConsoleStream("log.txt");
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		
+		menubar       = new Menubar(shell);
+		menubar.addMenuHeader("File");
+		menubar.addMenuSubItem("New", "File");
+		menubar.addSeparator("File");
+		menubar.addMenuSubItem("Open", "File");
+		menubar.addSeparator("File");
+		menubar.addMenuSubItem("Save", "File");
+		menubar.addMenuSubItem("Save as...", "File");
+		menubar.addSeparator("File");
+		menubar.addMenuSubItem("Restart", "File");
+		menubar.addMenuSubItem("Exit", "File");
+		
+		menubar.addListener(new MenubarListener()
+		{
+			public void subItemPressed(String subItemName)
+			{
+				if (subItemName.equals("New"))
+				{
+					newFile();
+				}
+				else if (subItemName.equals("Open"))
+				{
+					openFile();
+				}
+				else if (subItemName.equals("Save"))
+				{
+					saveFile(fileLocation);
+				}
+				else if (subItemName.equals("Save as..."))
+				{
+					saveFile(null);
+				}
+				else if (subItemName.equals("Restart"))
+				{
+					restart();
+				}
+				else if (subItemName.equals("Exit"))
+				{
+					exit();
+				}
+			}
+		});
+		
+		try
+		{
+			toolbar       = new Toolbar(shell);
+			
+			toolbar.setBackground(shell.getBackground());
+		
+			toolbar.addToolItem("Compile", new Image(display, new FileInputStream("res/images/compilebutton.png")));
+			toolbar.addSeparator();
+			toolbar.addToolItem("Run", new Image(display, new FileInputStream("res/images/runbutton.png")));
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		
+		toolbar.addListener(new ToolbarListener()
+		{
+			public void toolItemPressed(String toolItemName)
+			{
+				if (toolItemName.equals("Compile"))
+				{
+					if (fileLocation == null)
+					{
+						openFile();
+					}
+					else
+					{
+						saveFile(fileLocation);
+					}
+					
+					consoleStream.println(Compiler.compile(fileLocation, codeField.getRawText()));//GLSLCompiler.loadVertexShader("name.vs", codeField.getRawText()));
+				}
+				else if (toolItemName.equals("Run"))
+				{
+					if (fileLocation == null)
+					{
+						saveFile(fileLocation);
+					}
+					else
+					{
+						Language.run(codeField.getLanguage(), "C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/bin/Test.class", consoleStream);
+					}
+				}
+			}
+		});
+		
+		treeItems = new HashMap<Integer, String>();
+		
+		treeMenu  = new TreeMenu(shell);
+		treeMenu.setSize(shell.getClientArea().width - codeField.getWidth() - 10, codeField.getHeight() + console.getHeight());
+		treeMenu.setLocation(5, codeField.getY());
+		treeMenu.setBackground(new Color(display, 255, 255, 255));
+//		treeMenu.setBackground(new Color(display, 255, 253, 250));
+		
+		treeMenu.addListener(new TreeMenuListener()
+		{
+			public void treeItemSelected(int id)
+			{
+				if (treeItems.containsKey(id))
+				{
+					String location = treeItems.get(id);
+					
+					openFile(location);
+				}
+			}
+		});
+		
+		
+		consoleStream.addConsoleListener(new ConsoleListener()
+		{
+			public void onPrintln(Object o)
+			{
+				if (o instanceof String)
+				{
+					console.append((String)o);
+				}
+			}
+		});
+		
+	    shell.addControlListener(new ControlListener()
+		{
+			@Override
+			public void controlMoved(ControlEvent e)
+			{
+				
+			}
+
+			@Override
+			public void controlResized(ControlEvent e)
+			{
+				int width         = (int)(shell.getClientArea().width / 100f * 80);
+				int conHeight     = (int)(shell.getClientArea().height / 100f * 20);
+				int toolbarHeight = (int)(25);
+				
+				codeField.setSize(width, shell.getClientArea().height - conHeight - toolbarHeight);
+				codeField.setLocation(shell.getClientArea().width - codeField.getWidth(), toolbarHeight);//shell.getClientArea().height - codeField.getHeight());
+				
+				console.setSize(width, conHeight);
+				console.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y);
+				
+				toolbar.setSize(toolbar.getWidth(), toolbarHeight);
+				toolbar.setLocation(codeField.getX(), 0);
+				
+				treeMenu.setSize(shell.getClientArea().width - codeField.getWidth() - 10, codeField.getHeight() + console.getHeight());
+				treeMenu.setLocation(5, codeField.getY());
+			}
+		});
+	}
+	
+	public void newFile()
+	{
+		if (fileLocation != null)
+		{
+			saveFile(fileLocation);
+		}
+		
+		fileLocation = null;
+		
+		codeField.setText("");
+	}
+	
+	public FileDialog openFileBrowseDialog()
+	{
+		FileDialog dialog = new FileDialog(shell, SWT.OPEN);
+		dialog.setFilterNames(new String[] { "All Files (*)" });
+		dialog.setFilterExtensions(new String[] { "*" });
+		dialog.setFilterPath("/");
+		
+		return dialog;
+	}
+	
+	public void openFile(String location)
+	{
+		File file = new File(location);
+		
+		try
+		{
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			
+			StringBuilder builder = new StringBuilder();
+			
+			String line = "";
+			
+			for (int i = 0; (line = reader.readLine()) != null; i ++)
+			{
+				builder.append(line + "\r\n");
+			}
+			
+			reader.close();
+			
+			if (builder.length() > 0)
+			{
+				builder.deleteCharAt(builder.length() - 1);
+			
+				codeField.setText(builder.toString());
+			}
+			
+			fileLocation = location.replace('\\', '/');
+			
+			codeField.setLanugage(Language.getLanguage(fileLocation));
+			
+			codeField.highlightSyntax();
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			
+		}
+	}
+	
+	public void openFile()
+	{
+		FileDialog dialog = openFileBrowseDialog();
+		
+		String location = dialog.open();
+		
+		if (location == null)
+		{
+			return;
+		}
+		
+		openFile(location);
+	}
+	
+	public FileDialog openSaveDialog()
+	{
+		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
+		dialog.setFilterNames(new String[] { "All Files (*)" });
+		dialog.setFilterExtensions(new String[] { "*" });
+		dialog.setFilterPath("/");
+		
+		return dialog;
+	}
+	
+	public void saveFile(String location)
+	{
+		if (location == null)
+		{
+			FileDialog dialog = openSaveDialog();
+			location = dialog.open();
+		}
+		
+		if (location == null)
+		{
+			return;
+		}
+		
+		File file = new File(location);
+		
+		try
+		{
+			PrintWriter writer = new PrintWriter(new FileWriter(file));
+			
+			String text = codeField.getWritableText();
+			
+			writer.print(text);
+			
+			writer.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		fileLocation = location.replace('\\', '/');
+		
+		boolean highlight = codeField.getLanguage() == 0;
+		
+		codeField.setLanugage(Language.getLanguage(fileLocation));
+		
+		if (highlight)
+		{
+			codeField.highlightSyntax();
+		}
+	}
+}

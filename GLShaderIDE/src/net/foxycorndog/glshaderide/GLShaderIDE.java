@@ -10,6 +10,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.foxycorndog.glshaderide.components.CodeField;
 
@@ -24,6 +27,7 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
@@ -49,10 +53,17 @@ import org.lwjgl.opengl.GLContext;
 import net.foxycorndog.glshaderide.compiler.GLSLCompiler;
 import net.foxycorndog.glshaderide.compiler.JavaCompiler;
 import net.foxycorndog.glshaderide.compiler.Compiler;
+import net.foxycorndog.glshaderide.console.ConsoleListener;
+import net.foxycorndog.glshaderide.console.ConsoleStream;
 import net.foxycorndog.glshaderide.language.Keyword;
 import net.foxycorndog.glshaderide.language.Language;
+import net.foxycorndog.glshaderide.language.java.Java;
 import net.foxycorndog.glshaderide.menubar.Menubar;
+import net.foxycorndog.glshaderide.menubar.MenubarListener;
 import net.foxycorndog.glshaderide.toolbar.Toolbar;
+import net.foxycorndog.glshaderide.toolbar.ToolbarListener;
+import net.foxycorndog.glshaderide.treemenu.TreeMenu;
+import net.foxycorndog.glshaderide.treemenu.TreeMenuListener;
 
 public class GLShaderIDE
 {
@@ -66,30 +77,218 @@ public class GLShaderIDE
 	
 	private Toolbar   toolbar;
 	
+	private TreeMenu  treeMenu;
+	
+	private HashMap<Integer, String> treeItems;
+	
 	private static boolean restarting;
+	
+	private ConsoleStream consoleStream;
 	
 	public static Display display;
 	public static Shell   shell;
+	
+	private static String ideData;
 	
 	public static void main(String args[])
 	{
 		start();
 	}
 	
-	public static void restart()
+	public GLShaderIDE(final Display display, final Shell shell)
 	{
-		restarting = true;
+		this.shell = shell;
 		
-		shell.dispose();
+		shell.setBackground(new Color(display, 170, 170, 170));
 		
-		start();
+//		GridLayout b = new GridLayout();
+//		b.makeColumnsEqualWidth = false;
+//		
+//		shell.setLayout(b);
 		
-		restarting = false;
-	}
-	
-	public void exit()
-	{
-		System.exit(0);
+		Listener buttonListener = new Listener()
+		{
+			public void handleEvent(Event e)
+			{
+				if (e.widget == compileButton)
+				{
+					console.setText(Compiler.compile(fileLocation, codeField.getRawText()));//GLSLCompiler.loadVertexShader("name.vs", codeField.getRawText()));
+				}
+			}
+		};
+		
+		codeField     = new CodeField(display, shell);
+		console       = new CodeField(display, shell);
+		
+		int width         = (int)(shell.getClientArea().width / 100f * 80);
+		int conHeight     = (int)(shell.getClientArea().height / 100f * 20);
+		int toolbarHeight = (int)(25);
+		
+		codeField.setSize(width, shell.getClientArea().height - conHeight - toolbarHeight);
+		codeField.setLocation(shell.getClientArea().width - codeField.getWidth(), toolbarHeight);//shell.getClientArea().height - codeField.getHeight());
+		
+		console.setSize(width, conHeight);
+		console.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y);
+		
+		try
+		{
+			consoleStream = new ConsoleStream("log.txt");
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		
+		menubar       = new Menubar(shell);
+		menubar.addMenuHeader("File");
+		menubar.addMenuSubItem("New", "File");
+		menubar.addSeparator("File");
+		menubar.addMenuSubItem("Open", "File");
+		menubar.addSeparator("File");
+		menubar.addMenuSubItem("Save", "File");
+		menubar.addMenuSubItem("Save as...", "File");
+		menubar.addSeparator("File");
+		menubar.addMenuSubItem("Restart", "File");
+		menubar.addMenuSubItem("Exit", "File");
+		
+		menubar.addListener(new MenubarListener()
+		{
+			public void subItemPressed(String subItemName)
+			{
+				if (subItemName.equals("New"))
+				{
+					newFile();
+				}
+				else if (subItemName.equals("Open"))
+				{
+					openFile();
+				}
+				else if (subItemName.equals("Save"))
+				{
+					saveFile(fileLocation);
+				}
+				else if (subItemName.equals("Save as..."))
+				{
+					saveFile(null);
+				}
+				else if (subItemName.equals("Restart"))
+				{
+					restart();
+				}
+				else if (subItemName.equals("Exit"))
+				{
+					exit();
+				}
+			}
+		});
+		
+		try
+		{
+			toolbar       = new Toolbar(shell);
+			
+			toolbar.setBackground(shell.getBackground());
+		
+			toolbar.addToolItem("Compile", new Image(display, new FileInputStream("res/images/compilebutton.png")));
+			toolbar.addSeparator();
+			toolbar.addToolItem("Run", new Image(display, new FileInputStream("res/images/runbutton.png")));
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		
+		toolbar.addListener(new ToolbarListener()
+		{
+			public void toolItemPressed(String toolItemName)
+			{
+				if (toolItemName.equals("Compile"))
+				{
+					if (fileLocation == null)
+					{
+						openFile();
+					}
+					else
+					{
+						saveFile(fileLocation);
+					}
+					
+					consoleStream.println(Compiler.compile(fileLocation, codeField.getRawText()));//GLSLCompiler.loadVertexShader("name.vs", codeField.getRawText()));
+				}
+				else if (toolItemName.equals("Run"))
+				{
+					if (fileLocation == null)
+					{
+						saveFile(fileLocation);
+					}
+					else
+					{
+						Language.run(codeField.getLanguage(), "C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/bin/Test.class", consoleStream);
+					}
+				}
+			}
+		});
+		
+		treeItems = new HashMap<Integer, String>();
+		
+		treeMenu  = new TreeMenu(shell);
+		treeMenu.setSize(shell.getClientArea().width - codeField.getWidth() - 10, codeField.getHeight() + console.getHeight());
+		treeMenu.setLocation(5, codeField.getY());
+		treeMenu.setBackground(new Color(display, 255, 255, 255));
+//		treeMenu.setBackground(new Color(display, 255, 253, 250));
+		
+		treeMenu.addListener(new TreeMenuListener()
+		{
+			public void treeItemSelected(int id)
+			{
+				if (treeItems.containsKey(id))
+				{
+					String location = treeItems.get(id);
+					
+					openFile(location);
+				}
+			}
+		});
+		
+		
+		consoleStream.addConsoleListener(new ConsoleListener()
+		{
+			public void onPrintln(Object o)
+			{
+				if (o instanceof String)
+				{
+					console.append((String)o);
+				}
+			}
+		});
+		
+	    shell.addControlListener(new ControlListener()
+		{
+			@Override
+			public void controlMoved(ControlEvent e)
+			{
+				
+			}
+
+			@Override
+			public void controlResized(ControlEvent e)
+			{
+				int width         = (int)(shell.getClientArea().width / 100f * 80);
+				int conHeight     = (int)(shell.getClientArea().height / 100f * 20);
+				int toolbarHeight = (int)(25);
+				
+				codeField.setSize(width, shell.getClientArea().height - conHeight - toolbarHeight);
+				codeField.setLocation(shell.getClientArea().width - codeField.getWidth(), toolbarHeight);//shell.getClientArea().height - codeField.getHeight());
+				
+				console.setSize(width, conHeight);
+				console.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y);
+				
+				toolbar.setSize(toolbar.getWidth(), toolbarHeight);
+				toolbar.setLocation(codeField.getX(), 0);
+				
+				treeMenu.setSize(shell.getClientArea().width - codeField.getWidth() - 10, codeField.getHeight() + console.getHeight());
+				treeMenu.setLocation(5, codeField.getY());
+			}
+		});
 	}
 	
 	public static void start()
@@ -131,6 +330,22 @@ public class GLShaderIDE
 				e.printStackTrace();
 			}
 		}
+
+		if (!IDEDataCreated())
+		{
+			createIDEData();
+		}
+		
+		
+		
+		if (workspaceCreated())
+		{
+			
+		}
+		else
+		{
+			
+		}
 		
 		GLShaderIDE ide = new GLShaderIDE(display, shell);
 		
@@ -150,184 +365,60 @@ public class GLShaderIDE
 		}
 	}
 	
-	public GLShaderIDE(final Display display, final Shell shell)
+	public static void restart()
 	{
-		this.shell = shell;
+		restarting = true;
 		
-//		GridLayout b = new GridLayout();
-//		b.makeColumnsEqualWidth = false;
-//		
-//		shell.setLayout(b);
+		shell.dispose();
 		
-		Listener buttonListener = new Listener()
-		{
-			public void handleEvent(Event e)
-			{
-				if (e.widget == compileButton)
-				{
-					console.setText(Compiler.compile(fileLocation, codeField.getRawText()));//GLSLCompiler.loadVertexShader("name.vs", codeField.getRawText()));
-				}
-			}
-		};
+		start();
 		
-		codeField     = new CodeField(display, shell);
-		console       = new CodeField(display, shell);
+		restarting = false;
+	}
+	
+	public void exit()
+	{
+		System.exit(0);
+	}
+	
+	public static boolean workspaceCreated()
+	{
 		
-//		compileButton = new Button(shell, SWT.PUSH);
-//		compileButton.setSize(100, 20);
-//		compileButton.setLocation(0, 0);
-//		compileButton.setText("Compile");
-//		compileButton.addListener(SWT.Selection, buttonListener);
+		return false;
+	}
+	
+	private static boolean IDEDataCreated()
+	{
 		
-		menubar       = new Menubar(shell);
-		menubar.addMenuHeader("File");
-		menubar.addMenuSubItem("New", "File");
-		menubar.addSeparator("File");
-		menubar.addMenuSubItem("Open", "File");
-		menubar.addSeparator("File");
-		menubar.addMenuSubItem("Save", "File");
-		menubar.addMenuSubItem("Save as...", "File");
-		menubar.addSeparator("File");
-		menubar.addMenuSubItem("Restart", "File");
-		menubar.addMenuSubItem("Exit", "File");
 		
-		toolbar       = new Toolbar(shell);
+		return false;
+	}
+	
+	private static void createIDEData()
+	{
+		File file = new File("");
+		
 		try
 		{
-			toolbar.addToolItem("Compile", new Image(display, new FileInputStream("res/images/compilebutton.png")));
-			toolbar.addSeparator();
-			toolbar.addToolItem("Run", new Image(display, new FileInputStream("res/images/runbutton.png")));
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			
+			StringBuilder data = new StringBuilder();
+		
+			String line = null;
+			
+			while ((line = reader.readLine()) != null)
+			{
+				data.append(line + "\n");
+			}
 		}
 		catch (FileNotFoundException e)
 		{
 			e.printStackTrace();
 		}
-		
-		menubar.addSelectionListener("File", "New", new SelectionListener()
+		catch (IOException e)
 		{
-			public void widgetSelected(SelectionEvent e)
-			{
-				newFile();
-			}
-
-			public void widgetDefaultSelected(SelectionEvent e)
-			{
-				widgetSelected(e);
-			}
-		});
-		
-		menubar.addSelectionListener("File", "Save", new SelectionListener()
-		{
-			public void widgetSelected(SelectionEvent e)
-			{
-				saveFile(fileLocation);
-			}
-
-			public void widgetDefaultSelected(SelectionEvent e)
-			{
-				widgetSelected(e);
-			}
-		});
-		
-		menubar.addSelectionListener("File", "Save as...", new SelectionListener()
-		{
-			public void widgetSelected(SelectionEvent e)
-			{
-				saveFile(null);
-			}
-
-			public void widgetDefaultSelected(SelectionEvent e)
-			{
-				widgetSelected(e);
-			}
-		});
-		
-		menubar.addSelectionListener("File", "Restart", new SelectionListener()
-		{
-			public void widgetSelected(SelectionEvent e)
-			{
-				restart();
-			}
-
-			public void widgetDefaultSelected(SelectionEvent e)
-			{
-				widgetSelected(e);
-			}
-		});
-		
-		menubar.addSelectionListener("File", "Exit", new SelectionListener()
-		{
-			public void widgetSelected(SelectionEvent e)
-			{
-				exit();
-			}
-
-			public void widgetDefaultSelected(SelectionEvent e)
-			{
-				widgetSelected(e);
-			}
-		});
-		
-		menubar.addSelectionListener("File", "Open", new SelectionListener()
-		{
-			public void widgetSelected(SelectionEvent e)
-			{
-				openFile();
-			}
-
-			public void widgetDefaultSelected(SelectionEvent e)
-			{
-				widgetSelected(e);
-			}
-		});
-		
-		toolbar.addSelectionListener("Compile", new SelectionListener()
-		{
-			public void widgetDefaultSelected(SelectionEvent e)
-			{
-				if (fileLocation == null)
-				{
-					openFile();
-				}
-				else
-				{
-					saveFile(fileLocation);
-				}
-				
-				console.setText(Compiler.compile(fileLocation, codeField.getRawText()));//GLSLCompiler.loadVertexShader("name.vs", codeField.getRawText()));
-			}
-
-			public void widgetSelected(SelectionEvent e)
-			{
-				widgetDefaultSelected(e);
-			}
-		});
-		
-	    shell.addControlListener(new ControlListener()
-		{
-			@Override
-			public void controlMoved(ControlEvent e)
-			{
-				
-			}
-
-			@Override
-			public void controlResized(ControlEvent e)
-			{
-				int width         = (int)(shell.getClientArea().width / 100f * 80);
-				int conHeight     = (int)(shell.getClientArea().height / 100f * 20);
-				int toolbarHeight = (int)(25);
-				
-				codeField.setSize(width, shell.getClientArea().height - conHeight - toolbarHeight);
-				codeField.setLocation(shell.getClientArea().width - codeField.getWidth(), toolbarHeight);//shell.getClientArea().height - codeField.getHeight());
-				
-				console.setSize(width, conHeight);
-				console.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y);
-				
-				toolbar.setSize(toolbar.getWidth(), toolbarHeight);
-				toolbar.setLocation(codeField.getX(), 0);
-			}
-		});
+			e.printStackTrace();
+		}
 	}
 	
 	public void newFile()
@@ -352,17 +443,8 @@ public class GLShaderIDE
 		return dialog;
 	}
 	
-	public void openFile()
+	public void openFile(String location)
 	{
-		FileDialog dialog = openFileBrowseDialog();
-		
-		String location = dialog.open();
-		
-		if (location == null)
-		{
-			return;
-		}
-		
 		File file = new File(location);
 		
 		try
@@ -375,7 +457,7 @@ public class GLShaderIDE
 			
 			for (int i = 0; (line = reader.readLine()) != null; i ++)
 			{
-				builder.append(line + "\n");
+				builder.append(line + "\r\n");
 			}
 			
 			reader.close();
@@ -390,7 +472,6 @@ public class GLShaderIDE
 			fileLocation = location.replace('\\', '/');
 			
 			codeField.setLanugage(Language.getLanguage(fileLocation));
-			System.out.println(codeField.getLanguage());
 			
 			codeField.highlightSyntax();
 		}
@@ -402,6 +483,20 @@ public class GLShaderIDE
 		{
 			
 		}
+	}
+	
+	public void openFile()
+	{
+		FileDialog dialog = openFileBrowseDialog();
+		
+		String location = dialog.open();
+		
+		if (location == null)
+		{
+			return;
+		}
+		
+		openFile(location);
 	}
 	
 	public FileDialog openSaveDialog()
@@ -446,7 +541,13 @@ public class GLShaderIDE
 		
 		fileLocation = location.replace('\\', '/');
 		
+		boolean highlight = codeField.getLanguage() == 0;
+		
 		codeField.setLanugage(Language.getLanguage(fileLocation));
-		System.out.println(codeField.getLanguage());
+		
+		if (highlight)
+		{
+			codeField.highlightSyntax();
+		}
 	}
 }

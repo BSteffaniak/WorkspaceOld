@@ -1,9 +1,12 @@
 package net.foxycorndog.glshaderide.toolbar;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -24,6 +27,8 @@ public class Toolbar
 	
 	private Shell shell;
 	
+	private ArrayList<ToolbarListener> listeners;
+	
 	private HashMap<String, ToolItem>     toolItems;
 	private HashMap<String, HashMap<String, ToolItem>> subItems;
 	
@@ -31,36 +36,57 @@ public class Toolbar
 	{
 		this.shell   = shell;
 		
-		composite    = new Composite(shell, SWT.NONE | SWT.RIGHT);
+		composite    = new Composite(shell, SWT.NONE);
 		composite.setLayout(new GridLayout(4, false));
 		composite.setSize(shell.getClientArea().width, 25);
 		
-		toolbar      = new ToolBar(composite, SWT.HORIZONTAL | SWT.RIGHT);
-		toolbar.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true, 1, 1));
+		toolbar      = new ToolBar(composite, SWT.HORIZONTAL);
 		toolbar.setSize(100, 250);
 		
 		toolItems    = new HashMap<String, ToolItem>();
 		subItems     = new HashMap<String, HashMap<String, ToolItem>>();
+		
+		listeners    = new ArrayList<ToolbarListener>();
 	}
 	
 	public void addToolItem(String name)
 	{
-		ToolItem item = new ToolItem(toolbar, SWT.PUSH | SWT.RIGHT);
-		item.setText(name);
-		
-		
-		toolItems.put(name, item);
-		subItems.put(name, new HashMap<String, ToolItem>());
+		addToolItem(name, null);
 	}
 	
-	public void addToolItem(String name, Image image)
+	public void addToolItem(final String name, Image image)
 	{
-		ToolItem item = new ToolItem(toolbar, SWT.PUSH | SWT.RIGHT);
-		item.setImage(image);
+		ToolItem item = new ToolItem(toolbar, SWT.PUSH);
+		if (image == null)
+		{
+			item.setText(name);
+		}
+		else
+		{
+			item.setImage(image);
+		}
 		
 		
 		toolItems.put(name, item);
 		subItems.put(name, new HashMap<String, ToolItem>());
+		
+		item.addSelectionListener(new SelectionListener()
+		{
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e)
+			{
+				for (int i = listeners.size() - 1; i >= 0; i --)
+				{
+					listeners.get(i).toolItemPressed(name);
+				}
+			}
+
+			@Override
+			public void widgetSelected(SelectionEvent e)
+			{
+				widgetDefaultSelected(e);
+			}
+		});
 	}
 	
 	public void addSeparator()
@@ -123,5 +149,16 @@ public class Toolbar
 	public void setLocation(int x, int y)
 	{
 		composite.setLocation(x, y);
+	}
+	
+	public void addListener(ToolbarListener listener)
+	{
+		listeners.add(listener);
+	}
+	
+	public void setBackground(Color color)
+	{
+		composite.setBackground(color);
+		toolbar.setBackground(color);
 	}
 }
