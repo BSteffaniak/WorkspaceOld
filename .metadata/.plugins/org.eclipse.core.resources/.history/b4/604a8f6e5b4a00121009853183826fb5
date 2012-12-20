@@ -1,0 +1,92 @@
+package net.foxycorndog.arrowide.dialog;
+
+import java.io.File;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+
+public class NewFileDialog implements Dialog
+{
+	private Shell window;
+	
+	public NewFileDialog(Display display, boolean directory)
+	{
+		Rectangle screenBounds = display.getMonitors()[0].getBounds();
+		
+		window = new Shell(display);
+		window.setSize(470, 230);
+		window.setLocation(screenBounds.width / 2 - window.getBounds().width / 2, screenBounds.height / 2 - window.getBounds().height / 2);
+		
+		Label instructions = new Label(window, SWT.NONE);
+		instructions.setText("Choose your project workspace folder:");
+		instructions.setSize(220, 20);
+		instructions.setLocation(100, 30);
+		
+		Label workspaceLabel = new Label(window, SWT.NONE);
+		workspaceLabel.setText("Workspace:");
+		workspaceLabel.setSize(70, 20);
+		workspaceLabel.setLocation(20, 80);
+		
+		final Label error = new Label(window, SWT.NONE);
+		error.setText("");
+		error.setSize(240, 20);
+		error.setLocation(100, 130);
+		error.setForeground(new Color(display, 220, 0, 0));
+		
+		final Button browse = new Button(window, SWT.PUSH);
+		browse.setSize(80, 20);
+		browse.setLocation(360, 80);
+		browse.setText("Browse");
+		
+		final Button continueButton = new Button(window, SWT.PUSH);
+		continueButton.setSize(80, 20);
+		continueButton.setLocation(360, 130);
+		continueButton.setText("Continue");
+		
+		final Text locationEditor = new Text(window, SWT.SINGLE | SWT.BORDER);
+		locationEditor.setSize(250, 20);
+		locationEditor.setLocation(100, 80);
+		
+		Listener listener = new Listener()
+		{
+			public void handleEvent(Event e)
+			{
+				if (e.widget == browse)
+				{
+					DirectoryDialog dialog = new DirectoryDialog(window, SWT.OPEN);
+					
+					String location = dialog.open();
+					
+					if (location != null)
+					{
+						locationEditor.setText(location);// + System.getProperty("file.separator"));
+					}
+				}
+				else if (e.widget == continueButton)
+				{
+					String location = locationEditor.getText().replace("\\", "/");
+					File file = new File(location);
+				}
+			}
+		};
+		
+		browse.addListener(SWT.Selection, listener);
+		continueButton.addListener(SWT.Selection, listener);
+	}
+	
+	public String open()
+	{
+		window.open();
+		
+		return "";
+	}
+}

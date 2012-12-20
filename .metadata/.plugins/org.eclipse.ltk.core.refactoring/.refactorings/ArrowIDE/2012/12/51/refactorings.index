@@ -1,0 +1,27 @@
+1355624682643	Rename method 'findSpaceBetween'
+1355641224299	Rename local variable 'header'
+1355641230308	Rename local variable 'name'
+1355642134950	Delete element
+1355669454033	Rename method 'getReadableText'
+1355688991054	Rename type 'Compiler'
+1355692942456	Rename local variable 'compilationOptionss'
+1355711115857	Delete element
+1355788458772	Rename local variable 'j'
+1355789685858	Rename local variable 'counter'
+1355802279594	Rename package 'net.foxycorndog.glshaderide.shaderlanguage'
+1355833091939	Move compilation unit
+1355833124091	Move compilation unit
+1355864021262	Rename local variable 'fileLocation'
+1355864599920	Rename method 'println'
+1355879880678	Rename method 'treeItemPressed'
+1355948991602	Rename type 'GLShaderIDE'
+1355949424650	Rename method 'IDEDataCreated'
+1355949434342	Rename method 'createIDEData'
+1355952254989	Rename field 'configLineNumber'
+1355963513703	Rename local variable 'parent'
+1355963517182	Rename local variable 'subItem'
+1355971674997	Rename method 'treeItemSelected'
+1355973582143	Delete element
+1355974503624	Rename field 'treeItemNames'
+1355974506684	Rename field 'treeItemLocationss'
+1355975571104	Rename package 'net.foxycorndog.glshaderide'

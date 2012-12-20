@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
-	<item value="480,510" key="UserLibraryLoadSaveDialog.size"/>
 	<item value="filter_imports;" key="filters_last_used"/>
+	<item value="480,510" key="UserLibraryLoadSaveDialog.size"/>
 	<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\stuff\jci\commons-jci-javac-1.0.jar" key="org.eclipse.jdt.ui.lastextjar"/>
 	<section name="OptionalMessageDialog.hide.">
 	</section>
 	<section name="org.eclipse.jdt.internal.ui.wizards.buildpaths.NewVariableEntryDialog">
 		<item value="577" key="DIALOG_WIDTH"/>
 		<item value="13" key="DIALOG_Y_ORIGIN"/>
-		<item value="397" key="DIALOG_HEIGHT"/>
 		<item value="78" key="DIALOG_X_ORIGIN"/>
+		<item value="397" key="DIALOG_HEIGHT"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="JarPackageWizard">
@@ -66,10 +66,10 @@
 			<item value="11" key="includeMask"/>
 			<item value="2" key="limitTo"/>
 			<item value="0" key="scope"/>
-			<item value="" key="javaElement"/>
 			<item value="System.out.println(e" key="pattern"/>
-			<item value="0" key="matchLocations"/>
+			<item value="" key="javaElement"/>
 			<item value="0" key="searchFor"/>
+			<item value="0" key="matchLocations"/>
 			<item value="true" key="isCaseSensitive"/>
 			<list key="workingSets">
 			</list>
@@ -102,290 +102,290 @@
 		<section name="projects">
 			<section name="Minecraft Copy">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Minecraft Copy\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Minecraft Copy\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="NetworkTest">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\NetworkTest\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\NetworkTest\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="P1XELANDroid">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELANDroid\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELANDroid\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="Foxy">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Foxy\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Foxy\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="jDooal">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDooal\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDooal\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="Test">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Test\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Test\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="CanvasTest">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\CanvasTest\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\CanvasTest\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="Opengl Proj">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Opengl Proj\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Opengl Proj\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="AnroidTest">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\AnroidTest\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\AnroidTest\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="P1XELAND">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="PsuedoPerfect Numbers">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\PsuedoPerfect Numbers\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\PsuedoPerfect Numbers\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="PhysicsSimulation">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\PhysicsSimulation\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\PhysicsSimulation\javadoc.xml" key="antpath"/>
-			</section>
-			<section name="jDoutilAndroid">
-				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDoutilAndroid\doc" key="destdir"/>
 				<item value="" key="href"/>
-				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDoutilAndroid\javadoc.xml" key="antpath"/>
 			</section>
 			<section name="testlua">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\testlua\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\testlua\javadoc.xml" key="antpath"/>
-			</section>
-			<section name="gafggfds">
-				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\gafggfds\doc" key="destdir"/>
 				<item value="" key="href"/>
-				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\gafggfds\javadoc.xml" key="antpath"/>
 			</section>
-			<section name="Invasion">
-				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Invasion\doc" key="destdir"/>
+			<section name="jDoutilAndroid">
+				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDoutilAndroid\doc" key="destdir"/>
+				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDoutilAndroid\javadoc.xml" key="antpath"/>
 				<item value="" key="href"/>
-				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Invasion\javadoc.xml" key="antpath"/>
-			</section>
-			<section name="jDobaseAndroid">
-				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDobaseAndroid\doc" key="destdir"/>
-				<item value="" key="href"/>
-				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDobaseAndroid\javadoc.xml" key="antpath"/>
 			</section>
 			<section name="Presto2D">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Presto2D\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Presto2D\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
+			</section>
+			<section name="jDobaseAndroid">
+				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDobaseAndroid\doc" key="destdir"/>
+				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDobaseAndroid\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
+			</section>
+			<section name="Invasion">
+				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Invasion\doc" key="destdir"/>
+				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Invasion\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
+			</section>
+			<section name="gafggfds">
+				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\gafggfds\doc" key="destdir"/>
+				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\gafggfds\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="androidopengl">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\androidopengl\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\androidopengl\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="P1XELAND Market">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Market\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Market\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="ShootCrap">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\ShootCrap\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\ShootCrap\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="P1XELANDTEST">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELANDTEST\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELANDTEST\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="GLShaderIDE">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\GLShaderIDE\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\GLShaderIDE\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="RoboCode">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\RoboCode\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\RoboCode\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="P1XELANDC++">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELANDC++\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELANDC++\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="Server">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Server\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Server\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="EconomyProject">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\EconomyProject\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\EconomyProject\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="IdkAndroid">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\IdkAndroid\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="jDobase">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDobase\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDobase\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="P1XELAND Installer">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Installer\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Installer\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="Presto3D">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Presto3D\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Presto3D\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="jJarTest">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jJarTest\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jJarTest\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="cppcomparison">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\cppcomparison\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\cppcomparison\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="SWT">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\SWT\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\SWT\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="Scrabble">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Scrabble\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Scrabble\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="Poker Game">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Poker Game\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Poker Game\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="androidtest">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\androidtest\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\androidtest\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="CameraTests">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\CameraTests\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\CameraTests\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="GridWorldExample">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\GridWorldExample\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\GridWorldExample\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="TheDiggingGame">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\TheDiggingGame\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\TheDiggingGame\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="cubetest">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\cubetest\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\cubetest\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="P1XELAND Launcher">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Launcher\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\P1XELAND Launcher\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="jDoutil">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDoutil\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDoutil\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="Nostalgia">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Nostalgia\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Nostalgia\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="testcpp2">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\testcpp2\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\testcpp2\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="Client">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Client\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Client\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="jDolua">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDolua\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDolua\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="openglcpptest">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\openglcpptest\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\openglcpptest\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="idk">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\idk\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\idk\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="testdb">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\testdb\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\testdb\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="Idk2">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Idk2\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\Idk2\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="jDooglAndroid">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDooglAndroid\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDooglAndroid\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="testcpp">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\testcpp\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\testcpp\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="TDG">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\TDG\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\TDG\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="jDoogl">
 				<item value="C:\Users\Braden%20Steffaniak\Documents\GitHub\Workspace\jDoogl\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\jDoogl\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 			<section name="LuaJ">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\LuaJ\doc" key="destdir"/>
-				<item value="" key="href"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\LuaJ\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
 			</section>
 		</section>
 	</section>
 	<section name="org.eclipse.jdt.internal.ui.typehierarchy.QuickHierarchy">
 		<item value="350" key="org.eclipse.jdt.internal.ui.typehierarchy.HierarchyInformationControlDIALOG_WIDTH"/>
-		<item value="false" key="org.eclipse.jdt.internal.ui.typehierarchy.HierarchyInformationControlDIALOG_USE_PERSISTED_LOCATION"/>
 		<item value="306" key="org.eclipse.jdt.internal.ui.typehierarchy.HierarchyInformationControlDIALOG_HEIGHT"/>
+		<item value="false" key="org.eclipse.jdt.internal.ui.typehierarchy.HierarchyInformationControlDIALOG_USE_PERSISTED_LOCATION"/>
 		<item value="true" key="org.eclipse.jdt.internal.ui.typehierarchy.HierarchyInformationControlDIALOG_USE_PERSISTED_SIZE"/>
 	</section>
 	<section name="org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart">
@@ -399,15 +399,15 @@
 	</section>
 	<section name="JavaElementSearchActions">
 	</section>
-	<section name="RenameInformationPopup">
-	</section>
 	<section name="org.eclipse.ltk.ui.refactoring.settings">
-		<item value="true" key="renameSubpackages"/>
-		<item value="false" key="updateQualifiedNames"/>
 		<item value="*" key="patterns"/>
+		<item value="false" key="updateQualifiedNames"/>
+		<item value="true" key="renameSubpackages"/>
 		<item value="1" key="updateSimilarElementsMatchStrategy"/>
 		<item value="false" key="updateTextualMatches"/>
 		<item value="false" key="updateSimilarElements"/>
+	</section>
+	<section name="RenameInformationPopup">
 	</section>
 	<section name="org.eclipse.jdt.internal.ui.text.QuickOutline">
 		<item value="false" key="GoIntoTopLevelTypeAction.isChecked"/>
@@ -419,8 +419,8 @@
 	<section name="JavadocWizardDialog">
 		<item value="616" key="DIALOG_WIDTH"/>
 		<item value="118" key="DIALOG_Y_ORIGIN"/>
-		<item value="660" key="DIALOG_X_ORIGIN"/>
 		<item value="615" key="DIALOG_HEIGHT"/>
+		<item value="660" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 </section>

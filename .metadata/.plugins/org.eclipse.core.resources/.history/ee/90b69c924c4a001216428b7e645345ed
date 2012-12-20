@@ -1,0 +1,210 @@
+package net.foxycorndog.glshaderide.treemenu;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
+
+public class TreeMenu
+{
+	private Composite composite;
+	
+	private Tree  tree;
+	
+	private Shell shell;
+	
+	private HashMap<Integer, HashMap<Integer, TreeItem>> subItems;
+	private HashMap<Integer, HashMap<String, TreeItem>>  subItemNames;
+	
+	private HashMap<TreeItem, Integer> ids;
+	private HashMap<Integer, TreeItem> items;
+	
+	private ArrayList<Integer> treeIds;
+	
+	private ArrayList<TreeMenuListener> listeners;
+	
+	private static int staticId;
+	
+	static
+	{
+		staticId = 0;
+	}
+	
+	public TreeMenu(Shell shell)
+	{
+		composite    = new Composite(shell, SWT.H_SCROLL | SWT.V_SCROLL);
+		
+		tree         = new Tree(composite, SWT.NONE);
+		
+		treeIds      = new ArrayList<Integer>();
+		
+		subItems     = new HashMap<Integer, HashMap<Integer, TreeItem>>();
+		subItems.put(0, new HashMap<Integer, TreeItem>());
+		
+		subItemNames = new HashMap<Integer, HashMap<String, TreeItem>>();
+		subItemNames.put(0, new HashMap<String, TreeItem>());
+		
+		ids          = new HashMap<TreeItem, Integer>();
+		items        = new HashMap<Integer, TreeItem>();
+		
+		listeners    = new ArrayList<TreeMenuListener>();
+		
+		tree.addListener(SWT.PUSH, new Listener()
+		{
+			public void handleEvent(Event e)
+			{
+				System.out.println((e.stateMask & SWT.PUSH) + ", " + SWT.PUSH);
+				for (int i = listeners.size() - 1; i >= 0; i --)
+				{
+					TreeItem itemsSelected[] = tree.getSelection();
+					
+					for (int j = 0; j < itemsSelected.length; j ++)
+					{
+						listeners.get(i).treeItemSelected(ids.get(itemsSelected[j]));
+					}
+				}
+			}
+		});
+	}
+	
+	public int addItem(String name)
+	{
+		final int id = ++staticId;
+		
+		TreeItem item = new TreeItem(tree, SWT.NONE);
+		item.setText(name);
+
+		ids.put(item, id);
+		items.put(id, item);
+		treeIds.add(id);
+		subItems.get(0).put(id, item);
+		subItems.put(id, new HashMap<Integer, TreeItem>());
+		subItemNames.get(0).put(name, item);
+		subItemNames.put(id, new HashMap<String, TreeItem>());
+		
+		return id;
+	}
+	
+	public int addSubItem(int parent, String name)
+	{
+		final int id = ++staticId;
+		
+		TreeItem item = new TreeItem(items.get(parent), SWT.NONE);
+		item.setText(name);
+		
+		ids.put(item, id);
+		items.put(id, item);
+		treeIds.add(id);
+		subItems.get(parent).put(id, item);
+		subItems.put(id, new HashMap<Integer, TreeItem>());
+		subItemNames.get(parent).put(name, item);
+		subItemNames.put(id, new HashMap<String, TreeItem>());
+		
+		return id;
+	}
+	
+	public void alphabetize()
+	{
+		
+	}
+	
+	public boolean containsItem(int itemId)
+	{
+		return items.containsKey(itemId);
+	}
+	
+	public boolean containsItem(String name)
+	{
+		boolean contains = false;
+		
+		for (int i = 0; i < subItemNames.get(0).size(); i ++)
+		{
+			if (subItemNames.get(0).containsKey(name))
+			{
+				contains = true;
+				break;
+			}
+		}
+		
+		return contains;
+	}
+	
+	public boolean containsSubItem(int parentId, int subItemId)
+	{
+		boolean contains = false;
+		
+		if (items.containsKey(subItemId) && items.containsKey(parentId))
+		{
+			contains = items.get(subItemId).getParentItem() == items.get(parentId);
+		}
+		
+		return contains;
+	}
+	
+	public boolean containsSubItem(int parentId, String subItemName)
+	{
+		boolean contains = false;
+		
+		if (items.containsKey(parentId))
+		{
+			String subs[] = new String[subItemNames.get(parentId).size()];
+			
+			subs = subItemNames.get(parentId).keySet().toArray(subs);
+			
+			for (int i = 0; i < subs.length; i ++)
+			{
+				String name = subs[i];
+				
+				if (name.equals(subItemName))
+				{
+					contains = true;
+					break;
+				}
+			}
+		}
+		
+		return contains;
+	}
+	
+	public void addListener(TreeMenuListener listener)
+	{
+		listeners.add(listener);
+	}
+	
+	public int getWidth()
+	{
+		return composite.getBounds().width;
+	}
+	
+	public int getHeight()
+	{
+		return composite.getBounds().height;
+	}
+	
+	public void setSize(int width, int height)
+	{
+		composite.setSize(width, height);
+		tree.setSize(width, height);
+	}
+	
+	public void setLocation(int x, int y)
+	{
+		composite.setLocation(x, y);
+	}
+	
+	public void setBackground(Color color)
+	{
+		composite.setBackground(color);
+		tree.setBackground(color);
+	}
+}
