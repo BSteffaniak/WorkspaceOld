@@ -88,7 +88,7 @@ public class GLShaderIDE
 	public static Display display;
 	public static Shell   shell;
 	
-	private static String ideData;
+	private static String ideCofigData;
 	
 	public static void main(String args[])
 	{
@@ -331,9 +331,9 @@ public class GLShaderIDE
 			}
 		}
 
-		if (!IDEDataCreated())
+		if (!IDEConfigDataCreated())
 		{
-			createIDEData();
+			createIDEConfigData();
 		}
 		
 		
@@ -384,17 +384,18 @@ public class GLShaderIDE
 	public static boolean workspaceCreated()
 	{
 		
+		
 		return false;
 	}
 	
-	private static boolean IDEDataCreated()
+	private static boolean IDEConfigDataCreated()
 	{
+		File file = new File("idedata.config");
 		
-		
-		return false;
+		return file.exists();
 	}
 	
-	private static void createIDEData()
+	private static void createIDEConfigData()
 	{
 		File file = new File("");
 		
