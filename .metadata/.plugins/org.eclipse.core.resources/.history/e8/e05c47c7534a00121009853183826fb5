@@ -1,0 +1,6 @@
+package net.foxycorndog.glshaderide.rightclickmenu;
+
+public interface RightClickMenuListener
+{
+	
+}

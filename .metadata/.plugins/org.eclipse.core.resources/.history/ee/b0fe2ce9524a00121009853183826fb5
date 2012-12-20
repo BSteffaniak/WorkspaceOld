@@ -1,0 +1,12 @@
+package net.foxycorndog.glshaderide.rightclickmenu;
+
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Menu;
+
+public class RightClickMenu extends Menu
+{
+	public RightClickMenu(Control c)
+	{
+		super(c);
+	}
+}

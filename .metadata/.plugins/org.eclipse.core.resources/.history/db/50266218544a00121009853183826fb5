@@ -1,0 +1,8 @@
+package net.foxycorndog.glshaderide.rightclickmenu;
+
+import org.eclipse.swt.widgets.Widget;
+
+public interface RightClickMenuListener
+{
+	public void itemClicked(int button, Widget Item);
+}

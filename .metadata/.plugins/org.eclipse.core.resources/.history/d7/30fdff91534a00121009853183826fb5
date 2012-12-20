@@ -1,0 +1,25 @@
+package net.foxycorndog.glshaderide.rightclickmenu;
+
+import java.util.ArrayList;
+
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Menu;
+
+public class RightClickMenu
+{
+	private Menu menu;
+	
+	private ArrayList<RightClickMenuListener> listeners;
+	
+	public RightClickMenu(Control c)
+	{
+		menu = new Menu(c);
+		
+		listeners = new ArrayList<RightClickMenuListener>();
+	}
+	
+	public void addListener(RightClickMenuListener listener)
+	{
+		
+	}
+}

@@ -1,0 +1,6 @@
+package net.foxycorndog.glshaderide.rightclickmenu;
+
+public interface RightClickMenuListener
+{
+	public void itemClicked(int button, Widget Item);
+}
