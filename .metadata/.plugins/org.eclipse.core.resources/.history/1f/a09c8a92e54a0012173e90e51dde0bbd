@@ -262,8 +262,6 @@ public class ArrowIDE
 		final MenuItem delete = new MenuItem(m, SWT.CASCADE);
 		delete.setText("Delete");
 		
-		final ArrowIDE thisIDE = this;
-		
 		SelectionListener menuListener = new SelectionListener()
 		{
 			public void widgetDefaultSelected(SelectionEvent e)
@@ -283,7 +281,7 @@ public class ArrowIDE
 				}
 				else if (e.widget == newFolder)
 				{
-					NewFileDialog dialog = new NewFileDialog(display, thisIDE, "Enter the folder name:", "Folder name:", true);
+					NewFileDialog dialog = new NewFileDialog(display, "Enter the file name:", "File name:", true);
 					activeDialog = dialog;
 					
 					dialog.open();

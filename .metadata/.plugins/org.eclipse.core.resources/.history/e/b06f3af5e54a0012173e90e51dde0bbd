@@ -66,6 +66,7 @@ public class NewFileDialog implements Dialog
 					String location = locationEditor.getText().replace("\\", "/");
 					File file = new File(location);
 					file.mkdirs();
+					
 				}
 			}
 		};

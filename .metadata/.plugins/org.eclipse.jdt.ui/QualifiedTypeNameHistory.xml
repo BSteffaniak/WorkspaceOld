@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="javax.tools.JavaCompiler"/>
 <fullyQualifiedTypeName name="org.apache.commons.jci.compilers.JavaCompilerFactory"/>
 <fullyQualifiedTypeName name="net.foxycorndog.glshaderide.compiler.JavaCompiler"/>
 <fullyQualifiedTypeName name="org.apache.commons.jci.compilers.JavacJavaCompilerSettings"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="org.eclipse.swt.events.ControlListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.ShellListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
+<fullyQualifiedTypeName name="net.foxycorndog.arrowide.ArrowIDE"/>
 </qualifiedTypeNameHistroy>
