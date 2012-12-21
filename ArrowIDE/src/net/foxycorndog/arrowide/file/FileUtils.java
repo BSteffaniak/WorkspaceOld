@@ -62,4 +62,39 @@ public class FileUtils
 		
 		file.delete();
 	}
+	
+	public static boolean isFileName(String location)
+	{
+		for (int i = location.length() - 1; i >= 0 && location.charAt(i) != '/'; i --)
+		{
+			if (location.charAt(i) == '.')
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public static String getParentFolder(String location)
+	{
+		int index = location.length() - 1;
+		
+		while ()
+		{
+			
+		}
+	}
+	
+	public static String removeEndingSlashes(String location)
+	{
+		int lastIndex;
+		
+		while (location.charAt(location.length() - 1) == '/')
+		{
+			location = location.substring(0, location.length() - 1);
+		}
+		
+		return location.substring(0, lastIndex);
+	}
 }

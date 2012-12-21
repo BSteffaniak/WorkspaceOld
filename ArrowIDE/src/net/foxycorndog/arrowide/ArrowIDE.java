@@ -21,6 +21,8 @@ import net.foxycorndog.arrowide.components.CodeField;
 import net.foxycorndog.arrowide.console.ConsoleListener;
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.dialog.Dialog;
+import net.foxycorndog.arrowide.dialog.DialogEvent;
+import net.foxycorndog.arrowide.dialog.DialogListener;
 import net.foxycorndog.arrowide.dialog.NewFileDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.Keyword;
@@ -73,7 +75,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.GLContext;
 
 
-public class ArrowIDE
+public class ArrowIDE implements DialogListener
 {
 	private Button    compileButton;
 	
@@ -89,7 +91,7 @@ public class ArrowIDE
 	
 	private ConsoleStream consoleStream;
 	
-	private Dialog        activeDialog;
+	private Dialog        newFolderDialog;
 	
 	private HashMap<Integer, String> treeItems;
 	private HashMap<String, Integer> treeItemLocations;
@@ -286,10 +288,9 @@ public class ArrowIDE
 				}
 				else if (e.widget == newFolder)
 				{
-					NewFileDialog dialog = new NewFileDialog(display, thisIDE, "Enter the folder name:", "Folder name:", true);
-					activeDialog = dialog;
+					newFolderDialog = new NewFileDialog(display, thisIDE, "Enter the folder name:", "Folder name:", true);
 					
-					dialog.open();
+					newFolderDialog.open();
 				}
 			}
 
@@ -856,6 +857,22 @@ public class ArrowIDE
 					treeItemLocations.put(location, id);
 				}
 			}
+		}
+	}
+	
+	public void dialogCompleted(DialogEvent event)
+	{
+		Object source = event.getSource();
+		
+		if (source == newFolderDialog)
+		{
+			String location = newFolderDialog.getText();
+			
+			String preLocation = treeItems.get(treeMenu.getSelection());
+			
+			File f = new File(location);
+			f.mkdirs();
+			refreshFileViewer();
 		}
 	}
 }

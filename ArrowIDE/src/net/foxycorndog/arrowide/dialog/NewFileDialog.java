@@ -3,6 +3,7 @@ package net.foxycorndog.arrowide.dialog;
 import java.io.File;
 
 import net.foxycorndog.arrowide.ArrowIDE;
+import net.foxycorndog.arrowide.file.FileUtils;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
@@ -22,9 +23,11 @@ import org.eclipse.swt.widgets.Text;
 
 public class NewFileDialog implements Dialog
 {
-	private Shell window;
+	private String text;
 	
-	public NewFileDialog(Display display, ArrowIDE ide, String windowInstruction, String textFieldInstruction, boolean directory)
+	private Shell  window;
+	
+	public NewFileDialog(Display display, final DialogListener listener, String windowInstruction, String textFieldInstruction, final boolean directory)
 	{
 		Rectangle screenBounds = display.getMonitors()[0].getBounds();
 		
@@ -45,7 +48,7 @@ public class NewFileDialog implements Dialog
 		final Label error = new Label(window, SWT.NONE);
 		error.setText("");
 		error.setSize(240, 20);
-		error.setLocation(100, 130);
+		error.setLocation(100, 115);
 		error.setForeground(new Color(display, 220, 0, 0));
 		
 		final Button continueButton = new Button(window, SWT.PUSH);
@@ -57,63 +60,76 @@ public class NewFileDialog implements Dialog
 		locationEditor.setSize(250, 20);
 		locationEditor.setLocation(100, 80);
 		
-		Listener listener = new Listener()
+		final Dialog thisDialog = this;
+		
+		Listener componentListener = new Listener()
 		{
 			public void handleEvent(Event e)
 			{
 				if (e.widget == continueButton)
 				{
 					String location = locationEditor.getText().replace("\\", "/");
+					
+					if (location.length() <= 0)
+					{
+						error.setText("You must enter the " + (directory ? "directory" : "file") + " name.");
+						
+						return;
+					}
+					
+					while (location.charAt(location.length() - 1) == '/')
+					{
+						location = location.substring(0, location.length() - 1);
+					}
+					
 					File file = new File(location);
-					file.mkdirs();
+					
+					if (!file.exists())
+					{
+						boolean isDirectory = FileUtils.isFileName(location);
+						
+						if ((!directory && !isDirectory) || (directory && isDirectory))
+						{
+							text = location;
+							
+							DialogEvent event = new DialogEvent();
+							event.setSource(thisDialog);
+							
+							listener.dialogCompleted(event);
+							
+							window.dispose();
+						}
+						else if (!directory && isDirectory)
+						{
+							error.setText("Must be a file name, not a directory name.");
+						}
+						else if (directory && !isDirectory)
+						{
+							error.setText("Must be a directory name, not a file name.");
+						}
+						else
+						{
+							error.setText("An unknown error has ocurred.");
+						}
+					}
+					else
+					{
+						error.setText("A " + (directory ? "directory" : "file") + " already exists at that location.");
+					}
 				}
 			}
 		};
 		
-		continueButton.addListener(SWT.Selection, listener);
-		
-		window.addShellListener(new ShellListener()
-		{
-			public void shellActivated(ShellEvent paramShellEvent)
-			{
-				
-			}
-
-			public void shellClosed(ShellEvent paramShellEvent)
-			{
-				
-			}
-
-			public void shellDeactivated(ShellEvent paramShellEvent)
-			{
-			}
-
-			public void shellDeiconified(ShellEvent paramShellEvent)
-			{
-				
-				
-			}
-
-			public void shellIconified(ShellEvent paramShellEvent)
-			{
-				focus();
-			}
-		});
+		continueButton.addListener(SWT.Selection, componentListener);
 	}
 	
-	public String open()
+	public void open()
 	{
 		window.open();
-		
-		return "";
 	}
 	
-	public void focus()
+	public String getText()
 	{
-		window.setActive();
-		window.setFocus();
-		window.forceActive();
-		window.forceFocus();
-		
+		return text;
 	}
 }

@@ -1,0 +1,21 @@
+package net.foxycorndog.arrowide.dialog;
+
+public class DialogEvent
+{
+	private Object source;
+	
+	public DialogEvent()
+	{
+		
+	}
+	
+	public Object getSource()
+	{
+		return source;
+	}
+	
+	public void setSource(Object source)
+	{
+		this.source = source;
+	}
+}
