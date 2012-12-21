@@ -262,7 +262,7 @@ public class ArrowIDE
 		final MenuItem delete = new MenuItem(m, SWT.CASCADE);
 		delete.setText("Delete");
 		
-		final ArrowIDE thisIDE = this;
+		ArrowIDE thisIDE = this;
 		
 		SelectionListener menuListener = new SelectionListener()
 		{

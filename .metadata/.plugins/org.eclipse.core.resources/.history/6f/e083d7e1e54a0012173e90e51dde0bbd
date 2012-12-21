@@ -2,8 +2,6 @@ package net.foxycorndog.arrowide.dialog;
 
 import java.io.File;
 
-import net.foxycorndog.arrowide.ArrowIDE;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
@@ -24,7 +22,7 @@ public class NewFileDialog implements Dialog
 {
 	private Shell window;
 	
-	public NewFileDialog(Display display, ArrowIDE ide, String windowInstruction, String textFieldInstruction, boolean directory)
+	public NewFileDialog(Display display, String windowInstruction, String textFieldInstruction, boolean directory)
 	{
 		Rectangle screenBounds = display.getMonitors()[0].getBounds();
 		
@@ -65,7 +63,6 @@ public class NewFileDialog implements Dialog
 				{
 					String location = locationEditor.getText().replace("\\", "/");
 					File file = new File(location);
-					file.mkdirs();
 				}
 			}
 		};
