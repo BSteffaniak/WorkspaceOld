@@ -94,6 +94,7 @@ public class ArrowIDE
 	private HashMap<Integer, String> treeItems;
 	private HashMap<String, Integer> treeItemLocations;
 	private HashMap<Integer, String> treeItemDirectories;
+	private HashMap<Integer, String> menuItems;
 	
 	private static boolean restarting;
 	
@@ -155,17 +156,19 @@ public class ArrowIDE
 			e.printStackTrace();
 		}
 		
+		menuItems           = new HashMap<Integer, String>();
+		
 		menubar       = new Menubar(shell);
-		menubar.addMenuHeader("File");
-		menubar.addMenuSubItem("New", "File");
+		menuItems.put(menubar.addMenuHeader("File"), "File");
+		menuItems.put(menubar.addMenuSubItem("New", "File"), "New");
 		menubar.addSeparator("File");
-		menubar.addMenuSubItem("Open", "File");
+		menuItems.put(menubar.addMenuSubItem("Open", "File"), "Open");
 		menubar.addSeparator("File");
-		menubar.addMenuSubItem("Save", "File");
-		menubar.addMenuSubItem("Save as...", "File");
+		menuItems.put(menubar.addMenuSubItem("Save", "File"), "Save");
+		menuItems.put(menubar.addMenuSubItem("Save as...", "File"), "Save as...");
 		menubar.addSeparator("File");
-		menubar.addMenuSubItem("Restart", "File");
-		menubar.addMenuSubItem("Exit", "File");
+		menuItems.put(menubar.addMenuSubItem("Restart", "File"), "Restart");
+		menuItems.put(menubar.addMenuSubItem("Exit", "File"), "Exit");
 		
 		menubar.addListener(new MenubarListener()
 		{
@@ -800,54 +803,58 @@ public class ArrowIDE
 	private void findSubFiles(File file, int parent)
 	{
 		File subFiles[]    = file.listFiles();
-		int  subFilesIds[] = new int[subFiles.length];
 		
-		for (int i = 0; i < subFiles.length; i ++)
+		if (subFiles != null)
 		{
-			String orig = subFiles[i].getAbsolutePath().replace('\\', '/');
-			String name = orig.substring(orig.lastIndexOf('/') + 1);
-			String location = orig.toLowerCase();
+			int  subFilesIds[] = new int[subFiles.length];
 			
-			if (treeItems.containsValue(location))
+			for (int i = 0; i < subFiles.length; i ++)
 			{
+				String orig = subFiles[i].getAbsolutePath().replace('\\', '/');
+				String name = orig.substring(orig.lastIndexOf('/') + 1);
+				String location = orig.toLowerCase();
 				
-			}
-			else
-			{
-				int id = 0;
-				
-				if (parent > 0)
+				if (treeItems.containsValue(location))
 				{
-					if (!treeMenu.containsSubItem(parent, name))
-					{
-						id = treeMenu.addSubItem(parent, name);
-					}
-					else
-					{
-						id = treeItemLocations.get(location);
-					}
+					
 				}
 				else
 				{
-					if (!treeMenu.containsItem(name))
+					int id = 0;
+					
+					if (parent > 0)
 					{
-						id = treeMenu.addItem(location.substring(location.lastIndexOf('/') + 1));
+						if (!treeMenu.containsSubItem(parent, name))
+						{
+							id = treeMenu.addSubItem(parent, name);
+						}
+						else
+						{
+							id = treeItemLocations.get(location);
+						}
 					}
 					else
 					{
-						id = treeItemLocations.get(location);
+						if (!treeMenu.containsItem(name))
+						{
+							id = treeMenu.addItem(location.substring(location.lastIndexOf('/') + 1));
+						}
+						else
+						{
+							id = treeItemLocations.get(location);
+						}
 					}
-				}
-				
-				if (subFiles[i].isDirectory())
-				{
-					findSubFiles(subFiles[i], id);
 					
-					treeItemDirectories.put(id, location);
+					if (subFiles[i].isDirectory())
+					{
+						findSubFiles(subFiles[i], id);
+						
+						treeItemDirectories.put(id, location);
+					}
+					
+					treeItems.put(id, location);
+					treeItemLocations.put(location, id);
 				}
-				
-				treeItems.put(id, location);
-				treeItemLocations.put(location, id);
 			}
 		}
 	}

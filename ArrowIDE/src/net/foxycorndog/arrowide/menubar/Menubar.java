@@ -23,6 +23,9 @@ public class Menubar
 	private HashMap<String, MenuItem>  headers;
 	private HashMap<String, Menu>      headerMenus;
 	private HashMap<String, HashMap<String, MenuItem>> subItems;
+	private HashMap<String, HashMap<String, Menu>>     subMenus;
+	
+	private static int staticId;
 	
 	public Menubar(Shell shell)
 	{
@@ -35,12 +38,15 @@ public class Menubar
 		headers      = new HashMap<String, MenuItem>();
 		headerMenus  = new HashMap<String, Menu>();
 		subItems     = new HashMap<String, HashMap<String, MenuItem>>();
+		subMenus     = new HashMap<String, HashMap<String, Menu>>();
 		
 		listeners    = new ArrayList<MenubarListener>();
 	}
 	
-	public void addMenuHeader(String name)
+	public int addMenuHeader(String name)
 	{
+		int id = staticId++;
+		
 		MenuItem item = new MenuItem(menu, SWT.CASCADE);
 		item.setText(name);
 		
@@ -50,16 +56,27 @@ public class Menubar
 		headers.put(name, item);
 		headerMenus.put(name, headerMenu);
 		subItems.put(name, new HashMap<String, MenuItem>());
+		subMenus.put(name, new HashMap<String, Menu>());
+		
+		return id;
 	}
 	
-	public void addMenuSubItem(final String subItemName, String headerName)
+	public int addMenuSubItem(final String subItemName, String headerName)
 	{
+		int id = staticId++;
+		
 		Menu headerMenu = getHeaderMenu(headerName);
 		
-		MenuItem item   = new MenuItem(headerMenu, SWT.PUSH);
+		MenuItem item   = new MenuItem(headerMenu, SWT.CASCADE);
 		item.setText(subItemName);
 		
+		Menu menu = new Menu(headerMenu);
+		
+//		MenuItem item2 = new MenuItem(menu, SWT.PUSH);
+//		item2.setText("asdf");
+		
 		subItems.get(headerName).put(subItemName, item);
+		subMenus.get(headerName).put(subItemName, menu);
 		
 		item.addSelectionListener(new SelectionListener()
 		{
@@ -78,6 +95,8 @@ public class Menubar
 				widgetDefaultSelected(e);
 			}
 		});
+		
+		return id;
 	}
 	
 	public void addSeparator(String headerName)
