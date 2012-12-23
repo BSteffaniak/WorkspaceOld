@@ -13,7 +13,7 @@ public class Compiler
 		{
 			String result = null;
 			
-			String fileName = fileLocation.substring(fileLocation.lastIndexOf('/') + 1, fileLocation.lastIndexOf('.'));;
+			String fileName = FileUtils.getFileName(fileLocation);
 			
 			int language = FileUtils.getLanguage(fileLocation);
 			

@@ -1,12 +1,16 @@
 package net.foxycorndog.arrowide.language;
 
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
+
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.file.FileUtils;
-import net.foxycorndog.arrowide.language.java.Java;
+import net.foxycorndog.arrowide.language.glsl.GLSLLanguage;
+import net.foxycorndog.arrowide.language.java.JavaLanguage;
 
 public class Language
 {
-	public static final int JAVA = 1, GLSL = 2;
+	public static final int JAVA = FileUtils.JAVA, GLSL = FileUtils.GLSL;
 	
 	public static int getLanguage(String name)
 	{
@@ -17,11 +21,30 @@ public class Language
 	{
 		if (language == JAVA)
 		{
-			Java.run(fileLocation, stream);
+			JavaLanguage.run(fileLocation, stream);
 		}
 		else if (language == GLSL)
 		{
 			
 		}
+	}
+	
+	public static boolean canCompile(int fileType)
+	{
+		return fileType == JAVA || fileType == GLSL;
+	}
+	
+	public static Color getCommentColor(int language)
+	{
+		if (language == JAVA)
+		{
+			return JavaLanguage.COMMENT_COLOR;
+		}
+		else if (language == GLSL)
+		{
+			return GLSLLanguage.COMMENT_COLOR;
+		}
+		
+		return new Color(Display.getCurrent(), 0, 0, 0);
 	}
 }

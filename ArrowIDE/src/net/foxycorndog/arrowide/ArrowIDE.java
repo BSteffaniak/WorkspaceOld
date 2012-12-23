@@ -18,16 +18,20 @@ import net.foxycorndog.arrowide.compiler.Compiler;
 import net.foxycorndog.arrowide.compiler.GLSLCompiler;
 import net.foxycorndog.arrowide.compiler.JavaCompiler;
 import net.foxycorndog.arrowide.components.CodeField;
+import net.foxycorndog.arrowide.components.ContentEvent;
+import net.foxycorndog.arrowide.components.ContentListener;
 import net.foxycorndog.arrowide.console.ConsoleListener;
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.dialog.Dialog;
 import net.foxycorndog.arrowide.dialog.DialogEvent;
 import net.foxycorndog.arrowide.dialog.DialogListener;
-import net.foxycorndog.arrowide.dialog.NewFileDialog;
+import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
+import net.foxycorndog.arrowide.dialog.FileInputDialog;
+import net.foxycorndog.arrowide.dialog.TextInputDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.Keyword;
 import net.foxycorndog.arrowide.language.Language;
-import net.foxycorndog.arrowide.language.java.Java;
+import net.foxycorndog.arrowide.language.java.JavaLanguage;
 import net.foxycorndog.arrowide.menubar.Menubar;
 import net.foxycorndog.arrowide.menubar.MenubarListener;
 import net.foxycorndog.arrowide.toolbar.Toolbar;
@@ -75,13 +79,16 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.GLContext;
 
 
-public class ArrowIDE implements DialogListener
+public class ArrowIDE implements DialogListener, ContentListener
 {
 	private Button    compileButton;
 	
 	private CodeField codeField, console;
 	
-	private String    fileLocation, fileName;
+	private String    fileLocation;
+	
+	private Image     folderImage, fileImage, javaFileImage, glslFileImage,
+						txtFileImage, rtfFileImage, exeFileImage;
 	
 	private Menubar   menubar;
 	
@@ -91,12 +98,15 @@ public class ArrowIDE implements DialogListener
 	
 	private ConsoleStream consoleStream;
 	
-	private Dialog        newFolderDialog;
+	private Dialog        newFolderDialog, newFileDialog, renameFileDialog, newProjectDialog;
 	
-	private HashMap<Integer, String> treeItems;
-	private HashMap<String, Integer> treeItemLocations;
-	private HashMap<Integer, String> treeItemDirectories;
-	private HashMap<Integer, String> menuItems;
+	private HashMap<Integer, Boolean> treeItemsSaved;
+	private HashMap<Integer, String>  treeItemLocations;
+	private HashMap<Integer, String>  treeItemOrigLocations;
+	private HashMap<String, Integer>  treeItems;
+	private HashMap<Integer, String>  treeItemDirectories;
+	private HashMap<Integer, String>  menuItemLocations;
+	private HashMap<String, Integer>  menuItems;
 	
 	private static boolean restarting;
 	
@@ -139,12 +149,15 @@ public class ArrowIDE implements DialogListener
 		codeField     = new CodeField(display, shell);
 		console       = new CodeField(display, shell);
 		
+		codeField.addContentListener(this);
+		
 		int width         = (int)(shell.getClientArea().width / 100f * 80);
 		int conHeight     = (int)(shell.getClientArea().height / 100f * 20);
 		int toolbarHeight = (int)(25);
 		
-		codeField.setSize(width, shell.getClientArea().height - conHeight - toolbarHeight);
+		codeField.setSize(width, shell.getClientArea().height - conHeight - toolbarHeight - 16);
 		codeField.setLocation(shell.getClientArea().width - codeField.getWidth(), toolbarHeight);//shell.getClientArea().height - codeField.getHeight());
+		codeField.setShowLineNumbers(true);
 		
 		console.setSize(width, conHeight);
 		console.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y);
@@ -158,45 +171,73 @@ public class ArrowIDE implements DialogListener
 			e.printStackTrace();
 		}
 		
-		menuItems           = new HashMap<Integer, String>();
+		try
+		{
+			folderImage   = new Image(display, new FileInputStream("res/images/folderimage.png"));
+			fileImage     = new Image(display, new FileInputStream("res/images/fileimage.png"));
+			javaFileImage = new Image(display, new FileInputStream("res/images/javafileimage.png"));
+			glslFileImage = new Image(display, new FileInputStream("res/images/glslfileimage.png"));
+			txtFileImage  = new Image(display, new FileInputStream("res/images/txtfileimage.png"));
+			rtfFileImage  = new Image(display, new FileInputStream("res/images/rtffileimage.png"));
+			exeFileImage  = new Image(display, new FileInputStream("res/images/exefileimage.png"));
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
 		
-		menubar       = new Menubar(shell);
-		menuItems.put(menubar.addMenuHeader("File"), "File");
-		menuItems.put(menubar.addMenuSubItem("New", "File"), "New");
-		menubar.addSeparator("File");
-		menuItems.put(menubar.addMenuSubItem("Open", "File"), "Open");
-		menubar.addSeparator("File");
-		menuItems.put(menubar.addMenuSubItem("Save", "File"), "Save");
-		menuItems.put(menubar.addMenuSubItem("Save as...", "File"), "Save as...");
-		menubar.addSeparator("File");
-		menuItems.put(menubar.addMenuSubItem("Restart", "File"), "Restart");
-		menuItems.put(menubar.addMenuSubItem("Exit", "File"), "Exit");
+		menuItemLocations = new HashMap<Integer, String>();
+		menuItems         = new HashMap<String, Integer>();
+		
+		menubar           = new Menubar(shell);
+		addMenuItem(menubar.addMenuHeader("File"), "File");
+		addMenuItem(menubar.addMenuSubItem("New", menuItems.get("File")), "File>New");
+		menubar.addSeparator(menuItems.get("File"));
+		addMenuItem(menubar.addMenuSubItem("Open", menuItems.get("File")), "File>Open");
+		menubar.addSeparator(menuItems.get("File"));
+		addMenuItem(menubar.addMenuSubItem("Save", menuItems.get("File")), "File>Save");
+		addMenuItem(menubar.addMenuSubItem("Save as...", menuItems.get("File")), "File>Save as...");
+		menubar.addSeparator(menuItems.get("File"));
+		addMenuItem(menubar.addMenuSubItem("Restart", menuItems.get("File")), "File>Restart");
+		addMenuItem(menubar.addMenuSubItem("Exit", menuItems.get("File")), "File>Exit");
+
+		addMenuItem(menubar.addMenuSubItem("Project", menuItems.get("File>New")), "File>New>Project");
+		addMenuItem(menubar.addMenuSubItem("Empty File", menuItems.get("File>New")), "File>New>Empty File");
 		
 		menubar.addListener(new MenubarListener()
 		{
-			public void subItemPressed(String subItemName)
+			public void subItemPressed(int subItemId)
 			{
-				if (subItemName.equals("New"))
+				if (!menuItemLocations.containsKey(subItemId))
+				{
+					return;
+				}
+				
+				if (menuItemLocations.get(subItemId).equals("File>New>Empty File"))
 				{
 					newFile();
 				}
-				else if (subItemName.equals("Open"))
+				else if (menuItemLocations.get(subItemId).equals("File>New>Project"))
+				{
+					newProject();
+				}
+				else if (menuItemLocations.get(subItemId).equals("File>Open"))
 				{
 					openFile();
 				}
-				else if (subItemName.equals("Save"))
+				else if (menuItemLocations.get(subItemId).equals("File>Save"))
 				{
 					saveFile(fileLocation);
 				}
-				else if (subItemName.equals("Save as..."))
+				else if (menuItemLocations.get(subItemId).equals("File>Save as..."))
 				{
 					saveFile(null);
 				}
-				else if (subItemName.equals("Restart"))
+				else if (menuItemLocations.get(subItemId).equals("File>Restart"))
 				{
 					restart();
 				}
-				else if (subItemName.equals("Exit"))
+				else if (menuItemLocations.get(subItemId).equals("File>Exit"))
 				{
 					exit();
 				}
@@ -224,16 +265,22 @@ public class ArrowIDE implements DialogListener
 			{
 				if (toolItemName.equals("Compile"))
 				{
+					
 					if (fileLocation == null)
 					{
 						openFile();
 					}
 					else
 					{
-						saveFile(fileLocation);
-					}
+						if (Language.canCompile(FileUtils.getFileType(fileLocation)))
+						{
+							saveFile(fileLocation);
 					
-					consoleStream.println(Compiler.compile(fileLocation, codeField.getRawText()));//GLSLCompiler.loadVertexShader("name.vs", codeField.getRawText()));
+							console.setText("", true);
+							consoleStream.println(Compiler.compile(fileLocation, codeField.getRawText()));//GLSLCompiler.loadVertexShader("name.vs", codeField.getRawText()));
+						}
+						
+					}
 				}
 				else if (toolItemName.equals("Run"))
 				{
@@ -249,11 +296,13 @@ public class ArrowIDE implements DialogListener
 			}
 		});
 		
-		treeItems           = new HashMap<Integer, String>();
-		treeItemLocations   = new HashMap<String, Integer>();
-		treeItemDirectories = new HashMap<Integer, String>();
+		treeItemsSaved        = new HashMap<Integer, Boolean>();
+		treeItemLocations     = new HashMap<Integer, String>();
+		treeItemOrigLocations = new HashMap<Integer, String>();
+		treeItems             = new HashMap<String, Integer>();
+		treeItemDirectories   = new HashMap<Integer, String>();
 		
-		treeMenu            = new TreeMenu(shell);
+		treeMenu              = new TreeMenu(shell);
 		treeMenu.setSize(shell.getClientArea().width - codeField.getWidth() - 10, codeField.getHeight() + console.getHeight());
 		treeMenu.setLocation(5, codeField.getY());
 		treeMenu.setBackground(new Color(display, 255, 255, 255));
@@ -263,6 +312,12 @@ public class ArrowIDE implements DialogListener
 		
 		final MenuItem newFolder = new MenuItem(m, SWT.CASCADE);
 		newFolder.setText("New Folder");
+		
+		final MenuItem newFile = new MenuItem(m, SWT.CASCADE);
+		newFile.setText("New File");
+		
+		final MenuItem rename = new MenuItem(m, SWT.CASCADE);
+		rename.setText("Rename");
 		
 		final MenuItem delete = new MenuItem(m, SWT.CASCADE);
 		delete.setText("Delete");
@@ -282,15 +337,29 @@ public class ArrowIDE implements DialogListener
 //						System.out.println("is file");
 //					}
 					
-					FileUtils.delete(new File(treeItems.get(id)));
+					FileUtils.delete(new File(treeItemOrigLocations.get(id)));
 					
 					refreshFileViewer();
 				}
 				else if (e.widget == newFolder)
 				{
-					newFolderDialog = new NewFileDialog(display, thisIDE, "Enter the folder name:", "Folder name:", true);
+					newFolderDialog = new FileInputDialog(display, thisIDE, "Enter the folder name:", "Folder name:", true, configData.get("workspace.location"), false);
 					
 					newFolderDialog.open();
+				}
+				else if (e.widget == newFile)
+				{
+					newFileDialog = new FileInputDialog(display, thisIDE, "Enter the file name:", "File name:", false, configData.get("workspace.location"), false);
+					
+					newFileDialog.open();
+				}
+				else if (e.widget == rename)
+				{
+					int selection = treeMenu.getSelection();
+			
+					renameFileDialog = new FileInputDialog(display, thisIDE, "Enter the new name:", "New name:", treeItemDirectories.containsKey(selection), FileUtils.getFileName(treeItemOrigLocations.get(selection)), false);
+					
+					renameFileDialog.open();
 				}
 			}
 
@@ -301,6 +370,8 @@ public class ArrowIDE implements DialogListener
 		};
 		
 		newFolder.addSelectionListener(menuListener);
+		newFile.addSelectionListener(menuListener);
+		rename.addSelectionListener(menuListener);
 		delete.addSelectionListener(menuListener);
 		
 		treeMenu.addListener(new TreeMenuListener()
@@ -309,7 +380,7 @@ public class ArrowIDE implements DialogListener
 			{
 				if (!treeItemDirectories.containsKey(id))
 				{
-					String location = treeItems.get(id);
+					String location = treeItemOrigLocations.get(id);
 					
 					openFile(location);
 				}
@@ -335,13 +406,11 @@ public class ArrowIDE implements DialogListener
 		
 	    shell.addControlListener(new ControlListener()
 		{
-			@Override
 			public void controlMoved(ControlEvent e)
 			{
 				
 			}
 
-			@Override
 			public void controlResized(ControlEvent e)
 			{
 				int width         = (int)(shell.getClientArea().width / 100f * 80);
@@ -419,78 +488,21 @@ public class ArrowIDE implements DialogListener
 		}
 		else
 		{
-			final Shell chooseWorkspace = new Shell(display);
-			chooseWorkspace.setSize(470, 230);
-			chooseWorkspace.setLocation(screenBounds.width / 2 - chooseWorkspace.getBounds().width / 2, screenBounds.height / 2 - chooseWorkspace.getBounds().height / 2);
-			
-			Label instructions = new Label(chooseWorkspace, SWT.NONE);
-			instructions.setText("Choose your project workspace folder:");
-			instructions.setSize(220, 20);
-			instructions.setLocation(100, 30);
-			
-			Label workspaceLabel = new Label(chooseWorkspace, SWT.NONE);
-			workspaceLabel.setText("Workspace:");
-			workspaceLabel.setSize(70, 20);
-			workspaceLabel.setLocation(20, 80);
-			
-			final Label error = new Label(chooseWorkspace, SWT.NONE);
-			error.setText("");
-			error.setSize(240, 20);
-			error.setLocation(100, 130);
-			error.setForeground(new Color(display, 220, 0, 0));
-			
-			final Button browse = new Button(chooseWorkspace, SWT.PUSH);
-			browse.setSize(80, 20);
-			browse.setLocation(360, 80);
-			browse.setText("Browse");
-			
-			final Button continueButton = new Button(chooseWorkspace, SWT.PUSH);
-			continueButton.setSize(80, 20);
-			continueButton.setLocation(360, 130);
-			continueButton.setText("Continue");
-			
-			final Text locationEditor = new Text(chooseWorkspace, SWT.SINGLE | SWT.BORDER);
-			locationEditor.setSize(250, 20);
-			locationEditor.setLocation(100, 80);
-			
-			Listener listener = new Listener()
+			DialogListener listener = new DialogListener()
 			{
-				public void handleEvent(Event e)
+				public boolean dialogCompleted(DialogEvent event)
 				{
-					if (e.widget == browse)
-					{
-						DirectoryDialog dialog = new DirectoryDialog(chooseWorkspace, SWT.OPEN);
-						
-						String location = dialog.open();
-						
-						if (location != null)
-						{
-							locationEditor.setText(location);// + System.getProperty("file.separator"));
-						}
-					}
-					else if (e.widget == continueButton)
-					{
-						String location = locationEditor.getText().replace("\\", "/");
-						File file = new File(location);
-						
-						if (file.isDirectory())
-						{
-							setConfigDataValue("workspace.location", location);
-							
-							openIDE();
-							
-							chooseWorkspace.dispose();
-						}
-						else
-						{
-							error.setText("The file does not exist or is not a directory.");
-						}
-					}
+					String location = ((FileBrowseDialog)event.getSource()).getText();
+					
+					setConfigDataValue("workspace.location", location);
+					
+					openIDE();
+					
+					return true;
 				}
 			};
 			
-			browse.addListener(SWT.Selection, listener);
-			continueButton.addListener(SWT.Selection, listener);
+			FileBrowseDialog chooseWorkspace = new FileBrowseDialog(display, listener, "Choose your project workspace folder:", "Workspace:", true);
 			
 			chooseWorkspace.open();
 		}
@@ -507,6 +519,12 @@ public class ArrowIDE implements DialogListener
 		{
 			display.dispose();
 		}
+	}
+	
+	private void addMenuItem(int id, String name)
+	{
+		menuItems.put(name, id);
+		menuItemLocations.put(id, name);
 	}
 	
 	public static void openIDE()
@@ -572,6 +590,8 @@ public class ArrowIDE implements DialogListener
 		{
 			e.printStackTrace();
 		}
+		
+		configData.put(key, value);
 	}
 	
 	private static void createConfigData()
@@ -614,6 +634,13 @@ public class ArrowIDE implements DialogListener
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public void newProject()
+	{
+		newProjectDialog = new FileInputDialog(display, this, "Enter the name of your project:", "Project name:", "", true, configData.get("workspace.location"), false);
+		
+		newProjectDialog.open();
 	}
 	
 	public void newFile()
@@ -676,15 +703,15 @@ public class ArrowIDE implements DialogListener
 			{
 				builder.deleteCharAt(builder.length() - 1);
 				builder.deleteCharAt(builder.length() - 1);
-			
-				codeField.setText(builder.toString());
 			}
+			
+			codeField.setText(builder.toString(), true);
 			
 			fileLocation = location.replace('\\', '/');
 			
-			codeField.setLanugage(Language.getLanguage(fileLocation));
+			codeField.setLanguage(Language.getLanguage(fileLocation));
 			
-			codeField.highlightSyntax();
+			codeField.redraw();
 		}
 		catch (FileNotFoundException e)
 		{
@@ -692,7 +719,7 @@ public class ArrowIDE implements DialogListener
 		}
 		catch (IOException e)
 		{
-			
+			e.printStackTrace();
 		}
 	}
 	
@@ -748,6 +775,10 @@ public class ArrowIDE implements DialogListener
 			return;
 		}
 		
+		int     id          = treeItems.get(location.toLowerCase());
+		boolean currentFile = location.equals(fileLocation);
+		boolean saved       = treeItemsSaved.get(id);
+		
 		File file = new File(location);
 		
 		try
@@ -769,11 +800,25 @@ public class ArrowIDE implements DialogListener
 		
 		boolean highlight = codeField.getLanguage() == 0;
 		
-		codeField.setLanugage(Language.getLanguage(fileLocation));
+		codeField.setLanguage(Language.getLanguage(fileLocation));
 		
 		if (highlight)
 		{
 			codeField.highlightSyntax();
+		}
+		
+		if (currentFile)
+		{
+			String text = treeMenu.getText(id);
+			
+			if (text.startsWith("*"))
+			{
+				text = text.substring(1);
+			
+				treeMenu.setText(id, text);
+			}
+			
+			treeItemsSaved.put(id, true);
 		}
 		
 		refreshFileViewer();
@@ -785,10 +830,8 @@ public class ArrowIDE implements DialogListener
 		
 		findSubFiles(workspace, 0);
 		
-		treeMenu.alphabetize();
-		
 		String locations[] = new String[] {};
-		locations = treeItemLocations.keySet().toArray(locations);
+		locations = treeItems.keySet().toArray(locations);
 		
 		for (int i = 0; i < locations.length; i ++)
 		{
@@ -796,83 +839,238 @@ public class ArrowIDE implements DialogListener
 			
 			if (!file.exists())
 			{
-				treeMenu.removeItem(treeItemLocations.get(locations[i]));
+				treeMenu.removeItem(treeItems.get(locations[i]));
 			}
 		}
+		
+		treeMenu.alphabetize();
 	}
 	
 	private void findSubFiles(File file, int parent)
 	{
-		File subFiles[]    = file.listFiles();
+		File subFiles[] = file.listFiles();
 		
 		if (subFiles != null)
 		{
-			int  subFilesIds[] = new int[subFiles.length];
+			int subFilesIds[] = new int[subFiles.length];
 			
 			for (int i = 0; i < subFiles.length; i ++)
 			{
-				String orig = subFiles[i].getAbsolutePath().replace('\\', '/');
-				String name = orig.substring(orig.lastIndexOf('/') + 1);
-				String location = orig.toLowerCase();
+				boolean isDirectory = subFiles[i].isDirectory();
 				
-				if (treeItems.containsValue(location))
+				String orig         = subFiles[i].getAbsolutePath().replace('\\', '/');
+				String name         = orig.substring(orig.lastIndexOf('/') + 1);
+				String location     = orig.toLowerCase();
+				
+				int id              = 0;
+				
+				Image img           = isDirectory ? folderImage : getFileImage(location);
+				
+				if (treeItemLocations.containsValue(location))
 				{
+					id = treeItems.get(location);
 					
+					if (isDirectory)
+					{
+						findSubFiles(subFiles[i], id);
+					}
 				}
 				else
 				{
-					int id = 0;
-					
 					if (parent > 0)
 					{
 						if (!treeMenu.containsSubItem(parent, name))
 						{
-							id = treeMenu.addSubItem(parent, name);
+							id = treeMenu.addSubItem(parent, name, img);
 						}
 						else
 						{
-							id = treeItemLocations.get(location);
+							id = treeItems.get(location);
 						}
 					}
 					else
 					{
 						if (!treeMenu.containsItem(name))
 						{
-							id = treeMenu.addItem(location.substring(location.lastIndexOf('/') + 1));
+							id = treeMenu.addItem(name, img);
 						}
 						else
 						{
-							id = treeItemLocations.get(location);
+							id = treeItems.get(location);
 						}
 					}
 					
-					if (subFiles[i].isDirectory())
+					if (isDirectory)
 					{
 						findSubFiles(subFiles[i], id);
 						
 						treeItemDirectories.put(id, location);
 					}
 					
-					treeItems.put(id, location);
-					treeItemLocations.put(location, id);
+					treeItemsSaved.put(id, true);
+					treeItemLocations.put(id, location);
+					treeItemOrigLocations.put(id, orig);
+					treeItems.put(location, id);
 				}
 			}
 		}
 	}
 	
-	public void dialogCompleted(DialogEvent event)
+	public boolean dialogCompleted(DialogEvent event)
 	{
 		Object source = event.getSource();
 		
 		if (source == newFolderDialog)
 		{
-			String location = newFolderDialog.getText();
+			String preLocation = treeItemOrigLocations.get(treeMenu.getSelection()) + "/";
+			String location    = newFolderDialog.getText();
 			
-			String preLocation = treeItems.get(treeMenu.getSelection());
+			if (FileUtils.isFileName(preLocation))
+			{
+				preLocation = FileUtils.getParentFolder(preLocation) + "/";
+			}
+			
+			location = preLocation + location;
 			
 			File f = new File(location);
 			f.mkdirs();
+			
+			refreshFileViewer();
+			
+			return true;
+		}
+		else if (source == newFileDialog)
+		{
+			String preLocation = treeItemOrigLocations.get(treeMenu.getSelection());
+			String location    = newFileDialog.getText();
+			
+			if (FileUtils.isFileName(preLocation))
+			{
+				preLocation = FileUtils.getParentFolder(preLocation);
+			}
+			
+			preLocation += "/";
+			
+			location = preLocation + location;
+			
+			File f = new File(location);
+			
+			try
+			{
+				f.createNewFile();
+			
+				openFile(location);
+				
+				refreshFileViewer();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+			return true;
+		}
+		else if (source == renameFileDialog)
+		{
+			String name        = renameFileDialog.getText();
+			
+			String location    = treeItemOrigLocations.get(treeMenu.getSelection());
+			String newLocation = FileUtils.getParentFolder(location) + "/" + name;
+			
+			boolean currentFile = location.equals(fileLocation);
+			
+			if (currentFile)
+			{
+				saveFile(fileLocation);
+			}
+			
+			File f = new File(location);
+			
+			f.renameTo(new File(newLocation));
+			
+			if (currentFile)
+			{
+				fileLocation = newLocation;
+				
+				codeField.setLanguage(Language.getLanguage(fileLocation));
+				
+				codeField.highlightSyntax();
+			}
+			
 			refreshFileViewer();
 		}
+		else if (source == newProjectDialog)
+		{
+			String location = newProjectDialog.getText();
+			
+			File f = new File(location);
+			f.mkdirs();
+			
+			refreshFileViewer();
+			
+			return true;
+		}
+		
+		return true;
+	}
+	
+	public void contentChanged(ContentEvent event)
+	{
+		Object source = event.getSource();
+		
+		if (source == codeField)
+		{
+			if (fileLocation != null)
+			{
+				int id = treeItems.get(fileLocation.toLowerCase());
+				
+				boolean saved = treeItemsSaved.get(id);
+				
+				String text = treeMenu.getText(id);
+				
+				if (!text.startsWith("*"))
+				{
+					text = "*" + text;
+				}
+				
+				treeMenu.setText(id, text);
+				
+				treeItemsSaved.put(id, false);
+			}
+		}
+	}
+	
+	private Image getFileImage(String location)
+	{
+		Image img = null;
+		
+		int fileType = FileUtils.getFileType(location);
+		
+		if (fileType == FileUtils.JAVA)
+		{
+			img = javaFileImage;
+		}
+		else if (fileType == FileUtils.GLSL)
+		{
+			img = glslFileImage;
+		}
+		else if (fileType == FileUtils.TXT)
+		{
+			img = txtFileImage;
+		}
+		else if (fileType == FileUtils.RTF)
+		{
+			img = rtfFileImage;
+		}
+		else if (fileType == FileUtils.EXE)
+		{
+			img = exeFileImage;
+		}
+		else
+		{
+			img = fileImage;
+		}
+		
+		return img;
 	}
 }

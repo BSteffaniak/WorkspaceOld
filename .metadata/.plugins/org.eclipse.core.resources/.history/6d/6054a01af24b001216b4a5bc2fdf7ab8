@@ -1,0 +1,155 @@
+package net.foxycorndog.arrowide.file;
+
+import java.io.File;
+
+import net.foxycorndog.arrowide.language.Keyword;
+
+public class FileUtils
+{
+	private static final String GLSL_VERTEX_ENDINGS[], GLSL_FRAGMENT_ENDINGS[], JAVA_ENDINGS[];
+	
+	public  static final int JAVA = 1, GLSL = 2, TXT = 3, RTF = 4, EXE = 5;
+	
+	static
+	{
+		GLSL_VERTEX_ENDINGS = new String[] { "vs", "vert" };
+		GLSL_FRAGMENT_ENDINGS = new String[] { "fs", "frag", "shade", "shad", "sha" };
+		
+		JAVA_ENDINGS = new String[] { "java" };
+	}
+	
+	public static int getLanguage(String name)
+	{
+		String ending = name.substring(name.lastIndexOf('.') + 1).toLowerCase();
+		
+		int language  = 0;
+		
+		if (contains(ending, GLSL_VERTEX_ENDINGS) || contains(ending, GLSL_FRAGMENT_ENDINGS))
+		{
+			language = GLSL;
+		}
+		else if (contains(ending, JAVA_ENDINGS))
+		{
+			language = JAVA;
+		}
+		
+		return language;
+	}
+	
+	public static boolean contains(String str, String endings[])
+	{
+		for (String ending : endings)
+		{
+			if (str.equals(ending))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public static void delete(File file)
+	{
+		if (file.isDirectory())
+		{
+			File subFiles[] = file.listFiles();
+			
+			for (int i = 0; i < subFiles.length; i ++)
+			{
+				delete(subFiles[i]);
+			}
+		}
+		
+		System.out.println(file.delete());
+	}
+	
+	public static boolean isFileName(String location)
+	{
+		location = removeEndingSlashes(location);
+		
+		for (int i = location.length() - 1; i >= 0 && location.charAt(i) != '/'; i --)
+		{
+			if (location.charAt(i) == '.')
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public static String getParentFolder(String location)
+	{
+		location = removeEndingSlashes(location);
+		
+		int index = location.length() - 1;
+		
+		while (index >= 0)
+		{
+			if (location.charAt(index) == '/')
+			{
+				index--;
+				
+				break;
+			}
+			else
+			{
+				index--;
+			}
+		}
+		
+		return removeEndingSlashes(location.substring(0, index + 1));
+	}
+	
+	public static String removeEndingSlashes(String location)
+	{
+		int lastIndex = location.length() - 1;
+		
+		while (lastIndex >= 0 && location.charAt(lastIndex) == '/')
+		{
+			lastIndex--;
+		}
+		
+		return location.substring(0, lastIndex + 1);
+	}
+	
+	public static int getFileType(String name)
+	{
+		int type = 0;
+		
+		if ((type = getLanguage(name)) != 0)
+		{
+			return type;
+		}
+		else
+		{
+			String ending = name.substring(name.lastIndexOf('.') + 1).toLowerCase();
+			
+			if (ending.equals("txt"))
+			{
+				return TXT;
+			}
+			else if (ending.equals("rtf"))
+			{
+				return RTF;
+			}
+			else if (ending.equals("exe"))
+			{
+				return EXE;
+			}
+		}
+		
+		return type;
+	}
+	
+	public static String getFileName(String location)
+	{
+		location      = location.replace('\\', '/');
+		
+		int lastIndex = location.lastIndexOf('/');
+		lastIndex     = lastIndex == -1 ? location.length() : lastIndex;
+		
+		return removeEndingSlashes(location).substring(0, lastIndex);
+	}
+}

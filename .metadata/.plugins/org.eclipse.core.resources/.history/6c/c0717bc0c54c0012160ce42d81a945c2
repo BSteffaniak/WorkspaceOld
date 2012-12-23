@@ -1,0 +1,126 @@
+package net.foxycorndog.arrowide.menubar;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
+
+public class Menubar
+{
+	private Menu  menu;
+	
+	private Shell shell;
+	
+	private ArrayList<MenubarListener> listeners;
+	
+	private HashMap<Integer, MenuItem>  menuItems;
+	private HashMap<Integer, Menu>      headerMenus;
+	private HashMap<Integer, Menu>      menus;
+	
+	private static int staticId;
+	
+	public Menubar(Shell shell)
+	{
+		menu       = new Menu(shell, SWT.BAR);
+		
+		this.shell = shell;
+		
+		shell.setMenuBar(menu);
+		
+		menuItems   = new HashMap<Integer, MenuItem>();
+		headerMenus = new HashMap<Integer, Menu>();
+		menus       = new HashMap<Integer, Menu>();
+		
+		listeners   = new ArrayList<MenubarListener>();
+	}
+	
+	public int addMenuHeader(String name)
+	{
+		int id = staticId++;
+		
+		MenuItem item = new MenuItem(menu, SWT.CASCADE);
+		item.setText(name);
+		
+		Menu headerMenu = new Menu(shell, SWT.DROP_DOWN);
+		item.setMenu(headerMenu);
+		
+		menuItems.put(id, item);
+		headerMenus.put(id, headerMenu);
+		
+		return id;
+	}
+	
+	public int addMenuSubItem(final String subItemName, int headerId)
+	{
+		final int id = staticId++;
+		
+		Menu headerMenu = null;
+		
+		if (headerMenus.containsKey(headerId))
+		{
+			headerMenu = headerMenus.get(headerId);
+		}
+		else
+		{
+			headerMenu = menus.get(headerId);System.out.println(subItemName);
+		}
+		
+		MenuItem item   = new MenuItem(headerMenu, SWT.CASCADE);
+		item.setText(subItemName);
+		
+		Menu menu = new Menu(headerMenu);
+		
+		if (!headerMenus.containsKey(headerId))
+		{
+			menuItems.get(headerId).setMenu(menu);
+		}
+		
+//		MenuItem item2 = new MenuItem(menu, SWT.CASCADE);
+//		item2.setText("asdf");
+
+		menuItems.put(id, item);
+		menus.put(id, menu);
+		
+		item.addSelectionListener(new SelectionListener()
+		{
+			public void widgetDefaultSelected(SelectionEvent e)
+			{
+				for (int i = listeners.size() - 1; i >= 0; i --)
+				{
+					listeners.get(i).subItemPressed(id);
+				}
+			}
+
+			public void widgetSelected(SelectionEvent e)
+			{
+				widgetDefaultSelected(e);
+			}
+		});
+		
+		return id;
+	}
+	
+	public void addSeparator(int headerId)
+	{
+		Menu headerMenu = headerMenus.get(headerId);
+		
+		MenuItem item   = new MenuItem(headerMenu, SWT.SEPARATOR);
+	}
+	
+//	public void addSelectionListener(String headerName, String subItemName, SelectionListener listener)
+//	{
+//		getSubItem(headerName, subItemName).addSelectionListener(listener);
+//	}
+	
+	public void addListener(MenubarListener listener)
+	{
+		listeners.add(listener);
+	}
+}

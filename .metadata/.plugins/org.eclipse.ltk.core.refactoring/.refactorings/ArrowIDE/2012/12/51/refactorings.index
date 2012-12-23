@@ -25,3 +25,12 @@
 1355974503624	Rename field 'treeItemNames'
 1355974506684	Rename field 'treeItemLocationss'
 1355975571104	Rename package 'net.foxycorndog.glshaderide'
+1356144570774	Rename field 'treeItemLocations'
+1356144576316	Rename field 'treeItems'
+1356144580925	Rename field 'treeItemLdocations'
+1356149693390	Delete elements
+1356150539093	Rename type 'NewFileDialog'
+1356151396216	Rename local variable 'lastIndex'
+1356151866359	Rename method 'setLanugage'
+1356154119448	Rename field 'treeItemsUnsaved'
+1356154125126	Rename local variable 'unsaved'

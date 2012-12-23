@@ -2,5 +2,5 @@ package net.foxycorndog.arrowide.menubar;
 
 public interface MenubarListener
 {
-	public void subItemPressed(String subItemName);
+	public void subItemPressed(int subItemId);
 }

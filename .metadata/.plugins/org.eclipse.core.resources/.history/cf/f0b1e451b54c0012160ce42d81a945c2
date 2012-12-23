@@ -1,0 +1,950 @@
+package net.foxycorndog.arrowide.components;
+
+import java.util.ArrayList;
+
+import net.foxycorndog.arrowide.ArrowIDE;
+import net.foxycorndog.arrowide.language.Keyword;
+import net.foxycorndog.arrowide.language.Language;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.Bullet;
+import org.eclipse.swt.custom.ExtendedModifyEvent;
+import org.eclipse.swt.custom.ExtendedModifyListener;
+import org.eclipse.swt.custom.LineStyleEvent;
+import org.eclipse.swt.custom.LineStyleListener;
+import org.eclipse.swt.custom.ST;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.FontMetrics;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.GlyphMetrics;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+
+public class CodeField extends StyledText
+{
+	private boolean commentStarting, commentStarted, commentEnding;
+	
+	private int     commentType, commentStart;
+	private int     oldLength, oldLineCount;
+	
+	private int     language;
+	
+	private int     charWidth;
+	
+	private LineStyleListener lineNumbers, lineSpaces, syntaxHighlighting;
+	
+	private StyledText        lineNumberText;
+	
+	private StyleRange        styleRange;
+	
+	private Composite         composite;
+	
+	private static final int MULTI_LINE = 1, SINGLE_LINE = 2;
+	
+	private ArrayList<ArrayList<Boolean>> tabs;
+	
+	private ArrayList<ContentListener>    listeners;
+	
+	public CodeField(final Display display, Composite comp)
+	{
+		super(comp, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
+		
+		this.composite = comp;
+		
+		listeners = new ArrayList<ContentListener>();
+		
+		setText("");
+		setBounds(new Rectangle(0, 0, 100, 100));
+	    setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true, 1, 1));
+	    
+	    FontData defaultFont = new FontData("Consolas", 14, SWT.NONE);
+	    Font f = new Font(display, defaultFont);
+	    setFont(f);
+	    
+	    GC g = new GC(this);
+	    FontMetrics fm = g.getFontMetrics();
+	    this.charWidth = fm.getAverageCharWidth();
+	    g.dispose();
+	    
+	    tabs = new ArrayList<ArrayList<Boolean>>();
+	    tabs.add(new ArrayList<Boolean>());
+	    setTabs(4);
+//		setAlwaysShowScrollBars(false);
+	    
+//	    highlightSyntax();
+	    
+	    addKeyListener(new KeyListener()
+	    {
+			public void keyPressed(KeyEvent e)
+			{
+				int xPosition     = getCaretXPosition();
+				int caretPosition = getCaretPosition();
+				int lineNum       = getCaretLineNumber();
+				
+				parseChar(e.character, null, xPosition, caretPosition, lineNum, 0);
+				
+				if (isPrintable(e.character) || e.keyCode == 13 || e.keyCode == SWT.BS || e.keyCode == SWT.CR || e.character == '\t')
+				{
+					contentChanged();
+				}
+				
+//				highlightSyntax();
+				
+				if ((e.stateMask == SWT.CTRL) && e.character == 's')
+				{
+					System.out.println("save");
+				}
+			}
+
+			public void keyReleased(KeyEvent e)
+			{
+				
+			}
+	    });
+	}
+	
+	public void parseString(String string, StringBuilder sb, int xPosition, int caretPosition, int lineNum, int offset)
+	{
+		int index = 0;
+		
+		for (int i = 0; i < string.length(); i ++)
+		{
+			char c = string.charAt(i);
+			
+			if (c == '\n')
+			{
+				lineNum++;
+				
+				xPosition = 0;
+				
+				index     = 0;
+			}
+			
+			if (c == '\r')
+			{
+				continue;
+			}
+			
+			parseChar(c, sb, xPosition++, caretPosition, lineNum, offset + i);
+			index++;
+		}
+	}
+	
+	public void parseChar(char c, StringBuilder sb, int xPosition, int caretPosition, int lineNum, int offset)
+	{
+		caretPosition += offset;
+		
+		if (sb != null)
+		{
+			if (offset >= sb.length())
+			{
+				sb.append(c);
+			}
+			else
+			{
+				sb.insert(caretPosition, c);
+			}
+			
+//			String text = getText();
+//			
+//			setText(text+ c);//text.substring(0, caretPosition) + (c) + text.substring(caretPosition));
+		}
+		
+		// If enter pressed
+		if (c == '\r' || c == '\n')
+		{
+			if (c == '\r')
+			{
+				caretPosition--;
+				xPosition--;
+			}
+			
+			tabs.add(lineNum, new ArrayList<Boolean>());
+			
+			if (sb == null)
+			{
+				String tabsStr = "";
+				
+				int tabsCount  = lineTabCount(lineNum, 1);
+				
+				for (int i = 0; i < tabsCount; i ++)
+				{
+					tabsStr += "\t";
+					tabs.get(lineNum).add(true);
+				}
+	
+				String text   = getText();
+				int    length = text.length();
+				
+//				super.setText(text + text.substring(0, caretPosition - 1) + text.substring(caretPosition, caretPosition + 1) + tabsStr + (c == 13 ? text.substring(caretPosition + 1) : ""));
+//				super.setText(getText().substring(length));
+				super.insert(tabsStr);
+				
+				setCaretOffset(caretPosition + tabsStr.length() + 1);
+//				setSelection(getCaretOffset());
+			}
+		}
+		// If backspace pressed
+		else if (c == '\b')
+		{
+			int linesLess       = oldLineCount - getLineCount();
+			int selectionLength = oldLength - getCharCount() - linesLess * 2;
+			
+			if (selectionLength == 1 && linesLess == 0)
+			{
+				if (xPosition >= tabs.get(lineNum).size() && (lineNum > 0 || xPosition > 0))
+				{
+					tabs.remove(lineNum + 1);
+				}
+				else if (xPosition >= 0 && (tabs.get(lineNum).size() > 0))
+				{
+					tabs.get(lineNum).remove(xPosition);
+				}
+			}
+			else
+			{
+				int charCounter    = 0;
+				int selectionIndex = xPosition;
+				int lineIndex      = lineNum;
+				
+				for (int lineCounter = 0; lineCounter < tabs.size() && lineCounter < linesLess + 1; lineCounter++)
+				{
+					while (selectionIndex < tabs.get(lineIndex).size())
+					{
+						if (charCounter >= selectionLength)
+						{
+							break;
+						}
+						
+						tabs.get(lineIndex).remove(selectionIndex);
+						
+//						selectionIndex++;
+						
+						charCounter++;
+					}
+					
+					selectionIndex = 0;
+					
+					// May have a bug here with already empty lines.
+					if (tabs.get(lineIndex).size() == 0 && lineIndex > lineNum)
+					{
+						tabs.remove(lineIndex);
+					}
+					else
+					{
+						lineIndex++;
+					}
+				}
+			}
+		}
+		else if (c == '\t')
+		{
+			boolean lastCharacterTab = lastCharacterIsTab(1, lineNum);
+			
+			tabs.get(lineNum).add(lastCharacterTab);
+		}
+		else
+		{
+			if (isPrintable(c))
+			{
+				tabs.get(lineNum).add(false);
+			}
+			else
+			{
+				
+			}
+		}
+		
+		oldLength    = getCharCount();
+		oldLineCount = getLineCount();
+	}
+	
+	public StyleRange[] highlightSyntax()
+	{
+		StyleRange styleRange            = new StyleRange();
+		styleRange.start      = 0;
+		styleRange.length     = getText().length();
+		styleRange.foreground = new Color(Display.getDefault(), 0, 0, 0);
+		
+//		setStyleRange(styleRange);
+//		setStyleRanges(new StyleRange[] { styleRange });
+		
+		ArrayList<StyleRange> styles = new ArrayList<StyleRange>();
+		
+		styles.add(styleRange);
+		
+		if (language == 0)
+		{
+			return new StyleRange[] { styleRange };
+		}
+		
+		String text       = getText();
+		
+		char whitespace[] = new char[] { ' ', '.', ',', '/', '(', ')', '[', ']', '{', '}', ';', '\n', '\t', '\r'};
+		
+		String strings[]  = text.split("[.,/\n\t\\[\\](){};\r ]");
+		int    offsets[]  = new int[strings.length];
+		
+		int charCount     = 0;
+		
+		charCount += calculateSpaceBetween(text, 0, whitespace, styles);
+		
+		commentStarting = false;
+		commentStarted  = false;
+		commentEnding   = false;
+		
+		commentType     = 0;
+		commentStart    = 0;
+		
+		for (int i = 0; i < strings.length; i ++)
+		{
+			String word = strings[i];
+			
+			if (!word.equals(""))
+			{
+				offsets[i]  = charCount;
+				
+//				System.out.println("i: " + i + ",\tword: " + word + ",\toffset: " + offsets[i] + ",\tlength: " + word.length() + ",\tsize: " + text.length());
+				
+				if (commentStarted)
+				{
+//					int offset       = commentStart;//offsets[i];
+//					int length       = commentStart - charCount;//word.length();
+//					
+//					range            = new StyleRange();
+//					
+//					range.start      = offset;
+//					range.length     = length;
+//					range.foreground = new Color(Display.getCurrent(), 40, 140, 0);
+//					
+//					System.out.println(offset + ", " + length);
+//					
+//					setStyleRange(range);
+				}
+				else if (Keyword.isKeyword(language, word))
+				{
+					Keyword keyword       = Keyword.getKeyword(language, word);
+					
+					int offset            = offsets[i];
+					int length            = word.length();
+					
+					styles.add(new StyleRange(offset, length, keyword.getColor(), null));
+					
+//					setStyleRange(styleRange);
+//					setStyleRanges(new StyleRange[] { styleRange });
+				}
+				
+				int spaceBetween = calculateSpaceBetween(text, charCount + word.length(), whitespace, styles);
+				
+				charCount += strings[i].length() + spaceBetween;
+			}
+		}
+		
+		return (StyleRange[])styles.toArray(new StyleRange[0]);
+	}
+	
+	private int calculateSpaceBetween(String text, int start, char chars[], ArrayList<StyleRange> styles)
+	{
+		int     count   = 0;
+		
+		for (int i = start; i < text.length(); i ++)
+		{
+			char c = text.charAt(i);
+			
+			if (c == '/')
+			{
+				if (commentStarting)
+				{
+					commentStarted = true;
+					
+					commentType  = SINGLE_LINE;
+					
+					commentStart = start + count - 1;
+				}
+				else
+				{
+					if (commentEnding)
+					{
+						commentStarted = false;
+						
+						{
+							int offset       = commentStart;//offsets[i];
+							int length       = start + count - commentStart + 1;//word.length();
+							
+							styles.add(new StyleRange(offset, length, Language.getCommentColor(language), null));
+							
+//							setStyleRange(range);
+						}
+						
+						commentType = 0;
+					}
+					else
+					{
+						commentStarting = true;
+					}
+				}
+			}
+			else if (c == '*')
+			{
+				if (commentStarting)
+				{
+					commentStarted = true;
+					
+					commentType = MULTI_LINE;
+					
+					commentStart = start + count - 1;
+				}
+				
+				if (commentStarted)
+				{
+					commentEnding = true;
+				}
+				else
+				{
+					
+				}
+			}
+			else
+			{
+				commentEnding   = false;
+				commentStarting = false;
+			}
+			
+			if (c == '\n')
+			{
+				if (commentStarted && commentType == SINGLE_LINE)
+				{
+					commentStarted  = false;
+					commentStarting = false;
+					
+					{
+						int offset       = commentStart;//offsets[i];
+						int length       = start + count - commentStart + 1;//word.length();
+						
+						styles.add(new StyleRange(offset, length, Language.getCommentColor(language), null));
+						
+//						setStyleRange(range);
+					}
+					
+					commentType = 0;
+				}
+			}
+			
+			if (containsChar(chars, c))
+			{
+				count++;
+			}
+			else
+			{
+				return count;
+			}
+		}
+		
+		return count;
+	}
+	
+	private boolean containsChar(char chars[], char key)
+	{
+		for (int i = 0; i < chars.length; i ++)
+		{
+			if (key == chars[i])
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private int getCaretLineNumber()
+	{
+		return getLineAtOffset(getCaretPosition());
+	}
+	
+	private int getCaretPosition()
+	{
+		return getCaretOffset();
+	}
+	
+	private int getCaretXPosition()
+	{
+		int xPos              = 0;
+		int countedCharacters = 0;
+		int caretPos          = getCaretPosition();
+		
+		for (int i = 0; i < tabs.size(); i ++)
+		{
+			if (i == getCaretLineNumber())// || countedCharacters >= getCaretPosition())
+			{
+				xPos = caretPos - countedCharacters - i * 2;// - (i * 2);
+//				System.out.println("size: " + tabs.size() + ", caretPos: " + caretPos + ", counted: " + countedCharacters + ", Line number: " + i + ", after calc: " + xPos);
+				
+//				xPos = countedCharacters - (getCaretPosition()) + i;
+//				xPos = Math.abs(xPos);
+				return xPos;
+			}
+			
+			countedCharacters += tabs.get(i).size();
+		}
+		
+		return xPos;
+	}
+	
+	private char lastCharacter(int charactersBack)
+	{
+		int textLength = getText().length();
+		
+		if (textLength >= charactersBack)
+		{
+			return getText().charAt(textLength - charactersBack);
+		}
+		
+		return 0;
+	}
+	
+	private boolean lastCharacterIsTab(int charactersBack, int lineNum)
+	{
+		ArrayList<Boolean> line = tabs.get(lineNum);
+		int size                = line.size();
+		
+		if (size >= charactersBack)
+		{
+			return line.get(size - charactersBack);
+		}
+		else if (size == 0)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	private int lineTabCount(int lineNumber, int linesBack)
+	{
+		int size    = tabs.get(lineNumber - linesBack).size();
+		int tabsNum = 0;
+		
+		for (int i = size - 1; i >= 0; i --)
+		{
+			if (tabs.get(lineNumber - linesBack).get(i))
+			{
+				tabsNum = i + 1;
+				
+				break;
+			}
+		}
+		
+		return tabsNum;
+	}
+	
+	private boolean isPrintable(char c)
+	{
+		Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
+		
+		return (!Character.isISOControl(c) && block != null && block != Character.UnicodeBlock.SPECIALS);
+	}	
+	
+	public void paste()
+	{
+		Clipboard clip  = new Clipboard(ArrowIDE.display);
+		
+		Transfer  trans = TextTransfer.getInstance();
+		
+		final Object     contents  = clip.getContents(trans);
+		final StyledText thisField = this;
+		
+		if (contents instanceof String)
+		{
+			char chars[] = ((String)contents).toCharArray();
+			
+			StringBuilder sb = new StringBuilder();
+			
+			int xPosition     = getCaretXPosition();
+			int caretPosition = getCaretPosition();
+			int lineNum       = getCaretLineNumber();
+			
+			int index  = 0;
+			
+			int tabCount = lineTabCount(lineNum, 0);
+			int tabUndo  = 0;
+			
+			boolean beginning = true;
+			
+			for (int i = 0; i < chars.length; i ++)
+			{
+				char c = chars[i];
+				
+				if (c == '\r')
+				{
+					continue;
+				}
+				
+				if (c == '\t' && (beginning || xPosition < tabUndo))
+				{
+					if (beginning)
+					{
+						tabUndo ++;
+					}
+					
+					continue;
+				}
+				
+				beginning = false;
+				
+				if (c == '\n')
+				{
+					lineNum++;
+					
+					if (lineNum >= tabs.size())
+					{
+						tabs.add(new ArrayList<Boolean>());
+					}
+					
+					xPosition = 0;
+					
+					sb.append("\r");
+				}
+				
+				sb.append(c);
+				
+				tabs.get(lineNum).add(c == '\t');
+				
+				if (c == '\n')
+				{
+					tabs.add(lineNum, new ArrayList<Boolean>());
+			
+					for (int tab = 0; tab < tabCount; tab ++)
+					{
+						tabs.get(lineNum).add(true);
+						sb.append('\t');
+					}
+				}
+				
+				xPosition++;
+			}
+			
+			insert(sb.toString());
+			setCaretOffset(getCaretOffset() + sb.length());
+			
+//			highlightSyntax();
+			
+			contentChanged();
+		}
+	}
+	
+	private void contentChanged()
+	{
+		for (int i = listeners.size() - 1; i >= 0; i--)
+		{
+			ContentEvent event = new ContentEvent();
+			
+			event.setSource(this);
+			
+			listeners.get(i).contentChanged(event);
+		}
+		
+//		redraw();
+//		redraw( 2, 5, 2, true);
+	}
+	
+	private void updateLineNumbers()
+	{
+		lineNumberText.setSize(new String(getLineCount() + ".").length() * charWidth, getHeight() - getHorizontalBar().getSize().y + 1);
+		
+		lineNumberText.setText("");
+		
+		for (int i = 0; i < getLineCount() - 1; i ++)
+		{
+			if (i < tabs.size())
+			{
+				lineNumberText.append("\n");
+			}
+		}
+		
+		lineNumberText.redraw();
+	}
+	
+	public void setText(String text)
+	{
+		setText(text, false);
+	}
+	
+	public void setText(String text, boolean loaded)
+	{
+		if (!(text.equals(getText()) || loaded))
+		{
+			contentChanged();
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		
+		parseString(text, sb, 0, 0, 0, 0);
+		
+		super.setText(sb.toString());
+		
+//		highlightSyntax();
+		
+		oldLength    = getCharCount();
+		oldLineCount = getLineCount();
+		
+		redraw();
+	}
+	
+	public String getRawText()
+	{
+		return getText().replace(new Character((char)13), ' ');
+	}
+	
+	public String getWritableText()
+	{
+		return getText();//.replace("\n", "\r\n");
+	}
+	
+	public int getX()
+	{
+		return getBounds().x;
+	}
+	
+	public int getY()
+	{
+		return getBounds().y;
+	}
+	
+	public int getWidth()
+	{
+		int width = getBounds().width;
+		
+		return width;
+	}
+	
+	public int getHeight()
+	{
+		return getBounds().height;
+	}
+	
+	public int getLanguage()
+	{
+		return language;
+	}
+	
+	public void setLanguage(int language)
+	{
+		this.language = language;
+	}
+	
+	public void addContentListener(ContentListener listener)
+	{
+		listeners.add(listener);
+	}
+	
+//	public void setSize(int width, int height)
+//	{
+//		if (lineNumberText != null)
+//		{
+//			lineNumberText.setSize((new String(getLineCount() + ".").length()) * charWidth, height - getHorizontalBar().getSize().y + 1);
+//		}
+//		
+//		super.setSize(width, height);
+//	}
+	
+	public void setLocation(int x, int y)
+	{
+		if (lineNumberText != null)
+		{
+			lineNumberText.setLocation(x, y);
+		}
+		
+		super.setLocation(x, y);
+	}
+	
+	public void setShowLineNumbers(boolean show)
+	{
+		if (show)
+		{
+//			lineNumberText = new StyledText(composite, SWT.MULTI);
+//			lineNumberText.setFont(getFont());
+//			lineNumberText.setSize(new String(getLineCount() + ".").length() * charWidth, getHeight() - getHorizontalBar().getSize().y + 1);
+//			lineNumberText.setBackground(new Color(Display.getCurrent(), 200, 200, 200));
+//			lineNumberText.moveAbove(this);
+//			
+////			composite.
+//			
+//			setFocus();
+			
+//			lineNumbers = new LineStyleListener()
+//		    {
+//				public void lineGetStyle(LineStyleEvent e)
+//				{
+//					e.bulletIndex = lineNumberText.getLineAtOffset(e.lineOffset);
+//					e.alignment   = SWT.RIGHT;
+//					
+//					String count  = e.bulletIndex + 1 + "";
+//					
+//					String prefix = "";
+//					
+//					int l = count.length();
+//					
+//					int biggestLength = new String((getLineCount()) + "").length();
+//					
+//					while (l++ < biggestLength)
+//					{
+//						prefix += " ";
+//					}
+//					
+//					String text = prefix + count + ".";
+//					
+//					StyleRange style = new StyleRange();
+//					style.metrics = new GlyphMetrics(0, 0, (text.length() + 1) * charWidth);
+////					style.background = new Color(Display.getCurrent(), 200, 200, 200);
+//					
+//					Bullet bullet = new Bullet(ST.BULLET_TEXT, style);
+//					
+//					bullet.text = text;
+//					
+//					e.bullet = bullet;
+//				}
+//		    };
+//			
+//			lineNumberText.addLineStyleListener(lineNumbers);
+			
+			lineNumbers = new LineStyleListener()
+		    {
+				public void lineGetStyle(LineStyleEvent e)
+				{
+//					e.bulletIndex = getLineAtOffset(e.lineOffset);
+//					e.alignment = SWT.RIGHT;
+//					
+//					String count = e.bulletIndex + 1 + "";
+//					
+//					String prefix = "";
+//					
+//					int l = 0;
+//					
+//					int biggestLength = new String((getLineCount()) + ".").length();
+//					
+//					while (l++ < biggestLength)
+//					{
+//						prefix += " ";
+//					}
+//					
+//					int wid = (prefix.length());
+//					
+//					StyleRange style = new StyleRange();
+//					style.metrics = new GlyphMetrics(0, 0, wid * charWidth);
+//					
+//					Bullet bullet = new Bullet(ST.BULLET_TEXT, style);
+//					
+//					bullet.text = prefix;
+//					
+//					e.bullet = bullet;
+					
+					e.bulletIndex = getLineAtOffset(e.lineOffset);
+					e.alignment   = SWT.RIGHT;
+					
+					String count  = e.bulletIndex + 1 + "";
+					
+					String prefix = "";
+					
+					int l = count.length();
+					
+					int biggestLength = new String((getLineCount()) + "").length();
+					
+					while (l++ < biggestLength)
+					{
+						prefix += " ";
+					}
+					
+					String text = prefix + count + ".";
+					
+					int offset = (text.length() + 1);
+					
+					offset = (offset % 4) + 4 - (offset % 4);
+					
+					StyleRange style = new StyleRange();
+					style.metrics = new GlyphMetrics(0, 0, offset * charWidth);
+					style.background = new Color(Display.getCurrent(), 200, 200, 200);
+					
+					Bullet bullet = new Bullet(ST.BULLET_TEXT, style);
+					
+					bullet.text = text;
+					
+					e.bullet = bullet;
+				}
+		    };
+		    
+		    syntaxHighlighting = new LineStyleListener()
+		    {
+				public void lineGetStyle(LineStyleEvent event)
+				{
+//					e.bulletIndex = getLineAtOffset(e.lineOffset);
+//					e.alignment = SWT.RIGHT;
+//					
+//					String count = e.bulletIndex + 1 + "";
+//					
+//					String prefix = "";
+//					
+//					int l = 0;
+//					
+//					int biggestLength = new String((getLineCount()) + ".").length();
+//					
+//					while (l++ < biggestLength)
+//					{
+//						prefix += " ";
+//					}
+//					
+//					int wid = (prefix.length());
+//					
+//					StyleRange style = new StyleRange();
+//					style.metrics = new GlyphMetrics(0, 0, wid * charWidth);
+//					
+//					Bullet bullet = new Bullet(ST.BULLET_TEXT, style);
+//					
+//					bullet.text = prefix;
+//					
+//					e.bullet = bullet;
+					
+					event.styles = highlightSyntax();
+				}
+		    };
+		    
+		    addLineStyleListener(lineNumbers);
+		    addLineStyleListener(syntaxHighlighting);
+		    
+		    addExtendedModifyListener(new ExtendedModifyListener()
+		    {
+				public void modifyText(ExtendedModifyEvent event)
+				{
+					redraw();
+				}
+		    });
+			
+//			lineNumberText.redraw();
+		}
+		else
+		{
+			lineNumberText.removeLineStyleListener(lineNumbers);
+			removeLineStyleListener(lineSpaces);
+			lineNumberText.dispose();
+			lineNumberText = null;
+		}
+	}
+	
+	public void lineGetStyle(LineStyleEvent event)
+	{
+		
+	}
+}

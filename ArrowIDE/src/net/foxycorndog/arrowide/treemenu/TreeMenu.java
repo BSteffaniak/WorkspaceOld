@@ -7,6 +7,7 @@ import java.util.HashSet;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -41,9 +42,9 @@ public class TreeMenu extends Composite
 	
 	public TreeMenu(Shell shell)
 	{
-		super(shell, SWT.H_SCROLL | SWT.V_SCROLL);
+		super(shell, SWT.NONE);
 		
-		tree         = new Tree(this, SWT.NONE);
+		tree         = new Tree(this, SWT.H_SCROLL | SWT.V_SCROLL);
 		
 		treeIds      = new ArrayList<Integer>();
 		
@@ -104,13 +105,23 @@ public class TreeMenu extends Composite
 			}
 		});
 	}
-	
+
 	public int addItem(String name)
+	{
+		return addItem(name, null);
+	}
+	
+	public int addItem(String name, Image image)
 	{
 		final int id = ++staticId;
 		
 		TreeItem item = new TreeItem(tree, SWT.NONE);
 		item.setText(name);
+		
+		if (image != null)
+		{
+			item.setImage(image);
+		}
 
 		ids.put(item, id);
 		items.put(id, item);
@@ -125,10 +136,20 @@ public class TreeMenu extends Composite
 	
 	public int addSubItem(int parent, String name)
 	{
+		return addSubItem(parent, name, null);
+	}
+	
+	public int addSubItem(int parent, String name, Image image)
+	{
 		final int id = ++staticId;
 		
 		TreeItem item = new TreeItem(items.get(parent), SWT.NONE);
 		item.setText(name);
+		
+		if (image != null)
+		{
+			item.setImage(image);
+		}
 		
 		ids.put(item, id);
 		items.put(id, item);
@@ -253,5 +274,15 @@ public class TreeMenu extends Composite
 	public void removeItem(int id)
 	{
 		items.get(id).dispose();
+	}
+	
+	public void setText(int id, String text)
+	{
+		items.get(id).setText(text);
+	}
+	
+	public String getText(int id)
+	{
+		return items.get(id).getText();
 	}
 }
