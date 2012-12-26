@@ -124,6 +124,11 @@ public class CodeField extends StyledText
 			
 			if (c == '\n')
 			{
+				if (string.charAt(i - 1) != '\r')
+				{
+					parseChar('\r', sb, xPosition, caretPosition, lineNum, offset + i);
+				}
+				
 				lineNum++;
 				
 				xPosition = 0;
@@ -492,9 +497,11 @@ public class CodeField extends StyledText
 				
 //				xPos = countedCharacters - (getCaretPosition()) + i;
 //				xPos = Math.abs(xPos);
+				System.out.println(i + ": " + tabs.get(i).size() + ", " + xPos);
 				return xPos;
 			}
-			
+
+			System.out.println(i + ": " + tabs.get(i).size());
 			countedCharacters += tabs.get(i).size();
 		}
 		
@@ -681,16 +688,28 @@ public class CodeField extends StyledText
 	
 	public void setText(String text, boolean loaded)
 	{
+		setText(text, loaded, true);
+	}
+	
+	public void setText(String text, boolean loaded, boolean parse)
+	{
 		if (!(text.equals(getText()) || loaded))
 		{
 			contentChanged();
 		}
 		
-		StringBuilder sb = new StringBuilder();
-		
-		parseString(text, sb, 0, 0, 0, 0);
-		
-		super.setText(sb.toString());
+		if (parse)
+		{
+			StringBuilder sb = new StringBuilder();
+			
+			parseString(text, sb, 0, 0, 0, 0);
+			
+			super.setText(sb.toString());
+		}
+		else
+		{
+			super.setText(text);
+		}
 		
 //		highlightSyntax();
 		

@@ -45,7 +45,7 @@ public class FileInputDialog extends TextInputDialog
 	
 	public FileInputDialog(Display display, DialogListener listener, String windowInstruction, String textFieldInstruction, String defaultTextField, boolean directory, String preLocation, boolean overwrite)
 	{
-		super(display, listener, windowInstruction, textFieldInstruction, defaultTextField, directory);
+		super(display, listener, windowInstruction, textFieldInstruction, defaultTextField);
 		
 		this.listener    = listener;
 		this.directory   = directory;
@@ -69,7 +69,7 @@ public class FileInputDialog extends TextInputDialog
 		
 		error = new Label(window, SWT.NONE);
 		error.setText("");
-		error.setSize(240, 20);
+		error.setSize(370, 20);
 		error.setLocation(100, 115);
 		error.setForeground(new Color(display, 220, 0, 0));
 		
@@ -140,9 +140,16 @@ public class FileInputDialog extends TextInputDialog
 				DialogEvent event = new DialogEvent();
 				event.setSource(this);
 				
-				listener.dialogCompleted(event);
+				String result = listener.dialogCompleted(event);
 				
-				window.dispose();
+				if (result == null)
+				{
+					window.dispose();
+				}
+				else
+				{
+					error.setText(result);
+				}
 			}
 			else if (!directory && isDirectory)
 			{

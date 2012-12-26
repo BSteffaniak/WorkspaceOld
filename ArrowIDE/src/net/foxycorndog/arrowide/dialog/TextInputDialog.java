@@ -25,8 +25,6 @@ import org.eclipse.swt.widgets.Text;
 
 public class TextInputDialog implements Dialog
 {
-	private boolean directory;
-	
 	private String  text;
 	
 	private Text    locationEditor;
@@ -37,15 +35,14 @@ public class TextInputDialog implements Dialog
 	
 	private DialogListener listener;
 	
-	public TextInputDialog(Display display, DialogListener listener, String windowInstruction, String textFieldInstruction, boolean directory)
+	public TextInputDialog(Display display, DialogListener listener, String windowInstruction, String textFieldInstruction)
 	{
-		this(display, listener, windowInstruction, textFieldInstruction, "", directory);
+		this(display, listener, windowInstruction, textFieldInstruction, "");
 	}
 	
-	public TextInputDialog(Display display, DialogListener listener, String windowInstruction, String textFieldInstruction, String defaultTextField, boolean directory)
+	public TextInputDialog(Display display, DialogListener listener, String windowInstruction, String textFieldInstruction, String defaultTextField)
 	{
 		this.listener    = listener;
-		this.directory   = directory;
 		
 		Rectangle screenBounds = display.getMonitors()[0].getBounds();
 		
@@ -65,7 +62,7 @@ public class TextInputDialog implements Dialog
 		
 		error = new Label(window, SWT.NONE);
 		error.setText("");
-		error.setSize(240, 20);
+		error.setSize(370, 20);
 		error.setLocation(100, 115);
 		error.setForeground(new Color(display, 220, 0, 0));
 		
@@ -112,7 +109,6 @@ public class TextInputDialog implements Dialog
 	
 	private void continuePressed()
 	{
-		
 		String text = locationEditor.getText();
 		
 		if (text.length() >= 0)
@@ -122,9 +118,15 @@ public class TextInputDialog implements Dialog
 			DialogEvent event = new DialogEvent();
 			event.setSource(this);
 			
-			if (listener.dialogCompleted(event))
+			String result = listener.dialogCompleted(event);
+			
+			if (result == null)
 			{
 				window.dispose();
+			}
+			else
+			{
+				error.setText(result);
 			}
 		}
 	}

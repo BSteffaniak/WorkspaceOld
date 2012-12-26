@@ -19,7 +19,7 @@
 <coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="org.eclipse.jdt.ui.JavaElementCreationActionSet" itemType="typeToolBarContribution" x="76" y="22"/>
 <coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="99" y="22"/>
-<coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="130" y="22"/>
 <coolItem id="org.eclipse.wst.xml.ui.perspective.NewFileToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="org.eclipse.wst.xml.ui.design.DesignToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
@@ -71,6 +71,7 @@
 <part id="32"/>
 <part id="43"/>
 <part id="33"/>
+<part id="46"/>
 <part id="45"/>
 <part id="35"/>
 <part id="34"/>
@@ -144,7 +145,7 @@
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ArrowIDE.java" partName="ArrowIDE.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java" title="ArrowIDE.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="12194" selectionTopPixel="4977"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="7232" selectionTopPixel="2728"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Compiler.java" partName="Compiler.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java" title="Compiler.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java"/>
@@ -220,7 +221,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FileInputDialog.java" partName="FileInputDialog.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/dialog/FileInputDialog.java" title="FileInputDialog.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/dialog/FileInputDialog.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/dialog/FileInputDialog.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1753" selectionTopPixel="426"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2690" selectionTopPixel="590"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Dialog.java" partName="Dialog.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/dialog/Dialog.java" title="Dialog.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/dialog/Dialog.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/dialog/Dialog.java"/>
@@ -228,7 +229,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="DialogListener.java" partName="DialogListener.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/dialog/DialogListener.java" title="DialogListener.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/dialog/DialogListener.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/dialog/DialogListener.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="95" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="94" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="DialogEvent.java" partName="DialogEvent.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/dialog/DialogEvent.java" title="DialogEvent.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/dialog/DialogEvent.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/dialog/DialogEvent.java"/>
@@ -240,7 +241,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CodeField.java" partName="CodeField.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java" title="CodeField.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="17238" selectionTopPixel="10781"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="16183" selectionTopPixel="10248"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ContentListener.java" partName="ContentListener.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/components/ContentListener.java" title="ContentListener.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/components/ContentListener.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/components/ContentListener.java"/>
@@ -268,7 +269,11 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TextInputDialog.java" partName="TextInputDialog.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/dialog/TextInputDialog.java" title="TextInputDialog.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/dialog/TextInputDialog.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/dialog/TextInputDialog.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1582" selectionTopPixel="500"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2272" selectionTopPixel="399"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TabMenu.java" partName="TabMenu.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/tabmenu/TabMenu.java" title="TabMenu.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/tabmenu/TabMenu.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/tabmenu/TabMenu.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="802" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
@@ -309,7 +314,9 @@
 </view>
 <view id="org.eclipse.jdt.ui.PackageExplorer" partName="Package Explorer">
 <viewState group_libraries="1" layout="2" linkWithEditor="0" rootMode="1" workingSetName="">
-<customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
+<customFilters userDefinedPatternsEnabled="false">
+<xmlDefinedFilters>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.LocalTypesFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.StaticsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.ClosedProjectsFilter" isEnabled="false"/>
@@ -614,164 +621,158 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/dialog/FileBrowseDialog.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/dialog/TextInputDialog.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/dialog/FileInputDialog.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/dialog/TextInputDialog.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/dialog/DialogListener.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/dialog/FileInputDialog.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/tabmenu/TabMenu.java"/>
 </editors>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="18573" y="7"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="401" y="1"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="18586" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="4814" y="220"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="18620" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="401" y="1"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="18637" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="530" y="0"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="26646" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="7399" y="0"/>
 </item>
-<item historyLabel="TextInputDialog.java" index="1">
-<position info="not_deleted" x="1625" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="530" y="0"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="26646" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="802" y="0"/>
 </item>
-<item historyLabel="TextInputDialog.java" index="1">
-<position info="not_deleted" x="1853" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="7399" y="0"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="26646" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="1783" y="0"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="8334" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="7399" y="0"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="18644" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="1282" y="0"/>
 </item>
-<item historyLabel="TextInputDialog.java" index="1">
-<position info="not_deleted" x="2044" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="7399" y="0"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="8835" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="1282" y="0"/>
 </item>
-<item historyLabel="FileBrowseDialog.java" index="0">
-<position info="not_deleted" x="2972" y="107"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="7709" y="0"/>
 </item>
-<item historyLabel="TextInputDialog.java" index="1">
-<position info="not_deleted" x="2044" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="629" y="0"/>
 </item>
-<item historyLabel="TextInputDialog.java" index="1">
-<position info="not_deleted" x="888" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="7608" y="0"/>
 </item>
-<item historyLabel="FileInputDialog.java" index="3">
-<position info="not_deleted" x="893" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="1367" y="0"/>
 </item>
-<item historyLabel="TextInputDialog.java" index="1">
-<position info="not_deleted" x="5099" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="7483" y="0"/>
 </item>
-<item historyLabel="FileBrowseDialog.java" index="0">
-<position info="not_deleted" x="2972" y="107"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="1367" y="0"/>
 </item>
-<item historyLabel="FileInputDialog.java" index="3">
-<position info="not_deleted" x="0" y="5221"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="1545" y="0"/>
 </item>
-<item historyLabel="TextInputDialog.java" index="1">
-<position info="not_deleted" x="5099" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="15204" y="0"/>
 </item>
-<item historyLabel="FileBrowseDialog.java" index="0">
-<position info="not_deleted" x="2972" y="107"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="1678" y="0"/>
 </item>
-<item historyLabel="FileInputDialog.java" index="3">
-<position info="not_deleted" x="4216" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="15400" y="0"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="8835" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="802" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="4">
-<position info="not_deleted" x="15190" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="5026" y="0"/>
 </item>
-<item historyLabel="TextInputDialog.java" index="5">
-<position info="not_deleted" x="3455" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="747" y="28"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="12313" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position/>
 </item>
-<item historyLabel="TextInputDialog.java" index="5">
-<position info="not_deleted" x="3455" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="1027" y="0"/>
 </item>
-<item historyLabel="DialogListener.java" index="6">
-<position info="not_deleted" x="129" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="5026" y="0"/>
 </item>
-<item historyLabel="DialogListener.java" index="6">
-<position info="not_deleted" x="95" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="29864" y="0"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="12313" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="29903" y="0"/>
 </item>
-<item historyLabel="FileInputDialog.java" index="7">
-<position info="not_deleted" x="4020" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="1027" y="0"/>
 </item>
-<item historyLabel="TextInputDialog.java" index="5">
-<position info="not_deleted" x="3666" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="1193" y="0"/>
 </item>
-<item historyLabel="DialogListener.java" index="6">
-<position info="not_deleted" x="95" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="1199" y="0"/>
 </item>
-<item historyLabel="TextInputDialog.java" index="5">
-<position info="not_deleted" x="3716" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="1149" y="0"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="25359" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="1174" y="0"/>
 </item>
-<item historyLabel="FileInputDialog.java" index="7">
-<position info="not_deleted" x="748" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="29903" y="0"/>
 </item>
-<item historyLabel="TextInputDialog.java" index="5">
-<position info="not_deleted" x="1338" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="1174" y="0"/>
 </item>
-<item historyLabel="FileInputDialog.java" index="7">
-<position info="not_deleted" x="1753" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="29903" y="0"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="18819" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="29928" y="0"/>
 </item>
-<item historyLabel="FileInputDialog.java" index="7">
-<position info="not_deleted" x="1753" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="29940" y="0"/>
 </item>
-<item historyLabel="TextInputDialog.java" index="5">
-<position info="not_deleted" x="1582" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="29942" y="12"/>
 </item>
-<item historyLabel="FileInputDialog.java" index="7">
-<position info="not_deleted" x="1753" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position info="not_deleted" x="29955" y="0"/>
 </item>
-<item historyLabel="TextInputDialog.java" index="5">
-<position info="not_deleted" x="1582" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position/>
 </item>
-<item historyLabel="FileInputDialog.java" index="7">
-<position info="not_deleted" x="1753" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="824" y="10"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="12840" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="998" y="0"/>
 </item>
-<item historyLabel="FileInputDialog.java" index="7">
-<position info="not_deleted" x="1753" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="959" y="0"/>
 </item>
-<item historyLabel="TextInputDialog.java" index="5">
-<position info="not_deleted" x="1582" y="0"/>
+<item historyLabel="ArrowIDE.java" index="0">
+<position/>
 </item>
-<item historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="12840" y="0"/>
+<item historyLabel="TabMenu.java" index="1">
+<position info="not_deleted" x="802" y="0"/>
 </item>
-<item active="true" historyLabel="ArrowIDE.java" index="2">
-<position info="not_deleted" x="12142" y="0"/>
+<item active="true" historyLabel="ArrowIDE.java" index="0">
+<position/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -795,6 +796,15 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TabMenu.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/tabmenu/TabMenu.java">
+<persistable path="/ArrowIDE/src/net/foxycorndog/arrowide/tabmenu/TabMenu.java"/>
+</file>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="StyledText.class" tooltip="org.eclipse.swt.custom.StyledText">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=ArrowIDE/C:\/Users\/Braden Steffaniak\/Documents\/GitHub\/Workspace\/stuff\/swt\/swt-3.6.1-64\/swt.jar&lt;org.eclipse.swt.custom(StyledText.class"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="adfs" tooltip="androidopengl/adfs">
+<persistable path="/androidopengl/adfs"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TextInputDialog.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/dialog/TextInputDialog.java">
 <persistable path="/ArrowIDE/src/net/foxycorndog/arrowide/dialog/TextInputDialog.java"/>
 </file>
@@ -809,9 +819,6 @@
 </file>
 <file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="Widget.class" tooltip="org.eclipse.swt.widgets.Widget">
 <persistable org.eclipse.jdt.ui.ClassFileIdentifier="=ArrowIDE/C:\/Users\/Braden Steffaniak\/Documents\/GitHub\/Workspace\/stuff\/swt\/swt-3.6.1-64\/swt.jar&lt;org.eclipse.swt.widgets(Widget.class"/>
-</file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="StyledText.class" tooltip="org.eclipse.swt.custom.StyledText">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=ArrowIDE/C:\/Users\/Braden Steffaniak\/Documents\/GitHub\/Workspace\/stuff\/swt\/swt-3.6.1-64\/swt.jar&lt;org.eclipse.swt.custom(StyledText.class"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Compiler.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/compiler/Compiler.java">
 <persistable path="/ArrowIDE/src/net/foxycorndog/arrowide/compiler/Compiler.java"/>
@@ -833,12 +840,6 @@
 </file>
 <file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="ActionEvent.class" tooltip="java.awt.event.ActionEvent">
 <persistable org.eclipse.jdt.ui.ClassFileIdentifier="=Poker Game/C:\/Program Files \(x86)\/Java\/jre6\/lib\/rt.jar&lt;java.awt.event(ActionEvent.class"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PokerGame.java" tooltip="Poker Game/src/net/foxycorndog/poker/PokerGame.java">
-<persistable path="/Poker Game/src/net/foxycorndog/poker/PokerGame.java"/>
-</file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="jd.ide.eclipse.editors.JDClassFileEditor.win32.x86_64" name="Event.class" tooltip="org.eclipse.swt.widgets.Event">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=ArrowIDE/C:\/Users\/Braden Steffaniak\/Documents\/GitHub\/Workspace\/stuff\/swt\/swt-3.6.1-64\/swt.jar&lt;org.eclipse.swt.widgets(Event.class"/>
 </file>
 </mruList>
 </workbench>

@@ -1,0 +1,20 @@
+package net.foxycorndog.arrowide.tabmenu;
+
+import java.util.HashMap;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
+
+public class TabMenu
+{
+	private TabFolder                 tabFolder;
+	
+	private HashMap<Integer, TabItem> tabs;
+	
+	public TabMenu(Composite composite)
+	{
+		tabFolder = new TabFolder(composite, SWT.NONE);
+	}
+}

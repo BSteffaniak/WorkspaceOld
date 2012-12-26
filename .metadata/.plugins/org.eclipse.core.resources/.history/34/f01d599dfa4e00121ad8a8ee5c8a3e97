@@ -1,0 +1,12 @@
+package net.foxycorndog.arrowide.tabmenu;
+
+import java.util.HashMap;
+
+import org.eclipse.swt.widgets.TabItem;
+
+public class TabMenu
+{
+	private HashMap<Integer, TabItem> tabs;
+	
+	public TabMenu()
+}

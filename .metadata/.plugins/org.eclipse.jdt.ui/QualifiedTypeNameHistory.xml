@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.io.FileInputStream"/>
-<fullyQualifiedTypeName name="java.lang.System"/>
-<fullyQualifiedTypeName name="net.foxycorndog.glshaderide.shaderlanguage.Keyword"/>
-<fullyQualifiedTypeName name="net.foxycorndog.glshaderide.language.Keyword"/>
 <fullyQualifiedTypeName name="net.foxycorndog.glshaderide.language.Language"/>
 <fullyQualifiedTypeName name="java.net.URL"/>
 <fullyQualifiedTypeName name="java.net.URLClassLoader"/>
@@ -17,15 +13,12 @@
 <fullyQualifiedTypeName name="net.foxycorndog.glshaderide.menubar.MenubarListener"/>
 <fullyQualifiedTypeName name="net.foxycorndog.glshaderide.toolbar.ToolbarListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Listener"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Composite"/>
 <fullyQualifiedTypeName name="net.foxycorndog.glshaderide.treemenu.TreeMenu"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="java.awt.Rectangle"/>
 <fullyQualifiedTypeName name="net.foxycorndog.glshaderide.treemenu.TreeMenuListener"/>
 <fullyQualifiedTypeName name="java.util.HashSet"/>
 <fullyQualifiedTypeName name="java.util.Set"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.custom.ScrolledComposite"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.graphics.Color"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.DirectoryDialog"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Menu"/>
 <fullyQualifiedTypeName name="net.foxycorndog.glshaderide.rightclickmenu.RightClickMenu"/>
@@ -44,7 +37,6 @@
 <fullyQualifiedTypeName name="java.awt.event.MouseMotionListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.ControlListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.ShellListener"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.ArrowIDE"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.dialog.DialogListener"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.dialog.DialogEvent"/>
@@ -60,4 +52,12 @@
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.FileDialog"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.dialog.FileBrowseDialog"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.dialog.TextInputDialog"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.TabItem"/>
+<fullyQualifiedTypeName name="net.foxycorndog.arrowide.tabmenu.TabMenu"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Composite"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.TabFolder"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.graphics.Color"/>
+<fullyQualifiedTypeName name="net.foxycorndog.arrowide.ArrowIDE.Tab"/>
 </qualifiedTypeNameHistroy>
