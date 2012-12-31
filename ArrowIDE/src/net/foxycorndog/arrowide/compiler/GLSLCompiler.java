@@ -78,7 +78,6 @@ import static org.lwjgl.opengl.GL20.glVertexAttrib3s;
 import static org.lwjgl.opengl.GL20.glVertexAttrib4d;
 import static org.lwjgl.opengl.GL20.glVertexAttrib4f;
 import static org.lwjgl.opengl.GL20.glVertexAttrib4s;
-import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.TouchEvent;
+import org.eclipse.swt.events.TouchListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -16,6 +18,8 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+
+import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 
 public class TreeMenu extends Composite
 {
@@ -44,7 +48,7 @@ public class TreeMenu extends Composite
 	{
 		super(shell, SWT.NONE);
 		
-		tree         = new Tree(this, SWT.H_SCROLL | SWT.V_SCROLL);
+		tree         = new Tree(this, SWT.H_SCROLL | SWT.V_SCROLL | (Integer)PROPERTIES.get("composite.modifiers"));
 		
 		treeIds      = new ArrayList<Integer>();
 		
@@ -73,10 +77,6 @@ public class TreeMenu extends Composite
 						{
 							listeners.get(i).treeItemDoubleClicked(ids.get(itemsSelected[j]));
 						}
-						else if (e.button == 3)
-						{
-							
-						}
 					}
 				}
 			}
@@ -102,6 +102,14 @@ public class TreeMenu extends Composite
 						}
 					}
 				}
+			}
+		});
+		
+		tree.addListener(SWT.FOCUSED, new Listener()
+		{
+			public void handleEvent(Event e)
+			{
+				
 			}
 		});
 	}
@@ -227,6 +235,11 @@ public class TreeMenu extends Composite
 	
 	public int getSelection()
 	{
+		if (tree.getSelection().length == 0)
+		{
+			return -1;
+		}
+		
 		int selection = 0;
 		
 		selection = ids.get(tree.getSelection()[0]);
@@ -276,12 +289,12 @@ public class TreeMenu extends Composite
 		items.get(id).dispose();
 	}
 	
-	public void setText(int id, String text)
+	public void setTreeItemText(int id, String text)
 	{
 		items.get(id).setText(text);
 	}
 	
-	public String getText(int id)
+	public String getTreeItemText(int id)
 	{
 		return items.get(id).getText();
 	}

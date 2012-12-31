@@ -47,8 +47,8 @@ varying vec4 varyingVertex;
 
 void main()
 {
-	fragScreenPos = gl_ModelViewMatrix * gl_Vertex;
-	fragWorldPos  = gl_Vertex;
+	fragScreenPos  = gl_ModelViewMatrix * gl_Vertex;
+	fragWorldPos   = gl_Vertex;
 	
 	gl_TexCoord[0] = gl_MultiTexCoord0;
 

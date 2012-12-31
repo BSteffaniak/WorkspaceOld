@@ -56,27 +56,27 @@ public class FileBrowseDialog implements Dialog
 		
 		Label instructionsLabel = new Label(window, SWT.NONE);
 		instructionsLabel.setText(windowInstruction);
-		instructionsLabel.setSize(220, 20);
+		instructionsLabel.setSize(370, 20);
 		instructionsLabel.setLocation(100, 30);
 		
-		Label textFieldInstructionLabel = new Label(window, SWT.NONE);
+		Label textFieldInstructionLabel = new Label(window, SWT.RIGHT);
 		textFieldInstructionLabel.setText(textFieldInstruction);
 		textFieldInstructionLabel.setSize(70, 20);
 		textFieldInstructionLabel.setLocation(20, 80);
 		
 		error = new Label(window, SWT.NONE);
 		error.setText("");
-		error.setSize(240, 20);
+		error.setSize(370, 20);
 		error.setLocation(100, 130);
 		error.setForeground(new Color(display, 220, 0, 0));
 		
 		final Button browse = new Button(window, SWT.PUSH);
-		browse.setSize(80, 20);
+		browse.setSize(100, 25);
 		browse.setLocation(360, 80);
 		browse.setText("Browse");
 		
 		final Button continueButton = new Button(window, SWT.PUSH);
-		continueButton.setSize(80, 20);
+		continueButton.setSize(100, 25);
 		continueButton.setLocation(360, 130);
 		continueButton.setText("Continue");
 		

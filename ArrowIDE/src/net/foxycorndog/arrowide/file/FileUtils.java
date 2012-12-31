@@ -1,6 +1,15 @@
 package net.foxycorndog.arrowide.file;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 
 import net.foxycorndog.arrowide.language.Keyword;
 
@@ -145,13 +154,57 @@ public class FileUtils
 	
 	public static String getFileName(String location)
 	{
-		location      = location.replace('\\', '/');
+		location       = location.replace('\\', '/');
 		
-		int firstIndex = location.lastIndexOf('/');
-		firstIndex     = firstIndex == -1 ? 0 : firstIndex;
+		int firstIndex = location.lastIndexOf('/') + 1;
 		
-		location = removeEndingSlashes(location);
+		location       = removeEndingSlashes(location);
 		
-		return location.substring(firstIndex + 1, location.length());
+		return location.substring(firstIndex, location.length());
+	}
+	
+	public static Font loadMonospacedFont(Display display, String name, String location, int size, int style)
+	{
+		File file = new File(location);
+		
+		if (!file.exists())
+		{
+			throw new IllegalStateException("\"" + file.toString() + "\" does not exist.");
+		}
+		
+		if (!display.loadFont(file.toString()))
+		{
+			throw new IllegalStateException("\"" + file.toString() + "\" did not load correctly.");
+		}
+		
+		final Font font = new Font(display, name, size, style);
+		
+		display.addListener(SWT.Dispose, new Listener()
+		{
+			public void handleEvent(Event event)
+			{
+				font.dispose();
+			}
+		});
+		
+		return font;
+	}
+	
+	public static void writeFile(String location, String text)
+	{
+		File file = new File(location);
+		
+		try
+		{
+			PrintWriter writer = new PrintWriter(new FileWriter(file));
+			
+			writer.print(text);
+			
+			writer.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

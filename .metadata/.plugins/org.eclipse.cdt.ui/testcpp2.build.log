@@ -1,4 +1,14 @@
 
-**** Clean-only build of configuration Debug for project testcpp2 ****
-rm -rf testcpp2.exe test2.d test2.o
-Build complete for project testcpp2
+**** Rebuild of configuration Debug for project testcpp2 ****
+
+**** Internal Builder is used for build               ****
+****  WARNING: The "Debug" Configuration may not build  ****
+****  because it uses the "MinGW GCC"  ****
+****  tool-chain that is unsupported on this system.  ****
+
+****  Attempting to build...  **** 
+
+g++ -IC:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin -includeC:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h -O0 -g3 -Wall -c -fmessage-length=0 -o test2.o ../test2.cpp
+cc1plus: error: C:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h: No such file or directory
+Build error occurred, build is stopped
+Time consumed: 401  ms.  

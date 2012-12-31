@@ -35,6 +35,7 @@ import net.foxycorndog.arrowide.language.java.JavaLanguage;
 import net.foxycorndog.arrowide.menubar.Menubar;
 import net.foxycorndog.arrowide.menubar.MenubarListener;
 import net.foxycorndog.arrowide.tabmenu.TabMenu;
+import net.foxycorndog.arrowide.tabmenu.TabMenuListener;
 import net.foxycorndog.arrowide.toolbar.Toolbar;
 import net.foxycorndog.arrowide.toolbar.ToolbarListener;
 import net.foxycorndog.arrowide.treemenu.TreeMenu;
@@ -43,6 +44,8 @@ import net.foxycorndog.arrowide.treemenu.TreeMenuListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
@@ -82,7 +85,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.GLContext;
 
 
-public class ArrowIDE implements DialogListener, ContentListener
+public class ArrowIDE implements DialogListener, ContentListener, TabMenuListener
 {
 	private Button    compileButton;
 	
@@ -105,7 +108,6 @@ public class ArrowIDE implements DialogListener, ContentListener
 	
 	private Dialog        newFolderDialog, newFileDialog, renameFileDialog, newProjectDialog;
 	
-	private HashMap<Integer, Boolean> treeItemsSaved;
 	private HashMap<Integer, String>  treeItemLocations;
 	private HashMap<Integer, String>  treeItemOrigLocations;
 	private HashMap<String, Integer>  treeItems;
@@ -113,7 +115,9 @@ public class ArrowIDE implements DialogListener, ContentListener
 	private HashMap<Integer, String>  menuItemLocations;
 	private HashMap<String, Integer>  menuItems;
 	private HashMap<String, String>   fileCache;
-	private HashMap<Integer, Tab>     tabFiles;
+	private HashMap<String, Boolean>  fileCacheSaved;
+	private HashMap<Integer, String>  tabFileLocations;
+	private HashMap<String, Integer>  tabFileIds;
 	
 	private static boolean restarting;
 	
@@ -122,22 +126,37 @@ public class ArrowIDE implements DialogListener, ContentListener
 	
 	private static String                   configLocation;
 	
-	private static HashMap<String, String>  configData;
-	private static HashMap<Integer, String> configLineNumberData;
-	private static HashMap<String, Integer> configLineNumbers;
+	public  static final HashMap<String, String>  CONFIG_DATA;
+	public  static final HashMap<Integer, String> CONFIG_LINE_NUMBER_DATA;
+	public  static final HashMap<String, Integer> CONFIG_LINE_NUMBERS;
 	
-	private class Tab
+	public  static final HashMap<String, Object>  PROPERTIES;
+	
+	static
 	{
-		private int     tabId;
+		CONFIG_DATA             = new HashMap<String, String>();
+		CONFIG_LINE_NUMBER_DATA = new HashMap<Integer, String>();
+		CONFIG_LINE_NUMBERS     = new HashMap<String, Integer>();
 		
-		private String  fileLocation;
+		PROPERTIES              = new HashMap<String, Object>();
 		
-		public Tab(int tabId, String fileLocation)
+		String osName = System.getProperty("os.name");
+		
+		if (osName.toLowerCase().contains("mac"))
 		{
-			this.tabId        = tabId;
-			
-			this.fileLocation = fileLocation;
+			osName = "macosx";
 		}
+		else if (osName.toLowerCase().contains("win"))
+		{
+			osName = "windows";
+		}
+		else if (osName.toLowerCase().contains("lin"))
+		{
+			osName = "linux";
+		}
+		
+		PROPERTIES.put("os.name", osName);
+		PROPERTIES.put("composite.modifiers", (osName.equals("macosx") ? SWT.BORDER : SWT.NONE));
 	}
 	
 	public static void main(String args[])
@@ -209,14 +228,17 @@ public class ArrowIDE implements DialogListener, ContentListener
 			e.printStackTrace();
 		}
 		
-		tabs = new TabMenu(shell);
-		shell.setBackground(tabs.getBackground());
+		tabFileLocations  = new HashMap<Integer, String>();
+		tabFileIds        = new HashMap<String, Integer>();
 		
-	    tabs.setWidth(codeField.getWidth() + 2);
+		tabs = new TabMenu(shell);
+		tabs.setBackground(new Color(Display.getCurrent(), 199, 238, 255));
+		tabs.addListener(this);
+//		shell.setBackground(tabs.getBackground());
+		
+	    tabs.setMaxWidth(codeField.getWidth() + 2);
 		codeField.setLocation(codeField.getX(), codeField.getY() + tabs.getHeight());
 		tabs.setLocation(codeField.getX(), 2);
-		
-		tabFiles          = new HashMap<Integer, Tab>();
 		
 		menuItemLocations = new HashMap<Integer, String>();
 		menuItems         = new HashMap<String, Integer>();
@@ -271,7 +293,7 @@ public class ArrowIDE implements DialogListener, ContentListener
 				}
 				else if (menuItemLocations.get(subItemId).equals("File>Exit"))
 				{
-					exit();
+					exit(shell);
 				}
 			}
 		});
@@ -281,7 +303,9 @@ public class ArrowIDE implements DialogListener, ContentListener
 			toolbar       = new Toolbar(shell);
 			
 			toolbar.setBackground(shell.getBackground());
-		
+
+			toolbar.addToolItem("Save", new Image(display, new FileInputStream("res/images/savebutton.png")));
+			toolbar.addSeparator();
 			toolbar.addToolItem("Compile", new Image(display, new FileInputStream("res/images/compilebutton.png")));
 			toolbar.addSeparator();
 			toolbar.addToolItem("Run", new Image(display, new FileInputStream("res/images/runbutton.png")));
@@ -295,7 +319,11 @@ public class ArrowIDE implements DialogListener, ContentListener
 		{
 			public void toolItemPressed(String toolItemName)
 			{
-				if (toolItemName.equals("Compile"))
+				if (toolItemName.equals("Save"))
+				{
+					saveFile(fileLocation);
+				}
+				else if (toolItemName.equals("Compile"))
 				{
 					
 					if (fileLocation == null)
@@ -328,7 +356,7 @@ public class ArrowIDE implements DialogListener, ContentListener
 			}
 		});
 		
-		treeItemsSaved        = new HashMap<Integer, Boolean>();
+		fileCacheSaved        = new HashMap<String, Boolean>();
 		treeItemLocations     = new HashMap<Integer, String>();
 		treeItemOrigLocations = new HashMap<Integer, String>();
 		treeItems             = new HashMap<String, Integer>();
@@ -375,7 +403,14 @@ public class ArrowIDE implements DialogListener, ContentListener
 				}
 				else if (e.widget == newFolder)
 				{
-					String preLocation = FileUtils.removeEndingSlashes(treeItemOrigLocations.get(treeMenu.getSelection()));
+					String preLoc = treeItemOrigLocations.get(treeMenu.getSelection());
+					
+					if (preLoc == null)
+					{
+						preLoc = FileUtils.removeEndingSlashes(CONFIG_DATA.get("workspace.location")) + "/";
+					}
+					
+					String preLocation = FileUtils.removeEndingSlashes(preLoc);
 					
 					if (FileUtils.isFileName(preLocation))
 					{
@@ -388,7 +423,14 @@ public class ArrowIDE implements DialogListener, ContentListener
 				}
 				else if (e.widget == newFile)
 				{
-					String preLocation = FileUtils.removeEndingSlashes(treeItemOrigLocations.get(treeMenu.getSelection()));
+					String preLoc = treeItemOrigLocations.get(treeMenu.getSelection());
+					
+					if (preLoc == null)
+					{
+						preLoc = FileUtils.removeEndingSlashes(CONFIG_DATA.get("workspace.location")) + "/";
+					}
+					
+					String preLocation = FileUtils.removeEndingSlashes(preLoc);
 					
 					if (FileUtils.isFileName(preLocation))
 					{
@@ -450,7 +492,7 @@ public class ArrowIDE implements DialogListener, ContentListener
 			}
 		});
 		
-	    shell.addControlListener(new ControlListener()
+	    ControlListener shellListener = new ControlListener()
 		{
 			public void controlMoved(ControlEvent e)
 			{
@@ -472,13 +514,17 @@ public class ArrowIDE implements DialogListener, ContentListener
 				console.setSize(width, conHeight);
 				console.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y);
 				
-				tabs.setWidth(codeField.getWidth() + 2);
+//				tabs.setWidth(codeField.getWidth() + 2);
 				tabs.setLocation(codeField.getX(), toolbarHeight + 2);
 				
 				treeMenu.setLocation(5, codeField.getY());
 				treeMenu.setSize(shell.getClientArea().width - codeField.getWidth() - 10, codeField.getHeight() + console.getHeight());
 			}
-		});
+		};
+		
+		shell.addControlListener(shellListener);
+		
+		shellListener.controlResized(null);
 	}
 	
 	public static void start()
@@ -524,10 +570,6 @@ public class ArrowIDE implements DialogListener, ContentListener
 		}
 		
 		configLocation       = "arrow.config";
-		
-		configData           = new HashMap<String,  String>();
-		configLineNumbers    = new HashMap<String,  Integer>();
-		configLineNumberData = new HashMap<Integer, String>();
 
 		createConfigData();
 		
@@ -566,7 +608,7 @@ public class ArrowIDE implements DialogListener, ContentListener
 		
 		if (!restarting)
 		{
-			display.dispose();
+			exit(shell);
 		}
 	}
 	
@@ -596,14 +638,18 @@ public class ArrowIDE implements DialogListener, ContentListener
 		restarting = false;
 	}
 	
-	public void exit()
+	public static void exit(Shell shell)
 	{
+		shell.dispose();
+		
+		Display.getCurrent().close();
+		
 		System.exit(0);
 	}
 	
 	public static boolean workspaceCreated()
 	{
-		File workspaceDirectory = new File(configData.get("workspace.location"));
+		File workspaceDirectory = new File(CONFIG_DATA.get("workspace.location"));
 		
 		return workspaceDirectory.exists();
 	}
@@ -614,12 +660,12 @@ public class ArrowIDE implements DialogListener, ContentListener
 		{
 			PrintWriter p = new PrintWriter(new FileWriter(configLocation));
 			
-			for (int i = 0; i < configData.size(); i ++)
+			for (int i = 0; i < CONFIG_DATA.size(); i ++)
 			{
 				String lineKey   = null;
 				String lineValue = null;
 				
-				lineKey = configLineNumberData.get(i);
+				lineKey = CONFIG_LINE_NUMBER_DATA.get(i);
 				
 				if (lineKey.equals(key))
 				{
@@ -627,10 +673,10 @@ public class ArrowIDE implements DialogListener, ContentListener
 				}
 				else
 				{
-					lineValue = configData.get(lineKey);
+					lineValue = CONFIG_DATA.get(lineKey);
 				}
 				
-				p.print(lineKey + "=" + lineValue + (i == configData.size() - 1 ? "" : "\r\n"));
+				p.print(lineKey + "=" + lineValue + (i == CONFIG_DATA.size() - 1 ? "" : "\r\n"));
 			}
 			
 			p.close();
@@ -640,7 +686,7 @@ public class ArrowIDE implements DialogListener, ContentListener
 			e.printStackTrace();
 		}
 		
-		configData.put(key, value);
+		CONFIG_DATA.put(key, value);
 	}
 	
 	private static void createConfigData()
@@ -670,9 +716,9 @@ public class ArrowIDE implements DialogListener, ContentListener
 					value += lineData[i];
 				}
 				
-				configData.put(key, value);
-				configLineNumbers.put(key, lineNum);
-				configLineNumberData.put(lineNum, key);
+				CONFIG_DATA.put(key, value);
+				CONFIG_LINE_NUMBERS.put(key, lineNum);
+				CONFIG_LINE_NUMBER_DATA.put(lineNum, key);
 			}
 		}
 		catch (FileNotFoundException e)
@@ -687,7 +733,7 @@ public class ArrowIDE implements DialogListener, ContentListener
 	
 	public void newProject()
 	{
-		newProjectDialog = new FileInputDialog(display, this, "Enter the name of your project:", "Project name:", "", true, configData.get("workspace.location"), false);
+		newProjectDialog = new FileInputDialog(display, this, "Enter the name of your project:", "Project name:", "", true, CONFIG_DATA.get("workspace.location"), false);
 		
 		newProjectDialog.open();
 	}
@@ -710,9 +756,9 @@ public class ArrowIDE implements DialogListener, ContentListener
 		
 		if (fileLocation != null)
 		{
-			if (fileLocation.lastIndexOf('/') - (configData.get("workspace.location").length() + 1) > -1)
+			if (fileLocation.lastIndexOf('/') - (CONFIG_DATA.get("workspace.location").length() + 1) > -1)
 			{
-				fileLocation.substring(configData.get("workspace.location").length() + 1, fileLocation.lastIndexOf('/'));
+				fileLocation.substring(CONFIG_DATA.get("workspace.location").length() + 1, fileLocation.lastIndexOf('/'));
 			}
 		}
 		
@@ -724,7 +770,7 @@ public class ArrowIDE implements DialogListener, ContentListener
 		FileDialog dialog = new FileDialog(shell, SWT.OPEN);
 		dialog.setFilterNames(new String[] { "All Files (*)" });
 		dialog.setFilterExtensions(new String[] { "*" });
-		dialog.setFilterPath(configData.get("workspace.location") + "/" + relativeLocation);
+		dialog.setFilterPath(CONFIG_DATA.get("workspace.location") + "/" + relativeLocation);
 		
 		return dialog;
 	}
@@ -733,15 +779,21 @@ public class ArrowIDE implements DialogListener, ContentListener
 	{
 		location = location.replace('\\', '/');
 		
-		String locationKey = location.toLowerCase();
+		String locationKey  = location.toLowerCase();
 		
-		if (fileCache.containsKey(locationKey))
+		boolean alreadyOpen = fileCache.containsKey(locationKey);
+		
+		if (alreadyOpen)
 		{
 			codeField.setText(fileCache.get(locationKey), true, false);
 			
 			codeField.setLanguage(Language.getLanguage(location));
 			
 			codeField.redraw();
+			
+			int tabId = tabFileIds.get(location);
+			
+			tabs.setSelection(tabId);
 		}
 		else
 		{
@@ -771,12 +823,15 @@ public class ArrowIDE implements DialogListener, ContentListener
 				String fileContents = builder.toString();
 				
 				fileCache.put(locationKey, fileContents);
+				fileCacheSaved.put(location, true);
 				
 				codeField.setText(fileContents, true);
 				
 				codeField.setLanguage(Language.getLanguage(location));
 				
 				codeField.redraw();
+				
+				addTab(location);
 			}
 			catch (FileNotFoundException e)
 			{
@@ -811,9 +866,9 @@ public class ArrowIDE implements DialogListener, ContentListener
 		
 		if (fileLocation != null)
 		{
-			if (fileLocation.lastIndexOf('/') - (configData.get("workspace.location").length() + 1) > -1)
+			if (fileLocation.lastIndexOf('/') - (CONFIG_DATA.get("workspace.location").length() + 1) > -1)
 			{
-				fileLocation.substring(configData.get("workspace.location").length() + 1, fileLocation.lastIndexOf('/'));
+				fileLocation.substring(CONFIG_DATA.get("workspace.location").length() + 1, fileLocation.lastIndexOf('/'));
 			}
 		}
 		
@@ -825,7 +880,7 @@ public class ArrowIDE implements DialogListener, ContentListener
 		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
 		dialog.setFilterNames(new String[] { "All Files (*)" });
 		dialog.setFilterExtensions(new String[] { "*" });
-		dialog.setFilterPath(configData.get("workspace.location") + "/" + relativeLocation);
+		dialog.setFilterPath(CONFIG_DATA.get("workspace.location") + "/" + relativeLocation);
 		
 		return dialog;
 	}
@@ -843,29 +898,30 @@ public class ArrowIDE implements DialogListener, ContentListener
 			return;
 		}
 		
+		if (fileLocation == null)
+		{
+			fileLocation = "";
+		}
+		
 		String locKey        = location.toLowerCase();
 		String currentLocKey = fileLocation.toLowerCase();
 		
-		int     id           = treeItems.get(locKey);
+		int     id    = 0;
+		boolean saved = false;
+		
+		if (treeItems.containsKey(locKey))
+		{
+			id = treeItems.get(locKey);
+		}
+		
 		boolean currentFile  = locKey.equals(currentLocKey);
-		boolean saved        = treeItemsSaved.get(id);
-		
-		File file = new File(location);
-		
-		try
+	
+		if (fileCacheSaved.containsKey(fileLocation))
 		{
-			PrintWriter writer = new PrintWriter(new FileWriter(file));
-			
-			String text        = codeField.getWritableText();
-			
-			writer.print(text);
-			
-			writer.close();
+			saved = fileCacheSaved.get(fileLocation);
 		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		
+		FileUtils.writeFile(location, codeField.getWritableText());
 		
 		fileLocation = location.replace('\\', '/');
 		
@@ -880,16 +936,23 @@ public class ArrowIDE implements DialogListener, ContentListener
 		
 		if (currentFile)
 		{
-			String text = treeMenu.getText(id);
+			int tabId = tabFileIds.get(fileLocation);
+			
+			String text = tabs.getTabText(tabId);
 			
 			if (text.startsWith("*"))
 			{
 				text = text.substring(1);
 			
-				treeMenu.setText(id, text);
+				if (treeItems.containsKey(location))
+				{
+					treeMenu.setTreeItemText(id, text);
+				}
+				
+				tabs.setTabText(tabFileIds.get(fileLocation), text);
 			}
 			
-			treeItemsSaved.put(id, true);
+			fileCacheSaved.put(fileLocation, true);
 		}
 		
 		refreshFileViewer();
@@ -897,7 +960,7 @@ public class ArrowIDE implements DialogListener, ContentListener
 	
 	private void refreshFileViewer()
 	{
-		File workspace = new File(configData.get("workspace.location"));
+		File workspace = new File(CONFIG_DATA.get("workspace.location"));
 		
 		findSubFiles(workspace, 0);
 		
@@ -930,7 +993,7 @@ public class ArrowIDE implements DialogListener, ContentListener
 				boolean isDirectory = subFiles[i].isDirectory();
 				
 				String orig         = subFiles[i].getAbsolutePath().replace('\\', '/');
-				String name         = orig.substring(orig.lastIndexOf('/') + 1);
+				String name         = FileUtils.getFileName(orig);
 				String location     = orig.toLowerCase();
 				
 				int id              = 0;
@@ -978,7 +1041,7 @@ public class ArrowIDE implements DialogListener, ContentListener
 						treeItemDirectories.put(id, location);
 					}
 					
-					treeItemsSaved.put(id, true);
+					fileCacheSaved.put(orig, true);
 					treeItemLocations.put(id, location);
 					treeItemOrigLocations.put(id, orig);
 					treeItems.put(location, id);
@@ -1087,20 +1150,26 @@ public class ArrowIDE implements DialogListener, ContentListener
 			{
 				String location = fileLocation.toLowerCase();
 				
-				int id = treeItems.get(location);
+				int tabId = tabFileIds.get(fileLocation);
 				
-				boolean saved = treeItemsSaved.get(id);
+				boolean saved = fileCacheSaved.get(fileLocation);
 				
-				String text = treeMenu.getText(id);
+				String text = tabs.getTabText(tabId);
 				
 				if (!text.startsWith("*"))
 				{
 					text = "*" + text;
 				}
 				
-				treeMenu.setText(id, text);
+				if (treeItems.containsKey(location))
+				{
+					int id = treeItems.get(location);
+					treeMenu.setTreeItemText(id, text);
+				}
 				
-				treeItemsSaved.put(id, false);
+				tabs.setTabText(tabId, text);
+				
+				fileCacheSaved.put(fileLocation, false);
 				
 				String fileContents = codeField.getText();
 				
@@ -1149,6 +1218,39 @@ public class ArrowIDE implements DialogListener, ContentListener
 		
 		int id = tabs.addTab(fileName);
 		
-		tabFiles.put(id, new Tab(id, fileLocation));
+		tabFileLocations.put(id, fileLocation);
+		tabFileIds.put(fileLocation, id);
+	}
+	
+	public void tabClosed(int tabId)
+	{
+		int newId       = tabs.getSelected();
+		
+		String location = tabFileLocations.get(tabId);
+		
+		saveFile(location);
+		
+		tabFileLocations.remove(tabId);
+		tabFileIds.remove(location);
+		
+		fileCache.remove(location.toLowerCase());
+		fileCacheSaved.remove(location);
+		
+		if (newId == -1)
+		{
+			fileLocation = null;
+			codeField.setText("");
+		}
+		else if (tabId != newId)
+		{
+			openFile(tabFileLocations.get(newId));
+		}
+	}
+	
+	public void tabSelected(int tabId)
+	{
+		String location = tabFileLocations.get(tabId);
+		
+		openFile(location);
 	}
 }

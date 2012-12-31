@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Rsrc-Class-Path: ./ lwjgl.jar swt.jar
+Class-Path: .
+Rsrc-Main-Class: net.foxycorndog.arrowide.ArrowIDE
+Main-Class: org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader
+

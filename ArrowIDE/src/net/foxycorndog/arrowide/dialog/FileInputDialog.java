@@ -62,10 +62,10 @@ public class FileInputDialog extends TextInputDialog
 		instructionsLabel.setSize(220, 20);
 		instructionsLabel.setLocation(100, 30);
 		
-		Label textFieldInstructionLabel = new Label(window, SWT.NONE);
+		Label textFieldInstructionLabel = new Label(window, SWT.RIGHT);
 		textFieldInstructionLabel.setText(textFieldInstruction);
-		textFieldInstructionLabel.setSize(70, 20);
-		textFieldInstructionLabel.setLocation(20, 80);
+		textFieldInstructionLabel.setSize(94, 20);
+		textFieldInstructionLabel.setLocation(0, 80);
 		
 		error = new Label(window, SWT.NONE);
 		error.setText("");
@@ -74,7 +74,7 @@ public class FileInputDialog extends TextInputDialog
 		error.setForeground(new Color(display, 220, 0, 0));
 		
 		final Button continueButton = new Button(window, SWT.PUSH);
-		continueButton.setSize(80, 20);
+		continueButton.setSize(100, 25);
 		continueButton.setLocation(360, 80);
 		continueButton.setText("Continue");
 		

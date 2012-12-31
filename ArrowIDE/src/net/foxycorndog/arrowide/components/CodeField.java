@@ -3,6 +3,7 @@ package net.foxycorndog.arrowide.components;
 import java.util.ArrayList;
 
 import net.foxycorndog.arrowide.ArrowIDE;
+import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.Keyword;
 import net.foxycorndog.arrowide.language.Language;
 
@@ -34,6 +35,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
+
 public class CodeField extends StyledText
 {
 	private boolean commentStarting, commentStarted, commentEnding;
@@ -60,18 +63,17 @@ public class CodeField extends StyledText
 	
 	public CodeField(final Display display, Composite comp)
 	{
-		super(comp, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
+		super(comp, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | (Integer)PROPERTIES.get("composite.modifiers"));
 		
 		this.composite = comp;
 		
-		listeners = new ArrayList<ContentListener>();
+		listeners      = new ArrayList<ContentListener>();
 		
 		setText("");
 		setBounds(new Rectangle(0, 0, 100, 100));
 	    setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true, 1, 1));
 	    
-	    FontData defaultFont = new FontData("Consolas", 14, SWT.NONE);
-	    Font f = new Font(display, defaultFont);
+	    Font f = FileUtils.loadMonospacedFont(display, "Liberation Mono", "res/fonts/Liberation-Mono/LiberationMono-Regular.ttf", 16, SWT.NORMAL);
 	    setFont(f);
 	    
 	    GC g = new GC(this);
@@ -296,9 +298,9 @@ public class CodeField extends StyledText
 		
 		String text       = getText();
 		
-		char whitespace[] = new char[] { ' ', '.', ',', '/', '(', ')', '[', ']', '{', '}', ';', '\n', '\t', '\r'};
+		char whitespace[] = new char[] { ' ', '.', ',', '/', '=', '(', ')', '[', ']', '{', '}', ';', '\n', '\t', '\r'};
 		
-		String strings[]  = text.split("[.,/\n\t\\[\\](){};\r ]");
+		String strings[]  = text.split("[.,/\n\t\\[\\](){};\r= ]");
 		int    offsets[]  = new int[strings.length];
 		
 		int charCount     = 0;
@@ -342,7 +344,7 @@ public class CodeField extends StyledText
 					Keyword keyword       = Keyword.getKeyword(language, word);
 					
 					int offset            = offsets[i];
-					int length            = word.length();
+					int length            = word.length() - 1;
 					
 					styles.add(new StyleRange(offset, length, keyword.getColor(), null));
 					
@@ -492,16 +494,15 @@ public class CodeField extends StyledText
 		{
 			if (i == getCaretLineNumber())// || countedCharacters >= getCaretPosition())
 			{
-				xPos = caretPos - countedCharacters - i * 2;// - (i * 2);
+				xPos = caretPos - countedCharacters - (i * 2);// - (i * 2);
 //				System.out.println("size: " + tabs.size() + ", caretPos: " + caretPos + ", counted: " + countedCharacters + ", Line number: " + i + ", after calc: " + xPos);
 				
 //				xPos = countedCharacters - (getCaretPosition()) + i;
 //				xPos = Math.abs(xPos);
-				System.out.println(i + ": " + tabs.get(i).size() + ", " + xPos);
+				System.out.println("Xpos: " + xPos);
 				return xPos;
 			}
-
-			System.out.println(i + ": " + tabs.get(i).size());
+			
 			countedCharacters += tabs.get(i).size();
 		}
 		

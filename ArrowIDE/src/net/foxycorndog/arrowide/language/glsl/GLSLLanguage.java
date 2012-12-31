@@ -15,7 +15,10 @@ import net.foxycorndog.arrowide.console.ConsoleStream;
 
 public class GLSLLanguage
 {
-	public static final Color COMMENT_COLOR = new Color(Display.getCurrent(), 40, 140, 0);
+	public static final Color
+			COMMENT_COLOR = new Color(Display.getCurrent(), 40, 140, 0),
+			KEYWORD_COLOR = new Color(Display.getCurrent(), 150, 0, 0),
+			VERSION_COLOR = new Color(Display.getCurrent(), 180, 180, 0);
 	
 	public static void run(String classLocation, ConsoleStream stream)
 	{

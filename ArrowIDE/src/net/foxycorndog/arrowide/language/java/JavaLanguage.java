@@ -15,7 +15,9 @@ import net.foxycorndog.arrowide.console.ConsoleStream;
 
 public class JavaLanguage
 {
-	public static final Color COMMENT_COLOR = new Color(Display.getCurrent(), 40, 140, 0);
+	public static final Color
+			COMMENT_COLOR = new Color(Display.getCurrent(), 40, 140, 0),
+			KEYWORD_COLOR = new Color(Display.getCurrent(), 150, 0, 0);
 	
 	public static void run(String classLocation, ConsoleStream stream)
 	{

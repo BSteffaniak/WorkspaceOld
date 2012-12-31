@@ -1,0 +1,275 @@
+package net.foxycorndog.arrowide.tabmenu;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabFolderRenderer;
+import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.graphics.Region;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
+
+public class TabMenu
+{
+	private int                        maxCharacters, maxWidth;
+	
+	private Composite                  composite;
+	
+	private CTabFolder                 tabFolder;
+	
+	private Renderer                   renderer;
+	
+	private TabMenu                    thisObject;
+	
+	private HashMap<Integer, CTabItem> tabs;
+	private HashMap<CTabItem, Integer> tabIds;
+	
+	private ArrayList<TabMenuListener> listeners;
+	
+	private static int                 staticId;
+	
+	public TabMenu(Composite composite)
+	{
+		this.composite = composite;
+		
+		listeners = new ArrayList<TabMenuListener>();
+		
+		tabFolder = new CTabFolder(composite, SWT.NONE);
+		tabFolder.setBackground(new Color(Display.getCurrent(), 199, 238, 255));
+		tabFolder.setForeground(new Color(Display.getCurrent(), 0, 0, 0));
+		tabFolder.setTabHeight(20);
+		
+		renderer = new Renderer(tabFolder);
+		tabFolder.setRenderer(renderer);
+		tabFolder.setSize(0, tabFolder.getTabHeight() + 3);
+		
+		tabs   = new HashMap<Integer, CTabItem>();
+		tabIds = new HashMap<CTabItem, Integer>();
+		
+		maxCharacters = 15;
+		
+		thisObject = this;
+		
+		tabFolder.addPaintListener(new PaintListener()
+		{
+			public void paintControl(PaintEvent e)
+			{
+				if (renderer.wasFullRender())
+				{
+					int width = renderer.getWidth();
+					
+					tabFolder.setSize(width, tabFolder.getTabHeight() + 3);
+					
+					System.out.println("Width: " + width);
+				}
+				
+				renderer.resetWidth();
+				renderer.resetFullRender();
+			}
+		});
+		
+		tabFolder.addListener(SWT.MouseDown, new Listener()
+		{
+			public void handleEvent(Event e)
+			{
+				CTabItem item = tabFolder.getSelection();
+				
+				int      id   = tabIds.get(item);
+				
+				if (item.isDisposed())
+				{
+					
+				}
+				else
+				{
+					System.out.println("selected " + id);
+				}
+			}
+		});
+		
+		tabFolder.redraw();
+	}
+	
+	public void setMaxWidth(int maxWidth)
+	{
+		this.maxWidth = maxWidth;
+		
+		setWidth(maxWidth);
+	}
+	
+	public void redraw()
+	{
+//		if (tabFolder.getSize().x <= 0)
+//		{
+//			setWidth(maxWidth);
+//		}
+//		
+//		tabFolder.redraw();
+//		composite.redraw();
+	}
+	
+	public void setTabText(int id, String text)
+	{
+		if (text.length() > maxCharacters)
+		{
+			text = text.substring(0, maxCharacters - 3) + "...";
+		}
+		
+		CTabItem item = tabs.get(id);
+		
+		item.setText(text);
+		
+//		tabFolder.redraw();
+	}
+	
+	public int addTab(String text)
+	{
+		int id = staticId++;
+		
+		CTabItem item = new CTabItem(tabFolder, SWT.CLOSE);
+		item.setText(text);
+		
+		tabs.put(id, item);
+		tabIds.put(item, id);
+		
+		tabFolder.setSelection(item);
+		
+//		tabFolder.redraw();
+		
+		setWidth(maxWidth);
+		
+		return id;
+	}
+	
+	public void setSelection(int id)
+	{
+		tabFolder.setSelection(tabs.get(id));
+	}
+	
+	public Color getBackground()
+	{
+		return tabFolder.getBackground();
+	}
+	
+	public void setBackground(Color color)
+	{
+		tabFolder.setBackground(color);
+	}
+	
+	public int getHeight()
+	{
+		return tabFolder.getSize().y;
+	}
+	
+	private void setWidth(int width)
+	{
+		tabFolder.setSize(width, tabFolder.getSize().y);
+	}
+	
+	public void setLocation(int x, int y)
+	{
+		tabFolder.setLocation(x, y);
+	}
+	
+	public int getX()
+	{
+		return tabFolder.getBounds().x;
+	}
+	
+	public int getY()
+	{
+		return tabFolder.getBounds().y;
+	}
+	
+	public void setMaxCharacters(int maxCharacters)
+	{
+		this.maxCharacters = maxCharacters;
+	}
+	
+	public void addListener(TabMenuListener listener)
+	{
+		listeners.add(listener);
+	}
+}
+
+class Renderer extends CTabFolderRenderer
+{
+	private boolean    fullRender;
+	
+	private int        width, count;
+	
+	private CTabFolder parent;
+	
+	public Renderer(CTabFolder parent)
+	{
+		super(parent);
+		
+		this.parent = parent;
+	}
+	
+	public void draw(int part, int state, Rectangle bounds, GC gc)
+	{
+		if (part >= 0)
+		{
+			width += bounds.width;
+			
+			int itemsCount = parent.getItems().length;
+			
+			count++;
+			
+			System.out.println(count + "/" + itemsCount);
+			
+			if (count >= itemsCount)
+			{
+				fullRender = true;
+			}
+		}
+		else
+		{
+//			if (parent.getItems().length <= 0)
+//			{
+//				fullRender = true;
+//			}
+		}
+		
+		super.draw(part, state, bounds, gc);
+	}
+	
+	public int getWidth()
+	{
+		return width;
+	}
+	
+	public void resetWidth()
+	{
+		width = 0;
+	}
+	
+	public boolean wasFullRender()
+	{
+		return fullRender;
+	}
+	
+	public void resetFullRender()
+	{
+		count      = 0;
+		fullRender = false;
+	}
+}

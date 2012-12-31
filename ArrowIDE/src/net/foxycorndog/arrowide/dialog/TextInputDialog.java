@@ -52,7 +52,7 @@ public class TextInputDialog implements Dialog
 		
 		Label instructionsLabel = new Label(window, SWT.NONE);
 		instructionsLabel.setText(windowInstruction);
-		instructionsLabel.setSize(220, 20);
+		instructionsLabel.setSize(370, 20);
 		instructionsLabel.setLocation(100, 30);
 		
 		Label textFieldInstructionLabel = new Label(window, SWT.NONE);
@@ -67,7 +67,7 @@ public class TextInputDialog implements Dialog
 		error.setForeground(new Color(display, 220, 0, 0));
 		
 		final Button continueButton = new Button(window, SWT.PUSH);
-		continueButton.setSize(80, 20);
+		continueButton.setSize(100, 25);
 		continueButton.setLocation(360, 80);
 		continueButton.setText("Continue");
 		

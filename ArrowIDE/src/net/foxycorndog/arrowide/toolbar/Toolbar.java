@@ -72,7 +72,6 @@ public class Toolbar
 		
 		item.addSelectionListener(new SelectionListener()
 		{
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e)
 			{
 				for (int i = listeners.size() - 1; i >= 0; i --)
@@ -81,7 +80,6 @@ public class Toolbar
 				}
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent e)
 			{
 				widgetDefaultSelected(e);
