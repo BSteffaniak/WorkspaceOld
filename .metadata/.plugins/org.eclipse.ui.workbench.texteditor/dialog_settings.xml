@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="243" key="DIALOG_WIDTH"/>
+		<item value="257" key="DIALOG_WIDTH"/>
 		<item value="344" key="DIALOG_Y_ORIGIN"/>
-		<item value="379" key="DIALOG_HEIGHT"/>
+		<item value="380" key="DIALOG_HEIGHT"/>
 		<item value="607" key="DIALOG_X_ORIGIN"/>
-		<item value="1|Lucida Grande|11.0|0|COCOA|1|LucidaGrande" key="DIALOG_FONT_NAME"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
@@ -13,8 +13,9 @@
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="GLSLLanguage.KEYWORD_COLOR" key="selection"/>
+		<item value="isPrintable(" key="selection"/>
 		<list key="findhistory">
+			<item value="isPrintable("/>
 			<item value="new Color(ArrowIDE.display, 150, 0, 0)"/>
 			<item value="System.out.print"/>
 			<item value="actionP"/>
@@ -22,7 +23,6 @@
 			<item value="  "/>
 			<item value="class FileDropListener implements DropTargetListener"/>
 			<item value="varyingColour"/>
-			<item value="gl_FragColor"/>
 		</list>
 		<list key="replacehistory">
 			<item value="GLSLLanguage.KEYWORD_COLOR"/>

@@ -13,7 +13,9 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.internal.win32.OS;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
@@ -24,163 +26,97 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class FileBrowseDialog implements Dialog
+public class FileBrowseDialog extends TextInputDialog
 {
-	private boolean directory;
-	
-	private String  text;
-	
-	private Text    locationEditor;
-	
-	private Label   error;
-	
-	private Shell   window;
-	
-	private DialogListener listener;
-	
-	public FileBrowseDialog(Display display, DialogListener listener, String windowInstruction, String textFieldInstruction, boolean directory)
+	public FileBrowseDialog(Shell parent, String windowInstruction, String textFieldInstruction, boolean directory)
 	{
-		this(display, listener, windowInstruction, textFieldInstruction, "", directory);
+		this(parent, windowInstruction, textFieldInstruction, "", directory);
 	}
 	
-	public FileBrowseDialog(Display display, DialogListener listener, String windowInstruction, String textFieldInstruction, String defaultTextField, final boolean directory)
+	public FileBrowseDialog(Shell parent, String windowInstruction, String textFieldInstruction, String defaultTextField, final boolean directory)
 	{
-		this.listener  = listener;
-		this.directory = directory;
+		super(parent, windowInstruction, textFieldInstruction);
 		
-		Rectangle screenBounds = display.getMonitors()[0].getBounds();
+		getWindow().setSize(480, 230);
+		getErrorLabel().setLocation(100, 140);
+		getContinueButton().setLocation(360, 115);
 		
-		window = new Shell(display);
-		window.setSize(470, 230);
-		window.setLocation(screenBounds.width / 2 - window.getBounds().width / 2, screenBounds.height / 2 - window.getBounds().height / 2);
-		
-		Label instructionsLabel = new Label(window, SWT.NONE);
-		instructionsLabel.setText(windowInstruction);
-		instructionsLabel.setSize(370, 20);
-		instructionsLabel.setLocation(100, 30);
-		
-		Label textFieldInstructionLabel = new Label(window, SWT.RIGHT);
-		textFieldInstructionLabel.setText(textFieldInstruction);
-		textFieldInstructionLabel.setSize(70, 20);
-		textFieldInstructionLabel.setLocation(20, 80);
-		
-		error = new Label(window, SWT.NONE);
-		error.setText("");
-		error.setSize(370, 20);
-		error.setLocation(100, 130);
-		error.setForeground(new Color(display, 220, 0, 0));
-		
-		final Button browse = new Button(window, SWT.PUSH);
+		final Button browse = new Button(getWindow(), SWT.PUSH);
 		browse.setSize(100, 25);
 		browse.setLocation(360, 80);
 		browse.setText("Browse");
-		
-		final Button continueButton = new Button(window, SWT.PUSH);
-		continueButton.setSize(100, 25);
-		continueButton.setLocation(360, 130);
-		continueButton.setText("Continue");
-		
-		locationEditor = new Text(window, SWT.SINGLE | SWT.BORDER);
-		locationEditor.setSize(250, 20);
-		locationEditor.setLocation(100, 80);
-		locationEditor.setText(defaultTextField);
-		locationEditor.setSelection(0, defaultTextField.length());
 		
 		Listener componentListener = new Listener()
 		{
 			public void handleEvent(Event e)
 			{
-				if (e.widget == browse)
+				String location = null;
+					
+				if (directory)
 				{
-					String location = null;
+					DirectoryDialog dialog = new DirectoryDialog(getWindow(), SWT.OPEN);
 					
-					if (directory)
-					{
-						DirectoryDialog dialog = new DirectoryDialog(window, SWT.OPEN);
-						
-						location = dialog.open();
-					}
-					else
-					{
-						FileDialog dialog = new FileDialog(window, SWT.OPEN);
-						
-						location = dialog.open();
-					}
-					
-					if (location != null)
-					{
-						locationEditor.setText(location);// + System.getProperty("file.separator"));
-					}
+					location = dialog.open();
 				}
-				else if (e.widget == continueButton)
+				else
 				{
-					continuePressed();
+					FileDialog dialog = new FileDialog(getWindow(), SWT.OPEN);
+					
+					location = dialog.open();
+				}
+				
+				if (location != null)
+				{
+					setText(location, true);
 				}
 			}
 		};
 		
 		browse.addListener(SWT.Selection, componentListener);
-		continueButton.addListener(SWT.Selection, componentListener);
-	}
-	
-	private void continuePressed()
-	{
-		String location = locationEditor.getText().replace("\\", "/");
 		
-		if (location.length() <= 0)
+		addDialogFilter(new DialogFilter()
 		{
-			error.setText("You must enter the " + (directory ? "directory" : "file") + " location.");
-			
-			return;
-		}
-		
-		location = FileUtils.removeEndingSlashes(location);
-		
-		File file = new File(location);
-		
-		if (file.exists())
-		{
-			boolean isDirectory = file.isDirectory();
-			
-			if ((!directory && !isDirectory) || (directory && isDirectory))
+			public String filter(String text)
 			{
-				text = location;
+				String location = text.replace("\\", "/");
 				
-				DialogEvent event = new DialogEvent();
-				event.setSource(this);
+				if (location.length() <= 0)
+				{
+					return "You must enter the " + (directory ? "directory" : "file") + " location.";
+				}
 				
-				listener.dialogCompleted(event);
+				location = FileUtils.removeEndingSlashes(location);
 				
-				window.dispose();
+				File file = new File(location);
+				
+				if (file.exists())
+				{
+					boolean isDirectory = file.isDirectory();
+					
+					if ((!directory && !isDirectory) || (directory && isDirectory))
+					{
+						setText(location);
+					}
+					else if (!directory && isDirectory)
+					{
+						return "Must be a file name, not a directory name.";
+					}
+					else if (directory && !isDirectory)
+					{
+						return "Must be a directory name, not a file name.";
+					}
+					else
+					{
+						return "An unknown error has ocurred.";
+					}
+				}
+				else
+				{
+					return "A " + (directory ? "directory" : "file") + " already exists at that location.";
+				}
+				
+				return null;
 			}
-			else if (!directory && isDirectory)
-			{
-				error.setText("Must be a file name, not a directory name.");
-			}
-			else if (directory && !isDirectory)
-			{
-				error.setText("Must be a directory name, not a file name.");
-			}
-			else
-			{
-				error.setText("An unknown error has ocurred.");
-			}
-		}
-		else
-		{
-			error.setText("A " + (directory ? "directory" : "file") + " already exists at that location.");
-		}
-	}
-	
-	public void open()
-	{
-		window.open();
-		
-		locationEditor.setFocus();
-	}
-	
-	public String getText()
-	{
-		return text;
+		});
 	}
 }

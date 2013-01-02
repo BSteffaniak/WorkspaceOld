@@ -27,9 +27,6 @@ public class TreeMenu extends Composite
 	
 	private Shell shell;
 	
-	private HashMap<Integer, HashMap<Integer, TreeItem>> subItems;
-	private HashMap<Integer, HashMap<String, TreeItem>>  subItemNames;
-	
 	private HashMap<TreeItem, Integer> ids;
 	private HashMap<Integer, TreeItem> items;
 	
@@ -51,12 +48,6 @@ public class TreeMenu extends Composite
 		tree         = new Tree(this, SWT.H_SCROLL | SWT.V_SCROLL | (Integer)PROPERTIES.get("composite.modifiers"));
 		
 		treeIds      = new ArrayList<Integer>();
-		
-		subItems     = new HashMap<Integer, HashMap<Integer, TreeItem>>();
-		subItems.put(0, new HashMap<Integer, TreeItem>());
-		
-		subItemNames = new HashMap<Integer, HashMap<String, TreeItem>>();
-		subItemNames.put(0, new HashMap<String, TreeItem>());
 		
 		ids          = new HashMap<TreeItem, Integer>();
 		items        = new HashMap<Integer, TreeItem>();
@@ -134,10 +125,6 @@ public class TreeMenu extends Composite
 		ids.put(item, id);
 		items.put(id, item);
 		treeIds.add(id);
-		subItems.get(0).put(id, item);
-		subItems.put(id, new HashMap<Integer, TreeItem>());
-		subItemNames.get(0).put(name, item);
-		subItemNames.put(id, new HashMap<String, TreeItem>());
 		
 		return id;
 	}
@@ -162,10 +149,6 @@ public class TreeMenu extends Composite
 		ids.put(item, id);
 		items.put(id, item);
 		treeIds.add(id);
-		subItems.get(parent).put(id, item);
-		subItems.put(id, new HashMap<Integer, TreeItem>());
-		subItemNames.get(parent).put(name, item);
-		subItemNames.put(id, new HashMap<String, TreeItem>());
 		
 		return id;
 	}
@@ -173,27 +156,6 @@ public class TreeMenu extends Composite
 	public void alphabetize()
 	{
 		
-	}
-	
-	public boolean containsItem(int itemId)
-	{
-		return items.containsKey(itemId);
-	}
-	
-	public boolean containsItem(String name)
-	{
-		boolean contains = false;
-		
-		for (int i = 0; i < subItemNames.get(0).size(); i ++)
-		{
-			if (subItemNames.get(0).containsKey(name))
-			{
-				contains = true;
-				break;
-			}
-		}
-		
-		return contains;
 	}
 	
 	public boolean containsSubItem(int parentId, int subItemId)
@@ -208,29 +170,9 @@ public class TreeMenu extends Composite
 		return contains;
 	}
 	
-	public boolean containsSubItem(int parentId, String subItemName)
+	public boolean containsItem(int id)
 	{
-		boolean contains = false;
-		
-		if (items.containsKey(parentId))
-		{
-			String subs[] = new String[subItemNames.get(parentId).size()];
-			
-			subs = subItemNames.get(parentId).keySet().toArray(subs);
-			
-			for (int i = 0; i < subs.length; i ++)
-			{
-				String name = subs[i];
-				
-				if (name.equals(subItemName))
-				{
-					contains = true;
-					break;
-				}
-			}
-		}
-		
-		return contains;
+		return items.containsKey(id);
 	}
 	
 	public int getSelection()
@@ -286,7 +228,21 @@ public class TreeMenu extends Composite
 	
 	public void removeItem(int id)
 	{
-		items.get(id).dispose();
+//		private HashMap<Integer, HashMap<Integer, TreeItem>> subItems;
+//		private HashMap<Integer, HashMap<TreeItem, String>>  subItemNames;
+//		
+//		private HashMap<TreeItem, Integer> ids;
+//		private HashMap<Integer, TreeItem> items;
+//		
+//		private ArrayList<Integer> treeIds;
+		
+		TreeItem item = items.get(id);
+		
+		System.out.println("{\n" + ids.remove(item));
+		System.out.println(items.remove(id));
+		System.out.println(treeIds.remove((Object)id) + "\n}");
+		
+		item.dispose();
 	}
 	
 	public void setTreeItemText(int id, String text)

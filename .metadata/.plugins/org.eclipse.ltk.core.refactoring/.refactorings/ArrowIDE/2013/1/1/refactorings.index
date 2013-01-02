@@ -1,0 +1,6 @@
+1357005796433	Rename field 'listeners'
+1357011991285	Delete elements
+1357027220153	Rename local variable 'klass'
+1357084717824	Rename field 'error'
+1357084916415	Rename field 'instructionsLabel'
+1357084919755	Rename method 'getInstructionsLabel'

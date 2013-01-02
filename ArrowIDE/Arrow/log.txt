@@ -1,0 +1,2 @@
+outside thread
+Failed to execute runnable (java.lang.NullPointerException)

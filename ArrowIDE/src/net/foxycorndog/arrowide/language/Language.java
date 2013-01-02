@@ -19,6 +19,8 @@ public class Language
 	
 	public static void run(int language, String fileLocation, ConsoleStream stream)
 	{
+		fileLocation = FileUtils.removeEndingSlashes(fileLocation.replace('\\', '/'));
+		
 		if (language == JAVA)
 		{
 			JavaLanguage.run(fileLocation, stream);
@@ -46,5 +48,11 @@ public class Language
 		}
 		
 		return new Color(Display.getCurrent(), 0, 0, 0);
+	}
+	
+	public static void init()
+	{
+		JavaLanguage.init();
+		GLSLLanguage.init();
 	}
 }

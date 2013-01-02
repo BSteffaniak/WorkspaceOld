@@ -7,7 +7,7 @@ public class Compiler
 {
 	
 	
-	public static String compile(String fileLocation, String code)
+	public static String compile(String fileLocation, String code, String outputLocation)
 	{
 		if (fileLocation != null)
 		{
@@ -19,7 +19,7 @@ public class Compiler
 			
 			if (language == Language.JAVA)
 			{
-				result = JavaCompiler.compile(fileName, code);
+				result = JavaCompiler.compile(fileName, code, outputLocation);
 			}
 			else if (language == Language.GLSL)
 			{

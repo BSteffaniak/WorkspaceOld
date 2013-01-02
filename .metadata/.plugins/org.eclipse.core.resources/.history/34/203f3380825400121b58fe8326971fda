@@ -1,0 +1,17 @@
+package net.foxycorndog.arrowide.components;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.widgets.Composite;
+
+import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
+
+public class ConsoleField extends StyledText
+{
+
+	public ConsoleField(Composite parent)
+	{
+		super(parent, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | (Integer)PROPERTIES.get("composite.modifiers"));
+	}
+	
+}

@@ -1,0 +1,23 @@
+package net.foxycorndog.arrowide.dialog;
+
+public class DialogEvent
+{
+	private long   when;
+	
+	private Object source;
+	
+	public DialogEvent()
+	{
+		when = System.currentTimeMillis();
+	}
+	
+	public Object getSource()
+	{
+		return source;
+	}
+	
+	public long getWhen()
+	{
+		return when;
+	}
+}

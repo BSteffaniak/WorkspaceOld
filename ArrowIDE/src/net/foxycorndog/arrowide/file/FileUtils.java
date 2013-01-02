@@ -17,7 +17,7 @@ public class FileUtils
 {
 	private static final String GLSL_VERTEX_ENDINGS[], GLSL_FRAGMENT_ENDINGS[], JAVA_ENDINGS[];
 	
-	public  static final int JAVA = 1, GLSL = 2, TXT = 3, RTF = 4, EXE = 5;
+	public  static final int JAVA = 1, CLASS = 2, GLSL = 3, TXT = 4, RTF = 5, EXE = 6;
 	
 	static
 	{
@@ -58,7 +58,7 @@ public class FileUtils
 		return false;
 	}
 	
-	public static void delete(File file)
+	public static boolean delete(File file)
 	{
 		if (file.isDirectory())
 		{
@@ -70,7 +70,7 @@ public class FileUtils
 			}
 		}
 		
-		System.out.println(file.delete());
+		return file.delete();
 	}
 	
 	public static boolean isFileName(String location)
@@ -146,6 +146,10 @@ public class FileUtils
 			else if (ending.equals("exe"))
 			{
 				return EXE;
+			}
+			else if (ending.equals("class"))
+			{
+				return CLASS;
 			}
 		}
 		

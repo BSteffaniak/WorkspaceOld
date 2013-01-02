@@ -1,8 +1,12 @@
 package net.foxycorndog.arrowide.dialog;
 
+import org.eclipse.swt.widgets.Shell;
+
 public interface Dialog
 {
-	public void open();
+	public String open();
 	
-	public String getText();
+	public void setText(String text);
+	
+	public Shell getWindow();
 }

@@ -1,6 +1,7 @@
 package net.foxycorndog.arrowide.dialog;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.file.FileUtils;
@@ -8,11 +9,14 @@ import net.foxycorndog.arrowide.file.FileUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.DirectoryDialog;
@@ -29,44 +33,61 @@ public class TextInputDialog implements Dialog
 	
 	private Text    locationEditor;
 	
-	private Label   error;
+	private Button  continueButton;
 	
-	private Shell   window;
+	private Label   errorLabel, textFieldInstructionLabel, instructionLabel;
 	
-	private DialogListener listener;
+	private Shell   window, parent;
 	
-	public TextInputDialog(Display display, DialogListener listener, String windowInstruction, String textFieldInstruction)
+	private Display display;
+	
+	private ArrayList<DialogFilter> filters;
+	
+	public TextInputDialog(Shell parent, String windowInstruction, String textFieldInstruction)
 	{
-		this(display, listener, windowInstruction, textFieldInstruction, "");
+		this(parent, windowInstruction, textFieldInstruction, "");
 	}
 	
-	public TextInputDialog(Display display, DialogListener listener, String windowInstruction, String textFieldInstruction, String defaultTextField)
+	public TextInputDialog(Shell parent, String windowInstruction, String textFieldInstruction, Point size)
 	{
-		this.listener    = listener;
+		this(parent, windowInstruction, textFieldInstruction, "", size);
+	}
+	
+	public TextInputDialog(Shell parent, String windowInstruction, String textFieldInstruction, String defaultTextField)
+	{
+		this(parent, windowInstruction, textFieldInstruction, defaultTextField, new Point(470, 180));
+	}
+	
+	public TextInputDialog(Shell parent, String windowInstruction, String textFieldInstruction, String defaultTextField, Point size)
+	{
+		this.display  = Display.getDefault();
+		this.parent   = parent;
+		
+		filters       = new ArrayList<DialogFilter>();
 		
 		Rectangle screenBounds = display.getMonitors()[0].getBounds();
 		
 		window = new Shell(display, SWT.SYSTEM_MODAL | SWT.CLOSE);
-		window.setSize(470, 180);
+		window.setSize(size);
 		window.setLocation(screenBounds.width / 2 - window.getBounds().width / 2, screenBounds.height / 2 - window.getBounds().height / 2);
 		
-		Label instructionsLabel = new Label(window, SWT.NONE);
-		instructionsLabel.setText(windowInstruction);
-		instructionsLabel.setSize(370, 20);
-		instructionsLabel.setLocation(100, 30);
+		instructionLabel = new Label(window, SWT.NONE);
+		instructionLabel.setText(windowInstruction);
+		instructionLabel.setSize(370, 20);
+		instructionLabel.setLocation(100, 30);
 		
-		Label textFieldInstructionLabel = new Label(window, SWT.NONE);
+		textFieldInstructionLabel = new Label(window, SWT.NONE);
 		textFieldInstructionLabel.setText(textFieldInstruction);
 		textFieldInstructionLabel.setSize(70, 20);
 		textFieldInstructionLabel.setLocation(20, 80);
 		
-		error = new Label(window, SWT.NONE);
-		error.setText("");
-		error.setSize(370, 20);
-		error.setLocation(100, 115);
-		error.setForeground(new Color(display, 220, 0, 0));
+		errorLabel = new Label(window, SWT.NONE);
+		errorLabel.setText("");
+		errorLabel.setSize(370, 20);
+		errorLabel.setLocation(100, 115);
+		errorLabel.setForeground(new Color(display, 220, 0, 0));
 		
-		final Button continueButton = new Button(window, SWT.PUSH);
+		continueButton = new Button(window, SWT.PUSH);
 		continueButton.setSize(100, 25);
 		continueButton.setLocation(360, 80);
 		continueButton.setText("Continue");
@@ -105,41 +126,118 @@ public class TextInputDialog implements Dialog
 				
 			}
 		});
+		
+		window.addListener(SWT.Close, new Listener()
+		{
+			public void handleEvent(Event event)
+			{
+				text = null;
+			}
+		});
 	}
 	
 	private void continuePressed()
 	{
-		String text = locationEditor.getText();
+		boolean wasError = false;
 		
-		if (text.length() >= 0)
+		text = locationEditor.getText();
+		
+		for (int i = filters.size() - 1; i >= 0; i --)
 		{
-			this.text = text;
+			String error = null;
 			
-			DialogEvent event = new DialogEvent();
-			event.setSource(this);
-			
-			String result = listener.dialogCompleted(event);
-			
-			if (result == null)
+			if ((error = filters.get(i).filter(text)) != null)
+			{
+				this.errorLabel.setText(error);
+				
+				wasError = true;
+				
+				break;
+			}
+		}
+		
+		if (!wasError)
+		{
+			if (text.length() >= 0)
 			{
 				window.dispose();
 			}
 			else
 			{
-				error.setText(result);
+				errorLabel.setText("You must enter text.");
 			}
 		}
 	}
 	
-	public void open()
+	public String open()
 	{
 		window.open();
 		
 		locationEditor.setFocus();
+		
+		while (!window.isDisposed())
+		{
+			if (!display.readAndDispatch())
+			{
+				display.sleep();
+			}
+		}
+		
+		return text;
 	}
 	
 	public String getText()
 	{
 		return text;
+	}
+	
+	public void setText(String text)
+	{
+		setText(text, false);
+	}
+	
+	public void setText(String text, boolean editor)
+	{
+		this.text = text;
+		
+		if (editor)
+		{
+			locationEditor.setText(text);
+		}
+	}
+	
+	public void addDialogFilter(DialogFilter filter)
+	{
+		this.filters.add(filter);
+	}
+	
+	public Shell getWindow()
+	{
+		return window;
+	}
+	
+	public Button getContinueButton()
+	{
+		return continueButton;
+	}
+	
+	public Label getInstructionLabel()
+	{
+		return instructionLabel;
+	}
+	
+	public Label getTextFieldInstructionsLabel()
+	{
+		return textFieldInstructionLabel;
+	}
+	
+	public Label getErrorLabel()
+	{
+		return errorLabel;
+	}
+	
+	public Text getLocationEditor()
+	{
+		return locationEditor;
 	}
 }

@@ -1,0 +1,15 @@
+package net.foxycorndog.arrowide.dialog;
+
+import org.eclipse.swt.widgets.Shell;
+
+public abstract class Dialog extends org.eclipse.swt.widgets.Dialog
+{
+	public Dialog(Shell parent)
+	{
+		super(parent);
+	}
+
+	public abstract void open();
+	
+	public abstract String getText();
+}

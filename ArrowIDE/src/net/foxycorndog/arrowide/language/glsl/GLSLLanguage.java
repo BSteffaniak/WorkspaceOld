@@ -20,6 +20,11 @@ public class GLSLLanguage
 			KEYWORD_COLOR = new Color(Display.getCurrent(), 150, 0, 0),
 			VERSION_COLOR = new Color(Display.getCurrent(), 180, 180, 0);
 	
+	public static void init()
+	{
+		
+	}
+	
 	public static void run(String classLocation, ConsoleStream stream)
 	{
 		

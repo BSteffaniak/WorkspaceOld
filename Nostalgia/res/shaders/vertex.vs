@@ -8,20 +8,20 @@
  * program.
  * Attribute is set by the Java code and read by the vertex program.
  */
-uniform int   lightNumber;
-uniform int   time;
-uniform int   counter;
-uniform int   screenWidth, screenHeight;
+uniform int    lightNumber;
+uniform int    time;
+uniform int    counter;
+uniform int    screenWidth, screenHeight;
 
-uniform float intensity;
+uniform float  intensity;
 
-uniform vec3  camPos;
+uniform vec3   camPos;
 
-uniform vec3  specColor;
+uniform vec3   specColor;
 
-varying vec4  fragScreenPos;
-varying vec4  fragWorldPos;
-varying vec3  fragNormal;
+varying vec4   fragScreenPos;
+varying vec4   fragWorldPos;
+varying vec3   fragNormal;
 
 attribute vec2 texCoord;
 
@@ -51,15 +51,15 @@ void main()
 	fragWorldPos   = gl_Vertex;
 	
 	gl_TexCoord[0] = gl_MultiTexCoord0;
-
+	
 	/* Pass the vertex normal attribute to the fragment shader.
-	 * This value will be interpolated automatically by OpenGL
-	 * if GL_SHADE_MODEL is GL_SMOOTH. (that's the default)
-	 */
-	fragNormal = (gl_NormalMatrix * gl_Normal).xyz;
-
+	* This value will be interpolated automatically by OpenGL
+	* if GL_SHADE_MODEL is GL_SMOOTH. (that's the default)
+	*/
+	fragNormal  = (gl_NormalMatrix * gl_Normal).xyz;
+	
 	/* Send the vertex position, modified by glTranslate/glRotate/glScale
-	 * and glOrtho/glFrustum/gluPerspective to primitive assembly.
-	 */
+	* and glOrtho/glFrustum/gluPerspective to primitive assembly.
+	*/
 	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 }

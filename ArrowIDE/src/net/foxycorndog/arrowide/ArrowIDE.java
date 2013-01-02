@@ -18,13 +18,15 @@ import net.foxycorndog.arrowide.compiler.Compiler;
 import net.foxycorndog.arrowide.compiler.GLSLCompiler;
 import net.foxycorndog.arrowide.compiler.JavaCompiler;
 import net.foxycorndog.arrowide.components.CodeField;
+import net.foxycorndog.arrowide.components.CodeFieldEvent;
+import net.foxycorndog.arrowide.components.CodeFieldListener;
+import net.foxycorndog.arrowide.components.ConsoleField;
 import net.foxycorndog.arrowide.components.ContentEvent;
 import net.foxycorndog.arrowide.components.ContentListener;
 import net.foxycorndog.arrowide.console.ConsoleListener;
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.dialog.Dialog;
-import net.foxycorndog.arrowide.dialog.DialogEvent;
-import net.foxycorndog.arrowide.dialog.DialogListener;
+import net.foxycorndog.arrowide.dialog.DialogFilter;
 import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
 import net.foxycorndog.arrowide.dialog.FileInputDialog;
 import net.foxycorndog.arrowide.dialog.TextInputDialog;
@@ -85,16 +87,16 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.GLContext;
 
 
-public class ArrowIDE implements DialogListener, ContentListener, TabMenuListener
+public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuListener
 {
-	private Button    compileButton;
+	private CodeField    codeField;
 	
-	private CodeField codeField, console;
+	private ConsoleField console;
 	
-	private String    fileLocation;
+	private String       fileLocation;
 	
-	private Image     folderImage, fileImage, javaFileImage, glslFileImage,
-						txtFileImage, rtfFileImage, exeFileImage;
+	private Image        folderImage, fileImage, javaFileImage, classFileImage,
+						glslFileImage, txtFileImage, rtfFileImage, exeFileImage;
 	
 	private Menubar   menubar;
 	
@@ -104,13 +106,14 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 	
 	private TabMenu   tabs;
 	
-	private ConsoleStream consoleStream;
+	private ConsoleStream   consoleStream;
 	
-	private Dialog        newFolderDialog, newFileDialog, renameFileDialog, newProjectDialog;
+	private Dialog          newFolderDialog, newFileDialog, newProjectDialog;
+	private TextInputDialog renameFileDialog;
 	
 	private HashMap<Integer, String>  treeItemLocations;
 	private HashMap<Integer, String>  treeItemOrigLocations;
-	private HashMap<String, Integer>  treeItems;
+	private HashMap<String, Integer>  treeItemIds;
 	private HashMap<Integer, String>  treeItemDirectories;
 	private HashMap<Integer, String>  menuItemLocations;
 	private HashMap<String, Integer>  menuItems;
@@ -144,19 +147,28 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 		
 		if (osName.toLowerCase().contains("mac"))
 		{
-			osName = "macosx";
+			PROPERTIES.put("os.name", "macosx");
+			
+			PROPERTIES.put("composite.modifiers", SWT.BORDER);
+			
+			PROPERTIES.put("key.control", SWT.COMMAND);
 		}
 		else if (osName.toLowerCase().contains("win"))
 		{
-			osName = "windows";
+			PROPERTIES.put("os.name", "windows");
+			
+			PROPERTIES.put("composite.modifiers", SWT.NONE);
+			
+			PROPERTIES.put("key.control", SWT.CTRL);
 		}
 		else if (osName.toLowerCase().contains("lin"))
 		{
-			osName = "linux";
+			PROPERTIES.put("os.name", "linux");
+			
+			PROPERTIES.put("composite.modifiers", SWT.NONE);
+			
+			PROPERTIES.put("key.control", SWT.CTRL);
 		}
-		
-		PROPERTIES.put("os.name", osName);
-		PROPERTIES.put("composite.modifiers", (osName.equals("macosx") ? SWT.BORDER : SWT.NONE));
 	}
 	
 	public static void main(String args[])
@@ -175,23 +187,13 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 //		
 //		shell.setLayout(b);
 		
-		Listener buttonListener = new Listener()
-		{
-			public void handleEvent(Event e)
-			{
-				if (e.widget == compileButton)
-				{
-					console.setText(Compiler.compile(fileLocation, codeField.getRawText()));//GLSLCompiler.loadVertexShader("name.vs", codeField.getRawText()));
-				}
-			}
-		};
-		
 		fileCache     = new HashMap<String, String>();
 		
-		codeField     = new CodeField(display, shell);
-		console       = new CodeField(display, shell);
+		codeField     = new CodeField(shell);
+		console       = new ConsoleField(shell);
 		
 		codeField.addContentListener(this);
+		codeField.addCodeFieldListener(this);
 		
 		int width         = (int)(shell.getClientArea().width / 100f * 80);
 		int conHeight     = (int)(shell.getClientArea().height / 100f * 20);
@@ -215,13 +217,14 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 		
 		try
 		{
-			folderImage   = new Image(display, new FileInputStream("res/images/folderimage.png"));
-			fileImage     = new Image(display, new FileInputStream("res/images/fileimage.png"));
-			javaFileImage = new Image(display, new FileInputStream("res/images/javafileimage.png"));
-			glslFileImage = new Image(display, new FileInputStream("res/images/glslfileimage.png"));
-			txtFileImage  = new Image(display, new FileInputStream("res/images/txtfileimage.png"));
-			rtfFileImage  = new Image(display, new FileInputStream("res/images/rtffileimage.png"));
-			exeFileImage  = new Image(display, new FileInputStream("res/images/exefileimage.png"));
+			folderImage    = new Image(display, new FileInputStream("res/images/folderimage.png"));
+			fileImage      = new Image(display, new FileInputStream("res/images/fileimage.png"));
+			javaFileImage  = new Image(display, new FileInputStream("res/images/javafileimage.png"));
+			classFileImage = new Image(display, new FileInputStream("res/images/classfileimage.png"));
+			glslFileImage  = new Image(display, new FileInputStream("res/images/glslfileimage.png"));
+			txtFileImage   = new Image(display, new FileInputStream("res/images/txtfileimage.png"));
+			rtfFileImage   = new Image(display, new FileInputStream("res/images/rtffileimage.png"));
+			exeFileImage   = new Image(display, new FileInputStream("res/images/exefileimage.png"));
 		}
 		catch (FileNotFoundException e)
 		{
@@ -325,7 +328,6 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 				}
 				else if (toolItemName.equals("Compile"))
 				{
-					
 					if (fileLocation == null)
 					{
 						openFile();
@@ -336,8 +338,17 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 						{
 							saveFile(fileLocation);
 					
-							console.setText("", true);
-							consoleStream.println(Compiler.compile(fileLocation, codeField.getRawText()));//GLSLCompiler.loadVertexShader("name.vs", codeField.getRawText()));
+							console.setText("");
+							
+							String outputLocation = FileUtils.getParentFolder(FileUtils.getParentFolder(fileLocation)) + "/bin";
+							
+							new File(outputLocation).mkdirs();
+							
+							String results = Compiler.compile(fileLocation, codeField.getRawText(), outputLocation);
+							
+							consoleStream.println(results);
+							
+							refreshFileViewer();
 						}
 						
 					}
@@ -350,7 +361,9 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 					}
 					else
 					{
-						Language.run(codeField.getLanguage(), "C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/bin/Test.class", consoleStream);
+						console.setText("");
+						
+						Language.run(codeField.getLanguage(), FileUtils.getParentFolder(FileUtils.getParentFolder(fileLocation)) + "/bin/Test.class", consoleStream);
 					}
 				}
 			}
@@ -359,7 +372,7 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 		fileCacheSaved        = new HashMap<String, Boolean>();
 		treeItemLocations     = new HashMap<Integer, String>();
 		treeItemOrigLocations = new HashMap<Integer, String>();
-		treeItems             = new HashMap<String, Integer>();
+		treeItemIds           = new HashMap<String, Integer>();
 		treeItemDirectories   = new HashMap<Integer, String>();
 		
 		treeMenu              = new TreeMenu(shell);
@@ -397,7 +410,9 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 //						System.out.println("is file");
 //					}
 					
-					FileUtils.delete(new File(treeItemOrigLocations.get(id)));
+					String location = treeItemOrigLocations.get(id);
+					
+					System.out.println(deleteFile(location));
 					
 					refreshFileViewer();
 				}
@@ -417,9 +432,17 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 						preLocation = FileUtils.getParentFolder(preLocation);
 					}
 					
-					newFolderDialog = new FileInputDialog(display, thisIDE, "Enter the folder name:", "Folder name:", true, preLocation + "/", false);
+					newFolderDialog = new FileInputDialog(shell, "Enter the folder name:", "Folder name:", true, preLocation + "/", false);
 					
-					newFolderDialog.open();
+					String location = newFolderDialog.open();
+					
+					if (location != null)
+					{
+						File f = new File(location);
+						f.mkdirs();
+						
+						refreshFileViewer();
+					}
 				}
 				else if (e.widget == newFile)
 				{
@@ -437,17 +460,80 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 						preLocation = FileUtils.getParentFolder(preLocation);
 					}
 					
-					newFileDialog = new FileInputDialog(display, thisIDE, "Enter the file name:", "File name:", false, preLocation + "/", false);
+					newFileDialog = new FileInputDialog(shell, "Enter the file name:", "File name:", false, preLocation + "/", false);
 					
-					newFileDialog.open();
+					String location = newFileDialog.open();
+					
+					if (location != null)
+					{
+						File f = new File(location);
+						
+						try
+						{
+							f.createNewFile();
+						
+							openFile(location);
+							
+							refreshFileViewer();
+						}
+						catch (IOException e2)
+						{
+							e2.printStackTrace();
+						}
+					}
 				}
 				else if (e.widget == rename)
 				{
 					int selection = treeMenu.getSelection();
 			
-					renameFileDialog = new TextInputDialog(display, thisIDE, "Enter the new name:", "New name:", FileUtils.getFileName(treeItemOrigLocations.get(selection)));
+					renameFileDialog = new TextInputDialog(shell, "Enter the new name:", "New name:", FileUtils.getFileName(treeItemOrigLocations.get(selection)));
 					
-					renameFileDialog.open();
+					renameFileDialog.addDialogFilter(new DialogFilter()
+					{
+						public String filter(String text)
+						{
+							text = FileUtils.removeEndingSlashes(text.replace('\\', '/'));
+							
+							for (int i = 0; i < text.length(); i ++)
+							{
+								if (text.charAt(i) == '/')
+								{
+									return "The name must be in the same location.";
+								}
+							}
+							
+							String location    = treeItemOrigLocations.get(treeMenu.getSelection());
+							String newLocation = FileUtils.getParentFolder(location) + "/" + text;
+							
+							boolean currentFile = text.equals(FileUtils.getFileName(treeItemOrigLocations.get(treeMenu.getSelection())));
+							
+							if (currentFile)
+							{
+								return "The name must be different than the current name.";
+							}
+							
+							saveFile(location);
+							
+							File f = new File(location);
+							
+							f.renameTo(new File(newLocation));
+							
+							if (currentFile)
+							{
+								fileLocation = newLocation;
+								
+								codeField.setLanguage(Language.getLanguage(fileLocation));
+								
+								codeField.highlightSyntax();
+							}
+							
+							refreshFileViewer();
+							
+							return null;
+						}
+					});
+					
+					FileUtils.removeEndingSlashes(renameFileDialog.open().replace('\\', '/'));
 				}
 			}
 
@@ -484,6 +570,14 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 		consoleStream.addConsoleListener(new ConsoleListener()
 		{
 			public void onPrintln(Object o)
+			{
+				if (o instanceof String)
+				{
+					console.append((String)o);
+				}
+			}
+			
+			public void onPrint(Object o)
 			{
 				if (o instanceof String)
 				{
@@ -573,35 +667,34 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 
 		createConfigData();
 		
+		ArrowIDE ide = null;
+		
 		if (workspaceCreated())
 		{
-			openIDE();
+			ide = openIDE();
 		}
 		else
 		{
-			DialogListener listener = new DialogListener()
+			FileBrowseDialog chooseWorkspace = new FileBrowseDialog(shell, "Choose your project workspace folder:", "Workspace:", true);
+			
+			String location = chooseWorkspace.open();
+			
+			if (location == null)
 			{
-				public String dialogCompleted(DialogEvent event)
-				{
-					String location = ((FileBrowseDialog)event.getSource()).getText();
-					
-					setConfigDataValue("workspace.location", location);
-					
-					openIDE();
-					
-					return null;
-				}
-			};
+				exit(shell);
+			}
 			
-			FileBrowseDialog chooseWorkspace = new FileBrowseDialog(display, listener, "Choose your project workspace folder:", "Workspace:", true);
+			setConfigDataValue("workspace.location", location);
 			
-			chooseWorkspace.open();
+			ide = openIDE();
 		}
 		
 		while (!shell.isDisposed())
 		{
 			if (!display.readAndDispatch())
 			{
+				ide.update();
+				
 				display.sleep();
 			}
 		}
@@ -618,13 +711,15 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 		menuItemLocations.put(id, name);
 	}
 	
-	public static void openIDE()
+	public static ArrowIDE openIDE()
 	{
 		ArrowIDE ide = new ArrowIDE(display, shell);
 		
 		shell.open();
 		
 		ide.refreshFileViewer();
+		
+		return ide;
 	}
 	
 	public static void restart()
@@ -733,9 +828,14 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 	
 	public void newProject()
 	{
-		newProjectDialog = new FileInputDialog(display, this, "Enter the name of your project:", "Project name:", "", true, CONFIG_DATA.get("workspace.location"), false);
+		newProjectDialog = new FileInputDialog(shell, "Enter the name of your project:", "Project name:", "", true, CONFIG_DATA.get("workspace.location"), false);
 		
-		newProjectDialog.open();
+		String location  = newProjectDialog.open();
+		
+		File f = new File(location);
+		f.mkdirs();
+		
+		refreshFileViewer();
 	}
 	
 	public void newFile()
@@ -785,7 +885,7 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 		
 		if (alreadyOpen)
 		{
-			codeField.setText(fileCache.get(locationKey), true, false);
+			codeField.setText(fileCache.get(locationKey), true, true);
 			
 			codeField.setLanguage(Language.getLanguage(location));
 			
@@ -909,9 +1009,9 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 		int     id    = 0;
 		boolean saved = false;
 		
-		if (treeItems.containsKey(locKey))
+		if (treeItemIds.containsKey(locKey))
 		{
-			id = treeItems.get(locKey);
+			id = treeItemIds.get(locKey);
 		}
 		
 		boolean currentFile  = locKey.equals(currentLocKey);
@@ -936,20 +1036,31 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 		
 		if (currentFile)
 		{
-			int tabId = tabFileIds.get(fileLocation);
+			String text = null;
 			
-			String text = tabs.getTabText(tabId);
+			if (tabFileIds.containsKey(fileLocation))
+			{
+				int tabId   = tabFileIds.get(fileLocation);
+				
+				text = tabs.getTabText(tabId);
+			}
+			else if (treeItemLocations.containsValue(locKey))
+			{
+				text = treeMenu.getTreeItemText(id);
+			}
 			
-			if (text.startsWith("*"))
+			if (text != null && text.startsWith("*"))
 			{
 				text = text.substring(1);
 			
-				if (treeItems.containsKey(location))
+				if (treeItemLocations.containsValue(locKey))
 				{
 					treeMenu.setTreeItemText(id, text);
 				}
-				
-				tabs.setTabText(tabFileIds.get(fileLocation), text);
+				if (tabFileIds.containsKey(fileLocation))
+				{
+					tabs.setTabText(tabFileIds.get(fileLocation), text);
+				}
 			}
 			
 			fileCacheSaved.put(fileLocation, true);
@@ -964,8 +1075,7 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 		
 		findSubFiles(workspace, 0);
 		
-		String locations[] = new String[] {};
-		locations = treeItems.keySet().toArray(locations);
+		String locations[] = treeItemLocations.values().toArray(new String[0]);
 		
 		for (int i = 0; i < locations.length; i ++)
 		{
@@ -973,7 +1083,10 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 			
 			if (!file.exists())
 			{
-				treeMenu.removeItem(treeItems.get(locations[i]));
+				int id = treeItemIds.get(locations[i]);
+				
+				treeItemIds.remove(locations[i]);
+				treeItemLocations.remove(id);
 			}
 		}
 		
@@ -1000,38 +1113,31 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 				
 				Image img           = isDirectory ? folderImage : getFileImage(location);
 				
-				if (treeItemLocations.containsValue(location))
+				if (treeItemOrigLocations.containsValue(orig))
 				{
-					id = treeItems.get(location);
+					id = treeItemIds.get(location);
 					
 					if (isDirectory)
 					{
 						findSubFiles(subFiles[i], id);
 					}
 				}
+				else if (treeItemLocations.containsValue(location))
+				{
+					id = treeItemIds.get(location);
+					
+					treeMenu.setTreeItemText(id, name);
+					treeItemOrigLocations.put(id, orig);
+				}
 				else
 				{
 					if (parent > 0)
 					{
-						if (!treeMenu.containsSubItem(parent, name))
-						{
-							id = treeMenu.addSubItem(parent, name, img);
-						}
-						else
-						{
-							id = treeItems.get(location);
-						}
+						id = treeMenu.addSubItem(parent, name, img);
 					}
 					else
 					{
-						if (!treeMenu.containsItem(name))
-						{
-							id = treeMenu.addItem(name, img);
-						}
-						else
-						{
-							id = treeItems.get(location);
-						}
+						id = treeMenu.addItem(name, img);
 					}
 					
 					if (isDirectory)
@@ -1044,100 +1150,10 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 					fileCacheSaved.put(orig, true);
 					treeItemLocations.put(id, location);
 					treeItemOrigLocations.put(id, orig);
-					treeItems.put(location, id);
+					treeItemIds.put(location, id);
 				}
 			}
 		}
-	}
-	
-	public String dialogCompleted(DialogEvent event)
-	{
-		Object source = event.getSource();
-		
-		if (source == newFolderDialog)
-		{
-			String location    = newFolderDialog.getText();
-			
-			File f = new File(location);
-			f.mkdirs();
-			
-			refreshFileViewer();
-			
-			return null;
-		}
-		else if (source == newFileDialog)
-		{
-			String location    = newFileDialog.getText();
-			
-			File f = new File(location);
-			
-			try
-			{
-				f.createNewFile();
-			
-				openFile(location);
-				
-				refreshFileViewer();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-			
-			return null;
-		}
-		else if (source == renameFileDialog)
-		{
-			String name        = FileUtils.removeEndingSlashes(renameFileDialog.getText().replace('\\', '/'));
-			
-			for (int i = 0; i < name.length(); i ++)
-			{
-				if (name.charAt(i) == '/')
-				{
-					return "The name must be in the same location.";
-				}
-			}
-			
-			String location    = treeItemOrigLocations.get(treeMenu.getSelection());
-			String newLocation = FileUtils.getParentFolder(location) + "/" + name;
-			
-			boolean currentFile = name.equals(FileUtils.getFileName(treeItemOrigLocations.get(treeMenu.getSelection())));
-			
-			if (currentFile)
-			{
-				return "The name must be different than the current name.";
-			}
-			
-			saveFile(location);
-			
-			File f = new File(location);
-			
-			f.renameTo(new File(newLocation));
-			
-			if (currentFile)
-			{
-				fileLocation = newLocation;
-				
-				codeField.setLanguage(Language.getLanguage(fileLocation));
-				
-				codeField.highlightSyntax();
-			}
-			
-			refreshFileViewer();
-		}
-		else if (source == newProjectDialog)
-		{
-			String location = newProjectDialog.getText();
-			
-			File f = new File(location);
-			f.mkdirs();
-			
-			refreshFileViewer();
-			
-			return null;
-		}
-		
-		return null;
 	}
 	
 	public void contentChanged(ContentEvent event)
@@ -1161,9 +1177,9 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 					text = "*" + text;
 				}
 				
-				if (treeItems.containsKey(location))
+				if (treeItemIds.containsKey(location))
 				{
-					int id = treeItems.get(location);
+					int id = treeItemIds.get(location);
 					treeMenu.setTreeItemText(id, text);
 				}
 				
@@ -1187,6 +1203,10 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 		if (fileType == FileUtils.JAVA)
 		{
 			img = javaFileImage;
+		}
+		else if (fileType == FileUtils.CLASS)
+		{
+			img = classFileImage;
 		}
 		else if (fileType == FileUtils.GLSL)
 		{
@@ -1228,10 +1248,10 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 		
 		String location = tabFileLocations.get(tabId);
 		
-		saveFile(location);
-		
 		tabFileLocations.remove(tabId);
 		tabFileIds.remove(location);
+		
+		saveFile(location);
 		
 		fileCache.remove(location.toLowerCase());
 		fileCacheSaved.remove(location);
@@ -1252,5 +1272,56 @@ public class ArrowIDE implements DialogListener, ContentListener, TabMenuListene
 		String location = tabFileLocations.get(tabId);
 		
 		openFile(location);
+	}
+
+	public void keyPressed(CodeFieldEvent e)
+	{
+		if (e.getSource() == codeField)
+		{
+			if (e.getStateMask() == (Integer)PROPERTIES.get("key.control") && e.getKeyCode() == 's')
+			{
+				saveFile(fileLocation);
+			}
+		}
+	}
+	
+	public boolean deleteFile(String location)
+	{
+//		private HashMap<Integer, String>  treeItemLocations;
+//		private HashMap<Integer, String>  treeItemOrigLocations;
+//		private HashMap<String, Integer>  treeItemIds;
+//		private HashMap<Integer, String>  treeItemDirectories;
+//		private HashMap<Integer, String>  menuItemLocations;
+//		private HashMap<String, Integer>  menuItems;
+//		private HashMap<String, String>   fileCache;
+//		private HashMap<String, Boolean>  fileCacheSaved;
+//		private HashMap<Integer, String>  tabFileLocations;
+//		private HashMap<String, Integer>  tabFileIds;
+		
+		String locKey = location.toLowerCase();
+		
+		int treeId    = treeItemIds.get(locKey);
+		
+		treeItemOrigLocations.remove(treeId);
+		treeItemDirectories.remove(treeId);
+		fileCache.remove(locKey);
+		fileCacheSaved.remove(locKey);
+		
+		treeMenu.removeItem(treeId);
+		
+		if (tabFileIds.containsKey(locKey))
+		{
+			int tabId = tabFileIds.get(locKey);
+			
+			tabFileLocations.remove(tabId);
+			tabFileIds.remove(locKey);
+		}
+		
+		return FileUtils.delete(new File(location));
+	}
+	
+	public void update()
+	{
+		console.updateText();
 	}
 }

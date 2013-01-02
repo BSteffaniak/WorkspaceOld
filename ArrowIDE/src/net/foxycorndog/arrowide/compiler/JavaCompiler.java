@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Locale;
@@ -33,7 +35,7 @@ import javax.tools.ToolProvider;
 
 public class JavaCompiler
 {
-	public static String compile(String fileName, String code)
+	public static String compile(String fileName, String code, String outputLocation)
 	{
 //		fileName = fileName == null ? "" : fileName;
 //		
@@ -53,8 +55,12 @@ public class JavaCompiler
 //		
 //		return result.getErrors().length + " ";
 		
+		fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+		
 		/*Creating dynamic java source code file object*/
-        SimpleJavaFileObject fileObject = new DynamicJavaSourceCodeObject(fileName, code);
+		
+        SimpleJavaFileObject fileObject  = new DynamicJavaSourceCodeObject("src/" + fileName, code);
+		
         JavaFileObject javaFileObjects[] = new JavaFileObject[] { fileObject };
  
         /*Instantiating the java compiler*/
@@ -74,7 +80,7 @@ public class JavaCompiler
  
         /*Prepare any compilation options to be used during compilation*/
         //In this example, we are asking the compiler to place the output files under bin folder.
-        String[] compileOptions = new String[]{"-d", "bin"} ;
+        String[] compileOptions = new String[]{"-d", outputLocation} ;
         Iterable<String> compilationOptions = Arrays.asList(compileOptions);
  
         /*Create a diagnostic controller, which holds the compilation problems*/
@@ -135,12 +141,13 @@ class DynamicJavaSourceCodeObject extends SimpleJavaFileObject
      *
      * @param fully qualified name given to the class file
      * @param code the source code string
+     * @throws UnsupportedEncodingException 
      */
     protected DynamicJavaSourceCodeObject(String name, String code)
     {
-        super(URI.create("string:///" +name.replaceAll("\\.", "/") + Kind.SOURCE.extension), Kind.SOURCE);
-        this.qualifiedName = name ;
-        this.sourceCode = code ;
+        super(URI.create("string:///" + name.replace(' ', '+').replaceAll("\\.", "/") + Kind.SOURCE.extension), Kind.SOURCE);
+        this.qualifiedName = name;
+        this.sourceCode = code;
     }
  
     @Override

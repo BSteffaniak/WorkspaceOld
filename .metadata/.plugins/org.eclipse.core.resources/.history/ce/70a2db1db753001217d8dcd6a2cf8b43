@@ -1,0 +1,21 @@
+package net.foxycorndog.arrowide.components;
+
+public class CodeFieldEvent
+{
+	private int stateMask;
+	
+	public CodeFieldEvent()
+	{
+		
+	}
+	
+	public int getStateMask()
+	{
+		return stateMask;
+	}
+	
+	public void setStateMask(int stateMask)
+	{
+		this.stateMask = stateMask;
+	}
+}

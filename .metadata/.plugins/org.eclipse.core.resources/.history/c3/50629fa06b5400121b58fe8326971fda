@@ -1,0 +1,189 @@
+package net.foxycorndog.arrowide.dialog;
+
+import java.io.File;
+import java.util.ArrayList;
+
+import net.foxycorndog.arrowide.ArrowIDE;
+import net.foxycorndog.arrowide.file.FileUtils;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.events.ShellListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+
+public class TextInputDialog implements Dialog
+{
+	private String  text;
+	
+	private Text    locationEditor;
+	
+	private Label   error;
+	
+	private Shell   window, parent;
+	
+	private Display display;
+	
+	private ArrayList<DialogFilter> filters;
+	
+	public TextInputDialog(Shell parent, String windowInstruction, String textFieldInstruction)
+	{
+		this(parent, windowInstruction, textFieldInstruction, "");
+	}
+	
+	public TextInputDialog(Shell parent, String windowInstruction, String textFieldInstruction, String defaultTextField)
+	{
+		this.display  = Display.getDefault();
+		this.parent   = parent;
+		
+		filters       = new ArrayList<DialogFilter>();
+		
+		Rectangle screenBounds = display.getMonitors()[0].getBounds();
+		
+		window = new Shell(display, SWT.SYSTEM_MODAL | SWT.CLOSE);
+		window.setSize(470, 180);
+		window.setLocation(screenBounds.width / 2 - window.getBounds().width / 2, screenBounds.height / 2 - window.getBounds().height / 2);
+		
+		Label instructionsLabel = new Label(window, SWT.NONE);
+		instructionsLabel.setText(windowInstruction);
+		instructionsLabel.setSize(370, 20);
+		instructionsLabel.setLocation(100, 30);
+		
+		Label textFieldInstructionLabel = new Label(window, SWT.NONE);
+		textFieldInstructionLabel.setText(textFieldInstruction);
+		textFieldInstructionLabel.setSize(70, 20);
+		textFieldInstructionLabel.setLocation(20, 80);
+		
+		error = new Label(window, SWT.NONE);
+		error.setText("");
+		error.setSize(370, 20);
+		error.setLocation(100, 115);
+		error.setForeground(new Color(display, 220, 0, 0));
+		
+		final Button continueButton = new Button(window, SWT.PUSH);
+		continueButton.setSize(100, 25);
+		continueButton.setLocation(360, 80);
+		continueButton.setText("Continue");
+		
+		locationEditor = new Text(window, SWT.SINGLE | SWT.BORDER);
+		locationEditor.setSize(250, 20);
+		locationEditor.setLocation(100, 80);
+		locationEditor.setText(defaultTextField);
+		locationEditor.setSelection(0, defaultTextField.length());
+		
+		Listener componentListener = new Listener()
+		{
+			public void handleEvent(Event e)
+			{
+				if (e.widget == continueButton)
+				{
+					continuePressed();
+				}
+			}
+		};
+		
+		continueButton.addListener(SWT.Selection, componentListener);
+		
+		locationEditor.addKeyListener(new KeyListener()
+		{
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.keyCode == 13)
+				{
+					continuePressed();
+				}
+			}
+
+			public void keyReleased(KeyEvent e)
+			{
+				
+			}
+		});
+	}
+	
+	private void continuePressed()
+	{
+		boolean wasError = false;
+		
+		text = locationEditor.getText();
+		
+		for (int i = filters.size() - 1; i >= 0; i --)
+		{
+			String error = null;
+			
+			if ((error = filters.get(i).filter(text)) != null)
+			{
+				this.error.setText(error);
+				
+				wasError = true;
+				
+				break;
+			}
+		}
+		
+		if (!wasError)
+		{
+			if (text.length() >= 0)
+			{
+				window.dispose();
+			}
+			else
+			{
+				error.setText("You must enter text.");
+			}
+		}
+		else
+		{
+			locationEditor.setText(text);
+		}
+	}
+	
+	public String open()
+	{
+		window.open();
+		
+		locationEditor.setFocus();
+		
+		while (!window.isDisposed())
+		{
+			if (!display.readAndDispatch())
+			{
+				display.sleep();
+			}
+		}
+		
+		return text;
+	}
+	
+	public String getText()
+	{
+		return text;
+	}
+	
+	public void setText(String text)
+	{
+		this.text = text;
+	}
+	
+	public void addDialogFilter(DialogFilter filter)
+	{
+		this.filters.add(filter);
+	}
+	
+	public Shell getWindow()
+	{
+		return window;
+	}
+}

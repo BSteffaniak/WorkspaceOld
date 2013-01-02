@@ -1,0 +1,63 @@
+package net.foxycorndog.arrowide.components;
+
+public class CodeFieldEvent
+{
+	private char character;
+	
+	private int  stateMask;
+	private int  keyCode;
+	
+	private long when;
+	
+	private Object source;
+	
+	public CodeFieldEvent()
+	{
+		when = System.currentTimeMillis();
+	}
+	
+	public char getCharacter()
+	{
+		return character;
+	}
+	
+	public void setCharacter(char character)
+	{
+		this.character = character;
+	}
+	
+	public int getStateMask()
+	{
+		return stateMask;
+	}
+	
+	public void setStateMask(int stateMask)
+	{
+		this.stateMask = stateMask;
+	}
+	
+	public int getKeyCode()
+	{
+		return keyCode;
+	}
+	
+	public void setKeyCode(int keyCode)
+	{
+		this.keyCode = keyCode;
+	}
+	
+	public Object getSource()
+	{
+		return source;
+	}
+	
+	public void setSource(Object source)
+	{
+		this.source = source;
+	}
+	
+	public long getWhen()
+	{
+		return when;
+	}
+}

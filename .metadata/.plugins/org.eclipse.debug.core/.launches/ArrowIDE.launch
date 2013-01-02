@@ -8,5 +8,4 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="net.foxycorndog.arrowide.ArrowIDE"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="ArrowIDE"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-XstartOnFirstThread"/>
 </launchConfiguration>
