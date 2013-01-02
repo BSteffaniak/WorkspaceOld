@@ -363,7 +363,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					{
 						console.setText("");
 						
-						Language.run(codeField.getLanguage(), FileUtils.getParentFolder(FileUtils.getParentFolder(fileLocation)) + "/bin/Test.class", consoleStream);
+						Language.run(codeField.getLanguage(), FileUtils.getParentFolder(FileUtils.getParentFolder(fileLocation)) + "/bin/File.class", consoleStream);
 					}
 				}
 			}
