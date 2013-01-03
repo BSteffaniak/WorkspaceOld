@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
 import net.foxycorndog.arrowide.ArrowIDE;
+import net.foxycorndog.arrowide.command.Command;
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.file.FileUtils;
 
@@ -53,94 +54,38 @@ public class JavaLanguage
 			
 //			classRunning = true;
 			
-			new Thread()
+			Display.getDefault().asyncExec(new Runnable()
 			{
 				public void run()
 				{
-					Display.getDefault().asyncExec(new Runnable()
+					new Thread()
 					{
 						public void run()
 						{
-							new Thread()
+							try
 							{
-								public void run()
-								{
-									try
-									{
-										Class clazz   = Class.forName(className, true, cLoader);
-										
-										try
-										{
-											Process process = exec(clazz, classLocation, stream);
-											
-											LogStreamReader lsr = new LogStreamReader(process.getInputStream(), stream);
-											Thread thread = new Thread(lsr, "LogStreamReader:" + classLocation);
-											thread.start();
-											
-//											PrintStream ot = new PrintStream(process.getOutputStream());
-//												System.setOut(ot);
-//											int result      = process.waitFor();
-											
-											boolean failed = false;
-											
-//											if (result == 1)
-//											{
-												BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-												
-												String  line = null;
-												
-												while ((line = reader.readLine()) != null)
-												{
-													stream.println(line);
-													
-													failed = true;
-												}
-//											}
-//											else
-//											{
-//												reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-//												
-//												line   = null;
-//												
-//												while ((line = reader.readLine()) != null)
-//												{
-//													System.out.println(line);
-//												}
-//											}
-											
-											System.out.println(failed);
-												
-											if (!failed)
-											{
-												int result = process.waitFor();
-											}
-											else
-											{
-												stream.println("failed");
-												lsr.stop();
-												thread.join();
-												process.destroy();
-											}
-										}
-										catch (InterruptedException e)
-										{
-											e.printStackTrace();
-										}
-										catch (IOException e)
-										{
-											e.printStackTrace();
-										}
-									}
-									catch (ClassNotFoundException e)
-									{
-										e.printStackTrace();
-									}
-								}
-							}.start();
+								Class clazz   = Class.forName(className, true, cLoader);
+															
+								Process process = exec(clazz, classLocation, stream);
+							}
+							catch (ClassNotFoundException e)
+							{
+								e.printStackTrace();
+							}
+							catch (InterruptedException e)
+							{
+								e.printStackTrace();
+							}
+							catch (IOException e)
+							{
+								e.printStackTrace();
+							}
 						}
-					});
+					}.start();
 				}
-			}.start();
+			});
+			
+			
 //			
 //			while (classRunning)
 //			{
@@ -178,59 +123,8 @@ public class JavaLanguage
 		String classpath = FileUtils.getParentFolder(classLocation);//System.getProperty("java.class.path");
 		String className = clazz.getCanonicalName();
 		
-		final ProcessBuilder builder = new ProcessBuilder(javaBin, "-cp", classpath, className);
-		
-		Process process = builder.start();
+		Process process = Command.execute("\"" + javaBin + "\" -cp " + "\"" + classpath + "\" " + className, stream);
 		
 		return process;
 	}
-}
-
-class LogStreamReader implements Runnable
-{
-	private boolean running;
-	
-	private ConsoleStream  stream;
-	
-	private BufferedReader reader;
-    
-    public LogStreamReader(InputStream is, ConsoleStream stream)
-    {
-        this.reader = new BufferedReader(new InputStreamReader(is));
-        
-        this.stream = stream;
-        
-        running = true;
-    }
-
-    public void run()
-    {
-        try
-        {
-            String line = null;
-            
-            while ((line = reader.readLine()) != null)
-            {
-            	if (running)
-            	{
-            		stream.println(line);
-            	}
-            	else
-            	{
-            		return;
-            	}
-            }
-            
-            reader.close();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-    
-    public void stop()
-    {
-    	running = false;
-    }
 }

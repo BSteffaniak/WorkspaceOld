@@ -1,0 +1,5 @@
+Compiled successfully!!!
+H:/ArrowWorkspace/assem.asm [4]:
+flat assembler  version 1.70.03  (1464714 kilobytes memory)
+include 'win32ax.inc' ; you can simply switch between win32ax, win32wx, win64ax and win64wx here
+error: file not found.

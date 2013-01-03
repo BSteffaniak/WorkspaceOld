@@ -1,12 +1,14 @@
 package net.foxycorndog.arrowide.language;
 
+import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.file.FileUtils;
+import net.foxycorndog.arrowide.language.assembly.AssemblyCompiler;
 import net.foxycorndog.arrowide.language.glsl.GLSLCompiler;
 import net.foxycorndog.arrowide.language.java.JavaCompiler;
 
 public class LanguageCompiler
 {
-	public static String compile(String fileLocation, String code, String outputLocation)
+	public static String compile(String fileLocation, String code, String outputLocation, ConsoleStream stream)
 	{
 		if (fileLocation != null)
 		{
@@ -26,7 +28,7 @@ public class LanguageCompiler
 			}
 			else if (language == Language.ASSEMBLY)
 			{
-				result = GLSLCompiler.loadVertexShader(fileName, code);
+				result = AssemblyCompiler.compile(fileLocation, outputLocation, stream);
 			}
 			
 			return result;

@@ -33,7 +33,7 @@ public class Language
 	
 	public static boolean canCompile(int fileType)
 	{
-		return fileType == JAVA || fileType == GLSL;
+		return fileType == JAVA || fileType == GLSL || fileType == ASSEMBLY;
 	}
 	
 	public static Color getCommentColor(int language)

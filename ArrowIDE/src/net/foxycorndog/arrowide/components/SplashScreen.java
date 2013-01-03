@@ -297,7 +297,7 @@ public class SplashScreen extends JWindow {
         setLocationRelativeTo(null);
         setAlwaysOnTop(true);
         setBackground(new Color(0,0,0,0));
-        setOpacity(0.8f);
+//        setOpacity(0.8f);
         setVisible(true);
         
         new Thread()

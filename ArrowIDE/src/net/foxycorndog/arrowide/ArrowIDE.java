@@ -350,7 +350,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 							
 							new File(outputLocation).mkdirs();
 							
-							String results = LanguageCompiler.compile(fileLocation, codeField.getRawText(), outputLocation);
+							String results = LanguageCompiler.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
 							
 							consoleStream.println(results);
 							
