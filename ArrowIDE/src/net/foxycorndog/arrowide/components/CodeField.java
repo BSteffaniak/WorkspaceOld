@@ -774,7 +774,7 @@ public class CodeField extends StyledText
 	
 	public void paste()
 	{
-		Clipboard clip  = new Clipboard(ArrowIDE.display);
+		Clipboard clip  = new Clipboard(Display.getDefault());
 		
 		Transfer  trans = TextTransfer.getInstance();
 		

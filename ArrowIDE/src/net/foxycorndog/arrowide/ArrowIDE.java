@@ -14,15 +14,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.foxycorndog.arrowide.compiler.Compiler;
-import net.foxycorndog.arrowide.compiler.GLSLCompiler;
-import net.foxycorndog.arrowide.compiler.JavaCompiler;
 import net.foxycorndog.arrowide.components.CodeField;
 import net.foxycorndog.arrowide.components.CodeFieldEvent;
 import net.foxycorndog.arrowide.components.CodeFieldListener;
 import net.foxycorndog.arrowide.components.ConsoleField;
 import net.foxycorndog.arrowide.components.ContentEvent;
 import net.foxycorndog.arrowide.components.ContentListener;
+import net.foxycorndog.arrowide.components.SplashScreen;
 import net.foxycorndog.arrowide.console.ConsoleListener;
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.dialog.Dialog;
@@ -33,6 +31,9 @@ import net.foxycorndog.arrowide.dialog.TextInputDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.Keyword;
 import net.foxycorndog.arrowide.language.Language;
+import net.foxycorndog.arrowide.language.LanguageCompiler;
+import net.foxycorndog.arrowide.language.glsl.GLSLCompiler;
+import net.foxycorndog.arrowide.language.java.JavaCompiler;
 import net.foxycorndog.arrowide.language.java.JavaLanguage;
 import net.foxycorndog.arrowide.menubar.Menubar;
 import net.foxycorndog.arrowide.menubar.MenubarListener;
@@ -62,6 +63,8 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.internal.win32.OS;
+import org.eclipse.swt.internal.win32.TCHAR;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -96,7 +99,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	private String       fileLocation;
 	
 	private Image        folderImage, fileImage, javaFileImage, classFileImage,
-						glslFileImage, txtFileImage, rtfFileImage, exeFileImage;
+						glslFileImage, txtFileImage, rtfFileImage, exeFileImage,
+						asmFileImage;
 	
 	private Menubar   menubar;
 	
@@ -122,10 +126,11 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	private HashMap<Integer, String>  tabFileLocations;
 	private HashMap<String, Integer>  tabFileIds;
 	
-	private static boolean restarting;
+	private static boolean      restarting;
 	
-	public  static Display display;
-	public  static Shell   shell;
+	private static Display      display;
+	private static Shell        shell;
+	private static SplashScreen splash;
 	
 	private static String                   configLocation;
 	
@@ -217,14 +222,15 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		try
 		{
-			folderImage    = new Image(display, new FileInputStream("res/images/folderimage.png"));
-			fileImage      = new Image(display, new FileInputStream("res/images/fileimage.png"));
-			javaFileImage  = new Image(display, new FileInputStream("res/images/javafileimage.png"));
-			classFileImage = new Image(display, new FileInputStream("res/images/classfileimage.png"));
-			glslFileImage  = new Image(display, new FileInputStream("res/images/glslfileimage.png"));
-			txtFileImage   = new Image(display, new FileInputStream("res/images/txtfileimage.png"));
-			rtfFileImage   = new Image(display, new FileInputStream("res/images/rtffileimage.png"));
-			exeFileImage   = new Image(display, new FileInputStream("res/images/exefileimage.png"));
+			folderImage       = new Image(display, new FileInputStream("res/images/folderimage.png"));
+			fileImage         = new Image(display, new FileInputStream("res/images/fileimage.png"));
+			javaFileImage     = new Image(display, new FileInputStream("res/images/javafileimage.png"));
+			classFileImage    = new Image(display, new FileInputStream("res/images/classfileimage.png"));
+			glslFileImage     = new Image(display, new FileInputStream("res/images/glslfileimage.png"));
+			txtFileImage      = new Image(display, new FileInputStream("res/images/txtfileimage.png"));
+			rtfFileImage      = new Image(display, new FileInputStream("res/images/rtffileimage.png"));
+			exeFileImage      = new Image(display, new FileInputStream("res/images/exefileimage.png"));
+			asmFileImage      = new Image(display, new FileInputStream("res/images/asmfileimage.png"));
 		}
 		catch (FileNotFoundException e)
 		{
@@ -344,7 +350,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 							
 							new File(outputLocation).mkdirs();
 							
-							String results = Compiler.compile(fileLocation, codeField.getRawText(), outputLocation);
+							String results = LanguageCompiler.compile(fileLocation, codeField.getRawText(), outputLocation);
 							
 							consoleStream.println(results);
 							
@@ -625,14 +631,40 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	{
 		if (!restarting)
 		{
-			display        = new Display();
+			display = new Display();
 		}
 		
-		Monitor monitor        = display.getPrimaryMonitor();
+		Image largeIcon = null;
+		
+		try
+		{
+			largeIcon = new Image(display, new FileInputStream("res/images/iconlarge.png"));
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		
+		Monitor monitor = display.getPrimaryMonitor();
 		final Rectangle screenBounds = monitor.getBounds();
 		
-		final Shell shell            = new Shell(display);//, SWT.SHELL_TRIM & (~SWT.RESIZE));
+//		splash = new Shell(display, SWT.ON_TOP);
+//		splash.setSize(largeIcon.getBounds().width, largeIcon.getBounds().height);
+//		splash.setLocation(screenBounds.width / 2 - splash.getSize().x / 2, screenBounds.height / 2 - splash.getSize().y / 2);
+//		
+//		Label splashImage = new Label(splash, SWT.NONE);
+//		splashImage.setSize(splash.getSize());
+//		splashImage.setImage(largeIcon);
+		
+//		splash = new SplashScreen("res/images/iconlarge.png", 3000);
+		
+		
+		
+//		splash.open(3000);
+		
+		final Shell shell = new Shell(display);//, SWT.SHELL_TRIM & (~SWT.RESIZE));
 		shell.setSize(800, 600);
+		shell.setImage(largeIcon);
 		ArrowIDE.shell = shell;
 		
 		final Rectangle shellBounds = shell.getBounds();
@@ -689,11 +721,19 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			ide = openIDE();
 		}
 		
+//		System.out.println(OS.SendMessage(shell.handle, OS.EM_SETSEL, 5, 9));//new TCHAR(0, "2dasdf", true)));
+		
+		shell.setFocus();
+		shell.forceActive();
+		shell.forceFocus();
+		shell.setActive();
+		
 		while (!shell.isDisposed())
 		{
 			if (!display.readAndDispatch())
 			{
 				ide.update();
+//				splash.update();
 				
 				display.sleep();
 			}
@@ -1223,6 +1263,10 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		else if (fileType == FileUtils.EXE)
 		{
 			img = exeFileImage;
+		}
+		else if (fileType == FileUtils.ASSEMBLY)
+		{
+			img = asmFileImage;
 		}
 		else
 		{

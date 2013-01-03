@@ -10,7 +10,7 @@ import net.foxycorndog.arrowide.language.java.JavaLanguage;
 
 public class Language
 {
-	public static final int JAVA = FileUtils.JAVA, GLSL = FileUtils.GLSL;
+	public static final int JAVA = FileUtils.JAVA, GLSL = FileUtils.GLSL, ASSEMBLY = FileUtils.ASSEMBLY;
 	
 	public static int getLanguage(String name)
 	{

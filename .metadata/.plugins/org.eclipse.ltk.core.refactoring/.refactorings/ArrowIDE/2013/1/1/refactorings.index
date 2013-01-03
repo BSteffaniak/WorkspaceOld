@@ -4,3 +4,8 @@
 1357084717824	Rename field 'error'
 1357084916415	Rename field 'instructionsLabel'
 1357084919755	Rename method 'getInstructionsLabel'
+1357185830430	Move compilation unit
+1357185848705	Move compilation unit
+1357185862965	Rename type 'Compiler'
+1357185868853	Move compilation unit
+1357185873540	Delete element

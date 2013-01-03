@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.foxycorndog.arrowide.dialog.NewFileDialog"/>
-<fullyQualifiedTypeName name="net.foxycorndog.arrowide.dialog.Dialog"/>
 <fullyQualifiedTypeName name="java.awt.event.MouseMotionListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.ControlListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.ShellListener"/>
@@ -16,7 +14,6 @@
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.FileDialog"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.dialog.FileBrowseDialog"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.dialog.TextInputDialog"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.TabItem"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.tabmenu.TabMenu"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Composite"/>
@@ -60,4 +57,7 @@
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="java.io.OutputStream"/>
 <fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="java.util.HashSet"/>
+<fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.assembly.AssemblyKeyword"/>
 </qualifiedTypeNameHistroy>

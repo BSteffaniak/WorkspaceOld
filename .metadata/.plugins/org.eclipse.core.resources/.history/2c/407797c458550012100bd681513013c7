@@ -1,0 +1,59 @@
+package net.foxycorndog.arrowide.language.assembly;
+
+import net.foxycorndog.arrowide.ArrowIDE;
+import net.foxycorndog.arrowide.language.Keyword;
+
+import org.eclipse.swt.graphics.Color;
+
+import static net.foxycorndog.arrowide.language.Language.ASSEMBLY;
+
+public class AssemblyKeyword
+{
+	public static final Keyword
+			INT                          = new Keyword(ASSEMBLY, "int");
+	
+	static
+	{
+		INT.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		FLOAT.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		DOUBLE.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		VEC2.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		VEC3.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		VEC4.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		MAT2.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		MAT3.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		MAT4.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		VOID.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		VERSION.setColor(AssemblyLanguage.VERSION_COLOR);
+		VARYING.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		ATTRIBUTE.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		UNIFORM.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		SAMPLER2D.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_FRAGCOLOR.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_VERTEX.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_NORMAL.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_NORMALMATRIX.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MODELVIEWMATRIX.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MODELVIEWPROJECTIONMATRIX.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_POSITION.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_TEXCOORD.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MULTITEXCOORD0.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MULTITEXCOORD1.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MULTITEXCOORD2.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MULTITEXCOORD3.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MULTITEXCOORD4.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MULTITEXCOORD5.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MULTITEXCOORD6.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MULTITEXCOORD7.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		IF.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		ELSE.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		FOR.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		WHILE.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_LIGHTMODEL.setColor(AssemblyLanguage.KEYWORD_COLOR);
+	}
+	
+	public static void init()
+	{
+		
+	}
+}

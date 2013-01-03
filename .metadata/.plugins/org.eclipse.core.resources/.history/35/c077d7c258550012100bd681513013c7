@@ -1,0 +1,94 @@
+package net.foxycorndog.arrowide.language.assembly;
+
+import net.foxycorndog.arrowide.ArrowIDE;
+import net.foxycorndog.arrowide.language.Keyword;
+
+import org.eclipse.swt.graphics.Color;
+
+import static net.foxycorndog.arrowide.language.Language.Assembly;
+
+public class AssemblyKeyword
+{
+	public static final Keyword
+			INT                          = new Keyword(Assembly, "int"),
+			FLOAT                        = new Keyword(Assembly, "float"),
+			DOUBLE                       = new Keyword(Assembly, "double"),
+			VEC2                         = new Keyword(Assembly, "vec2"),
+			VEC3                         = new Keyword(Assembly, "vec3"),
+			VEC4                         = new Keyword(Assembly, "vec4"),
+			MAT2                         = new Keyword(Assembly, "mat2"),
+			MAT3                         = new Keyword(Assembly, "mat3"),
+			MAT4                         = new Keyword(Assembly, "mat4"),
+			VOID                         = new Keyword(Assembly, "void"),
+			VERSION                      = new Keyword(Assembly, "#version"),
+			VARYING                      = new Keyword(Assembly, "varying"),
+			ATTRIBUTE                    = new Keyword(Assembly, "attribute"),
+			UNIFORM                      = new Keyword(Assembly, "uniform"),
+			SAMPLER2D                    = new Keyword(Assembly, "sampler2D"),
+			GL_FRAGCOLOR                 = new Keyword(Assembly, "gl_FragColor"),
+			GL_VERTEX                    = new Keyword(Assembly, "gl_Vertex"),
+			GL_NORMAL                    = new Keyword(Assembly, "gl_Normal"),
+			GL_NORMALMATRIX              = new Keyword(Assembly, "gl_NormalMatrix"),
+			GL_MODELVIEWMATRIX           = new Keyword(Assembly, "gl_ModelViewMatrix"),
+			GL_MODELVIEWPROJECTIONMATRIX = new Keyword(Assembly, "gl_ModelViewProjectionMatrix"),
+			GL_POSITION                  = new Keyword(Assembly, "gl_Position"),
+			GL_TEXCOORD                  = new Keyword(Assembly, "gl_TexCoord"),
+			GL_MULTITEXCOORD0            = new Keyword(Assembly, "gl_MultiTexCoord0"),
+			GL_MULTITEXCOORD1            = new Keyword(Assembly, "gl_MultiTexCoord1"),
+			GL_MULTITEXCOORD2            = new Keyword(Assembly, "gl_MultiTexCoord2"),
+			GL_MULTITEXCOORD3            = new Keyword(Assembly, "gl_MultiTexCoord3"),
+			GL_MULTITEXCOORD4            = new Keyword(Assembly, "gl_MultiTexCoord4"),
+			GL_MULTITEXCOORD5            = new Keyword(Assembly, "gl_MultiTexCoord5"),
+			GL_MULTITEXCOORD6            = new Keyword(Assembly, "gl_MultiTexCoord6"),
+			GL_MULTITEXCOORD7            = new Keyword(Assembly, "gl_MultiTexCoord7"),
+			IF                           = new Keyword(Assembly, "if"),
+			ELSE                         = new Keyword(Assembly, "else"),
+			FOR                          = new Keyword(Assembly, "for"),
+			WHILE                        = new Keyword(Assembly, "while"),
+			GL_LIGHTMODEL                = new Keyword(Assembly, "gl_LightModel");
+	
+	static
+	{
+		INT.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		FLOAT.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		DOUBLE.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		VEC2.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		VEC3.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		VEC4.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		MAT2.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		MAT3.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		MAT4.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		VOID.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		VERSION.setColor(AssemblyLanguage.VERSION_COLOR);
+		VARYING.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		ATTRIBUTE.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		UNIFORM.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		SAMPLER2D.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_FRAGCOLOR.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_VERTEX.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_NORMAL.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_NORMALMATRIX.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MODELVIEWMATRIX.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MODELVIEWPROJECTIONMATRIX.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_POSITION.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_TEXCOORD.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MULTITEXCOORD0.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MULTITEXCOORD1.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MULTITEXCOORD2.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MULTITEXCOORD3.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MULTITEXCOORD4.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MULTITEXCOORD5.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MULTITEXCOORD6.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_MULTITEXCOORD7.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		IF.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		ELSE.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		FOR.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		WHILE.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		GL_LIGHTMODEL.setColor(AssemblyLanguage.KEYWORD_COLOR);
+	}
+	
+	public static void init()
+	{
+		
+	}
+}

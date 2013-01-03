@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
@@ -15,16 +17,49 @@ import net.foxycorndog.arrowide.language.Keyword;
 
 public class FileUtils
 {
-	private static final String GLSL_VERTEX_ENDINGS[], GLSL_FRAGMENT_ENDINGS[], JAVA_ENDINGS[];
+	private static final HashMap<String, HashSet<String>> ENDINGS;
+	private static final HashMap<String, Integer> TYPES;
 	
-	public  static final int JAVA = 1, CLASS = 2, GLSL = 3, TXT = 4, RTF = 5, EXE = 6;
+	public  static final int JAVA = 1, GLSL = 2, ASSEMBLY = 3, TXT = 4, RTF = 5, EXE = 6, CLASS = 7;
 	
 	static
 	{
-		GLSL_VERTEX_ENDINGS = new String[] { "vs", "vert" };
-		GLSL_FRAGMENT_ENDINGS = new String[] { "fs", "frag", "shade", "shad", "sha" };
+		TYPES = new HashMap<String, Integer>();
 		
-		JAVA_ENDINGS = new String[] { "java" };
+		TYPES.put("java",  JAVA);
+		TYPES.put("vs",    GLSL);
+		TYPES.put("vert",  GLSL);
+		TYPES.put("fs",    GLSL);
+		TYPES.put("frag",  GLSL);
+		TYPES.put("shade", GLSL);
+		TYPES.put("shad",  GLSL);
+		TYPES.put("sha",   GLSL);
+		TYPES.put("asm",   ASSEMBLY);
+		TYPES.put("txt",   TXT);
+		TYPES.put("rtf",   RTF);
+		TYPES.put("exe",   EXE);
+		TYPES.put("class", CLASS);
+		
+		ENDINGS = new HashMap<String, HashSet<String>>();
+		
+		ENDINGS.put("glsl.vertex.endings", toHashSet(new String[] { "vs", "vert" }));
+		ENDINGS.put("glsl.fragment.endings", toHashSet(new String[] { "fs", "frag", "shade", "shad", "sha" }));
+		
+		ENDINGS.put("java", toHashSet(new String[] { "java" }));
+		
+		ENDINGS.put("assembly", toHashSet(new String[] { "asm" }));
+	}
+	
+	private static <E> HashSet<E> toHashSet(E array[])
+	{
+		HashSet<E> set = new HashSet<E>();
+		
+		for (E s : array)
+		{
+			set.add(s);
+		}
+		
+		return set;
 	}
 	
 	public static int getLanguage(String name)
@@ -33,13 +68,17 @@ public class FileUtils
 		
 		int language  = 0;
 		
-		if (contains(ending, GLSL_VERTEX_ENDINGS) || contains(ending, GLSL_FRAGMENT_ENDINGS))
+		if (ENDINGS.get("glsl.vertex.endings").contains(ending) || ENDINGS.get("glsl.fragment.endings").contains(ending))
 		{
 			language = GLSL;
 		}
-		else if (contains(ending, JAVA_ENDINGS))
+		else if (ENDINGS.get("java").contains(ending))
 		{
 			language = JAVA;
+		}
+		else if (ENDINGS.get("assembly").contains(ending))
+		{
+			language = ASSEMBLY;
 		}
 		
 		return language;
@@ -135,21 +174,9 @@ public class FileUtils
 		{
 			String ending = name.substring(name.lastIndexOf('.') + 1).toLowerCase();
 			
-			if (ending.equals("txt"))
+			if (TYPES.containsKey(ending))
 			{
-				return TXT;
-			}
-			else if (ending.equals("rtf"))
-			{
-				return RTF;
-			}
-			else if (ending.equals("exe"))
-			{
-				return EXE;
-			}
-			else if (ending.equals("class"))
-			{
-				return CLASS;
+				return TYPES.get(ending);
 			}
 		}
 		

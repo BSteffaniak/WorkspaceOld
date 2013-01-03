@@ -57,7 +57,7 @@ public class JavaLanguage
 			{
 				public void run()
 				{
-					ArrowIDE.display.asyncExec(new Runnable()
+					Display.getDefault().asyncExec(new Runnable()
 					{
 						public void run()
 						{
