@@ -20,7 +20,8 @@ public class FileUtils
 	private static final HashMap<String, HashSet<String>> ENDINGS;
 	private static final HashMap<String, Integer> TYPES;
 	
-	public  static final int JAVA = 1, GLSL = 2, ASSEMBLY = 3, TXT = 4, RTF = 5, EXE = 6, CLASS = 7;
+	public  static final int JAVA = 1, GLSL = 2, ASSEMBLY = 3, CPP = 4, H = 5, C = 6,
+							TXT = 7, RTF = 8, EXE = 9, CLASS = 10;
 	
 	static
 	{
@@ -39,6 +40,9 @@ public class FileUtils
 		TYPES.put("rtf",   RTF);
 		TYPES.put("exe",   EXE);
 		TYPES.put("class", CLASS);
+		TYPES.put("c", C);
+		TYPES.put("cpp", CPP);
+		TYPES.put("h", H);
 		
 		ENDINGS = new HashMap<String, HashSet<String>>();
 		
@@ -48,6 +52,10 @@ public class FileUtils
 		ENDINGS.put("java", toHashSet(new String[] { "java" }));
 		
 		ENDINGS.put("assembly", toHashSet(new String[] { "asm" }));
+
+		ENDINGS.put("cpp", toHashSet(new String[] { "cpp" }));
+		
+		ENDINGS.put("h", toHashSet(new String[] { "h" }));
 	}
 	
 	private static <E> HashSet<E> toHashSet(E array[])
@@ -79,6 +87,10 @@ public class FileUtils
 		else if (ENDINGS.get("assembly").contains(ending))
 		{
 			language = ASSEMBLY;
+		}
+		else if (ENDINGS.get("cpp").contains(ending) || ENDINGS.get("h").contains(ending))
+		{
+			language = CPP;
 		}
 		
 		return language;
@@ -192,6 +204,20 @@ public class FileUtils
 		location       = removeEndingSlashes(location);
 		
 		return location.substring(firstIndex, location.length());
+	}
+	
+	public static String getFileNameWithoutExtension(String location)
+	{
+		location = getFileName(location);
+		
+		int lastIndex = location.lastIndexOf('.');
+		
+		if (lastIndex > 0)
+		{
+			location = location.substring(0, lastIndex);
+		}
+		
+		return location;
 	}
 	
 	public static Font loadMonospacedFont(Display display, String name, String location, int size, int style)

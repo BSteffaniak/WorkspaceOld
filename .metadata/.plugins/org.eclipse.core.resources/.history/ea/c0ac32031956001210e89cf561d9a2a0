@@ -1,0 +1,21 @@
+import net.foxycorndog.arrowide.console.ConsoleStream;
+
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
+
+public class JavaLanguage
+{
+	public  static final Color
+			COMMENT_COLOR = new Color(Display.getCurrent(), 40, 140, 0),
+			KEYWORD_COLOR = new Color(Display.getCurrent(), 150, 0, 0);
+	
+	public static void init()
+	{
+		
+	}
+	
+	public static void run(final String fileLocation, final ConsoleStream stream)
+	{
+		
+	}
+}

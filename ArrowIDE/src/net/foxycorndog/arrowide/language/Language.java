@@ -5,12 +5,14 @@ import org.eclipse.swt.widgets.Display;
 
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.file.FileUtils;
+import net.foxycorndog.arrowide.language.assembly.AssemblyLanguage;
+import net.foxycorndog.arrowide.language.cpp.CppLanguage;
 import net.foxycorndog.arrowide.language.glsl.GLSLLanguage;
 import net.foxycorndog.arrowide.language.java.JavaLanguage;
 
 public class Language
 {
-	public static final int JAVA = FileUtils.JAVA, GLSL = FileUtils.GLSL, ASSEMBLY = FileUtils.ASSEMBLY;
+	public static final int JAVA = FileUtils.JAVA, GLSL = FileUtils.GLSL, ASSEMBLY = FileUtils.ASSEMBLY, CPP = FileUtils.CPP, C = FileUtils.C;
 	
 	public static int getLanguage(String name)
 	{
@@ -29,11 +31,19 @@ public class Language
 		{
 			
 		}
+		else if (language == ASSEMBLY)
+		{
+			AssemblyLanguage.run(fileLocation, stream);
+		}
+		else if (language == CPP)
+		{
+			CppLanguage.run(fileLocation, stream);
+		}
 	}
 	
 	public static boolean canCompile(int fileType)
 	{
-		return fileType == JAVA || fileType == GLSL || fileType == ASSEMBLY;
+		return fileType == JAVA || fileType == GLSL || fileType == ASSEMBLY || fileType == CPP;
 	}
 	
 	public static Color getCommentColor(int language)

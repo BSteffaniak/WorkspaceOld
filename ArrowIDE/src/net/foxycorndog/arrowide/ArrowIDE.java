@@ -29,6 +29,7 @@ import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
 import net.foxycorndog.arrowide.dialog.FileInputDialog;
 import net.foxycorndog.arrowide.dialog.TextInputDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
+import net.foxycorndog.arrowide.language.CompilerListener;
 import net.foxycorndog.arrowide.language.Keyword;
 import net.foxycorndog.arrowide.language.Language;
 import net.foxycorndog.arrowide.language.LanguageCompiler;
@@ -92,6 +93,8 @@ import org.lwjgl.opengl.GLContext;
 
 public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuListener
 {
+	private boolean      filesNeedRefresh;
+	
 	private CodeField    codeField;
 	
 	private ConsoleField console;
@@ -100,7 +103,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	
 	private Image        folderImage, fileImage, javaFileImage, classFileImage,
 						glslFileImage, txtFileImage, rtfFileImage, exeFileImage,
-						asmFileImage;
+						asmFileImage, cppFileImage, hFileImage;
 	
 	private Menubar   menubar;
 	
@@ -231,6 +234,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			rtfFileImage      = new Image(display, new FileInputStream("res/images/rtffileimage.png"));
 			exeFileImage      = new Image(display, new FileInputStream("res/images/exefileimage.png"));
 			asmFileImage      = new Image(display, new FileInputStream("res/images/asmfileimage.png"));
+			cppFileImage      = new Image(display, new FileInputStream("res/images/cppfileimage.png"));
+			hFileImage        = new Image(display, new FileInputStream("res/images/hfileimage.png"));
 		}
 		catch (FileNotFoundException e)
 		{
@@ -350,13 +355,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 							
 							new File(outputLocation).mkdirs();
 							
-							String results = LanguageCompiler.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
-							
-							consoleStream.println(results);
-							
-							refreshFileViewer();
+							LanguageCompiler.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
 						}
-						
 					}
 				}
 				else if (toolItemName.equals("Run"))
@@ -369,8 +369,21 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					{
 						console.setText("");
 						
-						Language.run(codeField.getLanguage(), FileUtils.getParentFolder(FileUtils.getParentFolder(fileLocation)) + "/bin/File.class", consoleStream);
+						Language.run(codeField.getLanguage(), fileLocation, consoleStream);
 					}
+				}
+			}
+		});
+		
+		LanguageCompiler.addCompilerListener(new CompilerListener()
+		{
+			public void compiled(int result)
+			{
+				if (result == 0)
+				{
+					filesNeedRefresh = true;
+					
+					consoleStream.println("Compiled successfully.");
 				}
 			}
 		});
@@ -663,7 +676,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 //		splash.open(3000);
 		
 		final Shell shell = new Shell(display);//, SWT.SHELL_TRIM & (~SWT.RESIZE));
-		shell.setSize(800, 600);
+		shell.setSize((int)(monitor.getBounds().width / 1.5f), (int)(monitor.getBounds().height / 1.5f));
 		shell.setImage(largeIcon);
 		ArrowIDE.shell = shell;
 		
@@ -695,9 +708,12 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			}
 		}
 		
-		configLocation       = "arrow.config";
+		configLocation       = new File("arrow.config").getAbsolutePath().replace('\\', '/');
 
 		createConfigData();
+		
+		PROPERTIES.put("arrowide.location", FileUtils.getParentFolder(configLocation));
+		PROPERTIES.put("g++.location", "C:/mingw/bin");
 		
 		ArrowIDE ide = null;
 		
@@ -1268,6 +1284,14 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		{
 			img = asmFileImage;
 		}
+		else if (fileType == FileUtils.CPP)
+		{
+			img = cppFileImage;
+		}
+		else if (fileType == FileUtils.H)
+		{
+			img = hFileImage;
+		}
 		else
 		{
 			img = fileImage;
@@ -1367,5 +1391,10 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	public void update()
 	{
 		console.updateText();
+		
+		if (filesNeedRefresh)
+		{
+			refreshFileViewer();
+		}
 	}
 }

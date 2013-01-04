@@ -1,0 +1,63 @@
+package net.foxycorndog.arrowide.language;
+
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
+
+import net.foxycorndog.arrowide.console.ConsoleStream;
+import net.foxycorndog.arrowide.file.FileUtils;
+import net.foxycorndog.arrowide.language.assembly.AssemblyLanguage;
+import net.foxycorndog.arrowide.language.glsl.GLSLLanguage;
+import net.foxycorndog.arrowide.language.java.JavaLanguage;
+
+public class Language
+{
+	public static final int JAVA = FileUtils.JAVA, GLSL = FileUtils.GLSL, ASSEMBLY = FileUtils.ASSEMBLY, CPP = FileUtils.CPP, C = FileUtils.C;
+	
+	public static int getLanguage(String name)
+	{
+		return FileUtils.getLanguage(name);
+	}
+	
+	public static void run(int language, String fileLocation, ConsoleStream stream)
+	{
+		fileLocation = FileUtils.removeEndingSlashes(fileLocation.replace('\\', '/'));
+		
+		if (language == JAVA)
+		{
+			JavaLanguage.run(fileLocation, stream);
+		}
+		else if (language == GLSL)
+		{
+			
+		}
+		else if (language == ASSEMBLY)
+		{
+			AssemblyLanguage.run(fileLocation, stream);
+		}
+	}
+	
+	public static boolean canCompile(int fileType)
+	{
+		return fileType == JAVA || fileType == GLSL || fileType == ASSEMBLY || fileType == CPP;
+	}
+	
+	public static Color getCommentColor(int language)
+	{
+		if (language == JAVA)
+		{
+			return JavaLanguage.COMMENT_COLOR;
+		}
+		else if (language == GLSL)
+		{
+			return GLSLLanguage.COMMENT_COLOR;
+		}
+		
+		return new Color(Display.getCurrent(), 0, 0, 0);
+	}
+	
+	public static void init()
+	{
+		JavaLanguage.init();
+		GLSLLanguage.init();
+	}
+}

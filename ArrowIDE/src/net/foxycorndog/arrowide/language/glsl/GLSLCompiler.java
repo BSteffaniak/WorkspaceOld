@@ -86,6 +86,9 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.foxycorndog.arrowide.console.ConsoleStream;
+import net.foxycorndog.arrowide.language.CompilerListener;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -94,7 +97,7 @@ import org.lwjgl.opengl.GLContext;
 
 public class GLSLCompiler
 {
-	public static String loadVertexShader(String name, String shaderCode)
+	public static void loadVertexShader(String name, String shaderCode, ConsoleStream stream, ArrayList<CompilerListener> compilerListeners)
 	{
 		int vertexShader = glCreateShader(GL_VERTEX_SHADER);
 		
@@ -103,21 +106,24 @@ public class GLSLCompiler
 		
 		String error = "";
 		
-		if (glGetShader(vertexShader, GL_COMPILE_STATUS) == GL_FALSE)
+		boolean successful = glGetShader(vertexShader, GL_COMPILE_STATUS) != GL_FALSE;
+		
+		if (!successful)
 		{
 			error = glGetShaderInfoLog(vertexShader, glGetShader(vertexShader, GL_INFO_LOG_LENGTH));
 			
-			error = "Vertex shader at \"" + name + "\" was not compiled correctly:\n" + formatError(error, name, false);
-		}
-		else
-		{
-			error = "Compiled successfully.";
+			error = "Vertex shader at \"" + name + "\" was not compiled correctly:\n" + formatError(error, name, true);
+			
+			stream.println(error);
 		}
 		
-		return error;
+		for (int i = compilerListeners.size() - 1; i >= 0; i--)
+		{
+			compilerListeners.get(i).compiled(successful ? 0 : 1);
+		}
 	}
 	
-	public static int loadFragmentShader(String name, String shaderCode)
+	public static void loadFragmentShader(String name, String shaderCode, ConsoleStream stream, ArrayList<CompilerListener> compilerListeners)
 	{
 		int fragmentShader   = glCreateShader(GL_FRAGMENT_SHADER);
 		
@@ -126,18 +132,21 @@ public class GLSLCompiler
 		
 		String error = "";
 		
-		if (glGetShader(fragmentShader, GL_COMPILE_STATUS) == GL_FALSE)
+		boolean successful = glGetShader(fragmentShader, GL_COMPILE_STATUS) != GL_FALSE;
+		
+		if (!successful)
 		{
 			error = glGetShaderInfoLog(fragmentShader, glGetShader(fragmentShader, GL_INFO_LOG_LENGTH));
 			
-			error = "Fragment shader at \"" + name + "\" was not compiled correctly:\n" + formatError(error, name, false);
-		}
-		else
-		{
-			error = "Compiled successfully.";
+			error = "Fragment shader at \"" + name + "\" was not compiled correctly:\n" + formatError(error, name, true);
+			
+			stream.println(error);
 		}
 		
-		return fragmentShader;
+		for (int i = compilerListeners.size() - 1; i >= 0; i--)
+		{
+			compilerListeners.get(i).compiled(successful ? 0 : 1);
+		}
 	}
 	
 	public static int loadVertexShaderFromFile(String location)
@@ -228,7 +237,7 @@ public class GLSLCompiler
 	
 	private static String formatError(String error, String fileName, boolean tabs)
 	{
-		String formattedError = "";
+		String formattedError = tabs ? "\t" : "";
 		
 		for (int i = 0; i < error.length() - 1; i ++)
 		{

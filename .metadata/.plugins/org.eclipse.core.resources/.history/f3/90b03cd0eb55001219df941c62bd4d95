@@ -1,0 +1,43 @@
+package net.foxycorndog.arrowide.language;
+
+import java.util.ArrayList;
+
+import net.foxycorndog.arrowide.console.ConsoleStream;
+import net.foxycorndog.arrowide.file.FileUtils;
+import net.foxycorndog.arrowide.language.assembly.AssemblyCompiler;
+import net.foxycorndog.arrowide.language.glsl.GLSLCompiler;
+import net.foxycorndog.arrowide.language.java.JavaCompiler;
+
+public class LanguageCompiler
+{
+	
+	private static ArrayList<CompilerListener> listeners;
+	
+	public static void compile(String fileLocation, String code, String outputLocation, ConsoleStream stream)
+	{
+		if (fileLocation != null)
+		{
+			String fileName = FileUtils.getFileName(fileLocation);
+			
+			int language = FileUtils.getLanguage(fileLocation);
+			
+			if (language == Language.JAVA)
+			{
+				JavaCompiler.compile(fileName, code, outputLocation, listeners);
+			}
+			else if (language == Language.GLSL)
+			{
+				GLSLCompiler.loadVertexShader(fileName, code, listeners);
+			}
+			else if (language == Language.ASSEMBLY)
+			{
+				AssemblyCompiler.compile(fileLocation, "", stream, listeners);
+			}
+		}
+	}
+	
+	public static void addCompilerListener(CompilerListener listener)
+	{
+		listeners.add(listener);
+	}
+}

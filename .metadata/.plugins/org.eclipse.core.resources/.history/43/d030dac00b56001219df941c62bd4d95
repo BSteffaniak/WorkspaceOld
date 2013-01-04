@@ -1,0 +1,1387 @@
+package net.foxycorndog.arrowide;
+
+import java.awt.BorderLayout;
+import java.awt.TextField;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
+import net.foxycorndog.arrowide.components.CodeField;
+import net.foxycorndog.arrowide.components.CodeFieldEvent;
+import net.foxycorndog.arrowide.components.CodeFieldListener;
+import net.foxycorndog.arrowide.components.ConsoleField;
+import net.foxycorndog.arrowide.components.ContentEvent;
+import net.foxycorndog.arrowide.components.ContentListener;
+import net.foxycorndog.arrowide.components.SplashScreen;
+import net.foxycorndog.arrowide.console.ConsoleListener;
+import net.foxycorndog.arrowide.console.ConsoleStream;
+import net.foxycorndog.arrowide.dialog.Dialog;
+import net.foxycorndog.arrowide.dialog.DialogFilter;
+import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
+import net.foxycorndog.arrowide.dialog.FileInputDialog;
+import net.foxycorndog.arrowide.dialog.TextInputDialog;
+import net.foxycorndog.arrowide.file.FileUtils;
+import net.foxycorndog.arrowide.language.CompilerListener;
+import net.foxycorndog.arrowide.language.Keyword;
+import net.foxycorndog.arrowide.language.Language;
+import net.foxycorndog.arrowide.language.LanguageCompiler;
+import net.foxycorndog.arrowide.language.glsl.GLSLCompiler;
+import net.foxycorndog.arrowide.language.java.JavaCompiler;
+import net.foxycorndog.arrowide.language.java.JavaLanguage;
+import net.foxycorndog.arrowide.menubar.Menubar;
+import net.foxycorndog.arrowide.menubar.MenubarListener;
+import net.foxycorndog.arrowide.tabmenu.TabMenu;
+import net.foxycorndog.arrowide.tabmenu.TabMenuListener;
+import net.foxycorndog.arrowide.toolbar.Toolbar;
+import net.foxycorndog.arrowide.toolbar.ToolbarListener;
+import net.foxycorndog.arrowide.treemenu.TreeMenu;
+import net.foxycorndog.arrowide.treemenu.TreeMenuListener;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.internal.win32.OS;
+import org.eclipse.swt.internal.win32.TCHAR;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.opengl.GLCanvas;
+import org.eclipse.swt.opengl.GLData;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Monitor;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Widget;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.GLContext;
+
+
+public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuListener
+{
+	private boolean      filesNeedRefresh;
+	
+	private CodeField    codeField;
+	
+	private ConsoleField console;
+	
+	private String       fileLocation;
+	
+	private Image        folderImage, fileImage, javaFileImage, classFileImage,
+						glslFileImage, txtFileImage, rtfFileImage, exeFileImage,
+						asmFileImage;
+	
+	private Menubar   menubar;
+	
+	private Toolbar   toolbar;
+	
+	private TreeMenu  treeMenu;
+	
+	private TabMenu   tabs;
+	
+	private ConsoleStream   consoleStream;
+	
+	private Dialog          newFolderDialog, newFileDialog, newProjectDialog;
+	private TextInputDialog renameFileDialog;
+	
+	private HashMap<Integer, String>  treeItemLocations;
+	private HashMap<Integer, String>  treeItemOrigLocations;
+	private HashMap<String, Integer>  treeItemIds;
+	private HashMap<Integer, String>  treeItemDirectories;
+	private HashMap<Integer, String>  menuItemLocations;
+	private HashMap<String, Integer>  menuItems;
+	private HashMap<String, String>   fileCache;
+	private HashMap<String, Boolean>  fileCacheSaved;
+	private HashMap<Integer, String>  tabFileLocations;
+	private HashMap<String, Integer>  tabFileIds;
+	
+	private static boolean      restarting;
+	
+	private static Display      display;
+	private static Shell        shell;
+	private static SplashScreen splash;
+	
+	private static String                   configLocation;
+	
+	public  static final HashMap<String, String>  CONFIG_DATA;
+	public  static final HashMap<Integer, String> CONFIG_LINE_NUMBER_DATA;
+	public  static final HashMap<String, Integer> CONFIG_LINE_NUMBERS;
+	
+	public  static final HashMap<String, Object>  PROPERTIES;
+	
+	static
+	{
+		CONFIG_DATA             = new HashMap<String, String>();
+		CONFIG_LINE_NUMBER_DATA = new HashMap<Integer, String>();
+		CONFIG_LINE_NUMBERS     = new HashMap<String, Integer>();
+		
+		PROPERTIES              = new HashMap<String, Object>();
+		
+		String osName = System.getProperty("os.name");
+		
+		if (osName.toLowerCase().contains("mac"))
+		{
+			PROPERTIES.put("os.name", "macosx");
+			
+			PROPERTIES.put("composite.modifiers", SWT.BORDER);
+			
+			PROPERTIES.put("key.control", SWT.COMMAND);
+		}
+		else if (osName.toLowerCase().contains("win"))
+		{
+			PROPERTIES.put("os.name", "windows");
+			
+			PROPERTIES.put("composite.modifiers", SWT.NONE);
+			
+			PROPERTIES.put("key.control", SWT.CTRL);
+		}
+		else if (osName.toLowerCase().contains("lin"))
+		{
+			PROPERTIES.put("os.name", "linux");
+			
+			PROPERTIES.put("composite.modifiers", SWT.NONE);
+			
+			PROPERTIES.put("key.control", SWT.CTRL);
+		}
+	}
+	
+	public static void main(String args[])
+	{
+		start();
+	}
+	
+	public ArrowIDE(final Display display, final Shell shell)
+	{
+		this.shell = shell;
+		
+		shell.setBackground(new Color(display, 170, 170, 170));
+		
+//		GridLayout b = new GridLayout();
+//		b.makeColumnsEqualWidth = false;
+//		
+//		shell.setLayout(b);
+		
+		fileCache     = new HashMap<String, String>();
+		
+		codeField     = new CodeField(shell);
+		console       = new ConsoleField(shell);
+		
+		codeField.addContentListener(this);
+		codeField.addCodeFieldListener(this);
+		
+		int width         = (int)(shell.getClientArea().width / 100f * 80);
+		int conHeight     = (int)(shell.getClientArea().height / 100f * 20);
+		int toolbarHeight = (int)(25);
+		
+		codeField.setSize(width, shell.getClientArea().height - conHeight - toolbarHeight - 16);
+		codeField.setLocation(shell.getClientArea().width - codeField.getWidth(), toolbarHeight);//shell.getClientArea().height - codeField.getHeight());
+		codeField.setShowLineNumbers(true);
+		
+		console.setSize(width, conHeight);
+		console.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y);
+		
+		try
+		{
+			consoleStream = new ConsoleStream("log.txt");
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		
+		try
+		{
+			folderImage       = new Image(display, new FileInputStream("res/images/folderimage.png"));
+			fileImage         = new Image(display, new FileInputStream("res/images/fileimage.png"));
+			javaFileImage     = new Image(display, new FileInputStream("res/images/javafileimage.png"));
+			classFileImage    = new Image(display, new FileInputStream("res/images/classfileimage.png"));
+			glslFileImage     = new Image(display, new FileInputStream("res/images/glslfileimage.png"));
+			txtFileImage      = new Image(display, new FileInputStream("res/images/txtfileimage.png"));
+			rtfFileImage      = new Image(display, new FileInputStream("res/images/rtffileimage.png"));
+			exeFileImage      = new Image(display, new FileInputStream("res/images/exefileimage.png"));
+			asmFileImage      = new Image(display, new FileInputStream("res/images/asmfileimage.png"));
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		
+		tabFileLocations  = new HashMap<Integer, String>();
+		tabFileIds        = new HashMap<String, Integer>();
+		
+		tabs = new TabMenu(shell);
+		tabs.setBackground(new Color(Display.getCurrent(), 199, 238, 255));
+		tabs.addListener(this);
+//		shell.setBackground(tabs.getBackground());
+		
+	    tabs.setMaxWidth(codeField.getWidth() + 2);
+		codeField.setLocation(codeField.getX(), codeField.getY() + tabs.getHeight());
+		tabs.setLocation(codeField.getX(), 2);
+		
+		menuItemLocations = new HashMap<Integer, String>();
+		menuItems         = new HashMap<String, Integer>();
+		
+		menubar           = new Menubar(shell);
+		addMenuItem(menubar.addMenuHeader("File"), "File");
+		addMenuItem(menubar.addMenuSubItem("New", menuItems.get("File")), "File>New");
+		menubar.addSeparator(menuItems.get("File"));
+		addMenuItem(menubar.addMenuSubItem("Open", menuItems.get("File")), "File>Open");
+		menubar.addSeparator(menuItems.get("File"));
+		addMenuItem(menubar.addMenuSubItem("Save", menuItems.get("File")), "File>Save");
+		addMenuItem(menubar.addMenuSubItem("Save as...", menuItems.get("File")), "File>Save as...");
+		menubar.addSeparator(menuItems.get("File"));
+		addMenuItem(menubar.addMenuSubItem("Restart", menuItems.get("File")), "File>Restart");
+		addMenuItem(menubar.addMenuSubItem("Exit", menuItems.get("File")), "File>Exit");
+
+		addMenuItem(menubar.addMenuSubItem("Project", menuItems.get("File>New")), "File>New>Project");
+		addMenuItem(menubar.addMenuSubItem("Empty File", menuItems.get("File>New")), "File>New>Empty File");
+		
+		menubar.addListener(new MenubarListener()
+		{
+			public void subItemPressed(int subItemId)
+			{
+				if (!menuItemLocations.containsKey(subItemId))
+				{
+					return;
+				}
+				
+				if (menuItemLocations.get(subItemId).equals("File>New>Empty File"))
+				{
+					newFile();
+				}
+				else if (menuItemLocations.get(subItemId).equals("File>New>Project"))
+				{
+					newProject();
+				}
+				else if (menuItemLocations.get(subItemId).equals("File>Open"))
+				{
+					openFile();
+				}
+				else if (menuItemLocations.get(subItemId).equals("File>Save"))
+				{
+					saveFile(fileLocation);
+				}
+				else if (menuItemLocations.get(subItemId).equals("File>Save as..."))
+				{
+					saveFile(null);
+				}
+				else if (menuItemLocations.get(subItemId).equals("File>Restart"))
+				{
+					restart();
+				}
+				else if (menuItemLocations.get(subItemId).equals("File>Exit"))
+				{
+					exit(shell);
+				}
+			}
+		});
+		
+		try
+		{
+			toolbar       = new Toolbar(shell);
+			
+			toolbar.setBackground(shell.getBackground());
+
+			toolbar.addToolItem("Save", new Image(display, new FileInputStream("res/images/savebutton.png")));
+			toolbar.addSeparator();
+			toolbar.addToolItem("Compile", new Image(display, new FileInputStream("res/images/compilebutton.png")));
+			toolbar.addSeparator();
+			toolbar.addToolItem("Run", new Image(display, new FileInputStream("res/images/runbutton.png")));
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		
+		toolbar.addListener(new ToolbarListener()
+		{
+			public void toolItemPressed(String toolItemName)
+			{
+				if (toolItemName.equals("Save"))
+				{
+					saveFile(fileLocation);
+				}
+				else if (toolItemName.equals("Compile"))
+				{
+					if (fileLocation == null)
+					{
+						openFile();
+					}
+					else
+					{
+						if (Language.canCompile(FileUtils.getFileType(fileLocation)))
+						{
+							saveFile(fileLocation);
+					
+							console.setText("");
+							
+							String outputLocation = FileUtils.getParentFolder(FileUtils.getParentFolder(fileLocation)) + "/bin";
+							
+							new File(outputLocation).mkdirs();
+							
+							LanguageCompiler.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
+						}
+					}
+				}
+				else if (toolItemName.equals("Run"))
+				{
+					if (fileLocation == null)
+					{
+						saveFile(fileLocation);
+					}
+					else
+					{
+						console.setText("");
+						
+						Language.run(codeField.getLanguage(), fileLocation, consoleStream);
+					}
+				}
+			}
+		});
+		
+		LanguageCompiler.addCompilerListener(new CompilerListener()
+		{
+			public void compiled(int result)
+			{
+				if (result == 0)
+				{
+					filesNeedRefresh = true;
+				}
+			}
+		});
+		
+		fileCacheSaved        = new HashMap<String, Boolean>();
+		treeItemLocations     = new HashMap<Integer, String>();
+		treeItemOrigLocations = new HashMap<Integer, String>();
+		treeItemIds           = new HashMap<String, Integer>();
+		treeItemDirectories   = new HashMap<Integer, String>();
+		
+		treeMenu              = new TreeMenu(shell);
+		treeMenu.setSize(shell.getClientArea().width - codeField.getWidth() - 10, codeField.getHeight() + console.getHeight());
+		treeMenu.setLocation(5, codeField.getY());
+		treeMenu.setBackground(new Color(display, 255, 255, 255));
+		
+		Menu m = new Menu(treeMenu);
+		treeMenu.setMenu(m);
+		
+		final MenuItem newFolder = new MenuItem(m, SWT.CASCADE);
+		newFolder.setText("New Folder");
+		
+		final MenuItem newFile = new MenuItem(m, SWT.CASCADE);
+		newFile.setText("New File");
+		
+		final MenuItem rename = new MenuItem(m, SWT.CASCADE);
+		rename.setText("Rename");
+		
+		final MenuItem delete = new MenuItem(m, SWT.CASCADE);
+		delete.setText("Delete");
+		
+		final ArrowIDE thisIDE = this;
+		
+		SelectionListener menuListener = new SelectionListener()
+		{
+			public void widgetDefaultSelected(SelectionEvent e)
+			{
+				if (e.widget == delete)
+				{
+					int id = treeMenu.getSelection();
+//					
+//					if (treeItems.containsKey(id))
+//					{
+//						System.out.println("is file");
+//					}
+					
+					String location = treeItemOrigLocations.get(id);
+					
+					System.out.println(deleteFile(location));
+					
+					refreshFileViewer();
+				}
+				else if (e.widget == newFolder)
+				{
+					String preLoc = treeItemOrigLocations.get(treeMenu.getSelection());
+					
+					if (preLoc == null)
+					{
+						preLoc = FileUtils.removeEndingSlashes(CONFIG_DATA.get("workspace.location")) + "/";
+					}
+					
+					String preLocation = FileUtils.removeEndingSlashes(preLoc);
+					
+					if (FileUtils.isFileName(preLocation))
+					{
+						preLocation = FileUtils.getParentFolder(preLocation);
+					}
+					
+					newFolderDialog = new FileInputDialog(shell, "Enter the folder name:", "Folder name:", true, preLocation + "/", false);
+					
+					String location = newFolderDialog.open();
+					
+					if (location != null)
+					{
+						File f = new File(location);
+						f.mkdirs();
+						
+						refreshFileViewer();
+					}
+				}
+				else if (e.widget == newFile)
+				{
+					String preLoc = treeItemOrigLocations.get(treeMenu.getSelection());
+					
+					if (preLoc == null)
+					{
+						preLoc = FileUtils.removeEndingSlashes(CONFIG_DATA.get("workspace.location")) + "/";
+					}
+					
+					String preLocation = FileUtils.removeEndingSlashes(preLoc);
+					
+					if (FileUtils.isFileName(preLocation))
+					{
+						preLocation = FileUtils.getParentFolder(preLocation);
+					}
+					
+					newFileDialog = new FileInputDialog(shell, "Enter the file name:", "File name:", false, preLocation + "/", false);
+					
+					String location = newFileDialog.open();
+					
+					if (location != null)
+					{
+						File f = new File(location);
+						
+						try
+						{
+							f.createNewFile();
+						
+							openFile(location);
+							
+							refreshFileViewer();
+						}
+						catch (IOException e2)
+						{
+							e2.printStackTrace();
+						}
+					}
+				}
+				else if (e.widget == rename)
+				{
+					int selection = treeMenu.getSelection();
+			
+					renameFileDialog = new TextInputDialog(shell, "Enter the new name:", "New name:", FileUtils.getFileName(treeItemOrigLocations.get(selection)));
+					
+					renameFileDialog.addDialogFilter(new DialogFilter()
+					{
+						public String filter(String text)
+						{
+							text = FileUtils.removeEndingSlashes(text.replace('\\', '/'));
+							
+							for (int i = 0; i < text.length(); i ++)
+							{
+								if (text.charAt(i) == '/')
+								{
+									return "The name must be in the same location.";
+								}
+							}
+							
+							String location    = treeItemOrigLocations.get(treeMenu.getSelection());
+							String newLocation = FileUtils.getParentFolder(location) + "/" + text;
+							
+							boolean currentFile = text.equals(FileUtils.getFileName(treeItemOrigLocations.get(treeMenu.getSelection())));
+							
+							if (currentFile)
+							{
+								return "The name must be different than the current name.";
+							}
+							
+							saveFile(location);
+							
+							File f = new File(location);
+							
+							f.renameTo(new File(newLocation));
+							
+							if (currentFile)
+							{
+								fileLocation = newLocation;
+								
+								codeField.setLanguage(Language.getLanguage(fileLocation));
+								
+								codeField.highlightSyntax();
+							}
+							
+							refreshFileViewer();
+							
+							return null;
+						}
+					});
+					
+					FileUtils.removeEndingSlashes(renameFileDialog.open().replace('\\', '/'));
+				}
+			}
+
+			public void widgetSelected(SelectionEvent e)
+			{
+				widgetDefaultSelected(e);
+			}
+		};
+		
+		newFolder.addSelectionListener(menuListener);
+		newFile.addSelectionListener(menuListener);
+		rename.addSelectionListener(menuListener);
+		delete.addSelectionListener(menuListener);
+		
+		treeMenu.addListener(new TreeMenuListener()
+		{
+			public void treeItemDoubleClicked(int id)
+			{
+				if (!treeItemDirectories.containsKey(id))
+				{
+					String location = treeItemOrigLocations.get(id);
+					
+					openFile(location);
+				}
+			}
+
+			public void treeItemRightClicked(int id)
+			{
+				
+			}
+		});
+		
+		
+		consoleStream.addConsoleListener(new ConsoleListener()
+		{
+			public void onPrintln(Object o)
+			{
+				if (o instanceof String)
+				{
+					console.append((String)o);
+				}
+			}
+			
+			public void onPrint(Object o)
+			{
+				if (o instanceof String)
+				{
+					console.append((String)o);
+				}
+			}
+		});
+		
+	    ControlListener shellListener = new ControlListener()
+		{
+			public void controlMoved(ControlEvent e)
+			{
+				
+			}
+
+			public void controlResized(ControlEvent e)
+			{
+				int width         = (int)(shell.getClientArea().width / 100f * 80);
+				int conHeight     = (int)(shell.getClientArea().height / 100f * 20);
+				int toolbarHeight = (int)(25);
+				
+				codeField.setSize(width, shell.getClientArea().height - conHeight - toolbarHeight - tabs.getY());
+				codeField.setLocation(shell.getClientArea().width - codeField.getWidth(), tabs.getHeight() + tabs.getY());
+				
+				toolbar.setSize(toolbar.getWidth(), toolbarHeight);
+				toolbar.setLocation(codeField.getX(), 0);
+				
+				console.setSize(width, conHeight);
+				console.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y);
+				
+//				tabs.setWidth(codeField.getWidth() + 2);
+				tabs.setLocation(codeField.getX(), toolbarHeight + 2);
+				
+				treeMenu.setLocation(5, codeField.getY());
+				treeMenu.setSize(shell.getClientArea().width - codeField.getWidth() - 10, codeField.getHeight() + console.getHeight());
+			}
+		};
+		
+		shell.addControlListener(shellListener);
+		
+		shellListener.controlResized(null);
+	}
+	
+	public static void start()
+	{
+		if (!restarting)
+		{
+			display = new Display();
+		}
+		
+		Image largeIcon = null;
+		
+		try
+		{
+			largeIcon = new Image(display, new FileInputStream("res/images/iconlarge.png"));
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		
+		Monitor monitor = display.getPrimaryMonitor();
+		final Rectangle screenBounds = monitor.getBounds();
+		
+//		splash = new Shell(display, SWT.ON_TOP);
+//		splash.setSize(largeIcon.getBounds().width, largeIcon.getBounds().height);
+//		splash.setLocation(screenBounds.width / 2 - splash.getSize().x / 2, screenBounds.height / 2 - splash.getSize().y / 2);
+//		
+//		Label splashImage = new Label(splash, SWT.NONE);
+//		splashImage.setSize(splash.getSize());
+//		splashImage.setImage(largeIcon);
+		
+//		splash = new SplashScreen("res/images/iconlarge.png", 3000);
+		
+		
+		
+//		splash.open(3000);
+		
+		final Shell shell = new Shell(display);//, SWT.SHELL_TRIM & (~SWT.RESIZE));
+		shell.setSize((int)(monitor.getBounds().width / 1.5f), (int)(monitor.getBounds().height / 1.5f));
+		shell.setImage(largeIcon);
+		ArrowIDE.shell = shell;
+		
+		final Rectangle shellBounds = shell.getBounds();
+		
+		shell.setLocation(screenBounds.width / 2 - shellBounds.width / 2, screenBounds.height / 2 - shellBounds.height / 2);
+		shell.setText("Arrow IDE");
+		
+		/**
+		 * Set up the OpenGL (lwjgl) capabilities for the program.
+		 */
+		{
+			Composite comp = new Composite(shell, SWT.NONE);
+			comp.setLayout(new FillLayout());
+			
+			GLData data = new GLData ();
+			data.doubleBuffer = true;
+			final GLCanvas canvas = new GLCanvas(comp, SWT.NONE, data);
+			
+			canvas.setCurrent();
+			
+			try
+			{
+				GLContext.useContext(canvas);
+			}
+			catch(LWJGLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		configLocation       = new File("arrow.config").getAbsolutePath().replace('\\', '/');
+
+		createConfigData();
+		
+		PROPERTIES.put("arrowide.location", FileUtils.getParentFolder(configLocation));
+		
+		ArrowIDE ide = null;
+		
+		if (workspaceCreated())
+		{
+			ide = openIDE();
+		}
+		else
+		{
+			FileBrowseDialog chooseWorkspace = new FileBrowseDialog(shell, "Choose your project workspace folder:", "Workspace:", true);
+			
+			String location = chooseWorkspace.open();
+			
+			if (location == null)
+			{
+				exit(shell);
+			}
+			
+			setConfigDataValue("workspace.location", location);
+			
+			ide = openIDE();
+		}
+		
+//		System.out.println(OS.SendMessage(shell.handle, OS.EM_SETSEL, 5, 9));//new TCHAR(0, "2dasdf", true)));
+		
+		shell.setFocus();
+		shell.forceActive();
+		shell.forceFocus();
+		shell.setActive();
+		
+		while (!shell.isDisposed())
+		{
+			if (!display.readAndDispatch())
+			{
+				ide.update();
+//				splash.update();
+				
+				display.sleep();
+			}
+		}
+		
+		if (!restarting)
+		{
+			exit(shell);
+		}
+	}
+	
+	private void addMenuItem(int id, String name)
+	{
+		menuItems.put(name, id);
+		menuItemLocations.put(id, name);
+	}
+	
+	public static ArrowIDE openIDE()
+	{
+		ArrowIDE ide = new ArrowIDE(display, shell);
+		
+		shell.open();
+		
+		ide.refreshFileViewer();
+		
+		return ide;
+	}
+	
+	public static void restart()
+	{
+		restarting = true;
+		
+		shell.dispose();
+		
+		start();
+		
+		restarting = false;
+	}
+	
+	public static void exit(Shell shell)
+	{
+		shell.dispose();
+		
+		Display.getCurrent().close();
+		
+		System.exit(0);
+	}
+	
+	public static boolean workspaceCreated()
+	{
+		File workspaceDirectory = new File(CONFIG_DATA.get("workspace.location"));
+		
+		return workspaceDirectory.exists();
+	}
+	
+	private static void setConfigDataValue(String key, String value)
+	{
+		try
+		{
+			PrintWriter p = new PrintWriter(new FileWriter(configLocation));
+			
+			for (int i = 0; i < CONFIG_DATA.size(); i ++)
+			{
+				String lineKey   = null;
+				String lineValue = null;
+				
+				lineKey = CONFIG_LINE_NUMBER_DATA.get(i);
+				
+				if (lineKey.equals(key))
+				{
+					lineValue = value;
+				}
+				else
+				{
+					lineValue = CONFIG_DATA.get(lineKey);
+				}
+				
+				p.print(lineKey + "=" + lineValue + (i == CONFIG_DATA.size() - 1 ? "" : "\r\n"));
+			}
+			
+			p.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		CONFIG_DATA.put(key, value);
+	}
+	
+	private static void createConfigData()
+	{
+		File file = new File(configLocation);
+		
+		try
+		{
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+		
+			String line = null;
+			
+			for (int lineNum = 0; (line = reader.readLine()) != null; lineNum ++)
+			{
+				String lineData[] = line.split("=");
+				
+				String key        = lineData[0];
+				String value      = "";
+				
+				for (int i = 1; i < lineData.length; i ++)
+				{
+					if (i > 1)
+					{
+						value += "=";
+					}
+					
+					value += lineData[i];
+				}
+				
+				CONFIG_DATA.put(key, value);
+				CONFIG_LINE_NUMBERS.put(key, lineNum);
+				CONFIG_LINE_NUMBER_DATA.put(lineNum, key);
+			}
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void newProject()
+	{
+		newProjectDialog = new FileInputDialog(shell, "Enter the name of your project:", "Project name:", "", true, CONFIG_DATA.get("workspace.location"), false);
+		
+		String location  = newProjectDialog.open();
+		
+		File f = new File(location);
+		f.mkdirs();
+		
+		refreshFileViewer();
+	}
+	
+	public void newFile()
+	{
+		if (fileLocation != null)
+		{
+			saveFile(fileLocation);
+		}
+		
+		fileLocation = null;
+		
+		codeField.setText("");
+	}
+	
+	public FileDialog openFileBrowseDialog()
+	{
+		String relativeLocation = "";
+		
+		if (fileLocation != null)
+		{
+			if (fileLocation.lastIndexOf('/') - (CONFIG_DATA.get("workspace.location").length() + 1) > -1)
+			{
+				fileLocation.substring(CONFIG_DATA.get("workspace.location").length() + 1, fileLocation.lastIndexOf('/'));
+			}
+		}
+		
+		return openFileBrowseDialog(relativeLocation);
+	}
+	
+	public FileDialog openFileBrowseDialog(String relativeLocation)
+	{
+		FileDialog dialog = new FileDialog(shell, SWT.OPEN);
+		dialog.setFilterNames(new String[] { "All Files (*)" });
+		dialog.setFilterExtensions(new String[] { "*" });
+		dialog.setFilterPath(CONFIG_DATA.get("workspace.location") + "/" + relativeLocation);
+		
+		return dialog;
+	}
+	
+	public void openFile(String location)
+	{
+		location = location.replace('\\', '/');
+		
+		String locationKey  = location.toLowerCase();
+		
+		boolean alreadyOpen = fileCache.containsKey(locationKey);
+		
+		if (alreadyOpen)
+		{
+			codeField.setText(fileCache.get(locationKey), true, true);
+			
+			codeField.setLanguage(Language.getLanguage(location));
+			
+			codeField.redraw();
+			
+			int tabId = tabFileIds.get(location);
+			
+			tabs.setSelection(tabId);
+		}
+		else
+		{
+			File file = new File(location);
+			
+			try
+			{
+				BufferedReader reader = new BufferedReader(new FileReader(file));
+				
+				StringBuilder builder = new StringBuilder();
+				
+				String line = "";
+				
+				while ((line = reader.readLine()) != null)
+				{
+					builder.append(line + "\r\n");
+				}
+				
+				reader.close();
+				
+				if (builder.length() > 0)
+				{
+					builder.deleteCharAt(builder.length() - 1);
+					builder.deleteCharAt(builder.length() - 1);
+				}
+				
+				String fileContents = builder.toString();
+				
+				fileCache.put(locationKey, fileContents);
+				fileCacheSaved.put(location, true);
+				
+				codeField.setText(fileContents, true);
+				
+				codeField.setLanguage(Language.getLanguage(location));
+				
+				codeField.redraw();
+				
+				addTab(location);
+			}
+			catch (FileNotFoundException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+				
+		fileLocation = location;
+	}
+	
+	public void openFile()
+	{
+		FileDialog dialog = openFileBrowseDialog();
+		
+		String location   = dialog.open();
+		
+		if (location == null)
+		{
+			return;
+		}
+		
+		openFile(location);
+	}
+	
+	public FileDialog openSaveDialog()
+	{
+		String relativeLocation = "";
+		
+		if (fileLocation != null)
+		{
+			if (fileLocation.lastIndexOf('/') - (CONFIG_DATA.get("workspace.location").length() + 1) > -1)
+			{
+				fileLocation.substring(CONFIG_DATA.get("workspace.location").length() + 1, fileLocation.lastIndexOf('/'));
+			}
+		}
+		
+		return openSaveDialog(relativeLocation);
+	}
+	
+	public FileDialog openSaveDialog(String relativeLocation)
+	{
+		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
+		dialog.setFilterNames(new String[] { "All Files (*)" });
+		dialog.setFilterExtensions(new String[] { "*" });
+		dialog.setFilterPath(CONFIG_DATA.get("workspace.location") + "/" + relativeLocation);
+		
+		return dialog;
+	}
+	
+	public void saveFile(String location)
+	{
+		if (location == null)
+		{
+			FileDialog dialog = openSaveDialog();
+			location = dialog.open();
+		}
+		
+		if (location == null)
+		{
+			return;
+		}
+		
+		if (fileLocation == null)
+		{
+			fileLocation = "";
+		}
+		
+		String locKey        = location.toLowerCase();
+		String currentLocKey = fileLocation.toLowerCase();
+		
+		int     id    = 0;
+		boolean saved = false;
+		
+		if (treeItemIds.containsKey(locKey))
+		{
+			id = treeItemIds.get(locKey);
+		}
+		
+		boolean currentFile  = locKey.equals(currentLocKey);
+	
+		if (fileCacheSaved.containsKey(fileLocation))
+		{
+			saved = fileCacheSaved.get(fileLocation);
+		}
+		
+		FileUtils.writeFile(location, codeField.getWritableText());
+		
+		fileLocation = location.replace('\\', '/');
+		
+		boolean highlight = codeField.getLanguage() == 0;
+		
+		codeField.setLanguage(Language.getLanguage(fileLocation));
+		
+		if (highlight)
+		{
+			codeField.highlightSyntax();
+		}
+		
+		if (currentFile)
+		{
+			String text = null;
+			
+			if (tabFileIds.containsKey(fileLocation))
+			{
+				int tabId   = tabFileIds.get(fileLocation);
+				
+				text = tabs.getTabText(tabId);
+			}
+			else if (treeItemLocations.containsValue(locKey))
+			{
+				text = treeMenu.getTreeItemText(id);
+			}
+			
+			if (text != null && text.startsWith("*"))
+			{
+				text = text.substring(1);
+			
+				if (treeItemLocations.containsValue(locKey))
+				{
+					treeMenu.setTreeItemText(id, text);
+				}
+				if (tabFileIds.containsKey(fileLocation))
+				{
+					tabs.setTabText(tabFileIds.get(fileLocation), text);
+				}
+			}
+			
+			fileCacheSaved.put(fileLocation, true);
+		}
+		
+		refreshFileViewer();
+	}
+	
+	private void refreshFileViewer()
+	{
+		File workspace = new File(CONFIG_DATA.get("workspace.location"));
+		
+		findSubFiles(workspace, 0);
+		
+		String locations[] = treeItemLocations.values().toArray(new String[0]);
+		
+		for (int i = 0; i < locations.length; i ++)
+		{
+			File file = new File(locations[i]);
+			
+			if (!file.exists())
+			{
+				int id = treeItemIds.get(locations[i]);
+				
+				treeItemIds.remove(locations[i]);
+				treeItemLocations.remove(id);
+			}
+		}
+		
+		treeMenu.alphabetize();
+	}
+	
+	private void findSubFiles(File file, int parent)
+	{
+		File subFiles[] = file.listFiles();
+		
+		if (subFiles != null)
+		{
+			int subFilesIds[] = new int[subFiles.length];
+			
+			for (int i = 0; i < subFiles.length; i ++)
+			{
+				boolean isDirectory = subFiles[i].isDirectory();
+				
+				String orig         = subFiles[i].getAbsolutePath().replace('\\', '/');
+				String name         = FileUtils.getFileName(orig);
+				String location     = orig.toLowerCase();
+				
+				int id              = 0;
+				
+				Image img           = isDirectory ? folderImage : getFileImage(location);
+				
+				if (treeItemOrigLocations.containsValue(orig))
+				{
+					id = treeItemIds.get(location);
+					
+					if (isDirectory)
+					{
+						findSubFiles(subFiles[i], id);
+					}
+				}
+				else if (treeItemLocations.containsValue(location))
+				{
+					id = treeItemIds.get(location);
+					
+					treeMenu.setTreeItemText(id, name);
+					treeItemOrigLocations.put(id, orig);
+				}
+				else
+				{
+					if (parent > 0)
+					{
+						id = treeMenu.addSubItem(parent, name, img);
+					}
+					else
+					{
+						id = treeMenu.addItem(name, img);
+					}
+					
+					if (isDirectory)
+					{
+						findSubFiles(subFiles[i], id);
+						
+						treeItemDirectories.put(id, location);
+					}
+					
+					fileCacheSaved.put(orig, true);
+					treeItemLocations.put(id, location);
+					treeItemOrigLocations.put(id, orig);
+					treeItemIds.put(location, id);
+				}
+			}
+		}
+	}
+	
+	public void contentChanged(ContentEvent event)
+	{
+		Object source = event.getSource();
+		
+		if (source == codeField)
+		{
+			if (fileLocation != null)
+			{
+				String location = fileLocation.toLowerCase();
+				
+				int tabId = tabFileIds.get(fileLocation);
+				
+				boolean saved = fileCacheSaved.get(fileLocation);
+				
+				String text = tabs.getTabText(tabId);
+				
+				if (!text.startsWith("*"))
+				{
+					text = "*" + text;
+				}
+				
+				if (treeItemIds.containsKey(location))
+				{
+					int id = treeItemIds.get(location);
+					treeMenu.setTreeItemText(id, text);
+				}
+				
+				tabs.setTabText(tabId, text);
+				
+				fileCacheSaved.put(fileLocation, false);
+				
+				String fileContents = codeField.getText();
+				
+				fileCache.put(location, fileContents);
+			}
+		}
+	}
+	
+	private Image getFileImage(String location)
+	{
+		Image img = null;
+		
+		int fileType = FileUtils.getFileType(location);
+		
+		if (fileType == FileUtils.JAVA)
+		{
+			img = javaFileImage;
+		}
+		else if (fileType == FileUtils.CLASS)
+		{
+			img = classFileImage;
+		}
+		else if (fileType == FileUtils.GLSL)
+		{
+			img = glslFileImage;
+		}
+		else if (fileType == FileUtils.TXT)
+		{
+			img = txtFileImage;
+		}
+		else if (fileType == FileUtils.RTF)
+		{
+			img = rtfFileImage;
+		}
+		else if (fileType == FileUtils.EXE)
+		{
+			img = exeFileImage;
+		}
+		else if (fileType == FileUtils.ASSEMBLY)
+		{
+			img = asmFileImage;
+		}
+		else
+		{
+			img = fileImage;
+		}
+		
+		return img;
+	}
+	
+	public void addTab(String fileLocation)
+	{
+		String fileName = FileUtils.getFileName(fileLocation);
+		
+		int id = tabs.addTab(fileName);
+		
+		tabFileLocations.put(id, fileLocation);
+		tabFileIds.put(fileLocation, id);
+	}
+	
+	public void tabClosed(int tabId)
+	{
+		int newId       = tabs.getSelected();
+		
+		String location = tabFileLocations.get(tabId);
+		
+		tabFileLocations.remove(tabId);
+		tabFileIds.remove(location);
+		
+		saveFile(location);
+		
+		fileCache.remove(location.toLowerCase());
+		fileCacheSaved.remove(location);
+		
+		if (newId == -1)
+		{
+			fileLocation = null;
+			codeField.setText("");
+		}
+		else if (tabId != newId)
+		{
+			openFile(tabFileLocations.get(newId));
+		}
+	}
+	
+	public void tabSelected(int tabId)
+	{
+		String location = tabFileLocations.get(tabId);
+		
+		openFile(location);
+	}
+
+	public void keyPressed(CodeFieldEvent e)
+	{
+		if (e.getSource() == codeField)
+		{
+			if (e.getStateMask() == (Integer)PROPERTIES.get("key.control") && e.getKeyCode() == 's')
+			{
+				saveFile(fileLocation);
+			}
+		}
+	}
+	
+	public boolean deleteFile(String location)
+	{
+//		private HashMap<Integer, String>  treeItemLocations;
+//		private HashMap<Integer, String>  treeItemOrigLocations;
+//		private HashMap<String, Integer>  treeItemIds;
+//		private HashMap<Integer, String>  treeItemDirectories;
+//		private HashMap<Integer, String>  menuItemLocations;
+//		private HashMap<String, Integer>  menuItems;
+//		private HashMap<String, String>   fileCache;
+//		private HashMap<String, Boolean>  fileCacheSaved;
+//		private HashMap<Integer, String>  tabFileLocations;
+//		private HashMap<String, Integer>  tabFileIds;
+		
+		String locKey = location.toLowerCase();
+		
+		int treeId    = treeItemIds.get(locKey);
+		
+		treeItemOrigLocations.remove(treeId);
+		treeItemDirectories.remove(treeId);
+		fileCache.remove(locKey);
+		fileCacheSaved.remove(locKey);
+		
+		treeMenu.removeItem(treeId);
+		
+		if (tabFileIds.containsKey(locKey))
+		{
+			int tabId = tabFileIds.get(locKey);
+			
+			tabFileLocations.remove(tabId);
+			tabFileIds.remove(locKey);
+		}
+		
+		return FileUtils.delete(new File(location));
+	}
+	
+	public void update()
+	{
+		console.updateText();
+		
+		if (filesNeedRefresh)
+		{
+			refreshFileViewer();
+		}
+	}
+}

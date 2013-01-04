@@ -9,7 +9,9 @@ import java.io.Writer;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
@@ -24,6 +26,9 @@ import javax.tools.SimpleJavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
+import net.foxycorndog.arrowide.console.ConsoleStream;
+import net.foxycorndog.arrowide.language.CompilerListener;
+
 //import org.apache.commons.jci.compilers.CompilationResult;
 //import org.apache.commons.jci.compilers.JavaCompilerFactory;
 //import org.apache.commons.jci.compilers.JavacJavaCompiler;
@@ -35,7 +40,7 @@ import javax.tools.ToolProvider;
 
 public class JavaCompiler
 {
-	public static String compile(String fileName, String code, String outputLocation)
+	public static void compile(String fileName, String code, String outputLocation, ConsoleStream stream, ArrayList<CompilerListener> compilerListeners)
 	{
 //		fileName = fileName == null ? "" : fileName;
 //		
@@ -59,67 +64,77 @@ public class JavaCompiler
 		
 		/*Creating dynamic java source code file object*/
 		
-        SimpleJavaFileObject fileObject  = new DynamicJavaSourceCodeObject("src/" + fileName, code);
+		SimpleJavaFileObject fileObject  = new DynamicJavaSourceCodeObject("src/" + fileName, code);
 		
-        JavaFileObject javaFileObjects[] = new JavaFileObject[] { fileObject };
+		JavaFileObject javaFileObjects[] = new JavaFileObject[] { fileObject };
  
-        /*Instantiating the java compiler*/
-        javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+		/*Instantiating the java compiler*/
+		javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
  
-        /**
-         * Retrieving the standard file manager from compiler object, which is used to provide
-         * basic building block for customizing how a compiler reads and writes to files.
-         *
-         * The same file manager can be reopened for another compiler task.
-         * Thus we reduce the overhead of scanning through file system and jar files each time
-         */
-        StandardJavaFileManager stdFileManager = compiler.getStandardFileManager(null, Locale.getDefault(), null);
+		/**
+		 * Retrieving the standard file manager from compiler object, which is used to provide
+		 * basic building block for customizing how a compiler reads and writes to files.
+		 *
+		 * The same file manager can be reopened for another compiler task.
+		 * Thus we reduce the overhead of scanning through file system and jar files each time
+		 */
+		StandardJavaFileManager stdFileManager = compiler.getStandardFileManager(null, Locale.getDefault(), null);
  
-        /* Prepare a list of compilation units (java source code file objects) to input to compilation task*/
-        Iterable<? extends JavaFileObject> compilationUnits = Arrays.asList(javaFileObjects);
+		/* Prepare a list of compilation units (java source code file objects) to input to compilation task*/
+		Iterable<? extends JavaFileObject> compilationUnits = Arrays.asList(javaFileObjects);
  
-        /*Prepare any compilation options to be used during compilation*/
-        //In this example, we are asking the compiler to place the output files under bin folder.
-        String[] compileOptions = new String[]{"-d", outputLocation} ;
-        Iterable<String> compilationOptions = Arrays.asList(compileOptions);
+		/*Prepare any compilation options to be used during compilation*/
+		//In this example, we are asking the compiler to place the output files under bin folder.
+		String[] compileOptions = new String[]{"-d", outputLocation} ;
+		Iterable<String> compilationOptions = Arrays.asList(compileOptions);
  
-        /*Create a diagnostic controller, which holds the compilation problems*/
-        DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
+		/*Create a diagnostic controller, which holds the compilation problems*/
+		DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
  
-        /*Create a compilation task from compiler by passing in the required input objects prepared above*/
-        CompilationTask compilerTask = compiler.getTask(null, stdFileManager, diagnostics, compilationOptions, null, compilationUnits);
+		/*Create a compilation task from compiler by passing in the required input objects prepared above*/
+		CompilationTask compilerTask = compiler.getTask(null, stdFileManager, diagnostics, compilationOptions, null, compilationUnits);
  
-        //Perform the compilation by calling the call method on compilerTask object.
-        boolean status = compilerTask.call();
-        
-        StringBuilder error = new StringBuilder();
+		//Perform the compilation by calling the call method on compilerTask object.
+		boolean status = compilerTask.call();
+		
+		StringBuilder error = new StringBuilder();
  
-        //If compilation error occurs
-        if (!status)
-        {
-            /*Iterate through each compilation problem and print it*/
-            for (Diagnostic diagnostic : diagnostics.getDiagnostics())
-            {
-            	String err = diagnostic.getMessage(Locale.getDefault());
-            	
-                error.append(String.format("Error on line %d: %s", diagnostic.getLineNumber(), err));
-            }
-        }
-        else
-        {
-        	error.append("Compiled successfully.");
-        }
-        
-        try
-        {
-            stdFileManager.close();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        
-        return error.toString();
+		for (int i = compilerListeners.size() - 1; i >= 0; i--)
+		{
+			compilerListeners.get(i).compiled(status ? 0 : 1);
+		}
+		
+		//If compilation error occurs
+		if (!status)
+		{
+			HashSet<String> errors = new HashSet<String>();
+			
+			/*Iterate through each compilation problem and print it*/
+			for (Diagnostic diagnostic : diagnostics.getDiagnostics())
+			{
+				String err = diagnostic.getMessage(Locale.getDefault());
+				
+				errors.add(String.format("Error on line %d: %s", diagnostic.getLineNumber(), err));
+			}
+			
+			String strs[] = errors.toArray(new String[0]);
+			
+			for (String str : strs)
+			{
+				error.append(str);
+			}
+			
+			stream.println(error.toString());
+		}
+		
+		try
+		{
+			stdFileManager.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
 
@@ -132,47 +147,47 @@ public class JavaCompiler
  */
 class DynamicJavaSourceCodeObject extends SimpleJavaFileObject
 {
-    private String qualifiedName;
-    private String sourceCode;
+	private String qualifiedName;
+	private String sourceCode;
  
-    /**
-     * Converts the name to an URI, as that is the format expected by JavaFileObject
-     *
-     *
-     * @param fully qualified name given to the class file
-     * @param code the source code string
-     * @throws UnsupportedEncodingException 
-     */
-    protected DynamicJavaSourceCodeObject(String name, String code)
-    {
-        super(URI.create("string:///" + name.replace(' ', '+').replaceAll("\\.", "/") + Kind.SOURCE.extension), Kind.SOURCE);
-        this.qualifiedName = name;
-        this.sourceCode = code;
-    }
+	/**
+	 * Converts the name to an URI, as that is the format expected by JavaFileObject
+	 *
+	 *
+	 * @param fully qualified name given to the class file
+	 * @param code the source code string
+	 * @throws UnsupportedEncodingException 
+	 */
+	protected DynamicJavaSourceCodeObject(String name, String code)
+	{
+		super(URI.create("string:///" + name.replace(' ', '+').replaceAll("\\.", "/") + Kind.SOURCE.extension), Kind.SOURCE);
+		this.qualifiedName = name;
+		this.sourceCode = code;
+	}
  
-    @Override
-    public CharSequence getCharContent(boolean ignoreEncodingErrors) throws IOException
-    {
-        return sourceCode ;
-    }
+	@Override
+	public CharSequence getCharContent(boolean ignoreEncodingErrors) throws IOException
+	{
+		return sourceCode ;
+	}
  
-    public String getQualifiedName()
-    {
-        return qualifiedName;
-    }
+	public String getQualifiedName()
+	{
+		return qualifiedName;
+	}
  
-    public void setQualifiedName(String qualifiedName)
-    {
-        this.qualifiedName = qualifiedName;
-    }
+	public void setQualifiedName(String qualifiedName)
+	{
+		this.qualifiedName = qualifiedName;
+	}
  
-    public String getSourceCode()
-    {
-        return sourceCode;
-    }
+	public String getSourceCode()
+	{
+		return sourceCode;
+	}
  
-    public void setSourceCode(String sourceCode)
-    {
-        this.sourceCode = sourceCode;
-    }
+	public void setSourceCode(String sourceCode)
+	{
+		this.sourceCode = sourceCode;
+	}
 }

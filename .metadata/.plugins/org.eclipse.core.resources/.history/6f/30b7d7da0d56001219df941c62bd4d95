@@ -1,0 +1,62 @@
+package net.foxycorndog.arrowide.language.assembly;
+
+import net.foxycorndog.arrowide.ArrowIDE;
+import net.foxycorndog.arrowide.language.Keyword;
+
+import org.eclipse.swt.graphics.Color;
+
+import static net.foxycorndog.arrowide.language.Language.ASSEMBLY;
+
+public class AssemblyKeyword
+{
+	public static final Keyword
+			INT                          = new Keyword(ASSEMBLY, "int"),
+			MOV                          = new Keyword(ASSEMBLY, "mov"),
+			LEA                          = new Keyword(ASSEMBLY, "lea"),
+			CALL                         = new Keyword(ASSEMBLY, "call"),
+			SUB                          = new Keyword(ASSEMBLY, "sub"),
+			RCX                          = new Keyword(ASSEMBLY, "rcx"),
+			RSP                          = new Keyword(ASSEMBLY, "rsp"),
+			RDX                          = new Keyword(ASSEMBLY, "rdx"),
+			ECX                          = new Keyword(ASSEMBLY, "ecx"),
+			EAX                          = new Keyword(ASSEMBLY, "eax"),
+			DB                           = new Keyword(ASSEMBLY, "db"),
+			DD                           = new Keyword(ASSEMBLY, "dd"),
+			DQ                           = new Keyword(ASSEMBLY, "dq"),
+			JZ                          = new Keyword(ASSEMBLY, "mov"),
+			JMP                          = new Keyword(ASSEMBLY, "mov"),
+			JE                          = new Keyword(ASSEMBLY, "mov"),
+			JNE                          = new Keyword(ASSEMBLY, "mov"),
+//			MOV                          = new Keyword(ASSEMBLY, "mov"),
+//			MOV                          = new Keyword(ASSEMBLY, "mov"),
+//			MOV                          = new Keyword(ASSEMBLY, "mov"),
+//			MOV                          = new Keyword(ASSEMBLY, "mov"),
+//			MOV                          = new Keyword(ASSEMBLY, "mov"),
+//			MOV                          = new Keyword(ASSEMBLY, "mov"),
+//			MOV                          = new Keyword(ASSEMBLY, "mov"),
+//			MOV                          = new Keyword(ASSEMBLY, "mov"),
+//			MOV                          = new Keyword(ASSEMBLY, "mov"),
+//			MOV                          = new Keyword(ASSEMBLY, "mov");
+	
+	static
+	{
+		INT.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		MOV.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		LEA.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		CALL.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		SUB.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		RCX.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		RSP.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		RDX.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		ECX.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		EAX.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		DB.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		DD.setColor(AssemblyLanguage.KEYWORD_COLOR);
+		DQ.setColor(AssemblyLanguage.KEYWORD_COLOR);
+	}
+	
+	public static void init()
+	{
+		
+	}
+}

@@ -1,0 +1,122 @@
+package net.foxycorndog.arrowide.language.cpp;
+
+import static net.foxycorndog.arrowide.language.Language.CPP;
+import static net.foxycorndog.arrowide.language.Language.GLSL;
+
+import net.foxycorndog.arrowide.language.Keyword;
+import net.foxycorndog.arrowide.language.java.JavaLanguage;
+
+public class CppKeyword
+{
+	public static final Keyword
+			ABSTRACT     = new Keyword(CPP, "abstract"),
+			ASSERT       = new Keyword(CPP, "assert"),
+			BOOLEAN      = new Keyword(CPP, "boolean"),
+			BREAK        = new Keyword(CPP, "break"),
+			BYTE         = new Keyword(CPP, "byte"),
+			CASE         = new Keyword(CPP, "case"),
+			CATCH        = new Keyword(CPP, "catch"),
+			CHAR         = new Keyword(CPP, "char"),
+			CLASS        = new Keyword(CPP, "class"),
+			CONST        = new Keyword(CPP, "const"),
+			CONTINUE     = new Keyword(CPP, "continue"),
+			DEFAULT      = new Keyword(CPP, "default"),
+			DO           = new Keyword(CPP, "do"),
+			DOUBLE       = new Keyword(CPP, "double"),
+			ELSE         = new Keyword(CPP, "else"),
+			ENUM         = new Keyword(CPP, "enum"),
+			EXTENDS      = new Keyword(CPP, "extends"),
+			FINAL        = new Keyword(CPP, "final"),
+			FINALLY      = new Keyword(CPP, "finally"),
+			FLOAT        = new Keyword(CPP, "float"),
+			FOR          = new Keyword(CPP, "for"),
+			GOTO         = new Keyword(CPP, "goto"),
+			IF           = new Keyword(CPP, "if"),
+			IMPLEMENTS   = new Keyword(CPP, "implements"),
+			IMPORT       = new Keyword(CPP, "import"),
+			INSTANCEOF   = new Keyword(CPP, "instanceof"),
+			INT          = new Keyword(CPP, "int"),
+			INTERFACE    = new Keyword(CPP, "interface"),
+			LONG         = new Keyword(CPP, "long"),
+			NATIVE       = new Keyword(CPP, "native"),
+			NEW          = new Keyword(CPP, "new"),
+			PACKAGE      = new Keyword(CPP, "package"),
+			PRIVATE      = new Keyword(CPP, "private"),
+			PROTECTED    = new Keyword(CPP, "protected"),
+			PUBLIC       = new Keyword(CPP, "public"),
+			RETURN       = new Keyword(CPP, "return"),
+			SHORT        = new Keyword(CPP, "short"),
+			STATIC       = new Keyword(CPP, "static"),
+			STRICTFP     = new Keyword(CPP, "strictfp"),
+			SUPER        = new Keyword(CPP, "super"),
+			SWITCH       = new Keyword(CPP, "switch"),
+			SYNCHRONIZED = new Keyword(CPP, "synchronized"),
+			THIS         = new Keyword(CPP, "this"),
+			THROW        = new Keyword(CPP, "throw"),
+			THROWS       = new Keyword(CPP, "throws"),
+			TRANSIENT    = new Keyword(CPP, "transient"),
+			TRY          = new Keyword(CPP, "try"),
+			VOID         = new Keyword(CPP, "void"),
+			VOLATILE     = new Keyword(CPP, "volatile"),
+			WHILE        = new Keyword(CPP, "while"),
+			VERSION      = new Keyword(GLSL, "#include");
+	
+	static
+	{
+		ABSTRACT.setColor(JavaLanguage.KEYWORD_COLOR);
+		ASSERT.setColor(JavaLanguage.KEYWORD_COLOR);
+		BOOLEAN.setColor(JavaLanguage.KEYWORD_COLOR);
+		BREAK.setColor(JavaLanguage.KEYWORD_COLOR);
+		BYTE.setColor(JavaLanguage.KEYWORD_COLOR);
+		CASE.setColor(JavaLanguage.KEYWORD_COLOR);
+		CATCH.setColor(JavaLanguage.KEYWORD_COLOR);
+		CHAR.setColor(JavaLanguage.KEYWORD_COLOR);
+		CLASS.setColor(JavaLanguage.KEYWORD_COLOR);
+		CONST.setColor(JavaLanguage.KEYWORD_COLOR);
+		CONTINUE.setColor(JavaLanguage.KEYWORD_COLOR);
+		DEFAULT.setColor(JavaLanguage.KEYWORD_COLOR);
+		DO.setColor(JavaLanguage.KEYWORD_COLOR);
+		DOUBLE.setColor(JavaLanguage.KEYWORD_COLOR);
+		ELSE.setColor(JavaLanguage.KEYWORD_COLOR);
+		ENUM.setColor(JavaLanguage.KEYWORD_COLOR);
+		EXTENDS.setColor(JavaLanguage.KEYWORD_COLOR);
+		FINAL.setColor(JavaLanguage.KEYWORD_COLOR);
+		FINALLY.setColor(JavaLanguage.KEYWORD_COLOR);
+		FLOAT.setColor(JavaLanguage.KEYWORD_COLOR);
+		FOR.setColor(JavaLanguage.KEYWORD_COLOR);
+		GOTO.setColor(JavaLanguage.KEYWORD_COLOR);
+		IF.setColor(JavaLanguage.KEYWORD_COLOR);
+		IMPLEMENTS.setColor(JavaLanguage.KEYWORD_COLOR);
+		IMPORT.setColor(JavaLanguage.KEYWORD_COLOR);
+		INSTANCEOF.setColor(JavaLanguage.KEYWORD_COLOR);
+		INT.setColor(JavaLanguage.KEYWORD_COLOR);
+		INTERFACE.setColor(JavaLanguage.KEYWORD_COLOR);
+		LONG.setColor(JavaLanguage.KEYWORD_COLOR);
+		NATIVE.setColor(JavaLanguage.KEYWORD_COLOR);
+		NEW.setColor(JavaLanguage.KEYWORD_COLOR);
+		PACKAGE.setColor(JavaLanguage.KEYWORD_COLOR);
+		PRIVATE.setColor(JavaLanguage.KEYWORD_COLOR);
+		PROTECTED.setColor(JavaLanguage.KEYWORD_COLOR);
+		PUBLIC.setColor(JavaLanguage.KEYWORD_COLOR);
+		RETURN.setColor(JavaLanguage.KEYWORD_COLOR);
+		SHORT.setColor(JavaLanguage.KEYWORD_COLOR);
+		STATIC.setColor(JavaLanguage.KEYWORD_COLOR);
+		STRICTFP.setColor(JavaLanguage.KEYWORD_COLOR);
+		SUPER.setColor(JavaLanguage.KEYWORD_COLOR);
+		SWITCH.setColor(JavaLanguage.KEYWORD_COLOR);
+		SYNCHRONIZED.setColor(JavaLanguage.KEYWORD_COLOR);
+		THIS.setColor(JavaLanguage.KEYWORD_COLOR);
+		THROW.setColor(JavaLanguage.KEYWORD_COLOR);
+		THROWS.setColor(JavaLanguage.KEYWORD_COLOR);
+		TRANSIENT.setColor(JavaLanguage.KEYWORD_COLOR);
+		TRY.setColor(JavaLanguage.KEYWORD_COLOR);
+		VOID.setColor(JavaLanguage.KEYWORD_COLOR);
+		VOLATILE.setColor(JavaLanguage.KEYWORD_COLOR);
+		WHILE.setColor(JavaLanguage.KEYWORD_COLOR);
+	}
+	
+	public static void init()
+	{
+		
+	}
+}

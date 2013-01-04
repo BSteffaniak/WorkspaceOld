@@ -16,26 +16,33 @@ import net.foxycorndog.arrowide.file.FileUtils;
 
 public class Command
 {
-	public static Process execute(String command, final ConsoleStream stream) throws IOException
+	private String        command;
+	
+	private ConsoleStream stream;
+	
+	private ArrayList<CommandListener> listeners;
+	
+	public Command(String command, ConsoleStream stream)
 	{
-//		String javaHome  = System.getProperty("java.home");
-//		String javaBin   = javaHome + "/bin/java";
-//		String classpath = FileUtils.getParentFolder(classLocation);//System.getProperty("java.class.path");
-//		String className = clazz.getCanonicalName();
+		this.command = command;
+		this.stream  = stream;
 		
-//		command.replace(" ", "%20");
-//		String split[] = command.split(" ");
-
+		listeners    = new ArrayList<CommandListener>();
+	}
+	
+	public void execute() throws IOException
+	{
 		List<String> list = new ArrayList<String>();
 		Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(command);
+		
 		while (m.find())
 		{
 		    list.add(m.group(1));
 		}
 		
-		final ProcessBuilder builder = new ProcessBuilder(list);
+		System.out.println(list);
 		
-		final Process process = builder.start();
+		final ProcessBuilder builder = new ProcessBuilder(list);
 		
 		new Thread()
 		{
@@ -51,52 +58,45 @@ public class Command
 							{
 								try
 								{
+									Process process = builder.start();
+		
 									LogStreamReader lsr = new LogStreamReader(process.getInputStream(), stream);
 									Thread thread = new Thread(lsr, "LogStreamReader");
 									thread.start();
 									
-//										PrintStream ot = new PrintStream(process.getOutputStream());
-//											System.setOut(ot);
-//										int result      = process.waitFor();
-									
 									boolean failed = false;
 									
-//										if (result == 1)
-//										{
-										BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-										
-										String  line = null;
-										
-										while ((line = reader.readLine()) != null)
-										{
-											stream.println(line);
-											
-											failed = true;
-										}
-//										}
-//										else
-//										{
-//											reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-//											
-//											line   = null;
-//											
-//											while ((line = reader.readLine()) != null)
-//											{
-//												System.out.println(line);
-//											}
-//										}
+									BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 									
-									System.out.println(failed);
+									String  line = null;
+									
+									while ((line = reader.readLine()) != null)
+									{
+										if (!failed)
+										{
+											for (int i = listeners.size() - 1; i >= 0; i --)
+											{
+												listeners.get(i).resultReceived(1);
+											}
+											
+											lsr.stop();
+											thread.join();
+											process.destroy();
+										}
+										
+										failed = true;
+										
+										stream.println(line);
+									}
 										
 									if (!failed)
 									{
+										for (int i = listeners.size() - 1; i >= 0; i --)
+										{
+											listeners.get(i).resultReceived(0);
+										}
+										
 										int result = process.waitFor();
-									}
-									else
-									{
-										lsr.stop();
-										thread.join();
-										process.destroy();
 									}
 								}
 								catch (InterruptedException e)
@@ -113,8 +113,11 @@ public class Command
 				});
 			}
 		}.start();
-		
-		return process;
+	}
+	
+	public void addCommandListener(CommandListener lisetener)
+	{
+		listeners.add(lisetener);
 	}
 }
 

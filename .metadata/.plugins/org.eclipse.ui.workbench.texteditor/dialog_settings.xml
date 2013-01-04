@@ -13,26 +13,26 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="ASSEMBLY" key="selection"/>
+		<item value="CppLanguage" key="selection"/>
 		<list key="findhistory">
+			<item value="JavaLanguage"/>
+			<item value="JAVA"/>
 			<item value="Assembly"/>
 			<item value="GLSL"/>
 			<item value="isPrintable("/>
 			<item value="new Color(ArrowIDE.display, 150, 0, 0)"/>
 			<item value="System.out.print"/>
 			<item value="actionP"/>
-			<item value="WTF"/>
-			<item value="  "/>
 		</list>
 		<list key="replacehistory">
+			<item value="CppLanguage"/>
+			<item value="CPP"/>
 			<item value="ASSEMBLY"/>
 			<item value="Assembly"/>
 			<item value="GLSLLanguage.KEYWORD_COLOR"/>
 			<item value="JavaLanguage.KEYWORD_COLOR"/>
 			<item value=""/>
 			<item value="lightColor"/>
-			<item value="void u"/>
-			<item value="Uniform"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">

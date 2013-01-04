@@ -46,8 +46,8 @@ public class CodeField extends StyledText
 	private boolean commentStarting, commentStarted, commentEnding;
 	
 	private int     commentType, commentStart;
-	private int     oldLength, oldLineCount;
-	private int     selectionLength, selectionLines;
+//	private int     oldLength, oldLineCount;
+//	private int     selectionLength, selectionLines;
 	private int     lineNumberOffset;
 	private int     language;
 	private int     charWidth;
@@ -64,7 +64,7 @@ public class CodeField extends StyledText
 	
 	private static final int MULTI_LINE = 1, SINGLE_LINE = 2;
 	
-	private ArrayList<ArrayList<Boolean>> tabs;
+//	private ArrayList<ArrayList<Boolean>> tabs;
 	
 	private ArrayList<ContentListener>    contentListeners;
 	private ArrayList<CodeFieldListener>  codeFieldListeners;
@@ -103,61 +103,91 @@ public class CodeField extends StyledText
 	    this.charWidth = fm.getAverageCharWidth();
 	    g.dispose();
 	    
-	    tabs = new ArrayList<ArrayList<Boolean>>();
-	    tabs.add(new ArrayList<Boolean>());
+//	    tabs = new ArrayList<ArrayList<Boolean>>();
+//	    tabs.add(new ArrayList<Boolean>());
 	    setTabs(4);
 //		setAlwaysShowScrollBars(false);
 	    
 //	    highlightSyntax();
 	    
-	    addSelectionListener(new SelectionListener()
-	    {
-			public void widgetSelected(SelectionEvent e)
-			{
-				if (getSelectionCount() > 0)
-				{
-					selectionLines  = getLineAtOffset(getSelectionCount() + getSelection().x) - getLineAtOffset(getSelection().x);
-					selectionLength = getSelectionCount();
-				}
-				else
-				{
-					selectionLines  = 0;
-					selectionLength = 0;
-				}
-				
-				System.out.println("Selected: " + selectionLength + ", " + selectionLines);
-			}
-
-			public void widgetDefaultSelected(SelectionEvent e)
-			{
-				widgetSelected(e);
-			}
-	    });
+//	    addSelectionListener(new SelectionListener()
+//	    {
+//			public void widgetSelected(SelectionEvent e)
+//			{
+//				if (getSelectionCount() > 0)
+//				{
+//					selectionLines  = getLineAtOffset(getSelectionCount() + getSelection().x) - getLineAtOffset(getSelection().x);
+//					selectionLength = getSelectionCount();
+//				}
+//				else
+//				{
+//					selectionLines  = 0;
+//					selectionLength = 0;
+//				}
+//				
+//				System.out.println("Selected: " + selectionLength + ", " + selectionLines);
+//			}
+//
+//			public void widgetDefaultSelected(SelectionEvent e)
+//			{
+//				widgetSelected(e);
+//			}
+//	    });
 	    
 	    addKeyListener(new KeyListener()
 	    {
 			public void keyPressed(KeyEvent e)
 			{
-				if (getSelectionCount() > 0)
-				{
-					selectionLines  = getLineAtOffset(getSelectionCount() + getSelection().x) - getLineAtOffset(getSelection().x);
-					selectionLength = getSelectionCount();
-				}
-				else
-				{
-					selectionLines  = 0;
-					selectionLength = 0;
-				}
-				
-				int xPosition     = getCaretXPosition();
+//				if (getSelectionCount() > 0)
+//				{
+//					selectionLines  = getLineAtOffset(getSelectionCount() + getSelection().x) - getLineAtOffset(getSelection().x);
+//					selectionLength = getSelectionCount();
+//				}
+//				else
+//				{
+//					selectionLines  = 0;
+//					selectionLength = 0;
+//				}
+//				
+////				int xPosition     = getCaretXPosition();
 				int caretPosition = getCaretPosition();
 				int lineNum       = getCaretLineNumber();
-				
-				parseChar(e.character, null, xPosition, caretPosition, lineNum, 0, false);
 				
 				if (isPrintable(e.character) || e.keyCode == 13 || e.keyCode == SWT.BS || e.keyCode == SWT.CR || e.character == '\t')
 				{
 					contentChanged();
+				}
+				
+				/*
+				 * Carry tabs if new line.
+				 */
+				if (e.character == '\r' || e.character == '\n')
+				{
+					String tabsStr = "";
+					
+					int tabsCount  = lineTabCount(lineNum, 1);
+					
+					char lastChar  = lastChar(lineNum, 1);
+					tabsCount     += tabIncrease(lastChar);
+					
+					for (int i = 0; i < tabsCount; i ++)
+					{
+						tabsStr += "\t";
+					}
+		
+					String text   = getText();
+					int    length = text.length();
+					
+					insert(tabsStr);
+					
+					setCaretOffset(caretPosition + tabsStr.length());
+					
+					if (lastChar == '{')
+					{
+						String endingBrace = "\r\n" + tabsStr.substring(0, tabsStr.length() - 1) + "}";
+						
+						insert(endingBrace);
+					}
 				}
 				
 				CodeFieldEvent event = new CodeFieldEvent(e.character, e.stateMask, e.keyCode, thisField);
@@ -175,285 +205,255 @@ public class CodeField extends StyledText
 	    });
 	}
 	
-	public void parseString(String string, StringBuilder sb, int xPosition, int caretPosition, int lineNum, int offset, boolean force)
-	{
-		int index = 0;
-		
-		for (int i = 0; i < string.length(); i ++)
-		{
-			char c = string.charAt(i);
-			
-			if (c == '\n')
-			{
-				lineNum++;
-				
-				xPosition = 0;
-				
-				index     = 0;
-				
-				parseChar('\r', sb, xPosition, caretPosition, lineNum, offset + i, force);
-			
-				parseChar(c, sb, xPosition, caretPosition, lineNum, offset + i, force);
-			}
-			else
-			{
-				if (c == '\r')
-				{
-					continue;
-				}
-				
-				if (c == '\b')
-				{
-					int xpos  = --xPosition;
-					xpos      = xpos < 0 ? tabs.get(--lineNum).size() + (--offset * 0) : xpos;
-					xPosition = xpos;
-					
-					offset--;
-					
-					parseChar(c, sb, xPosition, caretPosition, lineNum, ((offset + i) - (lineNum * 2)) - 1, force);
-				}
-				else
-				{
-					parseChar(c, sb, ++xPosition, caretPosition, lineNum, offset + i + 1, force);
-					
-					if (!isPrintableChar(c))
-					{
-						int xpos  = --xPosition;
-						offset--;
-					}
-				}
-			}
-			
-			index++;
-		}
-		
-		try
-		{
-			int i = 0;
-			
-			for (ArrayList<Boolean> line : tabs)
-			{
-				System.out.println(i++ + ": " + line.size());
-			}
-		}
-		catch (Exception e)
-		{
-			
-		}
-	}
-	
-	public void parseChar(char c, StringBuilder sb, int xPosition, int caretPosition, int lineNum, int offset, boolean force)
-	{
-		caretPosition += offset;
-		
-		if (sb != null)
-		{
-			if (isPrintableChar(c))
-			{
-				if (offset >= sb.length())
-				{
-					sb.append(c);
-				}
-				else
-				{
-					sb.insert(caretPosition, c);
-				}
-			}
-			
-//			String text = getText();
+//	public void parseString(String string, StringBuilder sb, int xPosition, int caretPosition, int lineNum, int offset, boolean force)
+//	{
+//		int index = 0;
+//		
+//		for (int i = 0; i < string.length(); i ++)
+//		{
+//			char c = string.charAt(i);
 //			
-//			setText(text+ c);//text.substring(0, caretPosition) + (c) + text.substring(caretPosition));
-		}
-		else if (selectionLength > 0)
-		{
-			System.out.println(selectionLength + ", " + selectionLines);
-			
-			int charCounter    = 0;
-			int selectionIndex = xPosition - (isPrintable(c) ? 1 : 0);
-			int lineIndex      = lineNum;
-			
-			for (int lineCounter = 0; lineIndex < tabs.size() && lineCounter < selectionLines + 1; lineCounter++)
-			{
-				while (selectionIndex < tabs.get(lineIndex).size())
-				{
-					if (charCounter >= selectionLength)
-					{
-						break;
-					}
-					
-					tabs.get(lineIndex).remove(selectionIndex);
-					
-//					selectionIndex++;
-					
-					charCounter++;
-				}
-				
-				selectionIndex = 0;
-				
-				// May have a bug here with already empty lines.
-				if (tabs.get(lineIndex).size() == 0 && lineIndex > lineNum)
-				{
-					tabs.remove(lineIndex);
-				}
-				else
-				{
-					lineIndex++;
-				}
-			}
-		}
-		
-		// If enter pressed
-		if (c == '\r' || c == '\n')
-		{
-			if (force)
-			{
-				if (c == '\r')
-				{
-					tabs.add(lineNum, new ArrayList<Boolean>());
-				}
-			}
-			else
-			{
-				if (c == '\r')
-				{
-					caretPosition--;
-					xPosition--;
-					
-					tabs.add(lineNum, new ArrayList<Boolean>());
-				}
-				
-				if (sb == null)
-				{
-					String tabsStr = "";
-					
-					int tabsCount  = lineTabCount(lineNum, 1);
-					
-					char lastChar  = lastChar(lineNum, 1);
-					tabsCount     += tabIncrease(lastChar);
-					
-					for (int i = 0; i < tabsCount; i ++)
-					{
-						tabsStr += "\t";
-						tabs.get(lineNum).add(true);
-					}
-		
-					String text   = getText();
-					int    length = text.length();
-					
-//					super.setText(text + text.substring(0, caretPosition - 1) + text.substring(caretPosition, caretPosition + 1) + tabsStr + (c == 13 ? text.substring(caretPosition + 1) : ""));
-//					super.setText(getText().substring(length));
-					
-					if (lastChar == '{')
-					{
-						String endingBrace = "\r\n" + tabsStr.substring(0, tabsStr.length() - 1) + "}";
-						
-						parseString(endingBrace, null, xPosition, caretPosition, lineNum, offset, true);
-						
-						super.insert(endingBrace);
-					}
-					
-					super.insert(tabsStr);
-					
-					setCaretOffset(caretPosition + tabsStr.length() + 1);
-//					setSelection(getCaretOffset());
-				}
-			}
-		}
-		// If backspace pressed
-		else if (c == '\b')
-		{System.out.println(xPosition + ", " + lineNum + ", " + caretPosition);
-			if (selectionLength == 0 && selectionLines == 0)
-			{
-				if (xPosition >= tabs.get(lineNum).size() && (lineNum > 0 || xPosition > 0))
-				{
-					tabs.remove(lineNum + 1);
-					
-					if (sb != null)
-					{
-						sb.deleteCharAt(caretPosition);
-						sb.deleteCharAt(caretPosition);
-						sb.deleteCharAt(caretPosition);
-					}
-				}
-				else if (xPosition >= 0 && (tabs.get(lineNum).size() > 0))
-				{
-					tabs.get(lineNum).remove(xPosition);
-					
-					if (sb != null)
-					{
-						sb.deleteCharAt(caretPosition);
-						sb.deleteCharAt(caretPosition);
-					}
-				}
-			}
+//			if (c == '\n')
+//			{
+//				lineNum++;
+//				
+//				xPosition = 0;
+//				
+//				index     = 0;
+//				
+//				parseChar('\r', sb, xPosition, caretPosition, lineNum, offset + i, force);
+//			
+//				parseChar(c, sb, xPosition, caretPosition, lineNum, offset + i, force);
+//			}
 //			else
 //			{
-//				int charCounter    = 0;
-//				int selectionIndex = xPosition;
-//				int lineIndex      = lineNum;
-//				
-//				for (int lineCounter = 0; lineCounter < tabs.size() && lineCounter < linesLess + 1; lineCounter++)
+//				if (c == '\r')
 //				{
-//					while (selectionIndex < tabs.get(lineIndex).size())
-//					{
-//						if (charCounter >= selLength)
-//						{
-//							break;
-//						}
-//						
-//						tabs.get(lineIndex).remove(selectionIndex);
-//						System.out.println("removed " + lineIndex + ", " + selectionIndex);
-//						
-////						selectionIndex++;
-//						
-//						charCounter++;
-//					}
+//					continue;
+//				}
+//				
+//				if (c == '\b')
+//				{
+//					int xpos  = --xPosition;
+////					xpos      = xpos < 0 ? tabs.get(--lineNum).size() + (--offset * 0) : xpos;
+//					xPosition = xpos;
 //					
-//					selectionIndex = 0;
+//					offset--;
 //					
-//					// May have a bug here with already empty lines.
-//					if (tabs.get(lineIndex).size() == 0 && lineIndex > lineNum)
+//					parseChar(c, sb, xPosition, caretPosition, lineNum, ((offset + i) - (lineNum * 2)) - 1, force);
+//				}
+//				else
+//				{
+//					parseChar(c, sb, ++xPosition, caretPosition, lineNum, offset + i + 1, force);
+//					
+//					if (!isPrintableChar(c))
 //					{
-//						tabs.remove(lineIndex);
-//					}
-//					else
-//					{
-//						lineIndex++;
+//						int xpos  = --xPosition;
+//						offset--;
 //					}
 //				}
 //			}
-		}
-		else if (c == '\t')
-		{
-			boolean lastCharacterTab = lastCharacterIsTab(lineNum, 1);
-			
-			tabs.get(lineNum).add(lastCharacterTab);
-		}
-		else
-		{
-//			System.out.println((int)c);
-//			getFont().
-			
-			if (isPrintableChar(c))// || c == ' ' || c == 0)
-			{
-				System.out.println(c + " is a pc on line " + lineNum);
-				tabs.get(lineNum).add(false);
-			}
-			else
-			{
-//				System.out.println((int)c);
-			}
-		}
+//			
+//			index++;
+//		}
 		
-		oldLength       = getCharCount();
-		oldLineCount    = getLineCount();
-		
-		if ((int)c > 0)
-		{
-			selectionLines  = 0;
-			selectionLength = 0;
-		}
-	}
+//		try
+//		{
+//			int i = 0;
+//			
+//			for (ArrayList<Boolean> line : tabs)
+//			{
+//				System.out.println(i++ + ": " + line.size());
+//			}
+//		}
+//		catch (Exception e)
+//		{
+//			
+//		}
+//	}
+	
+//	public void parseChar(char c, StringBuilder sb, int xPosition, int caretPosition, int lineNum, int offset, boolean force)
+//	{
+//		caretPosition += offset;
+//		
+//		if (sb != null)
+//		{
+//			if (isPrintableChar(c))
+//			{
+//				if (offset >= sb.length())
+//				{
+//					sb.append(c);
+//				}
+//				else
+//				{
+//					sb.insert(caretPosition, c);
+//				}
+//			}
+//			
+////			String text = getText();
+////			
+////			setText(text+ c);//text.substring(0, caretPosition) + (c) + text.substring(caretPosition));
+//		}
+//		else if (selectionLength > 0)
+//		{
+//			System.out.println(selectionLength + ", " + selectionLines);
+//			
+//			int charCounter    = 0;
+//			int selectionIndex = xPosition - (isPrintable(c) ? 1 : 0);
+//			int lineIndex      = lineNum;
+//			
+//			for (int lineCounter = 0; lineIndex < tabs.size() && lineCounter < selectionLines + 1; lineCounter++)
+//			{
+//				while (selectionIndex < tabs.get(lineIndex).size())
+//				{
+//					if (charCounter >= selectionLength)
+//					{
+//						break;
+//					}
+//					
+//					tabs.get(lineIndex).remove(selectionIndex);
+//					
+////					selectionIndex++;
+//					
+//					charCounter++;
+//				}
+//				
+//				selectionIndex = 0;
+//				
+//				// May have a bug here with already empty lines.
+//				if (tabs.get(lineIndex).size() == 0 && lineIndex > lineNum)
+//				{
+//					tabs.remove(lineIndex);
+//				}
+//				else
+//				{
+//					lineIndex++;
+//				}
+//			}
+//		}
+//		
+//		// If enter pressed
+//		if (c == '\r' || c == '\n')
+//		{
+//			if (force)
+//			{
+//				if (c == '\r')
+//				{
+//					tabs.add(lineNum, new ArrayList<Boolean>());
+//				}
+//			}
+//			else
+//			{
+//				if (c == '\r')
+//				{
+//					caretPosition--;
+//					xPosition--;
+//					
+//					tabs.add(lineNum, new ArrayList<Boolean>());
+//				}
+//				
+//				if (sb == null)
+//				{
+//					setCaretOffset(caretPosition + tabsStr.length() + 1);
+////					setSelection(getCaretOffset());
+//				}
+//			}
+//		}
+//		// If backspace pressed
+//		else if (c == '\b')
+//		{System.out.println(xPosition + ", " + lineNum + ", " + caretPosition);
+//			if (selectionLength == 0 && selectionLines == 0)
+//			{
+//				if (xPosition >= tabs.get(lineNum).size() && (lineNum > 0 || xPosition > 0))
+//				{
+//					tabs.remove(lineNum + 1);
+//					
+//					if (sb != null)
+//					{
+//						sb.deleteCharAt(caretPosition);
+//						sb.deleteCharAt(caretPosition);
+//						sb.deleteCharAt(caretPosition);
+//					}
+//				}
+//				else if (xPosition >= 0 && (tabs.get(lineNum).size() > 0))
+//				{
+//					tabs.get(lineNum).remove(xPosition);
+//					
+//					if (sb != null)
+//					{
+//						sb.deleteCharAt(caretPosition);
+//						sb.deleteCharAt(caretPosition);
+//					}
+//				}
+//			}
+////			else
+////			{
+////				int charCounter    = 0;
+////				int selectionIndex = xPosition;
+////				int lineIndex      = lineNum;
+////				
+////				for (int lineCounter = 0; lineCounter < tabs.size() && lineCounter < linesLess + 1; lineCounter++)
+////				{
+////					while (selectionIndex < tabs.get(lineIndex).size())
+////					{
+////						if (charCounter >= selLength)
+////						{
+////							break;
+////						}
+////						
+////						tabs.get(lineIndex).remove(selectionIndex);
+////						System.out.println("removed " + lineIndex + ", " + selectionIndex);
+////						
+//////						selectionIndex++;
+////						
+////						charCounter++;
+////					}
+////					
+////					selectionIndex = 0;
+////					
+////					// May have a bug here with already empty lines.
+////					if (tabs.get(lineIndex).size() == 0 && lineIndex > lineNum)
+////					{
+////						tabs.remove(lineIndex);
+////					}
+////					else
+////					{
+////						lineIndex++;
+////					}
+////				}
+////			}
+//		}
+//		else if (c == '\t')
+//		{
+//			boolean lastCharacterTab = lastCharacterIsTab(lineNum, 1);
+//			
+//			tabs.get(lineNum).add(lastCharacterTab);
+//		}
+//		else
+//		{
+////			System.out.println((int)c);
+////			getFont().
+//			
+//			if (isPrintableChar(c))// || c == ' ' || c == 0)
+//			{
+//				System.out.println(c + " is a pc on line " + lineNum);
+//				tabs.get(lineNum).add(false);
+//			}
+//			else
+//			{
+////				System.out.println((int)c);
+//			}
+//		}
+//		
+//		oldLength       = getCharCount();
+//		oldLineCount    = getLineCount();
+//		
+//		if ((int)c > 0)
+//		{
+//			selectionLines  = 0;
+//			selectionLength = 0;
+//		}
+//	}
 	
 	public StyleRange[] highlightSyntax()
 	{
@@ -660,29 +660,29 @@ public class CodeField extends StyledText
 		return getCaretOffset();
 	}
 	
-	private int getCaretXPosition()
-	{
-		int xPos              = 0;
-		int countedCharacters = 0;
-		int caretPos          = getCaretPosition();
-		
-		for (int i = 0; i < tabs.size(); i ++)
-		{
-			if (i == getCaretLineNumber())// || countedCharacters >= getCaretPosition())
-			{
-				xPos = caretPos - countedCharacters;// - (i * 2);
-//				System.out.println("size: " + tabs.size() + ", caretPos: " + caretPos + ", counted: " + countedCharacters + ", Line number: " + i + ", after calc: " + xPos);
-				
-//				xPos = countedCharacters - (getCaretPosition()) + i;
-//				xPos = Math.abs(xPos);
-				return xPos;
-			}
-			
-			countedCharacters += tabs.get(i).size() + 2;
-		}
-		
-		return xPos;
-	}
+//	private int getCaretXPosition()
+//	{
+//		int xPos              = 0;
+//		int countedCharacters = 0;
+//		int caretPos          = getCaretPosition();
+//		
+//		for (int i = 0; i < tabs.size(); i ++)
+//		{
+//			if (i == getCaretLineNumber())// || countedCharacters >= getCaretPosition())
+//			{
+//				xPos = caretPos - countedCharacters;// - (i * 2);
+////				System.out.println("size: " + tabs.size() + ", caretPos: " + caretPos + ", counted: " + countedCharacters + ", Line number: " + i + ", after calc: " + xPos);
+//				
+////				xPos = countedCharacters - (getCaretPosition()) + i;
+////				xPos = Math.abs(xPos);
+//				return xPos;
+//			}
+//			
+//			countedCharacters += tabs.get(i).size() + 2;
+//		}
+//		
+//		return xPos;
+//	}
 	
 	private char lastCharacter(int charactersBack)
 	{
@@ -698,12 +698,13 @@ public class CodeField extends StyledText
 	
 	private boolean lastCharacterIsTab(int lineNum, int charactersBack)
 	{
-		ArrayList<Boolean> line = tabs.get(lineNum);
-		int size                = line.size();
+		String line = getLine(lineNum);
+		
+		int size    = line.length();
 		
 		if (size >= charactersBack)
 		{
-			return line.get(size - charactersBack);
+			return line.charAt(size - charactersBack - 1) == '\t';
 		}
 		else if (size == 0)
 		{
@@ -737,13 +738,13 @@ public class CodeField extends StyledText
 	
 	private int lineTabCount(int lineNumber, int linesBack)
 	{
-		ArrayList<Boolean> line = tabs.get(lineNumber - linesBack);
+		String line = getLine(lineNumber - linesBack);
 		
-		int size = line.size();
+		int size    = line.length();
 		
 		for (int i = 0; i < size; i ++)
 		{
-			if (!line.get(i))
+			if (line.charAt(i) != '\t')
 			{
 				return i;
 			}
@@ -772,93 +773,93 @@ public class CodeField extends StyledText
 		return (((int)c >= 32 && (int)c < 127));
 	}	
 	
-	public void paste()
-	{
-		Clipboard clip  = new Clipboard(Display.getDefault());
-		
-		Transfer  trans = TextTransfer.getInstance();
-		
-		final Object     contents  = clip.getContents(trans);
-		final StyledText thisField = this;
-		
-		if (contents instanceof String)
-		{
-			char chars[] = ((String)contents).toCharArray();
-			
-			StringBuilder sb = new StringBuilder();
-			
-			int xPosition     = getCaretXPosition();
-			int caretPosition = getCaretPosition();
-			int lineNum       = getCaretLineNumber();
-			
-			int index  = 0;
-			
-			int tabCount = lineTabCount(lineNum, 0);
-			int tabUndo  = 0;
-			
-			boolean beginning = true;
-			
-			for (int i = 0; i < chars.length; i ++)
-			{
-				char c = chars[i];
-				
-				if (c == '\r')
-				{
-					continue;
-				}
-				
-				if (c == '\t' && (beginning || xPosition < tabUndo))
-				{
-					if (beginning)
-					{
-						tabUndo ++;
-					}
-					
-					continue;
-				}
-				
-				beginning = false;
-				
-				if (c == '\n')
-				{
-					lineNum++;
-					
-					if (lineNum >= tabs.size())
-					{
-						tabs.add(new ArrayList<Boolean>());
-					}
-					
-					xPosition = 0;
-					
-					sb.append("\r");
-				}
-				
-				sb.append(c);
-				
-				tabs.get(lineNum).add(c == '\t');
-				
-				if (c == '\n')
-				{
-					tabs.add(lineNum, new ArrayList<Boolean>());
-			
-					for (int tab = 0; tab < tabCount; tab ++)
-					{
-						tabs.get(lineNum).add(true);
-						sb.append('\t');
-					}
-				}
-				
-				xPosition++;
-			}
-			
-			insert(sb.toString());
-			setCaretOffset(getCaretOffset() + sb.length());
-			
-//			highlightSyntax();
-			
-			contentChanged();
-		}
-	}
+//	public void paste()
+//	{
+//		Clipboard clip  = new Clipboard(Display.getDefault());
+//		
+//		Transfer  trans = TextTransfer.getInstance();
+//		
+//		final Object     contents  = clip.getContents(trans);
+//		final StyledText thisField = this;
+//		
+//		if (contents instanceof String)
+//		{
+//			char chars[] = ((String)contents).toCharArray();
+//			
+//			StringBuilder sb = new StringBuilder();
+//			
+//			int xPosition     = getCaretXPosition();
+//			int caretPosition = getCaretPosition();
+//			int lineNum       = getCaretLineNumber();
+//			
+//			int index  = 0;
+//			
+//			int tabCount = lineTabCount(lineNum, 0);
+//			int tabUndo  = 0;
+//			
+//			boolean beginning = true;
+//			
+//			for (int i = 0; i < chars.length; i ++)
+//			{
+//				char c = chars[i];
+//				
+//				if (c == '\r')
+//				{
+//					continue;
+//				}
+//				
+//				if (c == '\t' && (beginning || xPosition < tabUndo))
+//				{
+//					if (beginning)
+//					{
+//						tabUndo ++;
+//					}
+//					
+//					continue;
+//				}
+//				
+//				beginning = false;
+//				
+//				if (c == '\n')
+//				{
+//					lineNum++;
+//					
+//					if (lineNum >= tabs.size())
+//					{
+//						tabs.add(new ArrayList<Boolean>());
+//					}
+//					
+//					xPosition = 0;
+//					
+//					sb.append("\r");
+//				}
+//				
+//				sb.append(c);
+//				
+//				tabs.get(lineNum).add(c == '\t');
+//				
+//				if (c == '\n')
+//				{
+//					tabs.add(lineNum, new ArrayList<Boolean>());
+//			
+//					for (int tab = 0; tab < tabCount; tab ++)
+//					{
+//						tabs.get(lineNum).add(true);
+//						sb.append('\t');
+//					}
+//				}
+//				
+//				xPosition++;
+//			}
+//			
+//			insert(sb.toString());
+//			setCaretOffset(getCaretOffset() + sb.length());
+//			
+////			highlightSyntax();
+//			
+//			contentChanged();
+//		}
+//	}
 	
 	private void contentChanged()
 	{
@@ -874,22 +875,22 @@ public class CodeField extends StyledText
 //		redraw( 2, 5, 2, true);
 	}
 	
-	private void updateLineNumbers()
-	{
-		lineNumberText.setSize(new String(getLineCount() + ".").length() * charWidth, getHeight() - getHorizontalBar().getSize().y + 1);
-		
-		lineNumberText.setText("");
-		
-		for (int i = 0; i < getLineCount() - 1; i ++)
-		{
-			if (i < tabs.size())
-			{
-				lineNumberText.append("\n");
-			}
-		}
-		
-		lineNumberText.redraw();
-	}
+//	private void updateLineNumbers()
+//	{
+//		lineNumberText.setSize(new String(getLineCount() + ".").length() * charWidth, getHeight() - getHorizontalBar().getSize().y + 1);
+//		
+//		lineNumberText.setText("");
+//		
+//		for (int i = 0; i < getLineCount() - 1; i ++)
+//		{
+//			if (i < tabs.size())
+//			{
+//				lineNumberText.append("\n");
+//			}
+//		}
+//		
+//		lineNumberText.redraw();
+//	}
 	
 	public void setText(String text)
 	{
@@ -903,35 +904,35 @@ public class CodeField extends StyledText
 	
 	public void setText(String text, boolean loaded, boolean parse)
 	{
-		if (!(text.equals(getText()) || loaded))
-		{
-			contentChanged();
-		}
-		
-		if (parse)
-		{
-			if (tabs != null)
-			{
-				tabs.clear();
-				
-				tabs.add(new ArrayList<Boolean>());
-			}
-			
-			StringBuilder sb = new StringBuilder();
-			
-			parseString(text, sb, 0, 0, 0, 0, false);
-			
-			super.setText(sb.toString());
-		}
-		else
-		{
+//		if (!(text.equals(getText()) || loaded))
+//		{
+//			contentChanged();
+//		}
+//		
+//		if (parse)
+//		{
+//			if (tabs != null)
+//			{
+//				tabs.clear();
+//				
+//				tabs.add(new ArrayList<Boolean>());
+//			}
+//			
+//			StringBuilder sb = new StringBuilder();
+//			
+//			parseString(text, sb, 0, 0, 0, 0, false);
+//			
+//			super.setText(sb.toString());
+//		}
+//		else
+//		{
 			super.setText(text);
-		}
-		
-//		highlightSyntax();
-		
-		oldLength    = getCharCount();
-		oldLineCount = getLineCount();
+//		}
+//		
+////		highlightSyntax();
+//		
+//		oldLength    = getCharCount();
+//		oldLineCount = getLineCount();
 		
 		redraw();
 	}

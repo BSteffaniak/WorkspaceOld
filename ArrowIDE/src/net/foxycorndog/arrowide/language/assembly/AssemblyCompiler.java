@@ -1,23 +1,41 @@
 package net.foxycorndog.arrowide.language.assembly;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import net.foxycorndog.arrowide.command.Command;
+import net.foxycorndog.arrowide.command.CommandListener;
 import net.foxycorndog.arrowide.console.ConsoleStream;
+import net.foxycorndog.arrowide.language.CompilerListener;
+
+import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 
 public class AssemblyCompiler
 {
-	public static String compile(String fileLocation, String outputLocation, final ConsoleStream stream)
+	public static void compile(String fileLocation, String outputLocation, final ConsoleStream stream, final ArrayList<CompilerListener> compilerListeners)
 	{
-		String result = null;
-		
 		try
 		{
-			Process p = Command.execute("res/assembly/fasm.exe \"" + fileLocation + "\" " + outputLocation, stream);
+			String text = "res/assembly/fasm.exe \"" + fileLocation + "\" " + outputLocation;
+			
+			Command command = new Command(text, stream);
+			
+			command.addCommandListener(new CommandListener()
+			{
+				public void resultReceived(int result)
+				{
+					for (int i = compilerListeners.size() - 1; i >= 0; i--)
+					{
+						compilerListeners.get(i).compiled(result);
+					}
+				}
+			});
+			
+			command.execute();
 			
 //			if (p.exitValue() == 0)
 //			{
-				result = "Compiled successfully!!!";
+//				result = "Compiled successfully!!!";
 //			}
 //			else
 //			{
@@ -28,7 +46,5 @@ public class AssemblyCompiler
 		{
 			e.printStackTrace();
 		}
-		
-		return result;
 	}
 }

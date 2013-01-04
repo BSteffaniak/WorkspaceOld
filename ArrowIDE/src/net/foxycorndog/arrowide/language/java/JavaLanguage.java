@@ -31,13 +31,9 @@ public class JavaLanguage
 		
 	}
 	
-	public static void run(final String classLocation, final ConsoleStream stream)
+	public static void run(final String fileLocation, final ConsoleStream stream)
 	{
-		final PrintStream out = System.out;
-		final PrintStream err = System.err;
-		
-//		System.setOut(stream);
-//		System.setErr(stream);
+		final String classLocation = FileUtils.getParentFolder(FileUtils.getParentFolder(fileLocation)) + "/bin/" + FileUtils.getFileNameWithoutExtension(fileLocation) + ".class";
 		
 		try
 		{
@@ -45,7 +41,7 @@ public class JavaLanguage
 			
 			final ClassLoader cLoader   = new URLClassLoader(new URL[] { url });
 			
-			final String      className = classLocation.substring(classLocation.lastIndexOf('/') + 1, classLocation.lastIndexOf('.'));
+			final String      className = FileUtils.getFileNameWithoutExtension(classLocation);
 			
 			
 //			Class        clazz     = cLoader.loadClass(className);//classLocation.substring(0, classLocation.lastIndexOf('.')));
@@ -66,7 +62,7 @@ public class JavaLanguage
 							{
 								Class clazz   = Class.forName(className, true, cLoader);
 															
-								Process process = exec(clazz, classLocation, stream);
+								exec(clazz, classLocation, stream);
 							}
 							catch (ClassNotFoundException e)
 							{
@@ -84,25 +80,7 @@ public class JavaLanguage
 					}.start();
 				}
 			});
-			
-			
-//			
-//			while (classRunning)
-//			{
-//				if (!ArrowIDE.display.readAndDispatch())
-//				{
-//					ArrowIDE.display.sleep();
-//				}
-//			}
 		}
-//		catch (NoSuchMethodException e)
-//		{
-//			e.printStackTrace();
-//		}
-//		catch (ClassNotFoundException e)
-//		{
-//			e.printStackTrace();
-//		}
 		catch (MalformedURLException e)
 		{
 			e.printStackTrace();
@@ -111,20 +89,17 @@ public class JavaLanguage
 		{
 			System.out.println(e.getMessage());
 		}
-		
-//		System.setOut(out);
-//		System.setErr(err);
 	}
 	
-	private static Process exec(Class clazz, String classLocation, ConsoleStream stream) throws IOException, InterruptedException
+	private static void exec(Class clazz, String classLocation, ConsoleStream stream) throws IOException, InterruptedException
 	{
 		String javaHome  = System.getProperty("java.home");
 		String javaBin   = javaHome + "/bin/java";
 		String classpath = FileUtils.getParentFolder(classLocation);//System.getProperty("java.class.path");
 		String className = clazz.getCanonicalName();
 		
-		Process process = Command.execute("\"" + javaBin + "\" -cp " + "\"" + classpath + "\" " + className, stream);
+		Command command = new Command("\"" + javaBin + "\" -cp " + "\"" + classpath + "\" " + className, stream);
 		
-		return process;
+		command.execute();
 	}
 }
