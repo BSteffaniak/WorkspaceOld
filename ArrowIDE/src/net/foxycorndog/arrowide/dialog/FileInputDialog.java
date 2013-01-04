@@ -29,14 +29,14 @@ public class FileInputDialog extends TextInputDialog
 	
 	private String  preLocation;
 	
-	public FileInputDialog(Shell parent, String windowInstruction, String textFieldInstruction, boolean directory, String preLocation, boolean overwrite)
+	public FileInputDialog(String windowInstruction, String textFieldInstruction, boolean directory, String preLocation, boolean overwrite)
 	{
-		this(parent, windowInstruction, textFieldInstruction, "", directory, preLocation, overwrite);
+		this(windowInstruction, textFieldInstruction, "", directory, preLocation, overwrite);
 	}
 	
-	public FileInputDialog(Shell parent, String windowInstruction, String textFieldInstruction, String defaultTextField, final boolean directory, final String preLocation, boolean overwrite)
+	public FileInputDialog(String windowInstruction, String textFieldInstruction, String defaultTextField, final boolean directory, final String preLocation, boolean overwrite)
 	{
-		super(parent, windowInstruction, textFieldInstruction, defaultTextField);
+		super(windowInstruction, textFieldInstruction, defaultTextField);
 		
 		this.directory   = directory;
 		this.preLocation = preLocation;

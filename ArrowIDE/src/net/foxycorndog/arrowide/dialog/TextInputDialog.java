@@ -37,31 +37,30 @@ public class TextInputDialog implements Dialog
 	
 	private Label   errorLabel, textFieldInstructionLabel, instructionLabel;
 	
-	private Shell   window, parent;
+	private Shell   window;
 	
 	private Display display;
 	
 	private ArrayList<DialogFilter> filters;
 	
-	public TextInputDialog(Shell parent, String windowInstruction, String textFieldInstruction)
+	public TextInputDialog(String windowInstruction, String textFieldInstruction)
 	{
-		this(parent, windowInstruction, textFieldInstruction, "");
+		this(windowInstruction, textFieldInstruction, "");
 	}
 	
-	public TextInputDialog(Shell parent, String windowInstruction, String textFieldInstruction, Point size)
+	public TextInputDialog(String windowInstruction, String textFieldInstruction, Point size)
 	{
-		this(parent, windowInstruction, textFieldInstruction, "", size);
+		this(windowInstruction, textFieldInstruction, "", size);
 	}
 	
-	public TextInputDialog(Shell parent, String windowInstruction, String textFieldInstruction, String defaultTextField)
+	public TextInputDialog(String windowInstruction, String textFieldInstruction, String defaultTextField)
 	{
-		this(parent, windowInstruction, textFieldInstruction, defaultTextField, new Point(470, 180));
+		this(windowInstruction, textFieldInstruction, defaultTextField, new Point(470, 180));
 	}
 	
-	public TextInputDialog(Shell parent, String windowInstruction, String textFieldInstruction, String defaultTextField, Point size)
+	public TextInputDialog(String windowInstruction, String textFieldInstruction, String defaultTextField, Point size)
 	{
 		this.display  = Display.getDefault();
-		this.parent   = parent;
 		
 		filters       = new ArrayList<DialogFilter>();
 		

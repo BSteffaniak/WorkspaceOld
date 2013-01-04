@@ -1,13 +1,20 @@
 package net.foxycorndog.arrowide.language;
 
+import java.io.File;
 import java.util.ArrayList;
 
+import org.eclipse.swt.widgets.Display;
+
+import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.console.ConsoleStream;
+import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.assembly.AssemblyCompiler;
 import net.foxycorndog.arrowide.language.cpp.CppCompiler;
 import net.foxycorndog.arrowide.language.glsl.GLSLCompiler;
 import net.foxycorndog.arrowide.language.java.JavaCompiler;
+
+import static net.foxycorndog.arrowide.ArrowIDE.CONFIG_DATA;
 
 public class LanguageCompiler
 {
@@ -25,6 +32,27 @@ public class LanguageCompiler
 			String fileName = FileUtils.getFileName(fileLocation);
 			
 			int language = FileUtils.getLanguage(fileLocation);
+			
+			if (language == Language.CPP)
+			{
+				if (!CONFIG_DATA.containsKey("g++.location") || !new File(CONFIG_DATA.get("g++.location")).exists())
+				{
+					FileBrowseDialog gppSearch = new FileBrowseDialog("Specify your c++ compiler. (EX: C:\\MinGW\\bin)", "Location:", FileBrowseDialog.EITHER);
+					
+					String gppLoc = gppSearch.open();
+					
+					if (gppLoc != null)
+					{
+						ArrowIDE.setConfigDataValue("g++.location", gppLoc);
+					}
+					else
+					{
+						stream.println("You must specify a valid c++ compiler to compile this program.");
+						
+						return;
+					}
+				}
+			}
 			
 			if (language == Language.JAVA)
 			{

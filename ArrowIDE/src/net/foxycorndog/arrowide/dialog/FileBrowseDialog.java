@@ -30,14 +30,14 @@ public class FileBrowseDialog extends TextInputDialog
 {
 	public static final int DIRECTORY = 0, FILE = 1, EITHER = 2;
 	
-	public FileBrowseDialog(Shell parent, String windowInstruction, String textFieldInstruction, int directory)
+	public FileBrowseDialog(String windowInstruction, String textFieldInstruction, int directory)
 	{
-		this(parent, windowInstruction, textFieldInstruction, "", directory);
+		this(windowInstruction, textFieldInstruction, "", directory);
 	}
 	
-	public FileBrowseDialog(Shell parent, String windowInstruction, String textFieldInstruction, String defaultTextField, final int directory)
+	public FileBrowseDialog(String windowInstruction, String textFieldInstruction, String defaultTextField, final int directory)
 	{
-		super(parent, windowInstruction, textFieldInstruction);
+		super(windowInstruction, textFieldInstruction);
 		
 		getWindow().setSize(480, 230);
 		getErrorLabel().setLocation(100, 140);

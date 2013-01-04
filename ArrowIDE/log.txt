@@ -1,9 +1,57 @@
-flat assembler  version 1.70.03  (1572863 kilobytes memory)
-4 passes, 0.4 seconds, 3072 bytes.
+flat assembler  version 1.70.03  (1048575 kilobytes memory)
+3 passes, 0.1 seconds, 1024 bytes.
 Compiled successfully.
-flat assembler  version 1.70.03  (1572863 kilobytes memory)
-4 passes, 0.4 seconds, 3072 bytes.
+flat assembler  version 1.70.03  (1048575 kilobytes memory)
+C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowWorkspace/openglasm/opengl32.asm [7]:
+include 'win64a.inc'
+error: file not found.
+flat assembler  version 1.70.03  (1048575 kilobytes memory)
+C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowWorkspace/openglasm/opengl32.asm [7]:
+include '../../Fasmw17003/includeswin64a.inc'
+error: file not found.
+flat assembler  version 1.70.03  (1048575 kilobytes memory)
+C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowWorkspace/openglasm/opengl32.asm [7]:
+include '../../Fasmw17003/includes/win64a.inc'
+error: file not found.
+flat assembler  version 1.70.03  (1048575 kilobytes memory)
+C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowWorkspace/openglasm/opengl32.asm [9]:
+include '..\..\opengl\opengl.inc'
+error: file not found.
+flat assembler  version 1.70.03  (1048575 kilobytes memory)
+4 passes, 4096 bytes.
 Compiled successfully.
-flat assembler  version 1.70.03  (1572863 kilobytes memory)
-4 passes, 0.4 seconds, 3072 bytes.
+flat assembler  version 1.70.03  (1048575 kilobytes memory)
+4 passes, 4096 bytes.
+Compiled successfully.
+flat assembler  version 1.70.03  (1048575 kilobytes memory)
+4 passes, 4096 bytes.
+Compiled successfully.
+flat assembler  version 1.70.03  (1048575 kilobytes memory)
+4 passes, 4096 bytes.
+Compiled successfully.
+flat assembler  version 1.70.03  (1048575 kilobytes memory)
+4 passes, 4096 bytes.
+Compiled successfully.
+flat assembler  version 1.70.03  (1048575 kilobytes memory)
+4 passes, 4096 bytes.
+Compiled successfully.
+flat assembler  version 1.70.03  (1048575 kilobytes memory)
+4 passes, 4096 bytes.
+Compiled successfully.
+flat assembler  version 1.70.03  (1048575 kilobytes memory)
+4 passes, 4096 bytes.
+Compiled successfully.
+flat assembler  version 1.70.03  (1048575 kilobytes memory)
+4 passes, 4096 bytes.
+Compiled successfully.
+flat assembler  version 1.70.03  (1048575 kilobytes memory)
+C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowWorkspace/openglasm/opengl32.asm [91]:
+	invoke	glRotatef,float [theta] * 2,float dword 0.0,float dword 0.0,float dword 1.0
+C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowWorkspace/openglasm/../../Fasmw17003/include/macro/proc64.inc [5] invoke [0]:
+ { common fastcall [proc],arg }
+C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowWorkspace/openglasm/../../Fasmw17003/include/macro/proc64.inc [74] fastcall [66]:
+	 inc param
+error: extra characters on line.
+flat assembler  version 1.70.03  (1048575 kilobytes memory)
+4 passes, 4096 bytes.
 Compiled successfully.

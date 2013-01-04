@@ -355,34 +355,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 							
 							new File(outputLocation).mkdirs();
 							
-							if (codeField.getLanguage() == Language.CPP)
-							{
-								if (!CONFIG_DATA.containsKey("g++.location"))
-								{
-									FileBrowseDialog gppSearch = new FileBrowseDialog(shell, "Specify your c++ compiler. (EX: C:\\MinGW\\bin)", "Location:", FileBrowseDialog.EITHER);
-									
-									String gppLoc = gppSearch.open();
-									
-									if (gppLoc != null)
-									{
-										ArrowIDE.setConfigDataValue("g++.location", gppLoc);
-										
-										LanguageCompiler.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
-									}
-									else
-									{
-										consoleStream.println("You must specify a valid c++ compiler to compile this program.");
-									}
-								}
-								else
-								{
-									LanguageCompiler.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
-								}
-							}
-							else
-							{
-								LanguageCompiler.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
-							}
+							LanguageCompiler.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
 						}
 					}
 				}
@@ -478,7 +451,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 						preLocation = FileUtils.getParentFolder(preLocation);
 					}
 					
-					newFolderDialog = new FileInputDialog(shell, "Enter the folder name:", "Folder name:", true, preLocation + "/", false);
+					newFolderDialog = new FileInputDialog("Enter the folder name:", "Folder name:", true, preLocation + "/", false);
 					
 					String location = newFolderDialog.open();
 					
@@ -506,7 +479,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 						preLocation = FileUtils.getParentFolder(preLocation);
 					}
 					
-					newFileDialog = new FileInputDialog(shell, "Enter the file name:", "File name:", false, preLocation + "/", false);
+					newFileDialog = new FileInputDialog("Enter the file name:", "File name:", false, preLocation + "/", false);
 					
 					String location = newFileDialog.open();
 					
@@ -532,7 +505,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				{
 					int selection = treeMenu.getSelection();
 			
-					renameFileDialog = new TextInputDialog(shell, "Enter the new name:", "New name:", FileUtils.getFileName(treeItemOrigLocations.get(selection)));
+					renameFileDialog = new TextInputDialog("Enter the new name:", "New name:", FileUtils.getFileName(treeItemOrigLocations.get(selection)));
 					
 					renameFileDialog.addDialogFilter(new DialogFilter()
 					{
@@ -747,7 +720,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 		else
 		{
-			FileBrowseDialog chooseWorkspace = new FileBrowseDialog(shell, "Choose your project workspace folder:", "Workspace:", FileBrowseDialog.DIRECTORY);
+			FileBrowseDialog chooseWorkspace = new FileBrowseDialog("Choose your project workspace folder:", "Workspace:", FileBrowseDialog.DIRECTORY);
 			
 			String location = chooseWorkspace.open();
 			
@@ -917,7 +890,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	
 	public void newProject()
 	{
-		newProjectDialog = new FileInputDialog(shell, "Enter the name of your project:", "Project name:", "", true, CONFIG_DATA.get("workspace.location"), false);
+		newProjectDialog = new FileInputDialog("Enter the name of your project:", "Project name:", "", true, CONFIG_DATA.get("workspace.location"), false);
 		
 		String location  = newProjectDialog.open();
 		

@@ -21,7 +21,6 @@
 <fullyQualifiedTypeName name="org.eclipse.swt.custom.CTabItem"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Color"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Font"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Display"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.custom.CTabFolderRenderer"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Rectangle"/>
@@ -49,7 +48,6 @@
 <fullyQualifiedTypeName name="org.eclipse.swt.custom.StyledText"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.ConsoleField"/>
 <fullyQualifiedTypeName name="java.io.PrintStream"/>
-<fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="java.io.OutputStream"/>
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
@@ -58,6 +56,8 @@
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.cpp.CppKeyword"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.file.FileUtils"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.cpp.CppCompiler"/>
-<fullyQualifiedTypeName name="net.foxycorndog.arrowide.ArrowIDE"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.cpp.CppLanguage"/>
+<fullyQualifiedTypeName name="net.foxycorndog.arrowide.ArrowIDE"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Display"/>
+<fullyQualifiedTypeName name="java.io.File"/>
 </qualifiedTypeNameHistroy>
