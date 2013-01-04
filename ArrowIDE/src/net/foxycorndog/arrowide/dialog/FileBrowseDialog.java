@@ -28,12 +28,14 @@ import org.eclipse.swt.widgets.Text;
 
 public class FileBrowseDialog extends TextInputDialog
 {
-	public FileBrowseDialog(Shell parent, String windowInstruction, String textFieldInstruction, boolean directory)
+	public static final int DIRECTORY = 0, FILE = 1, EITHER = 2;
+	
+	public FileBrowseDialog(Shell parent, String windowInstruction, String textFieldInstruction, int directory)
 	{
 		this(parent, windowInstruction, textFieldInstruction, "", directory);
 	}
 	
-	public FileBrowseDialog(Shell parent, String windowInstruction, String textFieldInstruction, String defaultTextField, final boolean directory)
+	public FileBrowseDialog(Shell parent, String windowInstruction, String textFieldInstruction, String defaultTextField, final int directory)
 	{
 		super(parent, windowInstruction, textFieldInstruction);
 		
@@ -52,13 +54,13 @@ public class FileBrowseDialog extends TextInputDialog
 			{
 				String location = null;
 					
-				if (directory)
+				if (directory == DIRECTORY || directory == EITHER)
 				{
 					DirectoryDialog dialog = new DirectoryDialog(getWindow(), SWT.OPEN);
 					
 					location = dialog.open();
 				}
-				else
+				else if (directory == FILE)
 				{
 					FileDialog dialog = new FileDialog(getWindow(), SWT.OPEN);
 					
@@ -82,7 +84,7 @@ public class FileBrowseDialog extends TextInputDialog
 				
 				if (location.length() <= 0)
 				{
-					return "You must enter the " + (directory ? "directory" : "file") + " location.";
+					return "You must enter the " + (directory == DIRECTORY ? "directory" : "file") + " location.";
 				}
 				
 				location = FileUtils.removeEndingSlashes(location);
@@ -93,18 +95,18 @@ public class FileBrowseDialog extends TextInputDialog
 				{
 					boolean isDirectory = file.isDirectory();
 					
-					if ((!directory && !isDirectory) || (directory && isDirectory))
+					if ((directory == EITHER) || (directory != DIRECTORY && !isDirectory) || (directory == DIRECTORY && isDirectory))
 					{
 						setText(location);
 					}
-					else if (!directory && isDirectory)
-					{
-						return "Must be a file name, not a directory name.";
-					}
-					else if (directory && !isDirectory)
-					{
-						return "Must be a directory name, not a file name.";
-					}
+//					else if (directory == FILE && isDirectory)
+//					{
+//						return "Must be a file name, not a directory name.";
+//					}
+//					else if (directory == DIRECTORY && !isDirectory)
+//					{
+//						return "Must be a directory name, not a file name.";
+//					}
 					else
 					{
 						return "An unknown error has ocurred.";
@@ -112,7 +114,7 @@ public class FileBrowseDialog extends TextInputDialog
 				}
 				else
 				{
-					return "A " + (directory ? "directory" : "file") + " already exists at that location.";
+					return "A " + (directory == DIRECTORY ? "directory" : "file") + " already exists at that location.";
 				}
 				
 				return null;

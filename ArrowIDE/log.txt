@@ -1,5 +1,9 @@
+flat assembler  version 1.70.03  (1572863 kilobytes memory)
+4 passes, 0.4 seconds, 3072 bytes.
 Compiled successfully.
-c:/mingw/bin/../lib/gcc/mingw32/4.7.0/../../../../mingw32/bin/ld.exe: cannot open output file C:/Users/Braden Steffaniak/ArrowWorkspace/main.exe: Permission denied
-collect2.exe: error: ld returned 1 exit status
-c:/mingw/bin/../lib/gcc/mingw32/4.7.0/../../../../mingw32/bin/ld.exe: cannot open output file C:/Users/Braden Steffaniak/ArrowWorkspace/main.exe: Permission denied
-collect2.exe: error: ld returned 1 exit status
+flat assembler  version 1.70.03  (1572863 kilobytes memory)
+4 passes, 0.4 seconds, 3072 bytes.
+Compiled successfully.
+flat assembler  version 1.70.03  (1572863 kilobytes memory)
+4 passes, 0.4 seconds, 3072 bytes.
+Compiled successfully.

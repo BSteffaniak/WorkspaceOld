@@ -355,7 +355,34 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 							
 							new File(outputLocation).mkdirs();
 							
-							LanguageCompiler.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
+							if (codeField.getLanguage() == Language.CPP)
+							{
+								if (!CONFIG_DATA.containsKey("g++.location"))
+								{
+									FileBrowseDialog gppSearch = new FileBrowseDialog(shell, "Specify your c++ compiler. (EX: C:\\MinGW\\bin)", "Location:", FileBrowseDialog.EITHER);
+									
+									String gppLoc = gppSearch.open();
+									
+									if (gppLoc != null)
+									{
+										ArrowIDE.setConfigDataValue("g++.location", gppLoc);
+										
+										LanguageCompiler.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
+									}
+									else
+									{
+										consoleStream.println("You must specify a valid c++ compiler to compile this program.");
+									}
+								}
+								else
+								{
+									LanguageCompiler.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
+								}
+							}
+							else
+							{
+								LanguageCompiler.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
+							}
 						}
 					}
 				}
@@ -720,7 +747,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 		else
 		{
-			FileBrowseDialog chooseWorkspace = new FileBrowseDialog(shell, "Choose your project workspace folder:", "Workspace:", true);
+			FileBrowseDialog chooseWorkspace = new FileBrowseDialog(shell, "Choose your project workspace folder:", "Workspace:", FileBrowseDialog.DIRECTORY);
 			
 			String location = chooseWorkspace.open();
 			
@@ -804,6 +831,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	
 	public static void setConfigDataValue(String key, String value)
 	{
+		boolean added = false;
+		
 		try
 		{
 			PrintWriter p = new PrintWriter(new FileWriter(configLocation));
@@ -817,6 +846,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				
 				if (lineKey.equals(key))
 				{
+					added = true;
+					
 					lineValue = value;
 				}
 				else
@@ -825,6 +856,11 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				}
 				
 				p.print(lineKey + "=" + lineValue + (i == CONFIG_DATA.size() - 1 ? "" : "\r\n"));
+			}
+		
+			if (!added)
+			{
+				p.print("\r\n" + key + "=" + value);
 			}
 			
 			p.close();

@@ -4,5 +4,5 @@ int f;
 
 void main()
 {
-	asdfasdf;
+	
 }

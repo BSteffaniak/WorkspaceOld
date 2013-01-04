@@ -1009,6 +1009,18 @@ public class CodeField extends StyledText
 		super.setLocation(x, y);
 	}
 	
+	public void paste()
+	{
+		String before = getText();
+		
+		super.paste();
+		
+		if (!getText().equals(before))
+		{
+			contentChanged();
+		}
+	}
+	
 	public void setShowLineNumbers(boolean show)
 	{
 		if (show)
