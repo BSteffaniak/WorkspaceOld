@@ -9,16 +9,34 @@ import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CompilerListener;
 
-import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
+import static net.foxycorndog.arrowide.ArrowIDE.CONFIG_DATA;
 
 public class CppCompiler
 {
 	public static void compile(String fileLocation, String outputLocation, final ConsoleStream stream, final ArrayList<CompilerListener> compilerListeners)
 	{
+		if (!CONFIG_DATA.containsKey("g++.location"))
+		{
+			FileBrowseDialog gppSearch = new FileBrowseDialog;
+			
+			String gppLoc = gppSearch.open();
+			
+			if (gppLoc != null)
+			{
+				
+			}
+			else
+			{
+				stream.println("You must specify a valid gcc compiler to compile this program.");
+				
+				return;
+			}
+		}
+		
 		try
 		{
 //			g++ hello.C -o hello
-			String text = "\"" + PROPERTIES.get("g++.location") + "/g++.exe\" \"" + fileLocation + "\" -o \"" + outputLocation + (outputLocation.equals("") ? "" : "/") + FileUtils.getFileNameWithoutExtension(fileLocation) + "\"";
+			String text = "\"" + CONFIG_DATA.get("g++.location") + "/g++.exe\" \"" + fileLocation + "\" -o \"" + outputLocation + (outputLocation.equals("") ? "" : "/") + FileUtils.getFileNameWithoutExtension(fileLocation) + "\"";
 			
 			System.out.println(text);
 			

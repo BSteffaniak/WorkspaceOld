@@ -647,17 +647,6 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			display = new Display();
 		}
 		
-		Image largeIcon = null;
-		
-		try
-		{
-			largeIcon = new Image(display, new FileInputStream("res/images/iconlarge.png"));
-		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		
 		Monitor monitor = display.getPrimaryMonitor();
 		final Rectangle screenBounds = monitor.getBounds();
 		
@@ -671,7 +660,16 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 //		splash = new SplashScreen("res/images/iconlarge.png", 3000);
 		
-		
+		Image largeIcon = null;
+
+		try
+		{
+			largeIcon = new Image(display, new FileInputStream("res/images/iconlarge.png"));
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
 		
 //		splash.open(3000);
 		
@@ -713,7 +711,6 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		createConfigData();
 		
 		PROPERTIES.put("arrowide.location", FileUtils.getParentFolder(configLocation));
-		PROPERTIES.put("g++.location", "C:/mingw/bin");
 		
 		ArrowIDE ide = null;
 		
@@ -805,7 +802,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		return workspaceDirectory.exists();
 	}
 	
-	private static void setConfigDataValue(String key, String value)
+	public static void setConfigDataValue(String key, String value)
 	{
 		try
 		{
