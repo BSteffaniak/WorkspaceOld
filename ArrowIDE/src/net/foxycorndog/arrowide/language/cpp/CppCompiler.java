@@ -20,7 +20,7 @@ public class CppCompiler
 		try
 		{
 //			g++ hello.C -o hello
-			String text = "\"" + CONFIG_DATA.get("g++.location") + "/g++.exe\" \"" + fileLocation + "\" -o \"" + outputLocation + (outputLocation.equals("") ? "" : "/") + FileUtils.getFileNameWithoutExtension(fileLocation) + "\"";
+			String text = "\"" + CONFIG_DATA.get("g++.location") + "/g++\" \"" + fileLocation + "\" -o \"" + outputLocation + (outputLocation.equals("") ? "" : "/") + FileUtils.getFileNameWithoutExtension(fileLocation) + "\"";
 			
 			System.out.println(text);
 			

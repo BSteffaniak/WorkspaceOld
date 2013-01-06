@@ -31,21 +31,21 @@ import org.eclipse.swt.widgets.TabItem;
 
 public class TabMenu
 {
-	private int                        maxCharacters, maxWidth;
-	
-	private Composite                  composite;
-	
-	private CTabFolder                 tabFolder;
-	private CTabFolder                 widthFolder;
-	
-	private TabMenu                    thisObject;
-	
-	private HashMap<Integer, CTabItem> tabs;
-	private HashMap<CTabItem, Integer> tabIds;
-	
-	private ArrayList<TabMenuListener> listeners;
-	
-	private static int                 staticId;
+	private int							maxCharacters, maxWidth;
+
+	private Composite					composite;
+
+	private CTabFolder					tabFolder, widthFolder;
+
+	private TabMenu						thisObject;
+
+	private HashMap<Integer, CTabItem>	tabs;
+	private HashMap<CTabItem, Integer>	tabIds;
+	private HashMap<Integer, String>	tabsText;
+
+	private ArrayList<TabMenuListener>	listeners;
+
+	private static int					staticId;
 	
 	public TabMenu(Composite composite)
 	{
@@ -53,20 +53,23 @@ public class TabMenu
 		
 		listeners = new ArrayList<TabMenuListener>();
 		
-		tabFolder = new CTabFolder(composite, SWT.NONE);
+		tabFolder = new CTabMenu(composite, SWT.NONE);
 		tabFolder.setBackground(new Color(Display.getCurrent(), 199, 238, 255));
 		tabFolder.setForeground(new Color(Display.getCurrent(), 0, 0, 0));
 		tabFolder.setTabHeight(20);
 		
-		widthFolder = new CTabFolder(composite, SWT.NONE);
+		widthFolder = new CTabMenu(composite, SWT.NONE);
 		widthFolder.setTabHeight(20);
 		widthFolder.setSize(99999, 999);
 		widthFolder.setVisible(false);
+//		widthFolder.setSimple(false);
 		
 		tabFolder.setSize(0, tabFolder.getTabHeight() + 3);
+//		tabFolder.setSimple(false);
 		
-		tabs   = new HashMap<Integer, CTabItem>();
-		tabIds = new HashMap<CTabItem, Integer>();
+		tabs		= new HashMap<Integer, CTabItem>();
+		tabIds		= new HashMap<CTabItem, Integer>();
+		tabsText	= new HashMap<Integer, String>();
 		
 		maxCharacters = 15;
 		
@@ -100,15 +103,28 @@ public class TabMenu
 				
 				int      id   = tabIds.get(item);
 				
-				tabs.remove(id);
-				tabIds.remove(item);
+				boolean close = true;
 
 				for (int i = listeners.size() - 1; i >= 0; i--)
 				{
-					listeners.get(i).tabClosed(id);
+					if (!listeners.get(i).tabClosing(id))
+					{
+						close = false;
+					}
 				}
 				
-				subtractWidth(item.getBounds().width);
+				if (close)
+				{
+					tabs.remove(id);
+					tabIds.remove(item);
+					tabsText.remove(id);
+					
+					subtractWidth(item.getBounds().width);
+				}
+				else
+				{
+					reAddItem(id, item);
+				}
 			}
 
 			public void minimize(CTabFolderEvent e)
@@ -135,6 +151,15 @@ public class TabMenu
 		tabFolder.redraw();
 	}
 	
+	private void reAddItem(int id, CTabItem item)
+	{
+		CTabItem newItem = new CTabItem(tabFolder, SWT.CLOSE, tabFolder.indexOf(item));
+		newItem.setText(item.getText());
+		
+		tabs.put(id, newItem);
+		tabIds.put(newItem, id);
+	}
+	
 	public int getSelected()
 	{
 		int      index = tabFolder.getSelectionIndex();
@@ -158,11 +183,18 @@ public class TabMenu
 	
 	public String getTabText(int id)
 	{
+		return tabsText.get(id);
+	}
+	
+	public String getTabShortenedText(int id)
+	{
 		return tabs.get(id).getText();
 	}
 	
 	public void setTabText(int id, String text)
 	{
+		tabsText.put(id, text);
+		
 		if (text.length() > maxCharacters)
 		{
 			text = text.substring(0, maxCharacters - 3) + "...";
@@ -185,6 +217,13 @@ public class TabMenu
 	public int addTab(String text)
 	{
 		int id = staticId++;
+		
+		tabsText.put(id, text);
+		
+		if (text.length() > maxCharacters)
+		{
+			text = text.substring(0, maxCharacters - 3) + "...";
+		}
 		
 		CTabItem wid = new CTabItem(widthFolder, SWT.CLOSE);
 		wid.setText(text);
@@ -272,5 +311,17 @@ public class TabMenu
 	public void addListener(TabMenuListener listener)
 	{
 		listeners.add(listener);
+	}
+	
+	private class CTabMenu extends CTabFolder
+	{
+		public CTabMenu(Composite parent, int style)
+		{
+			super(parent, style);
+			
+//			super.
+		}
+		
+		
 	}
 }

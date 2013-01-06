@@ -1,0 +1,14 @@
+package net.foxycorndog.arrowide.printer;
+
+public class TextPrinter
+{
+	public TextPrinter(String text)
+	{
+		
+	}
+	
+	public boolean print()
+	{
+		return false;
+	}
+}

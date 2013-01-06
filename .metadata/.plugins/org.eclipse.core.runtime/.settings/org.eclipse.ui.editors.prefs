@@ -1,4 +1,11 @@
 eclipse.preferences.version=1
 lineNumberRuler=true
+occurrenceHighlighting=false
+occurrenceIndication=true
+occurrenceIndicationColor=0,0,0
+occurrenceTextStyle=DASHED_BOX
+org.eclipse.cdt.ui.overrideIndicatorColor=0,0,160
+org.eclipse.cdt.ui.writeOccurrenceIndicationColor=0,0,160
 overviewRuler_migration=migrated_3.1
 spellingEngine=org.eclipse.jdt.internal.ui.text.spelling.DefaultSpellingEngine
+writeOccurrenceIndicationColor=128,255,255

@@ -1,62 +1,59 @@
-
 ; OpenGL programming example
 
-format PE64 GUI 5.0
+format PE GUI 4.0
 entry start
 
-include '../../Fasmw17003/include/win64a.inc'
+include '../../fasmw17003/include/win32a.inc'
 
-include '..\opengl.inc'
+include 'opengl.inc'
 
 section '.text' code readable executable
 
   start:
-	sub	rsp,8		; Make stack dqword aligned
 
 	invoke	GetModuleHandle,0
-	mov	[wc.hInstance],rax
+	mov	[wc.hInstance],eax
 	invoke	LoadIcon,0,IDI_APPLICATION
-	mov	[wc.hIcon],rax
+	mov	[wc.hIcon],eax
 	invoke	LoadCursor,0,IDC_ARROW
-	mov	[wc.hCursor],rax
+	mov	[wc.hCursor],eax
 	invoke	RegisterClass,wc
-	invoke	CreateWindowEx,0,_class,_title,WS_VISIBLE+WS_OVERLAPPEDWINDOW+WS_CLIPCHILDREN+WS_CLIPSIBLINGS,16,16,800,400,NULL,NULL,[wc.hInstance],NULL
+	invoke	CreateWindowEx,0,_class,_title,WS_VISIBLE+WS_OVERLAPPEDWINDOW+WS_CLIPCHILDREN+WS_CLIPSIBLINGS,16,16,432,432,NULL,NULL,[wc.hInstance],NULL
+	mov	[hwnd],eax
 
   msg_loop:
-	invoke	GetMessage,addr msg,NULL,0,0
-	cmp	eax,1
-	jb	end_loop
-	jne	msg_loop
-	invoke	TranslateMessage,addr msg
-	invoke	DispatchMessage,addr msg
+	invoke	GetMessage,msg,NULL,0,0
+	or	eax,eax
+	jz	end_loop
+	invoke	TranslateMessage,msg
+	invoke	DispatchMessage,msg
 	jmp	msg_loop
 
   end_loop:
 	invoke	ExitProcess,[msg.wParam]
 
-proc WindowProc uses rbx rsi rdi, hwnd,wmsg,wparam,lparam
-	mov	[hwnd],rcx
-	frame
-	cmp	edx,WM_CREATE
+proc WindowProc hwnd,wmsg,wparam,lparam
+	push	ebx esi edi
+	cmp	[wmsg],WM_CREATE
 	je	.wmcreate
-	cmp	edx,WM_SIZE
+	cmp	[wmsg],WM_SIZE
 	je	.wmsize
-	cmp	edx,WM_PAINT
+	cmp	[wmsg],WM_PAINT
 	je	.wmpaint
-	cmp	edx,WM_KEYDOWN
+	cmp	[wmsg],WM_KEYDOWN
 	je	.wmkeydown
-	cmp	edx,WM_DESTROY
+	cmp	[wmsg],WM_DESTROY
 	je	.wmdestroy
   .defwndproc:
-	invoke	DefWindowProc,rcx,rdx,r8,r9
+	invoke	DefWindowProc,[hwnd],[wmsg],[wparam],[lparam]
 	jmp	.finish
   .wmcreate:
-	invoke	GetDC,rcx
-	mov	[hdc],rax
-	lea	rdi,[pfd]
-	mov	rcx,sizeof.PIXELFORMATDESCRIPTOR shr 3
+	invoke	GetDC,[hwnd]
+	mov	[hdc],eax
+	mov	edi,pfd
+	mov	ecx,sizeof.PIXELFORMATDESCRIPTOR shr 2
 	xor	eax,eax
-	rep	stosq
+	rep	stosd
 	mov	[pfd.nSize],sizeof.PIXELFORMATDESCRIPTOR
 	mov	[pfd.nVersion],1
 	mov	[pfd.dwFlags],PFD_SUPPORT_OPENGL+PFD_DOUBLEBUFFER+PFD_DRAW_TO_WINDOW
@@ -66,19 +63,19 @@ proc WindowProc uses rbx rsi rdi, hwnd,wmsg,wparam,lparam
 	mov	[pfd.cDepthBits],16
 	mov	[pfd.cAccumBits],0
 	mov	[pfd.cStencilBits],0
-	invoke	ChoosePixelFormat,[hdc],addr pfd
-	invoke	SetPixelFormat,[hdc],eax,addr pfd
+	invoke	ChoosePixelFormat,[hdc],pfd
+	invoke	SetPixelFormat,[hdc],eax,pfd
 	invoke	wglCreateContext,[hdc]
-	mov	[hrc],rax
+	mov	[hrc],eax
 	invoke	wglMakeCurrent,[hdc],[hrc]
-	invoke	GetClientRect,[hwnd],addr rc
+	invoke	GetClientRect,[hwnd],rc
 	invoke	glViewport,0,0,[rc.right],[rc.bottom]
 	invoke	GetTickCount
 	mov	[clock],eax
 	xor	eax,eax
 	jmp	.finish
   .wmsize:
-	invoke	GetClientRect,[hwnd],addr rc
+	invoke	GetClientRect,[hwnd],rc
 	invoke	glViewport,0,0,[rc.right],[rc.bottom]
 	xor	eax,eax
 	jmp	.finish
@@ -88,24 +85,24 @@ proc WindowProc uses rbx rsi rdi, hwnd,wmsg,wparam,lparam
 	cmp	eax,10
 	jb	.animation_ok
 	add	[clock],eax
-	invoke	glRotatef,float [theta],float dword 0.0,float dword 0.0,float dword 1.0
+	invoke	glRotatef,[theta],0.0,0.0,1.0
       .animation_ok:
 	invoke	glClear,GL_COLOR_BUFFER_BIT
 	invoke	glBegin,GL_QUADS
-	invoke	glColor3f,float dword 1.0,float dword 0.1,float dword 0.1
-	invoke	glVertex3d,float -0.6,float -0.6,float 0.0
-	invoke	glColor3f,float dword 0.1,float dword 0.1,float dword 0.1
-	invoke	glVertex3d,float 0.6,float -0.6,float 0.0
-	invoke	glColor3f,float dword 0.1,float dword 0.1,float dword 1.0
-	invoke	glVertex3d,float 0.6,float 0.6,float 0.0
-	invoke	glColor3f,float dword 1.0,float dword 0.1,float dword 1.0
-	invoke	glVertex3d,float -0.6,float 0.6,float 0.0
+	invoke	glColor3f,1.0,0.1,0.1
+	invoke	glVertex3f,-0.6,-0.6,0.0
+	invoke	glColor3f,0.1,0.1,0.1
+	invoke	glVertex3f,0.6,-0.6,0.0
+	invoke	glColor3f,0.1,0.1,1.0
+	invoke	glVertex3f,0.6,0.6,0.0
+	invoke	glColor3f,1.0,0.1,1.0
+	invoke	glVertex3f,-0.6,0.6,0.0
 	invoke	glEnd
 	invoke	SwapBuffers,[hdc]
 	xor	eax,eax
 	jmp	.finish
   .wmkeydown:
-	cmp	r8d,VK_ESCAPE
+	cmp	[wparam],VK_ESCAPE
 	jne	.defwndproc
   .wmdestroy:
 	invoke	wglMakeCurrent,0,0
@@ -114,21 +111,22 @@ proc WindowProc uses rbx rsi rdi, hwnd,wmsg,wparam,lparam
 	invoke	PostQuitMessage,0
 	xor	eax,eax
   .finish:
-	endf
+	pop	edi esi ebx
 	ret
 endp
 
 section '.data' data readable writeable
 
-  _title db 'OpenGL example',0
+  _title db 'OpenGL example x32',0
   _class db 'FASMOPENGL32',0
 
-  theta GLfloat 0.6
+  theta GLfloat 0.8
 
   wc WNDCLASS 0,WindowProc,0,0,NULL,NULL,NULL,NULL,NULL,_class
 
-  hdc dq ?
-  hrc dq ?
+  hwnd dd ?
+  hdc dd ?
+  hrc dd ?
 
   msg MSG
   rc RECT

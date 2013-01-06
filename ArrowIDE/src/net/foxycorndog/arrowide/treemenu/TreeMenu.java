@@ -238,9 +238,9 @@ public class TreeMenu extends Composite
 		
 		TreeItem item = items.get(id);
 		
-		System.out.println("{\n" + ids.remove(item));
-		System.out.println(items.remove(id));
-		System.out.println(treeIds.remove((Object)id) + "\n}");
+		ids.remove(item);
+		items.remove(id);
+		treeIds.remove((Object)id);
 		
 		item.dispose();
 	}

@@ -9,3 +9,8 @@
 1357185862965	Rename type 'Compiler'
 1357185868853	Move compilation unit
 1357185873540	Delete element
+1357354051188	Rename field 'shell'
+1357363238264	Rename local variable 'newLocation'
+1357363274617	Rename local variable 'origLoc'
+1357363423548	Rename method 'tabClosed'
+1357367278238	Rename local variable 'lowerLoc'

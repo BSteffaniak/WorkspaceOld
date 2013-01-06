@@ -40,8 +40,6 @@ public class Command
 		    list.add(m.group(1));
 		}
 		
-		System.out.println(list);
-		
 		final ProcessBuilder builder = new ProcessBuilder(list);
 		
 		new Thread()

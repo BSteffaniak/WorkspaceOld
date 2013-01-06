@@ -1,0 +1,46 @@
+package net.foxycorndog.arrowide.dialog;
+
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+
+public class OptionDialog implements Dialog
+{
+	private String result;
+	
+	private Shell  window;
+	
+	public OptionDialog(String windowInstruction)
+	{
+		window = new Shell();
+		
+		
+	}
+	
+	public String open()
+	{
+		Display display = Display.getDefault();
+		
+		window.open();
+		
+		while (!window.isDisposed())
+		{
+			if (!display.readAndDispatch())
+			{
+				display.sleep();
+			}
+		}
+		
+		return result;
+	}
+
+	public void setText(String text)
+	{
+		
+	}
+
+	public Shell getWindow()
+	{
+		return null;
+	}
+
+}

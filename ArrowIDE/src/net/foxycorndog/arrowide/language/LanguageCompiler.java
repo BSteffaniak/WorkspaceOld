@@ -64,7 +64,7 @@ public class LanguageCompiler
 			}
 			else if (language == Language.ASSEMBLY)
 			{
-				AssemblyCompiler.compile(fileLocation, "", stream, listeners);
+				AssemblyCompiler.compile(fileLocation, outputLocation, stream, listeners);
 			}
 			else if (language == Language.CPP)
 			{

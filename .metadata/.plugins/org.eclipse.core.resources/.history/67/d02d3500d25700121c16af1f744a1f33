@@ -1,0 +1,43 @@
+package net.foxycorndog.arrowide.printer;
+
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.printing.Printer;
+import org.eclipse.swt.printing.PrinterData;
+
+public class TextPrinter
+{
+	private String  text;
+	
+	private Printer printer;
+	
+	public TextPrinter(PrinterData data, String text)
+	{
+		this.text = text;
+		
+		printer = new Printer(data);
+	}
+	
+	public boolean print()
+	{
+		boolean printed = false;
+		
+		if (printer.startJob("ArrowIDE Printer"))
+		{
+			GC gc = new GC(printer);
+			
+			if (printer.startPage())
+			{
+				gc.drawText(text, 20, 20);
+				printer.endPage();
+			}
+			
+			gc.dispose();
+			printer.endJob();
+			printed = true;
+		}
+		
+		printer.dispose();
+		
+		return printed;
+	}
+}

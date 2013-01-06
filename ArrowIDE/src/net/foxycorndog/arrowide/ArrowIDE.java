@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,6 +28,7 @@ import net.foxycorndog.arrowide.dialog.Dialog;
 import net.foxycorndog.arrowide.dialog.DialogFilter;
 import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
 import net.foxycorndog.arrowide.dialog.FileInputDialog;
+import net.foxycorndog.arrowide.dialog.OptionDialog;
 import net.foxycorndog.arrowide.dialog.TextInputDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CompilerListener;
@@ -38,6 +40,7 @@ import net.foxycorndog.arrowide.language.java.JavaCompiler;
 import net.foxycorndog.arrowide.language.java.JavaLanguage;
 import net.foxycorndog.arrowide.menubar.Menubar;
 import net.foxycorndog.arrowide.menubar.MenubarListener;
+import net.foxycorndog.arrowide.printer.TextPrinter;
 import net.foxycorndog.arrowide.tabmenu.TabMenu;
 import net.foxycorndog.arrowide.tabmenu.TabMenuListener;
 import net.foxycorndog.arrowide.toolbar.Toolbar;
@@ -62,15 +65,17 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.internal.win32.OS;
-import org.eclipse.swt.internal.win32.TCHAR;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.opengl.GLData;
+import org.eclipse.swt.printing.PrintDialog;
+import org.eclipse.swt.printing.Printer;
+import org.eclipse.swt.printing.PrinterData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
@@ -143,6 +148,10 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	
 	public  static final HashMap<String, Object>  PROPERTIES;
 	
+	/**
+	 * Initialize the CONFIG_DATA HashMaps and set the os properties
+	 * in the PROPERTIES HashMap.
+	 */
 	static
 	{
 		CONFIG_DATA             = new HashMap<String, String>();
@@ -179,11 +188,24 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 	}
 	
+	/**
+	 * The initial starting point of the program. It is only called
+	 * whenever the program is started from scratch without a restart.
+	 * 
+	 * @param args The command line arguments. (Unused)
+	 */
 	public static void main(String args[])
 	{
 		start();
 	}
 	
+	/**
+	 * The constructor for this class. Initializes the window that is
+	 * used for programming.
+	 * 
+	 * @param display The display to use.
+	 * @param shell The window to use.
+	 */
 	public ArrowIDE(final Display display, final Shell shell)
 	{
 		this.shell = shell;
@@ -211,8 +233,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		codeField.setLocation(shell.getClientArea().width - codeField.getWidth(), toolbarHeight);//shell.getClientArea().height - codeField.getHeight());
 		codeField.setShowLineNumbers(true);
 		
-		console.setSize(width, conHeight);
-		console.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y);
+		console.setSize(width, conHeight - 5);
+		console.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y + 5);
 		
 		try
 		{
@@ -266,6 +288,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		addMenuItem(menubar.addMenuSubItem("Save", menuItems.get("File")), "File>Save");
 		addMenuItem(menubar.addMenuSubItem("Save as...", menuItems.get("File")), "File>Save as...");
 		menubar.addSeparator(menuItems.get("File"));
+		addMenuItem(menubar.addMenuSubItem("Print", menuItems.get("File")), "File>Print");
+		menubar.addSeparator(menuItems.get("File"));
 		addMenuItem(menubar.addMenuSubItem("Restart", menuItems.get("File")), "File>Restart");
 		addMenuItem(menubar.addMenuSubItem("Exit", menuItems.get("File")), "File>Exit");
 
@@ -300,6 +324,24 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				else if (menuItemLocations.get(subItemId).equals("File>Save as..."))
 				{
 					saveFile(null);
+				}
+				else if (menuItemLocations.get(subItemId).equals("File>Print"))
+				{
+					PrintDialog dialog = new PrintDialog(shell, SWT.NONE);
+					dialog.setScope(PrinterData.SELECTION);
+					
+					PrinterData data = dialog.open();
+					
+					FontData fd[] = codeField.getFont().getFontData().clone();
+					fd[0].setHeight(12);
+					
+					TextPrinter printer = new TextPrinter(data, codeField.getText(), new Font(display, fd[0]), codeField.getStyles());
+					printer.setMargins(1, 1, 1, 1);
+					
+					if (!printer.print())
+					{
+						System.err.println("Was not able to print!");
+					}
 				}
 				else if (menuItemLocations.get(subItemId).equals("File>Restart"))
 				{
@@ -351,11 +393,18 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					
 							console.setText("");
 							
-							String outputLocation = FileUtils.getParentFolder(FileUtils.getParentFolder(fileLocation)) + "/bin";
+							String outputLocation = FileUtils.getParentFolder(fileLocation) + "/";
 							
 							new File(outputLocation).mkdirs();
 							
-							LanguageCompiler.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
+							try
+							{
+								LanguageCompiler.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
+							}
+							catch (UnsupportedOperationException e)
+							{
+								consoleStream.println(e.getMessage());
+							}
 						}
 					}
 				}
@@ -369,7 +418,14 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					{
 						console.setText("");
 						
-						Language.run(codeField.getLanguage(), fileLocation, consoleStream);
+						try
+						{
+							Language.run(codeField.getLanguage(), fileLocation, consoleStream);
+						}
+						catch (UnsupportedOperationException e)
+						{
+							consoleStream.println(e.getMessage());
+						}
 					}
 				}
 			}
@@ -431,7 +487,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					
 					String location = treeItemOrigLocations.get(id);
 					
-					System.out.println(deleteFile(location));
+					deleteFile(location);
 					
 					refreshFileViewer();
 				}
@@ -503,56 +559,143 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				}
 				else if (e.widget == rename)
 				{
-					int selection = treeMenu.getSelection();
-			
-					renameFileDialog = new TextInputDialog("Enter the new name:", "New name:", FileUtils.getFileName(treeItemOrigLocations.get(selection)));
+					final int selection		= treeMenu.getSelection();
 					
-					renameFileDialog.addDialogFilter(new DialogFilter()
+					final String loc		= treeItemOrigLocations.get(selection);
+					final String locLower	= loc.toLowerCase();
+					
+					boolean willContinue	= false;
+					
+					if (fileCache.containsKey(locLower))
 					{
-						public String filter(String text)
+						if (!fileCacheSaved.get(locLower))
 						{
-							text = FileUtils.removeEndingSlashes(text.replace('\\', '/'));
+							String result = null;
 							
-							for (int i = 0; i < text.length(); i ++)
+							OptionDialog optDialog = new OptionDialog("Save?", "Would you like to save before renaming?");
+							
+							result = optDialog.open();
+							
+							if (result != null)
 							{
-								if (text.charAt(i) == '/')
+								if (result.equals("yes"))
 								{
-									return "The name must be in the same location.";
+									saveFile(loc);
+									
+									willContinue	= true;
+								}
+								else if (result.equals("no"))
+								{
+									willContinue = true;
 								}
 							}
-							
-							String location    = treeItemOrigLocations.get(treeMenu.getSelection());
-							String newLocation = FileUtils.getParentFolder(location) + "/" + text;
-							
-							boolean currentFile = text.equals(FileUtils.getFileName(treeItemOrigLocations.get(treeMenu.getSelection())));
-							
-							if (currentFile)
-							{
-								return "The name must be different than the current name.";
-							}
-							
-							saveFile(location);
-							
-							File f = new File(location);
-							
-							f.renameTo(new File(newLocation));
-							
-							if (currentFile)
-							{
-								fileLocation = newLocation;
-								
-								codeField.setLanguage(Language.getLanguage(fileLocation));
-								
-								codeField.highlightSyntax();
-							}
-							
-							refreshFileViewer();
-							
-							return null;
 						}
-					});
+						else
+						{
+							willContinue = true;
+						}
+					}
+					else
+					{
+						willContinue = true;
+					}
 					
-					FileUtils.removeEndingSlashes(renameFileDialog.open().replace('\\', '/'));
+					if (willContinue)
+					{
+						renameFileDialog = new TextInputDialog("Enter the new name:", "New name:", FileUtils.getFileName(treeItemOrigLocations.get(selection)));
+						
+						renameFileDialog.addDialogFilter(new DialogFilter()
+						{
+							public String filter(String text)
+							{
+								text = FileUtils.removeEndingSlashes(text.replace('\\', '/'));
+								
+								for (int i = 0; i < text.length(); i ++)
+								{
+									if (text.charAt(i) == '/')
+									{
+										return "The name must be in the same location.";
+									}
+								}
+								
+								
+								String newLoc		= FileUtils.getParentFolder(loc) + "/" + text;
+								String newLocLower	= newLoc.toLowerCase();
+								
+								boolean currentFile	= text.equals(FileUtils.getFileName(loc));
+								
+								if (currentFile)
+								{
+									return "The name must be different than the current name.";
+								}
+								
+								File f = new File(loc);
+								
+								boolean successful = f.renameTo(new File(newLoc));
+								
+								if (successful)
+								{
+									int id = treeItemIds.get(locLower);
+									
+									if (treeItemDirectories.containsKey(id))
+									{
+										treeItemDirectories.remove(id);
+									}
+									
+									treeItemIds.remove(locLower);
+									treeItemLocations.remove(id);
+									treeItemOrigLocations.remove(id);
+									treeMenu.removeItem(id);
+									
+									if (fileCache.containsKey(locLower))
+									{
+										fileCache.put(newLocLower, fileCache.remove(locLower));
+										fileCacheSaved.put(newLocLower, fileCacheSaved.remove(locLower));
+										System.out.println("Added: " + newLocLower + ", " + fileCacheSaved.get(newLocLower));
+									}
+									
+									if (tabFileLocations.containsValue(locLower))
+									{
+										int tabId = tabFileIds.get(locLower);
+										
+										tabs.setTabText(tabId, FileUtils.getFileName(newLoc));
+										tabFileLocations.put(tabId, newLocLower);
+										
+										tabFileIds.put(newLocLower, tabFileIds.remove(locLower));
+									}
+								}
+								
+								if (currentFile)
+								{
+									fileLocation = newLoc;
+									
+									codeField.setLanguage(Language.getLanguage(fileLocation));
+									
+									codeField.highlightSyntax();
+								}
+								
+								boolean before = true;
+								
+								if (fileCacheSaved.containsKey(newLocLower))
+								{
+									before = fileCacheSaved.get(newLocLower);
+								}
+								
+								refreshFileViewer();
+								
+								fileCacheSaved.put(newLocLower, before);
+								
+								return null;
+							}
+						});
+						
+						String result = renameFileDialog.open();
+						
+						if (result != null)
+						{
+							FileUtils.removeEndingSlashes(result.replace('\\', '/'));
+						}
+					}
 				}
 			}
 
@@ -624,14 +767,14 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				toolbar.setSize(toolbar.getWidth(), toolbarHeight);
 				toolbar.setLocation(codeField.getX(), 0);
 				
-				console.setSize(width, conHeight);
-				console.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y);
+				console.setSize(width, conHeight - 5);
+				console.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y + 5);
 				
 //				tabs.setWidth(codeField.getWidth() + 2);
 				tabs.setLocation(codeField.getX(), toolbarHeight + 2);
 				
 				treeMenu.setLocation(5, codeField.getY());
-				treeMenu.setSize(shell.getClientArea().width - codeField.getWidth() - 10, codeField.getHeight() + console.getHeight());
+				treeMenu.setSize(shell.getClientArea().width - codeField.getWidth() - 10, console.getLocation().y + console.getHeight() - codeField.getY());
 			}
 		};
 		
@@ -640,6 +783,10 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		shellListener.controlResized(null);
 	}
 	
+	/**
+	 * The start method that is used to start up the whole ArrowIDE
+	 * program. Creates the window and puts the stuff in it.
+	 */
 	public static void start()
 	{
 		if (!restarting)
@@ -758,12 +905,23 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 	}
 	
+	/**
+	 * Add a menu item with the specified id and name.
+	 * 
+	 * @param id The id to assign the item to.
+	 * @param name The name that the item will show up as.
+	 */
 	private void addMenuItem(int id, String name)
 	{
 		menuItems.put(name, id);
 		menuItemLocations.put(id, name);
 	}
 	
+	/**
+	 * Create a new ArrowIDE and then open it.
+	 * 
+	 * @return The created ArrowIDE object.
+	 */
 	public static ArrowIDE openIDE()
 	{
 		ArrowIDE ide = new ArrowIDE(display, shell);
@@ -775,6 +933,9 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		return ide;
 	}
 	
+	/**
+	 * Restarts the program to a fresh state.
+	 */
 	public static void restart()
 	{
 		restarting = true;
@@ -786,6 +947,11 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		restarting = false;
 	}
 	
+	/**
+	 * The method that is called right before the exiting of the program.
+	 * 
+	 * @param shell The window to close (The main window).
+	 */
 	public static void exit(Shell shell)
 	{
 		shell.dispose();
@@ -795,6 +961,11 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		System.exit(0);
 	}
 	
+	/**
+	 * Returns whether a workspace has been located or created.
+	 * 
+	 * @return Whether the workspace has been located or created.
+	 */
 	public static boolean workspaceCreated()
 	{
 		File workspaceDirectory = new File(CONFIG_DATA.get("workspace.location"));
@@ -802,6 +973,13 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		return workspaceDirectory.exists();
 	}
 	
+	/**
+	 * Set a CONFIG_DATA value in the HashMap and the arrow.config file.
+	 * If the key is not already in the file, it will add it to the end.
+	 * 
+	 * @param key The key of the property to set.
+	 * @param value The value of the property to set.
+	 */
 	public static void setConfigDataValue(String key, String value)
 	{
 		boolean added = false;
@@ -846,6 +1024,10 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		CONFIG_DATA.put(key, value);
 	}
 	
+	/**
+	 * Creates and initializes the CONFIG_DATA. Puts all of the correct
+	 * values into the HashMap.
+	 */
 	private static void createConfigData()
 	{
 		File file = new File(configLocation);
@@ -888,18 +1070,29 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 	}
 	
+	/**
+	 * Creates a Dialog to ask for the project name. Next it creates a
+	 * directory/folder for the project and refreshes the file viewer.
+	 */
 	public void newProject()
 	{
 		newProjectDialog = new FileInputDialog("Enter the name of your project:", "Project name:", "", true, CONFIG_DATA.get("workspace.location"), false);
 		
 		String location  = newProjectDialog.open();
 		
-		File f = new File(location);
-		f.mkdirs();
-		
-		refreshFileViewer();
+		if (location != null)
+		{
+			File f = new File(location);
+			f.mkdirs();
+			
+			refreshFileViewer();
+		}
 	}
 	
+	/**
+	 * Creates new file and saves the old one. Switches to the new file
+	 * for editing automatically.
+	 */
 	public void newFile()
 	{
 		if (fileLocation != null)
@@ -912,6 +1105,13 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		codeField.setText("");
 	}
 	
+	/**
+	 * Creates a new FileDialog at the absolute path of the workspace
+	 * location.
+	 * 
+	 * @return The created, unopened FileDialog at the workspace path
+	 * 		used for opening files.
+	 */
 	public FileDialog openFileBrowseDialog()
 	{
 		String relativeLocation = "";
@@ -927,6 +1127,13 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		return openFileBrowseDialog(relativeLocation);
 	}
 	
+	/**
+	 * Instantiates a new FileDialog set for all types of files to be
+	 * set at the specified location.
+	 * 
+	 * @param relativeLocation The location for the FileDialog to start.
+	 * @return The created, unopened FileDialog used for opening files.
+	 */
 	public FileDialog openFileBrowseDialog(String relativeLocation)
 	{
 		FileDialog dialog = new FileDialog(shell, SWT.OPEN);
@@ -937,6 +1144,11 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		return dialog;
 	}
 	
+	/**
+	 * Open a file located at the specified location.
+	 * 
+	 * @param location The location of the file to open.
+	 */
 	public void openFile(String location)
 	{
 		location = location.replace('\\', '/');
@@ -953,7 +1165,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			
 			codeField.redraw();
 			
-			int tabId = tabFileIds.get(location);
+			int tabId = tabFileIds.get(locationKey);
 			
 			tabs.setSelection(tabId);
 		}
@@ -985,7 +1197,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				String fileContents = builder.toString();
 				
 				fileCache.put(locationKey, fileContents);
-				fileCacheSaved.put(location, true);
+				fileCacheSaved.put(locationKey, true);
 				
 				codeField.setText(fileContents, true);
 				
@@ -1008,6 +1220,10 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		fileLocation = location;
 	}
 	
+	/**
+	 * Opens a FileDialog to search for a file to open, then opens
+	 * the result.
+	 */
 	public void openFile()
 	{
 		FileDialog dialog = openFileBrowseDialog();
@@ -1022,6 +1238,13 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		openFile(location);
 	}
 	
+	/**
+	 * Creates a new FileDialog at the absolute path of the workspace
+	 * location.
+	 * 
+	 * @return The created, unopened FileDialog at the workspace path
+	 * 		used for saving.
+	 */
 	public FileDialog openSaveDialog()
 	{
 		String relativeLocation = "";
@@ -1037,6 +1260,13 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		return openSaveDialog(relativeLocation);
 	}
 	
+	/**
+	 * Instantiates a new FileDialog set for all types of files to be
+	 * set at the specified location.
+	 * 
+	 * @param relativeLocation The location for the FileDialog to start.
+	 * @return The created, unopened FileDialog used for saving.
+	 */
 	public FileDialog openSaveDialog(String relativeLocation)
 	{
 		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
@@ -1047,8 +1277,15 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		return dialog;
 	}
 	
+	/**
+	 * Saves a file located at the specified location.
+	 * 
+	 * @param location The location of the file to open.
+	 */
 	public void saveFile(String location)
 	{
+		location = location.replace('\\', '/');
+		
 		if (location == null)
 		{
 			FileDialog dialog = openSaveDialog();
@@ -1065,27 +1302,21 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			fileLocation = "";
 		}
 		
-		String locKey        = location.toLowerCase();
-		String currentLocKey = fileLocation.toLowerCase();
+		String locKey			= location.toLowerCase();
+		String currentLocKey	= fileLocation.toLowerCase();
 		
-		int     id    = 0;
-		boolean saved = false;
-		
-		if (treeItemIds.containsKey(locKey))
-		{
-			id = treeItemIds.get(locKey);
-		}
+		boolean saved			= false;
 		
 		boolean currentFile  = locKey.equals(currentLocKey);
 	
-		if (fileCacheSaved.containsKey(fileLocation))
+		if (fileCacheSaved.containsKey(currentLocKey))
 		{
-			saved = fileCacheSaved.get(fileLocation);
+			saved = fileCacheSaved.get(currentLocKey);
 		}
 		
 		FileUtils.writeFile(location, codeField.getWritableText());
 		
-		fileLocation = location.replace('\\', '/');
+		fileLocation	= location;
 		
 		boolean highlight = codeField.getLanguage() == 0;
 		
@@ -1098,39 +1329,19 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		if (currentFile)
 		{
-			String text = null;
-			
-			if (tabFileIds.containsKey(fileLocation))
-			{
-				int tabId   = tabFileIds.get(fileLocation);
-				
-				text = tabs.getTabText(tabId);
-			}
-			else if (treeItemLocations.containsValue(locKey))
-			{
-				text = treeMenu.getTreeItemText(id);
-			}
-			
-			if (text != null && text.startsWith("*"))
-			{
-				text = text.substring(1);
-			
-				if (treeItemLocations.containsValue(locKey))
-				{
-					treeMenu.setTreeItemText(id, text);
-				}
-				if (tabFileIds.containsKey(fileLocation))
-				{
-					tabs.setTabText(tabFileIds.get(fileLocation), text);
-				}
-			}
-			
-			fileCacheSaved.put(fileLocation, true);
+			setFileSaved(location, true);
 		}
 		
 		refreshFileViewer();
 	}
 	
+	/**
+	 * Refresh the file viewer to all of the updated file names.
+	 * If a file is no longer existent, then remove it, or if a file
+	 * has been added, add it to the TreeMenu.
+	 * 
+	 * TODO: Make more efficient!!!
+	 */
 	private void refreshFileViewer()
 	{
 		File workspace = new File(CONFIG_DATA.get("workspace.location"));
@@ -1149,12 +1360,25 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				
 				treeItemIds.remove(locations[i]);
 				treeItemLocations.remove(id);
+				treeItemOrigLocations.remove(id);
+				
+				if (treeMenu.containsItem(id))
+				{
+					treeMenu.removeItem(id);
+				}
 			}
 		}
 		
 		treeMenu.alphabetize();
 	}
 	
+	/**
+	 * Finds the sub-files of a directory and if they have not been
+	 * added, add them to the TreeMenu.
+	 * 
+	 * @param file The directory to search sub-files for.
+	 * @param parent The id of the directory TreeMenu item.
+	 */
 	private void findSubFiles(File file, int parent)
 	{
 		File subFiles[] = file.listFiles();
@@ -1209,7 +1433,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 						treeItemDirectories.put(id, location);
 					}
 					
-					fileCacheSaved.put(orig, true);
+					fileCacheSaved.put(location, true);
 					treeItemLocations.put(id, location);
 					treeItemOrigLocations.put(id, orig);
 					treeItemIds.put(location, id);
@@ -1218,6 +1442,11 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 	}
 	
+	/**
+	 * Implemented method that occurs whenever the content
+	 * of a TextField is changed. In this case it tells you that
+	 * the current file has been changed and needs to be saved.
+	 */
 	public void contentChanged(ContentEvent event)
 	{
 		Object source = event.getSource();
@@ -1226,36 +1455,18 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		{
 			if (fileLocation != null)
 			{
-				String location = fileLocation.toLowerCase();
-				
-				int tabId = tabFileIds.get(fileLocation);
-				
-				boolean saved = fileCacheSaved.get(fileLocation);
-				
-				String text = tabs.getTabText(tabId);
-				
-				if (!text.startsWith("*"))
-				{
-					text = "*" + text;
-				}
-				
-				if (treeItemIds.containsKey(location))
-				{
-					int id = treeItemIds.get(location);
-					treeMenu.setTreeItemText(id, text);
-				}
-				
-				tabs.setTabText(tabId, text);
-				
-				fileCacheSaved.put(fileLocation, false);
-				
-				String fileContents = codeField.getText();
-				
-				fileCache.put(location, fileContents);
+				setFileSaved(fileLocation, false);
 			}
 		}
 	}
 	
+	/**
+	 * Return the Image associated with the type of file given through
+	 * the location parameter.
+	 * 
+	 * @param location The location of the file.
+	 * @return The Image associated with the file.
+	 */
 	private Image getFileImage(String location)
 	{
 		Image img = null;
@@ -1306,48 +1517,219 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		return img;
 	}
 	
+	/**
+	 * Checks whether the text returned from the codeField is null, or
+	 * if it is an empty String.
+	 * 
+	 * @return Whether the codeField is empty.
+	 */
+	public boolean isCodeFieldEmpty()
+	{
+		String text = codeField.getText();
+		
+		return text == null || text.equals("");
+	}
+	
+	/**
+	 * Set the tab and TreeMenu item associated with the file
+	 * location to start with a '*' depending if the file is
+	 * saved or not.
+	 * 
+	 * @param location The location of the file to set as saved or not.
+	 * @param saved Whether the file is saved or not.
+	 */
+	public void setFileSaved(String location, boolean saved)
+	{
+		String locKey	= location.toLowerCase();
+		
+		String text		= null;
+		
+		int id			= 0;
+		
+		if (saved)
+		{
+			if (treeItemIds.containsKey(locKey))
+			{
+				id = treeItemIds.get(locKey);
+			}
+			
+			if (tabFileIds.containsKey(locKey))
+			{
+				int tabId	= tabFileIds.get(locKey);
+				
+				text		= tabs.getTabText(tabId);
+			}
+			else if (treeItemLocations.containsValue(locKey))
+			{
+				text = treeMenu.getTreeItemText(id);
+			}
+			
+			if (text != null && text.startsWith("*"))
+			{
+				text = text.substring(1);
+			
+				if (treeItemLocations.containsValue(locKey))
+				{
+					treeMenu.setTreeItemText(id, text);
+				}
+				if (tabFileIds.containsKey(locKey))
+				{
+					tabs.setTabText(tabFileIds.get(locKey), text);
+				}
+			}
+			
+			fileCacheSaved.put(locKey, true);
+		}
+		else
+		{
+			int tabId = tabFileIds.get(locKey);
+			
+			text = tabs.getTabText(tabId);
+			
+			if (!text.startsWith("*"))
+			{
+				text = "*" + text;
+			}
+			
+			if (treeItemIds.containsKey(locKey))
+			{
+				id = treeItemIds.get(locKey);
+				treeMenu.setTreeItemText(id, text);
+			}
+			
+			tabs.setTabText(tabId, text);
+			
+			fileCacheSaved.put(locKey, false);
+			
+			String fileContents = codeField.getText();
+			
+			fileCache.put(locKey, fileContents);
+		}
+	}
+	
+	/**
+	 * Add a tab of the file at fileLocation to the TabMenu.
+	 * 
+	 * @param fileLocation The location of the file to represent.
+	 */
 	public void addTab(String fileLocation)
 	{
 		String fileName = FileUtils.getFileName(fileLocation);
 		
 		int id = tabs.addTab(fileName);
 		
-		tabFileLocations.put(id, fileLocation);
-		tabFileIds.put(fileLocation, id);
+		String lowerLoc = fileLocation.toLowerCase();
+		
+		tabFileLocations.put(id, lowerLoc);
+		tabFileIds.put(lowerLoc, id);
 	}
 	
-	public void tabClosed(int tabId)
+	/**
+	 * Implemented method that is called whenever a tab's close icon
+	 * is pressed. If the file in the tab is not saved, ask whether to
+	 * save it or not.
+	 * 
+	 * @param tabId The id of the tab that is closing.
+	 * @return Whether to close the tab or not.
+	 */
+	public boolean tabClosing(int tabId)
 	{
-		int newId       = tabs.getSelected();
+		int newId		= tabs.getSelected();
 		
 		String location = tabFileLocations.get(tabId);
+		String result	= null;
+
+		boolean askSave	= false;
+		boolean cancel	= false;
 		
-		tabFileLocations.remove(tabId);
-		tabFileIds.remove(location);
-		
-		saveFile(location);
-		
-		fileCache.remove(location.toLowerCase());
-		fileCacheSaved.remove(location);
-		
-		if (newId == -1)
+		if (fileCacheSaved.containsKey(location))
 		{
-			fileLocation = null;
-			codeField.setText("");
+			if (!fileCacheSaved.get(location))
+			{
+				askSave = true;
+			}
 		}
-		else if (tabId != newId)
+		else
 		{
-			openFile(tabFileLocations.get(newId));
+			if (!isCodeFieldEmpty())
+			{
+				askSave = true;
+			}
 		}
+		
+		if (askSave)
+		{
+			OptionDialog saveDialog = new OptionDialog("Save?", "\"" + FileUtils.getFileName(location) + "\" has not been saved, would you like to save it?");
+			
+			result = saveDialog.open();
+		}
+		
+		if (result == null || result.equals("yes") || result.equals("no"))
+		{
+			tabFileLocations.remove(tabId);
+			tabFileIds.remove(location);
+		}
+		
+		if (result != null)
+		{
+			if (result.equals("yes"))
+			{
+				saveFile(location);
+			}
+			else if (result.equals("no"))
+			{
+				setFileSaved(location, true);
+			}
+			else
+			{
+				cancel = true;
+			}
+		}
+		
+		if (cancel)
+		{
+			
+		}
+		else
+		{
+			fileCache.remove(location);
+			fileCacheSaved.remove(location);
+			
+			if (tabId != newId)
+			{
+				String loc = tabFileLocations.get(newId);
+				
+				openFile(loc);
+			}
+			else
+			{
+				fileLocation = null;
+				codeField.setText("");
+			}
+		}
+		
+		return !cancel;
 	}
 	
+	/**
+	 * Implemented method that is called whenever a tab is selected
+	 * in a TabMenu. It then opens the file.
+	 * 
+	 * @param tabId the id of the tab that was selected.
+	 */
 	public void tabSelected(int tabId)
 	{
 		String location = tabFileLocations.get(tabId);
 		
 		openFile(location);
 	}
-
+	
+	/**
+	 * Implemented method that is called whenever a key is pressed
+	 * in a TextField.
+	 * 
+	 * @param e The CodeFieldEvent that was passed.
+	 */
 	public void keyPressed(CodeFieldEvent e)
 	{
 		if (e.getSource() == codeField)
@@ -1359,6 +1741,12 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 	}
 	
+	/**
+	 * Method that deletes the file at the specified location.
+	 * 
+	 * @param location The location of the file to be deleted.
+	 * @return Whether the file was successfully deleted or not.
+	 */
 	public boolean deleteFile(String location)
 	{
 //		private HashMap<Integer, String>  treeItemLocations;
@@ -1391,9 +1779,15 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			tabFileIds.remove(locKey);
 		}
 		
-		return FileUtils.delete(new File(location));
+		boolean deleted = FileUtils.delete(new File(location));
+		
+		return deleted;
 	}
 	
+	/**
+	 * Method to synchronistically update the components of the main
+	 * window.
+	 */
 	public void update()
 	{
 		console.updateText();

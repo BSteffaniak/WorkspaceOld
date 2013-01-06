@@ -1,5 +1,7 @@
 package net.foxycorndog.arrowide.language.assembly;
 
+import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
+
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
@@ -28,10 +30,15 @@ public class AssemblyLanguage
 	
 	public static void run(String fileLocation, ConsoleStream stream)
 	{
+		if (PROPERTIES.get("os.name").equals("macosx"))
+		{
+			throw new UnsupportedOperationException("Running assembly on macosx is unsupported.");
+		}
+		
 		int lastInd = fileLocation.lastIndexOf('.');
 		lastInd = lastInd < 0 ? fileLocation.length() : lastInd;
 		
-		String exe  = fileLocation.substring(0, lastInd) + ".exe";
+		String exe  = "\"" + fileLocation.substring(0, lastInd) + "\"";
 		
 		Command command = new Command(exe, stream);
 		

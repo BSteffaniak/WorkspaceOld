@@ -1,0 +1,8 @@
+package net.foxycorndog.arrowide.tabmenu;
+
+public interface TabMenuListener
+{
+	public boolean tabClosed(int tabId);
+	
+	public void tabSelected(int tabId);
+}

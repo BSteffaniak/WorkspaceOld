@@ -1,0 +1,200 @@
+package net.foxycorndog.arrowide.printer;
+
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.printing.Printer;
+import org.eclipse.swt.printing.PrinterData;
+import org.eclipse.swt.widgets.Display;
+
+public class TextPrinter
+{
+	private Rectangle	bounds;
+
+	private String		text;
+	
+	private Font		font;
+
+	private Printer		printer;
+	
+	private StyleRange	styles[];
+	
+	private Color		colors[];
+	
+	public TextPrinter(PrinterData data, String text, Font font, StyleRange styles[])
+	{
+		this.text   = text;
+		
+		this.font   = font;
+		
+		this.styles = styles;
+		
+		printer = new Printer(data);
+		
+		bounds  = new Rectangle(0, 0, 0, 0);
+	}
+	
+	public boolean print()
+	{
+		setColors();
+		
+		int x = bounds.x;
+		int y = bounds.y;
+		
+		boolean printed = false;
+		
+//		if (printer.startJob("ArrowIDE Printer"))
+//		{
+			GC gc = new GC(printer);
+			Font printerFont = new Font(printer, font.getFontData());
+			gc.setFont(printerFont);
+			int lineHeight = gc.getFontMetrics().getHeight();
+			int offset     = 0;
+			
+//			if (printer.startPage())
+//			{
+				for (int i = 0; i < text.length(); i ++)
+				{
+					if (y > bounds.height + bounds.y)
+					{
+//						printer.endPage();
+//						printer.startPage();
+						
+						y = bounds.y;
+					}
+					
+					y += lineHeight;
+				}
+				
+				offset = printLine(text, x, y, gc, offset);
+				y += lineHeight;
+				
+//				printer.endPage();
+//			}
+			
+			gc.dispose();
+//			printer.endJob();
+			
+//			printed = true;
+//		}
+		
+		printer.dispose();
+		
+		return printed;
+	}
+	
+	private int printLine(String text, int x, int y, GC gc, int offset)
+	{
+		StringBuilder word = new StringBuilder();
+		
+		int i = offset;
+		while (x < bounds.width + bounds.x && i < text.length())
+		{
+			char c = text.charAt(i);
+			word.append(c);
+			
+			if (c == ' ')
+			{
+				printWord(word.toString(), x, y, gc, offset);
+				
+				offset += word.length();
+				x += gc.stringExtent(word.toString()).x;
+			}
+			else if (c == '\n')
+			{
+				System.out.println();
+				break;
+			}
+			
+			i++;
+		}
+		
+		
+		
+		return offset;
+	}
+	
+	private void printWord(String word, int x, int y, GC gc, int offset)
+	{
+		for (int i = 0; i < word.length(); i ++)
+		{
+			print(word.charAt(i), x, y, gc, offset);
+		}
+	}
+	
+	private void print(char c, int x, int y, GC gc, int offset)
+	{
+		gc.setForeground(colors[offset]);
+		
+//		gc.drawText(c + "", x, y);
+		
+		System.out.print(c);
+	}
+	
+	private void setColors()
+	{
+		colors = new Color[text.length()];
+		
+		Color defaultColor = new Color(Display.getDefault(), 0, 0, 0);
+		
+		Color color        = null;
+		
+		for (int i = 0; i < text.length(); i ++)
+		{
+			for (int j = 0; j < styles.length; j ++)
+			{
+				StyleRange style = styles[j];
+				
+				if (i >= style.start && i + style.start < style.length)
+				{
+					color = style.foreground;
+				}
+			}
+			
+			if (color != null)
+			{
+				colors[i] = color;
+			}
+			else
+			{
+				colors[i] = defaultColor;
+			}
+		}
+	}
+	
+	public void setMargins(float left, float top, float right, float bottom)
+	{
+		Rectangle rect = printer.getClientArea();
+		Rectangle trim = printer.computeTrim(0, 0, 0, 0);
+		Point dpi = printer.getDPI();
+		
+		int left2 = trim.x + (int)(dpi.x * left);
+		if (left2 < rect.x)
+		{
+			left2 = rect.x;
+		}
+		
+		int right2 = rect.width + trim.x + trim.width - (int)(dpi.x * right);
+		if (right2 > rect.width)
+		{
+			right2 = rect.width;
+		}
+		
+		int top2 = trim.y + (int)(dpi.y * top);
+		if (top2 < rect.y)
+		{
+			top2 = rect.y;
+		}
+		
+		int bottom2 = rect.height + trim.y + trim.height - (int)(dpi.y * bottom);
+		if (bottom2 > rect.height)
+		{
+			bottom2 = rect.height;
+		}
+		
+		bounds = new Rectangle(left2, top2, right2 - left2, bottom2 - top2);
+	}
+}
