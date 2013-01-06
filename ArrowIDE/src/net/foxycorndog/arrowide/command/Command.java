@@ -37,7 +37,11 @@ public class Command
 		
 		while (m.find())
 		{
-		    list.add(m.group(1));
+			String s = m.group(1);
+			
+			s = (s.startsWith("\"") || s.startsWith("'")) && (s.endsWith("\"") || s.endsWith("'")) ? s.substring(1, s.length() - 1) : s;
+			
+		    list.add(s);
 		}
 		
 		final ProcessBuilder builder = new ProcessBuilder(list);
@@ -68,7 +72,7 @@ public class Command
 									
 									String  line = null;
 									
-									while ((line = reader.readLine()) != null)
+									while (reader.ready() && (line = reader.readLine()) != null)
 									{
 										if (!failed)
 										{
@@ -86,6 +90,8 @@ public class Command
 										
 										stream.println(line);
 									}
+									
+									reader.close();
 										
 									if (!failed)
 									{

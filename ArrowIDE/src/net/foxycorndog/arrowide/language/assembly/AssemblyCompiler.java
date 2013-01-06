@@ -29,11 +29,11 @@ public class AssemblyCompiler
 			boolean nasm = true;
 			if (nasm)
 			{
-				text = "\"res/assembly/nasm/nasm\" -f bin \"" + fileLocation + "\" -o \"" + outputLocation + fileName + ".com\" -w+orphan-labels";
+				text = "\"res/assembly/nasm/" + PROPERTIES.get("os.name") + "/nasm" + PROPERTIES.get("os.executable.extension") + "\" -f bin \"" + fileLocation + "\" -o \"" + outputLocation + fileName + ".com\" -w+orphan-labels";
 			}
 			else
 			{
-				text = "\"res/assembly/fasm/fasm\" \"" + fileLocation + "\" \"" + outputLocation + fileName + ".exe\" ";
+				text = "\"res/assembly/fasm/" + PROPERTIES.get("os.name") + "/fasm" + PROPERTIES.get("os.executable.extension") + "\" \"" + fileLocation + "\" \"" + outputLocation + fileName + ".exe\" ";
 			}
 			
 			Command command = new Command(text, stream);

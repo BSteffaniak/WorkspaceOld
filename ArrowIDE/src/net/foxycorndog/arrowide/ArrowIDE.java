@@ -165,26 +165,23 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		if (osName.toLowerCase().contains("mac"))
 		{
 			PROPERTIES.put("os.name", "macosx");
-			
 			PROPERTIES.put("composite.modifiers", SWT.BORDER);
-			
 			PROPERTIES.put("key.control", SWT.COMMAND);
+			PROPERTIES.put("os.executable.extension", "");
 		}
 		else if (osName.toLowerCase().contains("win"))
 		{
 			PROPERTIES.put("os.name", "windows");
-			
 			PROPERTIES.put("composite.modifiers", SWT.NONE);
-			
 			PROPERTIES.put("key.control", SWT.CTRL);
+			PROPERTIES.put("os.executable.extension", ".exe");
 		}
 		else if (osName.toLowerCase().contains("lin"))
 		{
 			PROPERTIES.put("os.name", "linux");
-			
 			PROPERTIES.put("composite.modifiers", SWT.NONE);
-			
 			PROPERTIES.put("key.control", SWT.CTRL);
+			PROPERTIES.put("os.executable.extension", "");
 		}
 	}
 	
