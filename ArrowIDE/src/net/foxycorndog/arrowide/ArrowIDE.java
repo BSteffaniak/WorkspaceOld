@@ -31,7 +31,10 @@ import net.foxycorndog.arrowide.dialog.DialogFilter;
 import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
 import net.foxycorndog.arrowide.dialog.FileInputDialog;
 import net.foxycorndog.arrowide.dialog.OptionDialog;
+import net.foxycorndog.arrowide.dialog.PreferencesDialog;
+import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
 import net.foxycorndog.arrowide.dialog.TextInputDialog;
+import net.foxycorndog.arrowide.dialog.preferencesdialogpanel.CppPanel;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CompilerListener;
 import net.foxycorndog.arrowide.language.Keyword;
@@ -109,6 +112,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	private Image        folderImage, fileImage, javaFileImage, classFileImage,
 						glslFileImage, txtFileImage, rtfFileImage, exeFileImage,
 						asmFileImage, cppFileImage, hFileImage;
+	
+	private PreferencesDialog preferences;
 	
 	private Menubar   menubar;
 	
@@ -304,6 +309,9 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		codeField.setLocation(codeField.getX(), codeField.getY() + tabs.getHeight());
 		tabs.setLocation(codeField.getX(), 2);
 		
+		preferences = new PreferencesDialog(shell);
+		preferences.addPreferencesDialogPanel(new CppPanel(preferences.getWindow()));
+		
 		menuItemLocations = new HashMap<Integer, String>();
 		menuItems         = new HashMap<String, Integer>();
 		
@@ -323,6 +331,9 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 
 		addMenuItem(menubar.addMenuSubItem("Project", menuItems.get("File>New")), "File>New>Project");
 		addMenuItem(menubar.addMenuSubItem("Empty File", menuItems.get("File>New")), "File>New>Empty File");
+		
+		addMenuItem(menubar.addMenuHeader("Edit"), "Edit");
+		addMenuItem(menubar.addMenuSubItem("Preferences", menuItems.get("Edit")), "Edit>Preferences");
 		
 		menubar.addListener(new MenubarListener()
 		{
@@ -378,6 +389,10 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				else if (menuItemLocations.get(subItemId).equals("File>Exit"))
 				{
 					exit(shell);
+				}
+				else if (menuItemLocations.get(subItemId).equals("Edit>Preferences"))
+				{
+					preferences.open();
 				}
 			}
 		});

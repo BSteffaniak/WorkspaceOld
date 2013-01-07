@@ -39,7 +39,7 @@ public class AssemblyLanguage
 			throw new UnsupportedOperationException("Running assembly on macosx is unsupported.");
 		}
 		
-		boolean bit16   = true;
+		boolean bit16   = false;
 		
 		Command command = null;
 		
@@ -92,7 +92,8 @@ public class AssemblyLanguage
 			
 			String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
 			
-			boolean nasm = true;
+			boolean nasm = false;
+			
 			if (nasm)
 			{
 				String compilerLocation = "\"res/assembly/nasm/" + PROPERTIES.get("os.name") + "/nasm" + PROPERTIES.get("os.executable.extension") + "\"";

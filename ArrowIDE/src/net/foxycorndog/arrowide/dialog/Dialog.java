@@ -6,7 +6,5 @@ public interface Dialog
 {
 	public String open();
 	
-	public void setText(String text);
-	
 	public Shell getWindow();
 }

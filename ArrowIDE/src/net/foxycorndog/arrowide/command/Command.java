@@ -17,11 +17,11 @@ import net.foxycorndog.arrowide.file.FileUtils;
 
 public class Command
 {
-	private String        commands[];
-	
-	private ConsoleStream stream;
-	
-	private ArrayList<CommandListener> listeners;
+	private String						commands[];
+
+	private ConsoleStream				stream;
+
+	private ArrayList<CommandListener>	listeners;
 	
 	public Command(String command, ConsoleStream stream)
 	{
@@ -37,22 +37,22 @@ public class Command
 		    list.add(s);
 		}
 		
-		init(list.toArray(new String[0]));
+		init(list.toArray(new String[0]), stream);
 	}
 	
 	public Command(String command[], ConsoleStream stream)
 	{
 //		this.command = command;
-		this.stream  = stream;
-		
-		init(command);
+		init(command, stream);
 	}
 	
-	private void init(String command[])
+	private void init(String command[], ConsoleStream stream)
 	{
 		this.commands = command;
 		
-		listeners    = new ArrayList<CommandListener>();
+		this.stream   = stream;
+		
+		listeners     = new ArrayList<CommandListener>();
 	}
 	
 	public void execute() throws IOException
@@ -76,7 +76,7 @@ public class Command
 								try
 								{
 									Process process = builder.start();
-		
+									
 									LogStreamReader lsr = new LogStreamReader(process.getInputStream(), stream);
 									Thread thread = new Thread(lsr, "LogStreamReader");
 									thread.start();
