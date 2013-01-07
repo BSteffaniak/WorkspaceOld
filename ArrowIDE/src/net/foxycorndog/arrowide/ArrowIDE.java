@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,8 +37,6 @@ import net.foxycorndog.arrowide.language.CompilerListener;
 import net.foxycorndog.arrowide.language.Keyword;
 import net.foxycorndog.arrowide.language.Language;
 import net.foxycorndog.arrowide.language.LanguageCompiler;
-import net.foxycorndog.arrowide.language.glsl.GLSLCompiler;
-import net.foxycorndog.arrowide.language.java.JavaCompiler;
 import net.foxycorndog.arrowide.language.java.JavaLanguage;
 import net.foxycorndog.arrowide.menubar.Menubar;
 import net.foxycorndog.arrowide.menubar.MenubarListener;
@@ -183,6 +183,37 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			PROPERTIES.put("key.control", SWT.CTRL);
 			PROPERTIES.put("os.executable.extension", "");
 		}
+		
+		setArchitecture();
+	}
+	
+	private static void setArchitecture()
+	{
+		int bitness = 32;
+		
+		ProcessBuilder b = new ProcessBuilder(new String[] { "res/bitness" });
+		
+		try
+		{
+			Process p = b.start();
+			
+			InputStream in = p.getInputStream();
+			
+			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+			
+			String line = null;
+			
+			while ((line = reader.readLine()) != null)
+			{
+				bitness = Integer.valueOf(line);
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		PROPERTIES.put("os.arch", bitness);
 	}
 	
 	/**
@@ -1405,6 +1436,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 						findSubFiles(subFiles[i], id);
 					}
 				}
+				// Set text correctly of renamed files.
 				else if (treeItemLocations.containsValue(location))
 				{
 					id = treeItemIds.get(location);
@@ -1762,6 +1794,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		int treeId    = treeItemIds.get(locKey);
 		
 		treeItemOrigLocations.remove(treeId);
+		treeItemLocations.remove(treeId);
 		treeItemDirectories.remove(treeId);
 		fileCache.remove(locKey);
 		fileCacheSaved.remove(locKey);

@@ -9,13 +9,17 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
 import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.command.Command;
+import net.foxycorndog.arrowide.command.CommandListener;
 import net.foxycorndog.arrowide.console.ConsoleStream;
+import net.foxycorndog.arrowide.file.FileUtils;
+import net.foxycorndog.arrowide.language.CompilerListener;
 
 public class AssemblyLanguage
 {
@@ -35,16 +39,100 @@ public class AssemblyLanguage
 			throw new UnsupportedOperationException("Running assembly on macosx is unsupported.");
 		}
 		
+		boolean bit16   = true;
+		
+		Command command = null;
+		
 		int lastInd = fileLocation.lastIndexOf('.');
 		lastInd = lastInd < 0 ? fileLocation.length() : lastInd;
 		
-		String exe  = "\"" + fileLocation.substring(0, lastInd) + "\"";
+		String loc  = fileLocation.substring(0, lastInd);
 		
-		Command command = new Command(exe, stream);
+		String name = FileUtils.getFileNameWithoutExtension(fileLocation);
+		
+		if (bit16)
+		{
+			command = new Command(new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-name '" + FileUtils.getParentFolder(loc) + "'", "-noconsole" }, stream);
+			try
+			{
+				Runtime.getRuntime().exec(new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-conf res/assembly/new.conf", "-noconsole" });
+//				Runtime.getRuntime().exec(new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-c mount c", "-noconsole" });
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			System.out.println("im");
+		}
+		else
+		{
+			command = new Command("\"" + loc + "\"", stream);
+		}
 		
 		try
 		{
 			command.execute();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public static void compile(String fileLocation, String outputLocation, final ConsoleStream stream, final ArrayList<CompilerListener> compilerListeners)
+	{
+//		if (PROPERTIES.get("os.name").equals("macosx"))
+//		{
+//			throw new UnsupportedOperationException("Compiling assembly on macosx is unsupported.");
+//		}
+		
+		try
+		{
+			String text = null;
+			
+			String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
+			
+			boolean nasm = true;
+			if (nasm)
+			{
+				String compilerLocation = "\"res/assembly/nasm/" + PROPERTIES.get("os.name") + "/nasm" + PROPERTIES.get("os.executable.extension") + "\"";
+				String inputFile        = "\"" + fileLocation + "\"";
+				outputLocation          = "\"" + outputLocation + fileName + ".com\"";
+				
+				text = compilerLocation + " -f bin " + inputFile + " -o " + outputLocation + " -w+orphan-labels";
+			}
+			else
+			{
+				String compilerLocation = "\"res/assembly/fasm/" + PROPERTIES.get("os.name") + "/fasm" + PROPERTIES.get("os.executable.extension") + "\"";
+				String inputFile        = "\"" + fileLocation + "\"";
+				outputLocation          = "\"" + outputLocation + fileName + ".exe\"";
+				
+				text = compilerLocation + " " + inputFile + " " + outputLocation;
+			}
+			
+			Command command = new Command(text, stream);
+			
+			command.addCommandListener(new CommandListener()
+			{
+				public void resultReceived(int result)
+				{
+					for (int i = compilerListeners.size() - 1; i >= 0; i--)
+					{
+						compilerListeners.get(i).compiled(result);
+					}
+				}
+			});
+			
+			command.execute();
+			
+//			if (p.exitValue() == 0)
+//			{
+//				result = "Compiled successfully!!!";
+//			}
+//			else
+//			{
+//				result = "";
+//			}
 		}
 		catch (IOException e)
 		{

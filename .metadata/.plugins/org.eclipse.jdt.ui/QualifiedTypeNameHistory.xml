@@ -15,19 +15,15 @@
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.tabmenu.TabMenuListener"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.glsl.GLSLLanguage"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.dialog.DialogFilter"/>
-<fullyQualifiedTypeName name="java.lang.ArrayStoreException"/>
-<fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="java.net.URLEncoder"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.DisposeListener"/>
-<fullyQualifiedTypeName name="java.io.InputStreamReader"/>
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.PaintListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.custom.StyledText"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.ConsoleField"/>
 <fullyQualifiedTypeName name="java.io.PrintStream"/>
 <fullyQualifiedTypeName name="java.io.OutputStream"/>
-<fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="java.util.HashSet"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.assembly.AssemblyKeyword"/>
@@ -60,4 +56,8 @@
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.printer.TextPrinter"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.custom.StyledTextPrintOptions"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Font"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="java.io.InputStreamReader"/>
+<fullyQualifiedTypeName name="java.lang.ArrayStoreException"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
 </qualifiedTypeNameHistroy>

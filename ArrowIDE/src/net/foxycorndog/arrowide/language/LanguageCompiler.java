@@ -9,10 +9,10 @@ import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
-import net.foxycorndog.arrowide.language.assembly.AssemblyCompiler;
-import net.foxycorndog.arrowide.language.cpp.CppCompiler;
-import net.foxycorndog.arrowide.language.glsl.GLSLCompiler;
-import net.foxycorndog.arrowide.language.java.JavaCompiler;
+import net.foxycorndog.arrowide.language.assembly.AssemblyLanguage;
+import net.foxycorndog.arrowide.language.cpp.CppLanguage;
+import net.foxycorndog.arrowide.language.glsl.GLSLLanguage;
+import net.foxycorndog.arrowide.language.java.JavaLanguage;
 
 import static net.foxycorndog.arrowide.ArrowIDE.CONFIG_DATA;
 
@@ -56,19 +56,19 @@ public class LanguageCompiler
 			
 			if (language == Language.JAVA)
 			{
-				JavaCompiler.compile(fileName, code, outputLocation, stream, listeners);
+				JavaLanguage.compile(fileName, code, outputLocation, stream, listeners);
 			}
 			else if (language == Language.GLSL)
 			{
-				GLSLCompiler.loadVertexShader(fileName, code, stream, listeners);
+				GLSLLanguage.loadVertexShader(fileName, code, stream, listeners);
 			}
 			else if (language == Language.ASSEMBLY)
 			{
-				AssemblyCompiler.compile(fileLocation, outputLocation, stream, listeners);
+				AssemblyLanguage.compile(fileLocation, outputLocation, stream, listeners);
 			}
 			else if (language == Language.CPP)
 			{
-				CppCompiler.compile(fileLocation, FileUtils.getParentFolder(fileLocation), stream, listeners);
+				CppLanguage.compile(fileLocation, FileUtils.getParentFolder(fileLocation), stream, listeners);
 			}
 		}
 	}
