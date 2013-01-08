@@ -86,7 +86,6 @@ public class Command
 									{
 										builder.directory(new File(directory));
 									}
-									
 									Process process = builder.start();
 									
 									LogStreamReader lsr = new LogStreamReader(process.getInputStream(), stream);
@@ -185,9 +184,11 @@ class LogStreamReader implements Runnable
         try
         {
             String line = null;
-            
+            System.out.println("running");
             while ((line = reader.readLine()) != null)
             {
+            	System.out.println(line);
+            	
             	if (running)
             	{
             		stream.println(line);
@@ -199,6 +200,8 @@ class LogStreamReader implements Runnable
             }
             
             reader.close();
+            
+            System.out.println("closed");
         }
         catch (IOException e)
         {

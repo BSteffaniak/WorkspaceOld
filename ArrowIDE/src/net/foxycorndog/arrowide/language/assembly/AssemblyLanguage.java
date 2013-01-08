@@ -43,7 +43,7 @@ public class AssemblyLanguage
 			throw new UnsupportedOperationException("Running assembly on macosx is unsupported.");
 		}
 		
-		boolean bit16Supported   = PROPERTIES.get("os.arch").equals("32");
+		boolean bit16Supported = PROPERTIES.get("os.arch").equals(32);
 		
 		Command command = null;
 		
@@ -84,15 +84,7 @@ public class AssemblyLanguage
 			
 			lastFile = fileLocation;
 			
-			try
-			{
-				command = new Command(new String[] { dosboxLocation, "-conf '" + confLocation + "/dosbox.conf'", "-noconsole" }, stream, confLocation);//new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-name '" + FileUtils.getParentFolder(loc) + "'", "-noconsole" }, stream);
-				command.execute();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+			command = new Command(new String[] { dosboxLocation, "-conf '" + confLocation + "/dosbox.conf'", "-noconsole" }, stream, confLocation);//new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-name '" + FileUtils.getParentFolder(loc) + "'", "-noconsole" }, stream);
 //			try
 //			{
 ////				Runtime.getRuntime().exec(new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-conf \"" + PROPERTIES.get("arrowide.location") + "/res/assembly/new.conf\"", "-noconsole", "-printconf" });
@@ -104,14 +96,14 @@ public class AssemblyLanguage
 //			}
 		}
 		
-//		try
-//		{
-//			command.execute();
-//		}
-//		catch (IOException e)
-//		{
-//			e.printStackTrace();
-//		}
+		try
+		{
+			command.execute();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	public static void compile(String fileLocation, String outputLocation, final ConsoleStream stream, final ArrayList<CompilerListener> compilerListeners)
