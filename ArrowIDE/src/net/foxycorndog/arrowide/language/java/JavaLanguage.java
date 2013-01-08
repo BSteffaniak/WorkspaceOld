@@ -114,7 +114,7 @@ public class JavaLanguage
 		String classpath = FileUtils.getParentFolder(classLocation);//System.getProperty("java.class.path");
 		String className = clazz.getCanonicalName();
 		
-		Command command = new Command("\"" + javaBin + "\" -cp " + "\"" + classpath + "\" " + className, stream);
+		Command command = new Command("\"" + javaBin + "\" -cp " + "\"" + classpath + "\" " + className, stream, null);
 		
 		command.execute();
 	}

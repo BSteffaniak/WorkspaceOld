@@ -2,8 +2,10 @@ package net.foxycorndog.arrowide.language.assembly;
 
 import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -23,6 +25,8 @@ import net.foxycorndog.arrowide.language.CompilerListener;
 
 public class AssemblyLanguage
 {
+	private static String lastFile;
+	
 	public static final Color
 			COMMENT_COLOR = new Color(Display.getCurrent(), 40, 140, 0),
 			KEYWORD_COLOR = new Color(Display.getCurrent(), 150, 0, 0);
@@ -39,7 +43,7 @@ public class AssemblyLanguage
 			throw new UnsupportedOperationException("Running assembly on macosx is unsupported.");
 		}
 		
-		boolean bit16   = false;
+		boolean bit16Supported   = PROPERTIES.get("os.arch").equals("32");
 		
 		Command command = null;
 		
@@ -50,33 +54,64 @@ public class AssemblyLanguage
 		
 		String name = FileUtils.getFileNameWithoutExtension(fileLocation);
 		
-		if (bit16)
+		if (bit16Supported)
 		{
-			command = new Command(new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-name '" + FileUtils.getParentFolder(loc) + "'", "-noconsole" }, stream);
+			command = new Command("\"" + loc + "\"", stream, null);
+		}
+		else
+		{
+			String dosboxLocation = "res/assembly/DOSBox";
+			String confLocation   = (String)PROPERTIES.get("arrowide.location") + "/res/assembly";
+			String fileLoc        = FileUtils.getParentFolder(fileLocation);
+			
+			if (!fileLocation.equals(lastFile))
+			{
+				try
+				{
+				    PrintWriter out = new PrintWriter((new FileWriter(confLocation + "/dosbox.conf")));
+				    out.println("[autoexec]\r\n" +
+				    		"mount c \"" + fileLoc + "\"\r\n" +
+				    		"c:\r\n" +
+				    		"cls\r\n" +
+				    		name);
+				    out.close();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			
+			lastFile = fileLocation;
+			
 			try
 			{
-				Runtime.getRuntime().exec(new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-conf res/assembly/new.conf", "-noconsole" });
-//				Runtime.getRuntime().exec(new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-c mount c", "-noconsole" });
+				command = new Command(new String[] { dosboxLocation, "-conf '" + confLocation + "/dosbox.conf'", "-noconsole" }, stream, confLocation);//new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-name '" + FileUtils.getParentFolder(loc) + "'", "-noconsole" }, stream);
+				command.execute();
 			}
 			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
-			System.out.println("im");
-		}
-		else
-		{
-			command = new Command("\"" + loc + "\"", stream);
+//			try
+//			{
+////				Runtime.getRuntime().exec(new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-conf \"" + PROPERTIES.get("arrowide.location") + "/res/assembly/new.conf\"", "-noconsole", "-printconf" });
+//				Runtime.getRuntime().exec(new String[] { "res/DOSBox", "-c mount c", "-noconsole" });
+//			}
+//			catch (IOException e)
+//			{
+//				e.printStackTrace();
+//			}
 		}
 		
-		try
-		{
-			command.execute();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+//		try
+//		{
+//			command.execute();
+//		}
+//		catch (IOException e)
+//		{
+//			e.printStackTrace();
+//		}
 	}
 	
 	public static void compile(String fileLocation, String outputLocation, final ConsoleStream stream, final ArrayList<CompilerListener> compilerListeners)
@@ -92,7 +127,7 @@ public class AssemblyLanguage
 			
 			String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
 			
-			boolean nasm = false;
+			boolean nasm = true;
 			
 			if (nasm)
 			{
@@ -111,7 +146,7 @@ public class AssemblyLanguage
 				text = compilerLocation + " " + inputFile + " " + outputLocation;
 			}
 			
-			Command command = new Command(text, stream);
+			Command command = new Command(text, stream, null);
 			
 			command.addCommandListener(new CommandListener()
 			{

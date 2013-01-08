@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Composite"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.TabFolder"/>
-<fullyQualifiedTypeName name="net.foxycorndog.arrowide.ArrowIDE.Tab"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.FontMetrics"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.custom.CTabFolder"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.custom.CTabFolderRenderer"/>
@@ -60,4 +57,7 @@
 <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
 <fullyQualifiedTypeName name="java.lang.ArrayStoreException"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="java.io.OutputStreamWriter"/>
+<fullyQualifiedTypeName name="java.io.PrintWriter"/>
+<fullyQualifiedTypeName name="java.io.FileWriter"/>
 </qualifiedTypeNameHistroy>

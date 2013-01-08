@@ -3,7 +3,7 @@
 format PE64 GUI 5.0
 entry start
 
-include '../../fasmw17003/include/win64a.inc'
+include 'win64a.inc'
 
 include 'opengl.inc'
 
