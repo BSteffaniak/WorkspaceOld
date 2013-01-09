@@ -1034,6 +1034,23 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	{
 		boolean added = false;
 		
+		CONFIG_DATA.put(key, value);
+		
+		if (CONFIG_LINE_NUMBERS.containsKey(key))
+		{
+			int lineNum = CONFIG_LINE_NUMBERS.get(key);
+			
+			CONFIG_LINE_NUMBER_DATA.put(lineNum, key);
+			CONFIG_LINE_NUMBERS.put(key, lineNum);
+		}
+		else
+		{
+			CONFIG_LINE_NUMBER_DATA.put(CONFIG_LINE_NUMBER_DATA.size(), key);
+			CONFIG_LINE_NUMBERS.put(key, CONFIG_LINE_NUMBER_DATA.size());
+		}
+		
+		System.out.println("put key=" + key + ", value=" + value);
+		
 		try
 		{
 			PrintWriter p = new PrintWriter(new FileWriter(configLocation));
@@ -1047,35 +1064,24 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				
 				if (lineKey.equals(key))
 				{
-					added = true;
-					
-					lineValue = value;
+					lineValue = CONFIG_DATA.get(lineKey);
 				}
 				else
 				{
 					lineValue = CONFIG_DATA.get(lineKey);
 				}
 				
-				System.out.println(lineKey + " " + lineValue);
+				System.out.println(lineKey + "===" + lineValue);
 				
 				p.print(lineKey + "=" + lineValue + (i == CONFIG_DATA.size() - 1 ? "" : "\r\n"));
 			}
 		
-			if (!added)
-			{
-				p.print("\r\n" + key + "=" + value);
-			}
-			
 			p.close();
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
-		
-		CONFIG_DATA.put(key, value);
-		CONFIG_LINE_NUMBER_DATA.put(CONFIG_LINE_NUMBER_DATA.size(), value);
-		CONFIG_LINE_NUMBERS.put(value, CONFIG_LINE_NUMBER_DATA.size());
 	}
 	
 	/**

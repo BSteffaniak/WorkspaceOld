@@ -9,17 +9,19 @@ import org.eclipse.swt.widgets.Composite;
 
 public class DropdownMenu
 {
+	private int idNum;
+	
 	private Combo dropdown;
 	
 	private HashMap<String, Integer> ids;
-	
-	private static int staticId;
+	private HashMap<Integer, String> names;
 	
 	public DropdownMenu(Composite parent)
 	{
 		dropdown = new Combo(parent, SWT.DROP_DOWN | SWT.BORDER | SWT.READ_ONLY);
 		
-		ids = new HashMap<String, Integer>();
+		ids   = new HashMap<String, Integer>();
+		names = new HashMap<Integer, String>();
 	}
 	
 	public void setLocation(int x, int y)
@@ -49,12 +51,22 @@ public class DropdownMenu
 	
 	public int addItem(String name)
 	{
-		int id = ++staticId;
+		int id = idNum++;
 		
 		dropdown.add(name);
 		
 		ids.put(name, id);
+		names.put(id, name);
 		
 		return id;
+	}
+	
+	public String getSelection()
+	{
+		String name = names.get(dropdown.getSelectionIndex());
+		
+		System.out.println(name + "!!!!!!!!!!!!!!!");
+		
+		return name;
 	}
 }

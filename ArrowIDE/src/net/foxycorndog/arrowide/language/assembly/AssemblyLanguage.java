@@ -34,6 +34,8 @@ public class AssemblyLanguage
 			COMMENT_COLOR = new Color(Display.getCurrent(), 40, 140, 0),
 			KEYWORD_COLOR = new Color(Display.getCurrent(), 150, 0, 0);
 	
+	public static int FASM = 1, NASM = 2;
+	
 	public static void init()
 	{
 		
@@ -57,9 +59,11 @@ public class AssemblyLanguage
 		
 		String name = FileUtils.getFileNameWithoutExtension(fileLocation);
 		
+		String fileEnding = ".com";
+		
 		if (bit16Supported)
 		{
-			command = new Command("\"" + loc + "\"", stream, null);
+			command = new Command("\"" + loc + fileEnding + "\"", stream, null);
 		}
 		else
 		{
@@ -141,9 +145,25 @@ public class AssemblyLanguage
 			
 			String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
 			
-			boolean nasm = true;
+			String compilerName = "";
 			
-			if (nasm)
+			if (CONFIG_DATA.containsKey("assembly.compiler"))
+			{
+				compilerName = CONFIG_DATA.get("assembly.compiler");
+			}
+			
+			int compiler = 0;
+			
+			if (compilerName.equals("NASM"))
+			{
+				compiler = NASM;
+			}
+			else if (compilerName.equals("FASM"))
+			{
+				compiler = FASM;
+			}
+			
+			if (compiler == NASM)
 			{
 				String compilerLocation = "\"res/assembly/nasm/" + PROPERTIES.get("os.name") + "/nasm" + PROPERTIES.get("os.executable.extension") + "\"";
 				String inputFile        = "\"" + fileLocation + "\"";
@@ -151,7 +171,7 @@ public class AssemblyLanguage
 				
 				text = compilerLocation + " -f bin " + inputFile + " -o " + outputLocation + " -w+orphan-labels";
 			}
-			else
+			else if (compiler == FASM)
 			{
 				String compilerLocation = "\"res/assembly/fasm/" + PROPERTIES.get("os.name") + "/fasm" + PROPERTIES.get("os.executable.extension") + "\"";
 				String inputFile        = "\"" + fileLocation + "\"";

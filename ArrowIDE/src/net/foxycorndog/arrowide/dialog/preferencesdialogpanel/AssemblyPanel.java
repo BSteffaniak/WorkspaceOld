@@ -34,13 +34,18 @@ public class AssemblyPanel extends PreferencesDialogPanel
 		
 		compilerChooser = new DropdownMenu(this);
 		compilerChooser.setSize(100, 25);
-		compilerChooser.addItem("FASM");
 		compilerChooser.addItem("NASM");
-		compilerChooser.setSelection("FASM");
+		compilerChooser.addItem("FASM");
+		compilerChooser.setSelection("NASM");
 		
 		if (CONFIG_DATA.containsKey("dosbox.location"))
 		{
 			dosboxLocator.setText(CONFIG_DATA.get("dosbox.location"));
+		}
+		if (CONFIG_DATA.containsKey("assembly.compiler"))
+		{
+			System.out.println("");
+			compilerChooser.setSelection(CONFIG_DATA.get("assembly.compiler"));
 		}
 	}
 
@@ -50,6 +55,8 @@ public class AssemblyPanel extends PreferencesDialogPanel
 		{
 			ArrowIDE.setConfigDataValue("dosbox.location", dosboxLocator.getText());
 		}
+		
+		ArrowIDE.setConfigDataValue("assembly.compiler", compilerChooser.getSelection());
 	}
 
 	public void revert()
@@ -57,6 +64,10 @@ public class AssemblyPanel extends PreferencesDialogPanel
 		if (CONFIG_DATA.containsKey("dosbox.location"))
 		{
 			dosboxLocator.setText(CONFIG_DATA.get("dosbox.location"));
+		}
+		if (CONFIG_DATA.containsKey("assembly.compiler"))
+		{
+			compilerChooser.setSelection(CONFIG_DATA.get("assembly.compiler"));
 		}
 	}
 	
