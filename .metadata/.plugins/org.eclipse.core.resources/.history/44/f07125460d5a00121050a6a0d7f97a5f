@@ -1,0 +1,34 @@
+package net.foxycorndog.arrowide.components;
+
+import org.eclipse.swt.custom.ViewForm;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Widget;
+
+public class FileLocator extends Composite
+{
+	private Text	locationEditor;
+
+	private Button	browse;
+	
+	public FileLocator(Composite parent, String defaultTextField)
+	{
+		locationEditor = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		locationEditor.setSize(250, 20);
+		locationEditor.setText(defaultTextField);
+		locationEditor.setSelection(0, defaultTextField.length());
+		
+		browse = new Button(parent, SWT.PUSH);
+		browse.setSize(100, 25);
+		browse.setText("Browse");
+	}
+	
+	public void setLocation(int x, int y)
+	{
+		locationEditor.setLocation(x, y);
+		
+		browse.setLocation(x + 260, y);
+	}
+}

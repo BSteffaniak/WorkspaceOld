@@ -1,0 +1,36 @@
+package net.foxycorndog.arrowide.dialog.preferencesdialogpanel;
+
+import java.util.ArrayList;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+
+import net.foxycorndog.arrowide.components.FileLocator;
+import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
+
+public class CppPanel extends PreferencesDialogPanel
+{
+	public CppPanel(Shell parent)
+	{
+		super(parent, "C++ Compiler");
+		
+		FillLayout layout   = new FillLayout(SWT.VERTICAL);
+		layout.marginHeight = 5;
+		layout.marginWidth  = 5;
+		layout.spacing      = 1;
+		
+		setLayout(layout);
+		
+		int width = getSize().x;
+		System.out.println(width);
+		FileLocator gppLocator = new FileLocator(this, parent, "G++ Location:", FileLocator.FILE);
+		gppLocator.setLocation(width - gppLocator.getSize().x, 0);
+		
+		FileLocator gccLocator = new FileLocator(this, parent, "Gcc Location:", FileLocator.FILE);
+		gccLocator.setLocation(width - gccLocator.getSize().x, 35);
+	}
+}

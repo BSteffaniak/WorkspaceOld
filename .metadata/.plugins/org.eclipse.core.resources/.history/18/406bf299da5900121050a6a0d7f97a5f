@@ -1,0 +1,44 @@
+package net.foxycorndog.arrowide.dialog;
+
+import java.util.ArrayList;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Widget;
+
+public class PreferencesDialogPanel extends Composite
+{
+	private String title;
+	
+	private ArrayList<Widget> widgets;
+
+	public PreferencesDialogPanel(Composite parent, String title)
+	{
+		super(parent, SWT.NONE);
+//		super.setSize(parent.getSize().x - 100, parent.getSize().y);
+		
+		this.title = title;
+		
+		widgets = new ArrayList<Widget>();
+	}
+	
+//	public final void setSize()
+//	{
+//		
+//	}
+	
+	public String getTitle()
+	{
+		return title;
+	}
+	
+	public ArrayList<Widget> getWidgets()
+	{
+		return widgets;
+	}
+	
+	public void addWidget(Widget widget)
+	{
+		widgets.add(widget);
+	}
+}

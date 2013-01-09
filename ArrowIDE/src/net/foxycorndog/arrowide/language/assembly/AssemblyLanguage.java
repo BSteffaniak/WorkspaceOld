@@ -1,7 +1,9 @@
 package net.foxycorndog.arrowide.language.assembly;
 
+import static net.foxycorndog.arrowide.ArrowIDE.CONFIG_DATA;
 import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -20,6 +22,7 @@ import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.command.Command;
 import net.foxycorndog.arrowide.command.CommandListener;
 import net.foxycorndog.arrowide.console.ConsoleStream;
+import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CompilerListener;
 
@@ -60,7 +63,25 @@ public class AssemblyLanguage
 		}
 		else
 		{
-			String dosboxLocation = "res/assembly/DOSBox";
+			if (!CONFIG_DATA.containsKey("dosbox.location") || !new File(CONFIG_DATA.get("dosbox.location")).exists())
+			{
+				FileBrowseDialog gppSearch = new FileBrowseDialog("Specify your DOSBox location.", "Location:", FileBrowseDialog.FILE);
+				
+				String dosboxLoc = gppSearch.open();
+				
+				if (dosboxLoc != null)
+				{
+					ArrowIDE.setConfigDataValue("dosbox.location", dosboxLoc);
+				}
+				else
+				{
+					stream.println("You must specify a valid dosbox to run this 16 bit program.");
+					
+					return;
+				}
+			}
+			
+			String dosboxLocation = CONFIG_DATA.get("dosbox.location");
 			String confLocation   = (String)PROPERTIES.get("arrowide.location") + "/res/assembly";
 			String fileLoc        = FileUtils.getParentFolder(fileLocation);
 			
@@ -73,7 +94,8 @@ public class AssemblyLanguage
 				    		"mount c \"" + fileLoc + "\"\r\n" +
 				    		"c:\r\n" +
 				    		"cls\r\n" +
-				    		name);
+				    		name + "\r\n" +
+				    		"exit");
 				    out.close();
 				}
 				catch (IOException e)

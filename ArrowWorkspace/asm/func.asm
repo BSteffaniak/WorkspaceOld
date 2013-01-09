@@ -18,7 +18,7 @@ segment .text
 			jge		modulo
 			xchg	eax, ebx
 		modulo:
-			cdg
+			cdg:
 			idiv	ebx
 			mov		eax, edx
 			jmp		looptop

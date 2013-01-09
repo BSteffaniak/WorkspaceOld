@@ -64,16 +64,18 @@ public class TreeMenu extends Composite
 					
 					for (int j = 0; j < itemsSelected.length; j ++)
 					{
+						int id = ids.get(itemsSelected[j]);
+						
 						if (e.button == 1)
 						{
-							listeners.get(i).treeItemDoubleClicked(ids.get(itemsSelected[j]));
+							listeners.get(i).treeItemDoubleClicked(id);
 						}
 					}
 				}
 			}
 		});
 		
-		tree.addListener(SWT.MouseUp, new Listener()
+		tree.addListener(SWT.MouseDown, new Listener()
 		{
 			public void handleEvent(Event e)
 			{
@@ -83,9 +85,11 @@ public class TreeMenu extends Composite
 					
 					for (int j = 0; j < itemsSelected.length; j ++)
 					{
+						int id = ids.get(itemsSelected[j]);
+						
 						if (e.button == 1)
 						{
-							
+							listeners.get(i).treeItemSelected(id);
 						}
 						else if (e.button == 3)
 						{

@@ -1,0 +1,28 @@
+package net.foxycorndog.arrowide.dialog.preferencesdialogpanel;
+
+import net.foxycorndog.arrowide.components.FileLocator;
+import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Shell;
+
+public class AssemblyPanel extends PreferencesDialogPanel
+{
+	public AssemblyPanel(Shell parent)
+	{
+		super(parent, "Assembly");
+		
+		FillLayout layout   = new FillLayout(SWT.VERTICAL);
+		layout.marginHeight = 5;
+		layout.marginWidth  = 5;
+		layout.spacing      = 1;
+		
+		setLayout(layout);
+		
+		int width = getSize().x;
+		
+		FileLocator gppLocator = new FileLocator(this, parent, "DOSBox Location:", FileLocator.FILE);
+		gppLocator.setLocation(width - gppLocator.getSize().x, 50);
+	}
+}

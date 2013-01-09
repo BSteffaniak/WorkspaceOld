@@ -11,12 +11,14 @@ import java.awt.image.DataBufferInt;
  *********************************************************************/
 public class PixelGraphics
 {
-	public static final int CENTER = 0, STRETCHED = 1,
-			UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3,
-			HORIZONTAL = 0, VERTICAL = 1;
+	private float scale;
 	
 	private int width, height;
 	private int pixels[];
+	
+	public static final int CENTER = 0, STRETCHED = 1,
+			UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3,
+			HORIZONTAL = 0, VERTICAL = 1;
 	
 	public PixelGraphics(int pixels[], int width)
 	{
@@ -24,6 +26,23 @@ public class PixelGraphics
 		
 		this.width  = width;
 		this.height = pixels.length / width;
+		
+		scale = 1;
+	}
+	
+	public float getScale()
+	{
+		return scale;
+	}
+	
+	public void setScale(float scale)
+	{
+		this.scale = scale;
+	}
+	
+	public void scale(float scale)
+	{
+		this.scale *= scale;
 	}
 	
 	public void drawLine(int x1, int y1, int x2, int y2, int thickness, int col)
@@ -70,8 +89,6 @@ public class PixelGraphics
 	
 	public void rotate(double degrees)
 	{
-		System.out.println(degrees);
-		
 		double dot = degrees / (360.0 );
 		
 		int temp[] = pixels.clone();
@@ -116,17 +133,30 @@ public class PixelGraphics
 	
 	public void fillCircle(int x, int y, int r, int col)
 	{
+		x *= scale;
+		y *= scale;
+		r *= scale;
+		
 		int w = r * 2;
 		int h = r * 2;
 		
-		for (int yy = 0; yy < h; yy ++)
+		for (int yy = 0; yy < h; yy++)
 		{
-			for (int xx = 0; xx < w; xx ++)
+			for (int xx = 0; xx < w; xx++)
 			{
 				if ((xx + x) + (yy + y) * width >= 0 && (xx + x) + (yy + y) * width < pixels.length)
 				{
-					if (pixels[(xx + x) + (yy + y) * width] == col) continue;
-					if (Math.pow(xx - r, 2) + Math.pow(yy - r, 2) <= Math.pow(r, 2))
+					if (xx + x < 0 || xx + x >= width || yy + y < 0 || yy + y >= height)
+					{
+						continue;
+					}
+					
+					if (pixels[(xx + x) + (yy + y) * width] == col)
+					{
+						continue;
+					}
+					
+					if (((xx - r) * (xx - r)) + ((yy - r) * (yy - r)) <= (r * r))
 					{
 						pixels[(xx + x) + (yy + y) * width] = col;
 					}
@@ -137,6 +167,10 @@ public class PixelGraphics
 	
 	public void drawCircle(int x, int y, int r, int thickness, int col)
 	{
+		x *= scale;
+		y *= scale;
+		r *= scale;
+		
 		int w = r * 2;
 		int h = r * 2;
 		
@@ -146,7 +180,16 @@ public class PixelGraphics
 			{
 				if ((xx + x) + (yy + y) * width >= 0 && (xx + x) + (yy + y) * width < pixels.length)
 				{
-					if (pixels[(xx + x) + (yy + y) * width] == col) continue;
+					if (xx + x < 0 || xx + x >= width || yy + y < 0 || yy + y >= height)
+					{
+						continue;
+					}
+					
+					if (pixels[(xx + x) + (yy + y) * width] == col)
+					{
+						continue;
+					}
+					
 					if (Math.pow(xx - r, 2) + Math.pow(yy - r, 2) <= Math.pow(r, 2) && Math.pow(xx - r, 2) + Math.pow(yy - r, 2) > Math.pow(r - thickness, 2))
 					{
 						pixels[(xx + x) + (yy + y) * width] = col;
@@ -158,13 +201,26 @@ public class PixelGraphics
 	
 	public void fillOval(int x, int y, int w, int h, int col)
 	{
+		x *= scale;
+		y *= scale;
+		w *= scale;
+		h *= scale;
+		
 		for (int yy = 0; yy < h; yy ++)
 		{
 			for (int xx = 0; xx < w; xx ++)
 			{
 				if ((xx + x) + (yy + y) * width >= 0 && (xx + x) + (yy + y) * width < pixels.length)
 				{
-					if (pixels[(xx + x) + (yy + y) * width] == col) continue;
+					if (xx + x < 0 || xx + x >= width || yy + y < 0 || yy + y >= height)
+					{
+						continue;
+					}
+					
+					if (pixels[(xx + x) + (yy + y) * width] == col)
+					{
+						continue;
+					}
 					
 					if (Math.pow(xx - w / 2, 2) + Math.pow(yy - h / 2, 2) <= (w / 2) * (h / 2))
 					{
@@ -393,8 +449,6 @@ public class PixelGraphics
 
 	public void fillRect(int x, int y, int w, int h, int color)
 	{
-		int height = pixels.length / width;
-		
 		for (int yy = y; yy < h + y; yy ++)
 		{
 			for (int xx = x; xx < w + x; xx ++)
@@ -482,5 +536,15 @@ public class PixelGraphics
 	public static void move(int x, int y, int w, int h, int x2, int y2, int fillColor, int pixels[], int width)
 	{
 		
+	}
+	
+	public void setPixels(int pixels[])
+	{
+		if (this.pixels.length != pixels.length)
+		{
+			throw new IllegalArgumentException("New pixels array must be same size as old.");
+		}
+		
+		this.pixels = pixels;
 	}
 }

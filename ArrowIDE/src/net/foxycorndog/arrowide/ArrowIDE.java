@@ -34,6 +34,7 @@ import net.foxycorndog.arrowide.dialog.OptionDialog;
 import net.foxycorndog.arrowide.dialog.PreferencesDialog;
 import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
 import net.foxycorndog.arrowide.dialog.TextInputDialog;
+import net.foxycorndog.arrowide.dialog.preferencesdialogpanel.AssemblyPanel;
 import net.foxycorndog.arrowide.dialog.preferencesdialogpanel.CppPanel;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CompilerListener;
@@ -311,6 +312,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		preferences = new PreferencesDialog(shell);
 		preferences.addPreferencesDialogPanel(new CppPanel(preferences.getWindow()));
+		preferences.addPreferencesDialogPanel(new AssemblyPanel(preferences.getWindow()));
 		
 		menuItemLocations = new HashMap<Integer, String>();
 		menuItems         = new HashMap<String, Integer>();
@@ -769,6 +771,11 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			{
 				
 			}
+
+			public void treeItemSelected(int id)
+			{
+				
+			}
 		});
 		
 		
@@ -1049,6 +1056,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					lineValue = CONFIG_DATA.get(lineKey);
 				}
 				
+				System.out.println(lineKey + " " + lineValue);
+				
 				p.print(lineKey + "=" + lineValue + (i == CONFIG_DATA.size() - 1 ? "" : "\r\n"));
 			}
 		
@@ -1065,6 +1074,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 		
 		CONFIG_DATA.put(key, value);
+		CONFIG_LINE_NUMBER_DATA.put(CONFIG_LINE_NUMBER_DATA.size(), value);
+		CONFIG_LINE_NUMBERS.put(value, CONFIG_LINE_NUMBER_DATA.size());
 	}
 	
 	/**
@@ -1101,6 +1112,15 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				CONFIG_DATA.put(key, value);
 				CONFIG_LINE_NUMBERS.put(key, lineNum);
 				CONFIG_LINE_NUMBER_DATA.put(lineNum, key);
+			}
+			
+			if (!CONFIG_DATA.containsKey("workspace.location"))
+			{
+				PrintWriter writer;
+				
+				writer = new PrintWriter(new FileWriter(configLocation));
+				writer.print("workspace.location=");
+				writer.close();
 			}
 		}
 		catch (FileNotFoundException e)

@@ -1,0 +1,27 @@
+package net.foxycorndog.arrowide.dialog.preferencesdialogpanel;
+
+import java.util.ArrayList;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
+
+import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
+
+public class CppPanel extends PreferencesDialogPanel
+{
+	private ArrayList<PreferencesDialogPanel> panels;
+	
+	public CppPanel(Composite parent)
+	{
+		super(parent, "C++ Compiler");
+		
+		setSize(4, 4);
+		
+		Text locationEditor = new Text(this, SWT.SINGLE);
+		locationEditor.setLocation(10, 10);
+		locationEditor.setSize(300, 20);
+		
+		addWidget(locationEditor);
+	}
+}

@@ -1,0 +1,72 @@
+package net.foxycorndog.arrowide.dialog;
+
+import java.util.ArrayList;
+
+import net.foxycorndog.arrowide.treemenu.TreeMenu;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Widget;
+
+public class PreferencesDialog implements Dialog
+{
+	private Shell								window;
+
+	private TreeMenu							treeMenu;
+
+	public PreferencesDialog(Shell parent)
+	{
+		treeMenu = new TreeMenu(parent);
+		treeMenu.setSize(150, 440);
+		
+		createWindow();
+	}
+	
+	public void addPreferencesDialogPanel(PreferencesDialogPanel panel)
+	{
+		treeMenu.addItem(panel.getTitle());
+	}
+	
+	private void createWindow()
+	{
+		Rectangle bounds = Display.getDefault().getPrimaryMonitor().getBounds();
+		
+		window = new Shell(Display.getDefault());
+		window.setSize(750, 540);
+		window.setLocation(bounds.width / 2 - window.getSize().x / 2, bounds.height / 2 - window.getSize().y / 2);
+		
+		window.addListener(SWT.Close, new Listener()
+		{
+			public void handleEvent(Event event)
+			{
+				window.setVisible(false);
+				
+				event.doit = false;
+			}
+		});
+	}
+
+	public String open()
+	{
+		window.setSize(750, 540);
+		window.open();
+		
+		return null;
+	}
+
+	public void setText(String text)
+	{
+
+	}
+
+	public Shell getWindow()
+	{
+		return window;
+	}
+}

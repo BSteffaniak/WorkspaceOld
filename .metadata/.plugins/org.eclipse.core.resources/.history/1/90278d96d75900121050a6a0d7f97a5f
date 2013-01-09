@@ -1,0 +1,87 @@
+package net.foxycorndog.arrowide.dialog;
+
+import java.util.ArrayList;
+
+import net.foxycorndog.arrowide.treemenu.TreeMenu;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Widget;
+
+public class PreferencesDialog implements Dialog
+{
+	private Shell								window;
+
+	private TreeMenu							treeMenu;
+
+	private ArrayList<PreferencesDialogPanel>	panels;
+
+	public PreferencesDialog(Shell parent)
+	{
+		panels = new ArrayList<PreferencesDialogPanel>();
+		
+		treeMenu = new TreeMenu(parent);
+		
+		createWindow();
+	}
+	
+	public void addPreferencesDialogPanel(PreferencesDialogPanel panel)
+	{
+		panels.add(panel);
+		
+		treeMenu.addItem(panel.getTitle());
+	}
+	
+	private void createWindow()
+	{
+		Rectangle bounds = Display.getDefault().getPrimaryMonitor().getBounds();
+		
+		window = new Shell(Display.getDefault());
+		window.setSize(750, 540);
+		window.setLocation(bounds.width / 2 - window.getSize().x / 2, bounds.height / 2 - window.getSize().y / 2);
+		window.setVisible(false);
+		window.open();
+		
+		window.addListener(SWT.Close, new Listener()
+		{
+			public void handleEvent(Event event)
+			{
+				window.setVisible(false);
+				
+				event.doit = false;
+			}
+		});
+		
+		for (PreferencesDialogPanel panel : panels)
+		{
+			ArrayList<Widget> widgets = panel.getWidgets();
+			
+			for (int i = 0; i < widgets.size(); i ++)
+			{
+				
+			}
+		}
+	}
+
+	public String open()
+	{
+		window.open();
+		window.setVisible(true);
+		
+		return null;
+	}
+
+	public void setText(String text)
+	{
+
+	}
+
+	public Shell getWindow()
+	{
+		return window;
+	}
+}

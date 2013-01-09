@@ -123,7 +123,7 @@ public class TabMenu
 				}
 				else
 				{
-					reAddItem(id, item);
+					e.doit = false;
 				}
 			}
 
@@ -149,15 +149,6 @@ public class TabMenu
 		});
 		
 		tabFolder.redraw();
-	}
-	
-	private void reAddItem(int id, CTabItem item)
-	{
-		CTabItem newItem = new CTabItem(tabFolder, SWT.CLOSE, tabFolder.indexOf(item));
-		newItem.setText(item.getText());
-		
-		tabs.put(id, newItem);
-		tabIds.put(newItem, id);
 	}
 	
 	public int getSelected()

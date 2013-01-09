@@ -1,0 +1,50 @@
+package net.foxycorndog.arrowide.components;
+
+import org.eclipse.swt.custom.ViewForm;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Widget;
+
+public class FileLocator extends Composite
+{
+	private Label	instructionLabel;
+
+	private Text	locationEditor;
+
+	private Button	browse;
+
+	public FileLocator(Composite parent, String defaultTextField, String instruction)
+	{
+		super(parent, SWT.NONE);
+
+		locationEditor = new Text(this, SWT.SINGLE | SWT.BORDER);
+		locationEditor.setSize(250, 20);
+		locationEditor.setText(defaultTextField);
+		locationEditor.setSelection(0, defaultTextField.length());
+
+		browse = new Button(this, SWT.PUSH);
+		browse.setSize(100, 25);
+		browse.setLocation(locationEditor.getSize().x, 0);
+		browse.setText("Browse");
+
+		setSize(360, 25);
+
+		if (!instruction.equals("") || instruction != null)
+		{
+			instructionLabel = new Label(this, SWT.NONE);
+			instructionLabel.setText(instruction);
+			instructionLabel.getFont().getFontData();
+			
+			GC gc = new GC(instructionLabel);
+			instructionLabel.setSize(gc.stringExtent(instruction).x, 20);
+			
+			locationEditor.setLocation(instructionLabel.getSize().x, 0);
+			browse.setLocation(locationEditor.getSize().x + instructionLabel.getSize().x, 0);
+		}
+	}
+}

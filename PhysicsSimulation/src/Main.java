@@ -6,6 +6,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.File;
@@ -27,6 +30,9 @@ public class Main extends JPanel
 {
 	private int   width, height;
 	private int   dfps, fps;
+	private int   dx, dy, oldX, oldY;
+	
+	private float xPos, yPos;
 	
 	private long  oldTime;
 	
@@ -34,7 +40,7 @@ public class Main extends JPanel
 	
 	Image         image;
 	
-	BufferedImage display, buffer;
+	BufferedImage display, drag, buffer;
 	
 	Graphics      backg;
 	
@@ -42,13 +48,13 @@ public class Main extends JPanel
 	
 	Planet        currentPlanet;
 	
-	int           pixels[];
+	int           pixels[], dragPixels[];
 	
 	ArrayList<Planet> planets;
 	
 	public static void main(String args[])
 	{
-		(new Main()).start();
+		new Main().start();
 	}
 	
 	public Main()
@@ -69,26 +75,22 @@ public class Main extends JPanel
 		
 		frame.addComponentListener(new ComponentListener()
 		{
-			@Override
 			public void componentResized(ComponentEvent e)
 			{
 				buffer  = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.BITMASK);
 				backg   = buffer.createGraphics();
 			}
 
-			@Override
 			public void componentMoved(ComponentEvent e)
 			{
 				
 			}
 
-			@Override
 			public void componentShown(ComponentEvent e)
 			{
 				
 			}
 
-			@Override
 			public void componentHidden(ComponentEvent e)
 			{
 				
@@ -97,56 +99,92 @@ public class Main extends JPanel
 		
 		frame.addMouseListener(new MouseListener()
 		{
-			@Override
 			public void mousePressed(MouseEvent e)
 			{
+				oldX = e.getX();
+				oldY = e.getY();
+				
 				if (e.getButton() == MouseEvent.BUTTON1)
 				{
-					currentPlanet = new Planet(e.getX(), e.getY(), 10, 10, PrestoColor.getColor(200, 200, 200));
-				    currentPlanet.frozen = true;
-				    
-				    planets.add(currentPlanet);
+//					currentPlanet = new Planet(e.getX(), e.getY(), 10, 10, PrestoColor.getColor(200, 200, 200));
+//				    currentPlanet.frozen = true;
+//				    
+//				    planets.add(currentPlanet);
 				}
 			}
 
-			@Override
 			public void mouseClicked(MouseEvent e)
 			{
 				
 			}
 
-			@Override
 			public void mouseReleased(MouseEvent e)
 			{
 				if (e.getButton() == MouseEvent.BUTTON1 && currentPlanet != null)
 				{
-					currentPlanet.dx = (currentPlanet.x - e.getX()) / 300.0;
-					currentPlanet.dy = (currentPlanet.y - e.getY()) / 300.0;
-					
-					currentPlanet.frozen = false;
-					
-					currentPlanet = null;
+//					currentPlanet.dx = (currentPlanet.x - e.getX()) / 3000.0;
+//					currentPlanet.dy = (currentPlanet.y - e.getY()) / 3000.0;
+//					
+//					currentPlanet.frozen = false;
+//					
+//					currentPlanet = null;
 				}
+				
+				dx = 0;
+				dy = 0;
 			}
 
-			@Override
 			public void mouseEntered(MouseEvent e)
 			{
 				
 			}
 
-			@Override
 			public void mouseExited(MouseEvent e)
 			{
 				
 			}
 		});
 		
+		frame.addMouseMotionListener(new MouseMotionListener()
+		{
+			public void mouseMoved(MouseEvent e)
+			{
+				
+			}
+			
+			public void mouseDragged(MouseEvent e)
+			{
+				dx = e.getX() - oldX;
+				dy = e.getY() - oldY;
+				
+				translatef(dx / p.getScale(), dy / p.getScale());
+				
+				oldX = e.getX();
+				oldY = e.getY();
+			}
+		});
+		
+		frame.addMouseWheelListener(new MouseWheelListener()
+		{
+			public void mouseWheelMoved(MouseWheelEvent e)
+			{
+				float amount = 1;
+				
+				float degree = -0.1f;
+				
+				amount += e.getWheelRotation() * degree;
+				
+				p.scale(amount);
+			}
+		});
+		
 		planets     = new ArrayList<Planet>();
 		
 		display     = new BufferedImage(800, 600, BufferedImage.BITMASK);
+		drag        = new BufferedImage(800, 600, BufferedImage.BITMASK);
 		
 		pixels      = ((DataBufferInt)display.getRaster().getDataBuffer()).getData();
+		dragPixels  = ((DataBufferInt)drag.getRaster().getDataBuffer()).getData();
 		
 		this.width  = frame.getWidth();
 		this.height = frame.getHeight();
@@ -155,6 +193,7 @@ public class Main extends JPanel
 	private void start()
 	{
 		p = new PixelGraphics(pixels, width);
+		p.scale(1f);
 		
 		planets.add(new Planet(350,   250,   50, 1000, PrestoColor.getColor(195, 195, 0)));
 		
@@ -172,13 +211,11 @@ public class Main extends JPanel
 		
 		
 		
-		planets.add(new Planet(100, 90,   10, 10, -15/300d, 7/300d, PrestoColor.getColor(20, 100, 200)));
+		planets.add(new Planet(200, 90,   10, 10, -16/30d, 8/30d, PrestoColor.getColor(20, 100, 200)));
 		
-		planets.add(new Planet(400, 490,   10, 20, 16.25/300d, -6.5/300d, PrestoColor.getColor(140, 30, 30)));
+		planets.add(new Planet(400, 490,   10, 20, 16.25/30d, -6.5/30d, PrestoColor.getColor(140, 30, 30)));
 		
-		planets.add(new Planet(100, 390,   10, 10, -0/300d, -12/300d, PrestoColor.getColor(r, g, b)));
-		
-		planets.add(new Planet(100, 320,   10, 10, 0, 0, PrestoColor.getColor(r, g, b)));
+		planets.add(new Planet(100, 390,   10, 10, -0/30d, -12/16d, PrestoColor.getColor(r, g, b)));
 		
 //		planets.add(new Planet(400, 490,   10, 20, 6.25, -2.5, PrestoColor.getColor(140, 30, 30)));
 		
@@ -195,7 +232,7 @@ public class Main extends JPanel
 				{
 					fps = dfps;
 					
-					System.out.println(fps + ", " + planets.size());
+//					System.out.println(fps + ", " + planets.size());
 					
 					dfps = 0;
 					
@@ -205,11 +242,6 @@ public class Main extends JPanel
 				dfps ++;
 				
 				tick();
-				tick();
-				tick();
-				tick();
-				tick();
-				tick();
 				
 				render();
 			}
@@ -218,7 +250,7 @@ public class Main extends JPanel
 	
 	public void render()
 	{
-		p.fillRect(0, 0, width, height, 0);
+		p.fillRect(0, 0, width, height, 0xff000000);
 		
 		for (int i = planets.size() - 1; i >= 0; i --)
 		{
@@ -232,11 +264,18 @@ public class Main extends JPanel
 	{
 		super.paint(g);
 		
-		backg.clearRect(0, 0, frame.getWidth(), frame.getHeight());
+//		backg.clearRect(0, 0, frame.getWidth(), frame.getHeight());
 		
 		backg.drawImage(display, 0, 0, frame.getWidth(), frame.getHeight(), null);
+		backg.drawImage(drag, 0, 0, frame.getWidth(), frame.getHeight(), null);
 		
 		g.drawImage(buffer, 0, 0, null);
+	}
+	
+	public void translatef(float dx, float dy)
+	{
+		xPos += dx;
+		yPos += dy;
 	}
 	
 	private void tick()
@@ -261,17 +300,17 @@ public class Main extends JPanel
 					continue;
 				}
 				
-				double distance = Math.sqrt(Math.pow((planet1.x) - (planet2.x), 2) + Math.pow((planet1.y) - (planet2.y), 2));
+				double distance = 0.03f * Math.sqrt(Math.pow((planet1.x) - (planet2.x), 2) + Math.pow((planet1.y) - (planet2.y), 2));
 				
-				if (distance < 2)
-				{
-					continue;
-				}
+//				if (distance < 1)
+//				{
+//					continue;
+//				}
 				
-				double fg = 1/1000d * ((planet1.mass * planet2.mass) / (distance * distance));
+				double fg = ((1/800d) * ((planet1.mass * planet2.mass) / (distance * distance))) / (planet1.mass * 800);
 				
-				double xVal = (fg * (planet2.x - planet1.x)) / (planet1.mass * 1000);
-				double yVal = (fg * (planet2.y - planet1.y)) / (planet1.mass * 1000);
+				double xVal = fg * (planet2.x - planet1.x);
+				double yVal = fg * (planet2.y - planet1.y);
 				
 				if (xVal < -1000 || xVal > 1000 || Double.isNaN(xVal))
 				{
@@ -329,9 +368,13 @@ public class Main extends JPanel
 		
 		public void render(int pixels[])
 		{
-			p.fillCircle((int)(x - radius + 0),                         (int)(y - radius + 0),                         (int)(radius),       color);
-			p.fillCircle((int)(x - radius + (radius - (radius * .8f))), (int)(y - radius + (radius - (radius * .8f))), (int)(radius * .8f), PrestoColor.darkenColor(color, 0x00222222));
-			p.fillCircle((int)(x - radius + (radius - (radius * .4f))), (int)(y - radius + (radius - (radius * .4f))), (int)(radius * .4f), PrestoColor.darkenColor(color, 0x00333333));
+			p.setPixels(dragPixels);
+			
+			p.fillCircle((int)(x - radius + 0 + xPos),                         (int)(y - radius + 0 + yPos),                         (int)(radius),       color);
+			p.fillCircle((int)(x - radius + (radius - (radius * .8f)) + xPos), (int)(y - radius + (radius - (radius * .8f)) + yPos), (int)(radius * .8f), PrestoColor.darkenColor(color, 0x00222222));
+			p.fillCircle((int)(x - radius + (radius - (radius * .4f)) + xPos), (int)(y - radius + (radius - (radius * .4f)) + yPos), (int)(radius * .4f), PrestoColor.darkenColor(color, 0x00333333));
+			
+			p.setPixels(pixels);
 		}
 	}
 }

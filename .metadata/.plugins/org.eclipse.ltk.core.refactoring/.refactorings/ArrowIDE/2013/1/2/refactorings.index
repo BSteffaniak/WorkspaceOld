@@ -4,3 +4,7 @@
 1357526198032	Delete element
 1357526358901	Delete element
 1357613514106	Rename local variable 'bit16'
+1357677909921	Rename method 'openWindow'
+1357705645889	Rename local variable 'gppLocator'
+1357709120458	Rename local variable 'gppLoc'
+1357733592063	Rename local variable 'location'

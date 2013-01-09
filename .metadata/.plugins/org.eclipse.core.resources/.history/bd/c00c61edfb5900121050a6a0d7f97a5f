@@ -1,0 +1,493 @@
+package net.foxycorndog.presto2d.graphics;
+
+import java.awt.Transparency;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+
+/*********************************************************************
+ * 
+ * 
+ * @author BradenSteffaniak
+ *********************************************************************/
+public class PixelGraphics
+{
+	private float scale;
+	
+	private int width, height;
+	private int pixels[];
+	
+	public static final int CENTER = 0, STRETCHED = 1,
+			UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3,
+			HORIZONTAL = 0, VERTICAL = 1;
+	
+	public PixelGraphics(int pixels[], int width)
+	{
+		this.pixels = pixels;
+		
+		this.width  = width;
+		this.height = pixels.length / width;
+		
+		scale = 1;
+	}
+	
+	public void scale(float scale)
+	{
+		this.scale *= scale;
+	}
+	
+	public void drawLine(int x1, int y1, int x2, int y2, int thickness, int col)
+	{
+//		int height = pixels.length / width;
+		
+		float xslope = x1 - x2;
+		float yslope = y1 - y2;
+		
+//		int xlength = (int)xslope;
+//		int ylength = (int)yslope;
+		
+		float hypot = (float)Math.sqrt((Math.pow(xslope, 2) + Math.pow(yslope, 2)));
+		
+		xslope /= hypot;
+		yslope /= hypot;
+		
+//		int off1 = 0;
+		for (int off = 0; off < thickness; off ++)
+		{
+			float x = x2;
+			float y = y2;
+			
+			while (Math.abs(x - x2) <= Math.abs(xslope * hypot) && Math.abs(y - y2) <= Math.abs(yslope * hypot))
+			{
+				try
+				{
+					int xx = (int)(x - (off * yslope));
+					int yy = (int)(y + (off * xslope));
+					
+					pixels[xx + yy * width] = col;
+				}
+				catch(IndexOutOfBoundsException ex)
+				{
+					
+				}
+				
+				x += xslope;
+				y += yslope;
+			}
+//			off1 ++;
+		}
+	}
+	
+	public void rotate(double degrees)
+	{
+		double dot = degrees / (360.0 );
+		
+		int temp[] = pixels.clone();
+		
+//		int centerX = width  / 2;
+//		int centerY = height / 2;
+//		
+//		int centX = 0;
+//		int centY = 0;
+//		
+//		int d;
+		
+		for (int yy = 0; yy < height; yy ++)
+		{
+			for (int xx = 0; xx < width; xx ++)
+			{
+//				centX = xx - centerX;
+//				centY = yy - centerY;
+				double xr, yr;
+				
+				try
+				{
+					xr = dot * xx;
+					yr = dot * (yy - xx);
+					
+					try
+					{
+						pixels[xx + yy * width] = temp[(int)((xx + (xr)) + (yy + (yr)) * width)];
+					}
+					catch(IndexOutOfBoundsException ex)
+					{
+						pixels[xx + yy * width] = 0x00000000;
+					}
+				}
+				catch(ArithmeticException ex)
+				{
+					pixels[xx + yy * width] = 0x00000000;
+				}
+			}
+		}
+	}
+	
+	public void fillCircle(int x, int y, int r, int col)
+	{
+		int w = (int)(r * 2 * scale);
+		int h = (int)(r * 2 * scale);
+		
+		for (int yy = 0; yy < h; yy ++)
+		{
+			for (int xx = 0; xx < w; xx ++)
+			{
+				if ((xx + x) + (yy + y) * width >= 0 && (xx + x) + (yy + y) * width < pixels.length)
+				{
+					if (pixels[(xx + x) + (yy + y) * width] == col) continue;
+					if (Math.pow(xx - r, 2) + Math.pow(yy - r, 2) <= Math.pow(r, 2))
+					{
+						pixels[(xx + x) + (yy + y) * width] = col;
+					}
+				}
+			}
+		}
+	}
+	
+	public void drawCircle(int x, int y, int r, int thickness, int col)
+	{
+		int w = r * 2;
+		int h = r * 2;
+		
+		for (int yy = 0; yy < h; yy ++)
+		{
+			for (int xx = 0; xx < w; xx ++)
+			{
+				if ((xx + x) + (yy + y) * width >= 0 && (xx + x) + (yy + y) * width < pixels.length)
+				{
+					if (pixels[(xx + x) + (yy + y) * width] == col) continue;
+					if (Math.pow(xx - r, 2) + Math.pow(yy - r, 2) <= Math.pow(r, 2) && Math.pow(xx - r, 2) + Math.pow(yy - r, 2) > Math.pow(r - thickness, 2))
+					{
+						pixels[(xx + x) + (yy + y) * width] = col;
+					}
+				}
+			}
+		}
+	}
+	
+	public void fillOval(int x, int y, int w, int h, int col)
+	{
+		for (int yy = 0; yy < h; yy ++)
+		{
+			for (int xx = 0; xx < w; xx ++)
+			{
+				if ((xx + x) + (yy + y) * width >= 0 && (xx + x) + (yy + y) * width < pixels.length)
+				{
+					if (pixels[(xx + x) + (yy + y) * width] == col) continue;
+					
+					if (Math.pow(xx - w / 2, 2) + Math.pow(yy - h / 2, 2) <= (w / 2) * (h / 2))
+					{
+						pixels[(xx + x) + (yy + y) * width] = col;
+					}
+				}
+			}
+		}
+	}
+	
+	public BufferedImage scale(int w, int h)
+	{
+		BufferedImage d = new BufferedImage(width, height, Transparency.BITMASK);
+		int[] px = new int[width * height];
+		
+		float scale = ((float)width / (float)w);
+		float remainder = 0;
+		
+		for (int y = 0; y < h; y ++)
+		{
+			for (int x = 0; x < w; x ++)
+			{
+				for (int i = 0; i < scale + decimal(remainder); i ++)
+				{
+					px[(x + i) + y * width] = pixels[x + y * w];
+					px[x + (y + i) * width] = pixels[x + y * w];
+				}
+				remainder += decimal(scale);
+			}
+		}
+		
+		d.setRGB(0, 0, width, height, px, 0, width);
+		
+		return d;
+	}
+	
+	private float decimal(float t)
+	{
+		return (float)(t - Math.floor(t));
+	}
+	
+	public int[] mirror(int dir)
+	{
+		int[] p = new int[pixels.length];
+		
+		if (dir == HORIZONTAL)
+		{
+			for (int y = 0; y < height; y ++)
+			{
+				for (int x = 0; x < width; x ++)
+				{
+					p[x + y * width] = pixels[(width - x - 1) + y * width];
+				}
+			}
+		}
+		if (dir == VERTICAL)
+		{
+			for (int y = 0; y < height; y ++)
+			{
+				for (int x = 0; x < width; x ++)
+				{
+					p[x + y * width] = pixels[x + (height - y - 1) * width];
+				}
+			}
+		}
+		
+		return p;
+	}
+	
+	public int[] rotate(int h, int dir)
+	{
+		int[] p = new int[pixels.length];
+		
+		if (dir == RIGHT)
+		{
+			for (int y = 0; y < h; y ++)
+			{
+				for (int x = 0; x < width; x ++)
+				{
+					p[x + y * width] = pixels[y + (width - x - 1) * width];
+				}
+			}
+		}
+		else if (dir == LEFT)
+		{
+			for (int y = 0; y < h; y ++)
+			{
+				for (int x = 0; x < width; x ++)
+				{
+					p[x + y * width] = pixels[y + x * width];
+				}
+			}
+		}
+		else if (dir == DOWN)
+		{
+			for (int y = 0; y < h; y ++)
+			{
+				for (int x = 0; x < width; x ++)
+				{
+					p[x + y * width] = pixels[(width - x - 1) + (h - y - 1) * width];
+				}
+			}
+		}
+		else if (dir == UP)
+		{
+			for (int y = 0; y < h; y ++)
+			{
+				for (int x = 0; x < width; x ++)
+				{
+					p[x + y * width] = pixels[(width - x - 1) + (h - y - 1) * width];
+				}
+			}
+		}
+		
+		return p;
+	}
+	
+	public void drawPixels(int pix[], int w, int x, int y)
+	{
+		int h = pix.length / w;
+		
+		int xo = 0;
+		int yo = 0;
+		
+		for (int yy = 0; yy < h; yy ++)
+		{
+			for (int xx = 0; xx < w; xx ++)
+			{
+				xo = xx + x;
+				yo = yy + y;
+				
+				if (xo < 0 || xo >= width || yo < 0 || yo >= height) continue;
+				
+				if (pix[xx + yy * w] == 0x00000000) continue;
+					
+				pixels[xo + yo * width] = pix[xx + yy * w];
+			}
+		}
+	}
+	
+	public void drawPixels(int pix[], int w, int x, int y, int scale)
+	{
+		int h = pix.length / w;
+		
+		for (int yy = 0; yy < h * scale; yy ++)
+		{
+			for (int xx = 0; xx < w * scale; xx ++)
+			{
+				int tx = xx / scale;
+				int ty = yy / scale;
+				
+				if (xx + x >= width || xx + x < 0 || yy + y >= height || yy + y < 0) continue;
+				
+				if (pix[tx + ty * w] == 0x00000000) continue;
+				pixels[(xx + x) + (yy + y) * width] = pix[tx + ty * w];
+			}
+		}
+	}
+	
+	public void drawRect(int x, int y, int w, int h, int color)
+	{
+		for (int times = 0; times < 2; times ++)
+		{
+			int xx = x + (times * w);
+			for (int yy = y; yy < h + y; yy ++)
+			{
+				try
+				{
+					pixels[xx + yy * width] = color;
+				}
+				catch (IndexOutOfBoundsException ex)
+				{
+					
+				}
+			}
+		}
+		for (int times = 0; times < 2; times ++)
+		{
+			int yy = y + (times * h);
+			for (int xx = x; xx < w + x; xx ++)
+			{
+				try
+				{
+					pixels[xx + yy * width] = color;
+				}
+				catch (IndexOutOfBoundsException ex)
+				{
+					
+				}
+			}
+		}
+		
+		try
+		{
+			pixels[(x + w) + (y + h) * width] = color;
+		}
+		catch(IndexOutOfBoundsException ex)
+		{
+			
+		}
+	}
+	
+	public void drawImage(BufferedImage image, int x, int y)
+	{
+		int wdt = image.getWidth();
+		int[] pix = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+		
+		int w = image.getWidth();
+		int h = image.getHeight();
+		
+		for (int yy = 0; yy < h; yy ++)
+		{
+			for (int xx = 0; xx < w; xx ++)
+			{
+				if (pix[xx + yy * wdt] == 0x00000000) continue;
+				
+				pixels[(xx + x) + (yy + y) * width] = pix[xx + yy * wdt];
+			}
+		}
+	}
+	
+	public void setPixel(int x, int y, int color)
+	{
+		pixels[x + y * width] = color;
+	}
+
+	public void fillRect(int x, int y, int w, int h, int color)
+	{
+		int height = pixels.length / width;
+		
+		for (int yy = y; yy < h + y; yy ++)
+		{
+			for (int xx = x; xx < w + x; xx ++)
+			{
+				if (xx >= width || xx < 0 || yy >= height || yy < 0) continue;
+				
+				pixels[xx + yy * width] = color;
+			}
+		}
+	}
+	
+	public void rotateImage(int degree)
+	{
+		int h = pixels.length / width;
+//		int[] pixels2 = new int[pixels.length];
+		
+		for (int y = 0; y < h; y ++)
+		{
+			for (int x = 0; x < width; x ++)
+			{
+				try
+				{
+					
+				}
+				catch (IndexOutOfBoundsException ex)
+				{
+					
+				}
+			}
+		}
+	}
+	
+	public static boolean overlap(int array1[], int x1, int y1, int w1,
+			int array2[], int x2, int y2, int w2)
+	{
+		if (array1 == null || array2 == null)
+		{
+			return false;
+		}
+		
+		int h1 = array1.length / w1;
+		int h2 = array2.length / w2;
+		
+		int bigW = w1 > w2 ? w1 : w2;
+		int bigH = h1 > h2 ? h1 : h2;
+		
+		int xpos1 = 0;
+		int ypos1 = 0;
+		int xpos2 = 0;
+		int ypos2 = 0;
+		
+		for (int yy = 0; yy < bigH; yy ++)
+		{
+			for (int xx = 0; xx < bigW; xx ++)
+			{
+				xpos1 = xx + x1;
+				ypos1 = yy + y1;
+				xpos2 = xx + x2;
+				ypos2 = yy + y2;
+				
+				if ((xpos1 + ypos1 * h1 >= array1.length || xpos1 + ypos1 * h1 < 0) || (xx + yy * h2 >= array2.length || xpos2 + ypos2 * h2 < 0))
+				{
+					continue;
+				}
+				else if (array1[xpos1 + ypos1 * h1] != 0x00000000 && array2[xpos2 + ypos2 * h2] != 0x00000000)
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	public int[] getPixels()
+	{
+		return pixels;
+	}
+	
+	public static void move(int x, int y, int w, int h, int x2, int y2, int pixels[], int width)
+	{
+		move(x, y, w, h, x2, y2, 0, pixels, width);
+	}
+	
+	public static void move(int x, int y, int w, int h, int x2, int y2, int fillColor, int pixels[], int width)
+	{
+		
+	}
+}

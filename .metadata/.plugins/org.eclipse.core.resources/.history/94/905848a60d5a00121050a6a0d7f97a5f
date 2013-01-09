@@ -1,0 +1,26 @@
+package net.foxycorndog.arrowide.dialog.preferencesdialogpanel;
+
+import java.util.ArrayList;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
+
+import net.foxycorndog.arrowide.components.FileLocator;
+import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
+
+public class CppPanel extends PreferencesDialogPanel
+{
+	private ArrayList<PreferencesDialogPanel> panels;
+	
+	public CppPanel(Composite parent)
+	{
+		super(parent, "C++ Compiler");
+		
+		setSize(4, 4);
+		
+		FileLocator locator = new FileLocator(parent, "");
+		
+		addWidget(locator);
+	}
+}
