@@ -536,7 +536,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					deleteFile(location);
 
 					//TODO
-					refreshFileViewer();
+//					refreshFileViewer();
+					removeFromFileViewer(location);
 				}
 				else if (e.widget == newFolder)
 				{
@@ -564,7 +565,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 						f.mkdirs();
 
 						//TODO
-						refreshFileViewer();
+//						refreshFileViewer();
+						addToFileViewer(location);
 					}
 				}
 				else if (e.widget == newFile)
@@ -598,7 +600,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 							openFile(location);
 
 							//TODO
-							refreshFileViewer();
+//							refreshFileViewer();
+							addToFileViewer(location);
 						}
 						catch (IOException e2)
 						{
@@ -731,7 +734,9 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 								}
 
 								//TODO
-								refreshFileViewer();
+//								refreshFileViewer();
+								removeFromFileViewer(loc);
+								addToFileViewer(newLoc);
 								
 								fileCacheSaved.put(newLocLower, before);
 								
@@ -1162,7 +1167,9 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			f.mkdirs();
 
 			//TODO
-			refreshFileViewer();
+//			refreshFileViewer();
+			addToFileViewer(location);
+			refreshFileViewer(location);
 		}
 	}
 	
@@ -1410,28 +1417,49 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 		
 		//TODO
-		refreshFileViewer();
+//		refreshFileViewer();
+		addToFileViewer(location);
 	}
 	
 	public void addToFileViewer(String location)
 	{
+		File file     = new File(location);
+		
 		String locKey = location.replace("\\", "/").toLowerCase();
 		String name   = FileUtils.getFileName(location);
-		
-		int id = treeMenu.addSubItem(parent, name, img);
 
-		boolean isDirectory = subFiles[i].isDirectory();
+		boolean isDirectory = file.isDirectory();
 		
-		Image img = isDirectory ? folderImage : getFileImage(location);
+		Image img    = isDirectory ? folderImage : getFileImage(locKey);
 		
-		if (fileCacheSaved.containsKey(location))
+		int parentId = treeItemIds.get(FileUtils.getParentFolder(locKey));
+		
+		int id       = treeMenu.addSubItem(parentId, name, img);
+		
+		if (fileCacheSaved.containsKey(locKey))
 		{
-			fileCacheSaved.put(location, true);
+			fileCacheSaved.put(locKey, true);
 		}
 
-		treeItemLocations.put(id, location);
-		treeItemOrigLocations.put(id, orig);
-		treeItemIds.put(location, id);
+		treeItemLocations.put(id, locKey);
+		treeItemOrigLocations.put(id, location);
+		treeItemIds.put(locKey, id);
+	}
+	
+	public void removeFromFileViewer(String location)
+	{
+		String locKey = location.replace('\\', '/').toLowerCase();
+		
+		int id = treeItemIds.get(locKey);
+		
+		treeItemIds.remove(locKey);
+		treeItemLocations.remove(id);
+		treeItemOrigLocations.remove(id);
+		
+		if (treeMenu.containsItem(id))
+		{
+			treeMenu.removeItem(id);
+		}
 	}
 	
 	/**

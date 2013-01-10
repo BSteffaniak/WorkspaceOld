@@ -14,9 +14,11 @@
  * @author Cay Horstmann
  */
 
+import info.gridworld.actor.Actor;
 import info.gridworld.actor.ActorWorld;
 import info.gridworld.actor.Bug;
 import info.gridworld.actor.Rock;
+import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 
 /**
@@ -33,8 +35,23 @@ public class BugRunner
     {
         ActorWorld world = new ActorWorld();
         
-        world.add(new Location(2, 2), new ZBug(3));
+        world.add(new Location(2, 2), new QuickCritter());
         world.add(new Rock());
         world.show();
+        
+        Grid<Actor> grid = world.getGrid();
+        
+        for (int i = 0; i < grid.getNumRows(); i ++)
+        {
+        	for (int j = 0; j < grid.getNumCols(); j ++)
+            {
+            	Location loc = new Location(i, j);
+            	if (grid.getValidAdjacentLocations(loc).size() < 8)
+            	{
+            		Rock r = new Rock();
+            		world.add(loc, r);
+            	}
+            }
+        }
     }
 }
