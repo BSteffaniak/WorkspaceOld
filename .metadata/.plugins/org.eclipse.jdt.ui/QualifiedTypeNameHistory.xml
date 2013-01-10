@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.eclipse.swt.events.PaintListener"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.custom.StyledText"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.ConsoleField"/>
 <fullyQualifiedTypeName name="java.io.PrintStream"/>
 <fullyQualifiedTypeName name="java.io.OutputStream"/>
@@ -10,8 +8,6 @@
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.cpp.CppKeyword"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.cpp.CppCompiler"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.cpp.CppLanguage"/>
-<fullyQualifiedTypeName name="java.io.File"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Label"/>
 <fullyQualifiedTypeName name="sun.org.mozilla.javascript.internal.ast.Label"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.SelectionListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.custom.CTabItem"/>
@@ -59,5 +55,9 @@
 <fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Point"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.DropdownMenu"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Label"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="net.foxycorndog.arrowide.file.ConfigReader"/>
 </qualifiedTypeNameHistroy>

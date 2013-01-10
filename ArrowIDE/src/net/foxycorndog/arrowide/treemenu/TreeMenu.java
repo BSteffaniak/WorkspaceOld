@@ -23,18 +23,19 @@ import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 
 public class TreeMenu extends Composite
 {
-	private Tree  tree;
-	
-	private Shell shell;
-	
-	private HashMap<TreeItem, Integer> ids;
-	private HashMap<Integer, TreeItem> items;
-	
-	private ArrayList<Integer> treeIds;
-	
-	private ArrayList<TreeMenuListener> listeners;
-	
-	private static int staticId;
+	private Tree						tree;
+
+	private Shell						shell;
+
+	private HashMap<TreeItem, Integer>	ids;
+	private HashMap<Integer, TreeItem>	items;
+	private HashMap<Integer, Integer>	parents;
+
+	private ArrayList<Integer>			treeIds;
+
+	private ArrayList<TreeMenuListener>	listeners;
+
+	private static int					staticId;
 	
 	static
 	{
@@ -51,6 +52,7 @@ public class TreeMenu extends Composite
 		
 		ids          = new HashMap<TreeItem, Integer>();
 		items        = new HashMap<Integer, TreeItem>();
+		parents      = new HashMap<Integer, Integer>();
 		
 		listeners    = new ArrayList<TreeMenuListener>();
 		
@@ -128,6 +130,7 @@ public class TreeMenu extends Composite
 
 		ids.put(item, id);
 		items.put(id, item);
+		parents.put(id, 0);
 		treeIds.add(id);
 		
 		return id;
@@ -152,6 +155,7 @@ public class TreeMenu extends Composite
 		
 		ids.put(item, id);
 		items.put(id, item);
+		parents.put(id, parent);
 		treeIds.add(id);
 		
 		return id;
@@ -160,6 +164,11 @@ public class TreeMenu extends Composite
 	public void alphabetize()
 	{
 		
+	}
+	
+	public int getParentId(int id)
+	{
+		return parents.get(id);
 	}
 	
 	public boolean containsSubItem(int parentId, int subItemId)

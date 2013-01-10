@@ -19,8 +19,10 @@ import org.eclipse.swt.widgets.Widget;
 
 public class PreferencesDialog implements Dialog
 {
+	private int											currentPanelId;
+
 	private Button										apply, ok, cancel;
-	
+
 	private Shell										window;
 
 	private TreeMenu									treeMenu;
@@ -32,6 +34,8 @@ public class PreferencesDialog implements Dialog
 		panels = new HashMap<Integer, PreferencesDialogPanel>();
 		
 		createWindow();
+		
+		currentPanelId = 1;
 	}
 	
 	public void addPreferencesDialogPanel(PreferencesDialogPanel panel)
@@ -127,7 +131,7 @@ public class PreferencesDialog implements Dialog
 		cancel.addListener(SWT.Selection, buttonListener);
 		
 		ok = new Button(window, SWT.PUSH);
-		ok.setText("Ok");
+		ok.setText("OK");
 		ok.setSize(100, 25);
 		ok.setLocation(cancel.getLocation().x - ok.getSize().x - 10, height - 50);
 		ok.addListener(SWT.Selection, buttonListener);
@@ -148,7 +152,13 @@ public class PreferencesDialog implements Dialog
 			panels[i].setVisible(false);
 		}
 		
-		this.panels.get(id).setVisible(true);
+		PreferencesDialogPanel panel = this.panels.get(id);
+		
+		panel.update();
+		panel.open();
+		panel.setVisible(true);
+		
+		currentPanelId = id;
 	}
 	
 	private PreferencesDialogPanel[] getPanels()
@@ -159,13 +169,8 @@ public class PreferencesDialog implements Dialog
 	public String open()
 	{
 		window.setSize(750, 540);
-		
-		PreferencesDialogPanel panels[] = getPanels();
-		
-		for (int i = 0; i < panels.length; i ++)
-		{
-			panels[i].update();
-		}
+
+		setActivePanel(currentPanelId);
 		
 		window.open();
 		

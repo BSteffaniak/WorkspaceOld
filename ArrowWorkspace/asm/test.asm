@@ -27,6 +27,5 @@ exit:
 	int 0x20;
 
 st:   db 'Hello World: ', '!', 0xD, 0xA, '$';
-len:  equ $-st;
-str2: db 0xD, 0xA, 'pressed y ', len, '$';
+str2: db 0xD, 0xA, 'pressed y ', $-st, '$';
 str3: db 0xD, 0xA, 'not y', '$';

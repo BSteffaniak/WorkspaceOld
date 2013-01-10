@@ -1,0 +1,18 @@
+package net.foxycorndog.arrowide.file;
+
+import java.util.HashMap;
+
+public class ConfigReader
+{
+	private String location;
+	
+	public ConfigReader(String location)
+	{
+		this.location = location;
+	}
+	
+	public void read(HashMap<String, String> map)
+	{
+		
+	}
+}

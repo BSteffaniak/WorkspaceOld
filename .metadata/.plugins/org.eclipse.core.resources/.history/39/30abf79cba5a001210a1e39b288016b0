@@ -1,0 +1,49 @@
+package net.foxycorndog.arrowide.file;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+
+public class ConfigReader
+{
+	private String location;
+	
+	public ConfigReader(String location)
+	{
+		this.location = location;
+	}
+	
+	public void read(HashMap<String, String> map)
+	{
+		try
+		{
+			PrintWriter p = new PrintWriter(new FileWriter(configLocation));
+			
+			for (int i = 0; i < CONFIG_DATA.size(); i ++)
+			{
+				String lineKey   = null;
+				String lineValue = null;
+				
+				lineKey = CONFIG_LINE_NUMBER_DATA.get(i);
+				
+				if (lineKey.equals(key))
+				{
+					lineValue = CONFIG_DATA.get(lineKey);
+				}
+				else
+				{
+					lineValue = CONFIG_DATA.get(lineKey);
+				}
+				
+				p.print(lineKey + "=" + lineValue + (i == CONFIG_DATA.size() - 1 ? "" : "\r\n"));
+			}
+		
+			p.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+}

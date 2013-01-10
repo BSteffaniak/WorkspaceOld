@@ -54,4 +54,6 @@ public abstract class PreferencesDialogPanel extends Composite
 	public abstract void revert();
 	
 	public abstract void update();
+	
+	public abstract void open();
 }

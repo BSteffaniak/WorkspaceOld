@@ -64,7 +64,7 @@ public class Command
 	
 	public void execute() throws IOException
 	{
-		System.out.println(Arrays.asList(commands) + ", " + directory);
+//		System.out.println(Arrays.asList(commands) + ", " + directory);
 		
 		new Thread()
 		{
@@ -115,7 +115,7 @@ public class Command
 											failed = true;
 											
 											stream.println(line);
-											System.out.println(line);
+//											System.out.println(line);
 										}
 									}
 									catch (IOException e)
@@ -184,7 +184,7 @@ class LogStreamReader implements Runnable
         try
         {
             String line = null;
-            System.out.println("running");
+//            System.out.println("running");
             while ((line = reader.readLine()) != null)
             {
             	System.out.println(line);
@@ -201,7 +201,7 @@ class LogStreamReader implements Runnable
             
             reader.close();
             
-            System.out.println("closed");
+//            System.out.println("closed");
         }
         catch (IOException e)
         {

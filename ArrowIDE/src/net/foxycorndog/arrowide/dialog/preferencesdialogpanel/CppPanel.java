@@ -64,4 +64,9 @@ public class CppPanel extends PreferencesDialogPanel
 	{
 		revert();
 	}
+
+	public void open()
+	{
+		
+	}
 }

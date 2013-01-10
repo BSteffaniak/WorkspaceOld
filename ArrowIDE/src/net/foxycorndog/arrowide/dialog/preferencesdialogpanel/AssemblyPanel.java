@@ -8,6 +8,7 @@ import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 public class AssemblyPanel extends PreferencesDialogPanel
@@ -36,7 +37,12 @@ public class AssemblyPanel extends PreferencesDialogPanel
 		compilerChooser.setSize(100, 25);
 		compilerChooser.addItem("NASM");
 		compilerChooser.addItem("FASM");
-		compilerChooser.setSelection("NASM");
+		compilerChooser.setLocation(width - compilerChooser.getWidth() - 20, 85);
+		
+		Label compilerLabel = new Label(this, SWT.NONE);
+		compilerLabel.setText("Assembler:");
+		compilerLabel.setSize(70, 25);
+		compilerLabel.setLocation(compilerChooser.getX() - compilerLabel.getSize().x, compilerChooser.getY() + 3);
 		
 		if (CONFIG_DATA.containsKey("dosbox.location"))
 		{
@@ -44,7 +50,6 @@ public class AssemblyPanel extends PreferencesDialogPanel
 		}
 		if (CONFIG_DATA.containsKey("assembly.compiler"))
 		{
-			System.out.println("");
 			compilerChooser.setSelection(CONFIG_DATA.get("assembly.compiler"));
 		}
 	}
@@ -74,5 +79,10 @@ public class AssemblyPanel extends PreferencesDialogPanel
 	public void update()
 	{
 		revert();
+	}
+
+	public void open()
+	{
+		
 	}
 }

@@ -3,7 +3,7 @@
 format PE64 GUI 5.0
 entry start
 
-include 'win64a.inc'
+include '../Arrowide/res/assembly/fasm/windows/include/win64a.inc'
 
 include 'opengl.inc'
 

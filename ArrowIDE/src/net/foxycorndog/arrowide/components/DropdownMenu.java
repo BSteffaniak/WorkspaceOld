@@ -24,6 +24,21 @@ public class DropdownMenu
 		names = new HashMap<Integer, String>();
 	}
 	
+	public int getX()
+	{
+		return dropdown.getLocation().x;
+	}
+	
+	public int getY()
+	{
+		return dropdown.getLocation().y;
+	}
+	
+	public Point getLocation()
+	{
+		return dropdown.getLocation();
+	}
+	
 	public void setLocation(int x, int y)
 	{
 		dropdown.setLocation(x, y);
@@ -32,6 +47,21 @@ public class DropdownMenu
 	public void setLocation(Point location)
 	{
 		dropdown.setLocation(location.x, location.y);
+	}
+	
+	public int getWidth()
+	{
+		return dropdown.getSize().x;
+	}
+	
+	public int getHeight()
+	{
+		return dropdown.getSize().y;
+	}
+	
+	public Point getSize()
+	{
+		return dropdown.getSize();
 	}
 	
 	public void setSize(int width, int height)
@@ -64,8 +94,6 @@ public class DropdownMenu
 	public String getSelection()
 	{
 		String name = names.get(dropdown.getSelectionIndex());
-		
-		System.out.println(name + "!!!!!!!!!!!!!!!");
 		
 		return name;
 	}

@@ -48,7 +48,9 @@ public class AssemblyLanguage
 			throw new UnsupportedOperationException("Running assembly on macosx is unsupported.");
 		}
 		
-		boolean bit16Supported = PROPERTIES.get("os.arch").equals(32);
+		String compilerName = CONFIG_DATA.get("assembly.compiler");
+		
+		boolean bit16Supported = PROPERTIES.get("os.arch").equals(32) || compilerName.equals("FASM");
 		
 		Command command = null;
 		
@@ -59,7 +61,7 @@ public class AssemblyLanguage
 		
 		String name = FileUtils.getFileNameWithoutExtension(fileLocation);
 		
-		String fileEnding = ".com";
+		String fileEnding = compilerName.equals("FASM") ? ".exe" : ".com";
 		
 		if (bit16Supported)
 		{

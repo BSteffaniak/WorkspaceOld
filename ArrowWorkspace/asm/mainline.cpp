@@ -4,7 +4,7 @@ int gcdmem(int a, int b);
 
 int main()
 {
-	int result;
+	int result = 3;
 	
 	//result = gcdmem(150, 34);
 	printf("The gcd is %d\n", result);

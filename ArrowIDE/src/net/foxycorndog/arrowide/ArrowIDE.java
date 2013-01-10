@@ -36,6 +36,7 @@ import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
 import net.foxycorndog.arrowide.dialog.TextInputDialog;
 import net.foxycorndog.arrowide.dialog.preferencesdialogpanel.AssemblyPanel;
 import net.foxycorndog.arrowide.dialog.preferencesdialogpanel.CppPanel;
+import net.foxycorndog.arrowide.file.ConfigReader;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CompilerListener;
 import net.foxycorndog.arrowide.language.Keyword;
@@ -149,8 +150,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	private static String                   configLocation;
 	
 	public  static final HashMap<String, String>  CONFIG_DATA;
-	public  static final HashMap<Integer, String> CONFIG_LINE_NUMBER_DATA;
-	public  static final HashMap<String, Integer> CONFIG_LINE_NUMBERS;
+//	public  static final HashMap<Integer, String> CONFIG_LINE_NUMBER_DATA;
+//	public  static final HashMap<String, Integer> CONFIG_LINE_NUMBERS;
 	
 	public  static final HashMap<String, Object>  PROPERTIES;
 	
@@ -161,8 +162,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	static
 	{
 		CONFIG_DATA             = new HashMap<String, String>();
-		CONFIG_LINE_NUMBER_DATA = new HashMap<Integer, String>();
-		CONFIG_LINE_NUMBERS     = new HashMap<String, Integer>();
+//		CONFIG_LINE_NUMBER_DATA = new HashMap<Integer, String>();
+//		CONFIG_LINE_NUMBERS     = new HashMap<String, Integer>();
 		
 		PROPERTIES              = new HashMap<String, Object>();
 		
@@ -533,7 +534,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					String location = treeItemOrigLocations.get(id);
 					
 					deleteFile(location);
-					
+
+					//TODO
 					refreshFileViewer();
 				}
 				else if (e.widget == newFolder)
@@ -560,7 +562,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					{
 						File f = new File(location);
 						f.mkdirs();
-						
+
+						//TODO
 						refreshFileViewer();
 					}
 				}
@@ -593,7 +596,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 							f.createNewFile();
 						
 							openFile(location);
-							
+
+							//TODO
 							refreshFileViewer();
 						}
 						catch (IOException e2)
@@ -725,7 +729,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 								{
 									before = fileCacheSaved.get(newLocLower);
 								}
-								
+
+								//TODO
 								refreshFileViewer();
 								
 								fileCacheSaved.put(newLocLower, before);
@@ -977,7 +982,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		ArrowIDE ide = new ArrowIDE(display, shell);
 		
 		shell.open();
-		
+
+		//TODO
 		ide.refreshFileViewer();
 		
 		return ide;
@@ -1036,31 +1042,32 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		CONFIG_DATA.put(key, value);
 		
-		if (CONFIG_LINE_NUMBERS.containsKey(key))
-		{
-			int lineNum = CONFIG_LINE_NUMBERS.get(key);
-			
-			CONFIG_LINE_NUMBER_DATA.put(lineNum, key);
-			CONFIG_LINE_NUMBERS.put(key, lineNum);
-		}
-		else
-		{
-			CONFIG_LINE_NUMBER_DATA.put(CONFIG_LINE_NUMBER_DATA.size(), key);
-			CONFIG_LINE_NUMBERS.put(key, CONFIG_LINE_NUMBER_DATA.size());
-		}
-		
-		System.out.println("put key=" + key + ", value=" + value);
+//		int lineNum = 0;
+//		
+//		if (CONFIG_LINE_NUMBERS.containsKey(key))
+//		{
+//			lineNum = CONFIG_LINE_NUMBERS.get(key);
+//		}
+//		else
+//		{
+//			lineNum = CONFIG_LINE_NUMBER_DATA.size();
+//		}
+//		
+//		CONFIG_LINE_NUMBER_DATA.put(lineNum, key);
+//		CONFIG_LINE_NUMBERS.put(key, lineNum);
 		
 		try
 		{
 			PrintWriter p = new PrintWriter(new FileWriter(configLocation));
+			
+			String keys[] = CONFIG_DATA.keySet().toArray(new String[0]);
 			
 			for (int i = 0; i < CONFIG_DATA.size(); i ++)
 			{
 				String lineKey   = null;
 				String lineValue = null;
 				
-				lineKey = CONFIG_LINE_NUMBER_DATA.get(i);
+				lineKey          = keys[i];
 				
 				if (lineKey.equals(key))
 				{
@@ -1070,8 +1077,6 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				{
 					lineValue = CONFIG_DATA.get(lineKey);
 				}
-				
-				System.out.println(lineKey + "===" + lineValue);
 				
 				p.print(lineKey + "=" + lineValue + (i == CONFIG_DATA.size() - 1 ? "" : "\r\n"));
 			}
@@ -1094,31 +1099,33 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		try
 		{
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-		
-			String line = null;
+//			BufferedReader reader = new BufferedReader(new FileReader(file));
+//		
+//			String line = null;
+//			
+//			for (int lineNum = 0; (line = reader.readLine()) != null; lineNum ++)
+//			{
+//				String lineData[] = line.split("=");
+//				
+//				String key        = lineData[0];
+//				String value      = "";
+//				
+//				for (int i = 1; i < lineData.length; i ++)
+//				{
+//					if (i > 1)
+//					{
+//						value += "=";
+//					}
+//					
+//					value += lineData[i];
+//				}
+//				
+//				CONFIG_DATA.put(key, value);
+//				CONFIG_LINE_NUMBERS.put(key, lineNum);
+//				CONFIG_LINE_NUMBER_DATA.put(lineNum, key);
+//			}
 			
-			for (int lineNum = 0; (line = reader.readLine()) != null; lineNum ++)
-			{
-				String lineData[] = line.split("=");
-				
-				String key        = lineData[0];
-				String value      = "";
-				
-				for (int i = 1; i < lineData.length; i ++)
-				{
-					if (i > 1)
-					{
-						value += "=";
-					}
-					
-					value += lineData[i];
-				}
-				
-				CONFIG_DATA.put(key, value);
-				CONFIG_LINE_NUMBERS.put(key, lineNum);
-				CONFIG_LINE_NUMBER_DATA.put(lineNum, key);
-			}
+			ConfigReader.read(configLocation, CONFIG_DATA);
 			
 			if (!CONFIG_DATA.containsKey("workspace.location"))
 			{
@@ -1153,7 +1160,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		{
 			File f = new File(location);
 			f.mkdirs();
-			
+
+			//TODO
 			refreshFileViewer();
 		}
 	}
@@ -1401,7 +1409,13 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			setFileSaved(location, true);
 		}
 		
+		//TODO
 		refreshFileViewer();
+	}
+	
+	public void addToFileViewer(String location)
+	{
+		
 	}
 	
 	/**
@@ -1413,9 +1427,21 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 */
 	private void refreshFileViewer()
 	{
-		File workspace = new File(CONFIG_DATA.get("workspace.location"));
+		refreshFileViewer(CONFIG_DATA.get("workspace.location"), 0);
+	}
+	
+	public void refreshFileViewer(String location)
+	{
+		int parentId = treeItemIds.get(location);
 		
-		findSubFiles(workspace, 0);
+		refreshFileViewer(location, parentId);
+	}
+
+	public void refreshFileViewer(String location, int parentId)
+	{
+		File parent  = new File(location);
+		
+		findSubFiles(parent, treeMenu.getParentId(parentId));
 		
 		String locations[] = treeItemLocations.values().toArray(new String[0]);
 		
@@ -1865,6 +1891,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		if (filesNeedRefresh)
 		{
+			//TODO
 			refreshFileViewer();
 		}
 	}
