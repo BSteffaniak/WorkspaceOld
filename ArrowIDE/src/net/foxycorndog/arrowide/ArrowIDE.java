@@ -1415,7 +1415,23 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	
 	public void addToFileViewer(String location)
 	{
+		String locKey = location.replace("\\", "/").toLowerCase();
+		String name   = FileUtils.getFileName(location);
 		
+		int id = treeMenu.addSubItem(parent, name, img);
+
+		boolean isDirectory = subFiles[i].isDirectory();
+		
+		Image img = isDirectory ? folderImage : getFileImage(location);
+		
+		if (fileCacheSaved.containsKey(location))
+		{
+			fileCacheSaved.put(location, true);
+		}
+
+		treeItemLocations.put(id, location);
+		treeItemOrigLocations.put(id, orig);
+		treeItemIds.put(location, id);
 	}
 	
 	/**
@@ -1441,7 +1457,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	{
 		File parent  = new File(location);
 		
-		findSubFiles(parent, treeMenu.getParentId(parentId));
+		findSubFiles(parent, parentId);
 		
 		String locations[] = treeItemLocations.values().toArray(new String[0]);
 		
@@ -1529,7 +1545,11 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 						treeItemDirectories.put(id, location);
 					}
 					
-					fileCacheSaved.put(location, true);
+					if (fileCacheSaved.containsKey(location))
+					{
+						fileCacheSaved.put(location, true);
+					}
+					
 					treeItemLocations.put(id, location);
 					treeItemOrigLocations.put(id, orig);
 					treeItemIds.put(location, id);
