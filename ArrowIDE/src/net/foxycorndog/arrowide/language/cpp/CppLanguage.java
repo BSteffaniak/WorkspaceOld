@@ -56,13 +56,17 @@ public class CppLanguage
 			
 			Command command = new Command(text, stream, null);
 			
+			String outputFile = outputLocation + FileUtils.getFileName(fileLocation);
+			
+			final String outputFiles[] = new String[] { outputFile };
+			
 			command.addCommandListener(new CommandListener()
 			{
 				public void resultReceived(int result)
 				{
 					for (int i = compilerListeners.size() - 1; i >= 0; i--)
 					{
-						compilerListeners.get(i).compiled(result);
+						compilerListeners.get(i).compiled(outputFiles, result);
 					}
 				}
 			});

@@ -46,7 +46,7 @@ public class CppPanel extends PreferencesDialogPanel
 
 	public void apply()
 	{
-		if (gppLocator.getText() != null && !CONFIG_DATA.get("g++.location").equals(gppLocator.getText()))
+		if (gppLocator.getText() != null && !gppLocator.getText().equals(CONFIG_DATA.get("g++.location")))
 		{
 			ArrowIDE.setConfigDataValue("g++.location", gppLocator.getText());
 		}

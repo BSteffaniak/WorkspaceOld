@@ -29,8 +29,6 @@ public class LanguageCompiler
 	{
 		if (fileLocation != null)
 		{
-			String fileName = FileUtils.getFileName(fileLocation);
-			
 			int language = FileUtils.getLanguage(fileLocation);
 			
 			if (language == Language.CPP)
@@ -56,11 +54,11 @@ public class LanguageCompiler
 			
 			if (language == Language.JAVA)
 			{
-				JavaLanguage.compile(fileName, code, outputLocation, stream, listeners);
+				JavaLanguage.compile(fileLocation, code, outputLocation, stream, listeners);
 			}
 			else if (language == Language.GLSL)
 			{
-				GLSLLanguage.loadVertexShader(fileName, code, stream, listeners);
+				GLSLLanguage.loadVertexShader(fileLocation, code, stream, listeners);
 			}
 			else if (language == Language.ASSEMBLY)
 			{

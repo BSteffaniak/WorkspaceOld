@@ -1,0 +1,42 @@
+package net.foxycorndog.arrowide.dialog.preferencesdialogpanel;
+
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
+
+import net.foxycorndog.arrowide.components.FileLocator;
+import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
+
+public class GeneralPanel extends PreferencesDialogPanel
+{
+	private FileLocator workspaceLocator;
+	
+	public GeneralPanel(Shell parent)
+	{
+		super(parent, "General");
+		
+		int width = getSize().x;
+		
+		workspaceLocator = new FileLocator(this, parent, "G++ Location:", FileLocator.FILE);
+		workspaceLocator.setLocation(width - workspaceLocator.getSize().x, 50);
+	}
+
+	public void apply()
+	{
+		
+	}
+
+	public void revert()
+	{
+		
+	}
+
+	public void update()
+	{
+		
+	}
+
+	public void open()
+	{
+		
+	}
+}

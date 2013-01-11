@@ -47,7 +47,7 @@ public class PreferencesDialog implements Dialog
 	{
 		Rectangle bounds = Display.getDefault().getPrimaryMonitor().getBounds();
 		
-		window = new Shell(Display.getDefault());
+		window = new Shell(Display.getDefault(), SWT.SHELL_TRIM & (~SWT.RESIZE));
 		window.setSize(750, 540);
 		window.setLocation(bounds.width / 2 - window.getSize().x / 2, bounds.height / 2 - window.getSize().y / 2);
 		

@@ -16,15 +16,15 @@ import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 
 public class ConsoleField extends StyledText
 {
-	private boolean textUpdated;
-
-	private ArrayList<String> appendQueue;
+//	private boolean textUpdated;
+//
+//	private ArrayList<String> appendQueue;
 	
 	public ConsoleField(Composite parent)
 	{
 		super(parent, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | (Integer)PROPERTIES.get("composite.modifiers"));
 		
-		appendQueue           = new ArrayList<String>();
+//		appendQueue           = new ArrayList<String>();
 		
 		Font f = FileUtils.loadMonospacedFont(Display.getDefault(), "Liberation Mono", "res/fonts/Liberation-Mono/LiberationMono-Regular.ttf", 16, SWT.NORMAL);
 	    setFont(f);
@@ -33,13 +33,13 @@ public class ConsoleField extends StyledText
 	    {
 			public void paintControl(PaintEvent e)
 			{
-				synchronized (appendQueue)
-				{
-					while (appendQueue.size() > 0)
-					{
-						append(appendQueue.remove(0), true);
-					}
-				}
+//				synchronized (appendQueue)
+//				{
+//					while (appendQueue.size() > 0)
+//					{
+//						append(appendQueue.remove(0), true);
+//					}
+//				}
 			}
 	    });
 	}
@@ -54,36 +54,36 @@ public class ConsoleField extends StyledText
 		return getBounds().height;
 	}
 	
-	public void append(String s)
-	{
-		append(s, false);
-	}
-	
-	public void append(String s, boolean sup)
-	{
-		if (sup)
-		{
-			super.append(s);
-			redraw();
-		}
-		else
-		{
-			synchronized (appendQueue)
-			{
-				appendQueue.add(s);
-			}
-			
-			textUpdated = true;
-		}
-	}
-	
-	public void updateText()
-	{
-		if (textUpdated)
-		{
-			redraw();
-			
-			textUpdated = false;
-		}
-	}
+//	public void append(String s)
+//	{
+//		append(s, false);
+//	}
+//	
+//	public void append(String s, boolean sup)
+//	{
+//		if (sup)
+//		{
+//			super.append(s);
+//			redraw();
+//		}
+//		else
+//		{
+//			synchronized (appendQueue)
+//			{
+//				appendQueue.add(s);
+//			}
+//			
+//			textUpdated = true;
+//		}
+//	}
+//	
+//	public void updateText()
+//	{
+//		if (textUpdated)
+//		{
+//			redraw();
+//			
+//			textUpdated = false;
+//		}
+//	}
 }

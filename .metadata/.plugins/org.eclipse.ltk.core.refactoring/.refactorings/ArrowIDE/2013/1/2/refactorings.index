@@ -8,3 +8,5 @@
 1357705645889	Rename local variable 'gppLocator'
 1357709120458	Rename local variable 'gppLoc'
 1357733592063	Rename local variable 'location'
+1357874210252	Rename local variable 'outputLocations'
+1357906811896	Rename field 'clickListener'

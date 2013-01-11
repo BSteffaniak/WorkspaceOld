@@ -264,4 +264,15 @@ public class FileUtils
 			e.printStackTrace();
 		}
 	}
+	
+	public static String getAbsolutePath(String parentLocation, String location) throws IOException
+	{
+//		File parent       = new File(parentLocation);
+		
+		File fileLocation = new File(location);
+		
+		String loc        = fileLocation.getCanonicalPath();
+		
+		return loc.replace('\\', '/');
+	}
 }

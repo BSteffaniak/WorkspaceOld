@@ -1,0 +1,33 @@
+package net.foxycorndog.arrowide.dialog.preferencesdialogpanel;
+
+import org.eclipse.swt.widgets.Composite;
+
+import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
+
+public class generalPanel extends PreferencesDialogPanel
+{
+	public generalPanel(Composite parent, String title)
+	{
+		super(parent, title);
+	}
+
+	public void apply()
+	{
+		
+	}
+
+	public void revert()
+	{
+		
+	}
+
+	public void update()
+	{
+		
+	}
+
+	public void open()
+	{
+		
+	}
+}

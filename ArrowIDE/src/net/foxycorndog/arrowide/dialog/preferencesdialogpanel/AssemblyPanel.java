@@ -56,7 +56,7 @@ public class AssemblyPanel extends PreferencesDialogPanel
 
 	public void apply()
 	{
-		if (dosboxLocator.getText() != null && !CONFIG_DATA.get("dosbox.location").equals(dosboxLocator.getText()))
+		if (dosboxLocator.getText() != null && !dosboxLocator.getText().equals(CONFIG_DATA.get("dosbox.location")))
 		{
 			ArrowIDE.setConfigDataValue("dosbox.location", dosboxLocator.getText());
 		}

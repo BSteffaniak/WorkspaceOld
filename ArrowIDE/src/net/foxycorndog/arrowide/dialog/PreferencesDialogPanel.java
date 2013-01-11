@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Widget;
 
 public abstract class PreferencesDialogPanel extends Composite
 {
 	private String title;
 	
-	public PreferencesDialogPanel(Composite parent, String title)
+	public PreferencesDialogPanel(Shell parent, String title)
 	{
 		super(parent, SWT.BORDER);
 		

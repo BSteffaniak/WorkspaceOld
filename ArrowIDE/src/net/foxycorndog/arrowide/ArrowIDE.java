@@ -36,6 +36,7 @@ import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
 import net.foxycorndog.arrowide.dialog.TextInputDialog;
 import net.foxycorndog.arrowide.dialog.preferencesdialogpanel.AssemblyPanel;
 import net.foxycorndog.arrowide.dialog.preferencesdialogpanel.CppPanel;
+import net.foxycorndog.arrowide.dialog.preferencesdialogpanel.GeneralPanel;
 import net.foxycorndog.arrowide.file.ConfigReader;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CompilerListener;
@@ -103,57 +104,76 @@ import org.lwjgl.opengl.GLContext;
 
 public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuListener
 {
-	private boolean      filesNeedRefresh;
+	private boolean								filesNeedRefresh;
 	
-	private CodeField    codeField;
+	private int									curId;
+
+	private CodeField							codeField;
+
+	private ConsoleField						console;
+
+	private String								fileLocation;
+
+	private Image								folderImage, fileImage,
+			javaFileImage, classFileImage, glslFileImage, txtFileImage,
+			rtfFileImage, exeFileImage, asmFileImage, cppFileImage, hFileImage;
+
+	private PreferencesDialog					preferences;
+
+	private Menubar								menubar;
+
+	private Toolbar								toolbar;
+
+	private TreeMenu							treeMenu;
+
+	private TabMenu								tabs;
+
+	private ConsoleStream						consoleStream;
+
+	private Dialog								newFolderDialog, newFileDialog,
+			newProjectDialog;
+	private TextInputDialog						renameFileDialog;
+
+	private HashMap<Integer, String>			treeItemLocations;
+	private HashMap<String, Integer>			treeItemIds;
+	private HashMap<Integer, String>			treeItemDirectories;
+	private HashMap<Integer, String>			menuItemLocations;
+	private HashMap<String, Integer>			menuItems;
+	private HashMap<String, String>				fileCache;
+	private HashMap<String, Boolean>			fileCacheSaved;
+	private HashMap<Integer, String>			tabFileLocations;
+	private HashMap<String, Integer>			tabFileIds;
+
+	private static boolean						restarting;
+
+	private static boolean						exiting;
+
+	private static Display						display;
+	private static Shell						shell;
+	private static SplashScreen					splash;
+
+	private static String						configLocation;
+
+	public static final HashMap<String, String>	CONFIG_DATA;
+	// public static final HashMap<Integer, String> CONFIG_LINE_NUMBER_DATA;
+	// public static final HashMap<String, Integer> CONFIG_LINE_NUMBERS;
+
+	public static final HashMap<String, Object>	PROPERTIES;
 	
-	private ConsoleField console;
+	private static ArrayList<Thread>			fileViewerThreads;
 	
-	private String       fileLocation;
-	
-	private Image        folderImage, fileImage, javaFileImage, classFileImage,
-						glslFileImage, txtFileImage, rtfFileImage, exeFileImage,
-						asmFileImage, cppFileImage, hFileImage;
-	
-	private PreferencesDialog preferences;
-	
-	private Menubar   menubar;
-	
-	private Toolbar   toolbar;
-	
-	private TreeMenu  treeMenu;
-	
-	private TabMenu   tabs;
-	
-	private ConsoleStream   consoleStream;
-	
-	private Dialog          newFolderDialog, newFileDialog, newProjectDialog;
-	private TextInputDialog renameFileDialog;
-	
-	private HashMap<Integer, String>  treeItemLocations;
-	private HashMap<Integer, String>  treeItemOrigLocations;
-	private HashMap<String, Integer>  treeItemIds;
-	private HashMap<Integer, String>  treeItemDirectories;
-	private HashMap<Integer, String>  menuItemLocations;
-	private HashMap<String, Integer>  menuItems;
-	private HashMap<String, String>   fileCache;
-	private HashMap<String, Boolean>  fileCacheSaved;
-	private HashMap<Integer, String>  tabFileLocations;
-	private HashMap<String, Integer>  tabFileIds;
-	
-	private static boolean      restarting;
-	
-	private static Display      display;
-	private static Shell        shell;
-	private static SplashScreen splash;
-	
-	private static String                   configLocation;
-	
-	public  static final HashMap<String, String>  CONFIG_DATA;
-//	public  static final HashMap<Integer, String> CONFIG_LINE_NUMBER_DATA;
-//	public  static final HashMap<String, Integer> CONFIG_LINE_NUMBERS;
-	
-	public  static final HashMap<String, Object>  PROPERTIES;
+	private class Efficient
+	{
+		private int i;
+		
+		private String s;
+		
+		public Efficient(String s, int i)
+		{
+			this.s = s;
+			this.i = i;
+		}
+	}
 	
 	/**
 	 * Initialize the CONFIG_DATA HashMaps and set the os properties
@@ -245,6 +265,27 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	{
 		this.shell = shell;
 		
+		if (CONFIG_DATA.containsKey("window.width") && CONFIG_DATA.containsKey("window.height"))
+		{
+			int width  = Integer.parseInt(CONFIG_DATA.get("window.width"));
+			int height = Integer.parseInt(CONFIG_DATA.get("window.height"));
+			
+			shell.setSize(width, height);
+		}
+		
+		if (CONFIG_DATA.containsKey("window.x") && CONFIG_DATA.containsKey("window.y"))
+		{
+			int x  = Integer.parseInt(CONFIG_DATA.get("window.x"));
+			int y = Integer.parseInt(CONFIG_DATA.get("window.y"));
+			
+			shell.setLocation(x, y);
+		}
+		
+		if (CONFIG_DATA.containsKey("window.maximized"))
+		{
+			shell.setMaximized(Boolean.valueOf(CONFIG_DATA.get("window.maximized")));
+		}
+		
 		shell.setBackground(new Color(display, 170, 170, 170));
 		
 //		GridLayout b = new GridLayout();
@@ -312,6 +353,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		tabs.setLocation(codeField.getX(), 2);
 		
 		preferences = new PreferencesDialog(shell);
+		preferences.addPreferencesDialogPanel(new GeneralPanel(preferences.getWindow(), this));
 		preferences.addPreferencesDialogPanel(new CppPanel(preferences.getWindow()));
 		preferences.addPreferencesDialogPanel(new AssemblyPanel(preferences.getWindow()));
 		
@@ -479,20 +521,31 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		LanguageCompiler.addCompilerListener(new CompilerListener()
 		{
-			public void compiled(int result)
+			public void compiled(final String files[], int result)
 			{
 				if (result == 0)
 				{
-					filesNeedRefresh = true;
-					
 					consoleStream.println("Compiled successfully.");
 				}
+				
+
+				Display.getDefault().asyncExec(new Runnable()
+				{
+					public void run()
+					{
+						for (int i = 0; i < files.length; i ++)
+						{
+							addToFileViewer(files[i]);
+						}
+					}
+				});
 			}
 		});
 		
+		fileViewerThreads    = new ArrayList<Thread>();
+		
 		fileCacheSaved        = new HashMap<String, Boolean>();
 		treeItemLocations     = new HashMap<Integer, String>();
-		treeItemOrigLocations = new HashMap<Integer, String>();
 		treeItemIds           = new HashMap<String, Integer>();
 		treeItemDirectories   = new HashMap<Integer, String>();
 		
@@ -531,17 +584,15 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 //						System.out.println("is file");
 //					}
 					
-					String location = treeItemOrigLocations.get(id);
+					String location = treeItemLocations.get(id);
 					
 					deleteFile(location);
 
-					//TODO
-//					refreshFileViewer();
 					removeFromFileViewer(location);
 				}
 				else if (e.widget == newFolder)
 				{
-					String preLoc = treeItemOrigLocations.get(treeMenu.getSelection());
+					String preLoc = treeItemLocations.get(treeMenu.getSelection());
 					
 					if (preLoc == null)
 					{
@@ -564,14 +615,12 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 						File f = new File(location);
 						f.mkdirs();
 
-						//TODO
-//						refreshFileViewer();
 						addToFileViewer(location);
 					}
 				}
 				else if (e.widget == newFile)
 				{
-					String preLoc = treeItemOrigLocations.get(treeMenu.getSelection());
+					String preLoc = treeItemLocations.get(treeMenu.getSelection());
 					
 					if (preLoc == null)
 					{
@@ -599,8 +648,6 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 						
 							openFile(location);
 
-							//TODO
-//							refreshFileViewer();
 							addToFileViewer(location);
 						}
 						catch (IOException e2)
@@ -613,14 +660,13 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				{
 					final int selection		= treeMenu.getSelection();
 					
-					final String loc		= treeItemOrigLocations.get(selection);
-					final String locLower	= loc.toLowerCase();
+					final String loc		= treeItemLocations.get(selection);
 					
 					boolean willContinue	= false;
 					
-					if (fileCache.containsKey(locLower))
+					if (fileCache.containsKey(loc))
 					{
-						if (!fileCacheSaved.get(locLower))
+						if (!fileCacheSaved.get(loc))
 						{
 							String result = null;
 							
@@ -654,7 +700,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					
 					if (willContinue)
 					{
-						renameFileDialog = new TextInputDialog("Enter the new name:", "New name:", FileUtils.getFileName(treeItemOrigLocations.get(selection)));
+						renameFileDialog = new TextInputDialog("Enter the new name:", "New name:", FileUtils.getFileName(treeItemLocations.get(selection)));
 						
 						renameFileDialog.addDialogFilter(new DialogFilter()
 						{
@@ -672,7 +718,6 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 								
 								
 								String newLoc		= FileUtils.getParentFolder(loc) + "/" + text;
-								String newLocLower	= newLoc.toLowerCase();
 								
 								boolean currentFile	= text.equals(FileUtils.getFileName(loc));
 								
@@ -681,64 +726,56 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 									return "The name must be different than the current name.";
 								}
 								
+								removeFromFileViewer(loc);
+								
 								File f = new File(loc);
 								
 								boolean successful = f.renameTo(new File(newLoc));
 								
 								if (successful)
 								{
-									int id = treeItemIds.get(locLower);
-									
-									if (treeItemDirectories.containsKey(id))
+									if (fileCache.containsKey(loc))
 									{
-										treeItemDirectories.remove(id);
+										fileCache.put(newLoc, fileCache.remove(loc));
+										fileCacheSaved.put(newLoc, fileCacheSaved.remove(loc));
+										System.out.println("Added: " + newLoc + ", " + fileCacheSaved.get(newLoc));
 									}
 									
-									treeItemIds.remove(locLower);
-									treeItemLocations.remove(id);
-									treeItemOrigLocations.remove(id);
-									treeMenu.removeItem(id);
-									
-									if (fileCache.containsKey(locLower))
+									if (tabFileLocations.containsValue(loc))
 									{
-										fileCache.put(newLocLower, fileCache.remove(locLower));
-										fileCacheSaved.put(newLocLower, fileCacheSaved.remove(locLower));
-										System.out.println("Added: " + newLocLower + ", " + fileCacheSaved.get(newLocLower));
-									}
-									
-									if (tabFileLocations.containsValue(locLower))
-									{
-										int tabId = tabFileIds.get(locLower);
+										int tabId = tabFileIds.get(loc);
 										
 										tabs.setTabText(tabId, FileUtils.getFileName(newLoc));
-										tabFileLocations.put(tabId, newLocLower);
+										tabFileLocations.put(tabId, newLoc);
 										
-										tabFileIds.put(newLocLower, tabFileIds.remove(locLower));
+										tabFileIds.put(newLoc, tabFileIds.remove(loc));
 									}
-								}
-								
-								if (currentFile)
-								{
-									fileLocation = newLoc;
 									
-									codeField.setLanguage(Language.getLanguage(fileLocation));
+									if (currentFile)
+									{
+										fileLocation = newLoc;
+										
+										codeField.setLanguage(Language.getLanguage(fileLocation));
+										
+										codeField.highlightSyntax();
+									}
 									
-									codeField.highlightSyntax();
-								}
-								
-								boolean before = true;
-								
-								if (fileCacheSaved.containsKey(newLocLower))
-								{
-									before = fileCacheSaved.get(newLocLower);
-								}
+									boolean before = true;
+									
+									if (fileCacheSaved.containsKey(newLoc))
+									{
+										before = fileCacheSaved.get(newLoc);
+									}
 
-								//TODO
-//								refreshFileViewer();
-								removeFromFileViewer(loc);
-								addToFileViewer(newLoc);
-								
-								fileCacheSaved.put(newLocLower, before);
+//									refreshFileViewer();
+									addToFileViewer(newLoc);
+									
+									fileCacheSaved.put(newLoc, before);
+								}
+								else
+								{
+									addToFileViewer(loc);
+								}
 								
 								return null;
 							}
@@ -771,7 +808,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			{
 				if (!treeItemDirectories.containsKey(id))
 				{
-					String location = treeItemOrigLocations.get(id);
+					String location = treeItemLocations.get(id);
 					
 					openFile(location);
 				}
@@ -791,12 +828,18 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		consoleStream.addConsoleListener(new ConsoleListener()
 		{
-			public void onPrintln(Object o)
+			public void onPrintln(final Object o)
 			{
-				if (o instanceof String)
+				display.asyncExec(new Runnable()
 				{
-					console.append((String)o);
-				}
+					public void run()
+					{
+						if (o instanceof String)
+						{
+							console.append((String)o);
+						}
+					}
+				});
 			}
 			
 			public void onPrint(Object o)
@@ -812,7 +855,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		{
 			public void controlMoved(ControlEvent e)
 			{
-				
+				setConfigDataValue("window.x", shell.getLocation().x + "");
+				setConfigDataValue("window.y", shell.getLocation().y + "");
 			}
 
 			public void controlResized(ControlEvent e)
@@ -835,6 +879,14 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				
 				treeMenu.setLocation(5, codeField.getY());
 				treeMenu.setSize(shell.getClientArea().width - codeField.getWidth() - 10, console.getLocation().y + console.getHeight() - codeField.getY());
+
+				if (!shell.getMaximized())
+				{
+					setConfigDataValue("window.width", shell.getSize().x + "");
+					setConfigDataValue("window.height", shell.getSize().y + "");
+				}
+				
+				setConfigDataValue("window.maximized", shell.getMaximized() + "");
 			}
 		};
 		
@@ -890,10 +942,18 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		shell.setLocation(screenBounds.width / 2 - shellBounds.width / 2, screenBounds.height / 2 - shellBounds.height / 2);
 		shell.setText("Arrow IDE");
 		
+		configLocation       = new File("arrow.config").getAbsolutePath().replace('\\', '/');
+
+		createConfigData();
+		
+		PROPERTIES.put("arrowide.location", FileUtils.getParentFolder(configLocation));
+		
 		/**
 		 * Set up the OpenGL (lwjgl) capabilities for the program.
 		 */
 		{
+			System.setProperty("org.lwjgl.librarypath", PROPERTIES.get("arrowide.location") + "/res/native/" + PROPERTIES.get("os.name") + "/");
+			
 			Composite comp = new Composite(shell, SWT.NONE);
 			comp.setLayout(new FillLayout());
 			
@@ -913,12 +973,6 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			}
 		}
 		
-		configLocation       = new File("arrow.config").getAbsolutePath().replace('\\', '/');
-
-		createConfigData();
-		
-		PROPERTIES.put("arrowide.location", FileUtils.getParentFolder(configLocation));
-		
 		ArrowIDE ide = null;
 		
 		if (workspaceCreated())
@@ -927,7 +981,23 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 		else
 		{
+			DialogFilter filter = new DialogFilter()
+			{
+				public String filter(String text)
+				{
+					File f = new File(text);
+					
+					if (!f.exists())
+					{
+						return "The directory must exist.";
+					}
+					
+					return null;
+				}
+			};
+			
 			FileBrowseDialog chooseWorkspace = new FileBrowseDialog("Choose your project workspace folder:", "Workspace:", FileBrowseDialog.DIRECTORY);
+			chooseWorkspace.addDialogFilter(filter);
 			
 			String location = chooseWorkspace.open();
 			
@@ -950,6 +1020,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		while (!shell.isDisposed())
 		{
+			//TODO restart bug here
 			if (!display.readAndDispatch())
 			{
 				ide.update();
@@ -984,12 +1055,25 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 */
 	public static ArrowIDE openIDE()
 	{
+		String location = CONFIG_DATA.get("workspace.location");
+		
+		try
+		{
+			location = FileUtils.getAbsolutePath((String)PROPERTIES.get("arrowide.location"), location);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			exit(shell);
+		}
+		
+		CONFIG_DATA.put("workspace.location", location);
+		
 		ArrowIDE ide = new ArrowIDE(display, shell);
 		
 		shell.open();
 
-		//TODO
-		ide.refreshFileViewer();
+		ide.refreshFileViewer(true);
 		
 		return ide;
 	}
@@ -1015,9 +1099,23 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 */
 	public static void exit(Shell shell)
 	{
+		exiting = true;
+		
 		shell.dispose();
 		
-		Display.getCurrent().close();
+		for (int i = fileViewerThreads.size() - 1; i >= 0; i--)
+		{
+			try
+			{
+				fileViewerThreads.get(i).join();
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		Display.getDefault().close();
 		
 		System.exit(0);
 	}
@@ -1046,20 +1144,6 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		boolean added = false;
 		
 		CONFIG_DATA.put(key, value);
-		
-//		int lineNum = 0;
-//		
-//		if (CONFIG_LINE_NUMBERS.containsKey(key))
-//		{
-//			lineNum = CONFIG_LINE_NUMBERS.get(key);
-//		}
-//		else
-//		{
-//			lineNum = CONFIG_LINE_NUMBER_DATA.size();
-//		}
-//		
-//		CONFIG_LINE_NUMBER_DATA.put(lineNum, key);
-//		CONFIG_LINE_NUMBERS.put(key, lineNum);
 		
 		try
 		{
@@ -1166,10 +1250,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			File f = new File(location);
 			f.mkdirs();
 
-			//TODO
-//			refreshFileViewer();
 			addToFileViewer(location);
-			refreshFileViewer(location);
+			refreshFileViewer(location, false);
 		}
 	}
 	
@@ -1237,19 +1319,17 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	{
 		location = location.replace('\\', '/');
 		
-		String locationKey  = location.toLowerCase();
-		
-		boolean alreadyOpen = fileCache.containsKey(locationKey);
+		boolean alreadyOpen = fileCache.containsKey(location);
 		
 		if (alreadyOpen)
 		{
-			codeField.setText(fileCache.get(locationKey), true, true);
+			codeField.setText(fileCache.get(location), true, true);
 			
 			codeField.setLanguage(Language.getLanguage(location));
 			
 			codeField.redraw();
 			
-			int tabId = tabFileIds.get(locationKey);
+			int tabId = tabFileIds.get(location);
 			
 			tabs.setSelection(tabId);
 		}
@@ -1280,8 +1360,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				
 				String fileContents = builder.toString();
 				
-				fileCache.put(locationKey, fileContents);
-				fileCacheSaved.put(locationKey, true);
+				fileCache.put(location, fileContents);
+				fileCacheSaved.put(location, true);
 				
 				codeField.setText(fileContents, true);
 				
@@ -1386,16 +1466,13 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			fileLocation = "";
 		}
 		
-		String locKey			= location.toLowerCase();
-		String currentLocKey	= fileLocation.toLowerCase();
-		
 		boolean saved			= false;
 		
-		boolean currentFile  = locKey.equals(currentLocKey);
+		boolean currentFile  = location.equals(fileLocation);
 	
-		if (fileCacheSaved.containsKey(currentLocKey))
+		if (fileCacheSaved.containsKey(fileLocation))
 		{
-			saved = fileCacheSaved.get(currentLocKey);
+			saved = fileCacheSaved.get(fileLocation);
 		}
 		
 		FileUtils.writeFile(location, codeField.getWritableText());
@@ -1416,45 +1493,44 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			setFileSaved(location, true);
 		}
 		
-		//TODO
-//		refreshFileViewer();
 		addToFileViewer(location);
 	}
 	
 	public void addToFileViewer(String location)
 	{
-		File file     = new File(location);
+		if (treeItemLocations.containsValue(location))
+		{
+			return;
+		}
 		
-		String locKey = location.replace("\\", "/").toLowerCase();
-		String name   = FileUtils.getFileName(location);
+		File file     = new File(location);
 
 		boolean isDirectory = file.isDirectory();
 		
-		Image img    = isDirectory ? folderImage : getFileImage(locKey);
+		String name   = FileUtils.getFileName(location);
 		
-		int parentId = treeItemIds.get(FileUtils.getParentFolder(locKey));
+		Image img     = isDirectory ? folderImage : getFileImage(location);
 		
-		int id       = treeMenu.addSubItem(parentId, name, img);
+		int parentId  = treeItemIds.get(FileUtils.getParentFolder(location));
 		
-		if (fileCacheSaved.containsKey(locKey))
+		int id        = treeMenu.addItem(parentId, name, img);
+		
+		if (fileCacheSaved.containsKey(location))
 		{
-			fileCacheSaved.put(locKey, true);
+			fileCacheSaved.put(location, true);
 		}
 
-		treeItemLocations.put(id, locKey);
-		treeItemOrigLocations.put(id, location);
-		treeItemIds.put(locKey, id);
+		treeItemLocations.put(id, location);
+		treeItemIds.put(location, id);
 	}
 	
 	public void removeFromFileViewer(String location)
 	{
-		String locKey = location.replace('\\', '/').toLowerCase();
+		int id = treeItemIds.get(location);
 		
-		int id = treeItemIds.get(locKey);
-		
-		treeItemIds.remove(locKey);
+		treeItemDirectories.remove(id);
+		treeItemIds.remove(location);
 		treeItemLocations.remove(id);
-		treeItemOrigLocations.remove(id);
 		
 		if (treeMenu.containsItem(id))
 		{
@@ -1466,49 +1542,69 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 * Refresh the file viewer to all of the updated file names.
 	 * If a file is no longer existent, then remove it, or if a file
 	 * has been added, add it to the TreeMenu.
-	 * 
-	 * TODO: Make more efficient!!!
 	 */
-	private void refreshFileViewer()
+	public void refreshFileViewer(boolean force)
 	{
-		refreshFileViewer(CONFIG_DATA.get("workspace.location"), 0);
+		refreshFileViewer(CONFIG_DATA.get("workspace.location"), 0, force);
 	}
 	
-	public void refreshFileViewer(String location)
+	public void refreshFileViewer(String location, boolean force)
 	{
 		int parentId = treeItemIds.get(location);
 		
-		refreshFileViewer(location, parentId);
+		refreshFileViewer(location, parentId, force);
 	}
 
-	public void refreshFileViewer(String location, int parentId)
+	public void refreshFileViewer(final String location, final int parentId, final boolean force)
 	{
-		File parent  = new File(location);
-		
-		findSubFiles(parent, parentId);
-		
-		String locations[] = treeItemLocations.values().toArray(new String[0]);
-		
-		for (int i = 0; i < locations.length; i ++)
+		Thread refreshThread = new Thread()
 		{
-			File file = new File(locations[i]);
-			
-			if (!file.exists())
+			public void run()
 			{
-				int id = treeItemIds.get(locations[i]);
+				File parent  = new File(location);
 				
-				treeItemIds.remove(locations[i]);
-				treeItemLocations.remove(id);
-				treeItemOrigLocations.remove(id);
-				
-				if (treeMenu.containsItem(id))
+				try
 				{
-					treeMenu.removeItem(id);
+					findSubFiles(parent, parentId, true);
 				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+					exit(shell);
+				}
+				
+				String locations[] = treeItemLocations.values().toArray(new String[0]);
+				
+				if (!force)
+				{
+					for (int i = 0; i < locations.length; i ++)
+					{
+						File file = new File(locations[i]);
+						
+						if (!file.exists())
+						{
+							int id = treeItemIds.get(locations[i]);
+							
+							treeItemIds.remove(locations[i]);
+							treeItemLocations.remove(id);
+							
+							if (treeMenu.containsItem(id))
+							{
+								treeMenu.removeItem(id);
+							}
+						}
+					}
+				}
+				
+				treeMenu.alphabetize();
+				
+				fileViewerThreads.remove(this);
 			}
-		}
+		};
 		
-		treeMenu.alphabetize();
+		fileViewerThreads.add(refreshThread);
+		
+		refreshThread.start();
 	}
 	
 	/**
@@ -1517,70 +1613,104 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 * 
 	 * @param file The directory to search sub-files for.
 	 * @param parent The id of the directory TreeMenu item.
+	 * @throws IOException 
 	 */
-	private void findSubFiles(File file, int parent)
+	private void findSubFiles(File file, final int parent, boolean force) throws IOException
 	{
+		if (exiting)
+		{
+			return;
+		}
+		
 		File subFiles[] = file.listFiles();
 		
 		if (subFiles != null)
 		{
-			int subFilesIds[] = new int[subFiles.length];
-			
 			for (int i = 0; i < subFiles.length; i ++)
 			{
 				boolean isDirectory = subFiles[i].isDirectory();
 				
-				String orig         = subFiles[i].getAbsolutePath().replace('\\', '/');
-				String name         = FileUtils.getFileName(orig);
-				String location     = orig.toLowerCase();
+				final String orig          = subFiles[i].getCanonicalPath().replace('\\', '/');
+				final String name          = FileUtils.getFileName(orig);
 				
-				int id              = 0;
-				
-				Image img           = isDirectory ? folderImage : getFileImage(location);
-				
-				if (treeItemOrigLocations.containsValue(orig))
+				if (name.charAt(0) == '.')
 				{
-					id = treeItemIds.get(location);
+					continue;
+				}
+				
+//				String location      = orig;//orig.toLowerCase();
+				
+				int id               = 0;
+				
+				final Image img            = isDirectory ? folderImage : getFileImage(orig);
+				
+				boolean alreadyAdded = false;
+				
+				if (!force)
+				{
+					alreadyAdded = true;
 					
-					if (isDirectory)
+					if (treeItemLocations.containsValue(orig))
 					{
-						findSubFiles(subFiles[i], id);
+						display.syncExec(new Runnable()
+						{
+							public void run()
+							{
+								curId = treeItemIds.get(orig);
+							}
+						});
+						
+						id = curId;
+						
+						if (isDirectory)
+						{
+							findSubFiles(subFiles[i], id, force);
+						}
 					}
-				}
-				// Set text correctly of renamed files.
-				else if (treeItemLocations.containsValue(location))
-				{
-					id = treeItemIds.get(location);
-					
-					treeMenu.setTreeItemText(id, name);
-					treeItemOrigLocations.put(id, orig);
-				}
-				else
-				{
-					if (parent > 0)
+					// Set text correctly of renamed files.
+					else if (treeItemLocations.containsValue(orig))
 					{
-						id = treeMenu.addSubItem(parent, name, img);
+						id = treeItemIds.get(orig);
+						
+						treeMenu.setTreeItemText(id, name);
 					}
 					else
 					{
-						id = treeMenu.addItem(name, img);
+						alreadyAdded = false;
 					}
+				}
+				
+				if (!alreadyAdded)
+				{
+					if (exiting)
+					{
+						return;
+					}
+					
+					display.syncExec(new Runnable()
+					{
+						public void run()
+						{
+							curId = treeMenu.addItem(parent, name, img);
+						}
+					});
+					
+					id = curId;
 					
 					if (isDirectory)
 					{
-						findSubFiles(subFiles[i], id);
+						findSubFiles(subFiles[i], id, force);
 						
-						treeItemDirectories.put(id, location);
+						treeItemDirectories.put(id, orig);
 					}
 					
-					if (fileCacheSaved.containsKey(location))
+					if (fileCacheSaved.containsKey(orig))
 					{
-						fileCacheSaved.put(location, true);
+						fileCacheSaved.put(orig, true);
 					}
 					
-					treeItemLocations.put(id, location);
-					treeItemOrigLocations.put(id, orig);
-					treeItemIds.put(location, id);
+					treeItemLocations.put(id, orig);
+					treeItemIds.put(orig, id);
 				}
 			}
 		}
@@ -1684,7 +1814,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 */
 	public void setFileSaved(String location, boolean saved)
 	{
-		String locKey	= location.toLowerCase();
+		String locKey	= location;
 		
 		String text		= null;
 		
@@ -1751,21 +1881,28 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 	}
 	
+	public void removeAllTreeItems()
+	{
+		treeMenu.removeAllItems();
+		
+		treeItemLocations.clear();
+		treeItemIds.clear();
+		treeItemDirectories.clear();
+	}
+	
 	/**
 	 * Add a tab of the file at fileLocation to the TabMenu.
 	 * 
 	 * @param fileLocation The location of the file to represent.
 	 */
-	public void addTab(String fileLocation)
+	private void addTab(String fileLocation)
 	{
 		String fileName = FileUtils.getFileName(fileLocation);
 		
 		int id = tabs.addTab(fileName);
 		
-		String lowerLoc = fileLocation.toLowerCase();
-		
-		tabFileLocations.put(id, lowerLoc);
-		tabFileIds.put(lowerLoc, id);
+		tabFileLocations.put(id, fileLocation);
+		tabFileIds.put(fileLocation, id);
 	}
 	
 	/**
@@ -1893,35 +2030,21 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 */
 	public boolean deleteFile(String location)
 	{
-//		private HashMap<Integer, String>  treeItemLocations;
-//		private HashMap<Integer, String>  treeItemOrigLocations;
-//		private HashMap<String, Integer>  treeItemIds;
-//		private HashMap<Integer, String>  treeItemDirectories;
-//		private HashMap<Integer, String>  menuItemLocations;
-//		private HashMap<String, Integer>  menuItems;
-//		private HashMap<String, String>   fileCache;
-//		private HashMap<String, Boolean>  fileCacheSaved;
-//		private HashMap<Integer, String>  tabFileLocations;
-//		private HashMap<String, Integer>  tabFileIds;
+		int treeId    = treeItemIds.get(location);
 		
-		String locKey = location.toLowerCase();
-		
-		int treeId    = treeItemIds.get(locKey);
-		
-		treeItemOrigLocations.remove(treeId);
 		treeItemLocations.remove(treeId);
 		treeItemDirectories.remove(treeId);
-		fileCache.remove(locKey);
-		fileCacheSaved.remove(locKey);
+		fileCache.remove(location);
+		fileCacheSaved.remove(location);
 		
 		treeMenu.removeItem(treeId);
 		
-		if (tabFileIds.containsKey(locKey))
+		if (tabFileIds.containsKey(location))
 		{
-			int tabId = tabFileIds.get(locKey);
+			int tabId = tabFileIds.get(location);
 			
 			tabFileLocations.remove(tabId);
-			tabFileIds.remove(locKey);
+			tabFileIds.remove(location);
 		}
 		
 		boolean deleted = FileUtils.delete(new File(location));
@@ -1935,12 +2058,6 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 */
 	public void update()
 	{
-		console.updateText();
-		
-		if (filesNeedRefresh)
-		{
-			//TODO
-			refreshFileViewer();
-		}
+//		console.updateText();
 	}
 }

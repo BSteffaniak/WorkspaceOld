@@ -1,0 +1,4 @@
+workspace.location=../ArrowWorkspace
+dosbox.location=C:/Program Files (x86)/DOSBox-0.74/DOSBox.exe
+g++.location=C:/MinGW/bin
+assembly.compiler=NASM

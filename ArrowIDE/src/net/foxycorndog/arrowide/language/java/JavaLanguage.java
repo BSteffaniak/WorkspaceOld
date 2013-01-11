@@ -119,8 +119,10 @@ public class JavaLanguage
 		command.execute();
 	}
 	
-	public static void compile(String fileName, String code, String outputLocation, ConsoleStream stream, ArrayList<CompilerListener> compilerListeners)
+	public static void compile(String fileLocation, String code, String outputLocation, ConsoleStream stream, ArrayList<CompilerListener> compilerListeners)
 	{
+		String fileName = FileUtils.getFileName(fileLocation);
+		
 //		fileName = fileName == null ? "" : fileName;
 //		
 //		JavacJavaCompilerSettings settings = new JavacJavaCompilerSettings();
@@ -177,10 +179,14 @@ public class JavaLanguage
 		boolean status = compilerTask.call();
 		
 		StringBuilder error = new StringBuilder();
+		
+		String outputFile = outputLocation + ".class";
+		
+		final String outputFiles[] = new String[] { outputFile };
  
 		for (int i = compilerListeners.size() - 1; i >= 0; i--)
 		{
-			compilerListeners.get(i).compiled(status ? 0 : 1);
+			compilerListeners.get(i).compiled(outputFiles, status ? 0 : 1);
 		}
 		
 		//If compilation error occurs

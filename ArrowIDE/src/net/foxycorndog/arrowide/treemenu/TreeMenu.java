@@ -23,6 +23,8 @@ import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 
 public class TreeMenu extends Composite
 {
+	private int							idNum;
+	
 	private Tree						tree;
 
 	private Shell						shell;
@@ -34,13 +36,8 @@ public class TreeMenu extends Composite
 	private ArrayList<Integer>			treeIds;
 
 	private ArrayList<TreeMenuListener>	listeners;
-
-	private static int					staticId;
 	
-	static
-	{
-		staticId = 0;
-	}
+	private Listener selectionListener, doubleClickListener;
 	
 	public TreeMenu(Shell shell)
 	{
@@ -56,7 +53,7 @@ public class TreeMenu extends Composite
 		
 		listeners    = new ArrayList<TreeMenuListener>();
 		
-		tree.addListener(SWT.MouseDoubleClick, new Listener()
+		doubleClickListener = new Listener()
 		{
 			public void handleEvent(Event e)
 			{
@@ -75,14 +72,16 @@ public class TreeMenu extends Composite
 					}
 				}
 			}
-		});
+		};
 		
-		tree.addListener(SWT.MouseDown, new Listener()
+		selectionListener = new Listener()
 		{
 			public void handleEvent(Event e)
 			{
 				for (int i = listeners.size() - 1; i >= 0; i --)
 				{
+					
+					
 					TreeItem itemsSelected[] = tree.getSelection();
 					
 					for (int j = 0; j < itemsSelected.length; j ++)
@@ -100,15 +99,10 @@ public class TreeMenu extends Composite
 					}
 				}
 			}
-		});
+		};
 		
-		tree.addListener(SWT.FOCUSED, new Listener()
-		{
-			public void handleEvent(Event e)
-			{
-				
-			}
-		});
+		tree.addListener(SWT.MouseDoubleClick, doubleClickListener);
+		tree.addListener(SWT.MouseDown, selectionListener);
 	}
 
 	public int addItem(String name)
@@ -118,15 +112,31 @@ public class TreeMenu extends Composite
 	
 	public int addItem(String name, Image image)
 	{
-		final int id = ++staticId;
+		return addItem(0, name, image);
+	}
+
+	public int addItem(int parentId, String name)
+	{
+		return addItem(parentId, name, null);
+	}
+	
+	public int addItem(int parentId, String name, Image image)
+	{
+		int id = ++idNum;
 		
-		TreeItem item = new TreeItem(tree, SWT.NONE);
-		item.setText(name);
+		TreeItem item = null;
 		
-		if (image != null)
+		if (parentId == 0)
 		{
-			item.setImage(image);
+			item = new TreeItem(tree, SWT.NONE);
 		}
+		else
+		{
+			item = new TreeItem(items.get(parentId), SWT.NONE);
+		}
+		
+		item.setText(name);
+		item.setImage(image);
 
 		ids.put(item, id);
 		items.put(id, item);
@@ -135,30 +145,15 @@ public class TreeMenu extends Composite
 		
 		return id;
 	}
-	
-	public int addSubItem(int parent, String name)
+
+	public void removeAllItems()
 	{
-		return addSubItem(parent, name, null);
-	}
-	
-	public int addSubItem(int parent, String name, Image image)
-	{
-		final int id = ++staticId;
-		
-		TreeItem item = new TreeItem(items.get(parent), SWT.NONE);
-		item.setText(name);
-		
-		if (image != null)
-		{
-			item.setImage(image);
-		}
-		
-		ids.put(item, id);
-		items.put(id, item);
-		parents.put(id, parent);
-		treeIds.add(id);
-		
-		return id;
+//		for (int )
+		tree.removeAll();
+		ids.clear();
+		items.clear();
+		parents.clear();
+		treeIds.clear();
 	}
 	
 	public void alphabetize()
