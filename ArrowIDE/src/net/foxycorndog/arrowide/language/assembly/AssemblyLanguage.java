@@ -50,7 +50,7 @@ public class AssemblyLanguage
 		
 		String compilerName = CONFIG_DATA.get("assembly.compiler");
 		
-		boolean bit16Supported = PROPERTIES.get("os.arch").equals(32) || compilerName.equals("FASM");
+		boolean bit16Supported = false;//PROPERTIES.get("os.arch").equals(32) || compilerName.equals("FASM");
 		
 		Command command = null;
 		
