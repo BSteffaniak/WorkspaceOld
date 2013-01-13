@@ -1,0 +1,74 @@
+package net.foxycorndog.arrowide.components.menubar;
+
+import java.util.HashMap;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+
+public class DropdownMenu
+{
+	private int							textMargin;
+	private int							separatorsCount, separatorHeight;
+	
+	private GC							gc;
+	
+	private Shell						shell;
+	
+	private HashMap<String, Integer>	ids;
+	
+	private static int					staticId;
+	
+	public DropdownMenu(Font f)
+	{
+		shell = new Shell(SWT.NO_TRIM);
+		
+		ids = new HashMap<String, Integer>();
+		
+		gc = new GC(f.getDevice());
+		
+		textMargin = 2;
+		
+		separatorHeight = 5;
+	}
+	
+	public void addMenuItem(String text, String id)
+	{
+		int textWidth  = gc.stringExtent(text).x;
+		int textHeight = gc.stringExtent(text).y;
+		
+		Label label = new Label(shell, SWT.NONE);
+		label.setSize(textWidth, textHeight);
+		label.setLocation(0, shell.getSize().y);
+		label.setText(text);
+		
+		if (textWidth > shell.getSize().x)
+		{
+			shell.setSize(textWidth, shell.getSize().y);
+		}
+		
+		shell.setSize(shell.getSize().x, shell.getSize().y + textHeight + textMargin + (separatorsCount * separatorHeight));
+	}
+	
+	public void addSeparator()
+	{
+		separatorsCount++;
+	}
+	
+	public void open()
+	{
+		shell.open();
+	}
+	
+	public void close()
+	{
+		shell.close();
+	}
+	
+	public void dispose()
+	{
+		shell.dispose();
+	}
+}

@@ -12,7 +12,7 @@ public abstract class PreferencesDialogPanel extends Composite
 {
 	private String title;
 	
-	public PreferencesDialogPanel(Shell parent, String title)
+	public PreferencesDialogPanel(Composite parent, String title)
 	{
 		super(parent, SWT.BORDER);
 		

@@ -16,7 +16,7 @@ public class GeneralPanel extends PreferencesDialogPanel
 	
 	private ArrowIDE    ide;
 	
-	public GeneralPanel(Shell parent, ArrowIDE ide)
+	public GeneralPanel(Composite parent, ArrowIDE ide)
 	{
 		super(parent, "General");
 		
@@ -24,7 +24,7 @@ public class GeneralPanel extends PreferencesDialogPanel
 		
 		int width = getSize().x;
 		
-		workspaceLocator = new FileLocator(this, parent, "Workspace Location:", FileLocator.DIRECTORY);
+		workspaceLocator = new FileLocator(this, parent.getShell(), "Workspace Location:", FileLocator.DIRECTORY);
 		workspaceLocator.setLocation(width - workspaceLocator.getSize().x, 50);
 		
 		if (CONFIG_DATA.containsKey("workspace.location"))

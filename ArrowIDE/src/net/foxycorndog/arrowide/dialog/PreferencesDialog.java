@@ -3,14 +3,18 @@ package net.foxycorndog.arrowide.dialog;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.foxycorndog.arrowide.treemenu.TreeMenu;
-import net.foxycorndog.arrowide.treemenu.TreeMenuListener;
+import net.foxycorndog.arrowide.ArrowIDE;
+import net.foxycorndog.arrowide.components.TitleBar;
+import net.foxycorndog.arrowide.components.treemenu.TreeMenu;
+import net.foxycorndog.arrowide.components.treemenu.TreeMenuListener;
+import net.foxycorndog.arrowide.components.window.Window;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -20,16 +24,20 @@ import org.eclipse.swt.widgets.Widget;
 public class PreferencesDialog implements Dialog
 {
 	private int											currentPanelId;
+	
+	private Composite									contentPanel;
 
 	private Button										apply, ok, cancel;
 
-	private Shell										window;
+	private TitleBar									titleBar;
+	
+	private Window										window;
 
 	private TreeMenu									treeMenu;
 
 	private HashMap<Integer, PreferencesDialogPanel>	panels;
 
-	public PreferencesDialog(Shell parent)
+	public PreferencesDialog(Composite parent)
 	{
 		panels = new HashMap<Integer, PreferencesDialogPanel>();
 		
@@ -47,12 +55,20 @@ public class PreferencesDialog implements Dialog
 	{
 		Rectangle bounds = Display.getDefault().getPrimaryMonitor().getBounds();
 		
-		window = new Shell(Display.getDefault(), SWT.SHELL_TRIM & (~SWT.RESIZE));
+		window = new Window(Display.getDefault(), SWT.NO_TRIM);
 		window.setSize(750, 540);
 		window.setLocation(bounds.width / 2 - window.getSize().x / 2, bounds.height / 2 - window.getSize().y / 2);
 		
-		int width  = window.getClientArea().width;
-		int height = window.getClientArea().height;
+		titleBar = new TitleBar(window, 28, SWT.MIN | SWT.CLOSE);
+		titleBar.setBackground(ArrowIDE.TITLE_BAR_BACKGROUND);
+		titleBar.setForeground(ArrowIDE.TITLE_BAR_FOREGROUND);
+		
+		contentPanel = new Composite(window.getContentPanel(), SWT.NONE);
+		contentPanel.setSize(window.getSize().x, window.getSize().y - titleBar.getHeight());
+		contentPanel.setLocation(0, titleBar.getHeight());
+		
+		int width  = contentPanel.getSize().x;
+		int height = contentPanel.getSize().y;
 		
 		window.addListener(SWT.Close, new Listener()
 		{
@@ -64,8 +80,8 @@ public class PreferencesDialog implements Dialog
 			}
 		});
 		
-		treeMenu = new TreeMenu(window);
-		treeMenu.setSize(150, 440);
+		treeMenu = new TreeMenu(contentPanel);
+		treeMenu.setSize(150, 440 - titleBar.getHeight());
 		
 		treeMenu.addListener(new TreeMenuListener()
 		{
@@ -81,8 +97,11 @@ public class PreferencesDialog implements Dialog
 
 			public void treeItemSelected(int id)
 			{
-				panels.get(id).update();
-				setActivePanel(id);
+				if (panels.containsKey(id))
+				{
+					panels.get(id).update();
+					setActivePanel(id);
+				}
 			}
 		});
 		
@@ -124,19 +143,19 @@ public class PreferencesDialog implements Dialog
 			}
 		};
 		
-		cancel = new Button(window, SWT.PUSH);
+		cancel = new Button(contentPanel, SWT.PUSH);
 		cancel.setText("Cancel");
 		cancel.setSize(100, 25);
 		cancel.setLocation(width - cancel.getSize().x - 10, height - 50);
 		cancel.addListener(SWT.Selection, buttonListener);
 		
-		ok = new Button(window, SWT.PUSH);
+		ok = new Button(contentPanel, SWT.PUSH);
 		ok.setText("OK");
 		ok.setSize(100, 25);
 		ok.setLocation(cancel.getLocation().x - ok.getSize().x - 10, height - 50);
 		ok.addListener(SWT.Selection, buttonListener);
 		
-		apply = new Button(window, SWT.PUSH);
+		apply = new Button(contentPanel, SWT.PUSH);
 		apply.setText("Apply");
 		apply.setSize(100, 25);
 		apply.setLocation(ok.getLocation().x - ok.getSize().x - 10, height - 50);
@@ -182,8 +201,8 @@ public class PreferencesDialog implements Dialog
 
 	}
 
-	public Shell getWindow()
+	public Composite getContentPanel()
 	{
-		return window;
+		return contentPanel;
 	}
 }

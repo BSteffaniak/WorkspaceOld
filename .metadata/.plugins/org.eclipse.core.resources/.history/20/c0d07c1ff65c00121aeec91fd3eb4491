@@ -1,0 +1,20 @@
+package net.foxycorndog.arrowide.color;
+
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
+
+public class ColorUtils
+{
+	public static Color darken(Color color, int amount)
+	{
+		int r = color.getRed()   - 20;
+		int g = color.getGreen() - 20;
+		int b = color.getBlue()  - 20;
+		
+		r = r < 0 ? 0 : r;
+		g = g < 0 ? 0 : g;
+		b = b < 0 ? 0 : b;
+		
+		return new Color(Display.getDefault(), r, g, b);
+	}
+}

@@ -1,0 +1,6 @@
+package net.foxycorndog.arrowide.components.window;
+
+public interface WindowListener
+{
+	public void titleChanged(String newTitle);
+}

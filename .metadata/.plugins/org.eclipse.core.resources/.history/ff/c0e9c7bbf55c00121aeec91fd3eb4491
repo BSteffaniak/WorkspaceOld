@@ -1,0 +1,11 @@
+package net.foxycorndog.arrowide.color;
+
+import org.eclipse.swt.graphics.Color;
+
+public class ColorUtils
+{
+	public static Color darken(Color color, int amount)
+	{
+		
+	}
+}

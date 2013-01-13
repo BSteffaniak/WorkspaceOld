@@ -1,0 +1,16 @@
+public class HelloWorld
+{
+	private native void print();
+	
+	public static void main(String args[])
+	{
+		System.out.println("before");
+		
+//		new HelloWorld().print();
+	}
+	
+	static
+	{
+		System.loadLibrary("HelloWorld.dll");
+	}
+}

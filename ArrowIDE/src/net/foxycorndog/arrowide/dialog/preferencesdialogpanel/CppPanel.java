@@ -19,7 +19,7 @@ public class CppPanel extends PreferencesDialogPanel
 {
 	private FileLocator gppLocator, gccLocator;
 	
-	public CppPanel(Shell parent)
+	public CppPanel(Composite parent)
 	{
 		super(parent, "C++ Compiler");
 		
@@ -32,10 +32,10 @@ public class CppPanel extends PreferencesDialogPanel
 		
 		int width = getSize().x;
 		
-		gppLocator = new FileLocator(this, parent, "G++ Location:", FileLocator.FILE);
+		gppLocator = new FileLocator(this, parent.getShell(), "G++ Location:", FileLocator.FILE);
 		gppLocator.setLocation(width - gppLocator.getSize().x, 50);
 		
-		gccLocator = new FileLocator(this, parent, "Gcc Location:", FileLocator.FILE);
+		gccLocator = new FileLocator(this, parent.getShell(), "Gcc Location:", FileLocator.FILE);
 		gccLocator.setLocation(width - gccLocator.getSize().x, 85);
 		
 		if (CONFIG_DATA.containsKey("g++.location"))

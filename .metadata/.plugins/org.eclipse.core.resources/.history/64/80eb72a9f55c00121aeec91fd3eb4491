@@ -1,0 +1,9 @@
+package net.foxycorndog.arrowide.color;
+
+public class ColorUtils
+{
+	public static void darken(Color color, int amount)
+	{
+		
+	}
+}

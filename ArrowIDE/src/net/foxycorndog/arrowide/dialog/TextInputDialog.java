@@ -19,6 +19,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -210,7 +211,7 @@ public class TextInputDialog implements Dialog
 		this.filters.add(filter);
 	}
 	
-	public Shell getWindow()
+	public Composite getContentPanel()
 	{
 		return window;
 	}

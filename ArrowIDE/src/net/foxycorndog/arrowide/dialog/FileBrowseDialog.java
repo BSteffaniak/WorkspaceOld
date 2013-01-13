@@ -38,11 +38,11 @@ public class FileBrowseDialog extends TextInputDialog
 	{
 		super(windowInstruction, textFieldInstruction);
 		
-		getWindow().setSize(480, 230);
+		getContentPanel().setSize(480, 230);
 		getErrorLabel().setLocation(100, 140);
 		getContinueButton().setLocation(360, 115);
 		
-		final Button browse = new Button(getWindow(), SWT.PUSH);
+		final Button browse = new Button(getContentPanel(), SWT.PUSH);
 		browse.setSize(100, 25);
 		browse.setLocation(360, 80);
 		browse.setText("Browse");
@@ -55,13 +55,13 @@ public class FileBrowseDialog extends TextInputDialog
 					
 				if (directory == DIRECTORY || directory == EITHER)
 				{
-					DirectoryDialog dialog = new DirectoryDialog(getWindow(), SWT.OPEN);
+					DirectoryDialog dialog = new DirectoryDialog(getContentPanel().getShell(), SWT.OPEN);
 					
 					location = dialog.open();
 				}
 				else if (directory == FILE)
 				{
-					FileDialog dialog = new FileDialog(getWindow(), SWT.OPEN);
+					FileDialog dialog = new FileDialog(getContentPanel().getShell(), SWT.OPEN);
 					
 					location = dialog.open();
 				}

@@ -1,0 +1,41 @@
+package net.foxycorndog.arrowide.components.menubar;
+
+import java.util.HashMap;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+
+public class DropdownMenu
+{
+	private Shell				shell;
+	
+	private static int staticId;
+	
+	public DropdownMenu()
+	{
+		shell = new Shell(SWT.NO_TRIM);
+	}
+	
+	public void addMenuItem(MenuItem item)
+	{
+		Label label = new Label(shell, SWT.NONE);
+		
+		label.setText(item.getText());
+	}
+	
+	public void open()
+	{
+		shell.open();
+	}
+	
+	public void close()
+	{
+		shell.close();
+	}
+	
+	public void dispose()
+	{
+		shell.dispose();
+	}
+}

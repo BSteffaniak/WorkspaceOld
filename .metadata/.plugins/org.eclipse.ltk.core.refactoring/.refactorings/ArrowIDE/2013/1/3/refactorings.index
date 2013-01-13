@@ -1,0 +1,17 @@
+1358042066461	Rename field 'dragCursor'
+1358043639498	Rename field 'wasMaximized'
+1358045654495	Rename field 'shell'
+1358045661772	Rename local variable 'shell'
+1358046076738	Move compilation units
+1358046080484	Delete element
+1358046114828	Move compilation units
+1358046118653	Delete element
+1358046152308	Move compilation units
+1358046155441	Delete element
+1358046178947	Move compilation units
+1358046181872	Delete element
+1358053115755	Delete element
+1358056954214	Move compilation unit
+1358057841773	Rename local variable 'newImage'
+1358087715800	Rename local variable 'm'
+1358088152669	Rename field 'headerNames'

@@ -13,26 +13,26 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="deleteF" key="selection"/>
+		<item value="System.out.println" key="selection"/>
 		<list key="findhistory">
+			<item value="System.out.println"/>
+			<item value="System.out"/>
+			<item value="System.out.printnl"/>
+			<item value="Drag"/>
+			<item value="drag"/>
+			<item value="shell.getClientArea().height"/>
+			<item value="shell.getClientArea().width"/>
 			<item value="deleteF"/>
-			<item value="delete"/>
-			<item value="save"/>
-			<item value="exit("/>
-			<item value="exit"/>
-			<item value="toLowerCase"/>
-			<item value="private Rectangle bounds;"/>
-			<item value="Compile"/>
 		</list>
 		<list key="replacehistory">
+			<item value="contentPanel.getSize().y"/>
+			<item value="contentPanel.getSize().x"/>
 			<item value="CppLanguage"/>
 			<item value="CPP"/>
 			<item value="ASSEMBLY"/>
 			<item value="Assembly"/>
 			<item value="GLSLLanguage.KEYWORD_COLOR"/>
 			<item value="JavaLanguage.KEYWORD_COLOR"/>
-			<item value=""/>
-			<item value="lightColor"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">

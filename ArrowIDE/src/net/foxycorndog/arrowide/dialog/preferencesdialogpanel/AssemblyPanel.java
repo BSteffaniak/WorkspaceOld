@@ -8,6 +8,7 @@ import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
@@ -17,7 +18,7 @@ public class AssemblyPanel extends PreferencesDialogPanel
 
 	private DropdownMenu	compilerChooser;
 	
-	public AssemblyPanel(Shell parent)
+	public AssemblyPanel(Composite parent)
 	{
 		super(parent, "Assembly");
 		
@@ -30,7 +31,7 @@ public class AssemblyPanel extends PreferencesDialogPanel
 		
 		int width = getSize().x;
 		
-		dosboxLocator = new FileLocator(this, parent, "DOSBox Location:", FileLocator.FILE);
+		dosboxLocator = new FileLocator(this, parent.getShell(), "DOSBox Location:", FileLocator.FILE);
 		dosboxLocator.setLocation(width - dosboxLocator.getSize().x, 50);
 		
 		compilerChooser = new DropdownMenu(this);

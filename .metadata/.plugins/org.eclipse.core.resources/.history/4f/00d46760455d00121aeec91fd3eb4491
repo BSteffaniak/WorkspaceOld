@@ -1,0 +1,213 @@
+package net.foxycorndog.arrowide.components.menubar;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swt.widgets.Widget;
+
+public class Menubar
+{
+	private int							currentSize;
+	
+	private Composite					composite, parent;
+
+	private GC							gc;
+	
+	private Menu						dropMenu;
+
+	private Listener					hoverListener;
+	private Listener					selectionListener;
+	private FocusListener				focusListener;
+	
+	private ArrayList<MenubarListener>	listeners;
+
+	private static int					staticId;
+	
+	public Menubar(final Composite parent)
+	{
+		this.parent = parent;
+		
+		composite = new Composite(parent, SWT.NONE);
+		composite.setSize(parent.getSize().x, 25);
+		
+		gc = new GC(composite);
+		
+		listeners   = new ArrayList<MenubarListener>();
+		
+		selectionListener = new Listener()
+		{
+			public void handleEvent(Event e)
+			{
+				if (menuIds.containsKey(e.widget))
+				{
+					int id = menuIds.get(e.widget);
+					
+					Menu menu = menus.get(id);
+					
+					int x = e.x;
+					
+					if (e.widget instanceof ToolItem)
+					{
+						x = ((ToolItem)e.widget).getBounds().x;
+					}
+					else
+					{
+						for (int i = listeners.size() - 1; i >= 0; i--)
+						{
+							listeners.get(i).subItemPressed(id);
+						}
+					}
+					
+					Point point = composite.toDisplay(new Point(x, e.y + getHeight()));
+					menu.setLocation(point.x, point.y);
+					menu.addListener(SWT.MouseMove, hoverListener);
+					menu.setVisible(true);
+					
+					DropdownMenu m = new DropdownMenu();
+					m.addMenuItem("test", "test");
+					m.addMenuItem("test2", "t51est");
+					m.addSeparator();
+					m.addMenuItem("test3", "twerest");
+					m.addMenuItem("test4", "te41st");
+					m.addSeparator();
+					m.addMenuItem("test5234234234234234", "tes3t");
+					m.addMenuItem("test6", "344est");
+					m.addSeparator();
+					m.addMenuItem("test6423234234234", "tes15t");
+					m.setLocation(point.x, point.y);
+					m.open();
+				}
+			}
+		};
+		
+		hoverListener = new Listener()
+		{
+			public void handleEvent(Event event)
+			{
+//				ToolItem item = composite.getItem(new Point(event.x, event.y));
+				
+//				System.out.println(item);
+			}
+		};
+		
+		Listener closeListener = new Listener()
+		{
+			public void handleEvent(Event event)
+			{
+				System.out.println("close");
+			}
+		};
+		
+		focusListener = new FocusListener()
+		{
+			public void focusLost(FocusEvent e)
+			{
+				System.out.println("lsot focus");
+			}
+			
+			public void focusGained(FocusEvent e)
+			{
+				
+				System.out.println("focues");
+			}
+		};
+		
+//		toolBar.addListener(SWT.MouseMove, hoverListener);
+	}
+	
+	public void setBackground(Color color)
+	{
+		composite.setBackground(color);
+	}
+	
+	public int addMenuHeader(String name)
+	{
+		int id = ++staticId;
+		
+		int textWidth  = gc.stringExtent(name).x;
+		int textHeight = gc.stringExtent(name).y;
+		
+		Label item = new Label(composite, SWT.PUSH);
+		item.setSize(textWidth, textHeight);
+		item.setLocation(currentSize, 0);
+		item.setText(name);
+		item.addFocusListener(focusListener);
+		
+		currentSize += textWidth + 10;
+		
+		Menu headerMenu = new Menu(parent.getShell(), SWT.POP_UP);
+		
+		menuItems.put(id, item);
+		headerMenus.put(id, headerMenu);
+		menus.put(id, headerMenu);
+		menuIds.put(item, id);
+		
+		item.addListener(SWT.MouseDown, selectionListener);
+		
+		return id;
+	}
+	
+	public void addMenuSubItem(String name, String parentId)
+	{
+		
+	}
+	
+	public void addSeparator(String headerId)
+	{
+		Menu menu = menus.get(headerId);
+		
+		MenuItem item = new MenuItem(menu, SWT.SEPARATOR);
+	}
+	
+	public int getWidth()
+	{
+		return composite.getSize().x;
+	}
+	
+	public int getHeight()
+	{
+		return composite.getSize().y;
+	}
+	
+	public void setSize(int width, int height)
+	{
+		composite.setSize(width, height);
+	}
+	
+	public int getX()
+	{
+		return composite.getLocation().x;
+	}
+	
+	public int getY()
+	{
+		return composite.getLocation().y;
+	}
+	
+	public void setLocation(int x, int y)
+	{
+		composite.setLocation(x, y);
+	}
+	
+	public void addListener(MenubarListener listener)
+	{
+		listeners.add(listener);
+	}
+}

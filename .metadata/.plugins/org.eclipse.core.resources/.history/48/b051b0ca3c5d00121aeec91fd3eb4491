@@ -1,0 +1,9 @@
+package net.foxycorndog.arrowide.components.menubar;
+
+public class DropdownMenu
+{
+	public DropdownMenu()
+	{
+		
+	}
+}

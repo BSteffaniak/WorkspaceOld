@@ -1,0 +1,183 @@
+package net.foxycorndog.arrowide.components.menubar;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Widget;
+
+public class Menubar
+{
+	private int								currentSize;
+	
+	private Composite						composite, parent;
+
+	private GC								gc;
+	
+	private Listener						hoverListener;
+	private Listener						selectionListener;
+	private FocusListener					focusListener;
+	
+	private HashMap<String, String>			headerNames;
+	private HashMap<String, DropdownMenu>	menus;
+	private ArrayList<MenubarListener>		listeners;
+
+	public Menubar(final Composite parent)
+	{
+		this.parent = parent;
+		
+		composite = new Composite(parent, SWT.NONE);
+		composite.setSize(parent.getSize().x, 25);
+		
+		gc = new GC(composite);
+		
+		headerNames = new HashMap<String, String>();
+		menus       = new HashMap<String, DropdownMenu>();
+		listeners   = new ArrayList<MenubarListener>();
+		
+		selectionListener = new Listener()
+		{
+			public void handleEvent(Event e)
+			{
+				Control control = (Control)e.widget;
+				
+				if (control instanceof Label)
+				{
+					Label label = (Label)control;
+					
+					Point point = composite.toDisplay(new Point(control.getLocation().x, control.getLocation().y + control.getSize().y));
+					
+					DropdownMenu menu = menus.get(label.getText());
+					
+					menu.setLocation(point.x, point.y);
+					menu.open();
+				}
+			}
+		};
+		
+		hoverListener = new Listener()
+		{
+			public void handleEvent(Event event)
+			{
+//				ToolItem item = composite.getItem(new Point(event.x, event.y));
+				
+//				System.out.println(item);
+			}
+		};
+		
+		Listener closeListener = new Listener()
+		{
+			public void handleEvent(Event event)
+			{
+				System.out.println("close");
+			}
+		};
+		
+		focusListener = new FocusListener()
+		{
+			public void focusLost(FocusEvent e)
+			{
+				System.out.println("lsot focus");
+			}
+			
+			public void focusGained(FocusEvent e)
+			{
+				
+				System.out.println("focues");
+			}
+		};
+		
+//		toolBar.addListener(SWT.MouseMove, hoverListener);
+	}
+	
+	public void setBackground(Color color)
+	{
+		composite.setBackground(color);
+	}
+	
+	public void addMenuHeader(String name)
+	{
+		int textWidth  = gc.stringExtent(name).x;
+		int textHeight = gc.stringExtent(name).y;
+		
+		Label item = new Label(composite, SWT.NONE);
+		item.setSize(textWidth, textHeight);
+		item.setLocation(currentSize, 0);
+		item.setText(name);
+		item.addFocusListener(focusListener);
+		
+		currentSize += textWidth + 10;
+		
+		DropdownMenu menu = new DropdownMenu();
+		
+		headerNames.put(name, name);
+		menus.put(name, menu);
+		item.addListener(SWT.MouseDown, selectionListener);
+	}
+	
+	public void addMenuSubItem(String name, String parentId)
+	{
+		DropdownMenu menu = menus.get(parentId);
+		
+		String pId = headerNames.get(parentId);
+		
+		String id = pId + ">" + name;
+		
+		menu.addMenuItem(name, id);
+		
+		headerNames.put(pId, id);
+	}
+	
+	public void addSeparator(String headerId)
+	{
+		menus.get(headerId).addSeparator();
+	}
+	
+	public int getWidth()
+	{
+		return composite.getSize().x;
+	}
+	
+	public int getHeight()
+	{
+		return composite.getSize().y;
+	}
+	
+	public void setSize(int width, int height)
+	{
+		composite.setSize(width, height);
+	}
+	
+	public int getX()
+	{
+		return composite.getLocation().x;
+	}
+	
+	public int getY()
+	{
+		return composite.getLocation().y;
+	}
+	
+	public void setLocation(int x, int y)
+	{
+		composite.setLocation(x, y);
+	}
+	
+	public void addListener(MenubarListener listener)
+	{
+		listeners.add(listener);
+	}
+}

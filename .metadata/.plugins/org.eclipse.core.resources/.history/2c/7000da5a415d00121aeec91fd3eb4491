@@ -1,0 +1,101 @@
+package net.foxycorndog.arrowide.components.menubar;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+
+public class DropdownMenu
+{
+	private int							textMargin;
+	private int							separatorHeight;
+	
+	private GC							gc;
+	
+	private Shell						shell;
+	
+	private HashMap<String, Integer>	ids;
+	private ArrayList<Composite>		separators;
+	
+	private static int					staticId;
+	
+	public DropdownMenu()
+	{
+		shell = new Shell(SWT.NO_TRIM);
+		shell.setSize(0, 0);
+		
+		ids        = new HashMap<String, Integer>();
+		separators = new ArrayList<Composite>();
+		
+		gc = new GC(shell);
+		gc.drawLine(0, 0, 100, 100);
+		
+		textMargin = 2;
+		
+		separatorHeight = 5;
+	}
+	
+	public void addMenuItem(String text, String id)
+	{
+		int textWidth  = gc.stringExtent(text).x;
+		int textHeight = gc.stringExtent(text).y;
+		
+		Label label = new Label(shell, SWT.NONE);
+		label.setSize(textWidth, textHeight);
+		label.setLocation(0, shell.getSize().y);
+		label.setText(text);
+		
+		if (textWidth > shell.getSize().x)
+		{
+			shell.setSize(textWidth, shell.getSize().y);
+		}
+		
+		shell.setSize(shell.getSize().x, shell.getSize().y + textHeight + textMargin);
+		
+	}
+	
+	public void addSeparator()
+	{
+		shell.setSize(shell.getSize().x, shell.getSize().y + separatorHeight);
+		
+		int height = separatorHeight % 2 == 0 ? 2 : 1;
+		
+		Composite sep = new Composite(shell, SWT.NONE);
+		sep.setLocation(0, shell.getSize().y - separatorHeight / 2);
+		sep.setBackground(new Color(Display.getDefault(), 100, 100, 100));
+		
+		separators.add(sep);
+		
+		for (int i = separators.size() - 1; i >= 0; i--)
+		{
+			separators.get(i).setSize(shell.getSize().x - 2, height);
+		}
+	}
+	
+	public void setLocation(int x, int y)
+	{
+		shell.setLocation(x, y);
+	}
+	
+	public void open()
+	{
+		shell.open();
+	}
+	
+	public void close()
+	{
+		shell.close();
+	}
+	
+	public void dispose()
+	{
+		shell.dispose();
+	}
+}
