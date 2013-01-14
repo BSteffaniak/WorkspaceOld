@@ -1,0 +1,6 @@
+package net.foxycorndog.arrowide.components.menubar;
+
+public interface DropdownMenuListener
+{
+	
+}

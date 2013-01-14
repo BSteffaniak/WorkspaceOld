@@ -30,8 +30,8 @@ public class Menubar
 	private Listener						hoverListener;
 	private Listener						selectionListener;
 	private FocusListener					focusListener;
+	private DropdownMenuListener			menuListener;
 	
-	private HashMap<String, String>			ids;
 	private HashMap<String, DropdownMenu>	menus;
 	private ArrayList<MenubarListener>		listeners;
 
@@ -44,7 +44,6 @@ public class Menubar
 		
 		gc = new GC(composite);
 		
-		ids       = new HashMap<String, String>();
 		menus     = new HashMap<String, DropdownMenu>();
 		listeners = new ArrayList<MenubarListener>();
 		
@@ -68,6 +67,55 @@ public class Menubar
 			}
 		};
 		
+		menuListener = new DropdownMenuListener()
+		{
+			public void itemSelected(String text)
+			{
+				for (int i = listeners.size() - 1; i >= 0; i--)
+				{
+					listeners.get(i).subItemPressed(text);
+				}
+			}
+			
+			public void itemHovered(String text)
+			{
+				if (menus.containsKey(text))
+				{
+					DropdownMenu menu = menus.get(text);
+					
+					DropdownMenu array[] = menus.values().toArray(new DropdownMenu[0]);
+					
+					for (int i = 0; i < array.length; i++)
+					{
+						if (!array[i].isAncestor(menu))
+						{
+							array[i].close();
+						}
+					}
+					
+					DropdownMenu parent = menu.getParent();
+					
+					Point point = parent.getLocation(text);
+					
+					point.x += parent.getLocation().x + parent.getSize().x;
+					point.y += parent.getLocation().y;
+					
+					menu.setLocation(point.x, point.y);
+					menu.open();
+				}
+			}
+			
+			public void itemUnhovered(String text)
+			{
+				if (menus.containsKey(text))
+				{
+					DropdownMenu menu = menus.get(text);
+					
+					menu.close();
+				}
+			}
+		};
+		
 		hoverListener = new Listener()
 		{
 			public void handleEvent(Event event)
@@ -78,27 +126,18 @@ public class Menubar
 			}
 		};
 		
-		Listener closeListener = new Listener()
+		Display.getDefault().addFilter(SWT.MouseDown, new Listener()
 		{
 			public void handleEvent(Event event)
 			{
-				System.out.println("close");
-			}
-		};
-		
-		focusListener = new FocusListener()
-		{
-			public void focusLost(FocusEvent e)
-			{
-				System.out.println("lsot focus");
-			}
-			
-			public void focusGained(FocusEvent e)
-			{
+				DropdownMenu array[] = menus.values().toArray(new DropdownMenu[0]);
 				
-				System.out.println("focues");
+				for (int i = 0; i < array.length; i++)
+				{
+					array[i].close();
+				}
 			}
-		};
+		});
 		
 //		toolBar.addListener(SWT.MouseMove, hoverListener);
 	}
@@ -117,13 +156,12 @@ public class Menubar
 		item.setSize(textWidth, textHeight);
 		item.setLocation(currentSize, 0);
 		item.setText(name);
-		item.addFocusListener(focusListener);
 		
 		currentSize += textWidth + 10;
 		
-		DropdownMenu menu = new DropdownMenu();
+		DropdownMenu menu = new DropdownMenu(null);
+		menu.addDropdownMenuListener(menuListener);
 		
-		ids.put(name, name);
 		menus.put(name, menu);
 		item.addListener(SWT.MouseDown, selectionListener);
 	}
@@ -132,18 +170,14 @@ public class Menubar
 	{
 		DropdownMenu menu = menus.get(parentId);
 		
-		String pId = ids.get(parentId);
-		
-		String id  = pId + ">" + name;
-		
-		System.out.println(id + " , " + name + ", " + pId);
+		String id  = parentId + ">" + name;
 		
 		menu.addMenuItem(name, id);
 		
-		DropdownMenu newMenu = new DropdownMenu();
+		DropdownMenu newMenu = new DropdownMenu(menu);
+		newMenu.addDropdownMenuListener(menuListener);
 		
-		ids.put(id, id);
-		menus.put(name, newMenu);
+		menus.put(id, newMenu);
 	}
 	
 	public void addSeparator(String headerId)

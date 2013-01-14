@@ -9,37 +9,61 @@ import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Widget;
 
 public class DropdownMenu
 {
-	private int							textMargin;
-	private int							separatorHeight;
+	private int								textMargin;
+	private int								separatorHeight;
+
+	private GC								gc;
 	
-	private GC							gc;
+	private Color							selectionColor, defaultColor;
 	
-	private Composite					contentPanel;
+	private DropdownMenu					parent;
+
+	private Composite						contentPanel;
 	
-	private Shell						shell;
+	private Listener						selectionListener;
+
+	private Shell							shell;
+
+	private HashMap<Control, String>		controlIds;
+	private HashMap<String, Control>		controls;
+	private HashMap<Composite, String>		compositeIds;
+	private HashMap<String, Composite>		composites;
+	private ArrayList<Composite>			separators;
+	private ArrayList<DropdownMenuListener>	listeners;
+
+	private static int						staticId;
 	
-	private HashMap<String, Integer>	ids;
-	private ArrayList<Composite>		separators;
-	
-	private static int					staticId;
-	
-	public DropdownMenu()
+	public DropdownMenu(DropdownMenu parent)
 	{
+		this.parent = parent;
+		
 		shell = new Shell(SWT.NO_TRIM);
 		shell.setSize(0, 0);
 		
 		contentPanel = new Composite(shell, SWT.NONE);
 		contentPanel.setSize(0, 0);
 		
-		ids        = new HashMap<String, Integer>();
-		separators = new ArrayList<Composite>();
+		controlIds   = new HashMap<Control, String>();
+		compositeIds = new HashMap<Composite, String>();
+		controls     = new HashMap<String, Control>();
+		composites   = new HashMap<String, Composite>();
+		separators   = new ArrayList<Composite>();
+		listeners    = new ArrayList<DropdownMenuListener>();
+		
+		selectionColor = new Color(Display.getDefault(), 130, 130, 130);
+		defaultColor = new Color(Display.getDefault(), 240, 240, 240);
 		
 		gc = new GC(shell);
 		
@@ -59,22 +83,95 @@ public class DropdownMenu
 				
 			}
 		});
+		
+		selectionListener = new Listener()
+		{
+			public void handleEvent(Event event)
+			{
+				String text = null;
+				
+				Control control   = null;
+				Control composite = null;
+				
+				if (controlIds.containsKey(event.widget))
+				{
+					text = controlIds.get(event.widget);
+					control = controls.get(text);
+					composite = composites.get(text);
+				}
+				else if (compositeIds.containsKey(event.widget))
+				{
+					text = compositeIds.get(event.widget);
+					control = controls.get(text);
+					composite = composites.get(text);
+				}
+				
+				if (text == null)
+				{
+					return;
+				}
+				
+				if (event.type == SWT.MouseDown)
+				{
+					for (int i = listeners.size() - 1; i >= 0; i--)
+					{
+						listeners.get(i).itemSelected(text);
+					}
+				}
+				else if (event.type == SWT.MouseEnter)
+				{
+					for (int i = listeners.size() - 1; i >= 0; i--)
+					{
+						listeners.get(i).itemHovered(text);
+					}
+					
+					resetColors();
+				
+					control.setBackground(selectionColor);
+					composite.setBackground(selectionColor);
+				}
+			}
+		};
 	}
 	
 	public void addMenuItem(String text, String id)
 	{
-		int textWidth  = gc.stringExtent(text).x;
-		int textHeight = gc.stringExtent(text).y;
+		Point extent = gc.stringExtent(text);
 		
-		Label label = new Label(contentPanel, SWT.NONE);
+		int textWidth  = extent.x;
+		int textHeight = extent.y;
+		
+		Composite comp = new Composite(contentPanel, SWT.NONE);
+		comp.setSize(Math.max(textWidth, shell.getSize().x), textHeight);
+		comp.setLocation(0, contentPanel.getSize().y);
+		comp.addListener(SWT.MouseDown, selectionListener);
+		comp.addListener(SWT.MouseEnter, selectionListener);
+		comp.setBackground(defaultColor);
+		
+		Label label = new Label(comp, SWT.NONE);
 		label.setSize(textWidth, textHeight);
-		label.setLocation(0, contentPanel.getSize().y);
+		label.setLocation(0, 0);
 		label.setText(text);
+		label.addListener(SWT.MouseDown, selectionListener);
+		label.addListener(SWT.MouseEnter, selectionListener);
+		label.setBackground(defaultColor);
 		
 		if (textWidth > contentPanel.getSize().x)
 		{
 			contentPanel.setSize(textWidth, contentPanel.getSize().y);
+			
+			Control values[] = compositeIds.keySet().toArray(new Control[0]);
+			
+			for (int i = 0; i < values.length; i++)
+			{
+				values[i].setSize(textWidth, values[i].getSize().y);
+			}
 		}
+		
+		controlIds.put(label, id);
+		compositeIds.put(comp, id);
+		composites.put(id, comp);
+		controls.put(id, label);
 		
 		contentPanel.setSize(contentPanel.getSize().x, contentPanel.getSize().y + textHeight + textMargin);
 	}
@@ -97,9 +194,60 @@ public class DropdownMenu
 		}
 	}
 	
+	private void resetColors()
+	{
+		Control composites[] = compositeIds.keySet().toArray(new Control[0]);
+		Control controls[]   = controlIds.keySet().toArray(new Control[0]);
+		
+		for (int i = 0; i < composites.length; i++)
+		{
+			composites[i].setBackground(defaultColor);
+			controls[i].setBackground(defaultColor);
+		}
+	}
+	
+	public boolean isAncestor(DropdownMenu menu)
+	{
+		if (menu == this)
+		{
+			return true;
+		}
+		
+		DropdownMenu parent = menu.getParent();
+		
+		while (parent != null)
+		{
+			if (parent == this)
+			{
+				return true;
+			}
+			else
+			{
+				parent = parent.getParent();
+			}
+		}
+		
+		return false;
+	}
+	
+	public Point getLocation()
+	{
+		return shell.getLocation();
+	}
+	
+	public Point getLocation(String id)
+	{
+		return controls.get(id).getLocation();
+	}
+	
 	public void setLocation(int x, int y)
 	{
 		shell.setLocation(x, y);
+	}
+	
+	public Point getSize()
+	{
+		return shell.getSize();
 	}
 	
 	public void open()
@@ -109,11 +257,23 @@ public class DropdownMenu
 	
 	public void close()
 	{
-		shell.close();
+		resetColors();
+		
+		shell.setVisible(false);
 	}
 	
 	public void dispose()
 	{
 		shell.dispose();
+	}
+	
+	public void addDropdownMenuListener(DropdownMenuListener listener)
+	{
+		listeners.add(listener);
+	}
+	
+	public DropdownMenu getParent()
+	{
+		return parent;
 	}
 }

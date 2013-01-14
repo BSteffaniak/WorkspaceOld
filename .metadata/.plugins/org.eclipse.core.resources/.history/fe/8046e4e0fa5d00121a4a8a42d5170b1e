@@ -1,0 +1,205 @@
+package net.foxycorndog.arrowide.components.menubar;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Widget;
+
+public class DropdownMenu
+{
+	private int								textMargin;
+	private int								separatorHeight;
+
+	private GC								gc;
+	
+	private DropdownMenu					parent;
+
+	private Composite						contentPanel;
+	
+	private Listener						selectionListener;
+
+	private Shell							shell;
+
+	private HashMap<Control, String>		ids;
+	private HashMap<String, Control>		controls;
+	private ArrayList<Composite>			separators;
+	private ArrayList<DropdownMenuListener>	listeners;
+
+	private static int						staticId;
+	
+	public DropdownMenu(DropdownMenu parent)
+	{
+		this.parent = parent;
+		
+		shell = new Shell(SWT.NO_TRIM);
+		shell.setSize(0, 0);
+		
+		contentPanel = new Composite(shell, SWT.NONE);
+		contentPanel.setSize(0, 0);
+		
+		ids        = new HashMap<Control, String>();
+		controls   = new HashMap<String, Control>();
+		separators = new ArrayList<Composite>();
+		listeners  = new ArrayList<DropdownMenuListener>();
+		
+		gc = new GC(shell);
+		
+		textMargin = 2;
+		
+		separatorHeight = 5;
+		
+		contentPanel.addControlListener(new ControlListener()
+		{
+			public void controlResized(ControlEvent e)
+			{
+				shell.setSize(contentPanel.getSize());
+			}
+			
+			public void controlMoved(ControlEvent e)
+			{
+				
+			}
+		});
+		
+		selectionListener = new Listener()
+		{
+			public void handleEvent(Event event)
+			{
+				String text = ids.get(event.widget);
+				
+				if (event.type == SWT.MouseDown)
+				{
+					for (int i = listeners.size() - 1; i >= 0; i--)
+					{
+						listeners.get(i).itemSelected(text);
+					}
+				}
+				else if (event.type == SWT.MouseEnter)
+				{
+					for (int i = listeners.size() - 1; i >= 0; i--)
+					{
+						listeners.get(i).itemHovered(text);
+					}
+				}
+				else if (event.type == SWT.MouseExit)
+				{
+					for (int i = listeners.size() - 1; i >= 0; i--)
+					{
+						listeners.get(i).itemUnhovered(text);
+					}
+				}
+			}
+		};
+	}
+	
+	public void addMenuItem(String text, String id)
+	{
+		int textWidth  = gc.stringExtent(text).x;
+		int textHeight = gc.stringExtent(text).y;
+		
+		Composite comp = new Composite(contentPanel, SWT.NONE);
+		label.setSize(shell.getSize().x, textHeight);
+		comp.addListener(SWT.MouseDown, selectionListener);
+		comp.addListener(SWT.MouseEnter, selectionListener);
+		comp.addListener(SWT.MouseExit, selectionListener);
+		
+		Label label = new Label(comp, SWT.NONE);
+		label.setSize(textWidth, textHeight);
+		label.setLocation(0, contentPanel.getSize().y);
+		label.setText(text);
+		
+		if (textWidth > contentPanel.getSize().x)
+		{
+			contentPanel.setSize(textWidth, contentPanel.getSize().y);
+			
+			Control values[] = ids.keySet().toArray(new Control[0]);
+			
+			for (int i = 0; i < values.length; i++)
+			{
+				values[i].setSize(textWidth, values[i].getSize().y);
+			}
+		}
+		
+		ids.put(label, id);
+		controls.put(id, label);
+		
+		contentPanel.setSize(contentPanel.getSize().x, contentPanel.getSize().y + textHeight + textMargin);
+	}
+	
+	public void addSeparator()
+	{
+		contentPanel.setSize(contentPanel.getSize().x, contentPanel.getSize().y + separatorHeight);
+		
+		int height = separatorHeight % 2 == 0 ? 2 : 1;
+		
+		Composite sep = new Composite(contentPanel, SWT.NONE);
+		sep.setLocation(0, contentPanel.getSize().y - separatorHeight / 2);
+		sep.setBackground(new Color(Display.getDefault(), 100, 100, 100));
+		
+		separators.add(sep);
+		
+		for (int i = separators.size() - 1; i >= 0; i--)
+		{
+			separators.get(i).setSize(contentPanel.getSize().x - 2, height);
+		}
+	}
+	
+	public Point getLocation()
+	{
+		return shell.getLocation();
+	}
+	
+	public Point getLocation(String id)
+	{
+		return controls.get(id).getLocation();
+	}
+	
+	public void setLocation(int x, int y)
+	{
+		shell.setLocation(x, y);
+	}
+	
+	public Point getSize()
+	{
+		return shell.getSize();
+	}
+	
+	public void open()
+	{
+		shell.open();
+	}
+	
+	public void close()
+	{
+		shell.setVisible(false);
+	}
+	
+	public void dispose()
+	{
+		shell.dispose();
+	}
+	
+	public void addDropdownMenuListener(DropdownMenuListener listener)
+	{
+		listeners.add(listener);
+	}
+	
+	public DropdownMenu getParent()
+	{
+		return parent;
+	}
+}

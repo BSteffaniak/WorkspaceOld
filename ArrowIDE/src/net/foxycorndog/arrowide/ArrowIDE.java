@@ -423,7 +423,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		menubar.addMenuSubItem("Exit", "FILE");
 
 		menubar.addMenuSubItem("Project", "FILE>New");
-		menubar.addMenuSubItem("Empty FILE", "FILE>New>");
+		menubar.addMenuSubItem("Empty File", "FILE>New");
 		
 		menubar.addMenuHeader("EDIT");
 		menubar.addMenuSubItem("Preferences", "EDIT");
@@ -432,7 +432,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		{
 			public void subItemPressed(String subItemId)
 			{
-				if (subItemId.equals("FILE>New>Empty FILE"))
+				if (subItemId.equals("FILE>New>Empty File"))
 				{
 					newFile();
 				}
@@ -1484,6 +1484,12 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 */
 	public void saveFile(String location)
 	{
+		if (location == null)
+		{
+			openFile();
+			return;
+		}
+		
 		location = location.replace('\\', '/');
 		
 		if (location == null)
