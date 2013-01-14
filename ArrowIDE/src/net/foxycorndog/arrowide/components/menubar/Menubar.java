@@ -41,6 +41,7 @@ public class Menubar
 		
 		composite = new Composite(parent, SWT.NONE);
 		composite.setSize(parent.getSize().x, 25);
+		composite.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		
 		gc = new GC(composite);
 		
@@ -96,6 +97,8 @@ public class Menubar
 					DropdownMenu parent = menu.getParent();
 					
 					Point point = parent.getLocation(text);
+					
+					point.x = 0;
 					
 					point.x += parent.getLocation().x + parent.getSize().x;
 					point.y += parent.getLocation().y;

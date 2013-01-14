@@ -28,7 +28,7 @@ public class DropdownMenu
 
 	private GC								gc;
 	
-	private Color							selectionColor, defaultColor;
+	private Color							selectionColor, defaultColor, separatorColor;
 	
 	private DropdownMenu					parent;
 
@@ -54,8 +54,14 @@ public class DropdownMenu
 		shell = new Shell(SWT.NO_TRIM);
 		shell.setSize(0, 0);
 		
+		selectionColor = new Color(Display.getDefault(), 200, 200, 200);
+		defaultColor   = new Color(Display.getDefault(), 234, 234, 234);
+		separatorColor = new Color(Display.getDefault(), 180, 180, 180);
+		
 		contentPanel = new Composite(shell, SWT.NONE);
 		contentPanel.setSize(0, 0);
+		contentPanel.setBackground(defaultColor);
+		contentPanel.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		
 		controlIds   = new HashMap<Control, String>();
 		compositeIds = new HashMap<Composite, String>();
@@ -63,9 +69,6 @@ public class DropdownMenu
 		composites   = new HashMap<String, Composite>();
 		separators   = new ArrayList<Composite>();
 		listeners    = new ArrayList<DropdownMenuListener>();
-		
-		selectionColor = new Color(Display.getDefault(), 130, 130, 130);
-		defaultColor = new Color(Display.getDefault(), 240, 240, 240);
 		
 		gc = new GC(shell);
 		
@@ -76,7 +79,7 @@ public class DropdownMenu
 		leftMargin   = 25;
 		rightMargin  = 100;
 		
-		minimumWidth = 200;
+		minimumWidth = 100;
 		
 		contentPanel.addControlListener(new ControlListener()
 		{
@@ -143,6 +146,10 @@ public class DropdownMenu
 	
 	public void addMenuItem(String text, String id)
 	{
+
+		
+		contentPanel.setSize(contentPanel.getSize().x, contentPanel.getSize().y + textMargin);
+		
 		Point extent = gc.stringExtent(text);
 		
 		int textWidth  = extent.x;
@@ -154,6 +161,7 @@ public class DropdownMenu
 		comp.addListener(SWT.MouseDown, selectionListener);
 		comp.addListener(SWT.MouseEnter, selectionListener);
 		comp.setBackground(defaultColor);
+		comp.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		
 		Label label = new Label(comp, SWT.NONE);
 		label.setSize(textWidth, textHeight);
@@ -182,7 +190,7 @@ public class DropdownMenu
 		composites.put(id, comp);
 		controls.put(id, label);
 		
-		contentPanel.setSize(contentPanel.getSize().x, contentPanel.getSize().y + textHeight + textMargin);
+		contentPanel.setSize(contentPanel.getSize().x, contentPanel.getSize().y + textHeight);
 	}
 	
 	public void addSeparator()
@@ -193,7 +201,8 @@ public class DropdownMenu
 		
 		Composite sep = new Composite(contentPanel, SWT.NONE);
 		sep.setLocation(0, contentPanel.getSize().y - separatorHeight / 2);
-		sep.setBackground(new Color(Display.getDefault(), 100, 100, 100));
+		sep.setBackground(separatorColor);
+		sep.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		
 		separators.add(sep);
 		
