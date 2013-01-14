@@ -23,6 +23,8 @@ public class DropdownMenu
 {
 	private int								textMargin;
 	private int								separatorHeight;
+	private int								leftMargin, rightMargin;
+	private int 							minimumWidth;
 
 	private GC								gc;
 	
@@ -70,6 +72,11 @@ public class DropdownMenu
 		textMargin = 2;
 		
 		separatorHeight = 5;
+		
+		leftMargin   = 25;
+		rightMargin  = 100;
+		
+		minimumWidth = 200;
 		
 		contentPanel.addControlListener(new ControlListener()
 		{
@@ -142,7 +149,7 @@ public class DropdownMenu
 		int textHeight = extent.y;
 		
 		Composite comp = new Composite(contentPanel, SWT.NONE);
-		comp.setSize(Math.max(textWidth, shell.getSize().x), textHeight);
+		comp.setSize(Math.max(Math.max(textWidth, minimumWidth), shell.getSize().x) + leftMargin + rightMargin, textHeight);
 		comp.setLocation(0, contentPanel.getSize().y);
 		comp.addListener(SWT.MouseDown, selectionListener);
 		comp.addListener(SWT.MouseEnter, selectionListener);
@@ -150,21 +157,23 @@ public class DropdownMenu
 		
 		Label label = new Label(comp, SWT.NONE);
 		label.setSize(textWidth, textHeight);
-		label.setLocation(0, 0);
+		label.setLocation(leftMargin, 0);
 		label.setText(text);
 		label.addListener(SWT.MouseDown, selectionListener);
 		label.addListener(SWT.MouseEnter, selectionListener);
 		label.setBackground(defaultColor);
 		
-		if (textWidth > contentPanel.getSize().x)
+		if (textWidth > contentPanel.getSize().x - leftMargin - rightMargin)
 		{
-			contentPanel.setSize(textWidth, contentPanel.getSize().y);
+			int newWidth = comp.getSize().x;
+			
+			contentPanel.setSize(newWidth, contentPanel.getSize().y);
 			
 			Control values[] = compositeIds.keySet().toArray(new Control[0]);
 			
 			for (int i = 0; i < values.length; i++)
 			{
-				values[i].setSize(textWidth, values[i].getSize().y);
+				values[i].setSize(newWidth, values[i].getSize().y);
 			}
 		}
 		
