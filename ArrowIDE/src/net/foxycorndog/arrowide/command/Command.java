@@ -140,10 +140,16 @@ public class Command
 									
 									if (!failed)
 									{
-										for (int i = listeners.size() - 1; i >= 0; i --)
+										display.syncExec(new Runnable()
 										{
-											listeners.get(i).resultReceived(0);
-										}
+											public void run()
+											{
+												for (int i = listeners.size() - 1; i >= 0; i --)
+												{
+													listeners.get(i).resultReceived(0);
+												}
+											}
+										});
 										
 										int result = process.waitFor();
 									}
