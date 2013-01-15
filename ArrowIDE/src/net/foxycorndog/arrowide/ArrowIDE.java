@@ -297,7 +297,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		if (CONFIG_DATA.containsKey("window.x") && CONFIG_DATA.containsKey("window.y"))
 		{
-			int x  = Integer.parseInt(CONFIG_DATA.get("window.x"));
+			int x = Integer.parseInt(CONFIG_DATA.get("window.x"));
 			int y = Integer.parseInt(CONFIG_DATA.get("window.y"));
 			
 			window.setLocation(x, y);
@@ -305,11 +305,16 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		if (CONFIG_DATA.containsKey("window.fullscreen"))
 		{
-			window.setFullscreen(Boolean.valueOf(CONFIG_DATA.get("window.fullscreen")));
+			boolean fullscreen = Boolean.valueOf(CONFIG_DATA.get("window.fullscreen"));
+			
+			window.setFullscreen(fullscreen);
 		}
-		else if (CONFIG_DATA.containsKey("window.maximized"))
+		
+		if (!window.isFullscreen() && CONFIG_DATA.containsKey("window.maximized"))
 		{
-			window.setMaximized(Boolean.valueOf(CONFIG_DATA.get("window.maximized")));
+			boolean maximized = Boolean.valueOf(CONFIG_DATA.get("window.maximized"));
+			
+			window.setMaximized(maximized);
 		}
 		
 		window.setBackground(new Color(display, 225, 225, 225));
@@ -872,16 +877,11 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		{
 			public void onPrintln(final Object o)
 			{
-				display.asyncExec(new Runnable()
+				
+				if (o instanceof String)
 				{
-					public void run()
-					{
-						if (o instanceof String)
-						{
-							console.append((String)o);
-						}
-					}
-				});
+					console.append((String)o);
+				}
 			}
 			
 			public void onPrint(Object o)

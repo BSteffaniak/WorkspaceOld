@@ -33,7 +33,7 @@ public class CppLanguage
 		
 		String exe  = "\"" + fileLocation.substring(0, lastInd) + ".exe\"";
 		
-		Command command = new Command(exe, stream, null);
+		Command command = new Command(Display.getDefault(), exe, stream, null);
 		
 		try
 		{
@@ -54,7 +54,7 @@ public class CppLanguage
 			
 			System.out.println(text);
 			
-			Command command = new Command(text, stream, null);
+			Command command = new Command(Display.getDefault(), text, stream, null);
 			
 			String outputFile = outputLocation + FileUtils.getFileName(fileLocation);
 			

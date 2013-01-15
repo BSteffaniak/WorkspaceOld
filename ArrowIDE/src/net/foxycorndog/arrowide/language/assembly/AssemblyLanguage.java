@@ -34,7 +34,7 @@ public class AssemblyLanguage
 			COMMENT_COLOR = new Color(Display.getCurrent(), 40, 140, 0),
 			KEYWORD_COLOR = new Color(Display.getCurrent(), 150, 0, 0);
 	
-	public static int FASM = 1, NASM = 2;
+	public static final int FASM = 1, NASM = 2, MASM = 3;
 	
 	public static void init()
 	{
@@ -65,7 +65,7 @@ public class AssemblyLanguage
 		
 		if (bit16Supported)
 		{
-			command = new Command("\"" + loc + fileEnding + "\"", stream, null);
+			command = new Command(Display.getDefault(), "\"" + loc + fileEnding + "\"", stream, null);
 		}
 		else
 		{
@@ -149,6 +149,8 @@ public class AssemblyLanguage
 			
 			String compilerName = "";
 			
+			String fileEnding = compilerName.equals("FASM") ? ".exe" : ".com";
+			
 			if (CONFIG_DATA.containsKey("assembly.compiler"))
 			{
 				compilerName = CONFIG_DATA.get("assembly.compiler");
@@ -164,6 +166,10 @@ public class AssemblyLanguage
 			{
 				compiler = FASM;
 			}
+			else if (compilerName.equals("MASM"))
+			{
+				compiler = MASM;
+			}
 			
 			String outputFile = null;
 			
@@ -171,7 +177,7 @@ public class AssemblyLanguage
 			{
 				String compilerLocation = "\"res/assembly/nasm/" + PROPERTIES.get("os.name") + "/nasm" + PROPERTIES.get("os.executable.extension") + "\"";
 				String inputFile        = "\"" + fileLocation + "\"";
-				outputFile              = "\"" + outputLocation + fileName + ".com\"";
+				outputFile              = "\"" + outputLocation + fileName + fileEnding + "\"";
 				
 				text = compilerLocation + " -f bin " + inputFile + " -o " + outputFile + " -w+orphan-labels";
 			}
@@ -179,14 +185,22 @@ public class AssemblyLanguage
 			{
 				String compilerLocation = "\"res/assembly/fasm/" + PROPERTIES.get("os.name") + "/fasm" + PROPERTIES.get("os.executable.extension") + "\"";
 				String inputFile        = "\"" + fileLocation + "\"";
-				outputFile              = "\"" + outputLocation + fileName + ".exe\"";
+				outputFile              = "\"" + outputLocation + fileName + fileEnding + "\"";
 				
 				text = compilerLocation + " " + inputFile + " " + outputFile;
+			}
+			else if (compiler == MASM)
+			{
+				String compilerLocation = "\"res/assembly/masm/" + PROPERTIES.get("os.name") + "/ml" + PROPERTIES.get("os.executable.extension") + "\"";
+				String inputFile        = "/c \"" + fileLocation + "\"";
+				outputFile              = "\"" + outputLocation + fileName + fileEnding + "\"";
+				
+				text = compilerLocation + " " + inputFile;// + " " + outputFile;
 			}
 			
 			final String outputFiles[] = new String[] { outputFile.replace("\"", "") };
 			
-			Command command = new Command(text, stream, null);
+			Command command = new Command(Display.getDefault(), text, stream, null);
 			
 			command.addCommandListener(new CommandListener()
 			{

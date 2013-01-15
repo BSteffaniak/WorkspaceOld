@@ -18,18 +18,24 @@ import org.eclipse.swt.widgets.Display;
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.file.FileUtils;
 
+import static net.foxycorndog.arrowide.ArrowIDE.CONFIG_DATA;
+
 public class Command
 {
-	private String                      directory;
+	private String                      directory, line;
 	
 	private ConsoleStream				stream;
+	
+	private Display						display;
 	
 	private String						commands[];
 
 	private ArrayList<CommandListener>	listeners;
 	
-	public Command(String command, ConsoleStream stream, String directory)
+	public Command(Display display, String command, ConsoleStream stream, String directory)
 	{
+		this.display = display;
+		
 		List<String> list = new ArrayList<String>();
 		Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(command);
 		
@@ -64,7 +70,7 @@ public class Command
 	
 	public void execute() throws IOException
 	{
-//		System.out.println(Arrays.asList(commands) + ", " + directory);
+		System.out.println(Arrays.asList(commands) + ", " + directory);
 		
 		new Thread()
 		{
@@ -88,15 +94,13 @@ public class Command
 									}
 									Process process = builder.start();
 									
-									LogStreamReader lsr = new LogStreamReader(process.getInputStream(), stream);
+									LogStreamReader lsr = new LogStreamReader(display, process.getInputStream(), stream, CONFIG_DATA.get("workspace.location") + "/");
 									Thread thread = new Thread(lsr, "LogStreamReader");
 									thread.start();
 									
 									boolean failed = false;
 									
 									BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-									
-									String  line = null;
 									
 									try
 									{
@@ -108,14 +112,17 @@ public class Command
 												{
 													listeners.get(i).resultReceived(1);
 												}
-												
-												lsr.stop();
 											}
 											
 											failed = true;
 											
-											stream.println(line);
-//											System.out.println(line);
+											display.syncExec(new Runnable()
+											{
+												public void run()
+												{
+													stream.println(line);
+												}
+											});
 										}
 									}
 									catch (IOException e)
@@ -125,8 +132,11 @@ public class Command
 										e.printStackTrace();
 									}
 									
+									line = null;
+									
 									thread.join();
 									reader.close();
+									lsr.stop();
 									
 									if (!failed)
 									{
@@ -164,17 +174,25 @@ public class Command
 
 class LogStreamReader implements Runnable
 {
-	private boolean running;
-	
-	private ConsoleStream  stream;
-	
-	private BufferedReader reader;
+	private boolean			running;
+
+	private String			location, line;
+
+	private ConsoleStream	stream;
+
+	private BufferedReader	reader;
     
-    public LogStreamReader(InputStream is, ConsoleStream stream)
+	private Display			display;
+	
+    public LogStreamReader(Display display, InputStream is, ConsoleStream stream, String location)
     {
+    	this.location = location;
+    	
         this.reader = new BufferedReader(new InputStreamReader(is));
         
         this.stream = stream;
+        
+        this.display = display;
         
         running = true;
     }
@@ -183,15 +201,19 @@ class LogStreamReader implements Runnable
     {
         try
         {
-            String line = null;
-//            System.out.println("running");
             while ((line = reader.readLine()) != null)
             {
-            	System.out.println(line);
+            	line = line.replace(location, "");
             	
             	if (running)
             	{
-            		stream.println(line);
+            		display.syncExec(new Runnable()
+    				{
+    					public void run()
+    					{
+    						stream.println(line);
+    					}
+    				});
             	}
             	else
             	{
@@ -199,9 +221,9 @@ class LogStreamReader implements Runnable
             	}
             }
             
-            reader.close();
+            line = null;
             
-//            System.out.println("closed");
+            reader.close();
         }
         catch (IOException e)
         {

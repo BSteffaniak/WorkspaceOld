@@ -380,6 +380,7 @@ public class Window
 	public void setLocation(int x, int y)
 	{
 		shell.setLocation(x, y);
+		locationBefore = shell.getLocation();
 	}
 	
 	public Point getSize()
@@ -391,6 +392,7 @@ public class Window
 	{
 		shell.setSize(width, height);
 		setContentSize();
+		sizeBefore = shell.getSize();
 	}
 	
 	public int getWidth()

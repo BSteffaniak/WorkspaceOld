@@ -50,14 +50,14 @@
 <fullyQualifiedTypeName name="java.awt.Toolkit"/>
 <fullyQualifiedTypeName name="java.awt.Dimension"/>
 <fullyQualifiedTypeName name="java.awt.GraphicsEnvironment"/>
-<fullyQualifiedTypeName name="net.foxycorndog.arrowide.ArrowIDE"/>
 <fullyQualifiedTypeName name="org.lwjgl.Sys"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Control"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.menubar.DropdownMenuListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Widget"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Point"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Listener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Color"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
+<fullyQualifiedTypeName name="net.foxycorndog.arrowide.ArrowIDE"/>
 </qualifiedTypeNameHistroy>

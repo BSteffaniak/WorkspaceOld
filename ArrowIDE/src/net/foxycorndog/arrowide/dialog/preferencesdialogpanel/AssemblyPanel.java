@@ -38,6 +38,7 @@ public class AssemblyPanel extends PreferencesDialogPanel
 		compilerChooser.setSize(100, 25);
 		compilerChooser.addItem("NASM");
 		compilerChooser.addItem("FASM");
+		compilerChooser.addItem("MASM");
 		compilerChooser.setLocation(width - compilerChooser.getWidth() - 20, 85);
 		
 		Label compilerLabel = new Label(this, SWT.NONE);
