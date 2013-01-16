@@ -34,6 +34,8 @@ public class Command
 	
 	public Command(Display display, String command, ConsoleStream stream, String directory)
 	{
+		this.display = display;
+		
 		List<String> list = new ArrayList<String>();
 		Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(command);
 		
@@ -46,26 +48,24 @@ public class Command
 		    list.add(s);
 		}
 		
-		init(display, list.toArray(new String[0]), stream, directory);
+		init(list.toArray(new String[0]), stream, directory);
 	}
 	
-	public Command(Display display, String command[], ConsoleStream stream, String directory)
+	public Command(String command[], ConsoleStream stream, String directory)
 	{
 //		this.command = command;
-		init(display, command, stream, directory);
+		init(command, stream, directory);
 	}
 	
-	private void init(Display display, String command[], ConsoleStream stream, String directory)
+	private void init(String command[], ConsoleStream stream, String directory)
 	{
-		this.display   = display;
-		
 		this.directory = directory;
 		
-		this.commands  = command;
+		this.commands = command;
 		
-		this.stream    = stream;
+		this.stream   = stream;
 		
-		listeners      = new ArrayList<CommandListener>();
+		listeners     = new ArrayList<CommandListener>();
 	}
 	
 	public void execute() throws IOException

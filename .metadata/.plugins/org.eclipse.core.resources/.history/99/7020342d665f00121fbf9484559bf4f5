@@ -112,7 +112,7 @@ public class AssemblyLanguage
 			
 			lastFile = fileLocation;
 			
-			command = new Command(Display.getDefault(), new String[] { dosboxLocation, "-conf '" + confLocation + "/dosbox.conf'", "-noconsole" }, stream, confLocation);//new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-name '" + FileUtils.getParentFolder(loc) + "'", "-noconsole" }, stream);
+			command = new Command(new String[] { dosboxLocation, "-conf '" + confLocation + "/dosbox.conf'", "-noconsole" }, stream, confLocation);//new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-name '" + FileUtils.getParentFolder(loc) + "'", "-noconsole" }, stream);
 //			try
 //			{
 ////				Runtime.getRuntime().exec(new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-conf \"" + PROPERTIES.get("arrowide.location") + "/res/assembly/new.conf\"", "-noconsole", "-printconf" });
@@ -149,7 +149,7 @@ public class AssemblyLanguage
 			
 			String compilerName = "";
 			
-			String fileEnding = compilerName.equals("FASM") ? ".exe" : ".img";
+			String fileEnding = compilerName.equals("FASM") ? ".exe" : ".com";
 			
 			if (CONFIG_DATA.containsKey("assembly.compiler"))
 			{

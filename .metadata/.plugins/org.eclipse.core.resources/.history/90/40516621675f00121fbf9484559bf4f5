@@ -149,7 +149,7 @@ public class AssemblyLanguage
 			
 			String compilerName = "";
 			
-			String fileEnding = compilerName.equals("FASM") ? ".exe" : ".img";
+			String fileEnding = compilerName.equals("FASM") ? ".exe" : ".bin";
 			
 			if (CONFIG_DATA.containsKey("assembly.compiler"))
 			{
