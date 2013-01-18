@@ -19,7 +19,16 @@ public class LinkedList
 	 */
 	public Object getFront()
 	{
-		return null;
+		if (isEmpty())
+		{
+			throw new EmptyListException();
+		}
+		
+		Object data = start.getData();
+		
+		start = start.getNext();
+		
+		return data;
 	}
 	
 	/**
@@ -29,7 +38,32 @@ public class LinkedList
 	 */
 	public Object getBack()
 	{
-		return null;
+		if (isEmpty())
+		{
+			throw new EmptyListException();
+		}
+		
+		Object data = null;
+		
+		ListNode secondLast = getSecondLastNode();
+		
+		if (secondLast != null)
+		{
+			ListNode lastNode = secondLast.getNext();
+			
+			if (lastNode == null)
+			{
+				data  = start.getData();
+				start = null;
+			}
+			else
+			{
+				data = lastNode.getData();
+				secondLast.setNext(null);
+			}
+		}
+		
+		return data;
 	}
 	
 	/**
@@ -48,16 +82,20 @@ public class LinkedList
 		
 		while (node != null)
 		{
-			ListNode temp = node;
-			ListNode next = node.getNext();
+			ListNode next  = node.getNext();
 			
-			if (next == null)
+			if (next != null)
 			{
-				return node;
-			}
-			else
-			{
-				node = next;
+				ListNode next2 = next.getNext();
+				
+				if (next2 == null)
+				{
+					return node;
+				}
+				else
+				{
+					node = next;
+				}
 			}
 		}
 		
@@ -75,7 +113,12 @@ public class LinkedList
 		
 		if (node != null)
 		{
-			node = node.getNext();
+			ListNode temp = node.getNext();
+			
+			if (temp != null)
+			{
+				node = temp;
+			}
 		}
 		else
 		{
@@ -117,6 +160,7 @@ public class LinkedList
 		else
 		{
 			getLastNode().setNext(node);
+			System.out.println("asdf");
 		}
 	}
 	
@@ -127,7 +171,7 @@ public class LinkedList
 	{
 		StringBuilder builder = new StringBuilder();
 		
-		builder.append("LinkedList { ");
+		builder.append(getClass().getSimpleName() + " { ");
 		
 		ListNode node = start;
 		
