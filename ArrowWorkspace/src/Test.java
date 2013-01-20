@@ -6,22 +6,27 @@ public class Test
 	{
 		new Thread()
 		{
+			int times = 0;
+			
 			public void run()
 			{
-				try
+				while (true)
 				{
-					Thread.sleep(1000);
-					
-					System.out.println("inside thread");
-				}
-				catch (InterruptedException e)
-				{
-					e.printStackTrace();
+					try
+					{
+						Thread.sleep(1000);
+						
+						System.out.println(++times);
+					}
+					catch (InterruptedException e)
+					{
+						e.printStackTrace();
+					}
 				}
 			}
 		}.start();
 		
-		JFrame f = new JFrame("ASDF");
+		JFrame f = new JFrame("ASDF2");
 		f.setSize(500, 500);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);

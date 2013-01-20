@@ -13,8 +13,9 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="System.out.println" key="selection"/>
+		<item value="java." key="selection"/>
 		<list key="findhistory">
+			<item value="java."/>
 			<item value="System.out.println"/>
 			<item value="System.out"/>
 			<item value="System.out.printnl"/>
@@ -22,7 +23,6 @@
 			<item value="drag"/>
 			<item value="shell.getClientArea().height"/>
 			<item value="shell.getClientArea().width"/>
-			<item value="deleteF"/>
 		</list>
 		<list key="replacehistory">
 			<item value="contentPanel.getSize().y"/>

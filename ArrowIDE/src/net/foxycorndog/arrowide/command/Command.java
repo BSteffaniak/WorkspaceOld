@@ -92,6 +92,7 @@ public class Command
 									{
 										builder.directory(new File(directory));
 									}
+									
 									Process process = builder.start();
 									
 									LogStreamReader lsr = new LogStreamReader(display, process.getInputStream(), stream, CONFIG_DATA.get("workspace.location") + "/");
@@ -120,9 +121,17 @@ public class Command
 											{
 												public void run()
 												{
-													stream.println(line);
+													if (stream != null)
+													{
+														stream.println(line);
+													}
 												}
 											});
+											
+											if (!reader.ready())
+											{
+												break;
+											}
 										}
 									}
 									catch (IOException e)
@@ -134,7 +143,7 @@ public class Command
 									
 									line = null;
 									
-									thread.join();
+									thread.join(1);
 									reader.close();
 									lsr.stop();
 									
@@ -217,7 +226,10 @@ class LogStreamReader implements Runnable
     				{
     					public void run()
     					{
-    						stream.println(line);
+    						if (stream != null)
+							{
+    							stream.println(line);
+							}
     					}
     				});
             	}

@@ -28,6 +28,7 @@ public class JavaKeyword
 			ELSE         = new Keyword(JAVA, "else"),
 			ENUM         = new Keyword(JAVA, "enum"),
 			EXTENDS      = new Keyword(JAVA, "extends"),
+			FALSE        = new Keyword(JAVA, "false"),
 			FINAL        = new Keyword(JAVA, "final"),
 			FINALLY      = new Keyword(JAVA, "finally"),
 			FLOAT        = new Keyword(JAVA, "float"),
@@ -57,6 +58,7 @@ public class JavaKeyword
 			THROW        = new Keyword(JAVA, "throw"),
 			THROWS       = new Keyword(JAVA, "throws"),
 			TRANSIENT    = new Keyword(JAVA, "transient"),
+			TRUE         = new Keyword(JAVA, "true"),
 			TRY          = new Keyword(JAVA, "try"),
 			VOID         = new Keyword(JAVA, "void"),
 			VOLATILE     = new Keyword(JAVA, "volatile"),
@@ -81,6 +83,7 @@ public class JavaKeyword
 		ELSE.setColor(JavaLanguage.KEYWORD_COLOR);
 		ENUM.setColor(JavaLanguage.KEYWORD_COLOR);
 		EXTENDS.setColor(JavaLanguage.KEYWORD_COLOR);
+		FALSE.setColor(JavaLanguage.KEYWORD_COLOR);
 		FINAL.setColor(JavaLanguage.KEYWORD_COLOR);
 		FINALLY.setColor(JavaLanguage.KEYWORD_COLOR);
 		FLOAT.setColor(JavaLanguage.KEYWORD_COLOR);
@@ -110,6 +113,7 @@ public class JavaKeyword
 		THROW.setColor(JavaLanguage.KEYWORD_COLOR);
 		THROWS.setColor(JavaLanguage.KEYWORD_COLOR);
 		TRANSIENT.setColor(JavaLanguage.KEYWORD_COLOR);
+		TRUE.setColor(JavaLanguage.KEYWORD_COLOR);
 		TRY.setColor(JavaLanguage.KEYWORD_COLOR);
 		VOID.setColor(JavaLanguage.KEYWORD_COLOR);
 		VOLATILE.setColor(JavaLanguage.KEYWORD_COLOR);

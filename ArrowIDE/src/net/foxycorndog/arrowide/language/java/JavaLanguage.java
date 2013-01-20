@@ -15,11 +15,13 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
+import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
 import javax.tools.SimpleJavaFileObject;
 import javax.tools.StandardJavaFileManager;
@@ -36,15 +38,46 @@ import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CompilerListener;
 
+import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
+
 public class JavaLanguage
 {
+	private static HashMap<String, Class> classes;
+	
 	public  static final Color
 			COMMENT_COLOR = new Color(Display.getCurrent(), 40, 140, 0),
 			KEYWORD_COLOR = new Color(Display.getCurrent(), 150, 0, 0);
 	
 	public static void init()
 	{
+		classes = new HashMap<String, Class>();
 		
+		new Thread()
+		{
+			int counter;
+			
+			public void run()
+			{
+				try
+				{
+					URL url = new URL("file://" + PROPERTIES.get("arrowide.location") + "/res/bin/");
+				
+					ClassLoader cLoader = new URLClassLoader(new URL[] { url });
+					
+					cLoader.loadClass("Start");
+					
+					System.out.println("after");
+				}
+				catch (ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				catch (MalformedURLException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}.start();
 	}
 	
 	public static void run(final String fileLocation, final ConsoleStream stream)
@@ -59,51 +92,51 @@ public class JavaLanguage
 			
 			final String      className = FileUtils.getFileNameWithoutExtension(classLocation);
 			
-			
 //			Class        clazz     = cLoader.loadClass(className);//classLocation.substring(0, classLocation.lastIndexOf('.')));
 			
 //			final Method m         = clazz.getMethod("main", String[].class);
 			
 //			classRunning = true;
 			
-			Display.getDefault().asyncExec(new Runnable()
+			new Thread()
 			{
 				public void run()
 				{
-					new Thread()
+					try
 					{
-						public void run()
+						Class clazz = null;
+						
+						if (classes.containsKey(classLocation))
 						{
-							try
-							{
-								Class clazz   = Class.forName(className, true, cLoader);
-															
-								exec(clazz, classLocation, stream);
-							}
-							catch (ClassNotFoundException e)
-							{
-								e.printStackTrace();
-							}
-							catch (InterruptedException e)
-							{
-								e.printStackTrace();
-							}
-							catch (IOException e)
-							{
-								e.printStackTrace();
-							}
+							clazz = classes.get(classLocation);
 						}
-					}.start();
+						else
+						{
+							clazz = cLoader.loadClass(className);
+							
+							classes.put(classLocation, clazz);
+						}
+						
+						exec(clazz, classLocation, stream);
+					}
+					catch (ClassNotFoundException e)
+					{
+						e.printStackTrace();
+					}
+					catch (InterruptedException e)
+					{
+						e.printStackTrace();
+					}
+					catch (IOException e)
+					{
+						e.printStackTrace();
+					}
 				}
-			});
+			}.start();
 		}
 		catch (MalformedURLException e)
 		{
 			e.printStackTrace();
-		}
-		catch (Exception e)
-		{
-			System.out.println(e.getMessage());
 		}
 	}
 	
@@ -114,14 +147,29 @@ public class JavaLanguage
 		String classpath = FileUtils.getParentFolder(classLocation);//System.getProperty("java.class.path");
 		String className = clazz.getCanonicalName();
 		
-		Command command = new Command(Display.getDefault(), "\"" + javaBin + "\" -cp " + "\"" + classpath + "\" " + className, stream, null);
+		String outputLocation = FileUtils.getParentFolder(classLocation);
+		
+		Command command = new Command(Display.getDefault(), "\"" + javaBin + "\" -cp " + "\"" + classpath + "\" " + className, stream, outputLocation);
 		
 		command.execute();
 	}
 	
 	public static void compile(String fileLocation, String code, String outputLocation, ConsoleStream stream, ArrayList<CompilerListener> compilerListeners)
 	{
-		String fileName = FileUtils.getFileName(fileLocation);
+		String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
+		
+		outputLocation += "../bin/";
+		
+		try
+		{
+			outputLocation = FileUtils.getAbsolutePath(outputLocation) + "/";
+		}
+		catch (IOException e2)
+		{
+			e2.printStackTrace();
+		}
+		
+		new File(outputLocation).mkdirs();
 		
 //		fileName = fileName == null ? "" : fileName;
 //		
@@ -141,16 +189,14 @@ public class JavaLanguage
 //		
 //		return result.getErrors().length + " ";
 		
-		fileName = fileName.substring(0, fileName.lastIndexOf('.'));
-		
 		/*Creating dynamic java source code file object*/
 		
-		SimpleJavaFileObject fileObject  = new DynamicJavaSourceCodeObject("src/" + fileName, code);
+		SimpleJavaFileObject fileObject  = new DynamicJavaSourceCodeObject(fileName, code);
 		
 		JavaFileObject javaFileObjects[] = new JavaFileObject[] { fileObject };
  
 		/*Instantiating the java compiler*/
-		javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
  
 		/**
 		 * Retrieving the standard file manager from compiler object, which is used to provide
@@ -166,7 +212,12 @@ public class JavaLanguage
  
 		/*Prepare any compilation options to be used during compilation*/
 		//In this example, we are asking the compiler to place the output files under bin folder.
-		String[] compileOptions = new String[]{"-d", outputLocation} ;
+		String[] compileOptions = new String[]
+		{
+			"-cp", outputLocation,
+			"-d", outputLocation
+		};
+		
 		Iterable<String> compilationOptions = Arrays.asList(compileOptions);
  
 		/*Create a diagnostic controller, which holds the compilation problems*/
@@ -174,13 +225,13 @@ public class JavaLanguage
  
 		/*Create a compilation task from compiler by passing in the required input objects prepared above*/
 		CompilationTask compilerTask = compiler.getTask(null, stdFileManager, diagnostics, compilationOptions, null, compilationUnits);
- 
+		
 		//Perform the compilation by calling the call method on compilerTask object.
 		boolean status = compilerTask.call();
 		
 		StringBuilder error = new StringBuilder();
 		
-		String outputFile = outputLocation + ".class";
+		String outputFile = outputLocation + fileName + ".class";
 		
 		final String outputFiles[] = new String[] { outputFile };
  
@@ -250,10 +301,9 @@ class DynamicJavaSourceCodeObject extends SimpleJavaFileObject
 		this.sourceCode = code;
 	}
  
-	@Override
 	public CharSequence getCharContent(boolean ignoreEncodingErrors) throws IOException
 	{
-		return sourceCode ;
+		return sourceCode;
 	}
  
 	public String getQualifiedName()

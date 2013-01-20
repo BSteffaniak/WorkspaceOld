@@ -265,10 +265,8 @@ public class FileUtils
 		}
 	}
 	
-	public static String getAbsolutePath(String parentLocation, String location) throws IOException
+	public static String getAbsolutePath(String location) throws IOException
 	{
-//		File parent       = new File(parentLocation);
-		
 		File fileLocation = new File(location);
 		
 		String loc        = fileLocation.getCanonicalPath();
