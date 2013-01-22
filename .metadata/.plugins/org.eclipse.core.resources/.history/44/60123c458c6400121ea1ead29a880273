@@ -52,32 +52,32 @@ public class JavaLanguage
 	{
 		classes = new HashMap<String, Class>();
 		
-//		new Thread()
-//		{
-//			int counter;
-//			
-//			public void run()
-//			{
-//				try
-//				{
-//					URL url = new URL("file://" + PROPERTIES.get("arrowide.location") + "/res/bin/");
-//				
-//					ClassLoader cLoader = new URLClassLoader(new URL[] { url });
-//					
-//					cLoader.loadClass("Start");
-//					
-//					System.out.println("after");
-//				}
-//				catch (ClassNotFoundException e)
-//				{
-//					e.printStackTrace();
-//				}
-//				catch (MalformedURLException e)
-//				{
-//					e.printStackTrace();
-//				}
-//			}
-//		}.start();
+		new Thread()
+		{
+			int counter;
+			
+			public void run()
+			{
+				try
+				{
+					URL url = new URL("file://" + PROPERTIES.get("arrowide.location") + "/res/bin/");
+				
+					ClassLoader cLoader = new URLClassLoader(new URL[] { url });
+					
+					cLoader.loadClass("Start");
+					
+					System.out.println("after");
+				}
+				catch (ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				catch (MalformedURLException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}.start();
 	}
 	
 	public static void run(final String fileLocation, final ConsoleStream stream)

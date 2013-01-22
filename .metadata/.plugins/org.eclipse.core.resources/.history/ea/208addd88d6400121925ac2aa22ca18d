@@ -524,9 +524,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					{
 						if (Language.canCompile(FileUtils.getFileType(fileLocation)))
 						{
-							boolean isInViewer = false;
-							
-							saveFile(fileLocation, isInViewer);
+							saveFile(fileLocation);
 					
 							console.setText("");
 							
@@ -582,7 +580,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 						{
 							for (int i = 0; i < files.length; i ++)
 							{
-//								addToFileViewer(files[i]);
+								addToFileViewer(files[i]);
 							}
 						}
 					});
@@ -1477,11 +1475,6 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		dialog.setFilterPath(CONFIG_DATA.get("workspace.location") + "/" + relativeLocation);
 		
 		return dialog;
-	}
-	
-	public void saveFile(String location)
-	{
-		saveFile(location, true);
 	}
 	
 	/**
