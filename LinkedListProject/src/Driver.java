@@ -1,20 +1,53 @@
+/**
+ * File:          Driver.java
+ * Author:        Braden Steffaniak
+ * Programming:   APCS
+ * Last Modified: 22Jan2013
+ * Description:   Class that demonstrates the stack and queue lists.
+ */
 public class Driver
 {
+	/**
+	 * The main method that tests out the lists.
+	 * 
+	 * @param args The command line arguments.
+	 */
 	public static void main(String args[])
 	{
-		QueueList list = new QueueList();
+		QueueList queue = new QueueList();
 		
-		list.enqueue(5);
-		list.enqueue(7);
-		list.enqueue(3);
-		list.enqueue(1);
-		list.enqueue(6);
+		System.out.println(queue);
 		
-		System.out.println(list);
+		queue.enqueue("Bill");
+		queue.enqueue("Fred");
+		queue.enqueue("Joe");
+		queue.enqueue("Henrietta");
+		queue.enqueue("Mr. M");
+		queue.enqueue("Noman");
 		
-		System.out.println(list.dequeue());
-		System.out.println(list.dequeue());
+		System.out.println(queue);
 		
-		System.out.println(list);
+		System.out.println(queue.dequeue());
+		System.out.println(queue.dequeue());
+		
+		System.out.println(queue);
+		
+		StackList stack = new StackList();
+		
+		System.out.println(stack);
+		
+		stack.push("Bill");
+		stack.push("Fred");
+		stack.push("Joe");
+		stack.push("Henrietta");
+		stack.push("Mr. M");
+		stack.push("Norman");
+		
+		System.out.println(stack);
+		
+		System.out.println(stack.pop());
+		System.out.println(stack.pop());
+		
+		System.out.println(stack);
 	}
 }

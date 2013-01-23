@@ -1,3 +1,11 @@
+/**
+ * File:          LinkedList.java
+ * Author:        Braden Steffaniak
+ * Programming:   APCS
+ * Last Modified: 22Jan2013
+ * Description:   Class that keeps hold of a bunch
+ * 		of ListNodes.
+ */
 public class LinkedList
 {
 	private ListNode start;
@@ -82,7 +90,7 @@ public class LinkedList
 		
 		while (node != null)
 		{
-			ListNode next  = node.getNext();
+			ListNode next = node.getNext();
 			
 			if (next != null)
 			{
@@ -163,7 +171,9 @@ public class LinkedList
 		}
 		else
 		{
-			getLastNode().setNext(node);
+			ListNode last = getLastNode();
+			
+			last.setNext(node);
 		}
 	}
 	

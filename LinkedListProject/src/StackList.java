@@ -1,19 +1,41 @@
 import java.util.ArrayList;
 
+/**
+ * File:          StackList.java
+ * Author:        Braden Steffaniak
+ * Programming:   APCS
+ * Last Modified: 22Jan2013
+ * Description:   Class that implements Stack and acts
+ * 		as if it was a stack.
+ */
 public class StackList implements Stack
 {
 	LinkedList list;
 	
+	/**
+	 * Initialize the list.
+	 */
 	public StackList()
 	{
 		list = new LinkedList();
 	}
-	
+
+	/**
+	 * Returns whether the list contains nothing or not.
+	 * 
+	 * @return Whether list list is empty or not.
+	 */
 	public boolean isEmpty()
 	{
 		return list.isEmpty();
 	}
 
+	/**
+	 * Put an object on the top of the stack.
+	 * 
+	 * @param o The object to put.
+	 * @return The object that was put.
+	 */
 	public Object push(Object o)
 	{
 		list.addFront(o);
@@ -21,11 +43,22 @@ public class StackList implements Stack
 		return o;
 	}
 
+	/**
+	 * Remove the object at the top of the stack.
+	 * 
+	 * @return The object that was removed.
+	 */
 	public Object pop()
 	{
 		return list.getFront();
 	}
 
+	/**
+	 * Gets the front object from the list without
+	 * removing it from the list.
+	 * 
+	 * @return The first object in the list.
+	 */
 	public Object peek()
 	{
 		Object data = list.getFront();
@@ -34,6 +67,10 @@ public class StackList implements Stack
 		return data;
 	}
 
+	/**
+	 * @return position of element on stack, top
+	 * 		element = 1 ...return -1 if not found
+	 */
 	public int search(Object o)
 	{
 		ArrayList<Object> datas = new ArrayList<Object>();
