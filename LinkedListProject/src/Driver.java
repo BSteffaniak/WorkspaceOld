@@ -10,11 +10,11 @@ public class Driver
 		list.enqueue(1);
 		list.enqueue(6);
 		
-//		System.out.println(list);
-//		
-//		System.out.println(list.dequeue());
-//		System.out.println(list.dequeue());
-//		
-//		System.out.println(list);
+		System.out.println(list);
+		
+		System.out.println(list.dequeue());
+		System.out.println(list.dequeue());
+		
+		System.out.println(list);
 	}
 }

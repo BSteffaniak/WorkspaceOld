@@ -524,7 +524,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					{
 						if (Language.canCompile(FileUtils.getFileType(fileLocation)))
 						{
-							boolean isInViewer = treeItemLocations.containsKey(fileLocation);
+							boolean isInViewer = false;
 							
 							saveFile(fileLocation, isInViewer);
 					
@@ -572,26 +572,17 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		{
 			public void compiled(final String files[], int result, String fileName)
 			{
-				final boolean isInViewer = treeItemLocations.containsKey(fileLocation);
-				
-				
-				
 				if (result == 0)
 				{
 					consoleStream.println("Compiled successfully.");
-					
-					if (!isInViewer)
-					{
-						return;
-					}
-					
+
 					DISPLAY.syncExec(new Runnable()
 					{
 						public void run()
 						{
 							for (int i = 0; i < files.length; i ++)
 							{
-								addToFileViewer(files[i]);
+//								addToFileViewer(files[i]);
 							}
 						}
 					});

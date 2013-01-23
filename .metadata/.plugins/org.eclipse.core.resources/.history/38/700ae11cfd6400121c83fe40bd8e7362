@@ -574,24 +574,17 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			{
 				final boolean isInViewer = treeItemLocations.containsKey(fileLocation);
 				
-				
-				
 				if (result == 0)
 				{
 					consoleStream.println("Compiled successfully.");
-					
-					if (!isInViewer)
-					{
-						return;
-					}
-					
+
 					DISPLAY.syncExec(new Runnable()
 					{
 						public void run()
 						{
 							for (int i = 0; i < files.length; i ++)
 							{
-								addToFileViewer(files[i]);
+								addToFileViewer(files[i], isInViewer);
 							}
 						}
 					});

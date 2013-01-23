@@ -45,7 +45,7 @@ public class CppLanguage
 		}
 	}
 	
-	public static void compile(String fileLocation, String outputLocation, final ConsoleStream stream, final ArrayList<CompilerListener> compilerListeners)
+	public static void compile(final String fileLocation, String outputLocation, final ConsoleStream stream, final ArrayList<CompilerListener> compilerListeners)
 	{
 		try
 		{
@@ -66,7 +66,7 @@ public class CppLanguage
 				{
 					for (int i = compilerListeners.size() - 1; i >= 0; i--)
 					{
-						compilerListeners.get(i).compiled(outputFiles, result);
+						compilerListeners.get(i).compiled(outputFiles, result, fileLocation);
 					}
 				}
 			});

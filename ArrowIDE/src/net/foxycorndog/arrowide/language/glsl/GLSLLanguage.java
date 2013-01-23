@@ -73,7 +73,7 @@ public class GLSLLanguage
 		
 		for (int i = compilerListeners.size() - 1; i >= 0; i--)
 		{
-			compilerListeners.get(i).compiled(outputFiles, successful ? 0 : 1);
+			compilerListeners.get(i).compiled(outputFiles, successful ? 0 : 1, fileLocation);
 		}
 	}
 	
@@ -103,7 +103,7 @@ public class GLSLLanguage
 		
 		for (int i = compilerListeners.size() - 1; i >= 0; i--)
 		{
-			compilerListeners.get(i).compiled(outputFiles, successful ? 0 : 1);
+			compilerListeners.get(i).compiled(outputFiles, successful ? 0 : 1, fileLocation);
 		}
 	}
 	

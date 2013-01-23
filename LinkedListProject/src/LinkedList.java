@@ -97,6 +97,10 @@ public class LinkedList
 					node = next;
 				}
 			}
+			else
+			{
+				return node;
+			}
 		}
 		
 		return node;
@@ -160,7 +164,6 @@ public class LinkedList
 		else
 		{
 			getLastNode().setNext(node);
-			System.out.println("asdf");
 		}
 	}
 	
