@@ -64,7 +64,7 @@ public class CppKeyword
 			VOLATILE     = new Keyword(CPP, "volatile"),
 			WHILE        = new Keyword(CPP, "while");
 	
-	static
+	public static void init()
 	{
 		ABSTRACT.setColor(CppLanguage.KEYWORD_COLOR);
 		ASSERT.setColor(CppLanguage.KEYWORD_COLOR);
@@ -119,10 +119,5 @@ public class CppKeyword
 		VOID.setColor(CppLanguage.KEYWORD_COLOR);
 		VOLATILE.setColor(CppLanguage.KEYWORD_COLOR);
 		WHILE.setColor(CppLanguage.KEYWORD_COLOR);
-	}
-	
-	public static void init()
-	{
-		
 	}
 }

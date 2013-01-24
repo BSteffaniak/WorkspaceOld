@@ -6,6 +6,7 @@ import java.util.HashSet;
 import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.language.assembly.AssemblyKeyword;
 import net.foxycorndog.arrowide.language.cpp.CppKeyword;
+import net.foxycorndog.arrowide.language.foxy.FoxyKeyword;
 import net.foxycorndog.arrowide.language.glsl.GLSLKeyword;
 import net.foxycorndog.arrowide.language.java.JavaKeyword;
 
@@ -28,11 +29,13 @@ public class Keyword
 		keywords.put(JAVA, new HashMap<String, Keyword>());
 		keywords.put(GLSL, new HashMap<String, Keyword>());
 		keywords.put(ASSEMBLY, new HashMap<String, Keyword>());
+		keywords.put(FOXY, new HashMap<String, Keyword>());
 		keywords.put(CPP, new HashMap<String, Keyword>());
 		
 		JavaKeyword.init();
 		GLSLKeyword.init();
 		AssemblyKeyword.init();
+		FoxyKeyword.init();
 		CppKeyword.init();
 	}
 	

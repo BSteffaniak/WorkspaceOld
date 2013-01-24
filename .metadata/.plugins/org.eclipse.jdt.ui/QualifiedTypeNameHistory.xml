@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.io.PrintWriter"/>
 <fullyQualifiedTypeName name="java.io.FileWriter"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Text"/>
 <fullyQualifiedTypeName name="java.awt.event.MouseWheelListener"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="javax.tools.JavaCompiler"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.ArrowIDE"/>
+<fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.foxy.FoxyKeyword"/>
 </qualifiedTypeNameHistroy>

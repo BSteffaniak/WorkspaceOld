@@ -494,6 +494,8 @@ public class CodeField extends StyledText
 		commentType     = 0;
 		commentStart    = 0;
 		
+		calculateSpaceBetween(text, 0, whitespaceArray, styles);
+		
 		for (int i = 0; i < strings.length; i ++)
 		{
 			String word = strings[i];
@@ -566,12 +568,10 @@ public class CodeField extends StyledText
 						commentStarted = false;
 						
 						{
-							int offset       = commentStart;//offsets[i];
-							int length       = start + count - commentStart + 1;//word.length();
+							int offset       = commentStart;
+							int length       = start + count - commentStart + 1;
 							
 							styles.add(new StyleRange(offset, length, Language.getCommentColor(language), null));
-							
-//							setStyleRange(range);
 						}
 						
 						commentType = 0;

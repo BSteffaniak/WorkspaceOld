@@ -23,7 +23,7 @@ public class Driver
 		queue.enqueue("Joe");
 		queue.enqueue("Henrietta");
 		queue.enqueue("Mr. M");
-		queue.enqueue("Noman");
+		queue.enqueue("Norman");
 		
 		System.out.println(queue);
 		

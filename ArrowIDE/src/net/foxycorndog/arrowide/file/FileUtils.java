@@ -20,8 +20,8 @@ public class FileUtils
 	private static final HashMap<String, HashSet<String>> ENDINGS;
 	private static final HashMap<String, Integer> TYPES;
 	
-	public  static final int JAVA = 1, GLSL = 2, ASSEMBLY = 3, CPP = 4, H = 5, C = 6,
-							TXT = 7, RTF = 8, EXE = 9, CLASS = 10;
+	public  static final int JAVA = 1, GLSL = 2, ASSEMBLY = 3, FOXY = 4, CPP = 5, H = 6, C = 7,
+							TXT = 8, RTF = 9, EXE = 10, CLASS = 11;
 	
 	static
 	{
@@ -36,6 +36,7 @@ public class FileUtils
 		TYPES.put("shad",  GLSL);
 		TYPES.put("sha",   GLSL);
 		TYPES.put("asm",   ASSEMBLY);
+		TYPES.put("foxy",  FOXY);
 		TYPES.put("txt",   TXT);
 		TYPES.put("rtf",   RTF);
 		TYPES.put("exe",   EXE);
@@ -52,6 +53,8 @@ public class FileUtils
 		ENDINGS.put("java", toHashSet(new String[] { "java" }));
 		
 		ENDINGS.put("assembly", toHashSet(new String[] { "asm" }));
+		
+		ENDINGS.put("foxy", toHashSet(new String[] { "foxy" }));
 
 		ENDINGS.put("cpp", toHashSet(new String[] { "cpp" }));
 		
@@ -87,6 +90,10 @@ public class FileUtils
 		else if (ENDINGS.get("assembly").contains(ending))
 		{
 			language = ASSEMBLY;
+		}
+		else if (ENDINGS.get("foxy").contains(ending))
+		{
+			language = FOXY;
 		}
 		else if (ENDINGS.get("cpp").contains(ending) || ENDINGS.get("h").contains(ending))
 		{

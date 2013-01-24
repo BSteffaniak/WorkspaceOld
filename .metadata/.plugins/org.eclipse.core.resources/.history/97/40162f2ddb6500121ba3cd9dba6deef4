@@ -1,0 +1,11 @@
+package net.foxycorndog.arrowide.language.foxy;
+
+import static net.foxycorndog.arrowide.language.Language.FOXY;
+import net.foxycorndog.arrowide.language.Keyword;
+
+public class FoxyLanguage
+{
+	public static final Keyword
+			INT	= new Keyword(FOXY, "int");
+			
+}

@@ -143,10 +143,6 @@ public class Command
 									
 									line = null;
 									
-									thread.join(1);
-									reader.close();
-									lsr.stop();
-									
 									if (!failed)
 									{
 										display.syncExec(new Runnable()
@@ -161,6 +157,10 @@ public class Command
 										});
 										
 										int result = process.waitFor();
+									
+										thread.join();
+										reader.close();
+										lsr.stop();
 									}
 									
 									process.destroy();

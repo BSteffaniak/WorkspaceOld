@@ -1,0 +1,82 @@
+package net.foxycorndog.arrowide.dialog.preferencesdialogpanel;
+
+import static net.foxycorndog.arrowide.ArrowIDE.CONFIG_DATA;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+
+import net.foxycorndog.arrowide.ArrowIDE;
+import net.foxycorndog.arrowide.components.DropdownMenu;
+import net.foxycorndog.arrowide.components.FileLocator;
+import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
+import net.foxycorndog.arrowide.file.FileUtils;
+
+public class GeneralPanel extends PreferencesDialogPanel
+{
+	private DropdownMenu customWindow;
+	
+	private FileLocator workspaceLocator;
+	
+	private ArrowIDE    ide;
+	
+	public GeneralPanel(Composite parent, ArrowIDE ide)
+	{
+		super(parent, "General");
+		
+		this.ide = ide;
+		
+		int width = getSize().x;
+		
+		customWindow = new DropdownMenu(this);
+		customWindow.setSize(100, 25);
+		customWindow.addItem("Default");
+		customWindow.addItem("Custom");
+		customWindow.setLocation(width - customWindow.getWidth() - 20, 85);
+		
+		Label compilerLabel = new Label(this, SWT.NONE);
+		compilerLabel.setText("Window Type:");
+		compilerLabel.setSize(70, 25);
+		compilerLabel.setLocation(customWindow.getX() - compilerLabel.getSize().x, customWindow.getY() + 3);
+		
+		workspaceLocator = new FileLocator(this, parent.getShell(), "Workspace Location:", FileLocator.DIRECTORY);
+		workspaceLocator.setLocation(width - workspaceLocator.getSize().x, 50);
+		
+		if (CONFIG_DATA.containsKey("workspace.location"))
+		{
+			workspaceLocator.setText(CONFIG_DATA.get("workspace.location"));
+		}
+	}
+
+	public void apply()
+	{
+		if (workspaceLocator.getText() != null && !workspaceLocator.getText().equals(CONFIG_DATA.get("workspace.location")))
+		{
+			String location = FileUtils.removeEndingSlashes(workspaceLocator.getText().replace('\\', '/'));
+			
+			ArrowIDE.setConfigDataValue("workspace.location", location);
+		
+			ide.removeAllTreeItems();
+			ide.refreshFileViewer(true);
+		}
+	}
+
+	public void revert()
+	{
+		if (CONFIG_DATA.containsKey("workspace.location"))
+		{
+			workspaceLocator.setText(CONFIG_DATA.get("workspace.location"));
+		}
+	}
+
+	public void update()
+	{
+		revert();
+	}
+
+	public void open()
+	{
+		
+	}
+}

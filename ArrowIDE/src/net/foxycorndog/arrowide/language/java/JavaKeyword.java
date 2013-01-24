@@ -64,7 +64,7 @@ public class JavaKeyword
 			VOLATILE     = new Keyword(JAVA, "volatile"),
 			WHILE        = new Keyword(JAVA, "while");
 	
-	static
+	public static void init()
 	{
 		ABSTRACT.setColor(JavaLanguage.KEYWORD_COLOR);
 		ASSERT.setColor(JavaLanguage.KEYWORD_COLOR);
@@ -118,10 +118,5 @@ public class JavaKeyword
 		VOID.setColor(JavaLanguage.KEYWORD_COLOR);
 		VOLATILE.setColor(JavaLanguage.KEYWORD_COLOR);
 		WHILE.setColor(JavaLanguage.KEYWORD_COLOR);
-	}
-	
-	public static void init()
-	{
-		
 	}
 }

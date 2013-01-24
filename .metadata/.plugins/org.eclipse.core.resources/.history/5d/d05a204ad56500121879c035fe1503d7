@@ -1,0 +1,12 @@
+window.custom=true
+workspace.location=C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowWorkspace
+window.x=0
+window.y=0
+window.width=1483
+window.fullscreen=false
+window.maximized=true
+dosbox.location=C:/Program Files (x86)/DOSBox-0.74/DOSBox.exe
+window.height=767
+open.location=C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/LinkedListProject/src/
+g++.location=C:/MinGW/bin
+assembly.compiler=NASM

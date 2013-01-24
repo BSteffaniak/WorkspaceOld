@@ -19,7 +19,7 @@ import net.foxycorndog.arrowide.language.java.JavaLanguage;
 
 public class Language
 {
-	public static final int JAVA = FileUtils.JAVA, GLSL = FileUtils.GLSL, ASSEMBLY = FileUtils.ASSEMBLY, CPP = FileUtils.CPP, C = FileUtils.C;
+	public static final int JAVA = FileUtils.JAVA, GLSL = FileUtils.GLSL, ASSEMBLY = FileUtils.ASSEMBLY, FOXY = FileUtils.FOXY, CPP = FileUtils.CPP, C = FileUtils.C;
 	
 	private static ArrayList<CompilerListener> listeners;
 	

@@ -47,7 +47,7 @@ public class GLSLKeyword
 			WHILE                        = new Keyword(GLSL, "while"),
 			GL_LIGHTMODEL                = new Keyword(GLSL, "gl_LightModel");
 	
-	static
+	public static void init()
 	{
 		INT.setColor(GLSLLanguage.KEYWORD_COLOR);
 		FLOAT.setColor(GLSLLanguage.KEYWORD_COLOR);
@@ -85,10 +85,5 @@ public class GLSLKeyword
 		FOR.setColor(GLSLLanguage.KEYWORD_COLOR);
 		WHILE.setColor(GLSLLanguage.KEYWORD_COLOR);
 		GL_LIGHTMODEL.setColor(GLSLLanguage.KEYWORD_COLOR);
-	}
-	
-	public static void init()
-	{
-		
 	}
 }

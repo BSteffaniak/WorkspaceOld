@@ -67,11 +67,11 @@ public class TabMenu
 		tabFolder.setSize(0, tabFolder.getTabHeight() + 3);
 //		tabFolder.setSimple(false);
 		
-		tabs		= new HashMap<Integer, CTabItem>();
-		tabIds		= new HashMap<CTabItem, Integer>();
-		tabsText	= new HashMap<Integer, String>();
+		tabs          = new HashMap<Integer, CTabItem>();
+		tabIds        = new HashMap<CTabItem, Integer>();
+		tabsText      = new HashMap<Integer, String>();
 		
-		maxCharacters = 15;
+		maxCharacters = 20;
 		
 		thisObject    = this;
 		

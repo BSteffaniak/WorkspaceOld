@@ -42,7 +42,7 @@ public class AssemblyKeyword
 			EDX                          = new Keyword(ASSEMBLY, "edx"),
 			JB                           = new Keyword(ASSEMBLY, "jb");
 	
-	static
+	public static void init()
 	{
 		INT.setColor(AssemblyLanguage.KEYWORD_COLOR);
 		MOV.setColor(AssemblyLanguage.KEYWORD_COLOR);
@@ -75,10 +75,5 @@ public class AssemblyKeyword
 		RET.setColor(AssemblyLanguage.KEYWORD_COLOR);
 		EDX.setColor(AssemblyLanguage.KEYWORD_COLOR);
 		JB.setColor(AssemblyLanguage.KEYWORD_COLOR);
-	}
-	
-	public static void init()
-	{
-		
 	}
 }
