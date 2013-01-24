@@ -18,9 +18,26 @@ public class Expression
 		stack = new StackList();
 	}
 	
+	/**
+	 * Method to push a number on the stack.
+	 * 
+	 * @param num
+	 */
 	public void push(Number num)
 	{
+		pushy(num);
+	}
+	
+	/**
+	 * Method to push a number on the stack.
+	 * 
+	 * @param num
+	 */
+	public Expression pushy(Number num)
+	{
 		stack.push(num);
+		
+		return this;
 	}
 	
 	/**
@@ -29,25 +46,14 @@ public class Expression
 	 */
 	public void add()
 	{
-		Object tmp1 = stack.pop();
-		Object tmp2 = stack.pop();
-		
-		if (tmp1 instanceof Number && tmp2 instanceof Number)
-		{
-			Number num1 = (Number)tmp1;
-			Number num2 = (Number)tmp2;
-		}
-		else
-		{
-			throw new RuntimeException("The last two entrees must be Numbers.");
-		}
+		addy();
 	}
 	
 	/**
-	 * Method that subtracts the last two numbers that were entered into
+	 * Method that adds the last two numbers that were entered into
 	 * the stack.
 	 */
-	public void subtract()
+	public Expression addy()
 	{
 		Object tmp1 = stack.pop();
 		Object tmp2 = stack.pop();
@@ -56,11 +62,127 @@ public class Expression
 		{
 			Number num1 = (Number)tmp1;
 			Number num2 = (Number)tmp2;
+			
+			double result = num2.doubleValue() + num1.doubleValue();
+			
+			stack.push(result);
 		}
 		else
 		{
-			throw new RuntimeException("The last two entrees must be Numbers.");
+			throw new RuntimeException("The last two entrees must have been Numbers.");
 		}
+		
+		return this;
+	}
+	
+	/**
+	 * Method that subtracts the last two numbers that were entered into
+	 * the stack.
+	 */
+	public void subtract()
+	{
+		subtracty();
+	}
+	
+	/**
+	 * Method that subtracts the last two numbers that were entered into
+	 * the stack.
+	 */
+	public Expression subtracty()
+	{
+		Object tmp1 = stack.pop();
+		Object tmp2 = stack.pop();
+		
+		if (tmp1 instanceof Number && tmp2 instanceof Number)
+		{
+			Number num1 = (Number)tmp1;
+			Number num2 = (Number)tmp2;
+			
+			double result = num2.doubleValue() - num1.doubleValue();
+			
+			stack.push(result);
+		}
+		else
+		{
+			throw new RuntimeException("The last two entrees must have been Numbers.");
+		}
+		
+		return this;
+	}
+	
+	/**
+	 * Method that subtracts the last two numbers that were entered into
+	 * the stack.
+	 */
+	public void multiply()
+	{
+		multiplie();
+	}
+	
+	/**
+	 * Method that subtracts the last two numbers that were entered into
+	 * the stack.
+	 */
+	public Expression multiplie()
+	{
+		Object tmp1 = stack.pop();
+		Object tmp2 = stack.pop();
+		
+		if (tmp1 instanceof Number && tmp2 instanceof Number)
+		{
+			Number num1   = (Number)tmp1;
+			Number num2   = (Number)tmp2;
+			
+			double result = num2.doubleValue() - num1.doubleValue();
+			
+			stack.push(result);
+		}
+		else
+		{
+			throw new RuntimeException("The last two entrees must have been Numbers.");
+		}
+		
+		return this;
+	}
+	
+	/**
+	 * Method that subtracts the last two numbers that were entered into
+	 * the stack.
+	 */
+	public void divide()
+	{
+		dividey();
+	}
+	
+	/**
+	 * Method that subtracts the last two numbers that were entered into
+	 * the stack.
+	 */
+	public Expression dividey()
+	{
+		Object tmp1 = stack.pop();
+		Object tmp2 = stack.pop();
+		
+		if (tmp1 instanceof Number && tmp2 instanceof Number)
+		{
+			Number num1   = (Number)tmp1;
+			Number num2   = (Number)tmp2;
+			
+			double result = num2.doubleValue() / num1.doubleValue();
+			
+			stack.push(result);
+		}
+		else
+		{
+			throw new RuntimeException("The last two entrees must have been Numbers.");
+		}
+		
+		return this;
+	}
+	
+	public Number getResult()
+	{
+		return (Number)stack.peek();
 	}
 	
 	/**
@@ -70,7 +192,13 @@ public class Expression
 	{
 		StringBuilder builder = new StringBuilder();
 		
+		builder.append(stack.toString());
 		
+		String stackName = stack.getClass().getSimpleName();
+		
+		int stackIndex   = builder.indexOf(stackName);
+		
+		builder.replace(stackIndex, stackIndex * stackName.length(), this.getClass().getSimpleName());
 		
 		return builder.toString();
 	}

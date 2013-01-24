@@ -1,0 +1,9 @@
+Compiled successfully.
+Compiled successfully.
+hi!!!!! 4.0
+Compiled successfully.
+Exception in thread "main" EmptyListException: The List you are trying to access is empty.
+	at LinkedList.getFront(LinkedList.java:32)
+	at StackList.pop(StackList.java:53)
+	at Expression.multiplie(Expression.java from DynamicJavaSourceCodeObject:129)
+	at ExpressionTest.main(ExpressionTest.java from DynamicJavaSourceCodeObject:17)

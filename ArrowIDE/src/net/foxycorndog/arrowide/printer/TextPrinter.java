@@ -89,7 +89,6 @@ public class TextPrinter
 	private int printLine(String text, int x, int y, GC gc, int offset)
 	{
 		StringBuilder word = new StringBuilder();
-		
 		int i = offset;
 		while (x < bounds.width + bounds.x)
 		{

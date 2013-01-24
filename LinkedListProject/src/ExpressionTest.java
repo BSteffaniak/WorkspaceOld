@@ -13,5 +13,9 @@ public class ExpressionTest
 	public static void main(String args[])
 	{
 		Expression e = new Expression();
+		
+		e.pushy(6).pushy(4).addy().multiplie().pushy(16).pushy(4).dividey().subtracty();
+		
+		System.out.println("hi!!!!! " + e.getResult());
 	}
 }
