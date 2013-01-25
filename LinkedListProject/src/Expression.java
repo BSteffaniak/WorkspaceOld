@@ -60,8 +60,8 @@ public class Expression
 		
 		if (tmp1 instanceof Number && tmp2 instanceof Number)
 		{
-			Number num1 = (Number)tmp1;
-			Number num2 = (Number)tmp2;
+			Number num1   = (Number)tmp1;
+			Number num2   = (Number)tmp2;
 			
 			double result = num2.doubleValue() + num1.doubleValue();
 			
@@ -69,7 +69,8 @@ public class Expression
 		}
 		else
 		{
-			throw new RuntimeException("The last two entrees must have been Numbers.");
+			throw new RuntimeException("The last two entrees must" +
+					" have been Numbers.");
 		}
 		
 		return this;
@@ -95,8 +96,8 @@ public class Expression
 		
 		if (tmp1 instanceof Number && tmp2 instanceof Number)
 		{
-			Number num1 = (Number)tmp1;
-			Number num2 = (Number)tmp2;
+			Number num1   = (Number)tmp1;
+			Number num2   = (Number)tmp2;
 			
 			double result = num2.doubleValue() - num1.doubleValue();
 			
@@ -104,7 +105,8 @@ public class Expression
 		}
 		else
 		{
-			throw new RuntimeException("The last two entrees must have been Numbers.");
+			throw new RuntimeException("The last two entrees must" +
+					" have been Numbers.");
 		}
 		
 		return this;
@@ -139,7 +141,8 @@ public class Expression
 		}
 		else
 		{
-			throw new RuntimeException("The last two entrees must have been Numbers.");
+			throw new RuntimeException("The last two entrees must" +
+					" have been Numbers.");
 		}
 		
 		return this;
@@ -174,7 +177,8 @@ public class Expression
 		}
 		else
 		{
-			throw new RuntimeException("The last two entrees must have been Numbers.");
+			throw new RuntimeException("The last two entrees must" +
+				" have been Numbers.");
 		}
 		
 		return this;
@@ -189,7 +193,7 @@ public class Expression
 	}
 	
 	/**
-	 * Clears the Expression of all numbers.
+	 * Clears the Expression of all objects.
 	 */
 	public void clear()
 	{
@@ -212,7 +216,8 @@ public class Expression
 		
 		int stackIndex   = builder.indexOf(stackName);
 		
-		builder.replace(stackIndex, stackIndex + stackName.length(), this.getClass().getSimpleName());
+		builder.replace(stackIndex, stackIndex + stackName.length(),
+				this.getClass().getSimpleName());
 		
 		return builder.toString();
 	}
