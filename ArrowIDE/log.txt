@@ -1,9 +1,298 @@
 Compiled successfully.
-Compiled successfully.
-hi!!!!! 4.0
-Compiled successfully.
 Exception in thread "main" EmptyListException: The List you are trying to access is empty.
 	at LinkedList.getFront(LinkedList.java:32)
 	at StackList.pop(StackList.java:53)
 	at Expression.multiplie(Expression.java from DynamicJavaSourceCodeObject:129)
-	at ExpressionTest.main(ExpressionTest.java from DynamicJavaSourceCodeObject:17)
+	at ExpressionTest.main(ExpressionTest.java:17)
+Compiled successfully.
+hi!!!!! 3.0
+Compiled successfully.
+hi!!!!! 10.0
+Compiled successfully.
+hi!!!!! 7.0
+Compiled successfully.
+Compiled successfully.
+hi!!!!! 26.0
+Compiled successfully.
+Compiled successfully.
+hi!!!!! 26.0
+Compiled successfully.
+ExpressionStackList { 6,  }
+ExpressionStackList { 4, 6,  }
+ExpressionStackList { 10.0,  }
+ExpressionStackList { 3, 10.0,  }
+ExpressionStackList { 30.0,  }
+ExpressionStackList { 16, 30.0,  }
+ExpressionStackList { 4, 16, 30.0,  }
+ExpressionStackList { 4.0, 30.0,  }
+ExpressionStackList { 26.0,  }
+hi!!!!! 26.0
+Compiled successfully.
+Error: Main method not found in class Expression, please define the main method as:
+   public static void main(String[] args)
+Expression { 6,  }
+Expression { 4, 6,  }
+Expression { 10.0,  }
+Expression { 3, 10.0,  }
+Expression { 30.0,  }
+Expression { 16, 30.0,  }
+Expression { 4, 16, 30.0,  }
+Expression { 4.0, 30.0,  }
+Expression { 26.0,  }
+hi!!!!! 26.0
+Compiled successfully.
+Expression { 6,  }
+Expression { 4, 6,  }
+Expression { 10.0,  }
+Expression { 3, 10.0,  }
+Expression { 30.0,  }
+Expression { 16, 30.0,  }
+Expression { 4, 16, 30.0,  }
+Expression { 4.0, 30.0,  }
+Expression { 26.0,  }
+Result 26.0
+Compiled successfully.
+Expression { 6,  }
+Expression { 4, 6,  }
+Expression { 10.0,  }
+Expression { 3, 10.0,  }
+Expression { 30.0,  }
+Expression { 16, 30.0,  }
+Expression { 4, 16, 30.0,  }
+Expression { 4.0, 30.0,  }
+Expression { 26.0,  }
+Result: 26.0
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Expression { 6, }
+Expression { 4, 6, }
+Expression { 10.0, }
+Expression { 3, 10.0, }
+Expression { 30.0, }
+Expression { 16, 30.0, }
+Expression { 4, 16, 30.0, }
+Expression { 4.0, 30.0, }
+Expression { 26.0, }
+Result: 26.0
+Error on line 126: no suitable method found for delete(int)
+    method java.lang.StringBuilder.delete(int,int) is not applicable
+      (actual and formal argument lists differ in length)
+Compiled successfully.
+Compiled successfully.
+Expression { 6,}
+Expression { 4, 6,}
+Expression { 10.0,}
+Expression { 3, 10.0,}
+Expression { 30.0,}
+Expression { 16, 30.0,}
+Expression { 4, 16, 30.0,}
+Expression { 4.0, 30.0,}
+Expression { 26.0,}
+Result: 26.0
+Compiled successfully.
+Expression { 6 }
+Expression { 4, 6 }
+Expression { 10.0 }
+Expression { 3, 10.0 }
+Expression { 30.0 }
+Expression { 16, 30.0 }
+Expression { 4, 16, 30.0 }
+Expression { 4.0, 30.0 }
+Expression { 26.0 }
+Result: 26.0
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+QueueList  }
+QueueList { Bill, Fred, Joe, Henrietta, Mr. M, Norman }
+Bill
+Fred
+QueueList { Joe, Henrietta, Mr. M, Norman }
+StackList  }
+StackList { Norman, Mr. M, Henrietta, Joe, Fred, Bill }
+Norman
+Mr. M
+StackList { Henrietta, Joe, Fred, Bill }
+Compiled successfully.
+Compiled successfully.
+Error on line 198: cannot find symbol
+  symbol:   variable datas
+  location: class LinkedList
+Error on line 198: cannot find symbol
+  symbol:   variable size
+  location: class LinkedList
+Compiled successfully.
+Compiled successfully.
+QueueList { }
+QueueList { Bill, Fred, Joe, Henrietta, Mr. M, Norman }
+Bill
+Fred
+QueueList { Joe, Henrietta, Mr. M, Norman }
+StackList { }
+StackList { Norman, Mr. M, Henrietta, Joe, Fred, Bill }
+Norman
+Mr. M
+StackList { Henrietta, Joe, Fred, Bill }
+Compiled successfully.
+Compiled successfully.
+Expression { 6 }
+Expression { 4, 6 }
+Expression { 10.0 }
+Expression { 3, 10.0 }
+Expression { 30.0 }
+Expression { 16, 30.0 }
+Expression { 4, 16, 30.0 }
+Expression { 4.0, 30.0 }
+Expression { 26.0 }
+Result: 26.0
+Expression { 6 }
+Expression { 4, 6 }
+Expression { 10.0 }
+Expression { 3, 10.0 }
+Expression { 30.0 }
+Expression { 16, 30.0 }
+Expression { 4, 16, 30.0 }
+Expression { 4.0, 30.0 }
+Expression { 26.0 }
+Result: 26.0
+Compiled successfully.
+Expression { 6 }
+Expression { 4, 6 }
+Expression { 10.0 }
+Expression { 3, 10.0 }
+Expression { 30.0 }
+Expression { 16, 30.0 }
+Expression { 4, 16, 30.0 }
+Expression { 4.0, 30.0 }
+Expression { 26.0 }
+Result: 26.0
+
+Expression { 6 }
+Expression { 4, 6 }
+Expression { 10.0 }
+Expression { 3, 10.0 }
+Expression { 30.0 }
+Expression { 16, 30.0 }
+Expression { 4, 16, 30.0 }
+Expression { 4.0, 30.0 }
+Expression { 26.0 }
+Result: 26.0
+Compiled successfully.
+Expression { 6 }
+Expression { 4, 6 }
+Expression { 10.0 }
+Expression { 3, 10.0 }
+Expression { 30.0 }
+Expression { 16, 30.0 }
+Expression { 4, 16, 30.0 }
+Expression { 4.0, 30.0 }
+Expression { 26.0 }
+Result: 26.0
+
+Expression { 12 }
+Expression { 25, 12 }
+Expression { 5, 25, 12 }
+Expression { 1, 5, 25, 12 }
+Expression { 5.0, 25, 12 }
+Expression { 5.0, 12 }
+Expression { 60.0 }
+Expression { 8, 60.0 }
+Expression { 7, 8, 60.0 }
+Expression { 15.0, 60.0 }
+Expression { 45.0 }
+Result: 45.0
+Compiled successfully.
+Expression { 6 }
+Expression { 4, 6 }
+Expression { 10.0 }
+Expression { 3, 10.0 }
+Expression { 30.0 }
+Expression { 16, 30.0 }
+Expression { 4, 16, 30.0 }
+Expression { 4.0, 30.0 }
+Expression { 26.0 }
+Result: 26.0
+
+Expression { 12 }
+Expression { 25, 12 }
+Expression { 5, 25, 12 }
+Expression { 1, 5, 25, 12 }
+Expression { 5.0, 25, 12 }
+Expression { 5.0, 12 }
+Expression { 60.0 }
+Expression { 8, 60.0 }
+Expression { 7, 8, 60.0 }
+Expression { 15.0, 60.0 }
+Expression { 45.0 }
+Result: 45.0
+
+Expression { 70 }
+Expression { 14, 70 }
+Expression { 4, 14, 70 }
+Expression { 5, 4, 14, 70 }
+Expression { 15, 5, 4, 14, 70 }
+Expression { 3, 15, 5, 4, 14, 70 }
+Expression { 5.0, 5, 4, 14, 70 }
+Expression { 25.0, 4, 14, 70 }
+Expression { -21.0, 14, 70 }
+Expression { 35.0, 70 }
+Expression { 2.0 }
+Expression { 6, 2.0 }
+Result: 8.0
+
+Compiled successfully.
+Expression { 6 }
+Expression { 4, 6 }
+Expression { 10.0 }
+Expression { 3, 10.0 }
+Expression { 30.0 }
+Expression { 16, 30.0 }
+Expression { 4, 16, 30.0 }
+Expression { 4.0, 30.0 }
+Expression { 26.0 }
+Result: 26.0
+
+Expression { 12 }
+Expression { 25, 12 }
+Expression { 5, 25, 12 }
+Expression { 1, 5, 25, 12 }
+Expression { 5.0, 25, 12 }
+Expression { 5.0, 12 }
+Expression { 60.0 }
+Expression { 8, 60.0 }
+Expression { 7, 8, 60.0 }
+Expression { 15.0, 60.0 }
+Expression { 45.0 }
+Result: 45.0
+
+Expression { 70 }
+Expression { 14, 70 }
+Expression { 4, 14, 70 }
+Expression { 5, 4, 14, 70 }
+Expression { 15, 5, 4, 14, 70 }
+Expression { 3, 15, 5, 4, 14, 70 }
+Expression { 5.0, 5, 4, 14, 70 }
+Expression { 25.0, 4, 14, 70 }
+Expression { -21.0, 14, 70 }
+Expression { 35.0, 70 }
+Expression { 2.0 }
+Expression { 6, 2.0 }
+Expression { 8.0 }
+Result: 8.0
+
+Expression { 3 }
+Expression { 5, 3 }
+Expression { 6, 5, 3 }
+Expression { 30.0, 3 }
+Expression { 33.0 }
+Expression { 13, 33.0 }
+Expression { 20.0 }
+Expression { 18, 20.0 }
+Expression { 2, 18, 20.0 }
+Expression { 9.0, 20.0 }
+Expression { 29.0 }
+Result: 29.0
+

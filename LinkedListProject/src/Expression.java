@@ -111,7 +111,7 @@ public class Expression
 	}
 	
 	/**
-	 * Method that subtracts the last two numbers that were entered into
+	 * Method that multiplies the last two numbers that were entered into
 	 * the stack.
 	 */
 	public void multiply()
@@ -120,7 +120,7 @@ public class Expression
 	}
 	
 	/**
-	 * Method that subtracts the last two numbers that were entered into
+	 * Method that multiplies the last two numbers that were entered into
 	 * the stack.
 	 */
 	public Expression multiplie()
@@ -133,7 +133,7 @@ public class Expression
 			Number num1   = (Number)tmp1;
 			Number num2   = (Number)tmp2;
 			
-			double result = num2.doubleValue() - num1.doubleValue();
+			double result = num2.doubleValue() * num1.doubleValue();
 			
 			stack.push(result);
 		}
@@ -146,7 +146,7 @@ public class Expression
 	}
 	
 	/**
-	 * Method that subtracts the last two numbers that were entered into
+	 * Method that divides the last two numbers that were entered into
 	 * the stack.
 	 */
 	public void divide()
@@ -155,7 +155,7 @@ public class Expression
 	}
 	
 	/**
-	 * Method that subtracts the last two numbers that were entered into
+	 * Method that divides the last two numbers that were entered into
 	 * the stack.
 	 */
 	public Expression dividey()
@@ -180,9 +180,23 @@ public class Expression
 		return this;
 	}
 	
+	/**
+	 * @return The current result of the Expression.
+	 */
 	public Number getResult()
 	{
 		return (Number)stack.peek();
+	}
+	
+	/**
+	 * Clears the Expression of all numbers.
+	 */
+	public void clear()
+	{
+		while (!stack.isEmpty())
+		{
+			stack.pop();
+		}
 	}
 	
 	/**
@@ -198,7 +212,7 @@ public class Expression
 		
 		int stackIndex   = builder.indexOf(stackName);
 		
-		builder.replace(stackIndex, stackIndex * stackName.length(), this.getClass().getSimpleName());
+		builder.replace(stackIndex, stackIndex + stackName.length(), this.getClass().getSimpleName());
 		
 		return builder.toString();
 	}

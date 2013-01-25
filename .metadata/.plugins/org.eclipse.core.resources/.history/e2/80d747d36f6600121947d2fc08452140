@@ -1,0 +1,42 @@
+package net.foxycorndog.foxycompiler;
+
+import java.io.File;
+
+public class Compiler
+{
+	private boolean outputJava;
+	
+	private File sourceFile, outputFile;
+	
+	private static final String arguments[];
+	
+	static
+	{
+		arguments = new String[]
+		{
+			
+		};
+	}
+	
+	public static void main(String args[])
+	{
+		new Compiler(args);
+	}
+	
+	public Compiler(String args[])
+	{
+		parseArguments(args);
+	}
+	
+	private void parseArguments(String args[])
+	{
+		int index = 0;
+		
+		while (index < args.length)
+		{
+			System.out.println(args[index]);
+			
+			index++;
+		}
+	}
+}

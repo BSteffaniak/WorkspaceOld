@@ -195,7 +195,12 @@ public class LinkedList
 			node = node.getNext();
 		}
 		
-		builder.append(" }");
+		if (start != null)
+		{
+			builder.delete(builder.length() - 2, builder.length() - 1);
+		}
+		
+		builder.append("}");
 		
 		return builder.toString();
 	}

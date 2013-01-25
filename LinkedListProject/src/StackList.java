@@ -123,7 +123,12 @@ public class StackList implements Stack
 			list.addFront(datas.get(j));
 		}
 		
-		builder.append(" }");
+		if (datas.size() > 0)
+		{
+			builder.delete(builder.length() - 2, builder.length() - 1);
+		}
+		
+		builder.append("}");
 		
 		return builder.toString();
 	}

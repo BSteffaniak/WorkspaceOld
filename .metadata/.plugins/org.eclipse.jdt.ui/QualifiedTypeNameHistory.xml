@@ -13,7 +13,6 @@
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Combo"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.DropdownMenu"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Label"/>
-<fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.file.ConfigReader"/>
 <fullyQualifiedTypeName name="java.util.List"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.ArrowIDE"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.foxy.FoxyKeyword"/>
+<fullyQualifiedTypeName name="java.io.File"/>
 </qualifiedTypeNameHistroy>
