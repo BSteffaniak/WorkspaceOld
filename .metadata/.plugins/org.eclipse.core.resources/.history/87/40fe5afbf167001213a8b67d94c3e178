@@ -1,0 +1,16 @@
+package net.foxycorndog.arrowide.language.php;
+
+import static net.foxycorndog.arrowide.language.Language.ASSEMBLY;
+import net.foxycorndog.arrowide.language.Keyword;
+import net.foxycorndog.arrowide.language.assembly.AssemblyLanguage;
+
+public class PHPKeyword
+{
+	public static final Keyword
+			FOR	= new Keyword(PHP, "for");
+	
+	public static void init()
+	{
+		FOR.setColor(PHPLanguage.KEYWORD_COLOR);
+	}
+}

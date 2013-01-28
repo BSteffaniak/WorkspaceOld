@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;result&apos; in &apos;net.foxycorndog.arrowide.components.CodeField.highlightSyntax()&apos; to &apos;newResult&apos;&#x0D;&#x0A;- Original project: &apos;ArrowIDE&apos;&#x0D;&#x0A;- Original element: &apos;net.foxycorndog.arrowide.components.CodeField.highlightSyntax().result&apos;&#x0D;&#x0A;- Renamed element: &apos;result&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;result&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;net.foxycorndog.arrowide.components{CodeField.java[CodeField~highlightSyntax@result!7491!7516!7510!7515!QSpaceBetweenResult;!0!false" name="newResult" references="true" stamp="1359257615672" version="1.0"/>
+</session>

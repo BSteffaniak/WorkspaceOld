@@ -7,14 +7,15 @@ import net.foxycorndog.arrowide.language.foxy.FoxyLanguage;
 import org.eclipse.swt.graphics.Color;
 
 import static net.foxycorndog.arrowide.language.Language.FOXY;
+import static net.foxycorndog.arrowide.language.foxy.FoxyLanguage.KEYWORD_COLOR;
 
 public class FoxyKeyword
 {
 	public static final Keyword
-			INT	= new Keyword(FOXY, "int");
+			INT	= new Keyword(FOXY, "int", KEYWORD_COLOR);
 	
 	public static void init()
 	{
-		INT.setColor(FoxyLanguage.KEYWORD_COLOR);
+		
 	}
 }

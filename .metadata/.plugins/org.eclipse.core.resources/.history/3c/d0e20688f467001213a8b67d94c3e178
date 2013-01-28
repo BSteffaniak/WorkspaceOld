@@ -1,0 +1,20 @@
+package net.foxycorndog.arrowide.language.foxy;
+
+import static net.foxycorndog.arrowide.language.Language.FOXY;
+
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
+
+import net.foxycorndog.arrowide.language.Keyword;
+
+public class FoxyLanguage
+{
+	public static final Color
+			COMMENT_COLOR = new Color(Display.getCurrent(), 40, 140, 0),
+			KEYWORD_COLOR = new Color(Display.getCurrent(), 150, 0, 0);
+	
+	public static void init()
+	{
+		
+	}
+}

@@ -1,11 +1,14 @@
 package net.foxycorndog.arrowide.components;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.file.FileUtils;
+import net.foxycorndog.arrowide.language.CommentProperties;
 import net.foxycorndog.arrowide.language.Keyword;
 import net.foxycorndog.arrowide.language.Language;
+import net.foxycorndog.arrowide.language.MethodProperties;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.Bullet;
@@ -43,15 +46,22 @@ import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 
 public class CodeField extends StyledText
 {
-	private boolean							commentStarting, commentStarted,
-			commentEnding;
+	private boolean							commentStarted, textStarted;
+	
+	private char							textBeginning;
 
-	private int								commentType, commentStart;
+	private int								commentType, commentStartLocation;
+	private int								textBeginningLocation;
 	// private int oldLength, oldLineCount;
 	// private int selectionLength, selectionLines;
 	private int								lineNumberOffset;
 	private int								language;
 	private int								charWidth;
+	
+	private StringBuilder					commentTransText;
+	
+	private CommentProperties				commentProperties;
+	private MethodProperties				methodProperties;
 
 	private LineStyleListener				lineNumbers, lineSpaces,
 			syntaxHighlighting;
@@ -66,22 +76,28 @@ public class CodeField extends StyledText
 
 	private StyleRange						styles[];
 
-	private static final int				MULTI_LINE	= 1, SINGLE_LINE = 2;
-
 	// private ArrayList<ArrayList<Boolean>> tabs;
 
 	private ArrayList<ContentListener>		contentListeners;
 	private ArrayList<CodeFieldListener>	codeFieldListeners;
 
+	private HashSet<String>					identifiers;
+	
 	private static final String				whitespaceRegex;
 
 	private static final char				whitespaceArray[];
 	
 	static
 	{
-		whitespaceRegex = "[.,/\n\t\\[\\](){};\r= ]";
+		whitespaceRegex = "[.,/\n\t\\[\\](){};[-][+]['][\"]\r=* ]";
 		
-		whitespaceArray = new char[] { ' ', '.', ',', '/', '=', '(', ')', '[', ']', '{', '}', ';', '\n', '\t', '\r' };
+		whitespaceArray = new char[] { ' ', '.', ',', '/', '*', '=', '(', ')', '[', ']', '{', '}', ';', '\n', '\t', '\r', '-', '+', '\'', '"' };
+	}
+	
+	private class SpaceBetweenResult
+	{
+		private int		count;
+		private char	firstChar, firstCharOtherThanSpace, onlyChar, onlyCharOtherThanSpace;
 	}
 	
 	public CodeField(Composite comp)
@@ -95,11 +111,13 @@ public class CodeField extends StyledText
 		contentListeners      = new ArrayList<ContentListener>();
 		codeFieldListeners    = new ArrayList<CodeFieldListener>();
 		
+		identifiers           = new HashSet<String>();
+		
 		setText("");
 		setBounds(new Rectangle(0, 0, 100, 100));
 	    setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true, 1, 1));
 	    
-	    Font f = FileUtils.loadMonospacedFont(Display.getDefault(), "Liberation Mono", "res/fonts/Liberation-Mono/LiberationMono-Regular.ttf", 16, SWT.NORMAL);
+	    Font f = FileUtils.loadMonospacedFont(Display.getDefault(), "Liberation Mono", "res/fonts/Liberation-Mono/LiberationMono-Regular.ttf", 13, SWT.NORMAL);
 	    setFont(f);
 	    
 	    GC g = new GC(this);
@@ -209,259 +227,9 @@ public class CodeField extends StyledText
 	    });
 	}
 	
-//	public void parseString(String string, StringBuilder sb, int xPosition, int caretPosition, int lineNum, int offset, boolean force)
-//	{
-//		int index = 0;
-//		
-//		for (int i = 0; i < string.length(); i ++)
-//		{
-//			char c = string.charAt(i);
-//			
-//			if (c == '\n')
-//			{
-//				lineNum++;
-//				
-//				xPosition = 0;
-//				
-//				index     = 0;
-//				
-//				parseChar('\r', sb, xPosition, caretPosition, lineNum, offset + i, force);
-//			
-//				parseChar(c, sb, xPosition, caretPosition, lineNum, offset + i, force);
-//			}
-//			else
-//			{
-//				if (c == '\r')
-//				{
-//					continue;
-//				}
-//				
-//				if (c == '\b')
-//				{
-//					int xpos  = --xPosition;
-////					xpos      = xpos < 0 ? tabs.get(--lineNum).size() + (--offset * 0) : xpos;
-//					xPosition = xpos;
-//					
-//					offset--;
-//					
-//					parseChar(c, sb, xPosition, caretPosition, lineNum, ((offset + i) - (lineNum * 2)) - 1, force);
-//				}
-//				else
-//				{
-//					parseChar(c, sb, ++xPosition, caretPosition, lineNum, offset + i + 1, force);
-//					
-//					if (!isPrintableChar(c))
-//					{
-//						int xpos  = --xPosition;
-//						offset--;
-//					}
-//				}
-//			}
-//			
-//			index++;
-//		}
-		
-//		try
-//		{
-//			int i = 0;
-//			
-//			for (ArrayList<Boolean> line : tabs)
-//			{
-//				System.out.println(i++ + ": " + line.size());
-//			}
-//		}
-//		catch (Exception e)
-//		{
-//			
-//		}
-//	}
-	
-//	public void parseChar(char c, StringBuilder sb, int xPosition, int caretPosition, int lineNum, int offset, boolean force)
-//	{
-//		caretPosition += offset;
-//		
-//		if (sb != null)
-//		{
-//			if (isPrintableChar(c))
-//			{
-//				if (offset >= sb.length())
-//				{
-//					sb.append(c);
-//				}
-//				else
-//				{
-//					sb.insert(caretPosition, c);
-//				}
-//			}
-//			
-////			String text = getText();
-////			
-////			setText(text+ c);//text.substring(0, caretPosition) + (c) + text.substring(caretPosition));
-//		}
-//		else if (selectionLength > 0)
-//		{
-//			System.out.println(selectionLength + ", " + selectionLines);
-//			
-//			int charCounter    = 0;
-//			int selectionIndex = xPosition - (isPrintable(c) ? 1 : 0);
-//			int lineIndex      = lineNum;
-//			
-//			for (int lineCounter = 0; lineIndex < tabs.size() && lineCounter < selectionLines + 1; lineCounter++)
-//			{
-//				while (selectionIndex < tabs.get(lineIndex).size())
-//				{
-//					if (charCounter >= selectionLength)
-//					{
-//						break;
-//					}
-//					
-//					tabs.get(lineIndex).remove(selectionIndex);
-//					
-////					selectionIndex++;
-//					
-//					charCounter++;
-//				}
-//				
-//				selectionIndex = 0;
-//				
-//				// May have a bug here with already empty lines.
-//				if (tabs.get(lineIndex).size() == 0 && lineIndex > lineNum)
-//				{
-//					tabs.remove(lineIndex);
-//				}
-//				else
-//				{
-//					lineIndex++;
-//				}
-//			}
-//		}
-//		
-//		// If enter pressed
-//		if (c == '\r' || c == '\n')
-//		{
-//			if (force)
-//			{
-//				if (c == '\r')
-//				{
-//					tabs.add(lineNum, new ArrayList<Boolean>());
-//				}
-//			}
-//			else
-//			{
-//				if (c == '\r')
-//				{
-//					caretPosition--;
-//					xPosition--;
-//					
-//					tabs.add(lineNum, new ArrayList<Boolean>());
-//				}
-//				
-//				if (sb == null)
-//				{
-//					setCaretOffset(caretPosition + tabsStr.length() + 1);
-////					setSelection(getCaretOffset());
-//				}
-//			}
-//		}
-//		// If backspace pressed
-//		else if (c == '\b')
-//		{System.out.println(xPosition + ", " + lineNum + ", " + caretPosition);
-//			if (selectionLength == 0 && selectionLines == 0)
-//			{
-//				if (xPosition >= tabs.get(lineNum).size() && (lineNum > 0 || xPosition > 0))
-//				{
-//					tabs.remove(lineNum + 1);
-//					
-//					if (sb != null)
-//					{
-//						sb.deleteCharAt(caretPosition);
-//						sb.deleteCharAt(caretPosition);
-//						sb.deleteCharAt(caretPosition);
-//					}
-//				}
-//				else if (xPosition >= 0 && (tabs.get(lineNum).size() > 0))
-//				{
-//					tabs.get(lineNum).remove(xPosition);
-//					
-//					if (sb != null)
-//					{
-//						sb.deleteCharAt(caretPosition);
-//						sb.deleteCharAt(caretPosition);
-//					}
-//				}
-//			}
-////			else
-////			{
-////				int charCounter    = 0;
-////				int selectionIndex = xPosition;
-////				int lineIndex      = lineNum;
-////				
-////				for (int lineCounter = 0; lineCounter < tabs.size() && lineCounter < linesLess + 1; lineCounter++)
-////				{
-////					while (selectionIndex < tabs.get(lineIndex).size())
-////					{
-////						if (charCounter >= selLength)
-////						{
-////							break;
-////						}
-////						
-////						tabs.get(lineIndex).remove(selectionIndex);
-////						System.out.println("removed " + lineIndex + ", " + selectionIndex);
-////						
-//////						selectionIndex++;
-////						
-////						charCounter++;
-////					}
-////					
-////					selectionIndex = 0;
-////					
-////					// May have a bug here with already empty lines.
-////					if (tabs.get(lineIndex).size() == 0 && lineIndex > lineNum)
-////					{
-////						tabs.remove(lineIndex);
-////					}
-////					else
-////					{
-////						lineIndex++;
-////					}
-////				}
-////			}
-//		}
-//		else if (c == '\t')
-//		{
-//			boolean lastCharacterTab = lastCharacterIsTab(lineNum, 1);
-//			
-//			tabs.get(lineNum).add(lastCharacterTab);
-//		}
-//		else
-//		{
-////			System.out.println((int)c);
-////			getFont().
-//			
-//			if (isPrintableChar(c))// || c == ' ' || c == 0)
-//			{
-//				System.out.println(c + " is a pc on line " + lineNum);
-//				tabs.get(lineNum).add(false);
-//			}
-//			else
-//			{
-////				System.out.println((int)c);
-//			}
-//		}
-//		
-//		oldLength       = getCharCount();
-//		oldLineCount    = getLineCount();
-//		
-//		if ((int)c > 0)
-//		{
-//			selectionLines  = 0;
-//			selectionLength = 0;
-//		}
-//	}
-	
 	public StyleRange[] highlightSyntax()
 	{
-		StyleRange styleRange            = new StyleRange();
+		StyleRange styleRange = new StyleRange();
 		styleRange.start      = 0;
 		styleRange.length     = getText().length();
 		styleRange.foreground = new Color(Display.getDefault(), 0, 0, 0);
@@ -485,160 +253,248 @@ public class CodeField extends StyledText
 		
 		int charCount     = 0;
 		
-		charCount += calculateSpaceBetween(text, 0, whitespaceArray, styles);
+		commentTransText  = new StringBuilder();
 		
-		commentStarting = false;
-		commentStarted  = false;
-		commentEnding   = false;
+		commentStarted    = false;
 		
-		commentType     = 0;
-		commentStart    = 0;
+		commentType          = 0;
+		commentStartLocation = 0;
 		
-		calculateSpaceBetween(text, 0, whitespaceArray, styles);
+		SpaceBetweenResult newResult, oldResult;
+		
+		newResult = calculateSpaceBetween(text, 0, whitespaceArray, styles);
+		oldResult = newResult;
 		
 		for (int i = 0; i < strings.length; i ++)
 		{
 			String word = strings[i];
 			
-			if (!word.equals(""))
-			{
-				offsets[i]  = charCount;
-				
+			offsets[i]  = charCount;
+			
+			boolean isKeyword = Keyword.isKeyword(language, word);
+			
 //				System.out.println("i: " + i + ",\tword: " + word + ",\toffset: " + offsets[i] + ",\tlength: " + word.length() + ",\tsize: " + text.length());
+			
+			if (commentStarted || textStarted)
+			{
 				
-				if (commentStarted)
-				{
-//					int offset       = commentStart;//offsets[i];
-//					int length       = commentStart - charCount;//word.length();
-//					
-//					range            = new StyleRange();
-//					
-//					range.start      = offset;
-//					range.length     = length;
-//					range.foreground = new Color(Display.getCurrent(), 40, 140, 0);
-//					
-//					System.out.println(offset + ", " + length);
-//					
-//					setStyleRange(range);
-				}
-				else if (Keyword.isKeyword(language, word))
-				{
-					Keyword keyword       = Keyword.getKeyword(language, word);
-					
-					int offset            = offsets[i];
-					int length            = word.length() - 1;
-					
-					styles.add(new StyleRange(offset, length, keyword.getColor(), null));
-					
+			}
+			else if (isKeyword)
+			{
+				Keyword keyword       = Keyword.getKeyword(language, word);
+				
+				int offset            = offsets[i];
+				int length            = word.length() - 1;
+				
+				styles.add(new StyleRange(offset, length, keyword.getColor(), null));
+				
 //					setStyleRange(styleRange);
 //					setStyleRanges(new StyleRange[] { styleRange });
-				}
-				
-				int spaceBetween = calculateSpaceBetween(text, charCount + word.length(), whitespaceArray, styles);
-				
-				charCount += strings[i].length() + spaceBetween;
 			}
+			else if (identifiers.contains(strings[i]))
+			{
+				int offset            = offsets[i];
+				int length            = word.length() - 1;
+				
+				styles.add(new StyleRange(offset, length, new Color(Display.getDefault(), 4, 150, 120), null));
+			}
+			
+			boolean textWasStarted = textStarted;
+			
+			newResult = calculateSpaceBetween(text, charCount + word.length(), whitespaceArray, styles);
+			
+			charCount += strings[i].length() + newResult.count;
+			
+			if (commentStarted || textWasStarted)
+			{
+				
+			}
+			else if (!textWasStarted && newResult.firstChar == '(')
+			{
+				int offset            = offsets[i];
+				int length            = word.length() - 1;
+				
+				styles.add(new StyleRange(offset, length, methodProperties.COLOR, null));
+			}
+			else
+			{
+				if (!textWasStarted && !isKeyword && (oldResult.onlyChar == ' ') && (newResult.firstCharOtherThanSpace == ';' || newResult.firstCharOtherThanSpace == '='))
+				{
+					if (oldResult.onlyCharOtherThanSpace == '.' || !identifiers.contains(strings[i]))
+					{
+						int offset            = offsets[i];
+						int length            = word.length() - 1;
+						
+						styles.add(new StyleRange(offset, length, new Color(Display.getDefault(), 4, 150, 120), null));
+					}
+					
+					if (oldResult.onlyCharOtherThanSpace != '.')
+					{
+						identifiers.add(strings[i]);
+					}
+				}
+			}
+			
+			oldResult = newResult;
 		}
 		
 		return (StyleRange[])styles.toArray(new StyleRange[0]);
 	}
 	
-	private int calculateSpaceBetween(String text, int start, char chars[], ArrayList<StyleRange> styles)
+	private SpaceBetweenResult calculateSpaceBetween(String text, int start, char chars[], ArrayList<StyleRange> styles)
 	{
-		int     count   = 0;
+		boolean noOtherCharOtherThanSpace = false;
+		
+		SpaceBetweenResult result = new SpaceBetweenResult();
+		
+		result.count = 0;
 		
 		for (int i = start; i < text.length(); i ++)
 		{
 			char c = text.charAt(i);
 			
-			if (c == '/')
+			if (commentProperties != null && !textStarted)
 			{
-				if (commentStarting)
+				// TODO: maybe try only using commentTransText w/o trans local var.
+				String trans = commentTransText.toString() + c;
+				
+				boolean isTrans = (!commentStarted && commentProperties.startsToStartComment(trans)) || (commentStarted && commentProperties.startsToEndComment(trans));
+				
+				if (isTrans)
+				{
+					commentTransText.append(c);
+				}
+				else// if (commentTransText.length() > 0)
+				{
+					commentTransText = new StringBuilder();
+//					while (commentTransText.length() > 0 && !isTrans)
+//					{
+//						commentTransText.deleteCharAt(0);
+//						
+//						isTrans = (!commentStarted && commentProperties.startsToStartComment(commentTransText.toString())) || (commentStarted && commentProperties.startsToEndComment(commentTransText.toString()));
+//					}
+				}
+				
+				int type = 0;
+				
+				if (!commentStarted && (type = commentProperties.startsComment(commentTransText.toString())) != 0)
 				{
 					commentStarted = true;
 					
-					commentType  = SINGLE_LINE;
+					commentType    = type;
 					
-					commentStart = start + count - 1;
+					commentStartLocation = start + result.count - commentTransText.length() + 1;
+					
+					commentTransText = new StringBuilder();
 				}
-				else
+				else if (commentStarted && (type = commentProperties.endsComment(commentTransText.toString())) != 0)
 				{
-					if (commentEnding)
+					commentStarted = false;
+					
+					{
+						int offset = commentStartLocation;
+						int length = start + result.count - commentStartLocation + 1;
+						
+						styles.add(new StyleRange(offset, length, commentProperties.COLOR, null));
+					}
+					
+					commentType = 0;
+					
+					commentTransText = new StringBuilder();
+				}
+				
+				if (c == '\n')
+				{
+					if (commentStarted && commentType == CommentProperties.SINGLE_LINE)
 					{
 						commentStarted = false;
 						
 						{
-							int offset       = commentStart;
-							int length       = start + count - commentStart + 1;
+							int offset = commentStartLocation;
+							int length = start + result.count - offset;
 							
-							styles.add(new StyleRange(offset, length, Language.getCommentColor(language), null));
+							styles.add(new StyleRange(offset, length, commentProperties.COLOR, null));
 						}
 						
 						commentType = 0;
+						
+						commentTransText = new StringBuilder();
+					}
+				}
+			}
+			
+			if (!commentStarted)
+			{
+				if (c == '"' || c == '\'')
+				{
+					if (!textStarted)
+					{
+						textStarted = true;
+						textBeginning = c;
+						textBeginningLocation = start + result.count;
 					}
 					else
 					{
-						commentStarting = true;
+						if (c == textBeginning)
+						{
+							textStarted = false;
+							
+							{
+								int offset = textBeginningLocation;
+								int length = start + result.count - offset;
+								
+								styles.add(new StyleRange(offset, length, new Color(Display.getDefault(), 180, 100, 30), null));
+							}
+							
+							textBeginning = 0;
+						}
 					}
-				}
-			}
-			else if (c == '*')
-			{
-				if (commentStarting)
-				{
-					commentStarted = true;
-					
-					commentType = MULTI_LINE;
-					
-					commentStart = start + count - 1;
-				}
-				
-				if (commentStarted)
-				{
-					commentEnding = true;
-				}
-				else
-				{
-					
-				}
-			}
-			else
-			{
-				commentEnding   = false;
-				commentStarting = false;
-			}
-			
-			if (c == '\n')
-			{
-				if (commentStarted && commentType == SINGLE_LINE)
-				{
-					commentStarted  = false;
-					commentStarting = false;
-					
-					{
-						int offset = commentStart;//offsets[i];
-						int length = start + count - commentStart + 1;//word.length();
-						
-						styles.add(new StyleRange(offset, length, Language.getCommentColor(language), null));
-						
-//						setStyleRange(range);
-					}
-					
-					commentType = 0;
 				}
 			}
 			
 			if (containsChar(chars, c))
 			{
-				count++;
+				result.count++;
+				
+				if (c != ' ')
+				{
+					if (result.onlyCharOtherThanSpace == 0 && !noOtherCharOtherThanSpace)
+					{
+						result.onlyCharOtherThanSpace = c;
+					}
+					else if (!noOtherCharOtherThanSpace && c != result.onlyCharOtherThanSpace)
+					{
+						noOtherCharOtherThanSpace = true;
+						
+						result.onlyCharOtherThanSpace = 0;
+					}
+					
+					if (result.firstCharOtherThanSpace == 0)
+					{
+						result.firstCharOtherThanSpace = c;
+					}
+				}
+				
+				if (result.firstChar == 0)
+				{
+					result.firstChar = c;
+					result.onlyChar  = c;
+				}
+				else
+				{
+					if (result.onlyChar != c)
+					{
+						result.onlyChar = 0;
+					}
+				}
 			}
 			else
 			{
-				return count;
+				return result;
 			}
 		}
 		
-		return count;
+		return result;
 	}
 	
 	private boolean containsChar(char chars[], char key)
@@ -663,30 +519,6 @@ public class CodeField extends StyledText
 	{
 		return getCaretOffset();
 	}
-	
-//	private int getCaretXPosition()
-//	{
-//		int xPos              = 0;
-//		int countedCharacters = 0;
-//		int caretPos          = getCaretPosition();
-//		
-//		for (int i = 0; i < tabs.size(); i ++)
-//		{
-//			if (i == getCaretLineNumber())// || countedCharacters >= getCaretPosition())
-//			{
-//				xPos = caretPos - countedCharacters;// - (i * 2);
-////				System.out.println("size: " + tabs.size() + ", caretPos: " + caretPos + ", counted: " + countedCharacters + ", Line number: " + i + ", after calc: " + xPos);
-//				
-////				xPos = countedCharacters - (getCaretPosition()) + i;
-////				xPos = Math.abs(xPos);
-//				return xPos;
-//			}
-//			
-//			countedCharacters += tabs.get(i).size() + 2;
-//		}
-//		
-//		return xPos;
-//	}
 	
 	private char lastCharacter(int charactersBack)
 	{
@@ -775,95 +607,7 @@ public class CodeField extends StyledText
 //		return (!Character.isISOControl(c) && block != null && block != Character.UnicodeBlock.SPECIALS);
 		
 		return (((int)c >= 32 && (int)c < 127));
-	}	
-	
-//	public void paste()
-//	{
-//		Clipboard clip  = new Clipboard(Display.getDefault());
-//		
-//		Transfer  trans = TextTransfer.getInstance();
-//		
-//		final Object     contents  = clip.getContents(trans);
-//		final StyledText thisField = this;
-//		
-//		if (contents instanceof String)
-//		{
-//			char chars[] = ((String)contents).toCharArray();
-//			
-//			StringBuilder sb = new StringBuilder();
-//			
-//			int xPosition     = getCaretXPosition();
-//			int caretPosition = getCaretPosition();
-//			int lineNum       = getCaretLineNumber();
-//			
-//			int index  = 0;
-//			
-//			int tabCount = lineTabCount(lineNum, 0);
-//			int tabUndo  = 0;
-//			
-//			boolean beginning = true;
-//			
-//			for (int i = 0; i < chars.length; i ++)
-//			{
-//				char c = chars[i];
-//				
-//				if (c == '\r')
-//				{
-//					continue;
-//				}
-//				
-//				if (c == '\t' && (beginning || xPosition < tabUndo))
-//				{
-//					if (beginning)
-//					{
-//						tabUndo ++;
-//					}
-//					
-//					continue;
-//				}
-//				
-//				beginning = false;
-//				
-//				if (c == '\n')
-//				{
-//					lineNum++;
-//					
-//					if (lineNum >= tabs.size())
-//					{
-//						tabs.add(new ArrayList<Boolean>());
-//					}
-//					
-//					xPosition = 0;
-//					
-//					sb.append("\r");
-//				}
-//				
-//				sb.append(c);
-//				
-//				tabs.get(lineNum).add(c == '\t');
-//				
-//				if (c == '\n')
-//				{
-//					tabs.add(lineNum, new ArrayList<Boolean>());
-//			
-//					for (int tab = 0; tab < tabCount; tab ++)
-//					{
-//						tabs.get(lineNum).add(true);
-//						sb.append('\t');
-//					}
-//				}
-//				
-//				xPosition++;
-//			}
-//			
-//			insert(sb.toString());
-//			setCaretOffset(getCaretOffset() + sb.length());
-//			
-////			highlightSyntax();
-//			
-//			contentChanged();
-//		}
-//	}
+	}
 	
 	private void contentChanged()
 	{
@@ -875,26 +619,7 @@ public class CodeField extends StyledText
 			
 			contentListeners.get(i).contentChanged(event);
 		}
-//		redraw();
-//		redraw( 2, 5, 2, true);
 	}
-	
-//	private void updateLineNumbers()
-//	{
-//		lineNumberText.setSize(new String(getLineCount() + ".").length() * charWidth, getHeight() - getHorizontalBar().getSize().y + 1);
-//		
-//		lineNumberText.setText("");
-//		
-//		for (int i = 0; i < getLineCount() - 1; i ++)
-//		{
-//			if (i < tabs.size())
-//			{
-//				lineNumberText.append("\n");
-//			}
-//		}
-//		
-//		lineNumberText.redraw();
-//	}
 	
 	public void setText(String text)
 	{
@@ -980,7 +705,10 @@ public class CodeField extends StyledText
 	
 	public void setLanguage(int language)
 	{
-		this.language = language;
+		this.language     = language;
+		
+		commentProperties = Language.getCommentProperties(language);
+		methodProperties  = Language.getMethodProperties(language);
 	}
 	
 	public void addContentListener(ContentListener listener)

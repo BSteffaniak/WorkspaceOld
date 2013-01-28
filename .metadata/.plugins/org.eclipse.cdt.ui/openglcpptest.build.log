@@ -13,4 +13,4 @@ C:\Users\Braden Steffaniak\GLUT\glut-3.7.6-bin\glut.h:77:0: warning: ignoring #p
 ..\opengl.cpp:7:18: fatal error: glut.h: No such file or directory
 compilation terminated.
 Build error occurred, build is stopped
-Time consumed: 188  ms.  
+Time consumed: 1931  ms.  

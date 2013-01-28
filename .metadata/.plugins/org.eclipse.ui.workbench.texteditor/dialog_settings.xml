@@ -13,26 +13,26 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="java." key="selection"/>
+		<item value="Language.init(" key="selection"/>
 		<list key="findhistory">
+			<item value="Language.init("/>
+			<item value="COMMENT"/>
+			<item value="comment"/>
+			<item value="setL"/>
+			<item value="Assembly"/>
+			<item value="ASSEMBLY"/>
 			<item value="java."/>
 			<item value="System.out.println"/>
-			<item value="System.out"/>
-			<item value="System.out.printnl"/>
-			<item value="Drag"/>
-			<item value="drag"/>
-			<item value="shell.getClientArea().height"/>
-			<item value="shell.getClientArea().width"/>
 		</list>
 		<list key="replacehistory">
+			<item value="METHOD"/>
+			<item value="method"/>
+			<item value="PHP"/>
 			<item value="contentPanel.getSize().y"/>
 			<item value="contentPanel.getSize().x"/>
 			<item value="CppLanguage"/>
 			<item value="CPP"/>
 			<item value="ASSEMBLY"/>
-			<item value="Assembly"/>
-			<item value="GLSLLanguage.KEYWORD_COLOR"/>
-			<item value="JavaLanguage.KEYWORD_COLOR"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">

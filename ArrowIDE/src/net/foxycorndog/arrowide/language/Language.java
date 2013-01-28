@@ -4,6 +4,7 @@ import static net.foxycorndog.arrowide.ArrowIDE.CONFIG_DATA;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
@@ -14,18 +15,54 @@ import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.assembly.AssemblyLanguage;
 import net.foxycorndog.arrowide.language.cpp.CppLanguage;
+import net.foxycorndog.arrowide.language.foxy.FoxyLanguage;
 import net.foxycorndog.arrowide.language.glsl.GLSLLanguage;
 import net.foxycorndog.arrowide.language.java.JavaLanguage;
+import net.foxycorndog.arrowide.language.php.PHPLanguage;
 
 public class Language
 {
-	public static final int JAVA = FileUtils.JAVA, GLSL = FileUtils.GLSL, ASSEMBLY = FileUtils.ASSEMBLY, FOXY = FileUtils.FOXY, CPP = FileUtils.CPP, C = FileUtils.C;
+	public static final int JAVA = FileUtils.JAVA, GLSL = FileUtils.GLSL, ASSEMBLY = FileUtils.ASSEMBLY, FOXY = FileUtils.FOXY, CPP = FileUtils.CPP, C = FileUtils.C, PHP = FileUtils.PHP;
 	
-	private static ArrayList<CompilerListener> listeners;
+	private static ArrayList<CompilerListener>			listeners;
 	
-	static
+	private static HashMap<Integer, CommentProperties>	commentProperties;
+	private static HashMap<Integer, MethodProperties>	methodProperties;
+	
+	public static void init()
 	{
 		listeners = new ArrayList<CompilerListener>();
+		
+		commentProperties = new HashMap<Integer, CommentProperties>();
+		methodProperties  = new HashMap<Integer, MethodProperties>();
+		
+		Keyword.addLanguage(JAVA);
+		Keyword.addLanguage(GLSL);
+		Keyword.addLanguage(ASSEMBLY);
+		Keyword.addLanguage(FOXY);
+		Keyword.addLanguage(CPP);
+		Keyword.addLanguage(PHP);
+		
+		JavaLanguage.init();
+		GLSLLanguage.init();
+		AssemblyLanguage.init();
+		FoxyLanguage.init();
+		CppLanguage.init();
+		PHPLanguage.init();
+		
+		commentProperties.put(JAVA, JavaLanguage.COMMENT_PROPERTIES);
+		commentProperties.put(GLSL, GLSLLanguage.COMMENT_PROPERTIES);
+		commentProperties.put(ASSEMBLY, AssemblyLanguage.COMMENT_PROPERTIES);
+		commentProperties.put(FOXY, FoxyLanguage.COMMENT_PROPERTIES);
+		commentProperties.put(CPP, CppLanguage.COMMENT_PROPERTIES);
+		commentProperties.put(PHP, PHPLanguage.COMMENT_PROPERTIES);
+		
+		methodProperties.put(JAVA, JavaLanguage.METHOD_PROPERTIES);
+		methodProperties.put(GLSL, GLSLLanguage.METHOD_PROPERTIES);
+		methodProperties.put(ASSEMBLY, AssemblyLanguage.METHOD_PROPERTIES);
+		methodProperties.put(FOXY, FoxyLanguage.METHOD_PROPERTIES);
+		methodProperties.put(CPP, CppLanguage.METHOD_PROPERTIES);
+		methodProperties.put(PHP, PHPLanguage.METHOD_PROPERTIES);
 	}
 	
 	public static int getLanguage(String name)
@@ -60,26 +97,28 @@ public class Language
 		return fileType == JAVA || fileType == GLSL || fileType == ASSEMBLY || fileType == CPP;
 	}
 	
-	public static Color getCommentColor(int language)
+	public static CommentProperties getCommentProperties(int language)
 	{
-		if (language == JAVA)
+		CommentProperties properties = null;
+		
+		if (commentProperties.containsKey(language))
 		{
-			return JavaLanguage.COMMENT_COLOR;
-		}
-		else if (language == GLSL)
-		{
-			return GLSLLanguage.COMMENT_COLOR;
+			properties = commentProperties.get(language);
 		}
 		
-		return new Color(Display.getCurrent(), 0, 0, 0);
+		return properties;
 	}
 	
-	public static void init()
+	public static MethodProperties getMethodProperties(int language)
 	{
-		JavaLanguage.init();
-		GLSLLanguage.init();
-		AssemblyLanguage.init();
-		CppLanguage.init();
+		MethodProperties properties = null;
+		
+		if (methodProperties.containsKey(language))
+		{
+			properties = methodProperties.get(language);
+		}
+		
+		return properties;
 	}
 	
 	public static void compile(String fileLocation, String code, String outputLocation, ConsoleStream stream)

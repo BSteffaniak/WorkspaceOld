@@ -1,0 +1,21 @@
+package net.foxycorndog.arrowide.language;
+
+public class CommentProperties
+{
+	private boolean multiLineEnabled, singleLineEnabled;
+	
+	public CommentProperties()
+	{
+		
+	}
+	
+	public void setMultiLineEnabled(boolean enabled)
+	{
+		multiLineEnabled = enabled;
+	}
+	
+	public void setSingleLineEnabled(boolean enabled)
+	{
+		singleLineEnabled = enabled;
+	}
+}

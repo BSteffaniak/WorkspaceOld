@@ -1,0 +1,133 @@
+package net.foxycorndog.arrowide.language;
+
+public class CommentProperties
+{
+	public final boolean	multiLineEnabled, singleLineEnabled;
+	
+	public final String		multiLineStart[], multiLineEnd[], singleLineStart[];
+	
+	public CommentProperties()
+	{
+		multiLineEnabled		= false;
+		singleLineEnabled		= false;
+		
+		this.multiLineStart		= null;
+		this.multiLineEnd		= null;
+		this.singleLineStart	= null;
+	}
+	
+	public CommentProperties(String singleLineStart[])
+	{
+		multiLineEnabled		= false;
+		singleLineEnabled		= true;
+		
+		this.multiLineStart		= null;
+		this.multiLineEnd		= null;
+		this.singleLineStart	= singleLineStart;
+	}
+	
+	public CommentProperties(String multiLineStart[], String multiLineEnd[])
+	{
+		multiLineEnabled		= true;
+		singleLineEnabled		= false;
+		
+		this.multiLineStart		= multiLineStart;
+		this.multiLineEnd		= multiLineEnd;
+		this.singleLineStart	= null;
+	}
+	
+	public CommentProperties(String singleLineStart[], String multiLineStart[], String multiLineEnd[])
+	{
+		multiLineEnabled		= true;
+		singleLineEnabled		= true;
+		
+		this.multiLineStart		= multiLineStart;
+		this.multiLineEnd		= multiLineEnd;
+		this.singleLineStart	= singleLineStart;
+	}
+	
+	public CommentProperties(String singleLineStart)
+	{
+		multiLineEnabled		= false;
+		singleLineEnabled		= true;
+		
+		this.multiLineStart		= null;
+		this.multiLineEnd		= null;
+		this.singleLineStart	= new String[] { singleLineStart };
+	}
+	
+	public CommentProperties(String multiLineStart, String multiLineEnd)
+	{
+		multiLineEnabled		= true;
+		singleLineEnabled		= false;
+		
+		this.multiLineStart		= new String[] { multiLineStart };
+		this.multiLineEnd		= new String[] { multiLineEnd };
+		this.singleLineStart	= null;
+	}
+	
+	public CommentProperties(String singleLineStart, String multiLineStart, String multiLineEnd)
+	{
+		multiLineEnabled		= true;
+		singleLineEnabled		= true;
+		
+		this.multiLineStart		= new String[] { multiLineStart };
+		this.multiLineEnd		= new String[] { multiLineEnd };
+		this.singleLineStart	= new String[] { singleLineStart };
+	}
+	
+	public CommentProperties(String singleLineStart, String multiLineStart[], String multiLineEnd[])
+	{
+		multiLineEnabled		= true;
+		singleLineEnabled		= true;
+		
+		this.multiLineStart		= multiLineStart;
+		this.multiLineEnd		= multiLineEnd;
+		this.singleLineStart	= new String[] { singleLineStart };
+	}
+	
+	public CommentProperties(String singleLineStart, String multiLineStart[], String multiLineEnd)
+	{
+		multiLineEnabled		= true;
+		singleLineEnabled		= true;
+		
+		this.multiLineStart		= multiLineStart;
+		this.multiLineEnd		= new String[] { multiLineEnd };
+		this.singleLineStart	= new String[] { singleLineStart };
+	}
+	
+	public boolean startsComment(String str)
+	{
+		if (!singleLineEnabled)
+		{
+			return false;
+		}
+		
+		for (String com : singleLineStart)
+		{
+			if (com.equals(str))
+			{
+				return true;
+			}
+		}
+		
+		if (multiLineEnabled)
+		{
+			for (String com : multiLineStart)
+			{
+				if (com.equals(str))
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean endsComment()
+	{
+		
+		return false;
+	}
+}

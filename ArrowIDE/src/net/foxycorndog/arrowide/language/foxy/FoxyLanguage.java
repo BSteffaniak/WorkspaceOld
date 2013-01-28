@@ -5,16 +5,27 @@ import static net.foxycorndog.arrowide.language.Language.FOXY;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
+import net.foxycorndog.arrowide.language.CommentProperties;
 import net.foxycorndog.arrowide.language.Keyword;
+import net.foxycorndog.arrowide.language.MethodProperties;
+import net.foxycorndog.arrowide.language.php.PHPKeyword;
 
 public class FoxyLanguage
 {
+	public  static final CommentProperties	COMMENT_PROPERTIES;
+	public  static final MethodProperties	METHOD_PROPERTIES;
+	
 	public static final Color
-			COMMENT_COLOR = new Color(Display.getCurrent(), 40, 140, 0),
 			KEYWORD_COLOR = new Color(Display.getCurrent(), 150, 0, 0);
+	
+	static
+	{
+		COMMENT_PROPERTIES = new CommentProperties("//", "/*", "*/", new Color(Display.getCurrent(), 40, 140, 0));
+		METHOD_PROPERTIES  = new MethodProperties();
+	}
 	
 	public static void init()
 	{
-		
+		FoxyKeyword.init();
 	}
 }

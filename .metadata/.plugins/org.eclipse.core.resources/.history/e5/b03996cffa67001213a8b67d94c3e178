@@ -1,0 +1,9 @@
+package net.foxycorndog.arrowide.language;
+
+public class CommentType
+{
+	public CommentType()
+	{
+		
+	}
+}

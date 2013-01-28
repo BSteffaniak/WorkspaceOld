@@ -1,0 +1,6 @@
+package net.foxycorndog.arrowide.language.php;
+
+public class PHPKeyword
+{
+	
+}

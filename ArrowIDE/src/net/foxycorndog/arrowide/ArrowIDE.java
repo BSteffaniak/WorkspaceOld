@@ -630,6 +630,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			}
 		});
 		
+		Language.init();
+		
 		Language.addCompilerListener(new CompilerListener()
 		{
 			public void compiled(final String files[], int result, String fileName)
@@ -1141,8 +1143,6 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		window.setIcon(largeIcon);
 		
 		ide.refreshFileViewer(true);
-		
-		Language.init();
 		
 		return ide;
 	}

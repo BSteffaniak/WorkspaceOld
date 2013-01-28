@@ -9,21 +9,31 @@ import net.foxycorndog.arrowide.command.Command;
 import net.foxycorndog.arrowide.command.CommandListener;
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.file.FileUtils;
+import net.foxycorndog.arrowide.language.CommentProperties;
 import net.foxycorndog.arrowide.language.CompilerListener;
+import net.foxycorndog.arrowide.language.MethodProperties;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
 public class CppLanguage
 {
+	public  static final CommentProperties	COMMENT_PROPERTIES;
+	public  static final MethodProperties	METHOD_PROPERTIES;
+	
 	public  static final Color
-			COMMENT_COLOR = new Color(Display.getCurrent(), 40, 140, 0),
 			KEYWORD_COLOR = new Color(Display.getCurrent(), 150, 0, 0),
 			INCLUDE_COLOR = new Color(Display.getCurrent(), 180, 180, 0);
 	
+	static
+	{
+		COMMENT_PROPERTIES = new CommentProperties("//", "/*", "*/", new Color(Display.getCurrent(), 40, 140, 0));
+		METHOD_PROPERTIES  = new MethodProperties();
+	}
+	
 	public static void init()
 	{
-		
+		CppKeyword.init();
 	}
 	
 	public static void run(final String fileLocation, final ConsoleStream stream)

@@ -9,6 +9,7 @@ import net.foxycorndog.arrowide.language.cpp.CppKeyword;
 import net.foxycorndog.arrowide.language.foxy.FoxyKeyword;
 import net.foxycorndog.arrowide.language.glsl.GLSLKeyword;
 import net.foxycorndog.arrowide.language.java.JavaKeyword;
+import net.foxycorndog.arrowide.language.php.PHPKeyword;
 
 import org.eclipse.swt.graphics.Color;
 
@@ -16,27 +17,20 @@ import static net.foxycorndog.arrowide.language.Language.*;
 
 public class Keyword
 {
-	private String word;
-	
-	private Color  color;
-	
-	private static HashMap<Integer, HashMap<String, Keyword>> keywords;
+	private String													word;
+
+	private Color													color;
+
+	private static final HashMap<Integer, HashMap<String, Keyword>> keywords;
 	
 	static
 	{
 		keywords = new HashMap<Integer, HashMap<String, Keyword>>();
-		keywords.put(0, new HashMap<String, Keyword>());
-		keywords.put(JAVA, new HashMap<String, Keyword>());
-		keywords.put(GLSL, new HashMap<String, Keyword>());
-		keywords.put(ASSEMBLY, new HashMap<String, Keyword>());
-		keywords.put(FOXY, new HashMap<String, Keyword>());
-		keywords.put(CPP, new HashMap<String, Keyword>());
-		
-		JavaKeyword.init();
-		GLSLKeyword.init();
-		AssemblyKeyword.init();
-		FoxyKeyword.init();
-		CppKeyword.init();
+	}
+	
+	public static void addLanguage(int language)
+	{
+		keywords.put(language, new HashMap<String, Keyword>());
 	}
 	
 	public Keyword(int language, String word)
@@ -44,6 +38,15 @@ public class Keyword
 		this.word = word;
 		
 		keywords.get(language).put(word, this);
+	}
+	
+	public Keyword(int language, String word, Color color)
+	{
+		this.word = word;
+		
+		keywords.get(language).put(word, this);
+		
+		setColor(color);
 	}
 	
 	public String getWord()

@@ -1,0 +1,18 @@
+package net.foxycorndog.arrowide.language.php;
+
+import static net.foxycorndog.arrowide.language.Language.PHP;
+import net.foxycorndog.arrowide.language.Keyword;
+import net.foxycorndog.arrowide.language.php.PHPLanguage;
+
+public class PHPKeyword
+{
+	public static final Keyword
+			FOR		= new Keyword(PHP, "for"),
+			FOREACH	= new Keyword(PHP, "foreach");
+	
+	public static void init()
+	{
+		FOR.setColor(PHPLanguage.KEYWORD_COLOR);
+		FOREACH.setColor(PHPLanguage.KEYWORD_COLOR);
+	}
+}

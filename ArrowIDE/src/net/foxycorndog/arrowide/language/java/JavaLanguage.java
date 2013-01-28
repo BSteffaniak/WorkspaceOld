@@ -36,7 +36,9 @@ import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.command.Command;
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.file.FileUtils;
+import net.foxycorndog.arrowide.language.CommentProperties;
 import net.foxycorndog.arrowide.language.CompilerListener;
+import net.foxycorndog.arrowide.language.MethodProperties;
 
 import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 
@@ -44,13 +46,23 @@ public class JavaLanguage
 {
 	private static HashMap<String, Class> classes;
 	
+	public  static final CommentProperties	COMMENT_PROPERTIES;
+	public  static final MethodProperties	METHOD_PROPERTIES;
+	
 	public  static final Color
-			COMMENT_COLOR = new Color(Display.getCurrent(), 40, 140, 0),
 			KEYWORD_COLOR = new Color(Display.getCurrent(), 150, 0, 0);
+	
+	static
+	{
+		COMMENT_PROPERTIES = new CommentProperties("//", "/*", "*/", new Color(Display.getCurrent(), 40, 140, 0));
+		METHOD_PROPERTIES  = new MethodProperties();
+	}
 	
 	public static void init()
 	{
 		classes = new HashMap<String, Class>();
+		
+		JavaKeyword.init();
 		
 //		new Thread()
 //		{
@@ -78,6 +90,11 @@ public class JavaLanguage
 //				}
 //			}
 //		}.start();
+	}
+	
+	public static void parseChar()
+	{
+		
 	}
 	
 	public static void run(final String fileLocation, final ConsoleStream stream)

@@ -24,21 +24,32 @@ import net.foxycorndog.arrowide.command.CommandListener;
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
+import net.foxycorndog.arrowide.language.CommentProperties;
 import net.foxycorndog.arrowide.language.CompilerListener;
+import net.foxycorndog.arrowide.language.MethodProperties;
+import net.foxycorndog.arrowide.language.foxy.FoxyKeyword;
 
 public class AssemblyLanguage
 {
 	private static String lastFile;
 	
+	public  static final CommentProperties	COMMENT_PROPERTIES;
+	public  static final MethodProperties	METHOD_PROPERTIES;
+	
 	public static final Color
-			COMMENT_COLOR = new Color(Display.getCurrent(), 40, 140, 0),
 			KEYWORD_COLOR = new Color(Display.getCurrent(), 150, 0, 0);
 	
 	public static final int FASM = 1, NASM = 2, MASM = 3;
 	
+	static
+	{
+		COMMENT_PROPERTIES = new CommentProperties(";", new Color(Display.getCurrent(), 40, 140, 0));
+		METHOD_PROPERTIES  = new MethodProperties();
+	}
+	
 	public static void init()
 	{
-		
+		AssemblyKeyword.init();
 	}
 	
 	public static void run(String fileLocation, ConsoleStream stream)

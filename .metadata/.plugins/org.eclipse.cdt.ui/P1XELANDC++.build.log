@@ -48,4 +48,4 @@ g++ -O0 -g3 -Wall -c -fmessage-length=0 -o net\foxycorndog\p1xeland\actors\Actor
 ..\net\foxycorndog\p1xeland\actors\Actor.cpp:273:2: error: expected unqualified-id before 'public'
 ..\net\foxycorndog\p1xeland\actors\Actor.cpp:287:2: error: expected unqualified-id before 'public'
 Build error occurred, build is stopped
-Time consumed: 2038  ms.  
+Time consumed: 19159  ms.  

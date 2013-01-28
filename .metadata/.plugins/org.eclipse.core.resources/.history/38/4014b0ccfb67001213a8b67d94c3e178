@@ -1,0 +1,53 @@
+package net.foxycorndog.arrowide.language;
+
+public class CommentProperties
+{
+	private boolean	multiLineEnabled, singleLineEnabled;
+	
+	private String	multiLineStart, multiLineEnd, singleLineStart;
+	
+	public CommentProperties()
+	{
+		
+	}
+	
+	public void setMultiLineEnabled(boolean enabled)
+	{
+		multiLineEnabled = enabled;
+	}
+	
+	public void setSingleLineEnabled(boolean enabled)
+	{
+		singleLineEnabled = enabled;
+	}
+	
+	public String getMultiLineStart()
+	{
+		return multiLineStart;
+	}
+	
+	public void setMultiLineStart(String start)
+	{
+		multiLineStart = start;
+	}
+	
+	public String getMultiLineEnd()
+	{
+		return multiLineEnd;
+	}
+	
+	public void setMultiLineEnd(String end)
+	{
+		multiLineEnd = end;
+	}
+	
+	public String getSingleLineStart()
+	{
+		return singleLineStart;
+	}
+	
+	public void setSingleLineStart(String start)
+	{
+		singleLineStart = start;
+	}
+}
