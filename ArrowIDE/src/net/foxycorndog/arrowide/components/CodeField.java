@@ -58,6 +58,8 @@ public class CodeField extends StyledText
 	private int								language;
 	private int								charWidth;
 	
+	private String							text;
+	
 	private StringBuilder					commentTransText;
 	
 	private CommentProperties				commentProperties;
@@ -117,7 +119,7 @@ public class CodeField extends StyledText
 		setBounds(new Rectangle(0, 0, 100, 100));
 	    setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true, 1, 1));
 	    
-	    Font f = FileUtils.loadMonospacedFont(Display.getDefault(), "Liberation Mono", "res/fonts/Liberation-Mono/LiberationMono-Regular.ttf", 13, SWT.NORMAL);
+	    Font f = FileUtils.loadMonospacedFont(Display.getDefault(), "courier new", "res/fonts/CECOUR.ttf", 10, SWT.NORMAL);
 	    setFont(f);
 	    
 	    GC g = new GC(this);
@@ -227,11 +229,19 @@ public class CodeField extends StyledText
 	    });
 	}
 	
-	public StyleRange[] highlightSyntax()
+	public void highlightSyntax()
 	{
+		Display.getDefault().syncExec(new Runnable()
+		{
+			public void run()
+			{
+				text = getText();
+			}
+		});
+		
 		StyleRange styleRange = new StyleRange();
 		styleRange.start      = 0;
-		styleRange.length     = getText().length();
+		styleRange.length     = text.length();
 		styleRange.foreground = new Color(Display.getDefault(), 0, 0, 0);
 		
 //		setStyleRange(styleRange);
@@ -240,13 +250,6 @@ public class CodeField extends StyledText
 		ArrayList<StyleRange> styles = new ArrayList<StyleRange>();
 		
 		styles.add(styleRange);
-		
-		if (language == 0)
-		{
-			return new StyleRange[] { styleRange };
-		}
-		
-		String text       = getText();
 		
 		String strings[]  = text.split(whitespaceRegex);
 		int    offsets[]  = new int[strings.length];
@@ -338,7 +341,44 @@ public class CodeField extends StyledText
 			oldResult = newResult;
 		}
 		
-		return (StyleRange[])styles.toArray(new StyleRange[0]);
+		if (commentStarted)
+		{
+			commentStarted = false;
+			
+			{
+				int offset = commentStartLocation;
+				int length = text.length() - offset + 1;
+				
+				styles.add(new StyleRange(offset, length, commentProperties.COLOR, null));
+			}
+			
+			commentType = 0;
+			
+			commentTransText = new StringBuilder();
+		}
+		else if (textStarted)
+		{
+			textStarted = false;
+			
+			{
+				int offset = textBeginningLocation;
+				int length = text.length() - offset;
+				
+				styles.add(new StyleRange(offset, length, new Color(Display.getDefault(), 180, 100, 30), null));
+			}
+			
+			textBeginning = 0;
+		}
+		
+		thisField.setStyles((StyleRange[])styles.toArray(new StyleRange[0]));
+		
+		Display.getDefault().syncExec(new Runnable()
+		{
+			public void run()
+			{
+				thisField.redraw();
+			}
+		});
 	}
 	
 	private SpaceBetweenResult calculateSpaceBetween(String text, int start, char chars[], ArrayList<StyleRange> styles)
@@ -393,7 +433,7 @@ public class CodeField extends StyledText
 					
 					{
 						int offset = commentStartLocation;
-						int length = start + result.count - commentStartLocation + 1;
+						int length = start + result.count - offset + 1;
 						
 						styles.add(new StyleRange(offset, length, commentProperties.COLOR, null));
 					}
@@ -619,6 +659,14 @@ public class CodeField extends StyledText
 			
 			contentListeners.get(i).contentChanged(event);
 		}
+		
+		new Thread()
+		{
+			public void run()
+			{
+				highlightSyntax();
+			}
+		}.start();
 	}
 	
 	public void setText(String text)
@@ -633,35 +681,7 @@ public class CodeField extends StyledText
 	
 	public void setText(String text, boolean loaded, boolean parse)
 	{
-//		if (!(text.equals(getText()) || loaded))
-//		{
-//			contentChanged();
-//		}
-//		
-//		if (parse)
-//		{
-//			if (tabs != null)
-//			{
-//				tabs.clear();
-//				
-//				tabs.add(new ArrayList<Boolean>());
-//			}
-//			
-//			StringBuilder sb = new StringBuilder();
-//			
-//			parseString(text, sb, 0, 0, 0, 0, false);
-//			
-//			super.setText(sb.toString());
-//		}
-//		else
-//		{
-			super.setText(text);
-//		}
-//		
-////		highlightSyntax();
-//		
-//		oldLength    = getCharCount();
-//		oldLineCount = getLineCount();
+		super.setText(text);
 		
 		redraw();
 	}
@@ -709,6 +729,11 @@ public class CodeField extends StyledText
 		
 		commentProperties = Language.getCommentProperties(language);
 		methodProperties  = Language.getMethodProperties(language);
+		
+		if (language > 0)
+		{
+			highlightSyntax();
+		}
 	}
 	
 	public void addContentListener(ContentListener listener)
@@ -909,9 +934,7 @@ public class CodeField extends StyledText
 //					
 //					e.bullet = bullet;
 					
-					StyleRange styles[] = highlightSyntax();
-					
-					thisField.setStyles(styles);
+					StyleRange styles[] = thisField.getStyles();
 					
 					event.styles = styles;
 				}
