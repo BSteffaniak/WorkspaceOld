@@ -1,0 +1,54 @@
+package net.foxycorndog.arrowide.language;
+
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
+
+public class IdentifierProperties
+{
+	public final Color COLOR;
+	
+	public final char PREVIOUS_CHARS[], NEXT_CHARS[];
+	
+	public final String PREFIXES[];
+	
+	public IdentifierProperties(char previousChars, char nextChars, Color color)
+	{
+		this(new char[] { previousChars }, new char[] { nextChars }, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars, Color color)
+	{
+		this(previousChars, new char[] { nextChars }, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars[], Color color)
+	{
+		this(new char[] { previousChars }, nextChars, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars[], String prefixes[], Color color)
+	{
+		this.COLOR = color;
+		
+		this.PREVIOUS_CHARS = previousChars;
+		this.NEXT_CHARS     = nextChars;
+		
+		this.PREFIXES       = prefixes;
+	}
+	
+	public boolean isQualified(String previousWord, String currentWord, char previousChar, char nextChar)
+	{
+		for (char c : PREVIOUS_CHARS)
+		{
+			for (char c2 : NEXT_CHARS)
+			{
+				if (c == previousChar && c2 == nextChar)
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+}

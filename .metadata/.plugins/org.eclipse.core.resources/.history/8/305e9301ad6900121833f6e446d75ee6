@@ -1,0 +1,43 @@
+package net.foxycorndog.arrowide.language;
+
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
+
+public class MethodProperties
+{
+	public final Color COLOR;
+	
+	private final char previousChars[], nextChars[];
+	
+	public MethodProperties(char previousChars, char nextChars)
+	{
+		COLOR = new Color(Display.getDefault(), 40, 40, 220);
+		
+		this.previousChars = new char[] { previousChars };
+		this.nextChars     = new char[] { nextChars };
+	}
+	
+	public MethodProperties(char previousChars[], char nextChars)
+	{
+		COLOR = new Color(Display.getDefault(), 40, 40, 220);
+		
+		this.previousChars = previousChars;
+		this.nextChars     = new char[] { nextChars };
+	}
+	
+	public MethodProperties(char previousChars, char nextChars[])
+	{
+		COLOR = new Color(Display.getDefault(), 40, 40, 220);
+		
+		this.previousChars = new char[] { previousChars };
+		this.nextChars     = nextChars;
+	}
+	
+	public MethodProperties(char previousChars[], char nextChars[])
+	{
+		COLOR = new Color(Display.getDefault(), 40, 40, 220);
+		
+		this.previousChars = previousChars;
+		this.nextChars     = nextChars;
+	}
+}

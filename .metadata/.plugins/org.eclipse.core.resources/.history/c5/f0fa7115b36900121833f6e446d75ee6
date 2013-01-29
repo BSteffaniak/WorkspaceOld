@@ -1,0 +1,145 @@
+package net.foxycorndog.arrowide.language;
+
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
+
+public class IdentifierProperties
+{
+	public final Color COLOR;
+	
+	public final char PREVIOUS_CHARS[], NEXT_CHARS[];
+	
+	public final String PREFIXES[], PREVIOUS_WORDS[];
+	
+	public IdentifierProperties(char previousChars, char nextChars, Color color)
+	{
+		this(new char[] { previousChars }, new char[] { nextChars }, new String[] {}, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars, Color color)
+	{
+		this(previousChars, new char[] { nextChars }, new String[] {}, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars[], Color color)
+	{
+		this(new char[] { previousChars }, nextChars, new String[] {}, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars, String prefix, Color color)
+	{
+		this(new char[] { previousChars }, new char[] { nextChars }, new String[] { prefix }, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars, String prefix, Color color)
+	{
+		this(previousChars, new char[] { nextChars }, new String[] { prefix }, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars[], String prefix, Color color)
+	{
+		this(new char[] { previousChars }, nextChars, new String[] { prefix }, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars, String prefixes[], Color color)
+	{
+		this(new char[] { previousChars }, new char[] { nextChars }, prefixes, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars, String prefixes[], Color color)
+	{
+		this(previousChars, new char[] { nextChars }, prefixes, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars[], String prefixes[], Color color)
+	{
+		this(new char[] { previousChars }, nextChars, prefixes, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars, String prefix, String previousWords, Color color)
+	{
+		this(new char[] { previousChars }, new char[] { nextChars }, new String[] { prefix }, new String[] { previousWords }, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars, String prefix, String previousWords, Color color)
+	{
+		this(previousChars, new char[] { nextChars }, new String[] { prefix }, new String[] { previousWords }, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars[], String prefix, String previousWords, Color color)
+	{
+		this(new char[] { previousChars }, nextChars, new String[] { prefix }, new String[] { previousWords }, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars, String prefixes[], String previousWords[], Color color)
+	{
+		this(new char[] { previousChars }, new char[] { nextChars }, prefixes, previousWords, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars, String prefixes[], String previousWords[], Color color)
+	{
+		this(previousChars, new char[] { nextChars }, prefixes, previousWords, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars[], String prefixes[], String previousWords[], Color color)
+	{
+		this(new char[] { previousChars }, nextChars, prefixes, previousWords, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars, String prefix, String previousWords[], Color color)
+	{
+		this(new char[] { previousChars }, new char[] { nextChars }, new String[] { prefix }, previousWords, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars, String prefix, String previousWords[], Color color)
+	{
+		this(previousChars, new char[] { nextChars }, new String[] { prefix }, previousWords, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars[], String prefix, String previousWords[], Color color)
+	{
+		this(new char[] { previousChars }, nextChars, new String[] { prefix }, previousWords, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars, String prefixes[], String previousWords, Color color)
+	{
+		this(new char[] { previousChars }, new char[] { nextChars }, prefixes, new String[] { previousWords }, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars, String prefixes[], String previousWords, Color color)
+	{
+		this(previousChars, new char[] { nextChars }, prefixes, new String[] { previousWords }, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars[], String prefixes[], String previousWords, Color color)
+	{
+		this(new char[] { previousChars }, nextChars, prefixes, new String[] { previousWords }, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars[], String prefixes[], String previousWords[], Color color)
+	{
+		this.COLOR = color;
+		
+		this.PREVIOUS_CHARS = previousChars;
+		this.NEXT_CHARS     = nextChars;
+		
+		this.PREFIXES       = prefixes;
+		this.PREVIOUS_WORDS = previousWords;
+	}
+	
+	public boolean isQualified(char previousChar, char nextChar, String currentWord, String previousWord)
+	{
+		for (char c : PREVIOUS_CHARS)
+		{
+			for (char c2 : NEXT_CHARS)
+			{
+				if (c == previousChar && c2 == nextChar)
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+}

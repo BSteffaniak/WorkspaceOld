@@ -1,0 +1,212 @@
+package net.foxycorndog.arrowide.language;
+
+import java.util.Arrays;
+
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
+
+public class IdentifierProperties
+{
+	public final Color COLOR;
+	
+	public final char PREVIOUS_CHARS[][], NEXT_CHARS[][];
+	
+	public final String PREFIXES[][], PREVIOUS_WORDS[][];
+	
+	public IdentifierProperties(char previousChars, char nextChars, Color color)
+	{
+		this(new char[] { previousChars }, new char[] { nextChars }, new String[] {}, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars, Color color)
+	{
+		this(previousChars, new char[] { nextChars }, new String[] {}, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars[], Color color)
+	{
+		this(new char[] { previousChars }, nextChars, new String[] {}, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars, String prefix, Color color)
+	{
+		this(new char[] { previousChars }, new char[] { nextChars }, new String[] { prefix }, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars, String prefix, Color color)
+	{
+		this(previousChars, new char[] { nextChars }, new String[] { prefix }, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars[], String prefix, Color color)
+	{
+		this(new char[] { previousChars }, nextChars, new String[] { prefix }, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars, String prefixes[], Color color)
+	{
+		this(new char[] { previousChars }, new char[] { nextChars }, prefixes, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars, String prefixes[], Color color)
+	{
+		this(previousChars, new char[] { nextChars }, prefixes, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars[], String prefixes[], Color color)
+	{
+		this(new char[] { previousChars }, nextChars, prefixes, new String[] {}, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars, String prefix, String previousWords, Color color)
+	{
+		this(new char[] { previousChars }, new char[] { nextChars }, new String[] { prefix }, new String[] { previousWords }, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars, String prefix, String previousWords, Color color)
+	{
+		this(previousChars, new char[] { nextChars }, new String[] { prefix }, new String[] { previousWords }, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars[], String prefix, String previousWords, Color color)
+	{
+		this(new char[] { previousChars }, nextChars, new String[] { prefix }, new String[] { previousWords }, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars, String prefixes[], String previousWords[], Color color)
+	{
+		this(new char[] { previousChars }, new char[] { nextChars }, prefixes, previousWords, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars, String prefixes[], String previousWords[], Color color)
+	{
+		this(previousChars, new char[] { nextChars }, prefixes, previousWords, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars[], String prefixes[], String previousWords[], Color color)
+	{
+		this(new char[] { previousChars }, nextChars, prefixes, previousWords, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars, String prefix, String previousWords[], Color color)
+	{
+		this(new char[] { previousChars }, new char[] { nextChars }, new String[] { prefix }, previousWords, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars, String prefix, String previousWords[], Color color)
+	{
+		this(previousChars, new char[] { nextChars }, new String[] { prefix }, previousWords, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars[], String prefix, String previousWords[], Color color)
+	{
+		this(new char[] { previousChars }, nextChars, new String[] { prefix }, previousWords, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars, String prefixes[], String previousWords, Color color)
+	{
+		this(new char[] { previousChars }, new char[] { nextChars }, prefixes, new String[] { previousWords }, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars, String prefixes[], String previousWords, Color color)
+	{
+		this(previousChars, new char[] { nextChars }, prefixes, new String[] { previousWords }, color);
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars[], String prefixes[], String previousWords, Color color)
+	{
+		this(new char[] { previousChars }, nextChars, prefixes, new String[] { previousWords }, color);
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars[], String prefixes[], String previousWords[], Color color)
+	{
+		this(new char[][] { previousChars }, new char[][] { nextChars }, new String[][] { prefixes }, new String[][] { previousWords }, color);
+	}
+	
+	public IdentifierProperties(char previousChars[][], char nextChars[][], String prefixes[][], String previousWords[][], Color color)
+	{
+		this.COLOR = color;
+		
+		this.PREVIOUS_CHARS = previousChars;
+		this.NEXT_CHARS     = nextChars;
+		
+		this.PREFIXES       = prefixes;
+		this.PREVIOUS_WORDS = previousWords;
+	}
+	
+	public boolean isQualified(char previousChar, char nextChar, String currentWord, String previousWord)
+	{
+		int amount = PREVIOUS_CHARS.length;
+		
+		boolean qualified = amount <= 0;
+		
+		for (int i = 0; i < amount; i++)
+		{
+			boolean found = PREVIOUS_CHARS.length <= 0;
+			
+			for (int j = 0; j < PREVIOUS_CHARS[i].length; j++)
+			{
+				if (PREVIOUS_CHARS[i][j] == previousChar)
+				{
+					found = true;
+					break;
+				}
+			}
+			
+			if (!found)
+			{
+				return false;
+			}
+			
+			found = NEXT_CHARS.length <= 0;
+			
+			for (int j = 0; j < NEXT_CHARS[i].length; j++)
+			{
+				if (NEXT_CHARS[i][j] == nextChar)
+				{
+					found = true;
+					break;
+				}
+			}
+			
+			if (!found)
+			{
+				return false;
+			}
+			
+			found = PREVIOUS_WORDS.length <= 0;
+			
+			for (int j = 0; j < PREVIOUS_WORDS[i].length; j++)
+			{
+				if (PREVIOUS_WORDS[i][j].equals(previousWord))
+				{
+					found = true;
+					break;
+				}
+			}
+			
+			if (!found)
+			{
+				return false;
+			}
+			
+			found = PREFIXES.length <= 0;
+			
+			for (int j = 0; j < PREFIXES[i].length; j++)
+			{
+				if (currentWord.startsWith(PREFIXES[i][j]))
+				{
+					found = true;
+					break;
+				}
+			}
+			
+			if (!found)
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+}

@@ -24,17 +24,19 @@ public class Language
 {
 	public static final int JAVA = FileUtils.JAVA, GLSL = FileUtils.GLSL, ASSEMBLY = FileUtils.ASSEMBLY, FOXY = FileUtils.FOXY, CPP = FileUtils.CPP, C = FileUtils.C, PHP = FileUtils.PHP;
 	
-	private static ArrayList<CompilerListener>			listeners;
+	private static ArrayList<CompilerListener>				listeners;
 	
-	private static HashMap<Integer, CommentProperties>	commentProperties;
-	private static HashMap<Integer, MethodProperties>	methodProperties;
+	private static HashMap<Integer, CommentProperties>		commentProperties;
+	private static HashMap<Integer, MethodProperties>		methodProperties;
+	private static HashMap<Integer, IdentifierProperties>	identifierProperties;
 	
 	public static void init()
 	{
 		listeners = new ArrayList<CompilerListener>();
 		
-		commentProperties = new HashMap<Integer, CommentProperties>();
-		methodProperties  = new HashMap<Integer, MethodProperties>();
+		commentProperties    = new HashMap<Integer, CommentProperties>();
+		methodProperties     = new HashMap<Integer, MethodProperties>();
+		identifierProperties = new HashMap<Integer, IdentifierProperties>();
 		
 		Keyword.addLanguage(JAVA);
 		Keyword.addLanguage(GLSL);
@@ -63,6 +65,13 @@ public class Language
 		methodProperties.put(FOXY, FoxyLanguage.METHOD_PROPERTIES);
 		methodProperties.put(CPP, CppLanguage.METHOD_PROPERTIES);
 		methodProperties.put(PHP, PHPLanguage.METHOD_PROPERTIES);
+		
+		identifierProperties.put(JAVA, JavaLanguage.IDENTIFIER_PROPERTIES);
+		identifierProperties.put(GLSL, GLSLLanguage.IDENTIFIER_PROPERTIES);
+		identifierProperties.put(ASSEMBLY, AssemblyLanguage.IDENTIFIER_PROPERTIES);
+		identifierProperties.put(FOXY, FoxyLanguage.IDENTIFIER_PROPERTIES);
+		identifierProperties.put(CPP, CppLanguage.IDENTIFIER_PROPERTIES);
+		identifierProperties.put(PHP, PHPLanguage.IDENTIFIER_PROPERTIES);
 	}
 	
 	public static int getLanguage(String name)
@@ -116,6 +125,18 @@ public class Language
 		if (methodProperties.containsKey(language))
 		{
 			properties = methodProperties.get(language);
+		}
+		
+		return properties;
+	}
+	
+	public static IdentifierProperties getIdentifierProperties(int language)
+	{
+		IdentifierProperties properties = null;
+		
+		if (identifierProperties.containsKey(language))
+		{
+			properties = identifierProperties.get(language);
 		}
 		
 		return properties;

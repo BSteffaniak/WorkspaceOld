@@ -1,0 +1,345 @@
+package net.foxycorndog.arrowide.language.java;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+
+import javax.tools.Diagnostic;
+import javax.tools.DiagnosticCollector;
+import javax.tools.JavaCompiler;
+import javax.tools.JavaFileObject;
+import javax.tools.SimpleJavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.ToolProvider;
+import javax.tools.JavaCompiler.CompilationTask;
+import javax.tools.JavaFileObject.Kind;
+
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
+
+import net.foxycorndog.arrowide.ArrowIDE;
+import net.foxycorndog.arrowide.command.Command;
+import net.foxycorndog.arrowide.console.ConsoleStream;
+import net.foxycorndog.arrowide.file.FileUtils;
+import net.foxycorndog.arrowide.language.CommentProperties;
+import net.foxycorndog.arrowide.language.CompilerListener;
+import net.foxycorndog.arrowide.language.MethodProperties;
+
+import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
+
+public class JavaLanguage
+{
+	private static HashMap<String, Class> classes;
+	
+	public  static final CommentProperties	COMMENT_PROPERTIES;
+	public  static final MethodProperties	METHOD_PROPERTIES;
+	
+	public  static final Color
+			KEYWORD_COLOR = new Color(Display.getCurrent(), 150, 0, 0);
+	
+	static
+	{
+		COMMENT_PROPERTIES = new CommentProperties("//", "/*", "*/", new Color(Display.getCurrent(), 40, 140, 0));
+		METHOD_PROPERTIES  = new MethodProperties();
+	}
+	
+	public static void init()
+	{
+		classes = new HashMap<String, Class>();
+		
+		JavaKeyword.init();
+		
+//		new Thread()
+//		{
+//			int counter;
+//			
+//			public void run()
+//			{
+//				try
+//				{
+//					URL url = new URL("file://" + PROPERTIES.get("arrowide.location") + "/res/bin/");
+//				
+//					ClassLoader cLoader = new URLClassLoader(new URL[] { url });
+//					
+//					cLoader.loadClass("Start");
+//					
+//					System.out.println("after");
+//				}
+//				catch (ClassNotFoundException e)
+//				{
+//					e.printStackTrace();
+//				}
+//				catch (MalformedURLException e)
+//				{
+//					e.printStackTrace();
+//				}
+//			}
+//		}.start();
+	}
+	
+	public static void parseChar()
+	{
+		
+	}
+	
+	public static void run(final String fileLocation, final ConsoleStream stream)
+	{
+		final String classLocation = FileUtils.getParentFolder(FileUtils.getParentFolder(fileLocation)) + "/bin/" + FileUtils.getFileNameWithoutExtension(fileLocation) + ".class";
+		
+		try
+		{
+			URL url = new URL("file://" + FileUtils.getParentFolder(classLocation) + "/");
+			
+			final ClassLoader cLoader   = new URLClassLoader(new URL[] { url });
+			
+			final String      className = FileUtils.getFileNameWithoutExtension(classLocation);
+			
+//			Class        clazz     = cLoader.loadClass(className);//classLocation.substring(0, classLocation.lastIndexOf('.')));
+			
+//			final Method m         = clazz.getMethod("main", String[].class);
+			
+//			classRunning = true;
+			
+			new Thread()
+			{
+				public void run()
+				{
+					try
+					{
+						Class clazz = null;
+						
+						if (classes.containsKey(classLocation))
+						{
+							clazz = classes.get(classLocation);
+						}
+						else
+						{
+							clazz = cLoader.loadClass(className);
+							
+							classes.put(classLocation, clazz);
+						}
+						
+						exec(clazz, classLocation, stream);
+					}
+					catch (ClassNotFoundException e)
+					{
+						e.printStackTrace();
+					}
+					catch (InterruptedException e)
+					{
+						e.printStackTrace();
+					}
+					catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}.start();
+		}
+		catch (MalformedURLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	private static void exec(Class clazz, String classLocation, ConsoleStream stream) throws IOException, InterruptedException
+	{
+		String javaHome  = System.getProperty("java.home");
+		String javaBin   = javaHome + "/bin/java";
+		String classpath = FileUtils.getParentFolder(classLocation);//System.getProperty("java.class.path");
+		String className = clazz.getCanonicalName();
+		
+		String outputLocation = FileUtils.getParentFolder(classLocation);
+		
+		Command command = new Command(Display.getDefault(), "\"" + javaBin + "\" -cp " + "\"" + classpath + "\" " + className, stream, outputLocation);
+		
+		command.execute();
+	}
+	
+	public static void compile(String fileLocation, String code, String outputLocation, ConsoleStream stream, ArrayList<CompilerListener> compilerListeners)
+	{
+		String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
+		
+		outputLocation += "../bin/";
+		
+		try
+		{
+			outputLocation = FileUtils.getAbsolutePath(outputLocation) + "/";
+		}
+		catch (IOException e2)
+		{
+			e2.printStackTrace();
+		}
+		
+		new File(outputLocation).mkdirs();
+		
+//		fileName = fileName == null ? "" : fileName;
+//		
+//		JavacJavaCompilerSettings settings = new JavacJavaCompilerSettings();
+//		
+//		org.apache.commons.jci.compilers.JavaCompiler compiler = new JavacJavaCompiler(settings);//new JavaCompilerFactory().createCompiler("javac");//new JavacJavaCompiler(settings);
+//		
+////		org.apache.commons.jci.compilers.JavaCompiler compiler = new JavaCompilerFactory().createCompiler("eclipse");
+//
+//		MemoryResourceReader mrr = new MemoryResourceReader();
+//		mrr.add("Test", code.getBytes());
+//
+//		MemoryResourceStore mrs = new MemoryResourceStore();
+//		
+//		
+//		CompilationResult result = compiler.compile(new String[] { fileName }, mrr, mrs);
+//		
+//		return result.getErrors().length + " ";
+		
+		/*Creating dynamic java source code file object*/
+		
+		SimpleJavaFileObject fileObject  = new DynamicJavaSourceCodeObject(fileName, code);
+		
+		JavaFileObject javaFileObjects[] = new JavaFileObject[] { fileObject };
+ 
+		/*Instantiating the java compiler*/
+		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+ 
+		/**
+		 * Retrieving the standard file manager from compiler object, which is used to provide
+		 * basic building block for customizing how a compiler reads and writes to files.
+		 *
+		 * The same file manager can be reopened for another compiler task.
+		 * Thus we reduce the overhead of scanning through file system and jar files each time
+		 */
+		StandardJavaFileManager stdFileManager = compiler.getStandardFileManager(null, Locale.getDefault(), null);
+ 
+		/* Prepare a list of compilation units (java source code file objects) to input to compilation task*/
+		Iterable<? extends JavaFileObject> compilationUnits = Arrays.asList(javaFileObjects);
+ 
+		/*Prepare any compilation options to be used during compilation*/
+		//In this example, we are asking the compiler to place the output files under bin folder.
+		String[] compileOptions = new String[]
+		{
+			"-cp", outputLocation,
+			"-d", outputLocation
+		};
+		
+		Iterable<String> compilationOptions = Arrays.asList(compileOptions);
+ 
+		/*Create a diagnostic controller, which holds the compilation problems*/
+		DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
+ 
+		/*Create a compilation task from compiler by passing in the required input objects prepared above*/
+		CompilationTask compilerTask = compiler.getTask(null, stdFileManager, diagnostics, compilationOptions, null, compilationUnits);
+		
+		//Perform the compilation by calling the call method on compilerTask object.
+		boolean status = compilerTask.call();
+		
+		StringBuilder error = new StringBuilder();
+		
+		String outputFile = outputLocation + fileName + ".class";
+		
+		final String outputFiles[] = new String[] { outputFile };
+ 
+		for (int i = compilerListeners.size() - 1; i >= 0; i--)
+		{
+			compilerListeners.get(i).compiled(outputFiles, status ? 0 : 1, fileLocation);
+		}
+		
+		//If compilation error occurs
+		if (!status)
+		{
+			HashSet<String> errors = new HashSet<String>();
+			
+			/*Iterate through each compilation problem and print it*/
+			for (Diagnostic diagnostic : diagnostics.getDiagnostics())
+			{
+				String err = diagnostic.getMessage(Locale.getDefault());
+				
+				errors.add(String.format("Error on line %d: %s", diagnostic.getLineNumber(), err));
+			}
+			
+			String strs[] = errors.toArray(new String[0]);
+			
+			for (String str : strs)
+			{
+				error.append(str);
+			}
+			
+			stream.println(error.toString());
+		}
+		
+		try
+		{
+			stdFileManager.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+}
+
+/**
+ * Creates a dynamic source code file object
+ *
+ * This is an example of how we can prepare a dynamic java source code for compilation.
+ * This class reads the java code from a string and prepares a JavaFileObject
+ *
+ */
+class DynamicJavaSourceCodeObject extends SimpleJavaFileObject
+{
+	private String qualifiedName;
+	private String sourceCode;
+ 
+	/**
+	 * Converts the name to an URI, as that is the format expected by JavaFileObject
+	 *
+	 *
+	 * @param fully qualified name given to the class file
+	 * @param code the source code string
+	 * @throws UnsupportedEncodingException 
+	 */
+	protected DynamicJavaSourceCodeObject(String name, String code)
+	{
+		super(URI.create("string:///" + name.replace(' ', '+').replaceAll("\\.", "/") + Kind.SOURCE.extension), Kind.SOURCE);
+		this.qualifiedName = name;
+		this.sourceCode = code;
+	}
+ 
+	public CharSequence getCharContent(boolean ignoreEncodingErrors) throws IOException
+	{
+		return sourceCode;
+	}
+ 
+	public String getQualifiedName()
+	{
+		return qualifiedName;
+	}
+ 
+	public void setQualifiedName(String qualifiedName)
+	{
+		this.qualifiedName = qualifiedName;
+	}
+ 
+	public String getSourceCode()
+	{
+		return sourceCode;
+	}
+ 
+	public void setSourceCode(String sourceCode)
+	{
+		this.sourceCode = sourceCode;
+	}
+}

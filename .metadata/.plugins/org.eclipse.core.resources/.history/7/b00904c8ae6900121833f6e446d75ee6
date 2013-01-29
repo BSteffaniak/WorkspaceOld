@@ -1,0 +1,43 @@
+package net.foxycorndog.arrowide.language;
+
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
+
+public class IdentifierProperties
+{
+	public final Color COLOR;
+	
+	public final char PREVIOUS_CHARS[], NEXT_CHARS[];
+	
+	public IdentifierProperties(char previousChars, char nextChars, Color color)
+	{
+		this.COLOR = color;
+		
+		this.PREVIOUS_CHARS = new char[] { previousChars };
+		this.NEXT_CHARS     = new char[] { nextChars };
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars, Color color)
+	{
+		this.COLOR = color;
+		
+		this.PREVIOUS_CHARS = previousChars;
+		this.NEXT_CHARS     = new char[] { nextChars };
+	}
+	
+	public IdentifierProperties(char previousChars, char nextChars[], Color color)
+	{
+		this.COLOR = color;
+		
+		this.PREVIOUS_CHARS = new char[] { previousChars };
+		this.NEXT_CHARS     = nextChars;
+	}
+	
+	public IdentifierProperties(char previousChars[], char nextChars[], Color color)
+	{
+		this.COLOR = color;
+		
+		this.PREVIOUS_CHARS = previousChars;
+		this.NEXT_CHARS     = nextChars;
+	}
+}

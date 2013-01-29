@@ -26,15 +26,17 @@ import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CommentProperties;
 import net.foxycorndog.arrowide.language.CompilerListener;
+import net.foxycorndog.arrowide.language.IdentifierProperties;
 import net.foxycorndog.arrowide.language.MethodProperties;
 import net.foxycorndog.arrowide.language.foxy.FoxyKeyword;
 
 public class AssemblyLanguage
 {
-	private static String lastFile;
+	private static String						lastFile;
 	
-	public  static final CommentProperties	COMMENT_PROPERTIES;
-	public  static final MethodProperties	METHOD_PROPERTIES;
+	public  static final CommentProperties		COMMENT_PROPERTIES;
+	public  static final MethodProperties		METHOD_PROPERTIES;
+	public  static final IdentifierProperties	IDENTIFIER_PROPERTIES;
 	
 	public static final Color
 			KEYWORD_COLOR = new Color(Display.getCurrent(), 150, 0, 0);
@@ -43,8 +45,9 @@ public class AssemblyLanguage
 	
 	static
 	{
-		COMMENT_PROPERTIES = new CommentProperties(";", new Color(Display.getCurrent(), 40, 140, 0));
-		METHOD_PROPERTIES  = new MethodProperties();
+		COMMENT_PROPERTIES    = new CommentProperties(";", new Color(Display.getCurrent(), 40, 140, 0));
+		METHOD_PROPERTIES     = new MethodProperties();
+		IDENTIFIER_PROPERTIES = new IdentifierProperties((char)0, ' ', new Color(Display.getDefault(), 4, 150, 120));
 	}
 	
 	public static void init()

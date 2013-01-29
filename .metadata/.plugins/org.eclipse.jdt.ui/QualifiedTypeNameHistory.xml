@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.io.IOException"/>
-<fullyQualifiedTypeName name="net.foxycorndog.arrowide.file.ConfigReader"/>
-<fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="net.foxycorndog.arrowide.dialog.DialogFilter"/>
-<fullyQualifiedTypeName name="net.foxycorndog.arrowide.dialog.PreferencesDialogPanel"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.dialog.preferencesdialogpanel.GeneralPanel"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.file.FileUtils"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.ShellListener"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.TitleBar"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.ToolBar"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.SelectionListener"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Display"/>
 <fullyQualifiedTypeName name="java.awt.Button"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Region"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Image"/>
@@ -53,11 +47,17 @@
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.assembly.AssemblyLanguage"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.java.JavaLanguage"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.CommentType"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.glsl.GLSLLanguage"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.glsl.GLSLKeyword"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.CommentProperties"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Color"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.MethodProperties"/>
 <fullyQualifiedTypeName name="java.util.HashSet"/>
+<fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.IdentifierProperties"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Display"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="java.util.regex.Pattern"/>
+<fullyQualifiedTypeName name="java.util.regex.Matcher"/>
+<fullyQualifiedTypeName name="java.util.List"/>
 </qualifiedTypeNameHistroy>

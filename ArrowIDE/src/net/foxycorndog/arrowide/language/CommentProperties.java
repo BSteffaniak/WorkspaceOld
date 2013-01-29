@@ -1,6 +1,7 @@
 package net.foxycorndog.arrowide.language;
 
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 
 public class CommentProperties
 {
@@ -14,108 +15,52 @@ public class CommentProperties
 	
 	public CommentProperties()
 	{
-		MULTI_LINE_ENABLED		= false;
-		SINGLE_LINE_ENABLED		= false;
-		
-		this.SINGLE_LINE_START	= null;
-		this.MULTI_LINE_START	= null;
-		this.MULTI_LINE_END		= null;
-		
-		this.COLOR				= null;
+		this(new String[] {}, new String[] {}, new String[] {}, null);
 	}
 	
 	public CommentProperties(String singleLineStart[], Color color)
 	{
-		MULTI_LINE_ENABLED		= false;
-		SINGLE_LINE_ENABLED		= true;
-		
-		this.SINGLE_LINE_START	= singleLineStart;
-		this.MULTI_LINE_START	= null;
-		this.MULTI_LINE_END		= null;
-		
-		this.COLOR				= color;
+		this(singleLineStart, new String[] {}, new String[] {}, color);
 	}
 	
 	public CommentProperties(String multiLineStart[], String multiLineEnd[], Color color)
 	{
-		MULTI_LINE_ENABLED		= true;
-		SINGLE_LINE_ENABLED		= false;
-		
-		this.SINGLE_LINE_START	= null;
-		this.MULTI_LINE_START	= multiLineStart;
-		this.MULTI_LINE_END		= multiLineEnd;
-		
-		this.COLOR				= color;
-	}
-	
-	public CommentProperties(String singleLineStart[], String multiLineStart[], String multiLineEnd[], Color color)
-	{
-		MULTI_LINE_ENABLED		= true;
-		SINGLE_LINE_ENABLED		= true;
-		
-		this.SINGLE_LINE_START	= singleLineStart;
-		this.MULTI_LINE_START	= multiLineStart;
-		this.MULTI_LINE_END		= multiLineEnd;
-		
-		this.COLOR				= color;
+		this(new String[] {}, multiLineStart, multiLineEnd, color);
 	}
 	
 	public CommentProperties(String singleLineStart, Color color)
 	{
-		MULTI_LINE_ENABLED		= false;
-		SINGLE_LINE_ENABLED		= true;
-		
-		this.SINGLE_LINE_START	= new String[] { singleLineStart };
-		this.MULTI_LINE_START	= null;
-		this.MULTI_LINE_END		= null;
-		
-		this.COLOR				= color;
+		this(new String[] { singleLineStart }, new String[] {}, new String[] {}, color);
 	}
 	
 	public CommentProperties(String multiLineStart, String multiLineEnd, Color color)
 	{
-		MULTI_LINE_ENABLED		= true;
-		SINGLE_LINE_ENABLED		= false;
-		
-		this.SINGLE_LINE_START	= null;
-		this.MULTI_LINE_START	= new String[] { multiLineStart };
-		this.MULTI_LINE_END		= new String[] { multiLineEnd };
-		
-		this.COLOR				= color;
+		this(new String[] {}, new String[] { multiLineStart }, new String[] { multiLineEnd }, color);
 	}
 	
 	public CommentProperties(String singleLineStart, String multiLineStart, String multiLineEnd, Color color)
 	{
-		MULTI_LINE_ENABLED		= true;
-		SINGLE_LINE_ENABLED		= true;
-		
-		this.SINGLE_LINE_START	= new String[] { singleLineStart };
-		this.MULTI_LINE_START		= new String[] { multiLineStart };
-		this.MULTI_LINE_END		= new String[] { multiLineEnd };
-		
-		this.COLOR				= color;
+		this(new String[] { singleLineStart }, new String[] { multiLineStart }, new String[] { multiLineEnd }, color);
 	}
 	
 	public CommentProperties(String singleLineStart, String multiLineStart[], String multiLineEnd[], Color color)
 	{
-		MULTI_LINE_ENABLED		= true;
-		SINGLE_LINE_ENABLED		= true;
-		
-		this.SINGLE_LINE_START	= new String[] { singleLineStart };
-		this.MULTI_LINE_START	= multiLineStart;
-		this.MULTI_LINE_END		= multiLineEnd;
-		
-		this.COLOR				= color;
+		this(new String[] { singleLineStart }, multiLineStart, multiLineEnd, color);
 	}
 	
 	public CommentProperties(String singleLineStart, String multiLineStart[], String multiLineEnd, Color color)
 	{
-		MULTI_LINE_ENABLED		= true;
-		SINGLE_LINE_ENABLED		= true;
+		this(new String[] { singleLineStart }, multiLineStart, new String[] { multiLineEnd }, color);
+	}
+	
+	public CommentProperties(String singleLineStart[], String multiLineStart[], String multiLineEnd[], Color color)
+	{
+		MULTI_LINE_ENABLED		= multiLineStart  != null && multiLineStart.length  > 0 && multiLineEnd.length > 0;
+		SINGLE_LINE_ENABLED		= singleLineStart != null && singleLineStart.length > 0;
 		
-		this.SINGLE_LINE_START	= new String[] { singleLineStart };
+		this.SINGLE_LINE_START	= singleLineStart;
 		this.MULTI_LINE_START	= multiLineStart;
-		this.MULTI_LINE_END		= new String[] { multiLineEnd };
+		this.MULTI_LINE_END		= multiLineEnd;
 		
 		this.COLOR				= color;
 	}

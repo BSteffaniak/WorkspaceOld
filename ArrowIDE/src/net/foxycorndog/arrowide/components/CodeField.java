@@ -1,11 +1,16 @@
 package net.foxycorndog.arrowide.components;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CommentProperties;
+import net.foxycorndog.arrowide.language.IdentifierProperties;
 import net.foxycorndog.arrowide.language.Keyword;
 import net.foxycorndog.arrowide.language.Language;
 import net.foxycorndog.arrowide.language.MethodProperties;
@@ -47,6 +52,7 @@ import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 public class CodeField extends StyledText
 {
 	private boolean							commentStarted, textStarted;
+	private boolean							redrawReady;
 	
 	private char							textBeginning;
 
@@ -64,6 +70,7 @@ public class CodeField extends StyledText
 	
 	private CommentProperties				commentProperties;
 	private MethodProperties				methodProperties;
+	private IdentifierProperties			identifierProperties;
 
 	private LineStyleListener				lineNumbers, lineSpaces,
 			syntaxHighlighting;
@@ -91,9 +98,9 @@ public class CodeField extends StyledText
 	
 	static
 	{
-		whitespaceRegex = "[.,/\n\t\\[\\](){};[-][+]['][\"]\r=* ]";
+		whitespaceRegex = "[.,[ ]/*=()\r\n\t\\[\\]{};[-][+]['][\"]:[-][+]><!]";
 		
-		whitespaceArray = new char[] { ' ', '.', ',', '/', '*', '=', '(', ')', '[', ']', '{', '}', ';', '\n', '\t', '\r', '-', '+', '\'', '"' };
+		whitespaceArray = new char[] { ' ', '.', ',', '/', '*', '=', '(', ')', '[', ']', '{', '}', ';', '\n', '\t', '\r', '-', '+', '\'', '"', ':', '-', '+', '>', '<', '!' };
 	}
 	
 	private class SpaceBetweenResult
@@ -231,6 +238,8 @@ public class CodeField extends StyledText
 	
 	public void highlightSyntax()
 	{
+		redrawReady = false;
+		
 		Display.getDefault().syncExec(new Runnable()
 		{
 			public void run()
@@ -251,14 +260,14 @@ public class CodeField extends StyledText
 		
 		styles.add(styleRange);
 		
-		String strings[]  = text.split(whitespaceRegex);
-		int    offsets[]  = new int[strings.length];
+		String strings[] = text.split("\\s*" + whitespaceRegex + "+\\s*");//whitespaceRegex);
+		int    offsets[] = new int[strings.length];
 		
-		int charCount     = 0;
+		int charCount    = 0;
 		
-		commentTransText  = new StringBuilder();
+		commentTransText = new StringBuilder();
 		
-		commentStarted    = false;
+		commentStarted   = false;
 		
 		commentType          = 0;
 		commentStartLocation = 0;
@@ -268,15 +277,16 @@ public class CodeField extends StyledText
 		newResult = calculateSpaceBetween(text, 0, whitespaceArray, styles);
 		oldResult = newResult;
 		
-		for (int i = 0; i < strings.length; i ++)
+		for (int i = 0; i < strings.length; i++)
 		{
-			String word = strings[i];
+			String prevWord = i > 0 ? strings[i - 1] : "";
+			String word     = strings[i];
 			
-			offsets[i]  = charCount;
+			offsets[i]      = charCount;
 			
 			boolean isKeyword = Keyword.isKeyword(language, word);
 			
-//				System.out.println("i: " + i + ",\tword: " + word + ",\toffset: " + offsets[i] + ",\tlength: " + word.length() + ",\tsize: " + text.length());
+//			System.out.println("i: " + i + ",\tword: " + word + ",\toffset: " + offsets[i] + ",\tlength: " + word.length() + ",\tsize: " + text.length());
 			
 			if (commentStarted || textStarted)
 			{
@@ -286,54 +296,62 @@ public class CodeField extends StyledText
 			{
 				Keyword keyword       = Keyword.getKeyword(language, word);
 				
-				int offset            = offsets[i];
+				int offset            = charCount;
 				int length            = word.length() - 1;
 				
-				styles.add(new StyleRange(offset, length, keyword.getColor(), null));
+				StyleRange range = new StyleRange(offset, length, keyword.getColor(), null);
+				
+				styles.add(range);
 				
 //					setStyleRange(styleRange);
 //					setStyleRanges(new StyleRange[] { styleRange });
 			}
-			else if (identifiers.contains(strings[i]))
+			else if (identifiers.contains(word))
 			{
-				int offset            = offsets[i];
+				int offset            = charCount;
 				int length            = word.length() - 1;
 				
-				styles.add(new StyleRange(offset, length, new Color(Display.getDefault(), 4, 150, 120), null));
+				StyleRange range = new StyleRange(offset, length, new Color(Display.getDefault(), 4, 150, 120), null);
+				range.borderStyle = SWT.BORDER_DASH;
+				
+				styles.add(range);
 			}
 			
-			boolean textWasStarted = textStarted;
+			boolean textWasStarted    = textStarted;
+			boolean commentWasStarted = commentStarted;
 			
 			newResult = calculateSpaceBetween(text, charCount + word.length(), whitespaceArray, styles);
 			
-			charCount += strings[i].length() + newResult.count;
+			charCount += word.length() + newResult.count;
 			
-			if (commentStarted || textWasStarted)
+			if ((commentWasStarted) || textWasStarted)//commentStartLocation < offsets[i] || textStartLocation < offsets[i])
 			{
 				
 			}
-			else if (!textWasStarted && newResult.firstChar == '(')
+			else if (newResult.firstCharOtherThanSpace == '(')
 			{
-				int offset            = offsets[i];
-				int length            = word.length() - 1;
+				int offset = offsets[i];
+				int length = word.length() - 1;
 				
-				styles.add(new StyleRange(offset, length, methodProperties.COLOR, null));
+				StyleRange range = new StyleRange(offset, length, methodProperties.COLOR, null);
+				
+				styles.add(range);
 			}
 			else
 			{
-				if (!textWasStarted && !isKeyword && (oldResult.onlyChar == ' ') && (newResult.firstCharOtherThanSpace == ';' || newResult.firstCharOtherThanSpace == '='))
+				if (!isKeyword && identifierProperties.isQualified(oldResult.onlyChar, newResult.firstCharOtherThanSpace, word, prevWord))
 				{
-					if (oldResult.onlyCharOtherThanSpace == '.' || !identifiers.contains(strings[i]))
+					if (!identifiers.contains(word))
 					{
-						int offset            = offsets[i];
-						int length            = word.length() - 1;
+						int offset = offsets[i];
+						int length = word.length() - 1;
 						
-						styles.add(new StyleRange(offset, length, new Color(Display.getDefault(), 4, 150, 120), null));
-					}
+						StyleRange range = new StyleRange(offset, length, identifierProperties.COLOR, null);
+						range.borderStyle = SWT.BORDER_DASH;
+						
+						styles.add(range);
 					
-					if (oldResult.onlyCharOtherThanSpace != '.')
-					{
-						identifiers.add(strings[i]);
+						identifiers.add(word);
 					}
 				}
 			}
@@ -341,36 +359,21 @@ public class CodeField extends StyledText
 			oldResult = newResult;
 		}
 		
-		if (commentStarted)
+		StyleRange range = null;
+		
+		if ((range = endComment(text.length() - commentStartLocation + 1)) != null)
 		{
-			commentStarted = false;
-			
-			{
-				int offset = commentStartLocation;
-				int length = text.length() - offset + 1;
-				
-				styles.add(new StyleRange(offset, length, commentProperties.COLOR, null));
-			}
-			
-			commentType = 0;
-			
-			commentTransText = new StringBuilder();
+			styles.add(range);
 		}
-		else if (textStarted)
+		
+		else if ((range = endText(text.length() - commentStartLocation)) != null)
 		{
-			textStarted = false;
-			
-			{
-				int offset = textBeginningLocation;
-				int length = text.length() - offset;
-				
-				styles.add(new StyleRange(offset, length, new Color(Display.getDefault(), 180, 100, 30), null));
-			}
-			
-			textBeginning = 0;
+			styles.add(range);
 		}
 		
 		thisField.setStyles((StyleRange[])styles.toArray(new StyleRange[0]));
+		
+		redrawReady = true;
 		
 		Display.getDefault().syncExec(new Runnable()
 		{
@@ -379,6 +382,48 @@ public class CodeField extends StyledText
 				thisField.redraw();
 			}
 		});
+	}
+	
+	private StyleRange endText(int length)
+	{
+		StyleRange style = null;
+		
+		if (textStarted)
+		{
+			textStarted = false;
+			
+			{
+				int offset = textBeginningLocation;
+				
+				style = new StyleRange(offset, length, new Color(Display.getDefault(), 180, 100, 30), null);
+			}
+			
+			textBeginning = 0;
+		}
+		
+		return style;
+	}
+	
+	private StyleRange endComment(int length)
+	{
+		StyleRange style = null;
+		
+		if (commentStarted)
+		{
+			commentStarted = false;
+			
+			{
+				int offset = commentStartLocation;
+				
+				style = new StyleRange(offset, length, commentProperties.COLOR, null);
+			}
+			
+			commentType = 0;
+			
+			commentTransText = new StringBuilder();
+		}
+		
+		return style;
 	}
 	
 	private SpaceBetweenResult calculateSpaceBetween(String text, int start, char chars[], ArrayList<StyleRange> styles)
@@ -429,36 +474,14 @@ public class CodeField extends StyledText
 				}
 				else if (commentStarted && (type = commentProperties.endsComment(commentTransText.toString())) != 0)
 				{
-					commentStarted = false;
-					
-					{
-						int offset = commentStartLocation;
-						int length = start + result.count - offset + 1;
-						
-						styles.add(new StyleRange(offset, length, commentProperties.COLOR, null));
-					}
-					
-					commentType = 0;
-					
-					commentTransText = new StringBuilder();
+					styles.add(endComment(start + result.count - commentStartLocation));
 				}
 				
 				if (c == '\n')
 				{
 					if (commentStarted && commentType == CommentProperties.SINGLE_LINE)
 					{
-						commentStarted = false;
-						
-						{
-							int offset = commentStartLocation;
-							int length = start + result.count - offset;
-							
-							styles.add(new StyleRange(offset, length, commentProperties.COLOR, null));
-						}
-						
-						commentType = 0;
-						
-						commentTransText = new StringBuilder();
+						styles.add(endComment(start + result.count - commentStartLocation + 1));
 					}
 				}
 			}
@@ -727,8 +750,9 @@ public class CodeField extends StyledText
 	{
 		this.language     = language;
 		
-		commentProperties = Language.getCommentProperties(language);
-		methodProperties  = Language.getMethodProperties(language);
+		commentProperties    = Language.getCommentProperties(language);
+		methodProperties     = Language.getMethodProperties(language);
+		identifierProperties = Language.getIdentifierProperties(language);
 		
 		if (language > 0)
 		{
@@ -934,24 +958,17 @@ public class CodeField extends StyledText
 //					
 //					e.bullet = bullet;
 					
-					StyleRange styles[] = thisField.getStyles();
-					
-					event.styles = styles;
+					if (redrawReady)
+					{
+						StyleRange styles[] = thisField.getStyles();
+						
+						event.styles = styles;
+					}
 				}
 		    };
 		    
 		    addLineStyleListener(lineNumbers);
 		    addLineStyleListener(syntaxHighlighting);
-		    
-		    addExtendedModifyListener(new ExtendedModifyListener()
-		    {
-				public void modifyText(ExtendedModifyEvent event)
-				{
-					redraw();
-				}
-		    });
-			
-//			lineNumberText.redraw();
 		}
 		else
 		{
