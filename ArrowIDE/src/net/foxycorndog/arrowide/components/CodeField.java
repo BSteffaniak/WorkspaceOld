@@ -2,6 +2,7 @@ package net.foxycorndog.arrowide.components;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -43,6 +44,8 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Text;
@@ -51,56 +54,89 @@ import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 
 public class CodeField extends StyledText
 {
-	private boolean							commentStarted, textStarted;
-	private boolean							redrawReady;
-	
-	private char							textBeginning;
+	private boolean										commentStarted,
+			textStarted;
+	private boolean										redrawReady;
 
-	private int								commentType, commentStartLocation;
-	private int								textBeginningLocation;
+	private char										textBeginning;
+
+	private int											commentType,
+			commentStartLocation;
+	private int											textBeginningLocation;
 	// private int oldLength, oldLineCount;
 	// private int selectionLength, selectionLines;
-	private int								lineNumberOffset;
-	private int								language;
-	private int								charWidth;
-	
-	private String							text;
-	
-	private StringBuilder					commentTransText;
-	
-	private CommentProperties				commentProperties;
-	private MethodProperties				methodProperties;
-	private IdentifierProperties			identifierProperties;
+	private int											lineNumberOffset;
+	private int											language;
+	private int											charWidth;
 
-	private LineStyleListener				lineNumbers, lineSpaces,
-			syntaxHighlighting;
+	private String										text;
 
-	private StyledText						lineNumberText;
+	private StringBuilder								commentTransText;
 
-	private StyleRange						styleRange;
+	private CommentProperties							commentProperties;
+	private MethodProperties							methodProperties;
+	private IdentifierProperties						identifierProperties;
 
-	private Composite						composite;
+	private LineStyleListener							lineNumbers,
+			lineSpaces, syntaxHighlighting;
 
-	private CodeField						thisField;
+	private StyledText									lineNumberText;
 
-	private StyleRange						styles[];
+	private StyleRange									styleRange;
+
+	private Composite									composite;
+
+	private CodeField									thisField;
+
+	private StyleRange									styles[];
 
 	// private ArrayList<ArrayList<Boolean>> tabs;
 
-	private ArrayList<ContentListener>		contentListeners;
-	private ArrayList<CodeFieldListener>	codeFieldListeners;
+	private ArrayList<ContentListener>					contentListeners;
+	private ArrayList<CodeFieldListener>				codeFieldListeners;
 
-	private HashSet<String>					identifiers;
-	
-	private static final String				whitespaceRegex;
+	private HashMap<String, WordList>					identifierLists;
+	private HashMap<WordList, String>					identifierWords;
 
-	private static final char				whitespaceArray[];
+	private static final String							whitespaceRegex;
+
+	private static final char							whitespaceArray[];
 	
 	static
 	{
 		whitespaceRegex = "[.,[ ]/*=()\r\n\t\\[\\]{};[-][+]['][\"]:[-][+]><!]";
 		
 		whitespaceArray = new char[] { ' ', '.', ',', '/', '*', '=', '(', ')', '[', ']', '{', '}', ';', '\n', '\t', '\r', '-', '+', '\'', '"', ':', '-', '+', '>', '<', '!' };
+	}
+	
+	private class WordStyle
+	{
+		private StyleRange style;
+	}
+	
+	private class WordList
+	{
+		private ArrayList<WordStyle> locs;
+		
+		public WordList()
+		{
+			locs = new ArrayList<WordStyle>();
+		}
+		
+		public void add(WordStyle loc)
+		{
+			locs.add(loc);
+		}
+		
+		public WordStyle get(int index)
+		{
+			return locs.get(index);
+		}
+		
+		public int size()
+		{
+			return locs.size();
+		}
 	}
 	
 	private class SpaceBetweenResult
@@ -120,7 +156,8 @@ public class CodeField extends StyledText
 		contentListeners      = new ArrayList<ContentListener>();
 		codeFieldListeners    = new ArrayList<CodeFieldListener>();
 		
-		identifiers           = new HashSet<String>();
+		identifierLists           = new HashMap<String, WordList>();
+		identifierWords           = new HashMap<WordList, String>();
 		
 		setText("");
 		setBounds(new Rectangle(0, 0, 100, 100));
@@ -141,29 +178,46 @@ public class CodeField extends StyledText
 	    
 //	    highlightSyntax();
 	    
-//	    addSelectionListener(new SelectionListener()
-//	    {
-//			public void widgetSelected(SelectionEvent e)
-//			{
-//				if (getSelectionCount() > 0)
-//				{
-//					selectionLines  = getLineAtOffset(getSelectionCount() + getSelection().x) - getLineAtOffset(getSelection().x);
-//					selectionLength = getSelectionCount();
-//				}
-//				else
-//				{
-//					selectionLines  = 0;
-//					selectionLength = 0;
-//				}
-//				
-//				System.out.println("Selected: " + selectionLength + ", " + selectionLines);
-//			}
-//
-//			public void widgetDefaultSelected(SelectionEvent e)
-//			{
-//				widgetSelected(e);
-//			}
-//	    });
+	    Listener identifierSelectorListener = new Listener()
+	    {
+			public void handleEvent(Event e)
+			{
+				int offset = thisField.getCaretOffset();
+				
+				String word = null;
+				
+				WordList locs[] = identifierLists.values().toArray(new WordList[0]);
+				
+				for (int i = 0; i < locs.length; i++)
+				{
+					WordList list = locs[i];
+					
+					for (int j = 0; j < list.size(); j++)
+					{
+						WordStyle loc = list.get(j);
+						
+						if (offset >= loc.style.start && offset <= loc.style.start + loc.style.length + 1)
+						{
+							word = identifierWords.get(list);
+						}
+						else
+						{
+							loc.style.borderStyle = SWT.NONE;
+						}
+					}
+				}
+				
+				if (word != null)
+				{
+					setIdentifierSelected(word);
+				}
+				
+				redraw();
+			}
+	    };
+	    
+	    addListener(SWT.MouseDown, identifierSelectorListener);
+	    addListener(SWT.KeyDown, identifierSelectorListener);
 	    
 	    addKeyListener(new KeyListener()
 	    {
@@ -236,6 +290,18 @@ public class CodeField extends StyledText
 	    });
 	}
 	
+	public void setIdentifierSelected(String word)
+	{
+		WordList list = identifierLists.get(word);
+		
+		for (int i = 0; i < list.size(); i++)
+		{
+			WordStyle loc = list.get(i);
+			
+			loc.style.borderStyle = SWT.BORDER_DASH;
+		}
+	}
+	
 	public void highlightSyntax()
 	{
 		redrawReady = false;
@@ -306,15 +372,21 @@ public class CodeField extends StyledText
 //					setStyleRange(styleRange);
 //					setStyleRanges(new StyleRange[] { styleRange });
 			}
-			else if (identifiers.contains(word))
+			else if (identifierLists.containsKey(word))
 			{
 				int offset            = charCount;
 				int length            = word.length() - 1;
 				
 				StyleRange range = new StyleRange(offset, length, new Color(Display.getDefault(), 4, 150, 120), null);
-				range.borderStyle = SWT.BORDER_DASH;
 				
 				styles.add(range);
+				
+				WordStyle loc = new WordStyle();
+				loc.style = range;
+				
+				WordList locs = identifierLists.get(word);
+				
+				locs.add(loc);
 			}
 			
 			boolean textWasStarted    = textStarted;
@@ -341,17 +413,23 @@ public class CodeField extends StyledText
 			{
 				if (!isKeyword && identifierProperties.isQualified(oldResult.onlyChar, newResult.firstCharOtherThanSpace, word, prevWord))
 				{
-					if (!identifiers.contains(word))
+					if (!identifierLists.containsKey(word))
 					{
 						int offset = offsets[i];
 						int length = word.length() - 1;
 						
 						StyleRange range = new StyleRange(offset, length, identifierProperties.COLOR, null);
-						range.borderStyle = SWT.BORDER_DASH;
 						
 						styles.add(range);
-					
-						identifiers.add(word);
+						
+						WordStyle loc = new WordStyle();
+						loc.style = range;
+						
+						WordList locs = new WordList();
+						locs.add(loc);
+						
+						identifierLists.put(word, locs);
+						identifierWords.put(locs, word);
 					}
 				}
 			}
