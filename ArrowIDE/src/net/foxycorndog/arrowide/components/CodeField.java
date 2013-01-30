@@ -431,7 +431,10 @@ public class CodeField extends StyledText
 		{
 			public void run()
 			{
-				thisField.redraw();//Range(0, thisField.getText().length(), true);
+				if (thisField != null)
+				{
+					thisField.redraw();//Range(0, thisField.getText().length(), true);
+				}
 			}
 		});
 	}

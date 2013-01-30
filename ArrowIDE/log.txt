@@ -1,0 +1,11 @@
+Compiled successfully.
+StackList { namestest, fdasd, asdf2, asd, asdf23, namestest }
+Compiled successfully.
+StackList { namestest, fdasd, asdf2, test, asd, asdf23, namestest }
+StackList { namestest, fdasd, asdf2, asd, asdf23, namestest }
+Compiled successfully.
+StackList { namestest, fdasd, asdf2, test, asd, asdf23, namestest }
+StackList { asdf2, fdasd, namestest }
+StackList { fdasd, namestest }
+StackList { namestest }
+StackList { namestest, fdasd, asdf2, asd, asdf23, namestest }

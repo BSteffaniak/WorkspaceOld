@@ -14,40 +14,44 @@ public class Driver
 	 */
 	public static void main(String args[])
 	{
-		QueueList queue = new QueueList();
-		
-		System.out.println(queue);
-		
-		queue.enqueue("Bill");
-		queue.enqueue("Fred");
-		queue.enqueue("Joe");
-		queue.enqueue("Henrietta");
-		queue.enqueue("Mr. M");
-		queue.enqueue("Norman");
-		
-		System.out.println(queue);
-		
-		System.out.println(queue.dequeue());
-		System.out.println(queue.dequeue());
-		
-		System.out.println(queue);
-		
 		StackList stack = new StackList();
 		
-		System.out.println(stack);
-		
-		stack.push("Bill");
-		stack.push("Fred");
-		stack.push("Joe");
-		stack.push("Henrietta");
-		stack.push("Mr. M");
-		stack.push("Norman");
-		
-		System.out.println(stack);
-		
-		System.out.println(stack.pop());
-		System.out.println(stack.pop());
+		stack.push("namestest");
+		stack.push("asdf23");
+		stack.push("asd");
+		stack.push("test");
+		stack.push("asdf2");
+		stack.push("fdasd");
+		stack.push("namestest");
 		
 		System.out.println(stack);
+		
+		quest1007(stack, "test");
+		
+		System.out.println(stack);
+	}
+	
+	public void test()
+	{
+		
+	}
+	
+	public static void quest1007(StackList s, String name)
+	{
+		StackList temp = new StackList();
+		
+		boolean done = false;
+		while (!done)
+		{
+			String item = (String) s.pop();
+			done = item.equals(name);
+			
+			if (!done)
+				temp.push(item);
+		}
+		while (!temp.isEmpty())
+		{
+			s.push(temp.pop());
+		}
 	}
 }
