@@ -16,7 +16,7 @@ public class Test
 					{
 						Thread.sleep(1000);
 						
-						System.out.println(++times);
+						System.out.println(times++);
 					}
 					catch (InterruptedException e)
 					{

@@ -11,11 +11,11 @@ import static net.foxycorndog.arrowide.language.foxy.FoxyLanguage.KEYWORD_COLOR;
 
 public class FoxyKeyword
 {
-	public static final Keyword
-			INT	= new Keyword(FOXY, "int", KEYWORD_COLOR);
+	public static Keyword
+			INT;
 	
 	public static void init()
 	{
-		
+		INT	= new Keyword(FOXY, "int", KEYWORD_COLOR);
 	}
 }
