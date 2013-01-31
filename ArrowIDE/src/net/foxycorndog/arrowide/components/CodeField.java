@@ -2,6 +2,7 @@ package net.foxycorndog.arrowide.components;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -497,10 +498,15 @@ public class CodeField extends StyledText
 			}
 		});
 		
-		HashMap<String, WordList> tempIdLists     = (HashMap<String, WordList>) identifierLists.clone();
-		HashMap<String, WordList> tempMethodLists = (HashMap<String, WordList>) methodLists.clone();
-		HashMap<WordList, String> tempIdWords     = (HashMap<WordList, String>) identifierWords.clone();
-		HashMap<WordList, String> tempMethodWords = (HashMap<WordList, String>) methodWords.clone();
+		HashMap<String, WordList> tempIdLists     = null;
+		HashMap<String, WordList> tempMethodLists = null;
+		HashMap<WordList, String> tempIdWords     = null;
+		HashMap<WordList, String> tempMethodWords = null;
+		
+		tempIdLists     = (HashMap<String, WordList>) identifierLists.clone();
+		tempMethodLists = (HashMap<String, WordList>) methodLists.clone();
+		tempIdWords     = (HashMap<WordList, String>) identifierWords.clone();
+		tempMethodWords = (HashMap<WordList, String>) methodWords.clone(); //TODO fix this....
 		
 		HashSet<WordRange> idRanges     = new HashSet<WordRange>();
 		HashSet<WordRange> methodRanges = new HashSet<WordRange>();
@@ -588,23 +594,26 @@ public class CodeField extends StyledText
 				
 				WordLocation loc = new WordLocation(offset, length);
 				
-				if (list.containsWordLocation(loc))
+				synchronized (list)
 				{
-					StyleRange range = list.getWordStyle(loc);
-					
-					idRanges.add(new WordRange(word, range));
-					identifierWords.put(list, word);
-					
-					styles.add(range);
-				}
-				else
-				{
-					StyleRange range = new StyleRange(offset, length, new Color(Display.getDefault(), 4, 150, 120), null);
-					
-					styles.add(range);
-					
-					idRanges.add(new WordRange(word, range));
-					identifierWords.put(list, word);
+					if (list.containsWordLocation(loc))
+					{
+						StyleRange range = list.getWordStyle(loc);
+						
+						idRanges.add(new WordRange(word, range));
+						identifierWords.put(list, word);
+						
+						styles.add(range);
+					}
+					else
+					{
+						StyleRange range = new StyleRange(offset, length, new Color(Display.getDefault(), 4, 150, 120), null);
+						
+						styles.add(range);
+						
+						idRanges.add(new WordRange(word, range));
+						identifierWords.put(list, word);
+					}
 				}
 				
 				alreadyAdded = true;
@@ -644,23 +653,26 @@ public class CodeField extends StyledText
 					
 					WordLocation loc = new WordLocation(offset, length);
 					
-					if (list.containsWordLocation(loc))
+					synchronized (list)
 					{
-						StyleRange range = list.getWordStyle(loc);
-						
-						methodRanges.add(new WordRange(word, range));
-						methodWords.put(list, word);
-						
-						styles.add(range);
-					}
-					else
-					{
-						StyleRange range = new StyleRange(offset, length, methodProperties.COLOR, null);
-						
-						styles.add(range);
-
-						methodRanges.add(new WordRange(word, range));
-						tempMethodLists.get(word).add(range);
+						if (list.containsWordLocation(loc))
+						{
+							StyleRange range = list.getWordStyle(loc);
+							
+							methodRanges.add(new WordRange(word, range));
+							methodWords.put(list, word);
+							
+							styles.add(range);
+						}
+						else
+						{
+							StyleRange range = new StyleRange(offset, length, methodProperties.COLOR, null);
+							
+							styles.add(range);
+	
+							methodRanges.add(new WordRange(word, range));
+							tempMethodLists.get(word).add(range);
+						}
 					}
 				}
 				else
@@ -764,22 +776,50 @@ public class CodeField extends StyledText
 		
 		for (int i = 0; i < idArr.length; i++)
 		{
-			identifierLists.get(idArr[i].word).styles.clear();
+			WordList list = identifierLists.get(idArr[i].word);
+			
+			if (list == null)
+			{
+				continue;
+			}
+			
+			list.styles.clear();
 		}
 		
 		for (int i = 0; i < methodArr.length; i++)
 		{
-			methodLists.get(methodArr[i].word).styles.clear();
+			WordList list = methodLists.get(methodArr[i].word);
+			
+			if (list == null)
+			{
+				continue;
+			}
+			
+			list.styles.clear();
 		}
 		
 		for (int i = 0; i < idArr.length; i++)
 		{
-			identifierLists.get(idArr[i].word).add(idArr[i].range);
+			WordList list = identifierLists.get(idArr[i].word);
+			
+			if (list == null)
+			{
+				continue;
+			}
+			
+			list.add(idArr[i].range);
 		}
 		
 		for (int i = 0; i < methodArr.length; i++)
 		{
-			methodLists.get(methodArr[i].word).add(methodArr[i].range);
+			WordList list = methodLists.get(methodArr[i].word);
+			
+			if (list == null)
+			{
+				continue;
+			}
+			
+			list.add(methodArr[i].range);
 		}
 		
 		StyleRange range = null;
