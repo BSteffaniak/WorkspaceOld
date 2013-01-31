@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.file.FileUtils;
+import net.foxycorndog.arrowide.formatter.Formatter;
 import net.foxycorndog.arrowide.language.CommentProperties;
 import net.foxycorndog.arrowide.language.IdentifierProperties;
 import net.foxycorndog.arrowide.language.Keyword;
@@ -25,14 +26,22 @@ import org.eclipse.swt.custom.LineStyleListener;
 import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.custom.VerifyKeyListener;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
+import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
@@ -54,8 +63,7 @@ import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 
 public class CodeField extends StyledText
 {
-	private boolean										commentStarted,
-			textStarted;
+	private boolean										commentStarted, textStarted;
 	private boolean										redrawReady;
 
 	private char										textBeginning;
@@ -322,6 +330,46 @@ public class CodeField extends StyledText
 	    
 	    addListener(SWT.MouseDown, identifierSelectorListener);
 	    addListener(SWT.KeyDown, identifierSelectorListener);
+	    
+		addTraverseListener(new TraverseListener()
+		{
+			public void keyTraversed(TraverseEvent e)
+			{
+				if (e.detail == SWT.TRAVERSE_TAB_PREVIOUS)
+				{
+					e.doit = false;
+				}
+			}
+		});
+	    
+	    addVerifyKeyListener(new VerifyKeyListener()
+		{
+			public void verifyKey(VerifyEvent e)
+			{
+				if (e.character == '\t' && getSelectionCount() > 0)
+				{
+					if ((e.stateMask & SWT.SHIFT) != 0)
+					{
+						Formatter.unIndent(thisField);
+					}
+					else
+					{
+						Formatter.indent(thisField);
+					}
+					
+					contentChanged();
+					
+					e.doit = false;
+				}
+				else if (e.character == 6 && (e.stateMask & (Integer)PROPERTIES.get("key.control")) != 0 && (e.stateMask & SWT.SHIFT) != 0)
+				{
+					Formatter.format(thisField);
+					highlightSyntax();
+
+					contentChanged();
+				}
+			}
+		});
 	    
 	    addKeyListener(new KeyListener()
 	    {
@@ -1104,6 +1152,21 @@ public class CodeField extends StyledText
 	public int getHeight()
 	{
 		return getBounds().height;
+	}
+	
+	public CommentProperties getCommentProperties()
+	{
+		return commentProperties;
+	}
+	
+	public MethodProperties getMethodProperties()
+	{
+		return methodProperties;
+	}
+	
+	public IdentifierProperties getIdentifierProperties()
+	{
+		return identifierProperties;
 	}
 	
 	public int getLanguage()

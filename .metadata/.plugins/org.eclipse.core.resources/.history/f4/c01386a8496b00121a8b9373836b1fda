@@ -1,0 +1,84 @@
+package net.foxycorndog.arrowide.formatter;
+
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.graphics.Point;
+
+public class Formatter
+{
+	public static void indent(StyledText text)
+	{
+		if (text.getSelectionCount() == 0)
+		{
+			return;
+		}
+		
+		Point sel = text.getSelection();
+		int start = sel.x;
+		
+		String txt = text.getText();
+		
+		start--;
+		
+		while (start >= 0 && (txt.charAt(start) != '\n' && txt.charAt(start) != '\r'))
+		{
+			start--;
+		}
+		
+		start++;
+		
+		int offset  = start;
+		int offsetY = 0;
+		
+		while (offset < sel.y + offsetY)
+		{
+			text.setSelection(offset);
+			text.insert("\b");
+			offsetY++;
+			
+			int lineNum = text.getLineAtOffset(offset);
+			
+			offset += text.getLine(lineNum).length() + 2;
+		}
+		
+		text.setSelection(sel.x + 1, sel.y + offsetY);
+	}
+	
+	public static void unIndent(StyledText text)
+	{
+		if (text.getSelectionCount() == 0)
+		{
+			return;
+		}
+		
+		Point sel = text.getSelection();
+		int start = sel.x;
+		
+		String txt    = text.getText();
+		
+		while (start >= 0 && (txt.charAt(start) != '\n' && txt.charAt(start) != '\r'))
+		{
+			start--;
+		}
+		
+		start++;
+		
+//		text.
+		
+		txt = text.getText(start, sel.y);
+		
+		int offset  = start;
+		int offsetY = 0;
+		
+		while (offset < sel.y + offsetY)
+		{
+			text.setSelection(offset);
+			offsetY++;
+			
+			int lineNum = text.getLineAtOffset(offset);
+			
+			offset += text.getLine(lineNum).length() + 2;
+		}
+		
+		text.setSelection(sel.x + 1, sel.y + offsetY);
+	}
+}

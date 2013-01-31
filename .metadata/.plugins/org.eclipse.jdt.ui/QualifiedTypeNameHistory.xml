@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.foxycorndog.arrowide.file.FileUtils"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.events.ShellListener"/>
-<fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.TitleBar"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.ToolBar"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.events.SelectionListener"/>
-<fullyQualifiedTypeName name="java.awt.Button"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.graphics.Region"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.graphics.Image"/>
-<fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Shell"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.MouseMoveListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.MouseListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.MouseTrackListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Tracker"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Rectangle"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.events.ControlListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.DisposeListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Composite"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Button"/>
@@ -31,7 +21,6 @@
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Control"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.menubar.DropdownMenuListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Widget"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.graphics.Point"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Listener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
 <fullyQualifiedTypeName name="javax.tools.JavaCompiler"/>
@@ -48,7 +37,6 @@
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.CommentType"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.glsl.GLSLLanguage"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.glsl.GLSLKeyword"/>
-<fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.CommentProperties"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Color"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.MethodProperties"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.IdentifierProperties"/>
@@ -60,4 +48,16 @@
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.CodeField.WordLocation"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="java.util.HashSet"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.custom.StyledText"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.graphics.Point"/>
+<fullyQualifiedTypeName name="net.foxycorndog.arrowide.formatter.Formatter"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.events.ModifyListener"/>
+<fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.ContentListener"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.events.ControlListener"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.custom.ExtendedModifyListener"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.events.TraverseListener"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.custom.VerifyKeyListener"/>
+<fullyQualifiedTypeName name="java.lang.StringBuilder"/>
+<fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.CodeField"/>
+<fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.CommentProperties"/>
 </qualifiedTypeNameHistroy>

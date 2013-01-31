@@ -50,6 +50,7 @@ import net.foxycorndog.arrowide.dialog.preferencesdialogpanel.CppPanel;
 import net.foxycorndog.arrowide.dialog.preferencesdialogpanel.GeneralPanel;
 import net.foxycorndog.arrowide.file.ConfigReader;
 import net.foxycorndog.arrowide.file.FileUtils;
+import net.foxycorndog.arrowide.formatter.Formatter;
 import net.foxycorndog.arrowide.language.CompilerListener;
 import net.foxycorndog.arrowide.language.Keyword;
 import net.foxycorndog.arrowide.language.Language;

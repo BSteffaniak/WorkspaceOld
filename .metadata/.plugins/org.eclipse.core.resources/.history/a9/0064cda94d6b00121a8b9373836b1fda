@@ -1,0 +1,94 @@
+package net.foxycorndog.arrowide.formatter;
+
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.graphics.Point;
+
+public class Formatter
+{
+	public static void indent(StyledText text)
+	{
+		if (text.getSelectionCount() == 0)
+		{
+			return;
+		}
+		
+		Point sel = text.getSelection();
+		int start = sel.x;
+		
+		String txt = text.getText();
+		
+		start--;
+		
+		while (start >= 0 && (txt.charAt(start) != '\n' && txt.charAt(start) != '\r'))
+		{
+			start--;
+		}
+		
+		start++;
+		
+		int offset  = start;
+		int offsetY = 0;
+		
+		while (offset < sel.y + offsetY)
+		{
+			text.setSelection(offset);
+			text.insert("\t");
+			offsetY++;
+			
+			int lineNum = text.getLineAtOffset(offset);
+			
+			offset += text.getLine(lineNum).length() + 2;
+		}
+		
+		text.setSelection(sel.x + 1, sel.y + offsetY);
+	}
+	
+	public static void unIndent(StyledText text)
+	{
+		if (text.getSelectionCount() == 0)
+		{
+			return;
+		}
+		
+		Point sel = text.getSelection();
+		int start = sel.x;
+		
+		StringBuilder builder = new StringBuilder(text.getText());
+		
+		start--;
+		
+		while (start >= 0 && (builder.charAt(start) != '\n' && builder.charAt(start) != '\r'))
+		{
+			start--;
+		}
+		
+		start++;
+		
+		int offset  = start;
+		int offsetY = 0;
+		
+		StringBuilder txt = new StringBuilder(builder.subSequence(start, sel.y));
+		
+		builder.delete(start, sel.y);
+		
+		int locStart = 0;
+		
+		while (locStart < txt.length())
+		{
+			txt.deleteCharAt(locStart);
+			offsetY++;
+			
+			int lineNum = text.getLineAtOffset(offset);
+			
+			locStart += text.getLine(lineNum).length() + 1;
+			
+			offset = start + locStart + 1;
+		}
+		
+		builder.insert(start, txt);
+		
+		text.setText(builder.toString());
+		
+		text.setSelection(sel.x - 1, sel.x + txt.length() - offsetY);//sel.x - 1, sel.y + offsetY);
+	}
+}
