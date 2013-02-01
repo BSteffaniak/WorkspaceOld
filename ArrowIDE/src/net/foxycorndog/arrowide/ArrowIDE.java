@@ -2224,7 +2224,6 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			if (tabId == oldTabId)
 			{
 				oldTabId = newId;
-				System.out.println("changing ????2");
 			}
 			
 			if (tabId != newId)

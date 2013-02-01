@@ -66,6 +66,11 @@ public class Keyword
 	
 	public static boolean isKeyword(int language, String word)
 	{
+		if (!keywords.containsKey(language))
+		{
+			return false;
+		}
+		
 		return keywords.get(language).containsKey(word);
 	}
 	

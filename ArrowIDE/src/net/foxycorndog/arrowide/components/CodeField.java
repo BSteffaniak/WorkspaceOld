@@ -60,6 +60,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Text;
 
+import com.sun.istack.internal.Builder;
+
 import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 
 public class CodeField extends StyledText
@@ -642,20 +644,28 @@ public class CodeField extends StyledText
 			
 			charCount += word.length() + newResult.count;
 			
-			StyleRange lastStyle = styles.get(styles.size() - 1);
+			StyleRange lastStyle = null;
+			
+			if (styles.size() > 0)
+			{
+				styles.get(styles.size() - 1);
+			}
 			
 			for (int j = 0; j < errorLocations.size(); j++)
 			{
 				ErrorLocation loc = errorLocations.get(j);
 				
-				if (lastStyle.start + lastStyle.length + newResult.count >= loc.start)
+				int length = loc.end - loc.start;
+				
+				if (lastStyle.start + lastStyle.length + newResult.count >= loc.start && lastStyle.start + lastStyle.length <= loc.end + 1)
 				{
 					StyleRange range = new StyleRange();
 					
-					int offset = loc.end - loc.start == 0 ? 1 : 0;
+					int offsetStart  = length <= 1 && !isPrintable(text.charAt(loc.start)) ? 1 : 0;
+					int offsetLength = length == 0 ? 1 : 0;
 					
-					range.start      = loc.start - offset;
-					range.length     = loc.end - loc.start + 1;
+					range.start     = loc.start - offsetStart;
+					range.length    = loc.end - loc.start + offsetLength;
 					range.underline = true;
 					range.underlineStyle = SWT.UNDERLINE_SQUIGGLE;
 					range.underlineColor = new Color(Display.getDefault(), 240, 0, 0);
@@ -742,7 +752,7 @@ public class CodeField extends StyledText
 					addStyleRange(styles, range);
 				}
 			}
-			else
+			else if (identifierProperties != null)
 			{
 				if (!alreadyAdded && identifierProperties.isQualified(oldResult.onlyChar, newResult.firstCharOtherThanSpace, word, prevWord))
 				{
@@ -973,7 +983,7 @@ public class CodeField extends StyledText
 				}
 				else if (commentStarted && (type = commentProperties.endsComment(commentTransText.toString())) != 0)
 				{
-					styles.add(endComment(start + result.count - commentStartLocation));
+					styles.add(endComment(start + result.count - commentStartLocation + 1));
 				}
 				
 				if (c == '\n')
@@ -1003,7 +1013,7 @@ public class CodeField extends StyledText
 							
 							{
 								int offset = textBeginningLocation;
-								int length = start + result.count - offset;
+								int length = start + result.count - offset + 1;
 								
 								styles.add(new StyleRange(offset, length, new Color(Display.getDefault(), 180, 100, 30), null));
 							}

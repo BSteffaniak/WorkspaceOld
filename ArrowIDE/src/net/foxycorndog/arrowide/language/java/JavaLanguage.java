@@ -258,11 +258,11 @@ public class JavaLanguage
 		
 		ArrayList<Diagnostic> ds = new ArrayList<Diagnostic>();
 		
+		ArrayList<String> errors = new ArrayList<String>();
+		
 		//If compilation error occurs
 		if (!status)
 		{
-			HashSet<String> errors = new HashSet<String>();
-			
 			/*Iterate through each compilation problem and print it*/
 			for (Diagnostic d : diagnostics.getDiagnostics())
 			{
@@ -300,7 +300,7 @@ public class JavaLanguage
 		{
 			for (int i = 0; i < ds.size(); i++)
 			{
-				outputs[i] = new CompileOutput((int)ds.get(i).getStartPosition(), (int)ds.get(i).getEndPosition(), (int)ds.get(i).getLineNumber(), status ? 0 : 1, error.toString());
+				outputs[i] = new CompileOutput((int)ds.get(i).getStartPosition(), (int)ds.get(i).getEndPosition(), (int)ds.get(i).getLineNumber(), status ? 0 : 1, errors.get(i));
 			}
 		}
 		else
