@@ -86,12 +86,12 @@ public class CodeField extends StyledText
 	private MethodProperties							methodProperties;
 	private IdentifierProperties						identifierProperties;
 
+	private Listener									identifierSelectorListener;
+
 	private LineStyleListener							lineNumbers,
 			lineSpaces, syntaxHighlighting;
-
+	
 	private StyledText									lineNumberText;
-
-	private StyleRange									styleRange;
 
 	private Composite									composite;
 
@@ -101,6 +101,7 @@ public class CodeField extends StyledText
 
 	// private ArrayList<ArrayList<Boolean>> tabs;
 
+	private ArrayList<ErrorLocation>					errorLocations;
 	private ArrayList<ContentListener>					contentListeners;
 	private ArrayList<CodeFieldListener>				codeFieldListeners;
 
@@ -118,6 +119,17 @@ public class CodeField extends StyledText
 		whitespaceRegex = "[.,[ ]/*=()\r\n\t\\[\\]{};[-][+]['][\"]:[-][+]><!]";
 		
 		whitespaceArray = new char[] { ' ', '.', ',', '/', '*', '=', '(', ')', '[', ']', '{', '}', ';', '\n', '\t', '\r', '-', '+', '\'', '"', ':', '-', '+', '>', '<', '!' };
+	}
+	
+	private class ErrorLocation
+	{
+		private int start, end;
+		
+		public ErrorLocation(int start, int end)
+		{
+			this.start = start;
+			this.end   = end;
+		}
 	}
 	
 	private class WordList
@@ -222,6 +234,7 @@ public class CodeField extends StyledText
 		
 		this.composite = comp;
 		
+		errorLocations        = new ArrayList<ErrorLocation>();
 		contentListeners      = new ArrayList<ContentListener>();
 		codeFieldListeners    = new ArrayList<CodeFieldListener>();
 		
@@ -249,7 +262,7 @@ public class CodeField extends StyledText
 	    
 //	    highlightSyntax();
 	    
-	    Listener identifierSelectorListener = new Listener()
+	    identifierSelectorListener = new Listener()
 	    {
 			public void handleEvent(final Event e)
 			{
@@ -314,7 +327,7 @@ public class CodeField extends StyledText
 							setMethodSelected(method);
 						}
 						
-						if (e.type == SWT.MouseDown)
+						if (e == null || e.type == SWT.MouseDown)
 						{
 							Display.getDefault().syncExec(new Runnable()
 							{
@@ -358,16 +371,21 @@ public class CodeField extends StyledText
 						Formatter.indent(thisField);
 					}
 					
-					contentChanged();
-					
 					e.doit = false;
 				}
 				else if (e.character == 6 && (e.stateMask & (Integer)PROPERTIES.get("key.control")) != 0 && (e.stateMask & SWT.SHIFT) != 0)
 				{
 					Formatter.format(thisField);
-					highlightSyntax();
 
 					contentChanged();
+				}
+				else if (e.character == 1 && (e.stateMask & (Integer)PROPERTIES.get("key.control")) != 0)
+				{
+					int pos = getTopPixel();
+					
+					selectAll();
+					
+					setTopPixel(pos);
 				}
 			}
 		});
@@ -443,6 +461,11 @@ public class CodeField extends StyledText
 	    });
 	}
 	
+	public void selected()
+	{
+		identifierSelectorListener.handleEvent(null);
+	}
+	
 	public void setIdentifierSelected(String word)
 	{
 		StyleRange list[] = identifierLists.get(word).stylesToArray();
@@ -516,17 +539,10 @@ public class CodeField extends StyledText
 		identifierWords.clear();
 		methodWords.clear();
 		
-		StyleRange styleRange = new StyleRange();
-		styleRange.start      = 0;
-		styleRange.length     = text.length();
-		styleRange.foreground = new Color(Display.getDefault(), 0, 0, 0);
-		
 //		setStyleRange(styleRange);
 //		setStyleRanges(new StyleRange[] { styleRange });
 		
 		ArrayList<StyleRange> styles = new ArrayList<StyleRange>();
-		
-		styles.add(styleRange);
 		
 		String strings[] = text.split("\\s*" + whitespaceRegex + "+\\s*");//whitespaceRegex);
 		int    offsets[] = new int[strings.length];
@@ -556,8 +572,6 @@ public class CodeField extends StyledText
 		
 			boolean alreadyAdded = false;
 			
-//			System.out.println("i: " + i + ",\tword: " + word + ",\toffset: " + offsets[i] + ",\tlength: " + word.length() + ",\tsize: " + text.length());
-			
 			if (commentStarted || textStarted)
 			{
 				
@@ -567,11 +581,11 @@ public class CodeField extends StyledText
 				Keyword keyword       = Keyword.getKeyword(language, word);
 				
 				int offset            = offsets[i];
-				int length            = word.length() - 1;
+				int length            = word.length();
 				
 				StyleRange range = new StyleRange(offset, length, keyword.getColor(), null);
 				
-				styles.add(range);
+				addStyleRange(styles, range);
 			}
 			else if (tempIdLists.containsKey(word))
 			{
@@ -588,7 +602,7 @@ public class CodeField extends StyledText
 				}
 				
 				int offset = offsets[i];
-				int length = word.length() - 1;
+				int length = word.length();
 				
 				WordList list    = tempIdLists.get(word);
 				
@@ -602,14 +616,14 @@ public class CodeField extends StyledText
 						
 						idRanges.add(new WordRange(word, range));
 						identifierWords.put(list, word);
-						
-						styles.add(range);
+
+						addStyleRange(styles, range);
 					}
 					else
 					{
 						StyleRange range = new StyleRange(offset, length, new Color(Display.getDefault(), 4, 150, 120), null);
-						
-						styles.add(range);
+
+						addStyleRange(styles, range);
 						
 						idRanges.add(new WordRange(word, range));
 						identifierWords.put(list, word);
@@ -626,6 +640,25 @@ public class CodeField extends StyledText
 			
 			charCount += word.length() + newResult.count;
 			
+			StyleRange lastStyle = styles.get(styles.size() - 1);
+			
+			for (int j = 0; j < errorLocations.size(); j++)
+			{
+				ErrorLocation loc = errorLocations.get(j);
+				
+				if (lastStyle.start + lastStyle.length + newResult.count >= loc.start)
+				{
+					StyleRange range = new StyleRange();
+					range.start      = loc.start;
+					range.length     = loc.end - loc.start + 1;
+					range.underline = true;
+					range.underlineStyle = SWT.UNDERLINE_SQUIGGLE;
+					range.underlineColor = new Color(Display.getDefault(), 240, 0, 0);
+					
+					styles.add(range);
+				}
+			}
+			
 			if (isKeyword || (commentWasStarted) || textWasStarted)//commentStartLocation < offsets[i] || textStartLocation < offsets[i])
 			{
 				
@@ -633,7 +666,7 @@ public class CodeField extends StyledText
 			else if (newResult.firstCharOtherThanSpace == '(')
 			{
 				int offset = offsets[i];
-				int length = word.length() - 1;
+				int length = word.length();
 				
 				if (tempMethodLists.containsKey(word))
 				{
@@ -661,14 +694,14 @@ public class CodeField extends StyledText
 							
 							methodRanges.add(new WordRange(word, range));
 							methodWords.put(list, word);
-							
-							styles.add(range);
+
+							addStyleRange(styles, range);
 						}
 						else
 						{
 							StyleRange range = new StyleRange(offset, length, methodProperties.COLOR, null);
-							
-							styles.add(range);
+
+							addStyleRange(styles, range);
 	
 							methodRanges.add(new WordRange(word, range));
 							tempMethodLists.get(word).add(range);
@@ -700,8 +733,8 @@ public class CodeField extends StyledText
 						tempMethodLists.put(word, locs);
 						tempMethodWords.put(locs, word);
 //					}
-					
-					styles.add(range);
+
+					addStyleRange(styles, range);
 				}
 			}
 			else
@@ -709,7 +742,7 @@ public class CodeField extends StyledText
 				if (!alreadyAdded && identifierProperties.isQualified(oldResult.onlyChar, newResult.firstCharOtherThanSpace, word, prevWord))
 				{
 					int offset = offsets[i];
-					int length = word.length() - 1;
+					int length = word.length();
 					
 					boolean added = false;
 					
@@ -737,14 +770,14 @@ public class CodeField extends StyledText
 
 							idRanges.add(new WordRange(word, range));
 							identifierWords.put(list, word);
-							
-							styles.add(range);
+
+							addStyleRange(styles, range);
 						}
 						else
 						{
 							StyleRange range = new StyleRange(offset, length, new Color(Display.getDefault(), 4, 150, 120), null);
-							
-							styles.add(range);
+
+							addStyleRange(styles, range);
 
 							idRanges.add(new WordRange(word, range));
 							tempIdLists.get(word).add(range);
@@ -753,8 +786,8 @@ public class CodeField extends StyledText
 					else
 					{
 						StyleRange range = new StyleRange(offset, length, identifierProperties.COLOR, null);
-						
-						styles.add(range);
+
+						addStyleRange(styles, range);
 						
 						WordList locs = new WordList();
 						locs.add(range);
@@ -826,15 +859,32 @@ public class CodeField extends StyledText
 		
 		if ((range = endComment(text.length() - commentStartLocation + 1)) != null)
 		{
-			styles.add(range);
+			addStyleRange(styles, range);
 		}
 		
 		else if ((range = endText(text.length() - commentStartLocation)) != null)
 		{
-			styles.add(range);
+			addStyleRange(styles, range);
 		}
 		
 		thisField.setStyles((StyleRange[])styles.toArray(new StyleRange[0]));
+	}
+	
+	private void addStyleRange(ArrayList<StyleRange> styles, StyleRange range)
+	{
+		for (int i = 0; i < errorLocations.size(); i++)
+		{
+			ErrorLocation loc = errorLocations.get(i);
+			
+			if (range.start + range.length >= loc.start && loc.end >= range.start)
+			{
+				range.underline = true;
+				range.underlineStyle = SWT.UNDERLINE_SQUIGGLE;
+				range.underlineColor = new Color(Display.getDefault(), 240, 0, 0);
+			}
+		}
+		
+		styles.add(range);
 	}
 	
 	private StyleRange endText(int length)
@@ -893,24 +943,15 @@ public class CodeField extends StyledText
 			
 			if (commentProperties != null && !textStarted)
 			{
-				// TODO: maybe try only using commentTransText w/o trans local var.
-				String trans = commentTransText.toString() + c;
+				commentTransText.append(c);
 				
-				boolean isTrans = (!commentStarted && commentProperties.startsToStartComment(trans)) || (commentStarted && commentProperties.startsToEndComment(trans));
+				boolean isTrans =
+						(!commentStarted && commentProperties.startsToStartComment(commentTransText.toString()))
+						|| (commentStarted && commentProperties.startsToEndComment(commentTransText.toString()));
 				
-				if (isTrans)
-				{
-					commentTransText.append(c);
-				}
-				else// if (commentTransText.length() > 0)
+				if (!isTrans)
 				{
 					commentTransText = new StringBuilder();
-//					while (commentTransText.length() > 0 && !isTrans)
-//					{
-//						commentTransText.deleteCharAt(0);
-//						
-//						isTrans = (!commentStarted && commentProperties.startsToStartComment(commentTransText.toString())) || (commentStarted && commentProperties.startsToEndComment(commentTransText.toString()));
-//					}
 				}
 				
 				int type = 0;
@@ -1143,6 +1184,41 @@ public class CodeField extends StyledText
 				highlightSyntax();
 			}
 		}.start();
+	}
+	
+	public void addError(int startIndex, int endIndex)
+	{
+		errorLocations.add(new ErrorLocation(startIndex, endIndex));
+		
+//		int length = endIndex - startIndex;
+//		
+//		ArrayList<StyleRange> ranges = new ArrayList<StyleRange>();
+//		
+//		for (int i = 0; i < styles.length; i++)
+//		{
+//			StyleRange style = styles[i];
+//			
+//			int sStart = style.start;
+//			int sEnd   = style.start + style.length;
+//			
+//			if (!(style.length == getText().length()) && (sEnd >= startIndex && endIndex >= sStart))
+//			{
+//				style.underline = true;
+//				style.underlineStyle = SWT.UNDERLINE_SQUIGGLE;
+//				style.underlineColor = new Color(Display.getDefault(), 240, 0, 0);
+//			}
+//			
+//			ranges.add(style);
+//		}
+//		
+//		setStyles(ranges.toArray(new StyleRange[0]));
+//		
+//		redraw();
+	}
+	
+	public void clearErrors()
+	{
+		errorLocations.clear();
 	}
 	
 	public void setText(String text)

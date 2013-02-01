@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +25,7 @@ public class Command
 {
 	private String                      directory, line;
 	
-	private ConsoleStream				stream;
+	private PrintStream					stream;
 	
 	private Display						display;
 	
@@ -32,7 +33,7 @@ public class Command
 
 	private ArrayList<CommandListener>	listeners;
 	
-	public Command(Display display, String command, ConsoleStream stream, String directory)
+	public Command(Display display, String command, PrintStream stream, String directory)
 	{
 		List<String> list = new ArrayList<String>();
 		Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(command);
@@ -49,13 +50,13 @@ public class Command
 		init(display, list.toArray(new String[0]), stream, directory);
 	}
 	
-	public Command(Display display, String command[], ConsoleStream stream, String directory)
+	public Command(Display display, String command[], PrintStream stream, String directory)
 	{
 //		this.command = command;
 		init(display, command, stream, directory);
 	}
 	
-	private void init(Display display, String command[], ConsoleStream stream, String directory)
+	private void init(Display display, String command[], PrintStream stream, String directory)
 	{
 		this.display   = display;
 		
@@ -193,13 +194,13 @@ class LogStreamReader implements Runnable
 
 	private String			location, line;
 
-	private ConsoleStream	stream;
+	private PrintStream		stream;
 
 	private BufferedReader	reader;
     
 	private Display			display;
 	
-    public LogStreamReader(Display display, InputStream is, ConsoleStream stream, String location)
+    public LogStreamReader(Display display, InputStream is, PrintStream stream, String location)
     {
     	this.location = location;
     	

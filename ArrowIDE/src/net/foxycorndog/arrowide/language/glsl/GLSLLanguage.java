@@ -29,6 +29,7 @@ import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CommentProperties;
+import net.foxycorndog.arrowide.language.CompileOutput;
 import net.foxycorndog.arrowide.language.CompilerListener;
 import net.foxycorndog.arrowide.language.IdentifierProperties;
 import net.foxycorndog.arrowide.language.MethodProperties;
@@ -60,7 +61,7 @@ public class GLSLLanguage
 		
 	}
 	
-	public static void loadVertexShader(String fileLocation, String shaderCode, ConsoleStream stream, ArrayList<CompilerListener> compilerListeners)
+	public static void loadVertexShader(String fileLocation, String shaderCode, PrintStream stream, ArrayList<CompilerListener> compilerListeners)
 	{
 		String name = FileUtils.getFileName(fileLocation);
 		
@@ -84,13 +85,17 @@ public class GLSLLanguage
 		
 		final String outputFiles[] = new String[] {};
 		
+		CompileOutput outputs[] = new CompileOutput[1];
+		
+		outputs[0] = new CompileOutput(0, 0, 0, successful ? 0 : 1, "ASDF");
+		
 		for (int i = compilerListeners.size() - 1; i >= 0; i--)
 		{
-			compilerListeners.get(i).compiled(outputFiles, successful ? 0 : 1, fileLocation);
+			compilerListeners.get(i).compiled(outputFiles, outputs, stream, fileLocation);
 		}
 	}
 	
-	public static void loadFragmentShader(String fileLocation, String shaderCode, ConsoleStream stream, ArrayList<CompilerListener> compilerListeners)
+	public static void loadFragmentShader(String fileLocation, String shaderCode, PrintStream stream, ArrayList<CompilerListener> compilerListeners)
 	{
 		String name = FileUtils.getFileName(fileLocation);
 		
@@ -114,9 +119,13 @@ public class GLSLLanguage
 		
 		final String outputFiles[] = new String[] {};
 		
+		CompileOutput outputs[] = new CompileOutput[1];
+		
+		outputs[0] = new CompileOutput(0, 0, 0, successful ? 0 : 1, "ASDF");
+		
 		for (int i = compilerListeners.size() - 1; i >= 0; i--)
 		{
-			compilerListeners.get(i).compiled(outputFiles, successful ? 0 : 1, fileLocation);
+			compilerListeners.get(i).compiled(outputFiles, outputs, stream, fileLocation);
 		}
 	}
 	

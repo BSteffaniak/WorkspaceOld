@@ -3,13 +3,14 @@ package net.foxycorndog.arrowide.language.cpp;
 import static net.foxycorndog.arrowide.ArrowIDE.CONFIG_DATA;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import net.foxycorndog.arrowide.command.Command;
 import net.foxycorndog.arrowide.command.CommandListener;
-import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CommentProperties;
+import net.foxycorndog.arrowide.language.CompileOutput;
 import net.foxycorndog.arrowide.language.CompilerListener;
 import net.foxycorndog.arrowide.language.IdentifierProperties;
 import net.foxycorndog.arrowide.language.MethodProperties;
@@ -39,7 +40,7 @@ public class CppLanguage
 		CppKeyword.init();
 	}
 	
-	public static void run(final String fileLocation, final ConsoleStream stream)
+	public static void run(final String fileLocation, final PrintStream stream)
 	{
 		int lastInd = fileLocation.lastIndexOf('.');
 		lastInd = lastInd < 0 ? fileLocation.length() : lastInd;
@@ -58,7 +59,7 @@ public class CppLanguage
 		}
 	}
 	
-	public static void compile(final String fileLocation, String outputLocation, final ConsoleStream stream, final ArrayList<CompilerListener> compilerListeners)
+	public static void compile(final String fileLocation, String outputLocation, final PrintStream stream, final ArrayList<CompilerListener> compilerListeners)
 	{
 		try
 		{
@@ -77,9 +78,13 @@ public class CppLanguage
 			{
 				public void resultReceived(int result)
 				{
+					CompileOutput outputs[] = new CompileOutput[1];
+					
+					outputs[0] = new CompileOutput(0, 0, 0, result, "ASDF");
+					
 					for (int i = compilerListeners.size() - 1; i >= 0; i--)
 					{
-						compilerListeners.get(i).compiled(outputFiles, result, fileLocation);
+						compilerListeners.get(i).compiled(outputFiles, outputs, stream, fileLocation);
 					}
 				}
 			});

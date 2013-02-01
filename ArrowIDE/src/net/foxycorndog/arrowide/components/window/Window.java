@@ -514,21 +514,28 @@ public class Window
 	{
 		this.maximized = maximized;
 		
-		if (maximized)
+		if (custom)
 		{
-			sizeBefore = shell.getSize();
-			locationBefore = shell.getLocation();
-			
-			Dimension screenSize  = Toolkit.getDefaultToolkit().getScreenSize();
-			java.awt.Rectangle useableSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-			
-			shell.setSize(screenSize.width, useableSize.height);
-			shell.setLocation(0, 0);
+			if (maximized)
+			{
+				sizeBefore = shell.getSize();
+				locationBefore = shell.getLocation();
+				
+				Dimension screenSize  = Toolkit.getDefaultToolkit().getScreenSize();
+				java.awt.Rectangle useableSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+				
+				shell.setSize(screenSize.width, useableSize.height);
+				shell.setLocation(0, 0);
+			}
+			else
+			{
+				shell.setSize(sizeBefore);
+				shell.setLocation(locationBefore);
+			}
 		}
 		else
 		{
-			shell.setSize(sizeBefore);
-			shell.setLocation(locationBefore);
+			shell.setMaximized(maximized);
 		}
 	}
 	

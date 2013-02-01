@@ -3,8 +3,11 @@ package net.foxycorndog.arrowide.formatter;
 import net.foxycorndog.arrowide.components.CodeField;
 import net.foxycorndog.arrowide.language.CommentProperties;
 
+import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Display;
 
 public class Formatter
 {
@@ -55,6 +58,8 @@ public class Formatter
 		
 		Point sel = text.getSelection();
 		int start = sel.x;
+		
+		int topPixel = text.getTopPixel();
 		
 		StringBuilder builder = new StringBuilder(text.getText());
 		
@@ -108,22 +113,25 @@ public class Formatter
 		text.setText(builder.toString());
 		
 		text.setSelection(sel.x - startOffset, sel.y - otherAmount);//sel.x - 1, sel.y + offsetY);
+		
+		text.setTopPixel(topPixel);
 	}
 	
 	public static void format(CodeField text)
 	{
-		CommentProperties comProp = text.getCommentProperties();
+		CommentProperties commentProperties = text.getCommentProperties();
 		
-		if (comProp == null)
+		if (commentProperties == null)
 		{
 			return;
 		}
 		
 		StringBuilder builder = new StringBuilder(text.getText());
 		
-		int tabs   = 0;
 		int start  = 0;
 		int offset = 0;
+		
+		StringBuilder tabs = new StringBuilder();
 		
 		while (start < builder.length())
 		{
@@ -152,8 +160,281 @@ public class Formatter
 			offset += lineLength + 2;
 		}
 		
+		boolean commentStarted = false;
+		boolean textStarted    = false;
 		
+		char textBeginning     = 0;
+		
+		int commentType        = 0;
+		
+		StringBuilder commentTransText = new StringBuilder();
+		StringBuilder currentLineText  = new StringBuilder();
+		
+		int i = 0;
+		
+		while (i < builder.length())
+		{
+			char c = builder.charAt(i);
+			
+			if (!textStarted)
+			{
+				commentTransText.append(c);
+				
+				boolean isTrans =
+						(!commentStarted && commentProperties.startsToStartComment(commentTransText.toString()))
+						|| (commentStarted && commentProperties.startsToEndComment(commentTransText.toString()));
+				
+				if (!isTrans)
+				{
+					commentTransText = new StringBuilder();
+				}
+				
+				int type = 0;
+				
+				if (!commentStarted && (type = commentProperties.startsComment(commentTransText.toString())) != 0)
+				{
+					commentStarted = true;
+					
+					commentType    = type;
+					
+					commentTransText = new StringBuilder();
+				}
+				else if (commentStarted && (type = commentProperties.endsComment(commentTransText.toString())) != 0)
+				{
+					commentStarted = false;
+					
+					commentType = 0;
+					
+					commentTransText = new StringBuilder();
+				}
+				
+				if (c == '\n')
+				{
+					if (commentStarted && commentType == CommentProperties.SINGLE_LINE)
+					{
+						commentStarted = false;
+						
+						commentType = 0;
+						
+						commentTransText = new StringBuilder();
+					}
+				}
+			}
+			else if (!commentStarted)
+			{
+				if (c == '"' || c == '\'')
+				{
+					if (!textStarted)
+					{
+						textStarted = true;
+						textBeginning = c;
+					}
+					else
+					{
+						if (c == textBeginning)
+						{
+							textStarted = false;
+						}
+					}
+				}
+			}
+			
+			if (!commentStarted && !textStarted)
+			{
+				currentLineText.append(c);
+				
+				if (c == '{')
+				{
+					if (currentLineText.length() > 0 && contains(currentLineText, new char[] { '\t', ' ' }, 0, currentLineText.length() - 1))
+					{
+						builder.insert(i, "\r\n");
+					}
+					else
+					{
+						tabs.append('\t');
+					}
+					
+					char nextChar = nextChar(builder, i + 1, new char[] { ' ', '\t' } , commentProperties);
+					
+					if (nextChar != 0)
+					{
+						builder.insert(i + 1, "\r\n");
+					}
+				}
+				else if (c == '}')
+				{
+					if (tabs.length() > 0)
+					{
+						tabs.deleteCharAt(0);
+						
+						builder.deleteCharAt(i - 1);
+						
+						i--;
+					}
+				}
+				else if (c == ';')
+				{
+					char nextChar = nextChar(builder, i + 1, new char[] { ' ', '\t' } , commentProperties);
+					
+					if (nextChar != 0)
+					{
+						builder.insert(i + 1, "\r\n");// + tabs);
+					}
+				}
+			}
+			
+			if (c == '\n')
+			{
+				builder.insert(i+1, tabs);
+				
+				i += tabs.length();
+				
+				currentLineText = new StringBuilder();
+			}
+			
+			i++;
+		}
 		
 		text.setText(builder.toString());
+	}
+	
+	private static boolean contains(StringBuilder text, char chars[])
+	{
+		return contains(text, chars, 0, text.length());
+	}
+	
+	private static boolean contains(StringBuilder text, char chars[], int start, int end)
+	{
+		for (int i = start; i < end; i++)
+		{
+			for (char c : chars)
+			{
+				if (text.charAt(i) == c)
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	private static char nextChar(StringBuilder text, int offset, char exceptions[], CommentProperties commentProperties)
+	{
+		return firstChar(text, offset, exceptions, commentProperties, 1);
+	}
+	
+//	private static char prevChar(StringBuilder text, int offset, char exceptions[], CommentProperties commentProperties)
+//	{
+//		return firstChar(text, offset, exceptions, commentProperties, -1);
+//	}
+	
+	private static char firstChar(StringBuilder text, int offset, char exceptions[], CommentProperties commentProperties, int stride)
+	{
+		if (stride == 0)
+		{
+			throw new IllegalArgumentException("Stride cannot be 0.");
+		}
+		
+		boolean commentStarted = false;
+		
+		int commentType        = 0;
+		
+		StringBuilder commentTransText = new StringBuilder();
+		
+		while (offset < text.length())
+		{
+			// The character at the offset.
+			char c = text.charAt(offset);
+			
+			offset += stride;
+			
+			if (c == '\r' || c == '\n')
+			{
+				// Stop iterating through the loop.
+				break;
+			}
+			
+			// Check to see if a comment started or ended.
+			{
+				if (stride > 0)
+				{
+					commentTransText.append(c);
+				}
+				else
+				{
+					commentTransText.insert(0, c);
+				}
+				
+				boolean isTrans =
+						(!commentStarted && commentProperties.startsToStartComment(commentTransText.toString()))
+						|| (commentStarted && commentProperties.startsToEndComment(commentTransText.toString()));
+				
+				if (!isTrans)
+				{
+					if (!commentStarted)
+					{
+						return commentTransText.charAt(0);
+					}
+
+					commentTransText = new StringBuilder();
+				}
+				
+				int type = 0;
+				
+				if (!commentStarted && (type = commentProperties.startsComment(commentTransText.toString())) != 0)
+				{
+					if (type == CommentProperties.SINGLE_LINE)
+					{
+						return 0;
+					}
+					
+					commentStarted   = true;
+					
+					commentType      = type;
+					
+					commentTransText = new StringBuilder();
+				}
+				else if (commentStarted && (type = commentProperties.endsComment(commentTransText.toString())) != 0)
+				{
+					commentStarted   = false;
+					
+					commentType      = 0;
+
+					commentTransText = new StringBuilder();
+					
+					c = 0;
+				}
+			}
+			
+			if (!commentStarted && commentTransText.length() <= 0)
+			{
+				boolean isException = false;
+				
+				// Loop through the exceptions to see if the char is an exception.
+				for (char exc : exceptions)
+				{
+					if (c == exc)
+					{
+						isException = true;
+						
+						// Stop iterating through the loop.
+						break;
+					}
+				}
+				
+				if (isException || c == 0)
+				{
+					// Skip the rest of the loop and move on to the next iteration.
+					continue;
+				}
+				
+				// Return the first character found other than the exceptions.
+				return c;
+			}
+		}
+		
+		// Return that nothing was found.
+		return 0;
 	}
 }

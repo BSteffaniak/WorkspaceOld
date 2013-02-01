@@ -3,6 +3,7 @@ package net.foxycorndog.arrowide.language;
 import static net.foxycorndog.arrowide.ArrowIDE.CONFIG_DATA;
 
 import java.io.File;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -142,7 +143,7 @@ public class Language
 		return properties;
 	}
 	
-	public static void compile(String fileLocation, String code, String outputLocation, ConsoleStream stream)
+	public static void compile(String fileLocation, String code, String outputLocation, PrintStream stream)
 	{
 		if (fileLocation != null)
 		{

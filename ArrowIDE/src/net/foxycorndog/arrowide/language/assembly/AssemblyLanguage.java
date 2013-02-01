@@ -21,10 +21,10 @@ import org.eclipse.swt.widgets.Display;
 import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.command.Command;
 import net.foxycorndog.arrowide.command.CommandListener;
-import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CommentProperties;
+import net.foxycorndog.arrowide.language.CompileOutput;
 import net.foxycorndog.arrowide.language.CompilerListener;
 import net.foxycorndog.arrowide.language.IdentifierProperties;
 import net.foxycorndog.arrowide.language.MethodProperties;
@@ -55,7 +55,7 @@ public class AssemblyLanguage
 		AssemblyKeyword.init();
 	}
 	
-	public static void run(String fileLocation, ConsoleStream stream)
+	public static void run(String fileLocation, PrintStream stream)
 	{
 		if (PROPERTIES.get("os.name").equals("macosx"))
 		{
@@ -148,7 +148,7 @@ public class AssemblyLanguage
 		}
 	}
 	
-	public static void compile(final String fileLocation, String outputLocation, final ConsoleStream stream, final ArrayList<CompilerListener> compilerListeners)
+	public static void compile(final String fileLocation, String outputLocation, final PrintStream stream, final ArrayList<CompilerListener> compilerListeners)
 	{
 //		if (PROPERTIES.get("os.name").equals("macosx"))
 //		{
@@ -220,9 +220,13 @@ public class AssemblyLanguage
 			{
 				public void resultReceived(final int result)
 				{
+					CompileOutput outputs[] = new CompileOutput[1];
+					
+					outputs[0] = new CompileOutput(0, 0, 0, result, "ASDF");
+					
 					for (int i = compilerListeners.size() - 1; i >= 0; i--)
 					{
-						compilerListeners.get(i).compiled(outputFiles, result, fileLocation);
+						compilerListeners.get(i).compiled(outputFiles, outputs, stream, fileLocation);
 					}
 				}
 			});

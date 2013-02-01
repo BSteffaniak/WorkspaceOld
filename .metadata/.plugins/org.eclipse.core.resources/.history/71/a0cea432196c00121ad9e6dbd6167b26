@@ -1,0 +1,36 @@
+package net.foxycorndog.arrowide.language;
+
+public class CompileOutput
+{
+	private int	startIndex, endIndex;
+	private int	lineNumber;
+	private int	result;
+	
+	public CompileOutput(int startIndex, int endIndex, int lineNumber, int result)
+	{
+		this.startIndex = startIndex;
+		this.endIndex   = endIndex;
+		this.lineNumber = lineNumber;
+		this.result     = result;
+	}
+	
+	public int getStartIndex()
+	{
+		return startIndex;
+	}
+	
+	public int getEndIndex()
+	{
+		return endIndex;
+	}
+	
+	public int getLineNumber()
+	{
+		return lineNumber;
+	}
+	
+	public int getResult()
+	{
+		return result;
+	}
+}
