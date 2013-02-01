@@ -700,8 +700,11 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 							if (outputs[i].getResult() != 0)
 							{
 								codeField.addError(outputs[i].getStartIndex(), outputs[i].getEndIndex());
+								System.out.print(outputs[i] + "; ");
 							}
 						}
+						
+						System.out.println();
 						
 						codeField.highlightSyntax();
 					}
@@ -1067,6 +1070,14 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		window.addControlListener(shellListener);
 		
 		shellListener.controlResized(null);
+		
+		window.addPaintListener(new PaintListener()
+		{
+			public void paintControl(PaintEvent e)
+			{
+				e.gc.drawString(codeField.getSelection().x + "", 0, 50);
+			}
+		});
 	}
 	
 	/**
@@ -2304,7 +2315,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 */
 	public void update()
 	{
-//		console.updateText();
+		
 	}
 
 	@Override

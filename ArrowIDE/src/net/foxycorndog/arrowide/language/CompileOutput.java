@@ -42,4 +42,13 @@ public class CompileOutput
 	{
 		return message;
 	}
+	
+	public String toString()
+	{
+		String str = "";
+		
+		str += message + ", " + startIndex + "-" + endIndex;
+		
+		return str;
+	}
 }

@@ -226,7 +226,7 @@ public class CodeField extends StyledText
 		private char	firstChar, firstCharOtherThanSpace, onlyChar, onlyCharOtherThanSpace;
 	}
 	
-	public CodeField(Composite comp)
+	public CodeField(final Composite comp)
 	{
 		super(comp, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | (Integer)PROPERTIES.get("composite.modifiers"));
 		
@@ -339,6 +339,8 @@ public class CodeField extends StyledText
 						}
 					}
 				}.start();
+				
+				comp.redraw();
 			}
 	    };
 	    
@@ -649,7 +651,10 @@ public class CodeField extends StyledText
 				if (lastStyle.start + lastStyle.length + newResult.count >= loc.start)
 				{
 					StyleRange range = new StyleRange();
-					range.start      = loc.start;
+					
+					int offset = loc.end - loc.start == 0 ? 1 : 0;
+					
+					range.start      = loc.start - offset;
 					range.length     = loc.end - loc.start + 1;
 					range.underline = true;
 					range.underlineStyle = SWT.UNDERLINE_SQUIGGLE;

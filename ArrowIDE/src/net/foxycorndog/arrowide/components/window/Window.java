@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
@@ -499,6 +500,11 @@ public class Window
 	{
 		shell.addControlListener(listener);
 	}
+
+	public void addPaintListener(PaintListener listener)
+	{
+		content.addPaintListener(listener);
+	}
 	
 	public void addListener(int eventType, Listener listener)
 	{
@@ -648,6 +654,7 @@ public class Window
 	public void redraw()
 	{
 		shell.redraw();
+		content.redraw();
 	}
 	
 	public void addWindowListener(WindowListener listener)
