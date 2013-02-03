@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.eclipse.swt.events.DisposeListener"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Composite"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Button"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.ToolItem"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.MenuItem"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Menu"/>
@@ -37,7 +34,6 @@
 <fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="java.util.regex.Pattern"/>
 <fullyQualifiedTypeName name="java.util.regex.Matcher"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.CodeField.WordLocation"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="java.util.HashSet"/>
@@ -57,7 +53,11 @@
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.CompileOutput"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.custom.StyleRange"/>
 <fullyQualifiedTypeName name="java.lang.Runnable"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.CodeField.ErrorLocation"/>
 <fullyQualifiedTypeName name="com.sun.istack.internal.Builder"/>
+<fullyQualifiedTypeName name="com.sun.xml.internal.fastinfoset.stax.events.XMLConstants"/>
+<fullyQualifiedTypeName name="javax.xml.stream.XMLStreamConstants"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.Stack"/>
 </qualifiedTypeNameHistroy>
