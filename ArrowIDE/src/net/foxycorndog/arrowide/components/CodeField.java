@@ -653,6 +653,11 @@ public class CodeField extends StyledText
 			
 			for (int j = 0; j < errorLocations.size(); j++)
 			{
+				if (lastStyle == null)
+				{
+					break;
+				}
+				
 				ErrorLocation loc = errorLocations.get(j);
 				
 				int length = loc.end - loc.start;

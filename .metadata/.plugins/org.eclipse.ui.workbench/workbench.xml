@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="25" version="2.0">
+<workbench progressCount="28" version="2.0">
 <workbenchAdvisor/>
 <window height="799" maximized="true" width="1016" x="49" y="-14">
 <fastViewData fastViewLocation="1024">
@@ -117,13 +117,14 @@
 <part id="72"/>
 <part id="73"/>
 <part id="74"/>
+<part id="75"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ArrowIDE.java" partName="ArrowIDE.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java" title="ArrowIDE.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="57835" selectionTopPixel="33222"/>
+<editorState selectionHorizontalPixel="0" selectionLength="34" selectionOffset="34205" selectionTopPixel="17025"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Compiler.java" partName="Compiler.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java" title="Compiler.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java"/>
@@ -185,9 +186,9 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/Language.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5624" selectionTopPixel="2051"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CodeField.java" partName="CodeField.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java" title="CodeField.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CodeField.java" partName="CodeField.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java" title="CodeField.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="20065" selectionTopPixel="10495"/>
+<editorState selectionHorizontalPixel="0" selectionLength="27" selectionOffset="17322" selectionTopPixel="9432"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ContentListener.java" partName="ContentListener.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/components/ContentListener.java" title="ContentListener.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/components/ContentListener.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/components/ContentListener.java"/>
@@ -367,7 +368,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Compiler.java" partName="Compiler.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/FoxyCompiler/src/net/foxycorndog/foxycompiler/Compiler.java" title="Compiler.java" tooltip="FoxyCompiler/src/net/foxycorndog/foxycompiler/Compiler.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/FoxyCompiler/src/net/foxycorndog/foxycompiler/Compiler.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="122" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="784" selectionTopPixel="800"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Argument.java" partName="Argument.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/FoxyCompiler/src/net/foxycorndog/foxycompiler/argument/Argument.java" title="Argument.java" tooltip="FoxyCompiler/src/net/foxycorndog/foxycompiler/argument/Argument.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/FoxyCompiler/src/net/foxycorndog/foxycompiler/argument/Argument.java"/>
@@ -417,9 +418,13 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/CompileOutput.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="867" selectionTopPixel="0"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Reader.java" partName="Reader.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/XMLReader/src/Reader.java" title="Reader.java" tooltip="XMLReader/src/Reader.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Reader.java" partName="Reader.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/XMLReader/src/Reader.java" title="Reader.java" tooltip="XMLReader/src/Reader.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/XMLReader/src/Reader.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1731" selectionTopPixel="539"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="JavaConverter.java" partName="JavaConverter.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/FoxyCompiler/src/net/foxycorndog/foxycompiler/java/JavaConverter.java" title="JavaConverter.java" tooltip="FoxyCompiler/src/net/foxycorndog/foxycompiler/java/JavaConverter.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/FoxyCompiler/src/net/foxycorndog/foxycompiler/java/JavaConverter.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="485" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
@@ -463,7 +468,9 @@
 </view>
 <view id="org.eclipse.jdt.ui.PackageExplorer" partName="Package Explorer">
 <viewState group_libraries="1" layout="2" linkWithEditor="0" rootMode="1" workingSetName="">
-<customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
+<customFilters userDefinedPatternsEnabled="false">
+<xmlDefinedFilters>
+<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.LocalTypesFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.StaticsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.ClosedProjectsFilter" isEnabled="false"/>
@@ -778,168 +785,166 @@
 <workingSets/>
 <navigationHistory>
 <editors>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/XMLReader/src/Reader.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TestGame/src/Main.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TestGame/src/Game.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/FoxyCompiler/src/net/foxycorndog/foxycompiler/Compiler.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/FoxyCompiler/src/net/foxycorndog/foxycompiler/java/Converter.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/FoxyCompiler/src/net/foxycorndog/foxycompiler/java/JavaConverter.java"/>
+<editor factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" org.eclipse.jdt.ui.ClassFileIdentifier="=ArrowIDE/C:\/Program Files\/Java\/jdk1.7.0_03\/jre\/lib\/rt.jar&lt;java.io(PrintWriter.class"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/Keyword.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/java/JavaLanguage.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/cpp/CppLanguage.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Nostalgia/src/net/foxycorndog/nostalgia/Main.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/GL.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/model/Model.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoogl/src/net/foxycorndog/jdoogl/model/ModelLoader.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/XMLReader/src/Reader.java"/>
-<editor factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" org.eclipse.jdt.ui.ClassFileIdentifier="=XMLReader/C:\/Program Files\/Java\/jdk1.7.0_03\/jre\/lib\/rt.jar&lt;java.util(Stack.class"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java"/>
 </editors>
-<item historyLabel="Keyword.java" index="2">
-<position info="not_deleted" x="1592" y="50"/>
-</item>
-<item historyLabel="Keyword.java" index="2">
-<position info="not_deleted" x="1586" y="0"/>
-</item>
-<item historyLabel="Keyword.java" index="2">
-<position info="not_deleted" x="1558" y="0"/>
-</item>
-<item historyLabel="Keyword.java" index="2">
-<position info="not_deleted" x="1527" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="17120" y="111"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="17231" y="0"/>
-</item>
-<item historyLabel="CodeField.java" index="0">
-<position info="not_deleted" x="20065" y="0"/>
-</item>
-<item historyLabel="ArrowIDE.java" index="1">
-<position info="not_deleted" x="57006" y="0"/>
-</item>
-<item historyLabel="ArrowIDE.java" index="1">
-<position info="not_deleted" x="57802" y="51"/>
-</item>
-<item historyLabel="JavaLanguage.java" index="3">
-<position info="not_deleted" x="9354" y="0"/>
-</item>
-<item historyLabel="CppLanguage.java" index="4">
-<position info="not_deleted" x="2868" y="0"/>
-</item>
-<item historyLabel="Main.java" index="5">
-<position info="not_deleted" x="1176" y="0"/>
-</item>
-<item historyLabel="GL.java" index="6">
-<position/>
-</item>
-<item historyLabel="Main.java" index="5">
-<position info="not_deleted" x="1176" y="0"/>
-</item>
-<item historyLabel="Model.java" index="7">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Main.java" index="5">
-<position info="not_deleted" x="1176" y="0"/>
-</item>
-<item historyLabel="ModelLoader.java" index="8">
-<position info="not_deleted" x="640" y="0"/>
-</item>
-<item historyLabel="GL.java" index="6">
-<position info="not_deleted" x="86874" y="0"/>
-</item>
-<item historyLabel="ModelLoader.java" index="8">
-<position info="not_deleted" x="3622" y="0"/>
-</item>
-<item historyLabel="ArrowIDE.java" index="9">
-<position info="not_deleted" x="57835" y="0"/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position info="not_deleted" x="454" y="0"/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position info="not_deleted" x="1123" y="0"/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position info="not_deleted" x="2014" y="0"/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position info="not_deleted" x="991" y="0"/>
-</item>
-<item historyLabel="Stack.class" index="11">
-<position info="not_deleted" x="1605" y="4"/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position info="not_deleted" x="1521" y="0"/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position info="not_deleted" x="1464" y="0"/>
-</item>
-<item historyLabel="Reader.java" index="10">
-<position info="not_deleted" x="1347" y="0"/>
-</item>
-<item historyLabel="Reader.java" index="10">
+<item historyLabel="Reader.java" index="0">
 <position info="not_deleted" x="1177" y="0"/>
 </item>
-<item historyLabel="Reader.java" index="10">
+<item historyLabel="Reader.java" index="0">
 <position info="not_deleted" x="2041" y="0"/>
 </item>
-<item historyLabel="Reader.java" index="10">
+<item historyLabel="Reader.java" index="0">
 <position info="not_deleted" x="3437" y="0"/>
 </item>
-<item historyLabel="Reader.java" index="10">
+<item historyLabel="Reader.java" index="0">
 <position info="not_deleted" x="3308" y="32"/>
 </item>
-<item historyLabel="Reader.java" index="10">
+<item historyLabel="Reader.java" index="0">
 <position info="not_deleted" x="2139" y="0"/>
 </item>
-<item historyLabel="Reader.java" index="10">
+<item historyLabel="Reader.java" index="0">
 <position info="not_deleted" x="1668" y="0"/>
 </item>
-<item active="true" historyLabel="Reader.java" index="10">
+<item historyLabel="Reader.java" index="0">
 <position info="not_deleted" x="1929" y="32"/>
+</item>
+<item historyLabel="Main.java" index="1">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Main.java" index="1">
+<position/>
+</item>
+<item historyLabel="Main.java" index="1">
+<position/>
+</item>
+<item historyLabel="Game.java" index="2">
+<position info="not_deleted" x="14" y="0"/>
+</item>
+<item historyLabel="Game.java" index="2">
+<position info="not_deleted" x="134" y="0"/>
+</item>
+<item historyLabel="Game.java" index="2">
+<position info="not_deleted" x="384" y="0"/>
+</item>
+<item historyLabel="Reader.java" index="0">
+<position info="not_deleted" x="1731" y="0"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="370" y="0"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="806" y="0"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="1565" y="0"/>
+</item>
+<item historyLabel="Converter.java" index="4">
+<position info="not_deleted" x="259" y="0"/>
+</item>
+<item historyLabel="Converter.java" index="4">
+<position info="not_deleted" x="203" y="0"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="1565" y="0"/>
+</item>
+<item historyLabel="Converter.java" index="4">
+<position info="not_deleted" x="203" y="0"/>
+</item>
+<item historyLabel="Converter.java" index="4">
+<position/>
+</item>
+<item historyLabel="JavaConverter.java" index="5">
+<position info="not_deleted" x="64" y="0"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="1565" y="0"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="1557" y="6"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="1628" y="0"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="1638" y="0"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="780" y="0"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="672" y="0"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="1472" y="42"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="1873" y="0"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="1857" y="1"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="646" y="0"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="2381" y="26"/>
+</item>
+<item historyLabel="PrintWriter.class" index="6">
+<position info="not_deleted" x="15585" y="32"/>
+</item>
+<item historyLabel="JavaConverter.java" index="5">
+<position info="not_deleted" x="64" y="0"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="2064" y="0"/>
+</item>
+<item historyLabel="JavaConverter.java" index="5">
+<position info="not_deleted" x="64" y="0"/>
+</item>
+<item historyLabel="JavaConverter.java" index="5">
+<position info="not_deleted" x="474" y="0"/>
+</item>
+<item historyLabel="Compiler.java" index="3">
+<position info="not_deleted" x="784" y="0"/>
+</item>
+<item historyLabel="JavaConverter.java" index="5">
+<position info="not_deleted" x="474" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="7">
+<position info="not_deleted" x="14688" y="34"/>
+</item>
+<item historyLabel="JavaConverter.java" index="5">
+<position info="not_deleted" x="408" y="0"/>
+</item>
+<item historyLabel="JavaConverter.java" index="5">
+<position info="not_deleted" x="485" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="7">
+<position info="not_deleted" x="4278" y="50"/>
+</item>
+<item historyLabel="JavaConverter.java" index="5">
+<position info="not_deleted" x="485" y="0"/>
+</item>
+<item historyLabel="ArrowIDE.java" index="8">
+<position info="not_deleted" x="57835" y="0"/>
+</item>
+<item historyLabel="ArrowIDE.java" index="8">
+<position info="not_deleted" x="34205" y="34"/>
+</item>
+<item historyLabel="CodeField.java" index="9">
+<position info="not_deleted" x="4278" y="50"/>
+</item>
+<item active="true" historyLabel="CodeField.java" index="9">
+<position info="not_deleted" x="17456" y="127"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -963,6 +968,15 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="PrintWriter.class" tooltip="java.io.PrintWriter">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=ArrowIDE/C:\/Program Files\/Java\/jdk1.7.0_03\/jre\/lib\/rt.jar&lt;java.io(PrintWriter.class"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Converter.java" tooltip="FoxyCompiler/src/net/foxycorndog/foxycompiler/java/Converter.java">
+<persistable path="/FoxyCompiler/src/net/foxycorndog/foxycompiler/java/Converter.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Main.java" tooltip="TestGame/src/Main.java">
+<persistable path="/TestGame/src/Main.java"/>
+</file>
 <file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="Stack.class" tooltip="java.util.Stack">
 <persistable org.eclipse.jdt.ui.ClassFileIdentifier="=XMLReader/C:\/Program Files\/Java\/jdk1.7.0_03\/jre\/lib\/rt.jar&lt;java.util(Stack.class"/>
 </file>
@@ -998,15 +1012,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Frame.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/components/Frame.java">
 <persistable path="/ArrowIDE/src/net/foxycorndog/arrowide/components/Frame.java"/>
-</file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="LinkedList.class" tooltip="java.util.LinkedList">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=ArrowIDE/C:\/Program Files\/Java\/jdk1.7.0_03\/jre\/lib\/rt.jar&lt;java.util(LinkedList.class"/>
-</file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="Collection.class" tooltip="java.util.Collection">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=ArrowIDE/C:\/Program Files\/Java\/jdk1.7.0_03\/jre\/lib\/rt.jar&lt;java.util(Collection.class"/>
-</file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="System.class" tooltip="java.lang.System">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=ArrowIDE/C:\/Program Files\/Java\/jdk1.7.0_03\/jre\/lib\/rt.jar&lt;java.lang(System.class"/>
 </file>
 </mruList>
 </workbench>

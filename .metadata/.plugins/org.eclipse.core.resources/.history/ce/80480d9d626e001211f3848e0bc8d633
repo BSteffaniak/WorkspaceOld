@@ -1,0 +1,18 @@
+package net.foxycorndog.foxycompiler.java;
+
+public class JavaConverter
+{
+	public static String convert(String source)
+	{
+		String words[] = source.split("\\s*" + "[[ ].]" + "+\\s*");
+		
+		StringBuilder output = new StringBuilder();
+		
+		for (int i = 0; i < words.length; i++)
+		{
+			output.append(words[i] + "\r\n");
+		}
+		
+		return output.toString();
+	}
+}
