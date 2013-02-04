@@ -60,8 +60,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Text;
 
-import com.sun.istack.internal.Builder;
-
 import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 
 public class CodeField extends StyledText
@@ -648,7 +646,7 @@ public class CodeField extends StyledText
 			
 			if (styles.size() > 0)
 			{
-				styles.get(styles.size() - 1);
+				lastStyle = styles.get(styles.size() - 1);
 			}
 			
 			for (int j = 0; j < errorLocations.size(); j++)
@@ -662,12 +660,12 @@ public class CodeField extends StyledText
 				
 				int length = loc.end - loc.start;
 				
-				if (lastStyle.start + lastStyle.length + newResult.count >= loc.start && lastStyle.start + lastStyle.length <= loc.end + 1)
+				if (lastStyle.start + lastStyle.length + newResult.count >= loc.start - 0 || lastStyle.start + lastStyle.length <= loc.end + 0)
 				{
 					StyleRange range = new StyleRange();
 					
 					int offsetStart  = length <= 1 && !isPrintable(text.charAt(loc.start)) ? 1 : 0;
-					int offsetLength = length == 0 ? 1 : 0;
+					int offsetLength = length == 0 ? (offsetStart == 1 ? 1 : 0) : 0;
 					
 					range.start     = loc.start - offsetStart;
 					range.length    = loc.end - loc.start + offsetLength;
