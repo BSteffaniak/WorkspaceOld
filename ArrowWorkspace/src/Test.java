@@ -8,6 +8,13 @@ public class Test
 		{
 			int times = 0;
 			
+			int d = 4;
+			
+			while (d < 4)
+			{
+				d++;
+			}
+			
 			public void run()
 			{
 				while (true)

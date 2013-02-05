@@ -69,14 +69,12 @@ public class CodeField extends StyledText
 
 	private char										textBeginning;
 
-	private int											commentType,
-			commentStartLocation;
+	private int											commentType, commentStartLocation;
 	private int											textBeginningLocation;
-	// private int oldLength, oldLineCount;
-	// private int selectionLength, selectionLines;
 	private int											lineNumberOffset;
 	private int											language;
 	private int											charWidth;
+	private int											numThreads;
 
 	private String										text;
 
@@ -87,6 +85,8 @@ public class CodeField extends StyledText
 	private IdentifierProperties						identifierProperties;
 
 	private Listener									identifierSelectorListener;
+	
+	private Runnable									syntaxUpdater;
 
 	private LineStyleListener							lineNumbers,
 			lineSpaces, syntaxHighlighting;
@@ -261,6 +261,16 @@ public class CodeField extends StyledText
 //		setAlwaysShowScrollBars(false);
 	    
 //	    highlightSyntax();
+	    
+	    redrawReady = true;
+	    
+	    syntaxUpdater = new Runnable()
+		{
+			public void run()
+			{
+				highlightSyntax();
+			}
+		};
 	    
 	    identifierSelectorListener = new Listener()
 	    {
@@ -492,14 +502,10 @@ public class CodeField extends StyledText
 		}
 	}
 	
-	public void highlightSyntax()
+	public synchronized void highlightSyntax()
 	{
-		redrawReady = false;
-		
 		createSyntaxStyles();
 		createSyntaxStyles();
-		
-		redrawReady = true;
 		
 		Display.getDefault().syncExec(new Runnable()
 		{
@@ -507,6 +513,7 @@ public class CodeField extends StyledText
 			{
 				if (thisField != null)
 				{
+		System.out.println("updaten");
 					thisField.redraw();//Range(0, thisField.getText().length(), true);
 				}
 			}
@@ -644,38 +651,42 @@ public class CodeField extends StyledText
 			
 			StyleRange lastStyle = null;
 			
+			int lastEnd = 0;
+			
 			if (styles.size() > 0)
 			{
 				lastStyle = styles.get(styles.size() - 1);
+				
+				lastEnd = lastStyle.start + lastStyle.length;
 			}
 			
-			for (int j = 0; j < errorLocations.size(); j++)
-			{
-				if (lastStyle == null)
-				{
-					break;
-				}
-				
-				ErrorLocation loc = errorLocations.get(j);
-				
-				int length = loc.end - loc.start;
-				
-				if (lastStyle.start + lastStyle.length + newResult.count >= loc.start - 0 || lastStyle.start + lastStyle.length <= loc.end + 0)
-				{
-					StyleRange range = new StyleRange();
-					
-					int offsetStart  = length <= 1 && !isPrintable(text.charAt(loc.start)) ? 1 : 0;
-					int offsetLength = length == 0 ? (offsetStart == 1 ? 1 : 0) : 0;
-					
-					range.start     = loc.start - offsetStart;
-					range.length    = loc.end - loc.start + offsetLength;
-					range.underline = true;
-					range.underlineStyle = SWT.UNDERLINE_SQUIGGLE;
-					range.underlineColor = new Color(Display.getDefault(), 240, 0, 0);
-					
-					styles.add(range);
-				}
-			}
+//			for (int j = 0; j < errorLocations.size(); j++)
+//			{
+//				if (lastStyle == null)
+//				{
+//					break;
+//				}
+//				
+//				ErrorLocation loc = errorLocations.get(j);
+//				
+//				int length = loc.end - loc.start;
+//				
+//				if (loc.start > lastEnd && newResult.count > 0)
+//				{
+//					StyleRange range = new StyleRange();
+//					
+//					int offsetStart  = length <= 1 && !isPrintable(text.charAt(loc.start)) ? 1 : 0;
+//					int offsetLength = length == 0 ? (offsetStart == 1 ? 1 : 0) : 0;
+//					
+//					range.start     = loc.start - offsetStart;
+//					range.length    = loc.end - loc.start + offsetLength;
+//					range.underline = true;
+//					range.underlineStyle = SWT.UNDERLINE_SQUIGGLE;
+//					range.underlineColor = new Color(Display.getDefault(), 240, 0, 0);
+//					
+//					styles.add(range);
+//				}
+//			}
 			
 			if (isKeyword || (commentWasStarted) || textWasStarted)//commentStartLocation < offsets[i] || textStartLocation < offsets[i])
 			{
@@ -883,6 +894,51 @@ public class CodeField extends StyledText
 		else if ((range = endText(text.length() - commentStartLocation)) != null)
 		{
 			addStyleRange(styles, range);
+		}
+		
+		for (int j = 0; j < errorLocations.size(); j++)
+		{
+			int i = 1;
+			
+			while (i < styles.size())
+			{
+				StyleRange lastStyle = styles.get(i - 1);
+				StyleRange currentStyle = styles.get(i);
+				
+				int lastEnd = lastStyle.start + lastStyle.length;
+				
+				ErrorLocation loc = errorLocations.get(j);
+				
+				int length = loc.end - loc.start;
+				
+				if (loc.end >= lastEnd && loc.start <= currentStyle.start)
+				{
+					StyleRange newRange = new StyleRange();
+					
+					int offsetStart  = length == 0 ? 1 : 0;
+					
+					int newStart  = Math.max(lastEnd, loc.start);
+					int newLength = Math.min(currentStyle.start - newStart + offsetStart, loc.end - newStart + offsetStart);
+					
+					newRange.start     = newStart;//loc.start - offsetStart;
+					newRange.length    = newLength;//loc.end - loc.start + offsetLength;
+					newRange.underline = true;
+					newRange.underlineStyle = SWT.UNDERLINE_SQUIGGLE;
+					newRange.underlineColor = new Color(Display.getDefault(), 240, 0, 0);
+					
+					System.out.println("Adding to (" + i + ")" + newStart + ", " + newLength);
+					
+					// TODO: Potential error with replacing the next lastStyle with the new style.
+					styles.add(i++, newRange);
+					
+					if (loc.end < currentStyle.start)
+					{
+						break;
+					}
+				}
+				
+				i++;
+			}
 		}
 		
 		thisField.setStyles((StyleRange[])styles.toArray(new StyleRange[0]));
@@ -1195,13 +1251,7 @@ public class CodeField extends StyledText
 			contentListeners.get(i).contentChanged(event);
 		}
 		
-		new Thread()
-		{
-			public void run()
-			{
-				highlightSyntax();
-			}
-		}.start();
+		new Thread(syntaxUpdater).start();
 	}
 	
 	public void addError(int startIndex, int endIndex)
@@ -1318,7 +1368,7 @@ public class CodeField extends StyledText
 		
 		if (language > 0)
 		{
-			highlightSyntax();
+			new Thread(syntaxUpdater).start();
 		}
 	}
 	
@@ -1493,12 +1543,9 @@ public class CodeField extends StyledText
 		    {
 				public void lineGetStyle(LineStyleEvent event)
 				{
-					if (redrawReady)
-					{
-						StyleRange styles[] = thisField.getStyles();
-						
-						event.styles = styles;
-					}
+					StyleRange styles[] = thisField.getStyles();
+					
+					event.styles = styles;
 				}
 		    };
 		    
