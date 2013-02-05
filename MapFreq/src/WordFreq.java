@@ -5,40 +5,72 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
+
+/**
+ * File:			WordFreq.java
+ * Author:			Braden Steffaniak
+ * Programming:		APCS
+ * Last Modified:	5Feb2013
+ * Description:		Class that tests out the Map class finding
+ * 		the number of occurrences in a text file.
+ */
 
 public class WordFreq
 {
-	private Map	m;
-
+	/**
+	 * Main method that tests out both of the Maps with the files.
+	 * @param args
+	 */
 	public static void main(String args[])
 	{
-		WordFreq f = new WordFreq();
+		// Using HashMaps
+		Map	hash = new HashMap();
+		WordFreq f1 = new WordFreq(hash, "inFile.txt");
+		System.out.println(hash);
+		
+		hash = new HashMap();
+		WordFreq f2 = new WordFreq(hash, "inFile2.txt");
+		System.out.println(hash);
+		
+		hash = new HashMap();
+		WordFreq f3 = new WordFreq(hash, "inFile3.txt");
+		System.out.println(hash);
+		
+		// Using TreeMaps
+		Map	treeMap = new TreeMap();
+		WordFreq f4 = new WordFreq(treeMap, "inFile.txt");
+		System.out.println(treeMap);
+		
+		treeMap = new TreeMap();
+		WordFreq f5 = new WordFreq(treeMap, "inFile2.txt");
+		System.out.println(treeMap);
+		
+		treeMap = new TreeMap();
+		WordFreq f6 = new WordFreq(treeMap, "inFile3.txt");
+		System.out.println(treeMap);
 	}
 	
 	/**
 	 * Constructor for the WordFreq. Constructs the HashMap. uses that
 	 * HashMap to find the occurrences of each word.
 	 */
-	public WordFreq()
+	public WordFreq(Map m, String fileLocation)
 	{
-		m = new HashMap();
-		loadMap(m);
-		System.out.println(m); // print the values in the map
+		loadMap(m, fileLocation);
 	}
 
 	/**
 	 * Method that takes a Map and adds integers to it that symbolize the
 	 * number of occurrences of the specific word in the file.
 	 * 
-	 * @param m
+	 * @param m The map to load to.
 	 */
-	public void loadMap(Map m)
+	public void loadMap(Map m, String fileLocation)
 	{
-		// < code to open the report file called “inFile” >
-		
 		try
 		{
-			BufferedReader reader = new BufferedReader(new FileReader(new File("inFile2.txt")));
+			BufferedReader reader = new BufferedReader(new FileReader(new File(fileLocation)));
 			
 			String line = null;
 			
@@ -46,25 +78,25 @@ public class WordFreq
 			
 			while (line != null) //<there are still words in “inFile” >
 			{
-				String words[] = line.split("\\s*[[.][,][ ][/][*][=][(][)][\r][\n][\t][\\][{][}][;][?][-][+]['][\"][:][-][+][>][<][!]]\\s*");
+				String words[] = line.split("\\s*[[0-9].,[ ]/*=()\r\n\t\\[\\]?{};[-][+]['][\"]:[-][+]><!]\\s*");
 				
 				for (int i = 0; i < words.length; i++)
 				{
-					String word = words[i]; // readWord() reads one word
-														// in...may have to tokenize it
-					if (i == 1)
+					String word = words[i];
+					
+					if (word.length() > 0)
 					{
-						System.out.println(word);
+						Integer num = (Integer)m.get(word);
+						
+						if (num == null)
+						{
+							m.put(word, new Integer(1));
+						}
+						else
+						{
+							m.put(word, new Integer(num.intValue() + 1));
+						}
 					}
-					Integer num = (Integer) m.get(word); // get the value associated with
-														// the key word
-					if (num == null) // new word
-						m.put(word, new Integer(1)); // put new word in the map since
-														// we’ve seen it once
-					else
-						m.put(word, new Integer(num.intValue() + 1)); // add 1 to the
-																	// number of times
-																	// we’ve seen it
 				}
 				
 				line = reader.readLine();

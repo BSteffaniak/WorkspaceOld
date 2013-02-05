@@ -502,7 +502,7 @@ public class CodeField extends StyledText
 		}
 	}
 	
-	public synchronized void highlightSyntax()
+	public void highlightSyntax()
 	{
 		createSyntaxStyles();
 		createSyntaxStyles();
