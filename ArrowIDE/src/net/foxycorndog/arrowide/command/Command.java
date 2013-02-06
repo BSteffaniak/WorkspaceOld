@@ -71,7 +71,7 @@ public class Command
 	
 	public void execute() throws IOException
 	{
-		System.out.println(Arrays.asList(commands) + ", " + directory);
+//		System.out.println(Arrays.asList(commands) + ", " + directory);
 		
 		new Thread()
 		{

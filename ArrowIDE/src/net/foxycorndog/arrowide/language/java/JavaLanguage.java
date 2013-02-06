@@ -56,6 +56,8 @@ public class JavaLanguage
 	public  static final Color
 			KEYWORD_COLOR = new Color(Display.getCurrent(), 150, 0, 0);
 	
+	private static JavaCompiler compiler;
+	
 	static
 	{
 		COMMENT_PROPERTIES = new CommentProperties("//", "/*", "*/", new Color(Display.getCurrent(), 40, 140, 0));
@@ -102,13 +104,15 @@ public class JavaLanguage
 		
 	}
 	
-	public static void run(final String fileLocation, final ConsoleStream stream)
+	public static void run(String fileLocation, final ConsoleStream stream)
 	{
-		String outputLocation = FileUtils.getParentFolder(FileUtils.getParentFolder(fileLocation)) + "/bin/";
+		fileLocation = FileUtils.removeExtension(fileLocation);
 		
-		String className = FileUtils.removeExtension(FileUtils.getPathRelativeTo(fileLocation, outputLocation));
+		String outputLocation = FileUtils.getPrecedingPath(fileLocation, "/src/") + "/bin/";
 		
-		String classLocation = outputLocation + className;// + ".class";
+		String className  = FileUtils.getPathRelativeTo(fileLocation, "/src/");
+		
+		String classLocation = outputLocation + className;
 		
 //		try
 //		{
@@ -165,9 +169,7 @@ public class JavaLanguage
 //			e.printStackTrace();
 //		}
 		
-		String parent = FileUtils.getParentFolder(classLocation);
-		
-		Command c = new Command(Display.getDefault(), new String[] { CONFIG_DATA.get("jdk.location") + "/bin/java", "-cp", parent, className }, stream, parent);
+		Command c = new Command(Display.getDefault(), new String[] { CONFIG_DATA.get("jdk.location") + "/bin/java", "-cp", outputLocation, className }, stream, outputLocation);
 		
 		try
 		{
@@ -175,7 +177,6 @@ public class JavaLanguage
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -196,45 +197,52 @@ public class JavaLanguage
 	
 	private static JavaCompiler getCompiler()
 	{
-		JavaCompiler compiler = null;
-		
-		final String loc = "com.sun.tools.javac.api.JavacTool";
-		
-		File file = new File(CONFIG_DATA.get("jdk.location") + "/lib/tools.jar");
-		
-		try
+		if (JavaLanguage.compiler == null)
 		{
-			URL[] urls = { file.toURI().toURL() };
+			JavaCompiler compiler = null;
 			
-			ClassLoader cl = URLClassLoader.newInstance(urls);
+			final String loc = "com.sun.tools.javac.api.JavacTool";
 			
-			compiler = Class.forName(loc, false, cl).asSubclass(JavaCompiler.class).newInstance();
-		}
-		catch (MalformedURLException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IllegalAccessException e)
-		{
-			e.printStackTrace();
-		}
-		catch (InstantiationException e)
-		{
-			e.printStackTrace();
-		}
-		catch (ClassNotFoundException e)
-		{
-			e.printStackTrace();
+			File file = new File(CONFIG_DATA.get("jdk.location") + "/lib/tools.jar");
+			
+			try
+			{
+				URL[] urls = { file.toURI().toURL() };
+				
+				ClassLoader cl = URLClassLoader.newInstance(urls);
+				
+				compiler = Class.forName(loc, false, cl).asSubclass(JavaCompiler.class).newInstance();
+			}
+			catch (MalformedURLException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IllegalAccessException e)
+			{
+				e.printStackTrace();
+			}
+			catch (InstantiationException e)
+			{
+				e.printStackTrace();
+			}
+			catch (ClassNotFoundException e)
+			{
+				e.printStackTrace();
+			}
+			
+			JavaLanguage.compiler = compiler;
 		}
 		
-		return compiler;
+		return JavaLanguage.compiler;
 	}
 	
-	public static void compile(String fileLocation, String code, String outputLocation, final PrintStream stream, ArrayList<CompilerListener> compilerListeners)
+	public static synchronized void compile(String fileLocation, String code, String outputLocation, final PrintStream stream, ArrayList<CompilerListener> compilerListeners)
 	{
 		String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
 		
-		outputLocation += "../bin/";
+		fileLocation = FileUtils.removeExtension(fileLocation);
+		
+		outputLocation = FileUtils.getPrecedingPath(fileLocation, "/src/") + "/bin/";
 		
 		try
 		{
@@ -296,6 +304,8 @@ public class JavaLanguage
 		
 		Iterable<String> compilationOptions = Arrays.asList(compileOptions);
  
+//		if (true)return;
+		
 		/*Create a diagnostic controller, which holds the compilation problems*/
 		DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
  

@@ -704,13 +704,13 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 							if (outputs[i].getResult() != 0)
 							{
 								codeField.addError(outputs[i].getStartIndex(), outputs[i].getEndIndex());
-								System.out.print(outputs[i] + "; ");
+//								System.out.print(outputs[i] + "; ");
 							}
 						}
 						
-						System.out.println();
+//						System.out.println();
 						
-						codeField.highlightSyntax();
+//						codeField.highlightSyntax();
 					}
 				});
 			}
@@ -1237,7 +1237,10 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	{
 		exiting = true;
 		
-		shell.dispose();
+		if (shell != null)
+		{
+			shell.dispose();
+		}
 		
 		for (int i = fileViewerThreads.size() - 1; i >= 0; i--)
 		{

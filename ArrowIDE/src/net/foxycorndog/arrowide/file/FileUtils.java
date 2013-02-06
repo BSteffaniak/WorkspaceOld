@@ -216,9 +216,9 @@ public class FileUtils
 	{
 		location       = location.replace('\\', '/');
 		
-		int firstIndex = location.lastIndexOf('/') + 1;
-		
 		location       = removeEndingSlashes(location);
+		
+		int firstIndex = location.lastIndexOf('/') + 1;
 		
 		return location.substring(firstIndex, location.length());
 	}
@@ -249,13 +249,13 @@ public class FileUtils
 		return location;
 	}
 	
-	public static String getPathRelativeTo(String path, String relativeTo)
+	public static String getPrecedingPath(String path, String relativeTo)
 	{
 		File relativeFile = new File(relativeTo);
 		
-		if (relativeFile.exists())
-		{
-			if (!relativeFile.isDirectory())
+//		if (relativeFile.exists())
+//		{
+			if (relativeFile.exists() && !relativeFile.isDirectory())
 			{
 				relativeTo = getParentFolder(relativeTo);
 			}
@@ -264,12 +264,35 @@ public class FileUtils
 			
 			int index = path.lastIndexOf(folderName);
 			
-			return path.substring(index + folderName.length);
-		}
-		else
-		{
-			throw new IllegalArgumentException('"' + relativeTo + '"' + " must be an existing location.");
-		}
+			return path.substring(0, index);
+//		}
+//		else
+//		{
+//			throw new IllegalArgumentException('"' + relativeTo + '"' + " must be an existing location.");
+//		}
+	}
+	
+	public static String getPathRelativeTo(String path, String relativeTo)
+	{
+		File relativeFile = new File(relativeTo);
+		
+//		if (relativeFile.exists())
+//		{
+			if (relativeFile.exists() && !relativeFile.isDirectory())
+			{
+				relativeTo = getParentFolder(relativeTo);
+			}
+			
+			String folderName = "/" + getFileName(relativeTo) + "/";
+			
+			int index = path.lastIndexOf(folderName);
+			
+			return path.substring(index + folderName.length());
+//		}
+//		else
+//		{
+//			throw new IllegalArgumentException('"' + relativeTo + '"' + " must be an existing location.");
+//		}
 	}
 	
 	public static Font loadMonospacedFont(Display display, String name, String location, int size, int style)

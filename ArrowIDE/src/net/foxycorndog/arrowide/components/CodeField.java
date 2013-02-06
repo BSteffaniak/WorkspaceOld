@@ -65,6 +65,7 @@ import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 public class CodeField extends StyledText
 {
 	private boolean										commentStarted, textStarted;
+	private boolean										isEscape;
 	private boolean										redrawReady;
 
 	private char										textBeginning;
@@ -1074,7 +1075,7 @@ public class CodeField extends StyledText
 					}
 					else
 					{
-						if (c == textBeginning)
+						if (c == textBeginning && !isEscape)
 						{
 							textStarted = false;
 							
@@ -1089,6 +1090,18 @@ public class CodeField extends StyledText
 						}
 					}
 				}
+				
+//				if (isEscape)
+//				{
+//					System.out.println("Before: " + c);
+//				}
+				
+				isEscape = !isEscape && c == '\\';
+				
+//				if (isEscape)
+//				{
+//					System.out.println("After: " + c);
+//				}
 			}
 			
 			if (containsChar(chars, c))
@@ -1264,7 +1277,7 @@ public class CodeField extends StyledText
 	
 	public void addError(int startIndex, int endIndex)
 	{
-		errorLocations.add(new ErrorLocation(startIndex, endIndex));
+//		errorLocations.add(new ErrorLocation(startIndex, endIndex));
 		
 //		int length = endIndex - startIndex;
 //		
