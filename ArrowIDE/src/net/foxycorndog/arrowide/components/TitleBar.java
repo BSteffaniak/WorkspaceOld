@@ -39,7 +39,7 @@ public class TitleBar
 {
 	private boolean			dragging, dontSetX, wasRestored, wasMaximized;
 	
-	private int				startX, startY, mouseX;
+	private int				startX, startY, mouseX, mouseY;
 	private int				flags;
 	
 	private Color			hoverColor, normalColor;
@@ -77,18 +77,22 @@ public class TitleBar
 			{
 				if (event.type == SWT.MouseUp)
 				{
-					if (event.widget == closeButton)
+					// If the click is still on the button.
+					if (event.x >= 0 && event.x < size && event.y >= 0 && event.y < size)
 					{
-						parent.close();
-					}
-					else if (event.widget == restoreButton)
-					{
-						dontSetX = true;
-						parent.setMaximized(!parent.isMaximized());
-					}
-					else if (event.widget == minimizeButton)
-					{
-						parent.setMinimized(true);
+						if (event.widget == closeButton)
+						{
+							parent.close();
+						}
+						else if (event.widget == restoreButton)
+						{
+							dontSetX = true;
+							parent.setMaximized(!parent.isMaximized());
+						}
+						else if (event.widget == minimizeButton)
+						{
+							parent.setMinimized(true);
+						}
 					}
 				}
 				else if (event.type == SWT.MouseEnter)
@@ -232,6 +236,7 @@ public class TitleBar
 						Control control = (Control)event.widget;
 						
 						mouseX = event.x + parent.getBorderSize() + control.getLocation().x;
+						mouseY = event.y + parent.getBorderSize() + control.getLocation().y;
 						
 						wasMaximized = parent.isMaximized();
 						
@@ -244,7 +249,7 @@ public class TitleBar
 						tracker.close();
 						dragging = false;
 						
-						if (parent.getLocation().y < 0)
+						if (parent.getLocation().y + mouseY <= 0)
 						{
 							wasRestored = true;
 							parent.setMaximized(true);

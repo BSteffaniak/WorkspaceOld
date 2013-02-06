@@ -49,6 +49,8 @@ import net.foxycorndog.arrowide.dialog.TextInputDialog;
 import net.foxycorndog.arrowide.dialog.preferencesdialogpanel.AssemblyPanel;
 import net.foxycorndog.arrowide.dialog.preferencesdialogpanel.CppPanel;
 import net.foxycorndog.arrowide.dialog.preferencesdialogpanel.GeneralPanel;
+import net.foxycorndog.arrowide.dialog.preferencesdialogpanel.JavaPanel;
+import net.foxycorndog.arrowide.dialog.preferencesdialogpanel.PythonPanel;
 import net.foxycorndog.arrowide.file.ConfigReader;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.formatter.Formatter;
@@ -339,10 +341,10 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			}
 		}
 		
-		if (CONFIG_DATA.containsKey("last.width") && CONFIG_DATA.containsKey("last.height"))
+		if (CONFIG_DATA.containsKey("monitor.width") && CONFIG_DATA.containsKey("monitor.height"))
 		{
-			width  = Integer.parseInt(CONFIG_DATA.get("last.width"));
-			height = Integer.parseInt(CONFIG_DATA.get("last.height"));
+			width  = Integer.parseInt(CONFIG_DATA.get("monitor.width"));
+			height = Integer.parseInt(CONFIG_DATA.get("monitor.height"));
 			
 			if (width == screenBounds.width && height == screenBounds.height)
 			{
@@ -371,8 +373,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			}
 		}
 		
-		setConfigDataValue("last.width", screenBounds.width + "");
-		setConfigDataValue("last.height", screenBounds.height + "");
+		setConfigDataValue("monitor.width", screenBounds.width + "");
+		setConfigDataValue("monitor.height", screenBounds.height + "");
 		
 		if (CONFIG_DATA.containsKey("window.fullscreen"))
 		{
@@ -490,10 +492,12 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		preferences = new PreferencesDialog(contentPanel);
 		preferences.addPreferencesDialogPanel(new GeneralPanel(preferences.getContentPanel(), this));
+		preferences.addPreferencesDialogPanel(new JavaPanel(preferences.getContentPanel()));
 		preferences.addPreferencesDialogPanel(new CppPanel(preferences.getContentPanel()));
 		preferences.addPreferencesDialogPanel(new AssemblyPanel(preferences.getContentPanel()));
+		preferences.addPreferencesDialogPanel(new PythonPanel(preferences.getContentPanel()));
 		
-		menubar           = new Menubar(contentPanel);
+		menubar = new Menubar(contentPanel);
 		menubar.setBackground(TITLE_BAR_BACKGROUND);
 		menubar.setSize(contentPanel.getSize().x, 20);
 		menubar.addMenuHeader("FILE");

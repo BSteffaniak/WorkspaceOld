@@ -13,7 +13,7 @@ public class IdentifierProperties
 	
 	public  final char		PREVIOUS_CHARS[][], NEXT_CHARS[][];
 	
-	public  final String	PREFIXES[][], PREVIOUS_WORDS[][];
+	public  final String	PREFIXES[][], PREVIOUS_WORDS[][], NEXT_WORDS[][];
 	
 	public IdentifierProperties(char previousChars, char nextChars, Color color)
 	{
@@ -122,10 +122,10 @@ public class IdentifierProperties
 	
 	public IdentifierProperties(char previousChars[], char nextChars[], String prefixes[], String previousWords[], Color color)
 	{
-		this(new char[][] { previousChars }, new char[][] { nextChars }, new String[][] { prefixes }, new String[][] { previousWords }, color);
+		this(new char[][] { previousChars }, new char[][] { nextChars }, new String[][] { prefixes }, new String[][] { previousWords }, new String[][] {}, color);
 	}
 	
-	public IdentifierProperties(char previousChars[][], char nextChars[][], String prefixes[][], String previousWords[][], Color color)
+	public IdentifierProperties(char previousChars[][], char nextChars[][], String prefixes[][], String previousWords[][], String nextWords[][], Color color)
 	{
 		this.COLOR          = color;
 		
@@ -134,11 +134,12 @@ public class IdentifierProperties
 		
 		this.PREFIXES       = prefixes;
 		this.PREVIOUS_WORDS = previousWords;
+		this.NEXT_WORDS     = nextWords;
 		
-		this.AMOUNT         = Math.max(Math.max(Math.max(previousWords.length, prefixes.length), nextChars.length), previousChars.length);
+		this.AMOUNT         = Math.max(Math.max(Math.max(Math.max(previousWords.length, prefixes.length), nextChars.length), previousChars.length), NEXT_WORDS.length);
 	}
 	
-	public boolean isQualified(char previousChar, char nextChar, String currentWord, String previousWord)
+	public boolean isQualified(char previousChar, char nextChar, String currentWord, String previousWord, String nextWord)
 	{
 		if (AMOUNT <= 0)
 		{
@@ -182,6 +183,21 @@ public class IdentifierProperties
 			for (int j = 0; !found && j < PREVIOUS_WORDS[i].length; j++)
 			{
 				if (PREVIOUS_WORDS[i][j].equals(previousWord))
+				{
+					found = true;
+				}
+			}
+			
+			if (!found)
+			{
+				continue;
+			}
+			
+			found = NEXT_WORDS.length <= i || NEXT_WORDS[i].length <= 0;
+			
+			for (int j = 0; !found && j < NEXT_WORDS[i].length; j++)
+			{
+				if (NEXT_WORDS[i][j].equals(nextWord))
 				{
 					found = true;
 				}

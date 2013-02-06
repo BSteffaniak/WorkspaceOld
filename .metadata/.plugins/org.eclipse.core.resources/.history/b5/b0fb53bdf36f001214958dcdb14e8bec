@@ -1,0 +1,49 @@
+package net.foxycorndog.arrowide.language.python;
+
+import static net.foxycorndog.arrowide.language.Language.PYTHON;
+import net.foxycorndog.arrowide.language.Keyword;
+import net.foxycorndog.arrowide.language.python.PythonLanguage;
+
+public class PythonKeyword
+{
+	public static Keyword
+			AS, IF, ELSE, ELSEIF, WHILE, PRINT, CLASS, EXTENDS, BREAK,
+			NEW, RETURN, CONST, VAR, FUNCTION, THROW, TRY,CATCH, THIS,
+			SELF, NULL, TRUE, PUBLIC, STATIC, FALSE, PROTECTED, SWITCH,
+			CASE, BOOL, DEFAULT, FOR, FOREACH;
+	
+	public static void init()
+	{
+		AS			= new Keyword(PYTHON, "as", PythonLanguage.KEYWORD_COLOR);
+		IF			= new Keyword(PYTHON, "if", PythonLanguage.KEYWORD_COLOR);
+		ELSE		= new Keyword(PYTHON, "else", PythonLanguage.KEYWORD_COLOR);
+		ELSEIF		= new Keyword(PYTHON, "elseif", PythonLanguage.KEYWORD_COLOR);
+		WHILE		= new Keyword(PYTHON, "while", PythonLanguage.KEYWORD_COLOR);
+		PRINT		= new Keyword(PYTHON, "print", PythonLanguage.KEYWORD_COLOR);
+		CLASS		= new Keyword(PYTHON, "class", PythonLanguage.KEYWORD_COLOR);
+		EXTENDS		= new Keyword(PYTHON, "extends", PythonLanguage.KEYWORD_COLOR);
+		BREAK		= new Keyword(PYTHON, "break", PythonLanguage.KEYWORD_COLOR);
+		NEW			= new Keyword(PYTHON, "new", PythonLanguage.KEYWORD_COLOR);
+		RETURN		= new Keyword(PYTHON, "return", PythonLanguage.KEYWORD_COLOR);
+		CONST		= new Keyword(PYTHON, "const", PythonLanguage.KEYWORD_COLOR);
+		VAR			= new Keyword(PYTHON, "var", PythonLanguage.KEYWORD_COLOR);
+		FUNCTION	= new Keyword(PYTHON, "function", PythonLanguage.KEYWORD_COLOR);
+		THROW		= new Keyword(PYTHON, "throw", PythonLanguage.KEYWORD_COLOR);
+		TRY			= new Keyword(PYTHON, "try", PythonLanguage.KEYWORD_COLOR);
+		CATCH		= new Keyword(PYTHON, "catch", PythonLanguage.KEYWORD_COLOR);
+		THIS		= new Keyword(PYTHON, "$this", PythonLanguage.KEYWORD_COLOR);
+		SELF		= new Keyword(PYTHON, "self", PythonLanguage.KEYWORD_COLOR);
+		NULL		= new Keyword(PYTHON, "null", PythonLanguage.KEYWORD_COLOR);
+		TRUE		= new Keyword(PYTHON, "true", PythonLanguage.KEYWORD_COLOR);
+		PUBLIC		= new Keyword(PYTHON, "public", PythonLanguage.KEYWORD_COLOR);
+		STATIC		= new Keyword(PYTHON, "static", PythonLanguage.KEYWORD_COLOR);
+		FALSE		= new Keyword(PYTHON, "false", PythonLanguage.KEYWORD_COLOR);
+		PROTECTED	= new Keyword(PYTHON, "protected", PythonLanguage.KEYWORD_COLOR);
+		SWITCH		= new Keyword(PYTHON, "switch", PythonLanguage.KEYWORD_COLOR);
+		CASE		= new Keyword(PYTHON, "case", PythonLanguage.KEYWORD_COLOR);
+		BOOL		= new Keyword(PYTHON, "bool", PythonLanguage.KEYWORD_COLOR);
+		DEFAULT		= new Keyword(PYTHON, "default", PythonLanguage.KEYWORD_COLOR);
+		FOR			= new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		FOREACH		= new Keyword(PYTHON, "foreach", PythonLanguage.KEYWORD_COLOR);
+	}
+}

@@ -21,7 +21,7 @@ public class FileUtils
 	private static final HashMap<String, Integer>			TYPES;
 	
 	public  static final int JAVA = 1, GLSL = 2, ASSEMBLY = 3, FOXY = 4, CPP = 5, H = 6, C = 7,
-							TXT = 8, RTF = 9, EXE = 10, CLASS = 11, PHP = 12;
+							TXT = 8, RTF = 9, EXE = 10, CLASS = 11, PHP = 12, PYTHON = 13;
 	
 	static
 	{
@@ -46,6 +46,7 @@ public class FileUtils
 		TYPES.put("h",     H);
 		TYPES.put("php",   PHP);
 		TYPES.put("php5",  PHP);
+		TYPES.put("py",    PYTHON);
 		
 //		ENDINGS = new HashMap<String, HashSet<String>>();
 //		
@@ -234,6 +235,32 @@ public class FileUtils
 		}
 		
 		return location;
+	}
+	
+	public static String removeExtension(String location)
+	{
+		int lastIndex = location.lastIndexOf('.');
+		
+		if (lastIndex > 0)
+		{
+			location = location.substring(0, lastIndex);
+		}
+		
+		return location;
+	}
+	
+	public static String getPathRelativeTo(String path, String relativeTo)
+	{
+		File relativeFile = new File(relativeTo);
+		
+		if (relativeFile.exists())
+		{
+			
+		}
+		else
+		{
+			throw new IllegalArgumentException('"' + relativeTo + '"' + " must be an existing location.");
+		}
 	}
 	
 	public static Font loadMonospacedFont(Display display, String name, String location, int size, int style)

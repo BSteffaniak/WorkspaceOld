@@ -1,0 +1,9 @@
+Compiled successfully.
+outside thread
+SAID SOMETHING!
+0
+1
+Compiled successfully.
+outside thread
+SAID SOMETHING!
+0

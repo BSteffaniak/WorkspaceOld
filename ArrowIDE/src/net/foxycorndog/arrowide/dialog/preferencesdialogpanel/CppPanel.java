@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Text;
 import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.components.FileLocator;
 import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
+import net.foxycorndog.arrowide.file.FileUtils;
 
 import static net.foxycorndog.arrowide.ArrowIDE.CONFIG_DATA;
 
@@ -21,7 +22,7 @@ public class CppPanel extends PreferencesDialogPanel
 	
 	public CppPanel(Composite parent)
 	{
-		super(parent, "C++ Compiler");
+		super(parent, "C++");
 		
 		FillLayout layout   = new FillLayout(SWT.VERTICAL);
 		layout.marginHeight = 5;
@@ -48,7 +49,9 @@ public class CppPanel extends PreferencesDialogPanel
 	{
 		if (gppLocator.getText() != null && !gppLocator.getText().equals(CONFIG_DATA.get("g++.location")))
 		{
-			ArrowIDE.setConfigDataValue("g++.location", gppLocator.getText());
+			String location = FileUtils.removeEndingSlashes(gppLocator.getText().replace('\\', '/'));
+			
+			ArrowIDE.setConfigDataValue("g++.location", location);
 		}
 	}
 

@@ -116,6 +116,7 @@ public class CodeField extends StyledText
 	
 	static
 	{
+//		whitespaceRegex = "[.,[ ]/*=()\r\n\t\\[\\]{};[-][+]['][\"]:[-][+]><!]";
 		whitespaceRegex = "[.,[ ]/*=()\r\n\t\\[\\]{};[-][+]['][\"]:[-][+]><!]";
 		
 		whitespaceArray = new char[] { ' ', '.', ',', '/', '*', '=', '(', ')', '[', ']', '{', '}', ';', '\n', '\t', '\r', '-', '+', '\'', '"', ':', '-', '+', '>', '<', '!' };
@@ -513,11 +514,12 @@ public class CodeField extends StyledText
 			{
 				if (thisField != null)
 				{
-		System.out.println("updaten");
 					thisField.redraw();//Range(0, thisField.getText().length(), true);
 				}
 			}
 		});
+		
+		clearErrors();
 	}
 	
 	public void createSyntaxStyles()
@@ -574,6 +576,12 @@ public class CodeField extends StyledText
 		{
 			String prevWord = i > 0 ? strings[i - 1] : "";
 			String word     = strings[i];
+			String nextWord = "";
+			
+			if (i < strings.length - 1)
+			{
+				nextWord = strings[i + 1];
+			}
 			
 			offsets[i]      = charCount;
 			
@@ -768,7 +776,7 @@ public class CodeField extends StyledText
 			}
 			else if (identifierProperties != null)
 			{
-				if (!alreadyAdded && identifierProperties.isQualified(oldResult.onlyChar, newResult.firstCharOtherThanSpace, word, prevWord))
+				if (!alreadyAdded && identifierProperties.isQualified(oldResult.onlyChar, newResult.firstCharOtherThanSpace, word, prevWord, nextWord))
 				{
 					int offset = offsets[i];
 					int length = word.length();
@@ -1360,16 +1368,21 @@ public class CodeField extends StyledText
 	
 	public void setLanguage(int language)
 	{
-		this.language     = language;
+		this.language        = language;
 		
 		commentProperties    = Language.getCommentProperties(language);
 		methodProperties     = Language.getMethodProperties(language);
 		identifierProperties = Language.getIdentifierProperties(language);
+			
+		identifierLists.clear();
+		methodLists.clear();
+		identifierWords.clear();
+		methodWords.clear();
 		
-		if (language > 0)
-		{
+//		if (language > 0)
+//		{
 			new Thread(syntaxUpdater).start();
-		}
+//		}
 	}
 	
 	public void addContentListener(ContentListener listener)

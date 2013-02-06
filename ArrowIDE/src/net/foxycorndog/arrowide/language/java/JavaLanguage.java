@@ -43,6 +43,7 @@ import net.foxycorndog.arrowide.language.IdentifierProperties;
 import net.foxycorndog.arrowide.language.MethodProperties;
 
 import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
+import static net.foxycorndog.arrowide.ArrowIDE.CONFIG_DATA;
 
 public class JavaLanguage
 {
@@ -103,60 +104,78 @@ public class JavaLanguage
 	
 	public static void run(final String fileLocation, final ConsoleStream stream)
 	{
-		final String classLocation = FileUtils.getParentFolder(FileUtils.getParentFolder(fileLocation)) + "/bin/" + FileUtils.getFileNameWithoutExtension(fileLocation) + ".class";
+		String outputLocation = FileUtils.getParentFolder(FileUtils.getParentFolder(fileLocation)) + "/bin/";
+		
+		String className = FileUtils.removeExtension(fileLocation);
+		
+		String classLocation = outputLocation + className;// + ".class";
+		
+//		try
+//		{
+//			URL url = new URL("file://" + FileUtils.getParentFolder(classLocation) + "/");
+//			
+//			final ClassLoader cLoader   = new URLClassLoader(new URL[] { url });
+//			
+//			final String      className = FileUtils.getFileNameWithoutExtension(classLocation);
+//			
+////			Class        clazz     = cLoader.loadClass(className);//classLocation.substring(0, classLocation.lastIndexOf('.')));
+//			
+////			final Method m         = clazz.getMethod("main", String[].class);
+//			
+////			classRunning = true;
+//			
+//			new Thread()
+//			{
+//				public void run()
+//				{
+//					try
+//					{
+//						Class clazz = null;
+//						
+//						if (classes.containsKey(classLocation))
+//						{
+//							clazz = classes.get(classLocation);
+//						}
+//						else
+//						{
+//							clazz = cLoader.loadClass(className);
+//							
+//							classes.put(classLocation, clazz);
+//						}
+//						
+//						exec(clazz, classLocation, stream);
+//					}
+//					catch (ClassNotFoundException e)
+//					{
+//						e.printStackTrace();
+//					}
+//					catch (InterruptedException e)
+//					{
+//						e.printStackTrace();
+//					}
+//					catch (IOException e)
+//					{
+//						e.printStackTrace();
+//					}
+//				}
+//			}.start();
+//		}
+//		catch (MalformedURLException e)
+//		{
+//			e.printStackTrace();
+//		}
+		
+		String parent = FileUtils.getParentFolder(classLocation);
+		
+		Command c = new Command(Display.getDefault(), new String[] { CONFIG_DATA.get("jdk.location") + "/bin/java", "-cp", parent, className }, stream, parent);
 		
 		try
 		{
-			URL url = new URL("file://" + FileUtils.getParentFolder(classLocation) + "/");
-			
-			final ClassLoader cLoader   = new URLClassLoader(new URL[] { url });
-			
-			final String      className = FileUtils.getFileNameWithoutExtension(classLocation);
-			
-//			Class        clazz     = cLoader.loadClass(className);//classLocation.substring(0, classLocation.lastIndexOf('.')));
-			
-//			final Method m         = clazz.getMethod("main", String[].class);
-			
-//			classRunning = true;
-			
-			new Thread()
-			{
-				public void run()
-				{
-					try
-					{
-						Class clazz = null;
-						
-						if (classes.containsKey(classLocation))
-						{
-							clazz = classes.get(classLocation);
-						}
-						else
-						{
-							clazz = cLoader.loadClass(className);
-							
-							classes.put(classLocation, clazz);
-						}
-						
-						exec(clazz, classLocation, stream);
-					}
-					catch (ClassNotFoundException e)
-					{
-						e.printStackTrace();
-					}
-					catch (InterruptedException e)
-					{
-						e.printStackTrace();
-					}
-					catch (IOException e)
-					{
-						e.printStackTrace();
-					}
-				}
-			}.start();
+			c.execute();
 		}
-		catch (MalformedURLException e)
+		catch (IOException e)
 		{
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -173,6 +192,42 @@ public class JavaLanguage
 		Command command = new Command(Display.getDefault(), "\"" + javaBin + "\" -cp " + "\"" + classpath + "\" " + className, stream, outputLocation);
 		
 		command.execute();
+	}
+	
+	private static JavaCompiler getCompiler()
+	{
+		JavaCompiler compiler = null;
+		
+		final String loc = "com.sun.tools.javac.api.JavacTool";
+		
+		File file = new File(CONFIG_DATA.get("jdk.location") + "/lib/tools.jar");
+		
+		try
+		{
+			URL[] urls = { file.toURI().toURL() };
+			
+			ClassLoader cl = URLClassLoader.newInstance(urls);
+			
+			compiler = Class.forName(loc, false, cl).asSubclass(JavaCompiler.class).newInstance();
+		}
+		catch (MalformedURLException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IllegalAccessException e)
+		{
+			e.printStackTrace();
+		}
+		catch (InstantiationException e)
+		{
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return compiler;
 	}
 	
 	public static void compile(String fileLocation, String code, String outputLocation, final PrintStream stream, ArrayList<CompilerListener> compilerListeners)
@@ -215,9 +270,9 @@ public class JavaLanguage
 		SimpleJavaFileObject fileObject  = new DynamicJavaSourceCodeObject(fileName, code);
 		
 		JavaFileObject javaFileObjects[] = new JavaFileObject[] { fileObject };
- 
+		
 		/*Instantiating the java compiler*/
-		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+		JavaCompiler compiler = getCompiler();
  
 		/**
 		 * Retrieving the standard file manager from compiler object, which is used to provide

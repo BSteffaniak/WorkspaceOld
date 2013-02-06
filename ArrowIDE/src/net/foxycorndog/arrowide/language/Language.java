@@ -20,10 +20,11 @@ import net.foxycorndog.arrowide.language.foxy.FoxyLanguage;
 import net.foxycorndog.arrowide.language.glsl.GLSLLanguage;
 import net.foxycorndog.arrowide.language.java.JavaLanguage;
 import net.foxycorndog.arrowide.language.php.PHPLanguage;
+import net.foxycorndog.arrowide.language.python.PythonLanguage;
 
 public class Language
 {
-	public  static final int JAVA = FileUtils.JAVA, GLSL = FileUtils.GLSL, ASSEMBLY = FileUtils.ASSEMBLY, FOXY = FileUtils.FOXY, CPP = FileUtils.CPP, C = FileUtils.C, PHP = FileUtils.PHP;
+	public  static final int JAVA = FileUtils.JAVA, GLSL = FileUtils.GLSL, ASSEMBLY = FileUtils.ASSEMBLY, FOXY = FileUtils.FOXY, CPP = FileUtils.CPP, C = FileUtils.C, PHP = FileUtils.PHP, PYTHON = FileUtils.PYTHON;
 	
 	private static ArrayList<CompilerListener>				listeners;
 	
@@ -45,6 +46,7 @@ public class Language
 		Keyword.addLanguage(FOXY);
 		Keyword.addLanguage(CPP);
 		Keyword.addLanguage(PHP);
+		Keyword.addLanguage(PYTHON);
 		
 		JavaLanguage.init();
 		GLSLLanguage.init();
@@ -52,6 +54,7 @@ public class Language
 		FoxyLanguage.init();
 		CppLanguage.init();
 		PHPLanguage.init();
+		PythonLanguage.init();
 		
 		commentProperties.put(JAVA, JavaLanguage.COMMENT_PROPERTIES);
 		commentProperties.put(GLSL, GLSLLanguage.COMMENT_PROPERTIES);
@@ -59,6 +62,7 @@ public class Language
 		commentProperties.put(FOXY, FoxyLanguage.COMMENT_PROPERTIES);
 		commentProperties.put(CPP, CppLanguage.COMMENT_PROPERTIES);
 		commentProperties.put(PHP, PHPLanguage.COMMENT_PROPERTIES);
+		commentProperties.put(PYTHON, PythonLanguage.COMMENT_PROPERTIES);
 		
 		methodProperties.put(JAVA, JavaLanguage.METHOD_PROPERTIES);
 		methodProperties.put(GLSL, GLSLLanguage.METHOD_PROPERTIES);
@@ -66,6 +70,7 @@ public class Language
 		methodProperties.put(FOXY, FoxyLanguage.METHOD_PROPERTIES);
 		methodProperties.put(CPP, CppLanguage.METHOD_PROPERTIES);
 		methodProperties.put(PHP, PHPLanguage.METHOD_PROPERTIES);
+		methodProperties.put(PYTHON, PythonLanguage.METHOD_PROPERTIES);
 		
 		identifierProperties.put(JAVA, JavaLanguage.IDENTIFIER_PROPERTIES);
 		identifierProperties.put(GLSL, GLSLLanguage.IDENTIFIER_PROPERTIES);
@@ -73,6 +78,7 @@ public class Language
 		identifierProperties.put(FOXY, FoxyLanguage.IDENTIFIER_PROPERTIES);
 		identifierProperties.put(CPP, CppLanguage.IDENTIFIER_PROPERTIES);
 		identifierProperties.put(PHP, PHPLanguage.IDENTIFIER_PROPERTIES);
+		identifierProperties.put(PYTHON, PythonLanguage.IDENTIFIER_PROPERTIES);
 	}
 	
 	public static int getLanguage(String name)
@@ -99,6 +105,10 @@ public class Language
 		else if (language == CPP)
 		{
 			CppLanguage.run(fileLocation, stream);
+		}
+		else if (language == PYTHON)
+		{
+			PythonLanguage.run(fileLocation, stream);
 		}
 	}
 	

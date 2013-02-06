@@ -8,13 +8,6 @@ public class Test
 		{
 			int times = 0;
 			
-			int d = 4;
-			
-			while (d < 4)
-			{
-				d++;
-			}
-			
 			public void run()
 			{
 				while (true)
@@ -33,15 +26,9 @@ public class Test
 			}
 		}.start();
 		
-		JFrame f = new JFrame("ASDF2");
+		JFrame f = new JFrame("ASDF6");
 		f.setSize(500, 500);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
-		
-		System.out.println("outside thread");
-		
-		newfile f2 = new newfile();
-		
-		f2.saySomething();
 	}
 }

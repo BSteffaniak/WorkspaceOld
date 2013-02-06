@@ -1,0 +1,49 @@
+package net.foxycorndog.arrowide.language.python;
+
+import static net.foxycorndog.arrowide.language.Language.PYTHON;
+import net.foxycorndog.arrowide.language.Keyword;
+import net.foxycorndog.arrowide.language.python.PythonLanguage;
+
+public class PythonKeyword
+{
+	public static Keyword
+			AND, AS, ASSERT, BREAK, CLASS, CONTINUE, DEF, DEL, ELIF, ELSE,
+			EXCEPT, EXEC, FINALLY, FOR, FROM, GLOBAL, IF, IMPORT, IN, IS,
+			LAMBDA, NOT, OR, PASS, PRINT, RAISE, RETURN, TRY, WHILE, WITH,
+			YEILD;
+	
+	public static void init()
+	{
+		AND = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		AS = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		ASSERT = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		BREAK = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		CLASS = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		CONTINUE = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		DEF = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		DEL = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		ELIF = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		ELSE = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		EXCEPT = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		EXEC = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		FINALLY = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		FOR			= new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		FROM = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		GLOBAL = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		IF = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		IMPORT = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		IN = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		IS = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		LAMBDA = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		NOT = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		OR = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		PASS = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		PRINT = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		RAISE = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		RETURN = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		TRY = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		WHILE = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		WITH = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+		YEILD = new Keyword(PYTHON, "for", PythonLanguage.KEYWORD_COLOR);
+	}
+}
