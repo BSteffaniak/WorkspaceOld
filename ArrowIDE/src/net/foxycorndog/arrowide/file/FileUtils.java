@@ -255,7 +255,16 @@ public class FileUtils
 		
 		if (relativeFile.exists())
 		{
+			if (!relativeFile.isDirectory())
+			{
+				relativeTo = getParentFolder(relativeTo);
+			}
 			
+			String folderName = "/" + getFileName(relativeTo) + "/";
+			
+			int index = path.lastIndexOf(folderName);
+			
+			return path.substring(index + folderName.length);
 		}
 		else
 		{

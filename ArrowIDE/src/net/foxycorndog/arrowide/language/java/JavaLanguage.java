@@ -106,7 +106,7 @@ public class JavaLanguage
 	{
 		String outputLocation = FileUtils.getParentFolder(FileUtils.getParentFolder(fileLocation)) + "/bin/";
 		
-		String className = FileUtils.removeExtension(fileLocation);
+		String className = FileUtils.removeExtension(FileUtils.getPathRelativeTo(fileLocation, outputLocation));
 		
 		String classLocation = outputLocation + className;// + ".class";
 		
