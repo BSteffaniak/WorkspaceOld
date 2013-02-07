@@ -15,28 +15,28 @@ import org.xml.sax.XMLReader;
 
 public class Reader
 {
-//	public static void main(String args[])
-//	{
-//		System.out.println(System.getProperty("user.dir"));
+	public static void main(String args[])
+	{
+		System.out.println(System.getProperty("user.dir"));
+		
+		HashMap<String, XMLItem[]> map = Reader.read("xmltest.xml");
+		
+//		XMLItem cps[] = map.get("classpath.classpathentry");
 //		
-//		HashMap<String, XMLItem[]> map = Reader.read("xmltest.xml");
-//		
-////		XMLItem cps[] = map.get("classpath.classpathentry");
-////		
-////		for (int i = 0; i < cps.length; i++)
-////		{
-////			HashMap<String, String> attributes = cps[i].getAttributes();
-////			
-////			if (attributes.containsKey("kind") && attributes.get("kind").equals("con"))
-////			{
-////				System.out.println(attributes.get("path"));
-////				
-////				break;
-////			}
-////		}
-//
-//		System.out.println(map.get("Contacts.Contact.ContactId")[0].getContents());
-//	}
+//		for (int i = 0; i < cps.length; i++)
+//		{
+//			HashMap<String, String> attributes = cps[i].getAttributes();
+//			
+//			if (attributes.containsKey("kind") && attributes.get("kind").equals("con"))
+//			{
+//				System.out.println(attributes.get("path"));
+//				
+//				break;
+//			}
+//		}
+
+		System.out.println(map.get("Contacts.Contact.ContactId")[0].getContents());
+	}
 	
 	public static HashMap<String, XMLItem[]> read(String location)
 	{

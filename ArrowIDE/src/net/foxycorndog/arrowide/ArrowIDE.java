@@ -60,6 +60,8 @@ import net.foxycorndog.arrowide.language.Language;
 import net.foxycorndog.arrowide.language.CompileOutput;
 import net.foxycorndog.arrowide.language.java.JavaLanguage;
 import net.foxycorndog.arrowide.printer.TextPrinter;
+import net.foxycorndog.arrowide.xml.Reader;
+import net.foxycorndog.arrowide.xml.XMLItem;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
@@ -298,6 +300,10 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 */
 	public ArrowIDE(final Display display)
 	{
+		HashMap<String, XMLItem[]> map = Reader.read("xmltest.xml");
+
+		System.out.println(map.get("Contacts.Contact.ContactId")[0].getContents());
+		
 		if (CONFIG_DATA.containsKey("window.custom"))
 		{
 			custom = Boolean.valueOf(CONFIG_DATA.get("window.custom"));
