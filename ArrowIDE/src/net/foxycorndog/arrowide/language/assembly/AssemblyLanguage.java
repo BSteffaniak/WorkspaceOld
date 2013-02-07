@@ -22,6 +22,8 @@ import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.command.Command;
 import net.foxycorndog.arrowide.command.CommandListener;
 import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
+import net.foxycorndog.arrowide.dialog.PreferencesDialog;
+import net.foxycorndog.arrowide.dialog.preferencesdialogpanel.AssemblyPanel;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CommentProperties;
 import net.foxycorndog.arrowide.language.CompileOutput;
@@ -155,6 +157,13 @@ public class AssemblyLanguage
 //			throw new UnsupportedOperationException("Compiling assembly on macosx is unsupported.");
 //		}
 		
+		if (!CONFIG_DATA.containsKey("assembly.compiler") || CONFIG_DATA.get("assembly.compiler").equals(""))
+		{
+			PreferencesDialog.getDefault().openPreferencesTo(AssemblyPanel.class);
+			
+			return;
+		}
+		
 		try
 		{
 			String text = null;
@@ -163,12 +172,12 @@ public class AssemblyLanguage
 			
 			String compilerName = "";
 			
-			String fileEnding = compilerName.equals("FASM") ? ".exe" : ".img";
-			
 			if (CONFIG_DATA.containsKey("assembly.compiler"))
 			{
 				compilerName = CONFIG_DATA.get("assembly.compiler");
 			}
+			
+			String fileEnding = compilerName.equals("FASM") ? ".exe" : ".img";
 			
 			int compiler = 0;
 			

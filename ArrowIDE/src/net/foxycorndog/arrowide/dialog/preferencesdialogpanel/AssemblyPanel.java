@@ -5,6 +5,7 @@ import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.components.DropdownMenu;
 import net.foxycorndog.arrowide.components.FileLocator;
 import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
+import net.foxycorndog.arrowide.file.FileUtils;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -58,12 +59,17 @@ public class AssemblyPanel extends PreferencesDialogPanel
 
 	public void apply()
 	{
-		if (dosboxLocator.getText() != null && !dosboxLocator.getText().equals(CONFIG_DATA.get("dosbox.location")))
+		if (dosboxLocator.getText() != null && !dosboxLocator.getText().equals("")  && !dosboxLocator.getText().equals(CONFIG_DATA.get("dosbox.location")))
 		{
-			ArrowIDE.setConfigDataValue("dosbox.location", dosboxLocator.getText());
+			String location = FileUtils.removeEndingSlashes(dosboxLocator.getText().replace('\\', '/'));
+			
+			ArrowIDE.setConfigDataValue("dosbox.location", location);
 		}
 		
-		ArrowIDE.setConfigDataValue("assembly.compiler", compilerChooser.getSelection());
+		if (compilerChooser.getSelection() != null)
+		{
+			ArrowIDE.setConfigDataValue("assembly.compiler", compilerChooser.getSelection());
+		}
 	}
 
 	public void revert()

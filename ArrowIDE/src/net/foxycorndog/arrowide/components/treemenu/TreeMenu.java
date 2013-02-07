@@ -116,6 +116,11 @@ public class TreeMenu extends Composite
 		tree.addListener(SWT.MouseDown, selectionListener);
 	}
 
+	public void setSelection(int id)
+	{
+		tree.setSelection(items.get(id));
+	}
+	
 	public int addItem(String name)
 	{
 		return addItem(name, null);

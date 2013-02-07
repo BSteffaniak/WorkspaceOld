@@ -159,27 +159,6 @@ public class Language
 		{
 			int language = FileUtils.getLanguage(fileLocation);
 			
-			if (language == Language.CPP)
-			{
-				if (!CONFIG_DATA.containsKey("g++.location") || !new File(CONFIG_DATA.get("g++.location")).exists())
-				{
-					FileBrowseDialog gppSearch = new FileBrowseDialog("Specify your c++ compiler. (EX: C:\\MinGW\\bin)", "Location:", FileBrowseDialog.EITHER);
-					
-					String gppLoc = gppSearch.open();
-					
-					if (gppLoc != null)
-					{
-						ArrowIDE.setConfigDataValue("g++.location", gppLoc);
-					}
-					else
-					{
-						stream.println("You must specify a valid c++ compiler to compile this program.");
-						
-						return;
-					}
-				}
-			}
-			
 			if (language == Language.JAVA)
 			{
 				JavaLanguage.compile(fileLocation, code, outputLocation, stream, listeners);

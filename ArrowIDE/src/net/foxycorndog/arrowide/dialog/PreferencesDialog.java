@@ -36,21 +36,38 @@ public class PreferencesDialog implements Dialog
 	private Window										window;
 
 	private TreeMenu									treeMenu;
-
+	
 	private HashMap<Integer, PreferencesDialogPanel>	panels;
+	private HashMap<PreferencesDialogPanel, Integer>	ids;
+
+	private static PreferencesDialog					thisDialog;
 
 	public PreferencesDialog(Composite parent)
 	{
 		panels = new HashMap<Integer, PreferencesDialogPanel>();
+		ids    = new HashMap<PreferencesDialogPanel, Integer>();
 		
 		createWindow();
 		
 		currentPanelId = 1;
+		
+		if (thisDialog == null)
+		{
+			thisDialog = this;
+		}
 	}
 	
 	public void addPreferencesDialogPanel(PreferencesDialogPanel panel)
 	{
-		panels.put(treeMenu.addItem(panel.getTitle()), panel);
+		int id = treeMenu.addItem(panel.getTitle());
+		
+		panels.put(id, panel);
+		ids.put(panel, id);
+	}
+	
+	public static PreferencesDialog getDefault()
+	{
+		return thisDialog;
 	}
 	
 	private void createWindow()
@@ -178,6 +195,23 @@ public class PreferencesDialog implements Dialog
 		apply.addListener(SWT.Selection, buttonListener);
 	}
 	
+	public void openPreferencesTo(Class panel)
+	{
+		PreferencesDialogPanel panels[] = this.panels.values().toArray(new PreferencesDialogPanel[0]);
+		
+		for (int i = 0; i < panels.length; i++)
+		{
+			if (panels[i].getClass() == panel)
+			{
+				setActivePanel(ids.get(panels[i]));
+				
+				break;
+			}
+		}
+		
+		open();
+	}
+	
 	private void setActivePanel(int id)
 	{
 		PreferencesDialogPanel panels[] = getPanels();
@@ -194,6 +228,8 @@ public class PreferencesDialog implements Dialog
 		panel.setVisible(true);
 		
 		currentPanelId = id;
+		
+		treeMenu.setSelection(id);
 	}
 	
 	private PreferencesDialogPanel[] getPanels()

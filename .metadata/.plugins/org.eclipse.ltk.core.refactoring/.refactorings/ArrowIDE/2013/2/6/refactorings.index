@@ -1,2 +1,8 @@
 1360108519896	Rename field 'gppLocator'
 1360121505164	Rename field 'pythonLocator'
+1360183203680	Rename local variable 'gppLoc'
+1360183213184	Rename local variable 'gppSearch'
+1360183356541	Rename local variable 'jdkSearch'
+1360183361053	Rename local variable 'jdkLoc'
+1360196226538	Rename local variable 'jdkSearch'
+1360196231569	Rename local variable 'jdkLoc'

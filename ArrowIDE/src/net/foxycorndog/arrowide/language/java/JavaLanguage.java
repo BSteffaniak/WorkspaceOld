@@ -35,6 +35,7 @@ import org.eclipse.swt.widgets.Display;
 import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.command.Command;
 import net.foxycorndog.arrowide.console.ConsoleStream;
+import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CommentProperties;
 import net.foxycorndog.arrowide.language.CompileOutput;
@@ -108,7 +109,10 @@ public class JavaLanguage
 	{
 		fileLocation = FileUtils.removeExtension(fileLocation);
 		
-		String outputLocation = FileUtils.getPrecedingPath(fileLocation, "/src/") + "/bin/";
+		// TODO: Fix the issue with the /src/ possible ambiguities.
+		String projectLocation = FileUtils.getPrecedingPath(fileLocation, "/src/");
+		
+		String outputLocation = projectLocation + "/bin/";
 		
 		String className  = FileUtils.getPathRelativeTo(fileLocation, "/src/");
 		
@@ -169,7 +173,21 @@ public class JavaLanguage
 //			e.printStackTrace();
 //		}
 		
-		Command c = new Command(Display.getDefault(), new String[] { CONFIG_DATA.get("jdk.location") + "/bin/java", "-cp", outputLocation, className }, stream, outputLocation);
+		String dependencies[] = null;
+		
+		char colon = (Character)PROPERTIES.get("colon");
+		
+		String classpath = outputLocation;
+		
+		if (dependencies != null)
+		{
+			for (String dependency : dependencies)
+			{
+				classpath += colon + dependency;
+			}
+		}
+		
+		Command c = new Command(Display.getDefault(), new String[] { CONFIG_DATA.get("jdk.location") + "/bin/java", "-cp", classpath, className }, stream, projectLocation);
 		
 		try
 		{
@@ -238,6 +256,26 @@ public class JavaLanguage
 	
 	public static synchronized void compile(String fileLocation, String code, String outputLocation, final PrintStream stream, ArrayList<CompilerListener> compilerListeners)
 	{
+		if (!CONFIG_DATA.containsKey("jdk.location") || !(new File(CONFIG_DATA.get("jdk.location")).isDirectory()))
+		{
+			FileBrowseDialog jdkSearch = new FileBrowseDialog("Specify your JDK location.", "Location:", FileBrowseDialog.DIRECTORY);
+			
+			String jdkLoc = jdkSearch.open();
+			
+			if (jdkLoc != null)
+			{
+				String location = FileUtils.removeEndingSlashes(jdkLoc.replace('\\', '/'));
+			
+				ArrowIDE.setConfigDataValue("jdk.location", location);
+			}
+			else
+			{
+				stream.println("You must specify a valid jdk to compile this program.");
+				
+				return;
+			}
+		}
+		
 		String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
 		
 		fileLocation = FileUtils.removeExtension(fileLocation);

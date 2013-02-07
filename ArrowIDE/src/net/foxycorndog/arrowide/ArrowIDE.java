@@ -227,6 +227,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			PROPERTIES.put("composite.modifiers", SWT.BORDER);
 			PROPERTIES.put("key.control", SWT.COMMAND);
 			PROPERTIES.put("os.executable.extension", "");
+			PROPERTIES.put("colon", ';');
 		}
 		else if (osName.toLowerCase().contains("win"))
 		{
@@ -234,6 +235,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			PROPERTIES.put("composite.modifiers", SWT.NONE);
 			PROPERTIES.put("key.control", SWT.CTRL);
 			PROPERTIES.put("os.executable.extension", ".exe");
+			PROPERTIES.put("colon", ';');
 		}
 		else if (osName.toLowerCase().contains("lin"))
 		{
@@ -241,6 +243,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			PROPERTIES.put("composite.modifiers", SWT.NONE);
 			PROPERTIES.put("key.control", SWT.CTRL);
 			PROPERTIES.put("os.executable.extension", "");
+			PROPERTIES.put("colon", ':');
 		}
 		
 		setArchitecture();
@@ -983,12 +986,6 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				{
 					String location = treeItemLocations.get(id);
 					
-					if (oldTabId != 0)
-					{
-						tabTopPixels.put(oldTabId, codeField.getTopPixel());
-						tabSelection.put(oldTabId, codeField.getSelection());
-					}
-					
 					openFile(location);
 				}
 			}
@@ -1116,32 +1113,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 		else
 		{
-			DialogFilter filter = new DialogFilter()
-			{
-				public String filter(String text)
-				{
-					File f = new File(text);
-					
-					if (!f.exists())
-					{
-						return "The directory must exist.";
-					}
-					
-					return null;
-				}
-			};
-			
-			FileBrowseDialog chooseWorkspace = new FileBrowseDialog("Choose your project workspace folder:", "Workspace:", FileBrowseDialog.DIRECTORY);
-			chooseWorkspace.addDialogFilter(filter);
-			
-			String location = chooseWorkspace.open();
-			
-			if (location == null)
-			{
-				exit(window);
-			}
-			
-			setConfigDataValue("workspace.location", location);
+			chooseWorkspace();
 			
 			ide = openIDE();
 		}
@@ -1259,6 +1231,36 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		System.exit(0);
 	}
 	
+	public static void chooseWorkspace()
+	{
+		DialogFilter filter = new DialogFilter()
+		{
+			public String filter(String text)
+			{
+				File f = new File(text);
+				
+				if (!f.exists())
+				{
+					return "The directory must exist.";
+				}
+				
+				return null;
+			}
+		};
+		
+		FileBrowseDialog chooseWorkspace = new FileBrowseDialog("Choose your project workspace folder:", "Workspace:", FileBrowseDialog.DIRECTORY);
+		chooseWorkspace.addDialogFilter(filter);
+		
+		String location = chooseWorkspace.open();
+		
+		if (location == null)
+		{
+			exit(window);
+		}
+		
+		setConfigDataValue("workspace.location", location);
+	}
+	
 	/**
 	 * Returns whether a workspace has been located or created.
 	 * 
@@ -1266,7 +1268,16 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 */
 	public static boolean workspaceCreated()
 	{
-		File workspaceDirectory = new File(CONFIG_DATA.get("workspace.location"));
+		File workspaceDirectory = null;
+		
+		if (CONFIG_DATA.containsKey("workspace.location"))
+		{
+			workspaceDirectory = new File(CONFIG_DATA.get("workspace.location"));
+		}
+		else
+		{
+			chooseWorkspace();
+		}
 		
 		return workspaceDirectory.exists();
 	}
@@ -1442,6 +1453,12 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		location = location.replace('\\', '/');
 		
 		boolean alreadyOpen = fileCache.containsKey(location);
+		
+		if (oldTabId != 0)
+		{
+			tabTopPixels.put(oldTabId, codeField.getTopPixel());
+			tabSelection.put(oldTabId, codeField.getSelection());
+		}
 		
 		if (alreadyOpen)
 		{
@@ -2149,7 +2166,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 		
 		tabTopPixels.put(id, 0);
-		tabSelection.put(id, null);
+		tabSelection.put(id, new Point(0, 0));
 		
 		tabFileLocations.put(id, location);
 		tabFileIds.put(location, id);
@@ -2264,14 +2281,12 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			return;
 		}
 		
-		tabTopPixels.put(oldTabId, codeField.getTopPixel());
-		tabSelection.put(oldTabId, codeField.getSelection());
-		
 		if (location != null)
 		{
 			openFile(location);
-			codeField.setTopPixel(tabTopPixels.get(tabId));
+			
 			codeField.setSelection(tabSelection.get(tabId));
+			codeField.setTopPixel(tabTopPixels.get(tabId));
 			codeField.selected();
 		}
 	}

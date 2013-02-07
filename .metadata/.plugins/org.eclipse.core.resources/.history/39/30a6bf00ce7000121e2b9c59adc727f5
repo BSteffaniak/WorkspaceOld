@@ -1,0 +1,16 @@
+public class XMLItem
+{
+	private String contents;
+	
+	public static final int ATTRIBUTE = 1, CONTENTS = 2;
+	
+	public XMLItem(String contents)
+	{
+		this.contents = contents;
+	}
+	
+	public String getContents()
+	{
+		return contents;
+	}
+}

@@ -2,12 +2,15 @@ package net.foxycorndog.arrowide.language.cpp;
 
 import static net.foxycorndog.arrowide.ArrowIDE.CONFIG_DATA;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
+import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.command.Command;
 import net.foxycorndog.arrowide.command.CommandListener;
+import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CommentProperties;
 import net.foxycorndog.arrowide.language.CompileOutput;
@@ -61,6 +64,26 @@ public class CppLanguage
 	
 	public static void compile(final String fileLocation, String outputLocation, final PrintStream stream, final ArrayList<CompilerListener> compilerListeners)
 	{
+		if (!CONFIG_DATA.containsKey("g++.location") || !new File(CONFIG_DATA.get("g++.location")).isDirectory())
+		{
+			FileBrowseDialog gppSearch = new FileBrowseDialog("Specify your c++ compiler. (EX: C:\\MinGW\\bin)", "Location:", FileBrowseDialog.EITHER);
+			
+			String gppLoc = gppSearch.open();
+			
+			if (gppLoc != null)
+			{
+				String location = FileUtils.removeEndingSlashes(gppLoc.replace('\\', '/'));
+				
+				ArrowIDE.setConfigDataValue("g++.location", location);
+			}
+			else
+			{
+				stream.println("You must specify a valid c++ compiler to compile this program.");
+				
+				return;
+			}
+		}
+		
 		try
 		{
 //			g++ hello.C -o hello

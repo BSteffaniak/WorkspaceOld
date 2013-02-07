@@ -47,7 +47,7 @@ public class CppPanel extends PreferencesDialogPanel
 
 	public void apply()
 	{
-		if (gppLocator.getText() != null && !gppLocator.getText().equals(CONFIG_DATA.get("g++.location")))
+		if (gppLocator.getText() != null && !gppLocator.getText().equals("") && !gppLocator.getText().equals(CONFIG_DATA.get("g++.location")))
 		{
 			String location = FileUtils.removeEndingSlashes(gppLocator.getText().replace('\\', '/'));
 			

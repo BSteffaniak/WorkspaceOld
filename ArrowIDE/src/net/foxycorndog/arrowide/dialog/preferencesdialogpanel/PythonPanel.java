@@ -39,7 +39,7 @@ public class PythonPanel extends PreferencesDialogPanel
 
 	public void apply()
 	{
-		if (pythonLocator.getText() != null && !pythonLocator.getText().equals(CONFIG_DATA.get("python.location")))
+		if (pythonLocator.getText() != null && !pythonLocator.getText().equals("") && !pythonLocator.getText().equals(CONFIG_DATA.get("python.location")))
 		{
 			String location = FileUtils.removeEndingSlashes(pythonLocator.getText().replace('\\', '/'));
 			

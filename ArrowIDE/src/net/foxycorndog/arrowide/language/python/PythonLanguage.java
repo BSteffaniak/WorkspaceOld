@@ -1,9 +1,12 @@
 package net.foxycorndog.arrowide.language.python;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 
+import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.command.Command;
+import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CommentProperties;
 import net.foxycorndog.arrowide.language.IdentifierProperties;
@@ -38,6 +41,26 @@ public class PythonLanguage
 	
 	public static void run(String fileLocation, PrintStream stream)
 	{
+		if (!CONFIG_DATA.containsKey("python.location") || !(new File(CONFIG_DATA.get("python.location")).isDirectory()))
+		{
+			FileBrowseDialog pythonSearch = new FileBrowseDialog("Specify your Python location.", "Location:", FileBrowseDialog.DIRECTORY);
+			
+			String pythonLoc = pythonSearch.open();
+			
+			if (pythonLoc != null)
+			{
+				String location = FileUtils.removeEndingSlashes(pythonLoc.replace('\\', '/'));
+			
+				ArrowIDE.setConfigDataValue("python.location", location);
+			}
+			else
+			{
+				stream.println("You must specify a valid python directory to compile this program.");
+				
+				return;
+			}
+		}
+		
 		Command runner = new Command(Display.getDefault(), new String[] { CONFIG_DATA.get("python.location") + "/python", fileLocation }, stream, FileUtils.getParentFolder(fileLocation));
 		
 		try

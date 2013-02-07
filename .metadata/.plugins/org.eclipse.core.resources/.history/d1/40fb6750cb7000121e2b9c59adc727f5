@@ -1,0 +1,11 @@
+public class XMLItem
+{
+	private String contents;
+	
+	public static final int ATTRIBUTE = 1, CONTENTS = 2;
+	
+	public String getContents()
+	{
+		return contents;
+	}
+}
