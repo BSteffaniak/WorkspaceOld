@@ -50,7 +50,7 @@ import static net.foxycorndog.arrowide.ArrowIDE.PROJECT_CLASSPATHS;
 
 public class JavaLanguage
 {
-	private static HashMap<String, Class> classes;
+	private static HashMap<String, String> classpaths;
 	
 	public  static final CommentProperties		COMMENT_PROPERTIES;
 	public  static final MethodProperties		METHOD_PROPERTIES;
@@ -70,7 +70,7 @@ public class JavaLanguage
 	
 	public static void init()
 	{
-		classes = new HashMap<String, Class>();
+		classpaths = new HashMap<String, String>();
 		
 		JavaKeyword.init();
 		
@@ -189,18 +189,29 @@ public class JavaLanguage
 	
 	private static String getClasspath(String projectLocation)
 	{
-		String dependencies[] = getDependencies(projectLocation);
+		String classpath = null;
 		
-		char colon = (Character)PROPERTIES.get("colon");
-		
-		String classpath = projectLocation + "/bin";
-		
-		if (dependencies != null)
+		if (classpaths.containsKey(projectLocation))
 		{
-			for (String dependency : dependencies)
+			classpath = classpaths.get(projectLocation);
+		}
+		else
+		{
+			String dependencies[] = getDependencies(projectLocation);
+			
+			char colon = (Character)PROPERTIES.get("colon");
+			
+			classpath = projectLocation + "/bin";
+			
+			if (dependencies != null)
 			{
-				classpath += colon + dependency;
+				for (String dependency : dependencies)
+				{
+					classpath += colon + dependency;
+				}
 			}
+			
+			classpaths.put(projectLocation, classpath);
 		}
 		
 		return classpath;

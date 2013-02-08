@@ -6,9 +6,13 @@ mov DS, AX;
 
 ;-------------------------------------
 
-labl db "Wel", 0x64, "ome to Awful OS!";
+labl db "Welome to Awfudl OS!$";
 
-;jmp printLabl;
+;mov AH, 0x0E;
+;mov AL, 0x33;
+;int 0x10;
+
+jmp printLabl;
 
 ;mov es, [labl];
 ;mov bp, 0;
@@ -31,11 +35,11 @@ exit:
 		
 		jmp endLoop;
 
-clearScreen:
-	mov AH, 0x02		; Set cursor pos
-	mov DH, 0			; Row
-	mov DL, 0			; Column
-	int 0x10			; 
+;clearScreen:
+;	mov AH, 0x02		; Set cursor pos
+;	mov DH, 0			; Row
+;	mov DL, 0			; Column
+;	int 0x10			; 
 
 ;	mov AH, 0x06		; 
 ;	mov AL, 0x00		; 
@@ -44,11 +48,11 @@ clearScreen:
 ;	mov DX, 0xF8FF		; 
 ;	int 0x10			; 
 	
-	mov AH, 0x09		; 
-	mov AL, 0x0			; Clear the screen with the empty character.
-	mov CX, 0x1000		; 
-	mov BL, 0x0A		; 
-	int 0x10			; 
+;	mov AH, 0x09		; 
+;	mov AL, 0x0			; Clear the screen with the empty character.
+;	mov CX, 0x1000		; 
+;	mov BL, 0x0A		; 
+;	int 0x10			; 
 
 ;	mov AH, 0x0A		; 
 ;	mov CX, 0x1000		; 
@@ -58,7 +62,7 @@ clearScreen:
 
 printLabl:
 	xor si, si;
-	
+
 	printLoop:
 		mov cl, [labl + si];
 		cmp cl, 20;
