@@ -58,6 +58,7 @@ public class Main extends GameComponent
 	
 	public void onCreate()
 	{
+		System.out.println(System.getProperty("java.class.path"));
 		brightness = 150;
 		
 		released = true;

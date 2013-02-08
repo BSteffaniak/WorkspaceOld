@@ -164,6 +164,8 @@ public class Command
 										lsr.stop();
 									}
 									
+									process.waitFor();
+									
 									process.destroy();
 								}
 								catch (InterruptedException e)
@@ -219,7 +221,7 @@ class LogStreamReader implements Runnable
         {
             while ((line = reader.readLine()) != null)
             {
-            	line = line.replace(location, "");
+//            	line = line.replace(location, "");
             	
             	if (running)
             	{

@@ -60,6 +60,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Text;
 
+import sun.swing.BakedArrayList;
+
 import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 
 public class CodeField extends StyledText
@@ -76,6 +78,7 @@ public class CodeField extends StyledText
 	private int											language;
 	private int											charWidth;
 	private int											numThreads;
+	private int											escapeCount;
 
 	private String										text;
 
@@ -118,9 +121,9 @@ public class CodeField extends StyledText
 	static
 	{
 //		whitespaceRegex = "[.,[ ]/*=()\r\n\t\\[\\]{};[-][+]['][\"]:[-][+]><!]";
-		whitespaceRegex = "[.,[ ]/*=()\r\n\t\\[\\]{};[-][+]['][\"]:[-][+]><!]";
+		whitespaceRegex = "[.,[ ]/*=()\r\n\t[\\\\]{};[-][+]['][\"]:[-][+]><!]";
 		
-		whitespaceArray = new char[] { ' ', '.', ',', '/', '*', '=', '(', ')', '[', ']', '{', '}', ';', '\n', '\t', '\r', '-', '+', '\'', '"', ':', '-', '+', '>', '<', '!' };
+		whitespaceArray = new char[] { ' ', '.', ',', '/', '*', '=', '(', ')', '[', ']', '{', '}', ';', '\n', '\t', '\r', '-', '\\', '+', '\'', '"', ':', '-', '+', '>', '<', '!' };
 	}
 	
 	private class ErrorLocation
@@ -529,7 +532,7 @@ public class CodeField extends StyledText
 		{
 			public void run()
 			{
-				text = getText();
+				text = getText();//.replace("\\", "\\\\");
 			}
 		});
 		
@@ -567,6 +570,11 @@ public class CodeField extends StyledText
 		
 		commentType          = 0;
 		commentStartLocation = 0;
+		
+		isEscape = false;
+		
+		escapeCount = 0;
+		
 		
 		SpaceBetweenResult newResult, oldResult;
 		
@@ -1020,9 +1028,16 @@ public class CodeField extends StyledText
 		
 		result.count = 0;
 		
+		char prevChar = 0;
+		
 		for (int i = start; i < text.length(); i ++)
 		{
 			char c = text.charAt(i);
+			
+			if (i > 0)
+			{
+				prevChar = text.charAt(i - 1);
+			}
 			
 			if (commentProperties != null && !textStarted)
 			{
@@ -1065,7 +1080,14 @@ public class CodeField extends StyledText
 			
 			if (!commentStarted)
 			{
-				if (c == '"' || c == '\'')
+				if (c == '\\')
+				{
+					escapeCount++;
+				}
+				
+				isEscape = escapeCount % 2 == 1;
+				
+				if (!isEscape && (c == '"' || c == '\''))
 				{
 					if (!textStarted)
 					{
@@ -1075,7 +1097,7 @@ public class CodeField extends StyledText
 					}
 					else
 					{
-						if (c == textBeginning && !isEscape)
+						if (c == textBeginning)
 						{
 							textStarted = false;
 							
@@ -1091,17 +1113,10 @@ public class CodeField extends StyledText
 					}
 				}
 				
-//				if (isEscape)
-//				{
-//					System.out.println("Before: " + c);
-//				}
-				
-				isEscape = !isEscape && c == '\\';
-				
-//				if (isEscape)
-//				{
-//					System.out.println("After: " + c);
-//				}
+				if (c != '\\')
+				{
+					escapeCount = 0;
+				}
 			}
 			
 			if (containsChar(chars, c))

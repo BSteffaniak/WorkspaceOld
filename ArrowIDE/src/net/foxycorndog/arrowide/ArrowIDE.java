@@ -12,11 +12,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.io.PrintStream;
+import java.net.URLDecoder;
 
 import net.foxycorndog.arrowide.color.ColorUtils;
 import net.foxycorndog.arrowide.components.CodeField;
@@ -178,6 +180,9 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	public static final Color					TITLE_BAR_BACKGROUND, TITLE_BAR_FOREGROUND, FOCUS_COLOR, NON_FOCUS_COLOR;
 	
 	public static final HashMap<String, String>	CONFIG_DATA;
+	
+	public static final HashMap<String, HashMap<String, XMLItem[]>>	PROJECT_PROPERTIES;
+	public static final HashMap<String, HashMap<String, XMLItem[]>>	PROJECT_CLASSPATHS;
 	// public static final HashMap<Integer, String> CONFIG_LINE_NUMBER_DATA;
 	// public static final HashMap<String, Integer> CONFIG_LINE_NUMBERS;
 
@@ -216,6 +221,9 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	static
 	{
 		CONFIG_DATA             = new HashMap<String, String>();
+		
+		PROJECT_PROPERTIES      = new HashMap<String, HashMap<String, XMLItem[]>>();
+		PROJECT_CLASSPATHS      = new HashMap<String, HashMap<String, XMLItem[]>>();
 //		CONFIG_LINE_NUMBER_DATA = new HashMap<Integer, String>();
 //		CONFIG_LINE_NUMBERS     = new HashMap<String, Integer>();
 		
@@ -300,9 +308,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 */
 	public ArrowIDE(final Display display)
 	{
-		HashMap<String, XMLItem[]> map = Reader.read("xmltest.xml");
-
-		System.out.println(map.get("Contacts.Contact.ContactId")[0].getContents());
+//		System.out.println(map.get("Contacts.Contact.ContactId")[0].getContents());
 		
 		if (CONFIG_DATA.containsKey("window.custom"))
 		{
@@ -1363,6 +1369,36 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		catch (IOException e)
 		{
 			e.printStackTrace();
+		}
+	}
+	
+	public static void checkProject(String location)
+	{
+		location = FileUtils.removeEndingSlashes(location);
+		
+		String propsLocation = location + "/.properties";
+		String cpLocation = location + "/.classpath";
+		
+		File props = new File(propsLocation);
+		File cp = new File(cpLocation);
+		
+		if (props.isFile())
+		{
+			if (!PROJECT_PROPERTIES.containsKey(propsLocation))
+			{
+				HashMap<String, XMLItem[]> map = Reader.read(propsLocation);
+				
+				PROJECT_PROPERTIES.put(propsLocation, map);
+			}
+		}
+		if (cp.isFile())
+		{
+			if (!PROJECT_CLASSPATHS.containsKey(cpLocation))
+			{
+				HashMap<String, XMLItem[]> map = Reader.read(cpLocation);
+				
+				PROJECT_CLASSPATHS.put(cpLocation, map);
+			}
 		}
 	}
 	

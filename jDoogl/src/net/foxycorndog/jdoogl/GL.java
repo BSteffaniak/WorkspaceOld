@@ -215,7 +215,7 @@ public class GL
 	static
 	{
 		showColors = true;
-		
+
 		Base.setUsingVBO(true); 
 		Base.setDrawMode(ELEMENTS);
 		

@@ -35,13 +35,13 @@ public class TheDiggingGame
 			width = Integer.valueOf(args[0]);
 			height = Integer.valueOf(args[1]);
 		}
-		catch(NumberFormatException ex)
+		catch(NumberFormatException e)
 		{
-			System.out.println("hmm " + ex);
+			System.out.println("hmm " + e);
 		}
-		catch(IndexOutOfBoundsException ex)
+		catch(IndexOutOfBoundsException e)
 		{
-			System.out.println("yup");
+			//e.printStackTrace();
 		}
 		
 		tdg.init(width, height, false);

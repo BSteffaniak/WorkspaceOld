@@ -42,9 +42,11 @@ import net.foxycorndog.arrowide.language.CompileOutput;
 import net.foxycorndog.arrowide.language.CompilerListener;
 import net.foxycorndog.arrowide.language.IdentifierProperties;
 import net.foxycorndog.arrowide.language.MethodProperties;
+import net.foxycorndog.arrowide.xml.XMLItem;
 
 import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 import static net.foxycorndog.arrowide.ArrowIDE.CONFIG_DATA;
+import static net.foxycorndog.arrowide.ArrowIDE.PROJECT_CLASSPATHS;
 
 public class JavaLanguage
 {
@@ -63,7 +65,7 @@ public class JavaLanguage
 	{
 		COMMENT_PROPERTIES = new CommentProperties("//", "/*", "*/", new Color(Display.getCurrent(), 40, 140, 0));
 		METHOD_PROPERTIES  = new MethodProperties();
-		IDENTIFIER_PROPERTIES = new IdentifierProperties(' ', new char[] { '=' }, new Color(Display.getDefault(), 4, 150, 120));
+		IDENTIFIER_PROPERTIES = new IdentifierProperties(new char[] {  }, '=', new Color(Display.getDefault(), 4, 150, 120));
 	}
 	
 	public static void init()
@@ -112,11 +114,9 @@ public class JavaLanguage
 		// TODO: Fix the issue with the /src/ possible ambiguities.
 		String projectLocation = FileUtils.getPrecedingPath(fileLocation, "/src/");
 		
-		String outputLocation = projectLocation + "/bin/";
-		
 		String className  = FileUtils.getPathRelativeTo(fileLocation, "/src/");
 		
-		String classLocation = outputLocation + className;
+		String classLocation = projectLocation + "/bin/" + className;
 		
 //		try
 //		{
@@ -173,19 +173,7 @@ public class JavaLanguage
 //			e.printStackTrace();
 //		}
 		
-		String dependencies[] = null;
-		
-		char colon = (Character)PROPERTIES.get("colon");
-		
-		String classpath = outputLocation;
-		
-		if (dependencies != null)
-		{
-			for (String dependency : dependencies)
-			{
-				classpath += colon + dependency;
-			}
-		}
+		String classpath = getClasspath(projectLocation);
 		
 		Command c = new Command(Display.getDefault(), new String[] { CONFIG_DATA.get("jdk.location") + "/bin/java", "-cp", classpath, className }, stream, projectLocation);
 		
@@ -197,6 +185,109 @@ public class JavaLanguage
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	private static String getClasspath(String projectLocation)
+	{
+		String dependencies[] = getDependencies(projectLocation);
+		
+		char colon = (Character)PROPERTIES.get("colon");
+		
+		String classpath = projectLocation + "/bin";
+		
+		if (dependencies != null)
+		{
+			for (String dependency : dependencies)
+			{
+				classpath += colon + dependency;
+			}
+		}
+		
+		return classpath;
+	}
+	
+	private static String[] getDependencies(String projectLocation)
+	{
+		ArrayList<String> dependencies = new ArrayList<String>();
+		
+		ArrowIDE.checkProject(projectLocation);
+		
+		String cpLocation = projectLocation + "/.classpath";
+		String parentLocation = FileUtils.getParentFolder(projectLocation);
+		
+		if (PROJECT_CLASSPATHS.containsKey(cpLocation))
+		{
+			HashMap<String, XMLItem[]> map = PROJECT_CLASSPATHS.get(cpLocation);
+			
+			XMLItem items[] = map.get("classpath.classpathentry");
+			
+			for (int i = 0; i < items.length; i++)
+			{
+				HashMap<String, String> attribute = items[i].getAttributes();
+				
+				if (attribute.containsKey("kind"))
+				{
+					String kind = attribute.get("kind");
+					String path = attribute.get("path");
+					
+					if (kind.equals("src"))
+					{
+						if (!path.equals("src"))
+						{
+							if (path.startsWith("/"))
+							{
+								path = parentLocation + path;
+							}
+							
+							String pathOutput = path + "/bin";
+							
+							dependencies.add(pathOutput);
+							
+							dependencies.add(path);
+							
+							if (!new File(pathOutput).isDirectory())
+							{
+								File parentFile = new File(path);
+								
+								File children[] = parentFile.listFiles();
+								
+								for (int j = 0; children != null && j < children.length; j++)
+								{
+									String name = children[j].getName();
+									
+									if (name.endsWith(".jar"))
+									{
+										dependencies.add(path + "/" + name);
+									}
+								}
+							}
+							
+							ArrowIDE.checkProject(path);
+							
+							String more[] = getDependencies(path);
+							
+							for (int d = 0; d < more.length; d++)
+							{
+								dependencies.add(more[d]);
+							}
+						}
+					}
+					else if (kind.equals("lib"))
+					{
+						String pLoc = "";
+						
+						if (path.startsWith("/"))
+						{
+							pLoc = parentLocation;
+						}
+						
+						dependencies.add(pLoc + path);
+					}
+				}
+			}
+		}
+		
+		return dependencies.toArray(new String[0]);
 	}
 	
 	private static void exec(Class clazz, String classLocation, PrintStream stream) throws IOException, InterruptedException
@@ -280,7 +371,9 @@ public class JavaLanguage
 		
 		fileLocation = FileUtils.removeExtension(fileLocation);
 		
-		outputLocation = FileUtils.getPrecedingPath(fileLocation, "/src/") + "/bin/";
+		String projectLocation = FileUtils.getPrecedingPath(fileLocation, "/src/");
+		
+		outputLocation = projectLocation + "/bin/";
 		
 		try
 		{
@@ -331,12 +424,17 @@ public class JavaLanguage
  
 		/* Prepare a list of compilation units (java source code file objects) to input to compilation task*/
 		Iterable<? extends JavaFileObject> compilationUnits = Arrays.asList(javaFileObjects);
+		
+		String classpath = getClasspath(projectLocation);
+		
+		System.out.println(classpath);
  
 		/*Prepare any compilation options to be used during compilation*/
 		//In this example, we are asking the compiler to place the output files under bin folder.
 		String[] compileOptions = new String[]
 		{
-			"-cp", outputLocation,
+//			"-cp", classpath,
+			"-cp", classpath,
 			"-d", outputLocation
 		};
 		
