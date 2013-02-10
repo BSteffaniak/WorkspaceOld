@@ -40,7 +40,6 @@ public class ImageButton extends Component
 		imageMapHeight = texture.getHeight();
 	}
 	
-	@Override
 	public void render()
 	{
 		render(1, 1, 1);
@@ -57,7 +56,7 @@ public class ImageButton extends Component
 			
 			if (text != null && !text.equals(""))
 			{
-				Frame.renderText(renderX + getWidth() / 2 - Frame.getFont().getLegitWidth(text) / 2, Frame.getHeight() / getScaleHeight() - 1 - renderY - getHeight() / 2 - Frame.getFont().getHeight(text) / 2, text, Color.WHITE, 1);
+				Frame.getFont().render(text, renderX + getWidth() / 2 - Frame.getFont().getWidth(text) / 2, Frame.getHeight() / getScaleHeight() - 1 - renderY - getHeight() / 2 - Frame.getFont().getGlyphHeight() / 2, 0, 1);
 			}
 			
 			GL.translatef(renderX, renderY, 0);

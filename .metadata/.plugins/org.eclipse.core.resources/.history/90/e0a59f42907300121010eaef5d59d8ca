@@ -1,0 +1,11 @@
+package net.foxycorndog.jfoxylib.components;
+
+import org.eclipse.swt.SWT;
+
+public class Window extends Frame
+{
+	public Window()
+	{
+		super();
+	}
+}

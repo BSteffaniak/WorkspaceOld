@@ -1,0 +1,18 @@
+package net.foxycorndog.jfoxylib;
+
+import org.eclipse.swt.widgets.Display;
+
+public class GameEntry
+{
+	private Display display;
+	
+	public GameEntry()
+	{
+		display = new Display();
+	}
+	
+	public void start()
+	{
+		
+	}
+}

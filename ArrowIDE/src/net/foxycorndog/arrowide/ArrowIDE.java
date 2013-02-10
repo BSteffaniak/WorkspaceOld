@@ -331,30 +331,30 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		PROPERTIES.put("arrowide.location", FileUtils.getParentFolder(configLocation));
 		
-		/**
-		 * Set up the OpenGL (lwjgl) capabilities for the program.
-		 */
-		{
-			System.setProperty("org.lwjgl.librarypath", PROPERTIES.get("arrowide.location") + "/res/native/" + PROPERTIES.get("os.name") + "/");
-			
-			Composite comp = new Composite(window.getShell(), SWT.NONE);
-			comp.setLayout(new FillLayout());
-			
-			GLData data = new GLData();
-			data.doubleBuffer = true;
-			final GLCanvas canvas = new GLCanvas(comp, SWT.NONE, data);
-			
-			canvas.setCurrent();
-			
-			try
-			{
-				GLContext.useContext(canvas);
-			}
-			catch(LWJGLException e)
-			{
-				e.printStackTrace();
-			}
-		}
+//		/**
+//		 * Set up the OpenGL (lwjgl) capabilities for the program.
+//		 */
+//		{
+//			System.setProperty("org.lwjgl.librarypath", PROPERTIES.get("arrowide.location") + "/res/native/" + PROPERTIES.get("os.name") + "/");
+//			
+//			Composite comp = new Composite(window.getShell(), SWT.NONE);
+//			comp.setLayout(new FillLayout());
+//			
+//			GLData data = new GLData();
+//			data.doubleBuffer = true;
+//			final GLCanvas canvas = new GLCanvas(comp, SWT.NONE, data);
+//			
+//			canvas.setCurrent();
+//			
+//			try
+//			{
+//				GLContext.useContext(canvas);
+//			}
+//			catch(LWJGLException e)
+//			{
+//				e.printStackTrace();
+//			}
+//		}
 		
 		if (CONFIG_DATA.containsKey("monitor.width") && CONFIG_DATA.containsKey("monitor.height"))
 		{
@@ -550,7 +550,14 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				}
 				else if (subItemId.equals("FILE>Open"))
 				{
-					openFile();
+					try
+					{
+						openFile();
+					}
+					catch (FileNotFoundException e)
+					{
+						e.printStackTrace();
+					}
 				}
 				else if (subItemId.equals("FILE>Save"))
 				{
@@ -626,7 +633,14 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				{
 					if (fileLocation == null)
 					{
-						openFile();
+						try
+						{
+							openFile();
+						}
+						catch (FileNotFoundException e)
+						{
+							
+						}
 					}
 					else
 					{
@@ -998,7 +1012,14 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				{
 					String location = treeItemLocations.get(id);
 					
-					openFile(location);
+					try
+					{
+						openFile(location);
+					}
+					catch (FileNotFoundException e)
+					{
+						e.printStackTrace();
+					}
 				}
 			}
 
@@ -1091,6 +1112,29 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				e.gc.drawString(codeField.getSelection().x + "", 0, 50);
 			}
 		});
+		
+		if (CONFIG_DATA.containsKey("last.tabs"))
+		{
+			String lastTabs[] = CONFIG_DATA.get("last.tabs").split(";");
+			
+			StringBuilder builder = new StringBuilder();
+			
+			for (int i = 0; i < lastTabs.length; i++)
+			{
+				try
+				{
+					openFile(lastTabs[i], false);
+					
+					builder.append(lastTabs[i] + ';');
+				}
+				catch (IOException e)
+				{
+					// If file wasnt found.. or something else.
+				}
+			}
+			
+			setConfigDataValue("last.tabs", builder.toString());
+		}
 	}
 	
 	/**
@@ -1139,7 +1183,6 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		while (!window.isDisposed())
 		{
-			//TODO restart bug here
 			if (!DISPLAY.readAndDispatch())
 			{
 				ide.update();
@@ -1292,6 +1335,18 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 		
 		return workspaceDirectory.exists();
+	}
+	
+	public static void appendConfigDataValue(String key, String value)
+	{
+		String prev = "";
+		
+		if (CONFIG_DATA.containsKey(key))
+		{
+			prev = CONFIG_DATA.get(key);
+		}
+		
+		setConfigDataValue(key, prev + value);
 	}
 	
 	/**
@@ -1490,7 +1545,22 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 * 
 	 * @param location The location of the file to open.
 	 */
-	public void openFile(String location)
+	public void openFile(String location) throws FileNotFoundException
+	{
+		try
+		{
+			openFile(location, true);
+		}
+		catch (IOException e)
+		{
+			if (e instanceof FileNotFoundException)
+			{
+				throw (FileNotFoundException)e;
+			}
+		}
+	}
+	
+	public void openFile(String location, boolean cache) throws FileNotFoundException, IOException
 	{
 		location = location.replace('\\', '/');
 		
@@ -1527,60 +1597,49 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		{
 			File file = new File(location);
 			
-			try
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			
+			StringBuilder builder = new StringBuilder();
+			
+			String line = "";
+			
+			while ((line = reader.readLine()) != null)
 			{
-				BufferedReader reader = new BufferedReader(new FileReader(file));
+				builder.append(line + "\r\n");
+			}
+			
+			reader.close();
+			
+			if (builder.length() > 0)
+			{
+				builder.deleteCharAt(builder.length() - 1);
+				builder.deleteCharAt(builder.length() - 1);
+			}
+			
+			String fileContents = builder.toString();
+			
+			fileCache.put(location, fileContents);
+			fileCacheSaved.put(location, true);
+			
+			codeField.setText(fileContents, true);
+			
+			codeField.setLanguage(Language.getLanguage(location));
+			
+			codeField.redraw();
+			
+			if (!location.equals(fileLocation))
+			{
+				addTab(location, cache);
 				
-				StringBuilder builder = new StringBuilder();
-				
-				String line = "";
-				
-				while ((line = reader.readLine()) != null)
+				if (fileLocation != null)
 				{
-					builder.append(line + "\r\n");
-				}
-				
-				reader.close();
-				
-				if (builder.length() > 0)
-				{
-					builder.deleteCharAt(builder.length() - 1);
-					builder.deleteCharAt(builder.length() - 1);
-				}
-				
-				String fileContents = builder.toString();
-				
-				fileCache.put(location, fileContents);
-				fileCacheSaved.put(location, true);
-				
-				codeField.setText(fileContents, true);
-				
-				codeField.setLanguage(Language.getLanguage(location));
-				
-				codeField.redraw();
-				
-				if (!location.equals(fileLocation))
-				{
-					addTab(location);
+					int tabId = tabFileIds.get(location);
 					
-					if (fileLocation != null)
-					{
-						int tabId = tabFileIds.get(location);
-						
-						oldTabId = tabId;
-					}
+					oldTabId = tabId;
 				}
-				
-				fileLocation = location;
 			}
-			catch (FileNotFoundException e)
-			{
-				e.printStackTrace();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+			
+			fileLocation = location;
 		}
 		
 		codeField.setFocus();
@@ -1590,7 +1649,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 * Opens a FileDialog to search for a file to open, then opens
 	 * the result.
 	 */
-	public void openFile()
+	public void openFile() throws FileNotFoundException
 	{
 		FileDialog dialog = openFileBrowseDialog();
 		
@@ -1669,7 +1728,14 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	{
 		if (fileLocation == null && location == null)
 		{
-			openFile();
+			try
+			{
+				openFile();
+			}
+			catch (FileNotFoundException e)
+			{
+				e.printStackTrace();
+			}
 			
 			return;
 		}
@@ -2187,9 +2253,14 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 */
 	private void addTab(String fileLocation)
 	{
+		addTab(fileLocation, true);
+	}
+	
+	private void addTab(String fileLocation, boolean cache)
+	{
 		String fileName = FileUtils.getFileName(fileLocation);
 		
-		addTab(fileName, fileLocation);
+		addTab(fileName, fileLocation, cache);
 	}
 	
 	/**
@@ -2199,6 +2270,11 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 * @param location The location, including the fileName, of the file.
 	 */
 	private void addTab(String fileName, String location)
+	{
+		addTab(fileName, location, true);
+	}
+	
+	private void addTab(String fileName, final String location, boolean cache)
 	{
 		int id = tabs.addTab(fileName);
 		
@@ -2212,6 +2288,17 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		tabFileLocations.put(id, location);
 		tabFileIds.put(location, id);
+		
+		if (cache)
+		{
+			new Thread()
+			{
+				public void run()
+				{
+					appendConfigDataValue("last.tabs", location + ";");
+				}
+			}.start();
+		}
 	}
 	
 	/**
@@ -2254,8 +2341,11 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			result = saveDialog.open();
 		}
 		
-		if (result == null || result.equals("yes") || result.equals("no"))
+		if (!askSave || (result != null && (result.equals("yes") || result.equals("no"))))
 		{
+			String files = CONFIG_DATA.get("last.tabs").replace((tabFileLocations.get(tabId) + ';'), "");
+			setConfigDataValue("last.tabs", files);
+			
 			tabFileLocations.remove(tabId);
 			tabFileIds.remove(location);
 			tabTopPixels.remove(tabId);
@@ -2277,6 +2367,10 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				cancel = true;
 			}
 		}
+		else
+		{
+			cancel = askSave;
+		}
 		
 		if (cancel)
 		{
@@ -2295,8 +2389,15 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			if (tabId != newId)
 			{
 				String loc = tabFileLocations.get(newId);
-				
-				openFile(loc);
+
+				try
+				{
+					openFile(loc);
+				}
+				catch (FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
 			}
 			else
 			{
@@ -2325,7 +2426,14 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		if (location != null)
 		{
-			openFile(location);
+			try
+			{
+				openFile(location);
+			}
+			catch (FileNotFoundException e)
+			{
+				e.printStackTrace();
+			}
 			
 			codeField.setSelection(tabSelection.get(tabId));
 			codeField.setTopPixel(tabTopPixels.get(tabId));

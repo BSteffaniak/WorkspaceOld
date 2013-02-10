@@ -16,7 +16,7 @@ public class JavaKeyword
 			CLASS, CONST, CONTINUE, DEFAULT, DO, DOUBLE, ELSE,
 			ENUM, EXTENDS, FALSE, FINAL, FINALLY, FLOAT, FOR,
 			GOTO, IF, IMPLEMENTS, IMPORT, INSTANCEOF, INT,
-			INTERFACE, LONG, NATIVE, NEW, PACKAGE, PRIVATE,
+			INTERFACE, LONG, NATIVE, NEW, NULL, PACKAGE, PRIVATE,
 			PROTECTED, PUBLIC, RETURN, SHORT, STATIC, STRICTFP,
 			SUPER, SWITCH, SYNCHRONIZED, THIS, THROW, THROWS,
 			TRANSIENT, TRUE, TRY, VOID, VOLATILE, WHILE;
@@ -55,6 +55,7 @@ public class JavaKeyword
 		LONG         = new Keyword(JAVA, "long", KEYWORD_COLOR);
 		NATIVE       = new Keyword(JAVA, "native", KEYWORD_COLOR);
 		NEW          = new Keyword(JAVA, "new", KEYWORD_COLOR);
+		NULL         = new Keyword(JAVA, "null", KEYWORD_COLOR);
 		PACKAGE      = new Keyword(JAVA, "package", KEYWORD_COLOR);
 		PRIVATE      = new Keyword(JAVA, "private", KEYWORD_COLOR);
 		PROTECTED    = new Keyword(JAVA, "protected", KEYWORD_COLOR);

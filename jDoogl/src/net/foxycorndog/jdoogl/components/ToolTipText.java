@@ -83,7 +83,7 @@ public class ToolTipText extends Component
 			
 			for (int i = 0; i < tet.length(); i ++)
 			{
-				if (getScreenX() + leftMargin * scale + Frame.getFont().getLegitWidth(tet.substring(beginIndex, i)) * scale >= Frame.getWidth() - leftMargin * scale)
+				if (getScreenX() + leftMargin * scale + Frame.getFont().getWidth(tet.substring(beginIndex, i)) * scale >= Frame.getWidth() - leftMargin * scale)
 				{
 					text2.add(tet.substring(beginIndex, i - 1));
 					
@@ -112,7 +112,7 @@ public class ToolTipText extends Component
 			
 			for (int i = 0; i < text.length; i ++)
 			{
-				font.render(text[i], leftMargin, topMargin + ((Frame.getFont().getHeight(text[i]) + linePadding) * i), 1);
+				font.render(text[i], leftMargin, topMargin + ((Frame.getFont().getGlyphHeight() + linePadding) * i), 1);
 			}
 			
 //			setOffsets();

@@ -1,0 +1,1106 @@
+package net.foxycorndog.p1xeland;
+
+import static net.foxycorndog.jdoogl.GL.scalef;
+import static net.foxycorndog.jdoogl.GL.translatef;
+
+import java.awt.Dimension;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
+
+import javax.imageio.ImageIO;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
+import net.foxycorndog.jdolua.Lua;
+import net.foxycorndog.jdolua.LuaException;
+import net.foxycorndog.jdoogl.Color;
+import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.activity.GameComponent;
+import net.foxycorndog.jdoogl.components.Component;
+import net.foxycorndog.jdoogl.components.Frame;
+import net.foxycorndog.jdoogl.components.ImageButton;
+import net.foxycorndog.jdoogl.components.Menu;
+import net.foxycorndog.jdoogl.connector.Connector;
+import net.foxycorndog.jdoogl.connector.Result;
+import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
+import net.foxycorndog.jdoogl.image.imagemap.Texture;
+import net.foxycorndog.jdoogl.input.KeyboardInput;
+import net.foxycorndog.jdoogl.input.MouseInput;
+import net.foxycorndog.jdoogl.listeners.ActionListener;
+import net.foxycorndog.jdoogl.listeners.MouseListener;
+import net.foxycorndog.jdoogl.noise.LineNoise;
+import net.foxycorndog.jdoutil.ArrayUtil;
+import net.foxycorndog.jdoutil.Distance;
+import net.foxycorndog.jdoutil.FileUtil;
+import net.foxycorndog.jdoutil.GeneralCollection;
+import net.foxycorndog.jdoutil.LightBuffer;
+import net.foxycorndog.jdoutil.Task;
+import net.foxycorndog.jdoutil.Util;
+import net.foxycorndog.jdoutil.VerticesBuffer;
+import net.foxycorndog.jdoutil.zip.Unzipper;
+import net.foxycorndog.jdoutil.web.Downloader;
+import net.foxycorndog.jdoutil.web.WebPage;
+import net.foxycorndog.p1xeland.actors.Inventory;
+import net.foxycorndog.p1xeland.actors.Player;
+import net.foxycorndog.p1xeland.actors.Actor.Direction;
+import net.foxycorndog.p1xeland.items.Item;
+import net.foxycorndog.p1xeland.items.tiles.Tile;
+import net.foxycorndog.p1xeland.map.Map;
+import net.foxycorndog.p1xeland.map.chunks.Chunk;
+import net.foxycorndog.p1xeland.market.Client;
+import net.foxycorndog.p1xeland.menus.MainMenu;
+
+public class P1xeland extends GameComponent implements P1xelandInterface, MouseListener
+{
+	private boolean         playingGame;
+	private boolean         inventoryOpen;
+	private boolean         frozen;
+	private boolean         fullscreen;
+	private boolean         luaRenderingFinished;
+	
+	private int             currentModId;
+	
+	private float           delta;
+	private float           oldMapX, oldMapY;
+	private float           oldCursorX, oldCursorY;
+	private float           blockDamage;
+	
+	private long            oldTime;
+	
+	private Cursor          cursor;
+	
+	private Player          player;
+	
+	private Map             map;
+	
+	private Client          c;
+	
+	private VerticesBuffer  blockDamageVerticesBuffer;
+	
+	private LightBuffer     blockDamageTexturesBuffer;
+	
+	private Thread          playerThread;
+	
+	private Menu            mainMenu;
+	
+	private boolean         mbAble[];
+	private boolean         modCalled[], modReady[];
+	
+	private long            modWaitTime[];
+	
+	private String          modResources[];
+	
+	private Thread          modThreads[];
+	
+//	private static P1xeland p;
+	
+	public  static boolean  next;
+	
+	public  static int      oldWidth;
+	public  static int      oldMouseX, oldMouseY;
+	
+	public  static final int targetFps = 60;
+	
+	public  static int      textureSize;
+	public  static float    scale;
+	
+	public  static final String GAME_TITLE = "P1XELAND";
+	public  static final String VERSION    = "0.5";
+	
+	private class Cursor
+	{
+		private float   x, y;
+		
+		private Texture texture;
+		
+		private VerticesBuffer  verticesBuffer;
+		
+		private LightBuffer     texturesBuffer;
+		
+		public Cursor(String location)
+		{
+			texture = new Texture(location);
+			
+			verticesBuffer = new VerticesBuffer(4 * 2, 2);
+			texturesBuffer = new LightBuffer(4 * 2);
+			
+			verticesBuffer.setData(0, GL.addRectVertexArrayf(0, 0, 16, 16, 0, null));
+			texturesBuffer.setData(0, GL.addRectTextureArrayf(texture, 0, null));
+			
+//			verticesBuffer.refreshData();
+//			texturesBuffer.refreshData();
+		}
+		
+		public void setLocation(float x, float y)
+		{
+			this.x = x;
+			this.y = y;
+		}
+		
+		public void render()
+		{
+			GL.beginManipulation();
+			{
+				GL.translatef(x, y, 1f);
+				
+				GL.beginXOR();
+				
+				GL.renderQuad(verticesBuffer, texturesBuffer, texture);
+				
+				GL.endInverting();
+			}
+			GL.endManipulation();
+		}
+	}
+	
+	public P1xeland()
+	{
+		super(GAME_TITLE, 640, 512, targetFps);
+	}
+	
+	public static void main(String args[])
+	{
+		new P1xeland();
+		
+//		new Frame(640, 512, GAME_TITLE, null)
+//		{
+//			
+//			@Override
+//			public void render()
+//			{
+//				p.render();
+//			}
+//			
+//			@Override
+//			public void loop()
+//			{
+//				p.loop();
+//			}
+//			
+//			@Override
+//			public void init()
+//			{
+//				GL.initBasicView(0.01f, 100f);
+//				
+//				p.init();
+//		
+//				try
+//				{
+//					Frame.setIcon("res/images/favicon/16s.png", "res/images/favicon/32s.png");
+//				}
+//				catch (IOException e)
+//				{
+//					e.printStackTrace();
+//				}
+//			}
+//		}.startLoop(targetFps);
+		
+//		p.start();
+	}
+	
+	public void init()
+	{
+		GL.setClearColori(80, 162, 216, 255);
+		
+		mainMenu = new MainMenu(this);
+	}
+	
+	public void loop()
+	{
+		if (playingGame)
+		{
+			Frame.renderText(0, 0, "FPS: " + Frame.getFps(), Color.WHITE, 1, Frame.Alignment.RIGHT, Frame.Alignment.TOP);
+			Frame.renderText(0, 16, "(" + (int)((player.getX() / textureSize) ) + ", " + (int)(player.getY() / textureSize) + ")", Color.WHITE, 1, Frame.Alignment.RIGHT, Frame.Alignment.TOP);
+			Frame.renderText(0, 0, "Editing: " + player.getEditing(), Color.WHITE, 1, Frame.Alignment.LEFT, Frame.Alignment.TOP);
+			
+			boolean zoomIn          = KeyboardInput.isKeyDown(KeyboardInput.KEY_I);
+			boolean zoomOut         = KeyboardInput.isKeyDown(KeyboardInput.KEY_O);
+			
+			boolean inventory       = KeyboardInput.isKeyDown(KeyboardInput.KEY_TAB);
+			
+			boolean changeIndexUp   = KeyboardInput.isKeyDown(KeyboardInput.KEY_E);
+			boolean changeIndexDown = KeyboardInput.isKeyDown(KeyboardInput.KEY_Q);
+			
+			boolean fullscrn        = KeyboardInput.isKeyDown(KeyboardInput.KEY_F11);
+			
+			boolean changeCamera    = KeyboardInput.isKeyDown(KeyboardInput.KEY_C);
+			
+			if (Frame.wasResized())
+			{
+				player.center();
+			}
+			
+			next = KeyboardInput.next();
+			
+			if (next)
+			{
+				if (inventory)
+				{
+					inventoryOpen = !inventoryOpen;
+					
+					frozen        = !frozen;
+				}
+				
+				if (!frozen)
+				{
+					if (changeCamera)
+					{
+						player.setCentered(!player.isCentered());
+					}
+					
+					if (fullscrn)
+					{
+						Frame.setFullscreen(!fullscreen);
+						
+						fullscreen = !fullscreen;
+						
+						player.center();
+					}
+					
+					if (changeIndexUp)
+					{
+						player.setEditing((player.getEditing() + 1) % 3);
+					}
+					else if (changeIndexDown)
+					{
+						player.setEditing((player.getEditing() - 1));
+						
+						player.setEditing(player.getEditing() < 0 ? 2 : player.getEditing());
+					}
+					
+					if (zoomIn || zoomOut)
+					{
+						if (zoomIn)
+						{
+//								scale *= 1.1f;
+							
+							scale += .5f;
+						}
+						else if (zoomOut)
+						{
+//								scale /= 1.1f;
+							
+							scale = scale - 0.5f <= 0 ? scale : scale - 0.5f;
+						}
+						
+						player.getQuickBar().refreshInventory();
+						
+						player.center();
+					}
+					
+					for (int i = 2; i < 12; i ++)
+					{
+						if (KeyboardInput.isKeyDown(i))
+						{
+							player.getQuickBar().setSelectedIndex(i - 2);
+						}
+					}
+					
+//					if (KeyboardInput.isKeyDown(KeyboardInput.KEY_M))
+//					{
+//						c = new Client();
+//					}
+//					if (KeyboardInput.isKeyDown(KeyboardInput.KEY_N))
+//					{
+//						c.send();
+//					}
+				}
+			}
+			
+			tick(60f / (float)Frame.getFps(), Frame.getDFps());
+			
+			if (frozen)
+			{
+				
+			}
+			else
+			{
+				int dWheel = MouseInput.getDWheel();
+				
+				if (dWheel != 0)
+				{
+					dWheel *= -1;
+					
+					int index = (player.getQuickBar().getSelectedIndex() + (dWheel / Math.abs(dWheel))) % 10;
+					
+					index = index < 0 ? 10 + index : index;
+					
+					player.getQuickBar().setSelectedIndex(index);
+				}
+			}
+		}
+		
+		oldMouseX = MouseInput.getX();
+		oldMouseY = MouseInput.getY();
+		
+		oldWidth  = Frame.getWidth();
+	}
+	
+	public void render()
+	{
+		GL.loadIdentity();
+		
+//				map.finishLighting();
+//				GL.setLightProperties();
+		GL.beginManipulation();
+		{
+//					float cx = Frame.getCenterX();
+//					float cy = Frame.getCenterY();
+			
+//					GL.translatef(cx, cy, 0);
+			
+			if (playingGame)
+			{
+				renderGame();
+				
+				
+			}
+			else
+			{
+				renderMenu();
+			}
+//					GL.translatef(-cx, -cy, 0);
+		}
+		GL.endManipulation();
+		
+//		new Thread()
+//		{
+//			public void run(){
+//				if (currentMod == null)return;
+//		synchronized (currentMod)
+//		{
+		if (playingGame)
+		{
+			for (int i = 0; i < modThreads.length; i ++)
+			{
+				try
+				{
+//					if (modThreads[i] == null)
+//					{
+//						continue;
+//					}
+					
+					
+					synchronized (modThreads[i])
+					{
+						Lua.runFunction("render", i);
+						
+						modThreads[i].notify();
+					}
+				}
+				catch (ArrayIndexOutOfBoundsException ex)
+				{
+//					ex.printStackTrace();
+					System.out.println("!!1") ;
+				}
+			}
+		}
+//			currentMod.notify();
+//		}}}.start();
+	}
+	
+	public void tick(final float delta, final int dfps)
+	{
+		this.delta = delta;
+		
+		if (delta > ((float)targetFps / ((float)targetFps / 2f)))
+		{
+			return;
+		}
+		
+		if (!frozen)
+		{
+			boolean up        = KeyboardInput.isKeyDown(KeyboardInput.KEY_W) || KeyboardInput.isKeyDown(KeyboardInput.KEY_UP)    || KeyboardInput.isKeyDown(KeyboardInput.KEY_SPACE);
+			boolean down      = KeyboardInput.isKeyDown(KeyboardInput.KEY_S) || KeyboardInput.isKeyDown(KeyboardInput.KEY_DOWN);
+			boolean left      = KeyboardInput.isKeyDown(KeyboardInput.KEY_A) || KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT);
+			boolean right     = KeyboardInput.isKeyDown(KeyboardInput.KEY_D) || KeyboardInput.isKeyDown(KeyboardInput.KEY_RIGHT);
+			
+			boolean crouch    = KeyboardInput.isKeyDown(KeyboardInput.KEY_CONTROL);
+			boolean sprint    = KeyboardInput.isKeyDown(KeyboardInput.KEY_LEFT_SHIFT);
+			
+			player.setCrouching(crouch);
+			player.setSprinting(sprint);
+			
+			if (left)
+			{
+				player.setMove(Direction.LEFT);
+			}
+			else if (right)
+			{
+				player.setMove(Direction.RIGHT);
+			}
+			if (up)
+			{
+				player.setJump(true);
+			}
+			else if (down)
+			{
+				player.setMove(Direction.DOWN);
+			}
+			
+			int col[] = map.getDayCycle().getActualColor();
+			
+			int depth = (int)(-map.getY() / textureSize) * 2;
+			
+			if (depth < -30)
+			{
+				depth += 30;
+				
+				map.getDayCycle().setCurrentColor(col[0] + depth, col[1] + depth, col[2] + depth);
+			}
+			else
+			{
+				map.getDayCycle().setCurrentColor(col[0], col[1], col[2]);
+			}
+			
+			map.tick(delta);
+			
+			
+			
+			if (dfps % 1 == 0)
+			{
+				map.calculateLighting();
+			}
+			
+//			boolean cursorMoved = (int)cursorX / (int)textureSize != (int)oldCursorX / (int)textureSize || (int)cursorY / (int)textureSize != (int)oldCursorY / (int)textureSize;
+		//	cursorMoved = cursorMoved || (int)(map.getX() / textureSize) != (int)(oldMapX / textureSize) || (int)(map.getY() / textureSize) != (int)(oldMapY / textureSize);
+			
+			boolean cursorMoved = true;
+			
+			if (!MouseInput.isButtonDown(MouseInput.BUTTON_0) || cursorMoved)
+			{
+				mbAble[0]   = true;
+				
+//				blockDamage = 0;
+			}
+			if (!MouseInput.isButtonDown(MouseInput.BUTTON_1) || cursorMoved)
+			{
+				mbAble[1] = true;
+			}
+			
+//			if (MouseInput.isButtonDown(MouseInput.BUTTON_0))
+//			{
+//				boolean breakable = true;
+//				
+//				if (map.isTile(editX, editY, player.getEditing()))
+//				{
+//					if (player.getEditing() == 0)
+//					{
+//						if (map.isTile(editX, editY, 1))
+//						{
+//							breakable = false;
+//						}
+//					}
+//					
+//					if (breakable)
+//					{
+//						Tile tile = map.getTile(editX, editY, player.getEditing());
+//					
+//						if (blockDamage >= tile.getBreakingPoint())
+//						{
+//							if (map.removeTile(editX, editY, player.getEditing(), player))
+//							{
+//								map.calculateLighting();
+//							}
+//							
+//							player.getQuickBar().refreshInventory();
+//							
+//							blockDamage = 0;							
+//							mbAble[0]   = false;
+//						}
+//						else
+//						{
+//							int offset = (int)(10 * (blockDamage / tile.getBreakingPoint()));
+//							
+//							blockDamageTexturesBuffer.setData(0, GL.addRectTextureArrayf(Tile.getTerrain(), 5 + offset, 17, 1, 1, 0, null));
+//							
+//							float power = 1;
+//							
+//							Item item = player.getItemHeld();
+//							
+//							if (item != null)
+//							{
+//								if (item.getType() == tile.getType())
+//								{
+//									power = item.getPower();
+//								}
+//							}
+//							
+//							blockDamage += power * delta;
+//						}
+//					}
+//				}
+//			}
+////			else if (MouseInput.isButtonDown(MouseInput.BUTTON_1))
+////			{
+////				Object obj = player.getInventory().getItem(player.getQuickBar().getSelectedIndex());
+////				
+////				Tile tile = null;
+////				
+////				if (obj instanceof Tile)
+////				{
+////					tile = (Tile)obj;
+////					
+////					if (map.addTile(editX, editY, player.getQuickBar().getSelectedIndex(), false, player))
+////					{
+////						map.calculateLighting();
+////					}
+////				}
+////				else
+////				{
+////					map.activate(editX, editY, player.getEditing());
+////				}
+////				
+////				player.getQuickBar().refreshInventory();
+////				
+////				mbAble[1] = false;
+////			}
+//			
+//			oldCursorX = cursorX;
+//			oldCursorY = cursorY;
+		}
+		
+//		synchronized (currentMod)
+//		{
+//			synchronized (modTicker)
+//			{
+//				modTicker.notify();
+//			}
+//		}
+		
+//		for (int i = 0; i < modResources.length; i ++)
+//		{
+//			if (modWaitTime[currentModId] <= 0)
+//			{
+//			new Thread()
+//			{
+//				public void run()
+//				{
+//					try
+//					{
+//						Lua.runFunction("tick", new Object[] { currentModId, delta, Frame.getDFps() });
+//					}
+//					catch(Exception ex)
+//					{
+//						ex.printStackTrace();
+//					}
+//				}
+//			}.start();
+//			}
+//			else
+//			{
+//				modWaitTime[currentModId] -= Util.nanoTime - oldTime;
+//				
+//				modWaitTime[currentModId] = modWaitTime[currentModId] < 0 ? 0 : modWaitTime[currentModId];
+//			}
+//		}
+		
+		float cursorX = (int)(MouseInput.getX() / scale / textureSize) * textureSize + (map.getX() % textureSize);
+		float cursorY = (int)(MouseInput.getY() / scale / textureSize) * textureSize + (map.getY() % textureSize);
+		
+		cursorX = MouseInput.getX() / scale <  cursorX               ? cursorX - textureSize : cursorX;
+		cursorX = MouseInput.getX() / scale >= cursorX + textureSize ? cursorX + textureSize : cursorX;
+		cursorY = MouseInput.getY() / scale >= cursorY               ? cursorY + textureSize : cursorY;
+		cursorY = MouseInput.getY() / scale <  cursorY               ? cursorY - textureSize : cursorY;
+		
+		cursor.setLocation(cursorX, cursorY);
+		
+		oldTime = System.currentTimeMillis();
+	}
+	
+	private void modTick(final int id, final float delta, final int dfps)
+	{
+		modThreads[id] = new Thread()
+		{
+			public void run()
+			{
+				while (true)
+				{
+					synchronized (modThreads[id])
+					{
+						try
+						{
+							Lua.runFunction("tick", new Object[] { id, delta, dfps });
+							
+							modThreads[id].wait();
+						}
+//						catch (InterruptedException e)
+//						{
+//							e.printStackTrace();
+//						}
+						catch (IllegalMonitorStateException e)
+						{
+							System.out.println("!!4");
+						}
+						catch (ArrayIndexOutOfBoundsException ex)
+						{
+//							System.out.println("!!2 " + ex.toString());
+						}
+						catch(Exception ex)
+						{
+							ex.printStackTrace();
+						}
+					}
+				}
+			}
+		};
+		
+		modThreads[id].start();
+	}
+	
+	
+	private void renderMenu()
+	{
+		GL.scalef(3, 3, 1);
+		
+		if (mainMenu != null)
+		{
+			mainMenu.render();
+		}
+	}
+	
+	public void startMainMenu()
+	{
+		mainMenu = new MainMenu(this);
+	}
+	
+	public void startGame()
+	{
+		mbAble      = new boolean[2];
+		mbAble[0]   = true;
+		mbAble[1]   = true;
+		
+		oldMapX     = .000001f;
+		
+		scale       = 3f;
+		
+		textureSize = 16;
+		
+		blockDamageVerticesBuffer = new VerticesBuffer(4 * 2, 2);
+		blockDamageTexturesBuffer = new LightBuffer(4 * 2);
+		
+		blockDamageVerticesBuffer.setData(0, GL.addRectVertexArrayf(0, 0, textureSize, textureSize, 0, null));
+		
+		cursor      = new P1xeland.Cursor("res/images/Cursor.png");
+		
+		map         = new Map();
+		
+		player = new Player(map);
+		
+		for (int y = 0; y >= -4; y --)
+		{
+			for (int x = -1; x < 6; x ++)
+			{
+				map.addChunk(x, y);
+				map.getChunk(x, y).generateTerrain(0, x >= 0 ? map.getChunk(x - 1, y).getRightY() : 6, y == 0 ? 0 : y < 0 ? -1 : 1, null);
+			}
+		}
+		
+		int brickX = 50;
+		
+		int brickY = 0;
+		
+		for (int i = 0;; i ++)
+		{
+			if (!map.isTile(brickX, i, 1))
+			{
+				brickY = (i) * textureSize;
+				
+				break;
+			}
+		}
+		
+		player.setLocation(50 * textureSize, brickY);
+		
+		player.center();
+		
+		Lua.loadScript("res/scripts/lua/ModLoader.lua");
+		
+		Lua.runFunction("setPlayer", player);
+		Lua.runFunction("setMap", map);
+		Lua.runFunction("setP1xeland", this);
+		
+		File dir = new File("res/scripts/lua/");
+		
+		String fileNames[] = dir.list();
+		
+		ArrayList<String> res = new ArrayList<String>();
+		
+		for (String name : fileNames)
+		{
+			if (name.endsWith(".lua") && !name.equals("ModLoader.lua"))
+			{
+				res.add(name.substring(0, name.length() - 4));
+			}
+		}
+		
+		modResources = ArrayUtil.toStringArray(res);
+		
+		Lua.runFunction("start");
+		
+		Lua.runFunction("setResources", new Object[] { modResources, modResources.length });
+		
+		modCalled   = new boolean[modResources.length];
+		
+		modReady    = new boolean[modResources.length];
+		
+		modWaitTime = new long[modResources.length];
+		
+		modThreads  = new Thread[modResources.length];
+		
+		oldTime     = System.currentTimeMillis();
+		
+		map.pollChunks();
+		
+		map.calculateLighting();
+		
+		player.giveObject(Tile.TORCH, 640);
+		player.giveObject(Item.DIAMOND_PICKAXE);
+		player.giveObject(Item.DIAMOND_AXE);
+		player.giveObject(Item.DIAMOND_SHOVEL);
+		player.giveObject(Tile.GLASS, 640);
+		player.giveObject(Tile.WOODEN_PLANKS, 640);
+		player.giveObject(Tile.LADDER, 640);
+		
+		player.getQuickBar().refreshInventory();
+		
+		new SpriteSheet("res/images/texturepacks/16bit/Minecraft/minecraft.png", 36, 18);
+		
+		playingGame = true;
+		
+		mainMenu.destroy();
+		
+		mainMenu = null;
+		
+		Frame.addMouseListener(this);
+		
+//		if (modResources.length > 0)
+//		{
+//			currentMod = new Thread()
+//			{
+//				public void run()
+//				{
+//					while (true)
+//					{
+//						currentModId ++;
+//						
+//						currentModId = currentModId % modResources.length;
+//						
+//						Lua.runFunction("tick", new Object[] { currentModId, delta, Frame.getDFps() });
+//						
+////						try
+////						{
+////							synchronized (currentMod)
+////							{
+////								currentMod.wait();
+////							}
+////						}
+////						catch (InterruptedException ex)
+////						{
+////							ex.printStackTrace();
+////						}
+//					}
+//				}
+//			};
+//			
+//			currentMod.start();
+//		}
+		
+		for (int i = 0; i < modThreads.length; i ++)
+		{
+			modTick(i, delta, Frame.getDFps());
+		}
+	}
+	
+	private void renderGame()
+	{
+		GL.scalef(scale, scale, 1);
+		
+		map.render();
+		
+		player.render();
+		
+		if (Distance.points(cursor.x + textureSize / 2, cursor.y + textureSize / 2, player.getScreenX() + (player.getWidth() / 2f), player.getScreenY() + (player.getHeight() / 2f)) < player.getReach() * textureSize)
+		{
+			cursor.render();
+			
+			if (blockDamage > 0 && blockDamage < 9999)
+			{
+				GL.beginManipulation();
+				{
+					GL.translatef(cursor.x, cursor.y, player.getEditing() == 2 ? -5 : -9.9f);
+					
+					GL.renderQuads(blockDamageVerticesBuffer, blockDamageTexturesBuffer, Tile.getTerrain(), 0, 1);
+				}
+				GL.endManipulation();
+			}
+		}
+		
+		if (!inventoryOpen)
+		{
+			player.getQuickBar().render();
+		}
+		else
+		{
+			player.getInventory().render();
+		}
+		
+//		if (map.getX() != oldMapX || map.getY() != oldMapY)
+//		{
+//			GL.setLightLocation(map.getX() + 48 * 5, map.getY() + 48, -6);
+//		}
+		
+		oldMapX = map.getX();
+		oldMapY = map.getY();
+	}
+	
+//	public void runTask(final Task task)
+//	{
+////		synchronized (currentMod)
+////		{
+////			try
+////			{
+////				currentMod.wait();
+////			}
+////			catch (InterruptedException e)
+////			{
+////				e.printStackTrace();
+////			}
+//			
+//			currentMod = new Thread()
+//			{
+//				public void run()
+//				{
+//	//				synchronized (modTicker)
+//	//				{
+//						task.run(0);
+//	//				}
+//	//				System.out.println("ASdf");
+//				}
+//			};
+//			
+//			currentMod.start();
+////		}
+//	}
+	
+	public void waitMod(int id, long time)
+	{
+		modWaitTime[id - 1] += time;
+	}
+	
+	public boolean isFrozen()
+	{
+		return frozen;
+	}
+	
+	public void setFrozen(boolean frozen)
+	{
+		this.frozen = frozen;
+	}
+	
+	public float getBlockDamage()
+	{
+		return blockDamage;
+	}
+	
+	public void setBlockDamage(float blockDamage)
+	{
+		this.blockDamage = blockDamage;
+	}
+	
+	public static final String getGameTitle()
+	{
+		return GAME_TITLE;
+	}
+	
+	public static final String getVersion()
+	{
+		return VERSION;
+	}
+	
+	public static float getScale()
+	{
+		return scale;
+	}
+	
+	public static boolean nextKey()
+	{
+		return next;
+	}
+
+	@Override
+	public void onMouseMoved()
+	{
+		float cursorX = (int)(MouseInput.getX() / scale / textureSize) * textureSize + (map.getX() % textureSize);
+		float cursorY = (int)(MouseInput.getY() / scale / textureSize) * textureSize + (map.getY() % textureSize);
+		
+		cursorX = MouseInput.getX() / scale <  cursorX               ? cursorX - textureSize : cursorX;
+		cursorX = MouseInput.getX() / scale >= cursorX + textureSize ? cursorX + textureSize : cursorX;
+		cursorY = MouseInput.getY() / scale >= cursorY               ? cursorY + textureSize : cursorY;
+		cursorY = MouseInput.getY() / scale <  cursorY               ? cursorY - textureSize : cursorY;
+		
+		cursor.setLocation(cursorX, cursorY);
+		
+		if (cursorX != oldCursorX || cursorY != oldCursorY)
+		{
+			blockDamage = 0;
+		}
+	}
+
+	@Override
+	public void onMouseDragged(int bottonId)
+	{
+		
+	}
+
+	@Override
+	public void onMouseClicked(int buttonId)
+	{
+		
+	}
+
+	@Override
+	public void onMouseReleased(int buttonId)
+	{
+		if (buttonId == 0)
+		{
+			blockDamage = 0;
+		}
+	}
+
+	@Override
+	public void onMousePressed(int buttonId)
+	{
+		float cursorX = (int)(MouseInput.getX() / scale / textureSize) * textureSize + (map.getX() % textureSize);
+		float cursorY = (int)(MouseInput.getY() / scale / textureSize) * textureSize + (map.getY() % textureSize);
+		
+		cursorX = MouseInput.getX() / scale <  cursorX               ? cursorX - textureSize : cursorX;
+		cursorX = MouseInput.getX() / scale >= cursorX + textureSize ? cursorX + textureSize : cursorX;
+		cursorY = MouseInput.getY() / scale >= cursorY               ? cursorY + textureSize : cursorY;
+		cursorY = MouseInput.getY() / scale <  cursorY               ? cursorY - textureSize : cursorY;
+		
+		cursor.setLocation(cursorX, cursorY);
+	
+		int editX = (int)Math.round(((cursorX - map.getX()) / (float)textureSize));
+		int editY = (int)Math.round(((cursorY - map.getY()) / (float)textureSize));
+		
+		if (cursorX != oldCursorX || cursorY != oldCursorY)
+		{
+			blockDamage = 0;
+		}
+		
+		if (buttonId == 0)
+		{
+			boolean breakable = true;
+			
+			if (map.isTile(editX, editY, player.getEditing()))
+			{
+				if (player.getEditing() == 0)
+				{
+					if (map.isTile(editX, editY, 1))
+					{
+						breakable = false;
+					}
+				}
+				
+				if (breakable)
+				{
+					Tile tile = map.getTile(editX, editY, player.getEditing());
+				
+					if (blockDamage >= tile.getBreakingPoint())
+					{
+						if (map.removeTile(editX, editY, player.getEditing(), player))
+						{
+							map.calculateLighting();
+						}
+						
+						player.getQuickBar().refreshInventory();
+						
+						blockDamage = 0;							
+						mbAble[0]   = false;
+					}
+					else
+					{
+						int offset = (int)(10 * (blockDamage / tile.getBreakingPoint()));
+						
+						blockDamageTexturesBuffer.setData(0, GL.addRectTextureArrayf(Tile.getTerrain(), 5 + offset, 17, 1, 1, 0, null));
+						
+						float power = 1;
+						
+						Item item = player.getItemHeld();
+						
+						if (item != null)
+						{
+							if (item.getType() == tile.getType())
+							{
+								power = item.getPower();
+							}
+						}
+						
+						blockDamage += power * delta;
+					}
+				}
+			}
+		}
+		
+		if (buttonId == 1)
+		{
+			Object obj = player.getInventory().getItem(player.getQuickBar().getSelectedIndex());
+			
+			Tile tile = null;
+			
+			if (obj instanceof Tile)
+			{
+				tile = (Tile)obj;
+				
+				if (map.addTile(editX, editY, player.getQuickBar().getSelectedIndex(), false, player))
+				{
+					map.calculateLighting();
+				}
+			}
+			else
+			{
+				map.activate(editX, editY, player.getEditing());
+			}
+			
+			player.getQuickBar().refreshInventory();
+		}
+		
+		oldCursorX = cursorX;
+		oldCursorY = cursorY;
+	}
+
+	public void onCreate()
+	{
+		p.init();
+		
+		try
+		{
+			Frame.setIcon("res/images/favicon/16s.png", "res/images/favicon/32s.png");
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public void render2D(int dfps)
+	{
+		p.render();
+	}
+
+	public void render3D(int dfps)
+	{
+		
+	}
+
+	public void loop(int dfps)
+	{
+		p.loop();
+	}
+}

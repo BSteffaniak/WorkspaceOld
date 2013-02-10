@@ -1,0 +1,9 @@
+package net.foxycorndog.jfoxylib;
+
+public class GameEntry
+{
+	public void start()
+	{
+		
+	}
+}

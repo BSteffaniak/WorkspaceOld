@@ -302,7 +302,7 @@ public class Inventory
 				
 				if (item != null)
 				{
-					Frame.renderText((i % 10) * (8 + 3) - 1, (getHeight()) - ((i / 10) + 1) * (8 + 4) - 4 - 1, "" + quantities[i], Color.WHITE, .25f);
+					Frame.getFont().render("" + quantities[i], (i % 10) * (8 + 3) - 1, (getHeight()) - ((i / 10) + 1) * (8 + 4) - 4 - 1, 0.25f);
 				}
 			}
 		}

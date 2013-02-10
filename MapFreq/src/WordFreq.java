@@ -90,11 +90,11 @@ public class WordFreq
 						
 						if (num == null)
 						{
-							m.put(word, new Integer(1));
+							m.put(word, 1);
 						}
 						else
 						{
-							m.put(word, new Integer(num.intValue() + 1));
+							m.put(word, num.intValue() + 1);
 						}
 					}
 				}

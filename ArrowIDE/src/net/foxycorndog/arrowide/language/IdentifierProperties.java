@@ -30,6 +30,11 @@ public class IdentifierProperties
 		this(new char[] { previousChars }, nextChars, new String[] {}, new String[] {}, color);
 	}
 	
+	public IdentifierProperties(char previousChars[], char nextChars[], Color color)
+	{
+		this(previousChars, nextChars, new String[] {}, new String[] {}, color);
+	}
+	
 	public IdentifierProperties(char previousChars, char nextChars, String prefix, Color color)
 	{
 		this(new char[] { previousChars }, new char[] { nextChars }, new String[] { prefix }, new String[] {}, color);

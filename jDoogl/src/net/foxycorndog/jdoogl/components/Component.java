@@ -133,6 +133,11 @@ public abstract class Component
 		{
 			
 		}
+		
+		double scaled[] = GL.getAmountScaled();
+		
+		offsetX /= scaled[0];
+		offsetY /= scaled[1];
 	}
 	
 	public int getWidth()

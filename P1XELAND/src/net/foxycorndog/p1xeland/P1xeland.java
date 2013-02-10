@@ -20,12 +20,14 @@ import net.foxycorndog.jdolua.Lua;
 import net.foxycorndog.jdolua.LuaException;
 import net.foxycorndog.jdoogl.Color;
 import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.activity.GameComponent;
 import net.foxycorndog.jdoogl.components.Component;
 import net.foxycorndog.jdoogl.components.Frame;
 import net.foxycorndog.jdoogl.components.ImageButton;
 import net.foxycorndog.jdoogl.components.Menu;
 import net.foxycorndog.jdoogl.connector.Connector;
 import net.foxycorndog.jdoogl.connector.Result;
+import net.foxycorndog.jdoogl.fonts.Font;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
 import net.foxycorndog.jdoogl.input.KeyboardInput;
@@ -54,7 +56,7 @@ import net.foxycorndog.p1xeland.map.chunks.Chunk;
 import net.foxycorndog.p1xeland.market.Client;
 import net.foxycorndog.p1xeland.menus.MainMenu;
 
-public class P1xeland implements P1xelandInterface, MouseListener
+public class P1xeland extends GameComponent implements P1xelandInterface, MouseListener
 {
 	private boolean         playingGame;
 	private boolean         inventoryOpen;
@@ -77,6 +79,8 @@ public class P1xeland implements P1xelandInterface, MouseListener
 	
 	private Map             map;
 	
+	private Font			font;
+	
 	private Client          c;
 	
 	private VerticesBuffer  blockDamageVerticesBuffer;
@@ -87,8 +91,6 @@ public class P1xeland implements P1xelandInterface, MouseListener
 	
 	private Menu            mainMenu;
 	
-	private P1xeland        thisGame;
-	
 	private boolean         mbAble[];
 	private boolean         modCalled[], modReady[];
 	
@@ -98,7 +100,7 @@ public class P1xeland implements P1xelandInterface, MouseListener
 	
 	private Thread          modThreads[];
 	
-	private static P1xeland p;
+//	private static P1xeland p;
 	
 	public  static boolean  next;
 	
@@ -161,44 +163,62 @@ public class P1xeland implements P1xelandInterface, MouseListener
 	
 	public P1xeland()
 	{
-		thisGame = this;
+		super(GAME_TITLE, 640, 512, targetFps);
 	}
 	
 	public static void main(String args[])
 	{
-		p = new P1xeland();
+		new P1xeland();
 		
-		new Frame(640, 512, GAME_TITLE, null)
-		{
-			
-			@Override
-			public void render()
-			{
-				p.render();
-			}
-			
-			@Override
-			public void loop()
-			{
-				p.loop();
-			}
-			
-			@Override
-			public void init()
-			{
-				GL.initBasicView(0.01f, 100f);
-				
-				p.init();
-		
-				Frame.setIcon("res/images/favicon/16s.png", "res/images/favicon/32s.png");
-			}
-		}.startLoop(targetFps);
+//		new Frame(640, 512, GAME_TITLE, null)
+//		{
+//			
+//			@Override
+//			public void render()
+//			{
+//				p.render();
+//			}
+//			
+//			@Override
+//			public void loop()
+//			{
+//				p.loop();
+//			}
+//			
+//			@Override
+//			public void init()
+//			{
+//				GL.initBasicView(0.01f, 100f);
+//				
+//				p.init();
+//		
+//				try
+//				{
+//					Frame.setIcon("res/images/favicon/16s.png", "res/images/favicon/32s.png");
+//				}
+//				catch (IOException e)
+//				{
+//					e.printStackTrace();
+//				}
+//			}
+//		}.startLoop(targetFps);
 		
 //		p.start();
 	}
 	
 	public void init()
 	{
+		font = new Font("res/images/font/font.png", 26, 4,
+				new char[]
+				{
+					'A', 'B', 'C', 'D', 'E', 'F',  'G', 'H', 'I', 'J', 'K', 'L',  'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+					'a', 'b', 'c', 'd', 'e', 'f',  'g', 'h', 'i', 'j', 'k', 'l',  'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+					'0', '1', '2', '3', '4', '5',  '6', '7', '8', '9', '_', '-',  '+', '=', '~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')',
+					'?', '>', '<', ';', ':', '\'', '"', '{', '}', '[', ']', '\\', '|', ',', '.', '/', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+				});
+		
+		Frame.setFont(font);
+		
 		GL.setClearColori(80, 162, 216, 255);
 		
 		mainMenu = new MainMenu(this);
@@ -208,9 +228,9 @@ public class P1xeland implements P1xelandInterface, MouseListener
 	{
 		if (playingGame)
 		{
-			Frame.renderText(0, 0, "FPS: " + Frame.getFps(), Color.WHITE, 1, Frame.Alignment.RIGHT, Frame.Alignment.TOP);
-			Frame.renderText(0, 16, "(" + (int)((player.getX() / textureSize) ) + ", " + (int)(player.getY() / textureSize) + ")", Color.WHITE, 1, Frame.Alignment.RIGHT, Frame.Alignment.TOP);
-			Frame.renderText(0, 0, "Editing: " + player.getEditing(), Color.WHITE, 1, Frame.Alignment.LEFT, Frame.Alignment.TOP);
+			font.render("FPS: " + Frame.getFps(), 0, 0, 1, Font.RIGHT, Font.TOP);
+			font.render("(" + (int)((player.getX() / textureSize) ) + ", " + (int)(player.getY() / textureSize) + ")", 0, 16, 1, Font.RIGHT, Font.TOP);
+			font.render("Editing: " + player.getEditing(), 0, 0, 1, Font.LEFT, Font.TOP);
 			
 			boolean zoomIn          = KeyboardInput.isKeyDown(KeyboardInput.KEY_I);
 			boolean zoomOut         = KeyboardInput.isKeyDown(KeyboardInput.KEY_O);
@@ -604,7 +624,7 @@ public class P1xeland implements P1xelandInterface, MouseListener
 		
 		cursor.setLocation(cursorX, cursorY);
 		
-		oldTime = Util.nanoTime;
+		oldTime = System.currentTimeMillis();
 	}
 	
 	private void modTick(final int id, final float delta, final int dfps)
@@ -747,7 +767,7 @@ public class P1xeland implements P1xelandInterface, MouseListener
 		
 		modThreads  = new Thread[modResources.length];
 		
-		oldTime     = Util.nanoTime;
+		oldTime     = System.currentTimeMillis();
 		
 		map.pollChunks();
 		
@@ -1067,5 +1087,36 @@ public class P1xeland implements P1xelandInterface, MouseListener
 		
 		oldCursorX = cursorX;
 		oldCursorY = cursorY;
+	}
+
+	public void onCreate()
+	{
+		init();
+		
+		GL.setRender3D(false);
+		
+		try
+		{
+			Frame.setIcon("res/images/favicon/16s.png", "res/images/favicon/32s.png");
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public void render2D(int dfps)
+	{
+		render();
+	}
+
+	public void render3D(int dfps)
+	{
+		
+	}
+
+	public void loop(int dfps)
+	{
+		loop();
 	}
 }

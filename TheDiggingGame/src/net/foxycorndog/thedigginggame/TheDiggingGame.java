@@ -41,7 +41,7 @@ public class TheDiggingGame
 		}
 		catch(IndexOutOfBoundsException e)
 		{
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		
 		tdg.init(width, height, false);

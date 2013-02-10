@@ -1,0 +1,11 @@
+package net.foxycorndog.jfoxylib.components;
+
+public class Panel extends Component
+{
+	
+	
+	public void add(Component component)
+	{
+		
+	}
+}

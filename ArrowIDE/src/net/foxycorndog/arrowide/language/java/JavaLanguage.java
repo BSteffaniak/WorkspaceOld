@@ -65,7 +65,7 @@ public class JavaLanguage
 	{
 		COMMENT_PROPERTIES = new CommentProperties("//", "/*", "*/", new Color(Display.getCurrent(), 40, 140, 0));
 		METHOD_PROPERTIES  = new MethodProperties();
-		IDENTIFIER_PROPERTIES = new IdentifierProperties(new char[] {  }, '=', new Color(Display.getDefault(), 4, 150, 120));
+		IDENTIFIER_PROPERTIES = new IdentifierProperties(new char[] {  }, new char[] { '=' }, new Color(Display.getDefault(), 4, 150, 120));
 	}
 	
 	public static void init()
@@ -437,8 +437,6 @@ public class JavaLanguage
 		Iterable<? extends JavaFileObject> compilationUnits = Arrays.asList(javaFileObjects);
 		
 		String classpath = getClasspath(projectLocation);
-		
-		System.out.println(classpath);
  
 		/*Prepare any compilation options to be used during compilation*/
 		//In this example, we are asking the compiler to place the output files under bin folder.

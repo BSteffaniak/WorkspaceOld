@@ -126,7 +126,7 @@ public class ImageTextField extends ImageButton implements KeyListener, ActionLi
 			
 			halfHeight = halfHeight >= Integer.MAX_VALUE ? 0 : halfHeight;
 			
-			float halfText = Frame.getFont().getHeight("A0|WL") / 2;
+			float halfText = Frame.getFont().getGlyphHeight() / 2;
 			
 			halfText = halfText >= Integer.MAX_VALUE ? 0 : halfText;
 			
@@ -149,7 +149,7 @@ public class ImageTextField extends ImageButton implements KeyListener, ActionLi
 			
 			GL.translatef(renderX, Frame.getHeight() / getScaleHeight() - renderY - 1, 1);
 			
-			float offsetX = ((getScreenWidth() - lm - rm) - Frame.getFont().getLegitWidth(fieldText + "_") * getScaleWidth());
+			float offsetX = ((getScreenWidth() - lm - rm) - Frame.getFont().getWidth(fieldText + "_") * getScaleWidth());
 			
 			if (offsetX < 0)
 			{
@@ -170,7 +170,7 @@ public class ImageTextField extends ImageButton implements KeyListener, ActionLi
 				}
 			}
 			
-			Frame.renderText(0, 0, displayText + underscore , Color.WHITE, 1);
+			Frame.getFont().render(displayText + underscore, 0, 0, 1);
 			
 			long time = System.currentTimeMillis();
 			
@@ -197,7 +197,7 @@ public class ImageTextField extends ImageButton implements KeyListener, ActionLi
 			
 			halfHeight = halfHeight >= Integer.MAX_VALUE ? 0 : halfHeight;
 			
-			float halfText = Frame.getFont().getHeight("A0|WL") / 2;
+			float halfText = Frame.getFont().getGlyphHeight() / 2;
 			
 			halfText = halfText >= Integer.MAX_VALUE ? 0 : halfText;
 			
@@ -224,7 +224,7 @@ public class ImageTextField extends ImageButton implements KeyListener, ActionLi
 			
 			GL.translatef(renderX, Frame.getHeight() / getScaleHeight() - renderY - 1, 1);
 			
-			float offsetX = ((getScreenWidth() - lm - rm) - Frame.getFont().getLegitWidth(fieldText + "_") * getScaleWidth());
+			float offsetX = ((getScreenWidth() - lm - rm) - Frame.getFont().getWidth(fieldText + "_") * getScaleWidth());
 			
 			if (offsetX < 0)
 			{
@@ -245,7 +245,7 @@ public class ImageTextField extends ImageButton implements KeyListener, ActionLi
 				}
 			}
 			
-			Frame.renderText(0, 0, fieldText + underscore , Color.WHITE, 1);
+			Frame.getFont().render(fieldText + underscore, 0, 0, 1);
 
 			long time = System.currentTimeMillis();
 			

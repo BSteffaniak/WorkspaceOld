@@ -350,7 +350,7 @@ public class Map
 				{
 					long timeLeft = (Long)explosives.get(i + 4);
 					
-					if (Util.nanoTime - timeLeft >= 1000000000l)
+					if (System.currentTimeMillis() - timeLeft >= 1000l)
 					{
 						int x = (Integer)explosives.get(i);
 						int y = (Integer)explosives.get(i + 1);
@@ -501,7 +501,7 @@ public class Map
 		explosives.add(orig[1]);
 		explosives.add(index);
 		explosives.add(radius);
-		explosives.add(Util.nanoTime);
+		explosives.add(System.currentTimeMillis());
 		
 		calculateLighting();
 	}

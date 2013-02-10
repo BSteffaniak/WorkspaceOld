@@ -1,0 +1,9 @@
+package net.foxycorndog.jfoxylib.components;
+
+public class Frame extends Panel
+{
+	public Frame(int width, int height)
+	{
+		
+	}
+}

@@ -1,0 +1,37 @@
+package net.foxycorndog.jfoxylib;
+
+import org.eclipse.swt.widgets.Display;
+
+public abstract class GameEntry
+{
+	private boolean	running;
+	
+	private Display	display;
+	
+	public GameEntry()
+	{
+		display = new Display();
+	}
+	
+	public void start()
+	{
+		running = true;
+		
+		while (running)
+		{
+			if (!display.readAndDispatch())
+			{
+				loop();
+				
+				display.sleep();
+			}
+		}
+	}
+	
+	public abstract void loop();
+	
+	public void stop()
+	{
+		running = false;
+	}
+}

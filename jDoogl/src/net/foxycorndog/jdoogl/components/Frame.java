@@ -44,6 +44,7 @@ import javax.imageio.ImageIO;
 import net.foxycorndog.jdobase.Base;
 import net.foxycorndog.jdoogl.Color;
 import net.foxycorndog.jdoogl.GL;
+import net.foxycorndog.jdoogl.fonts.Font;
 import net.foxycorndog.jdoogl.fonts.TTFont;
 import net.foxycorndog.jdoogl.image.imagemap.SpriteSheet;
 import net.foxycorndog.jdoogl.image.imagemap.Texture;
@@ -94,7 +95,7 @@ public abstract class Frame
 	
 	private static Dimension   originalDimensions, resizedDimensions;
 	
-	private static TTFont      font;
+	private static Font        font;
 	
 	private static Cursor      cursor;
 	
@@ -375,11 +376,13 @@ public abstract class Frame
 		
 	}
 	
-	public static void setFont(String location, int size)
+	public static void setFont(Font font)
 	{
-		font = new TTFont(location, size, true);
+//		font = new TTFont(location, size, true);
+//		
+//		normalFontHeight = font.getLegitHeight("WA10|)!1");
 		
-		normalFontHeight = font.getLegitHeight("WA10|)!1");
+		Frame.font = font;
 	}
 	
 	public static void setCursor(Cursor cursor)
@@ -783,7 +786,7 @@ public abstract class Frame
 		
 		int len = text.length();
 		
-		int height = font.getHeight(text);
+		int height = font.getGlyphHeight();
 		
 //		for (int i = 0; i < len + 1; i ++)
 //		{
@@ -804,141 +807,141 @@ public abstract class Frame
 		}
 	}
 	
-	/**
-	* Render text to the screen at the specified place with the
-	* specified Color.
-	* 
-	* @param x The x position.
-	* @param y The y position.
-	* @param text The text to be rendered.
-	* @param color The color to render the text in.
-	* @param size The size of the text to be rendered.
-	* @param beginIndex The index to start drawing the string at.
-	* @param endIndex The index of the String to stop drawing it at.
-	*/
-	public static void renderText(float x, float y, String text, Color color, float scale, int beginIndex, int endIndex)
-	{
-		if (text == null || text.equals(""))
-		{
-			return;// null;
-		}
-		
-		float scaleX = (float)GL.getAmountScaled()[0];
-		float scaleY = (float)GL.getAmountScaled()[1];
-		
-//		DisplayList d = null;
-		
-		GL.flipView();
-		
-//		y = Frame.getHeight() - y - 1;
-		
-		glPushMatrix();
-		{
-			glScalef(scale, scale, 1);
-			
-			//font.drawString(x / scale2, y / scale2 + Idk.offsetY / scale2, text, color, beginIndex, endIndex);
-//			d = font.drawDisplayList(0, 0, text, color, beginIndex, endIndex);
+//	/**
+//	* Render text to the screen at the specified place with the
+//	* specified Color.
+//	* 
+//	* @param x The x position.
+//	* @param y The y position.
+//	* @param text The text to be rendered.
+//	* @param color The color to render the text in.
+//	* @param size The size of the text to be rendered.
+//	* @param beginIndex The index to start drawing the string at.
+//	* @param endIndex The index of the String to stop drawing it at.
+//	*/
+//	public static void renderText(float x, float y, String text, Color color, float scale, int beginIndex, int endIndex)
+//	{
+//		if (text == null || text.equals(""))
+//		{
+//			return;// null;
+//		}
+//		
+//		float scaleX = (float)GL.getAmountScaled()[0];
+//		float scaleY = (float)GL.getAmountScaled()[1];
+//		
+////		DisplayList d = null;
+//		
+//		GL.flipView();
+//		
+////		y = Frame.getHeight() - y - 1;
+//		
+//		glPushMatrix();
+//		{
+//			glScalef(scale, scale, 1);
+//			
+//			//font.drawString(x / scale2, y / scale2 + Idk.offsetY / scale2, text, color, beginIndex, endIndex);
+////			d = font.drawDisplayList(0, 0, text, color, beginIndex, endIndex);
+////			font.drawString(x / scale, y / scale, text, color, beginIndex, endIndex);
 //			font.drawString(x / scale, y / scale, text, color, beginIndex, endIndex);
-			font.drawString(x / scale, y / scale, text, color, beginIndex, endIndex);
-		}
-		glPopMatrix();
-		
-		GL.flipView();
-		
-		glColor4f(1, 1, 1, 1);
-		
-		//return new short[] { d.width, d.height };
-	}
-	
-	/**
-	* Render text to the screen at the specified place with the
-	* specified Color.
-	* 
-	* @param x The x position.
-	* @param y The y position.
-	* @param text The text to be rendered.
-	* @param color The color to render the text in.
-	* @param size The size of the text to be rendered.
-	*/
-	public static float[] renderText(float x, float y, String text, Color color, float scale)
-	{
-		if (text == null || text.equals(""))
-		{
-			return null;
-		}
-		
-		double scales[] = GL.getAmountScaled();
-		double renderLoc[] = GL.getRenderLocation();
-		
-		y += renderLoc[1] * 2;
-		
-		y += normalFontHeight * scale;
-		y = (float)(Frame.getHeight() / scales[1] - y - 1 / scales[1]);
-		
-		renderText(x, y, text, color, scale, 0, text.length());
-		
-		return new float[] { x + (float)renderLoc[0], y + (float)renderLoc[1] };
-	}
-	
-	/**
-	* Render text to the screen at the specified place with the
-	* specified Color.
-	* 
-	* @param xo The x offset position.
-	* @param yo The y offset position.
-	* @param text The text to be rendered.
-	* @param color The color to render the text in.
-	* @param size The size of the text to be rendered.
-	* @param halign The horizontal alignment of the text to be
-	* 		rendered in the Display.
-	*/
-	public static float[] renderText(float xo, float yo, String text, Color color, float scale, Alignment halign)
-	{
-		if (halign == LEFT)
-		{
-			
-		}
-		else if (halign == CENTER)
-		{
-			xo += (int)getCenterX() - ((font.getLegitWidth(text) * scale) / 2);
-		}
-		else if (halign == RIGHT)
-		{
-			xo += Display.getWidth() - (font.getLegitWidth(text) * scale);
-		}
-		
-		return renderText(xo, yo, text, color, scale);
-	}
-	
-	/**
-	* Render text to the screen at the specified place with the
-	* specified Color.
-	* 
-	* @param xo The x offset position.
-	* @param yo The y offset position.
-	* @param text The text to be rendered.
-	* @param color The color to render the text in.
-	* @param size The size of the text to be rendered.
-	* @param halign The horizontal alignment of the text to be
-	* 		rendered in the Display.
-	*/
-	public static float[] renderText(float xo, float yo, String text, Color color, float scale, Alignment halign, Alignment valign)
-	{
-		if (valign == TOP)
-		{
-			yo += Display.getHeight() - normalFontHeight * scale;
-		}
-		else if (valign == CENTER)
-		{
-			yo += (int)getCenterY() + ((normalFontHeight * scale) / 2);
-		}
-		else if (valign == BOTTOM)
-		{
-			
-		}
-		
-		return renderText(xo, yo, text, color, scale, halign);
-	}
+//		}
+//		glPopMatrix();
+//		
+//		GL.flipView();
+//		
+//		glColor4f(1, 1, 1, 1);
+//		
+//		//return new short[] { d.width, d.height };
+//	}
+//	
+//	/**
+//	* Render text to the screen at the specified place with the
+//	* specified Color.
+//	* 
+//	* @param x The x position.
+//	* @param y The y position.
+//	* @param text The text to be rendered.
+//	* @param color The color to render the text in.
+//	* @param size The size of the text to be rendered.
+//	*/
+//	public static float[] renderText(float x, float y, String text, Color color, float scale)
+//	{
+//		if (text == null || text.equals(""))
+//		{
+//			return null;
+//		}
+//		
+//		double scales[] = GL.getAmountScaled();
+//		double renderLoc[] = GL.getRenderLocation();
+//		
+//		y += renderLoc[1] * 2;
+//		
+//		y += normalFontHeight * scale;
+//		y = (float)(Frame.getHeight() / scales[1] - y - 1 / scales[1]);
+//		
+//		renderText(x, y, text, color, scale, 0, text.length());
+//		
+//		return new float[] { x + (float)renderLoc[0], y + (float)renderLoc[1] };
+//	}
+//	
+//	/**
+//	* Render text to the screen at the specified place with the
+//	* specified Color.
+//	* 
+//	* @param xo The x offset position.
+//	* @param yo The y offset position.
+//	* @param text The text to be rendered.
+//	* @param color The color to render the text in.
+//	* @param size The size of the text to be rendered.
+//	* @param halign The horizontal alignment of the text to be
+//	* 		rendered in the Display.
+//	*/
+//	public static float[] renderText(float xo, float yo, String text, Color color, float scale, Alignment halign)
+//	{
+//		if (halign == LEFT)
+//		{
+//			
+//		}
+//		else if (halign == CENTER)
+//		{
+//			xo += (int)getCenterX() - ((font.getLegitWidth(text) * scale) / 2);
+//		}
+//		else if (halign == RIGHT)
+//		{
+//			xo += Display.getWidth() - (font.getLegitWidth(text) * scale);
+//		}
+//		
+//		return renderText(xo, yo, text, color, scale);
+//	}
+//	
+//	/**
+//	* Render text to the screen at the specified place with the
+//	* specified Color.
+//	* 
+//	* @param xo The x offset position.
+//	* @param yo The y offset position.
+//	* @param text The text to be rendered.
+//	* @param color The color to render the text in.
+//	* @param size The size of the text to be rendered.
+//	* @param halign The horizontal alignment of the text to be
+//	* 		rendered in the Display.
+//	*/
+//	public static float[] renderText(float xo, float yo, String text, Color color, float scale, Alignment halign, Alignment valign)
+//	{
+//		if (valign == TOP)
+//		{
+//			yo += Display.getHeight() - normalFontHeight * scale;
+//		}
+//		else if (valign == CENTER)
+//		{
+//			yo += (int)getCenterY() + ((normalFontHeight * scale) / 2);
+//		}
+//		else if (valign == BOTTOM)
+//		{
+//			
+//		}
+//		
+//		return renderText(xo, yo, text, color, scale, halign);
+//	}
 	
 	public static void setFullscreen(boolean fullscreen)
 	{
@@ -1082,7 +1085,7 @@ public abstract class Frame
 		return Display.getHeight();
 	}
 	
-	public static TTFont getFont()
+	public static Font getFont()
 	{
 		return font;
 	}

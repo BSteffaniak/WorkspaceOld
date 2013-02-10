@@ -1,0 +1,31 @@
+import net.foxycorndog.jfoxylib.components.Button;
+import net.foxycorndog.jfoxylib.components.Window;
+
+public class Game
+{
+	private Window window;
+	
+	private Button play;
+	
+	public static void main(String args[])
+	{
+		new Game();
+	}
+	
+	public Game()
+	{
+		window = new Window(800, 600, "title");
+		
+		createMainMenu();
+	}
+	
+	private void createMainMenu()
+	{
+		play = new Button();
+		play.setText("Play Now!");
+		play.setLocation(0, 0);
+		play.addTo(window);
+		
+		
+	}
+}

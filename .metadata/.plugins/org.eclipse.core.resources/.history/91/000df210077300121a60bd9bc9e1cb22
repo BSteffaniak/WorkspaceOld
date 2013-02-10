@@ -1,0 +1,24 @@
+package net.foxycorndog.jfoxylib.components;
+
+public class Component
+{
+	private int x, y;
+	private int width, height;
+	
+	public void setLocation(int x, int y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+	
+	public void setSize(int width, int height)
+	{
+		this.width  = width;
+		this.height = height;
+	}
+	
+	public void addTo(Panel panel)
+	{
+		panel.add(this);
+	}
+}

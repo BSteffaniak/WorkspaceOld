@@ -1,0 +1,15 @@
+package net.foxycorndog.jfoxylib.components;
+
+import org.eclipse.swt.widgets.Shell;
+
+public class Frame extends Panel
+{
+	private Shell shell;
+	
+	public Frame(int width, int height)
+	{
+		shell = new Shell();
+		
+		shell.setSize(width, height);
+	}
+}

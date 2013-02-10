@@ -1,0 +1,16 @@
+package net.foxycorndog.jfoxylib.components;
+
+public class Button
+{
+	private String text;
+	
+	public void setText(String text)
+	{
+		this.text = text;
+	}
+	
+	public void setLocation(int x, int y)
+	{
+		
+	}
+}

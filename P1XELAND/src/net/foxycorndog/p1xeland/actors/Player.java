@@ -208,8 +208,8 @@ public class Player extends Actor
 					for (int i = 0; i < 10; i ++)
 					{
 						int quantity = getInventory().getQuantity(i);
-						
-						Frame.renderText(i * (32), 16, quantity > 0 ? "" + quantity : "", i == selectedIndex ? Color.RED : Color.WHITE, 1f);
+//						i == selectedIndex ? Color.RED : Color.WHITE
+						Frame.getFont().render(quantity > 0 ? "" + quantity : "", i * (32), 16, 1f);
 					}
 					
 					beganScaling = false;

@@ -1,0 +1,32 @@
+package net.foxycorndog.jfoxylib.components;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+
+public class Frame extends Panel
+{
+	private Shell shell;
+	
+	public Frame(int width, int height)
+	{
+		shell = new Shell(Display.getDefault(), SWT.NO_TRIM);
+		
+		shell.setSize(width, height);
+	}
+	
+	public boolean isOpen()
+	{
+		return !shell.isDisposed() && shell.isVisible();
+	}
+	
+	public void open()
+	{
+		shell.open();
+	}
+	
+	public void close()
+	{
+		shell.close();
+	}
+}

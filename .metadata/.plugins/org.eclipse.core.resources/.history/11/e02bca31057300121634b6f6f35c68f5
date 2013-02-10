@@ -1,0 +1,9 @@
+package net.foxycorndog.jfoxylib.components;
+
+public class Window extends Frame
+{
+	public Window()
+	{
+		
+	}
+}

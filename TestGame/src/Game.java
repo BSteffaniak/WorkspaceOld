@@ -1,4 +1,9 @@
-public class Game
+import net.foxycorndog.jfoxylib.GameEntry;
+import net.foxycorndog.jfoxylib.components.Button;
+import net.foxycorndog.jfoxylib.components.Component;
+import net.foxycorndog.jfoxylib.components.Window;
+
+public class Game extends GameEntry
 {
 	private Window window;
 	
@@ -7,22 +12,43 @@ public class Game
 	public static void main(String args[])
 	{
 		new Game();
+		
+		System.out.println("done");
 	}
 	
 	public Game()
 	{
-		window = new Window(800, 600, "title");
+		window = new Window();
+		window.setSize(800, 600);
+		window.setMaximizable(true);
+		window.setResizable(true);
 		
 		createMainMenu();
+		
+		window.open();
+		
+		final Game c = this;
+		
+		setMainFrame(window);
+		
+		start();
+		
+//		stop();
 	}
 	
 	private void createMainMenu()
 	{
 		play = new Button();
 		play.setText("Play Now!");
-		play.setLocation(x, y);
+		play.setAlignment(Component.CENTER, Component.CENTER);
+		play.setLocation(0, 0);
 		play.addTo(window);
 		
 		
+	}
+	
+	public void loop()
+	{
+//		stop();
 	}
 }

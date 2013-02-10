@@ -121,7 +121,7 @@ public class CodeField extends StyledText
 	static
 	{
 //		whitespaceRegex = "[.,[ ]/*=()\r\n\t\\[\\]{};[-][+]['][\"]:[-][+]><!]";
-		whitespaceRegex = "[.,[ ]/*=()\r\n\t[\\\\]{};[-][+]['][\"]:[-][+]><!]";
+		whitespaceRegex = "[.,[ ]/*=()\r\n\t[\\\\]\\[\\]{};[-][+]['][\"]:[-][+]><!]";
 		
 		whitespaceArray = new char[] { ' ', '.', ',', '/', '*', '=', '(', ')', '[', ']', '{', '}', ';', '\n', '\t', '\r', '-', '\\', '+', '\'', '"', ':', '-', '+', '>', '<', '!' };
 	}
@@ -299,7 +299,7 @@ public class CodeField extends StyledText
 							{
 								StyleRange loc = list[j];
 								
-								if (start >= loc.start && start <= loc.start + loc.length + 1)
+								if (start >= loc.start && start <= loc.start + loc.length)
 								{
 									identifier = identifierWords.get(lists[i]);
 								}
@@ -322,7 +322,7 @@ public class CodeField extends StyledText
 							{
 								StyleRange loc = list[j];
 								
-								if (identifier == null && start >= loc.start && start <= loc.start + loc.length + 1)
+								if (identifier == null && start >= loc.start && start <= loc.start + loc.length)
 								{
 									method = methodWords.get(lists[i]);
 								}
@@ -1123,7 +1123,8 @@ public class CodeField extends StyledText
 			{
 				result.count++;
 				
-				if (c != ' ')
+				// Possible bug here with isEscape?? dont know...
+				if (c != ' ' && !isEscape)
 				{
 					if (result.onlyCharOtherThanSpace == 0 && !noOtherCharOtherThanSpace)
 					{

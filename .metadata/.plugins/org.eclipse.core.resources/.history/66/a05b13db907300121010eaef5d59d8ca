@@ -1,0 +1,13 @@
+package net.foxycorndog.jfoxylib.components;
+
+import org.eclipse.swt.SWT;
+
+public class Window extends Frame
+{
+	private String title;
+	
+	public void setTitle(String title)
+	{
+		this.title = title;
+	}
+}
