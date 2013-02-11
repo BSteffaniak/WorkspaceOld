@@ -44,6 +44,7 @@ public class Frame extends Panel
 	public void addStyle(int style)
 	{
 		this.style |= style;
+		shell = new Shell(style);
 	}
 	
 	public boolean isOpen()
@@ -53,8 +54,12 @@ public class Frame extends Panel
 	
 	public void open()
 	{
-		shell = new Shell(style);
-		shell.setSize(getWidth(), getHeight());
+		int width  = getWidth();
+		int height = getHeight();
+		
+		shell.setSize(width, height);
+		setLocation(0, 20);
+		setSize(100, 100);
 		
 		shell.open();
 	}

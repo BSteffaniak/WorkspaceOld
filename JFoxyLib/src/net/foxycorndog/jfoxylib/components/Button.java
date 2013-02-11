@@ -17,6 +17,8 @@ public class Button extends Component
 	public void addTo(Panel panel)
 	{
 		label = new Label(panel.getComposite(), SWT.NONE);
-		
+		label.setText(text);
+		label.setLocation(getX(), getY());
+		label.setSize(100, 25);
 	}
 }

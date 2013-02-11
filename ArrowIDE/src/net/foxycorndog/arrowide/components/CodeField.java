@@ -50,6 +50,7 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.GlyphMetrics;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -377,7 +378,11 @@ public class CodeField extends StyledText
 		{
 			public void verifyKey(VerifyEvent e)
 			{
-				if (e.character == '\t' && getSelectionCount() > 0)
+				Point range = getSelection();
+				
+				int lines = getLineAtOffset(range.y) - getLineAtOffset(range.x);
+				
+				if (e.character == '\t' && lines > 0)
 				{
 					if ((e.stateMask & SWT.SHIFT) != 0)
 					{

@@ -17,6 +17,16 @@ public class Component
 		parents = new ArrayList<Panel>();
 	}
 	
+	public int getX()
+	{
+		return x;
+	}
+
+	public int getY()
+	{
+		return y;
+	}
+	
 	public void setLocation(int x, int y)
 	{
 		this.x = x;
