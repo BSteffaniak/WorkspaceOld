@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="24" version="2.0">
+<workbench progressCount="25" version="2.0">
 <workbenchAdvisor/>
 <window height="799" maximized="true" width="1016" x="49" y="-14">
 <fastViewData fastViewLocation="1024">
@@ -204,11 +204,11 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FileBrowseDialog.java" partName="FileBrowseDialog.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/dialog/FileBrowseDialog.java" title="FileBrowseDialog.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/dialog/FileBrowseDialog.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/dialog/FileBrowseDialog.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="613" selectionOffset="1718" selectionTopPixel="536"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1001" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TextInputDialog.java" partName="TextInputDialog.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/dialog/TextInputDialog.java" title="TextInputDialog.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/dialog/TextInputDialog.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/dialog/TextInputDialog.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="175" selectionOffset="2399" selectionTopPixel="893"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1247" selectionTopPixel="744"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Toolbar.java" partName="Toolbar.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/toolbar/Toolbar.java" title="Toolbar.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/toolbar/Toolbar.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/toolbar/Toolbar.java"/>
@@ -436,23 +436,23 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Button.java" partName="Button.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Button.java" title="Button.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/components/Button.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Button.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="52" selectionOffset="316" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Component.java" partName="Component.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Component.java" title="Component.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/components/Component.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Component.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="563" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="810" selectionTopPixel="0"/>
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Game.java" partName="Game.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TestGame/src/Game.java" title="Game.java" tooltip="TestGame/src/Game.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TestGame/src/Game.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="392" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="859" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Panel.java" partName="Panel.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Panel.java" title="Panel.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/components/Panel.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Panel.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="383" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="340" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Frame.java" partName="Frame.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Frame.java" title="Frame.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/components/Frame.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Frame.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="801" selectionTopPixel="86"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="317" selectionTopPixel="101"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GameEntry.java" partName="GameEntry.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/GameEntry.java" title="GameEntry.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/GameEntry.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/GameEntry.java"/>
@@ -827,166 +827,164 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/GameEntry.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TestGame/src/Game.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Frame.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Window.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/components/window/Window.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Frame.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/GameEntry.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TestGame/src/Game.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Panel.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Component.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Panel.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Frame.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Window.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Button.java"/>
 </editors>
-<item historyLabel="Game.java" index="1">
-<position info="not_deleted" x="603" y="0"/>
+<item historyLabel="Frame.java" index="1">
+<position info="not_deleted" x="756" y="4"/>
 </item>
-<item historyLabel="GameEntry.java" index="0">
-<position info="not_deleted" x="427" y="0"/>
-</item>
-<item historyLabel="Game.java" index="1">
-<position info="not_deleted" x="603" y="0"/>
-</item>
-<item historyLabel="Game.java" index="1">
+<item historyLabel="Frame.java" index="1">
 <position/>
 </item>
-<item historyLabel="Game.java" index="1">
+<item historyLabel="Panel.java" index="2">
+<position info="not_deleted" x="395" y="0"/>
+</item>
+<item historyLabel="Frame.java" index="1">
 <position/>
 </item>
-<item historyLabel="Game.java" index="1">
-<position info="not_deleted" x="564" y="0"/>
+<item historyLabel="Panel.java" index="2">
+<position/>
 </item>
-<item historyLabel="GameEntry.java" index="0">
-<position info="not_deleted" x="741" y="0"/>
+<item historyLabel="Frame.java" index="1">
+<position info="not_deleted" x="270" y="0"/>
 </item>
-<item historyLabel="Frame.java" index="2">
-<position info="not_deleted" x="585" y="0"/>
+<item historyLabel="Panel.java" index="2">
+<position/>
 </item>
-<item historyLabel="Frame.java" index="2">
-<position info="not_deleted" x="640" y="0"/>
+<item historyLabel="Frame.java" index="1">
+<position info="not_deleted" x="307" y="0"/>
 </item>
-<item historyLabel="Window.java" index="3">
-<position info="not_deleted" x="197" y="0"/>
+<item historyLabel="Panel.java" index="2">
+<position/>
 </item>
-<item historyLabel="GameEntry.java" index="0">
-<position info="not_deleted" x="33" y="0"/>
+<item historyLabel="Panel.java" index="2">
+<position info="not_deleted" x="395" y="0"/>
 </item>
-<item historyLabel="GameEntry.java" index="0">
-<position info="not_deleted" x="468" y="0"/>
+<item historyLabel="Frame.java" index="1">
+<position info="not_deleted" x="307" y="0"/>
 </item>
-<item historyLabel="Frame.java" index="2">
-<position info="not_deleted" x="496" y="0"/>
+<item historyLabel="Frame.java" index="1">
+<position/>
 </item>
-<item historyLabel="Game.java" index="1">
-<position info="not_deleted" x="564" y="0"/>
+<item historyLabel="Panel.java" index="2">
+<position info="not_deleted" x="395" y="0"/>
 </item>
-<item historyLabel="Window.java" index="3">
-<position info="not_deleted" x="197" y="0"/>
+<item historyLabel="Frame.java" index="1">
+<position/>
 </item>
-<item historyLabel="Window.java" index="4">
-<position info="not_deleted" x="1702" y="0"/>
+<item historyLabel="Panel.java" index="2">
+<position info="not_deleted" x="395" y="0"/>
 </item>
-<item historyLabel="Window.java" index="3">
+<item historyLabel="Frame.java" index="1">
 <position info="not_deleted" x="195" y="0"/>
 </item>
-<item historyLabel="Frame.java" index="2">
-<position info="not_deleted" x="408" y="0"/>
+<item historyLabel="Panel.java" index="2">
+<position info="not_deleted" x="347" y="0"/>
 </item>
-<item historyLabel="Window.java" index="3">
-<position info="not_deleted" x="195" y="0"/>
+<item historyLabel="Frame.java" index="1">
+<position info="not_deleted" x="871" y="0"/>
 </item>
-<item historyLabel="Window.java" index="3">
-<position info="not_deleted" x="0" y="0"/>
+<item historyLabel="Panel.java" index="2">
+<position info="not_deleted" x="390" y="5"/>
 </item>
-<item historyLabel="Frame.java" index="5">
+<item historyLabel="Game.java" index="0">
+<position info="not_deleted" x="865" y="0"/>
+</item>
+<item historyLabel="Component.java" index="3">
+<position info="not_deleted" x="810" y="0"/>
+</item>
+<item historyLabel="Game.java" index="0">
+<position info="not_deleted" x="865" y="0"/>
+</item>
+<item historyLabel="Panel.java" index="4">
 <position/>
 </item>
-<item historyLabel="Window.java" index="3">
+<item historyLabel="Game.java" index="0">
+<position info="not_deleted" x="859" y="0"/>
+</item>
+<item historyLabel="Panel.java" index="4">
 <position/>
 </item>
 <item historyLabel="Frame.java" index="5">
-<position/>
+<position info="not_deleted" x="317" y="0"/>
 </item>
-<item historyLabel="Window.java" index="3">
-<position/>
-</item>
-<item historyLabel="Frame.java" index="5">
+<item historyLabel="Panel.java" index="4">
 <position/>
 </item>
 <item historyLabel="Frame.java" index="5">
-<position info="not_deleted" x="615" y="0"/>
+<position info="not_deleted" x="317" y="0"/>
 </item>
-<item historyLabel="Window.java" index="3">
-<position/>
-</item>
-<item historyLabel="GameEntry.java" index="6">
-<position info="not_deleted" x="468" y="0"/>
-</item>
-<item historyLabel="Frame.java" index="5">
-<position info="not_deleted" x="607" y="0"/>
-</item>
-<item historyLabel="Window.java" index="3">
-<position info="not_deleted" x="269" y="0"/>
-</item>
-<item historyLabel="Window.java" index="3">
-<position info="not_deleted" x="198" y="0"/>
-</item>
-<item historyLabel="Game.java" index="7">
-<position info="not_deleted" x="443" y="0"/>
-</item>
-<item historyLabel="Frame.java" index="5">
-<position info="not_deleted" x="607" y="0"/>
-</item>
-<item historyLabel="Window.java" index="3">
+<item historyLabel="Window.java" index="6">
 <position info="not_deleted" x="164" y="0"/>
 </item>
 <item historyLabel="Frame.java" index="5">
-<position info="not_deleted" x="607" y="0"/>
+<position info="not_deleted" x="317" y="0"/>
 </item>
-<item historyLabel="Panel.java" index="8">
-<position info="not_deleted" x="383" y="0"/>
-</item>
-<item historyLabel="Frame.java" index="5">
-<position info="not_deleted" x="607" y="0"/>
-</item>
-<item historyLabel="GameEntry.java" index="6">
-<position info="not_deleted" x="468" y="0"/>
-</item>
-<item historyLabel="Panel.java" index="8">
-<position info="not_deleted" x="383" y="0"/>
+<item historyLabel="Panel.java" index="4">
+<position/>
 </item>
 <item historyLabel="Frame.java" index="5">
-<position info="not_deleted" x="607" y="0"/>
+<position/>
+</item>
+<item historyLabel="Game.java" index="0">
+<position info="not_deleted" x="859" y="0"/>
+</item>
+<item historyLabel="Button.java" index="7">
+<position info="not_deleted" x="379" y="0"/>
+</item>
+<item historyLabel="Panel.java" index="4">
+<position/>
+</item>
+<item historyLabel="Button.java" index="7">
+<position info="not_deleted" x="316" y="52"/>
+</item>
+<item historyLabel="Panel.java" index="4">
+<position/>
 </item>
 <item historyLabel="Frame.java" index="5">
-<position info="not_deleted" x="785" y="0"/>
+<position info="not_deleted" x="317" y="0"/>
+</item>
+<item historyLabel="Button.java" index="7">
+<position info="not_deleted" x="316" y="52"/>
+</item>
+<item historyLabel="Component.java" index="3">
+<position info="not_deleted" x="810" y="0"/>
+</item>
+<item historyLabel="Panel.java" index="4">
+<position/>
 </item>
 <item historyLabel="Frame.java" index="5">
-<position info="not_deleted" x="786" y="0"/>
+<position info="not_deleted" x="317" y="0"/>
+</item>
+<item historyLabel="Panel.java" index="4">
+<position/>
 </item>
 <item historyLabel="Frame.java" index="5">
-<position info="not_deleted" x="801" y="0"/>
+<position info="not_deleted" x="317" y="0"/>
 </item>
-<item historyLabel="Panel.java" index="8">
-<position info="not_deleted" x="383" y="0"/>
+<item historyLabel="Panel.java" index="4">
+<position info="not_deleted" x="565" y="0"/>
 </item>
-<item historyLabel="Component.java" index="9">
-<position info="not_deleted" x="563" y="0"/>
+<item historyLabel="Frame.java" index="5">
+<position info="not_deleted" x="266" y="0"/>
 </item>
-<item historyLabel="Game.java" index="7">
-<position info="not_deleted" x="443" y="0"/>
+<item historyLabel="Panel.java" index="4">
+<position info="not_deleted" x="340" y="0"/>
 </item>
-<item historyLabel="Game.java" index="7">
-<position info="not_deleted" x="467" y="0"/>
+<item historyLabel="Frame.java" index="5">
+<position info="not_deleted" x="266" y="0"/>
 </item>
-<item historyLabel="Game.java" index="7">
-<position info="not_deleted" x="472" y="0"/>
+<item historyLabel="Frame.java" index="5">
+<position info="not_deleted" x="317" y="0"/>
 </item>
-<item historyLabel="Game.java" index="7">
-<position info="not_deleted" x="504" y="0"/>
-</item>
-<item active="true" historyLabel="Game.java" index="7">
-<position info="not_deleted" x="534" y="0"/>
+<item active="true" historyLabel="Game.java" index="0">
+<position info="not_deleted" x="859" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>

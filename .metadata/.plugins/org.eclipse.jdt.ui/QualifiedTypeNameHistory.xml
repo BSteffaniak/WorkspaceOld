@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.assembly.AssemblyLanguage"/>
-<fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.java.JavaLanguage"/>
-<fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.CommentType"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.glsl.GLSLLanguage"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.language.glsl.GLSLKeyword"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Color"/>
@@ -59,5 +56,8 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.GameEntry"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Shell"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Display"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Label"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Composite"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.components.Panel"/>
 </qualifiedTypeNameHistroy>

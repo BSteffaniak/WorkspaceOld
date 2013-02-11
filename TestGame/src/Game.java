@@ -32,8 +32,6 @@ public class Game extends GameEntry
 		setMainFrame(window);
 		
 		start();
-		
-//		stop();
 	}
 	
 	private void createMainMenu()

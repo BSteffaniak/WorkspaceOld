@@ -12,7 +12,9 @@ public class Frame extends Panel
 	
 	public Frame()
 	{
+		shell = new Shell(style);
 		
+		create(shell);
 	}
 	
 	public void setResizable(boolean resizable)
