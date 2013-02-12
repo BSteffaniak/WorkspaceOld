@@ -1,0 +1,26 @@
+Compiled successfully.
+Compiled successfully.
+Error on line 147: string:///Tree.java:147: search(java.lang.Comparable) is already defined in TreeError on line 134: string:///Tree.java:134: cannot find symbol
+symbol  : method getValue()
+location: class TreeNodeError on line 140: string:///Tree.java:140: cannot find symbol
+symbol  : method getLeft()
+location: class TreeNodeError on line 140: string:///Tree.java:140: cannot find symbol
+symbol  : variable r
+location: interface java.lang.ComparableError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
+Error on line 147: string:///Tree.java:147: search(java.lang.Comparable) is already defined in TreeError on line 134: string:///Tree.java:134: cannot find symbol
+symbol  : method getValue()
+location: class TreeNodeError on line 140: string:///Tree.java:140: cannot find symbol
+symbol  : method getLeft()
+location: class TreeNodeError on line 140: string:///Tree.java:140: cannot find symbol
+symbol  : variable r
+location: interface java.lang.ComparableError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
+Error on line 134: string:///Tree.java:134: cannot find symbol
+symbol  : method getValue()
+location: class TreeNodeError on line 140: string:///Tree.java:140: cannot find symbol
+symbol  : method getLeft()
+location: class TreeNodeError on line 140: string:///Tree.java:140: cannot find symbol
+symbol  : variable r
+location: interface java.lang.ComparableError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
+Error on line 140: string:///Tree.java:140: cannot find symbol
+symbol  : variable r
+location: interface java.lang.ComparableError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.

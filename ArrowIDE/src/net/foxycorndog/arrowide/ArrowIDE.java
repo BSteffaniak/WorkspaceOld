@@ -2489,10 +2489,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 	}
 
-	@Override
 	public void tabOpened(int tabId)
 	{
-		// TODO Auto-generated method stub
 		
 	}
 }

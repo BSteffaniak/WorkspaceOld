@@ -9,17 +9,11 @@ public class TreeNode
 {
 	private Comparable	data;
 	
-	private TreeNode	leftNode, rightNode, parent;
+	private TreeNode	leftNode, rightNode;
 	
-	public TreeNode(TreeNode parent, Comparable data)
+	public TreeNode(Comparable data)
 	{
 		this.data   = data;
-		this.parent = parent;
-	}
-	
-	public TreeNode getParent()
-	{
-		return parent;
 	}
 	
 	public TreeNode getLeftNode()
@@ -40,5 +34,10 @@ public class TreeNode
 	public void setRightNode(TreeNode rightNode)
 	{
 		this.rightNode = rightNode;
+	}
+	
+	public Comparable getData()
+	{
+		return data;
 	}
 }

@@ -13,19 +13,19 @@ public class Driver
 		
 		String j = "Joe";
 		
-		t.insert("Bill");
-		t.insert("Fred");
-		t.insert(j);
-		t.insert("Henrietta");
-		t.insert("Mr. M");
-		t.insert("Noman");
-		t.insert("Alfred");
-		t.insert("Al");
-		t.insert("Fred");
+		t.add("Bill");
+		t.add("Fred");
+		t.add(j);
+		t.add("Henrietta");
+		t.add("Mr. M");
+		t.add("Noman");
+		t.add("Alfred");
+		t.add("Al");
+		t.add("Fred");
 		
-		System.out.println("Done: " + t);
-		
-		System.out.println(t.remove(j));
+//		System.out.println("Done: " + t);
+//		
+//		System.out.println(t.remove(j));
 		
 		System.out.println("Done: " + t);
 	}
