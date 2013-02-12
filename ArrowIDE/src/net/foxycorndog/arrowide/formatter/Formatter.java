@@ -13,11 +13,7 @@ public class Formatter
 {
 	public static void indent(StyledText text)
 	{
-		if (text.getSelectionCount() == 0)
-		{
-			return;
-		}
-		
+		// Save the selection at the start.
 		Point sel = text.getSelection();
 		int start = sel.x;
 		
@@ -51,11 +47,7 @@ public class Formatter
 	
 	public static void unIndent(StyledText text)
 	{
-		if (text.getSelectionCount() == 0)
-		{
-			return;
-		}
-		
+		// Save the selection at the start.
 		Point sel = text.getSelection();
 		int start = sel.x;
 		
@@ -115,6 +107,142 @@ public class Formatter
 		text.setSelection(sel.x - startOffset, sel.y - otherAmount);//sel.x - 1, sel.y + offsetY);
 		
 		text.setTopPixel(topPixel);
+	}
+	
+	public static void outcomment(StyledText text)
+	{
+		// Save the selection at the start.
+		Point sel = text.getSelection();
+		int start = sel.x;
+		int end   = sel.y;
+		
+		// Save the text from the StyledText.
+		String txt = text.getText();
+		
+		start--;
+
+		// Put the start at the beginning of its line.
+		while (start >= 0 && (txt.charAt(start) != '\n' && txt.charAt(start) != '\r'))
+		{
+			start--;
+		}
+		
+		start++;
+
+		// Put the end at the end of its line.
+		while (end < txt.length() && (txt.charAt(end) != '\n' && txt.charAt(end) != '\r'))
+		{
+			end++;
+		}
+		
+		int offset  = start;
+		int offsetY = 0;
+
+		// Determine whether to comment or uncomment the lines.
+		boolean add = !allLinesStartWith(txt, "//", start, end);
+
+		// Go through the lines and do the transformation.
+		while (offset < end + offsetY)
+		{
+			int off = 0;
+			
+			if (add)
+			{
+				text.setSelection(offset);
+				text.insert("//");
+				off += 2;
+			}
+			else
+			{
+				int selOff = 0;
+				
+				text.setSelection(offset, offset + 2 + selOff);
+				text.insert("");
+				off -= 2;
+			}
+			
+			offsetY += off;
+			
+			int lineNum = text.getLineAtOffset(offset);
+			
+			offset += text.getLine(lineNum).length() + 2;
+		}
+		
+		int selEnd = sel.y + offsetY;
+
+		// Make sure that the selection does not end on a \r or \n.
+		if (!add)
+		{
+			char c = text.getText().charAt(selEnd - 1);
+			
+			if (c == '\r' || c == '\n')
+			{
+				selEnd++;
+			}
+		}
+		
+		int selStart = sel.x + (add ? 2 : -2);
+
+		// Make sure the selection does not start on a \r or \n.
+		if (!add)
+		{
+			char c = text.getText().charAt(selStart - 1);
+			
+			if (c == '\r' || c == '\n')
+			{
+				selStart++;
+			}
+		}
+
+		// Re select the text.
+		text.setSelection(selStart, selEnd);
+	}
+	
+	private static boolean lineStartsWith(String text, String startsWith, int start, int end)
+	{
+		for (int i = start; i <= end; i++)
+		{
+			if (text.charAt(i) == '\n')
+			{
+				for (int j = 0; j < startsWith.length(); j++)
+				{
+					int ind = i + j + 1;
+					
+					if (ind < text.length() && startsWith.charAt(j) != text.charAt(ind))
+					{
+						break;
+					}
+					
+					if (j == startsWith.length() - 1)
+					{
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	private static boolean allLinesStartWith(String text, String startsWith, int start, int end)
+	{
+		for (int i = start - 1; i <= end; i++)
+		{
+			if (text.charAt(i) == '\n' || i == start - 1)
+			{
+				for (int j = 0; j < startsWith.length(); j++)
+				{
+					int ind = i + j + 1;
+					
+					if (ind < text.length() && startsWith.charAt(j) != text.charAt(ind))
+					{
+						return false;
+					}
+				}
+			}
+		}
+		
+		return true;
 	}
 	
 	public static void format(CodeField text)

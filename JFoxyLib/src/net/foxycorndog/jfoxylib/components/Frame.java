@@ -1,7 +1,11 @@
 package net.foxycorndog.jfoxylib.components;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 public class Frame extends Panel
@@ -19,9 +23,23 @@ public class Frame extends Panel
 	
 	public void setResizable(boolean resizable)
 	{
-		if (resizable)
+		if (resizable && (style & SWT.RESIZE) == 0)
 		{
-			style |= SWT.RESIZE;
+			addStyle(SWT.RESIZE);
+			
+			shell.addControlListener(new ControlListener()
+			{
+				public void controlResized(ControlEvent e)
+				{
+					setSize(shell.getSize().x, shell.getSize().y);
+					update();
+				}
+				
+				public void controlMoved(ControlEvent e)
+				{
+					
+				}
+			});
 		}
 		else
 		{
@@ -33,7 +51,7 @@ public class Frame extends Panel
 	{
 		if (maximizable)
 		{
-			style |= SWT.MAX;
+			addStyle(SWT.MAX);
 		}
 		else
 		{
@@ -44,7 +62,10 @@ public class Frame extends Panel
 	public void addStyle(int style)
 	{
 		this.style |= style;
-		shell = new Shell(style);
+		
+		shell = new Shell(this.style);
+		
+		create(shell);
 	}
 	
 	public boolean isOpen()
@@ -58,8 +79,6 @@ public class Frame extends Panel
 		int height = getHeight();
 		
 		shell.setSize(width, height);
-		setLocation(0, 20);
-		setSize(100, 100);
 		
 		shell.open();
 	}

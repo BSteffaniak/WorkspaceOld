@@ -39,5 +39,5 @@ public interface BSTree
 	/**
 	 * Removes the specified Comparable from the tree.
 	 */
-	public void remove(Comparable c);
+	public boolean remove(Comparable c);
 }

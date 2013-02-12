@@ -8,7 +8,8 @@ public class Window extends Frame
 	
 	public Window()
 	{
-		addStyle(SWT.CLOSE | SWT.MIN);
+		addStyle(SWT.CLOSE);
+		addStyle(SWT.MIN);
 	}
 	
 	public void setTitle(String title)

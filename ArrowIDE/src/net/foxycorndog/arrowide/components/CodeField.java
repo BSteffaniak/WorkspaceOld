@@ -395,6 +395,12 @@ public class CodeField extends StyledText
 					
 					e.doit = false;
 				}
+				else if (e.character == '/' && (e.stateMask & (Integer)PROPERTIES.get("key.control")) != 0)
+				{
+					Formatter.outcomment(thisField);
+					
+					e.doit = false;
+				}
 				else if (e.character == 6 && (e.stateMask & (Integer)PROPERTIES.get("key.control")) != 0 && (e.stateMask & SWT.SHIFT) != 0)
 				{
 					Formatter.format(thisField);
@@ -679,7 +685,10 @@ public class CodeField extends StyledText
 			{
 				lastStyle = styles.get(styles.size() - 1);
 				
-				lastEnd = lastStyle.start + lastStyle.length;
+				if (lastStyle != null)
+				{
+					lastEnd = lastStyle.start + lastStyle.length;
+				}
 			}
 			
 //			for (int j = 0; j < errorLocations.size(); j++)

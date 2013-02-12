@@ -1,0 +1,63 @@
+package net.foxycorndog.jfoxylib.components;
+
+import java.util.ArrayList;
+
+import net.foxycorndog.jfoxylib.listeners.ButtonListener;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+
+public class Button extends Component
+{
+	private String		text;
+	
+	private Label		label;
+	
+	private Listener	listener;
+	
+	private ArrayList<ButtonListener>	buttonListeners;
+	
+	public Button()
+	{
+		buttonListeners = new ArrayList<ButtonListener>();
+		
+		listener = new Listener()
+		{
+			public void handleEvent(Event event)
+			{
+				Point loc = label.toDisplay(event.x, event.y);
+				
+				System.out.println(loc);
+//				if ()
+			}
+		};
+	}
+	
+	public void setText(String text)
+	{
+		this.text = text;
+	}
+	
+	public void addTo(Panel panel)
+	{
+		if (label == null)
+		{
+			label = new Label(panel.getComposite(), SWT.NONE);
+			label.setText(text);
+			label.setLocation(getX(), getY());
+			label.setSize(100, 25);
+			
+			label.addListener(SWT.MouseUp, listener);
+		}
+		
+		
+	}
+	
+	public void addButtonListener(ButtonListener listener)
+	{
+		buttonListeners.add(listener);
+	}
+}

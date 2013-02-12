@@ -1,0 +1,40 @@
+package net.foxycorndog.jfoxylib.components;
+
+import java.util.ArrayList;
+
+import net.foxycorndog.jfoxylib.listeners.ButtonListener;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Label;
+
+public class Button extends Component
+{
+	private String	text;
+	
+	private Label	label;
+	
+	private ArrayList<ButtonListener>	buttonListeners;
+	
+	public Button()
+	{
+		buttonListeners = new ArrayList<ButtonListener>();
+	}
+	
+	public void setText(String text)
+	{
+		this.text = text;
+	}
+	
+	public void addTo(Panel panel)
+	{
+		label = new Label(panel.getComposite(), SWT.NONE);
+		label.setText(text);
+		label.setLocation(getX(), getY());
+		label.setSize(100, 25);
+	}
+	
+	public void addButtonListener(ButtonListener listener)
+	{
+		buttonListeners.add(listener);
+	}
+}

@@ -1,0 +1,102 @@
+package net.foxycorndog.jfoxylib.components;
+
+import java.util.ArrayList;
+
+import net.foxycorndog.jfoxylib.util.Point;
+
+public class Component
+{
+	private int x, y, alignX, alignY;
+	private int width, height;
+	private int hAlignment, vAlignment;
+	
+	private ArrayList<Panel> parents;
+	
+	public static final int LEFT = 0, CENTER = 1, RIGHT = 2, BOTTOM = 0, TOP = 2;
+	
+	public Component()
+	{
+		parents = new ArrayList<Panel>();
+	}
+	
+	public int getX()
+	{
+		return x + alignX;
+	}
+
+	public int getY()
+	{
+		return y + alignY;
+	}
+	
+	public void setLocation(int x, int y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+	
+	private void align(Panel parent)
+	{
+		if (hAlignment == CENTER)
+		{
+			alignX = (parent.getWidth() / 2 - getWidth() / 2);
+		}
+		else if (hAlignment == RIGHT)
+		{
+			alignX = (parent.getWidth() - getWidth());
+		}
+		
+		if (vAlignment == CENTER)
+		{
+			alignY = (parent.getHeight() / 2 - getHeight() / 2);
+		}
+		else if (vAlignment == BOTTOM)
+		{
+			alignY = (parent.getHeight() - getHeight());
+		}
+	}
+	
+	public int getWidth()
+	{
+		return width;
+	}
+
+	public int getHeight()
+	{
+		return height;
+	}
+	
+	public void setSize(int width, int height)
+	{
+		this.width  = width;
+		this.height = height;
+	}
+	
+	public void setAlignment(int horizontal, int vertical)
+	{
+		this.hAlignment = horizontal;
+		this.vAlignment = vertical;
+	}
+	
+	public void addTo(Panel panel)
+	{
+		align(panel);
+		
+		panel.add(this);
+		parents.add(panel);
+	}
+	
+	public void removeFrom(Panel panel)
+	{
+		panel.remove(this);
+		parents.remove(panel);
+	}
+	
+	public void update()
+	{
+		if (parents.size() > 0)
+		{
+			align(parents.get(parents.size() - 1));
+		}
+	}
+}

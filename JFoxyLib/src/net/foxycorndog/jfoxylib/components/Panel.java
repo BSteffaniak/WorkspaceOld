@@ -16,14 +16,31 @@ public class Panel extends Component
 		components = new ArrayList<Component>();
 	}
 	
+	public Panel(Panel parent)
+	{
+		create(parent);
+	}
+	
+	public Panel(Composite parent)
+	{
+		create(parent);
+	}
+	
 	public void create(Panel parent)
 	{
-		composite  = new Composite(parent.getComposite(), SWT.NONE);
+		composite = new Composite(parent.getComposite(), SWT.NONE);
 	}
 	
 	public void create(Composite parent)
 	{
-		composite  = new Composite(parent, SWT.NONE);
+		if (composite == null)
+		{
+			composite = new Composite(parent, SWT.NONE);
+		}
+		else
+		{
+			composite.setParent(parent);
+		}
 	}
 	
 	public Composite getComposite()
@@ -31,16 +48,29 @@ public class Panel extends Component
 		return composite;
 	}
 	
+	public void setSize(int width, int height)
+	{
+		super.setSize(width, height);
+		
+		composite.setSize(width, height);
+	}
+	
+	public void setLocation(int x, int y)
+	{
+		super.setLocation(x, y);
+		
+		composite.setLocation(x, y);
+	}
+	
 	public void add(Component component)
 	{
-		if (components.contains(component))
-		{
-			
-		}
-		else
+		if (!components.contains(component))
 		{
 			components.add(component);
 			component.addTo(this);
+		}
+		else
+		{
 		}
 	}
 	
@@ -51,9 +81,18 @@ public class Panel extends Component
 			components.remove(component);
 			component.removeFrom(this);
 		}
-		else
+	}
+	
+	public void update()
+	{
+//		if (getWidth() != composite.getSize().x || getHeight() != composite.getSize().y)
+//		{
+//			composite.setSize(getWidth(), getHeight());
+//		}
+		
+		for (Component comp : components)
 		{
-			
+			comp.update();
 		}
 	}
 }

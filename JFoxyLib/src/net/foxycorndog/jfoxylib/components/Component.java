@@ -2,9 +2,11 @@ package net.foxycorndog.jfoxylib.components;
 
 import java.util.ArrayList;
 
+import net.foxycorndog.jfoxylib.util.Point;
+
 public class Component
 {
-	private int x, y;
+	private int x, y, alignX, alignY;
 	private int width, height;
 	private int hAlignment, vAlignment;
 	
@@ -19,18 +21,39 @@ public class Component
 	
 	public int getX()
 	{
-		return x;
+		return x + alignX;
 	}
 
 	public int getY()
 	{
-		return y;
+		return y + alignY;
 	}
 	
 	public void setLocation(int x, int y)
 	{
 		this.x = x;
 		this.y = y;
+	}
+	
+	private void align(Panel parent)
+	{
+		if (hAlignment == CENTER)
+		{
+			alignX = (parent.getWidth() / 2 - getWidth() / 2);
+		}
+		else if (hAlignment == RIGHT)
+		{
+			alignX = (parent.getWidth() - getWidth());
+		}
+		
+		if (vAlignment == CENTER)
+		{
+			alignY = (parent.getHeight() / 2 - getHeight() / 2);
+		}
+		else if (vAlignment == BOTTOM)
+		{
+			alignY = (parent.getHeight() - getHeight());
+		}
 	}
 	
 	public int getWidth()
@@ -58,12 +81,30 @@ public class Component
 	public void addTo(Panel panel)
 	{
 		panel.add(this);
-		parents.add(panel);
+		
+		if (!parents.contains(panel))
+		{
+			parents.add(panel);
+		}
+		
+		update();
 	}
 	
 	public void removeFrom(Panel panel)
 	{
 		panel.remove(this);
-		parents.remove(panel);
+		
+		if (parents.contains(panel))
+		{
+			parents.remove(panel);
+		}
+	}
+	
+	public void update()
+	{
+		if (parents.size() > 0)
+		{
+			align(parents.get(parents.size() - 1));
+		}
 	}
 }
