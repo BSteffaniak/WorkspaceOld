@@ -31,7 +31,7 @@ public class PythonLanguage
 	{
 		COMMENT_PROPERTIES    = new CommentProperties(new String[] { "#" }, new String[] {  }, new String[] {  }, new Color(Display.getCurrent(), 40, 140, 0));
 		METHOD_PROPERTIES     = new MethodProperties();
-		IDENTIFIER_PROPERTIES = new IdentifierProperties(new char[][] { { 0 } }, new char[][] { { '=' } }, new String[][] {  }, new String[][] {  }, new String[][] { {  }, { "in" } }, new Color(Display.getDefault(), 4, 150, 120));
+		IDENTIFIER_PROPERTIES = new IdentifierProperties(new char[][] { { 0 } }, new char[][] { { '=' } }, new char[][] { { ' ' } }, new char[][] { { ' '} }, new String[][] {  }, new String[][] {  }, new String[][] { {  }, { "in" } }, new Color(Display.getDefault(), 4, 150, 120));
 	}
 	
 	public static void init()

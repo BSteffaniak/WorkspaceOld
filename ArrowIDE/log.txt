@@ -1,2 +1,0 @@
-Compiled successfully.
-Done: Tree { ((( Al ) Alfred ) Bill ( Fred ((( Fred ) Henrietta ) Joe ( Mr. M ( Noman ))))) }

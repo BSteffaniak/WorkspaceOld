@@ -228,8 +228,11 @@ public class CodeField extends StyledText
 	
 	private class SpaceBetweenResult
 	{
+		private char	firstCharOtherThanSpace;
+		
 		private int		count;
-		private char	firstChar, firstCharOtherThanSpace, onlyChar, onlyCharOtherThanSpace;
+		
+		private char	chars[];
 	}
 	
 	public CodeField(final Composite comp)
@@ -803,7 +806,12 @@ public class CodeField extends StyledText
 			}
 			else if (identifierProperties != null)
 			{
-				if (!alreadyAdded && identifierProperties.isQualified(oldResult.onlyChar, newResult.firstCharOtherThanSpace, word, prevWord, nextWord))
+				if (oldResult.chars != null || newResult.chars != null)
+				{
+					System.out.println("asdf");
+				}
+				
+				if (!alreadyAdded && identifierProperties.isQualified(oldResult.chars, newResult.chars, word, prevWord, nextWord))
 				{
 					int offset = offsets[i];
 					int length = word.length();
@@ -1048,6 +1056,8 @@ public class CodeField extends StyledText
 		
 		char prevChar = 0;
 		
+		ArrayList<Character> cs = new ArrayList<Character>();
+		
 		for (int i = start; i < text.length(); i ++)
 		{
 			char c = text.charAt(i);
@@ -1141,41 +1151,15 @@ public class CodeField extends StyledText
 			{
 				result.count++;
 				
+				cs.add(c);
+				
 				// Possible bug here with isEscape?? dont know...
 				if (c != ' ' && !isEscape)
 				{
-					boolean isSkippable = false;
 					
-					if (!isSkippable)
+					if (result.firstCharOtherThanSpace == 0)
 					{
-						if (result.onlyCharOtherThanSpace == 0 && !noOtherCharOtherThanSpace)
-						{
-							result.onlyCharOtherThanSpace = c;
-						}
-						else if (!noOtherCharOtherThanSpace && c != result.onlyCharOtherThanSpace)
-						{
-							noOtherCharOtherThanSpace = true;
-							
-							result.onlyCharOtherThanSpace = 0;
-						}
-						
-						if (result.firstCharOtherThanSpace == 0)
-						{
-							result.firstCharOtherThanSpace = c;
-						}
-					}
-				}
-				
-				if (result.firstChar == 0)
-				{
-					result.firstChar = c;
-					result.onlyChar  = c;
-				}
-				else
-				{
-					if (result.onlyChar != c)
-					{
-						result.onlyChar = 0;
+						result.firstCharOtherThanSpace = c;
 					}
 				}
 			}
@@ -1184,6 +1168,17 @@ public class CodeField extends StyledText
 				return result;
 			}
 		}
+		
+		char chs[] = new char[cs.size()];
+		
+		for (int i = 0; i < chs.length; i++)
+		{
+			chs[i] = cs.get(i);
+//			System.out.print(chs[i] + ", ");
+		}
+//		System.out.println();
+		result.chars = chs;
+		System.out.println(result.chars );
 		
 		return result;
 	}

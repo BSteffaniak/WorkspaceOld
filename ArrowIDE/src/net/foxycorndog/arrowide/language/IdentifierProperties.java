@@ -147,7 +147,7 @@ public class IdentifierProperties
 		this.AMOUNT          = Math.max(Math.max(Math.max(Math.max(previousWords.length, prefixes.length), nextChars.length), previousChars.length), NEXT_WORDS.length);
 	}
 	
-	public boolean isQualified(char previousChar, char nextChar, String currentWord, String previousWord, String nextWord)
+	public boolean isQualified(char previousChars[], char nextChars[], String currentWord, String previousWord, String nextWord)
 	{
 		if (AMOUNT <= 0)
 		{
@@ -156,13 +156,27 @@ public class IdentifierProperties
 		
 		for (int i = 0; i < AMOUNT; i++)
 		{
-			boolean found = PREVIOUS_CHARS.length <= i || PREVIOUS_CHARS[i].length <= 0;
+			boolean found = previousChars == null || PREVIOUS_CHARS.length <= i || PREVIOUS_CHARS[i].length <= 0;
 			
 			for (int j = 0; !found && j < PREVIOUS_CHARS[i].length; j++)
 			{
-				if (PREVIOUS_CHARS[i][j] == previousChar)
+				System.out.println("in");
+				for (int q = 0; q < previousChars.length; q++)
 				{
-					found = true;
+					if (PREVIOUS_CHARS[i][j] == previousChars[q])
+					{
+						found = true;
+					}
+					else
+					{
+//						for (int n = 0; n < SKIP_NEXT_CHARS[i].length; n++)
+//						{
+//							if (nextChars[q] == SKIP_NEXT_CHARS[i][n])
+//							{
+//								skipped = true;
+//							}
+//						}
+					}
 				}
 			}
 			
@@ -171,24 +185,27 @@ public class IdentifierProperties
 				continue;
 			}
 			
-			found = NEXT_CHARS.length <= i || NEXT_CHARS[i].length <= 0;
+			found = nextChars == null || NEXT_CHARS.length <= i || NEXT_CHARS[i].length <= 0;
 			
 			for (int j = 0; !found && j < NEXT_CHARS[i].length; j++)
 			{
-				if (NEXT_CHARS[i][j] == nextChar)
+				for (int q = 0; q < nextChars.length; q++)
 				{
-					found = true;
+					if (NEXT_CHARS[i][j] == nextChars[q])
+					{
+						found = true;
+					}
+					else
+					{
+						for (int n = 0; n < SKIP_NEXT_CHARS[i].length; n++)
+						{
+							if (nextChars[q] == SKIP_NEXT_CHARS[i][n])
+							{
+								
+							}
+						}
+					}
 				}
-//				else
-//				{
-//					for (int n = 0; n < SKIP_NEXT_CHARS[i].length; n++)
-//					{
-//						if (nextChar == SKIP_NEXT_CHARS[i][n])
-//						{
-//							
-//						}
-//					}
-//				}
 			}
 			
 			if (!found)
