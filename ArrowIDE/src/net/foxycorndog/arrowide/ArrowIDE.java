@@ -24,9 +24,11 @@ import net.foxycorndog.arrowide.color.ColorUtils;
 import net.foxycorndog.arrowide.components.CodeField;
 import net.foxycorndog.arrowide.components.CodeFieldEvent;
 import net.foxycorndog.arrowide.components.CodeFieldListener;
+import net.foxycorndog.arrowide.components.CompositeSizer;
 import net.foxycorndog.arrowide.components.ConsoleField;
 import net.foxycorndog.arrowide.components.ContentEvent;
 import net.foxycorndog.arrowide.components.ContentListener;
+import net.foxycorndog.arrowide.components.SizerListener;
 import net.foxycorndog.arrowide.components.SplashScreen;
 import net.foxycorndog.arrowide.components.TitleBar;
 import net.foxycorndog.arrowide.components.menubar.Menubar;
@@ -126,7 +128,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 
 	private CodeField							codeField;
 
-	private ConsoleField						console;
+	private ConsoleField						consoleField;
 
 	private String								fileLocation;
 
@@ -145,6 +147,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	private Toolbar								toolbar;
 
 	private TreeMenu							treeMenu;
+	
+	private CompositeSizer						treeMenuSizer, codeFieldSizer;
 
 	private TabMenu								tabs;
 
@@ -446,7 +450,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		fileCache     = new HashMap<String, String>();
 		
 		codeField     = new CodeField(contentPanel);
-		console       = new ConsoleField(contentPanel);
+		consoleField  = new ConsoleField(contentPanel);
 		
 		codeField.addContentListener(this);
 		codeField.addCodeFieldListener(this);
@@ -460,8 +464,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		codeField.setLocation(contentPanel.getSize().x - codeField.getWidth(), toolbarHeight);//contentPanel.getSize().y - codeField.getHeight());
 		codeField.setShowLineNumbers(true);
 		
-		console.setSize(contentWidth, conHeight - 5);
-		console.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y + 5);
+		consoleField.setSize(contentWidth, conHeight - 5);
+		consoleField.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y + 5);
 		
 		try
 		{
@@ -648,7 +652,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 						{
 							saveFile(fileLocation);
 					
-							console.setText("");
+							consoleField.setText("");
 							
 							String outputLocation = FileUtils.getParentFolder(fileLocation) + "/";
 							
@@ -673,7 +677,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					}
 					else
 					{
-						console.setText("");
+						consoleField.setText("");
 						
 						try
 						{
@@ -753,9 +757,52 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		treeItemDirectories   = new HashMap<Integer, String>();
 		
 		treeMenu              = new TreeMenu(contentPanel);
-		treeMenu.setSize(contentPanel.getSize().x - codeField.getWidth() - 10, codeField.getHeight() + console.getHeight());
+		treeMenu.setSize(contentPanel.getSize().x - codeField.getWidth() - 10, codeField.getHeight() + consoleField.getHeight());
 		treeMenu.setLocation(5, codeField.getY());
 		treeMenu.setBackground(NON_FOCUS_COLOR);
+		
+		treeMenuSizer = new CompositeSizer(contentPanel, CompositeSizer.VERTICAL);
+		treeMenuSizer.setSize(5, treeMenu.getHeight());
+		treeMenuSizer.setLocation(treeMenu.getLocation().x + treeMenu.getWidth(), treeMenu.getLocation().y);
+		treeMenuSizer.setBackground(new Color(DISPLAY, 100, 100, 100));
+		treeMenuSizer.setForeground(new Color(DISPLAY, 230, 230, 230));
+		treeMenuSizer.setMinimumX(treeMenu.getLocation().x);
+		treeMenuSizer.addSizerListener(new SizerListener()
+		{
+			public void sizerMoved(int dx, int dy)
+			{
+				treeMenu.setSize(treeMenu.getWidth() + dx, treeMenu.getHeight());
+				codeField.setSize(codeField.getWidth() - dx, codeField.getHeight());
+				codeField.setLocation(codeField.getX() + dx, codeField.getY());
+				
+				consoleField.setSize(codeField.getWidth(), consoleField.getHeight());
+				consoleField.setLocation(codeField.getX(), consoleField.getLocation().y);
+
+				codeFieldSizer.setSize(codeField.getWidth(), 5);
+				codeFieldSizer.setLocation(codeField.getLocation().x, codeField.getLocation().y + codeField.getHeight());
+				codeFieldSizer.setMinimumY(codeField.getY());
+				
+				toolbar.setLocation(codeField.getX(), toolbar.getY());
+				tabs.setLocation(codeField.getX(), tabs.getY());
+			}
+		});
+		
+		codeFieldSizer = new CompositeSizer(contentPanel, CompositeSizer.HORIZONTAL);
+		codeFieldSizer.setSize(codeField.getWidth(), 3);
+		codeFieldSizer.setLocation(codeField.getLocation().x, codeField.getLocation().y + codeField.getHeight() + 1);
+		codeFieldSizer.setBackground(new Color(DISPLAY, 100, 100, 100));
+		codeFieldSizer.setForeground(new Color(DISPLAY, 230, 230, 230));
+		codeFieldSizer.setMinimumY(codeField.getY());
+		codeFieldSizer.addSizerListener(new SizerListener()
+		{
+			public void sizerMoved(int dx, int dy)
+			{
+				codeField.setSize(codeField.getWidth(), codeField.getHeight() + dy);
+				
+				consoleField.setSize(codeField.getWidth(), consoleField.getHeight() - dy);
+				consoleField.setLocation(codeField.getX(), consoleField.getLocation().y + dy);
+			}
+		});
 		
 		Menu m = new Menu(treeMenu);
 		treeMenu.setMenu(m);
@@ -1042,7 +1089,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				
 				if (o instanceof String)
 				{
-					console.append((String)o);
+					consoleField.append((String)o);
 				}
 			}
 			
@@ -1050,7 +1097,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			{
 				if (o instanceof String)
 				{
-					console.append((String)o);
+					consoleField.append((String)o);
 				}
 			}
 		});
@@ -1080,15 +1127,22 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				toolbar.setSize(toolbar.getWidth(), 25);
 				toolbar.setLocation(codeField.getX(), menubar.getY() + menubar.getHeight());
 				
-				console.setSize(width, conHeight - 5);
-				console.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y + 5);
+				consoleField.setSize(width, conHeight - 5);
+				consoleField.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y + 5);
 				
 //				tabs.setWidth(codeField.getWidth() + 2);
 				tabs.setLocation(codeField.getX(), toolbar.getY() + toolbar.getHeight() + 2);
 				
 				treeMenu.setLocation(5, codeField.getY());
-				treeMenu.setSize(contentPanel.getSize().x - codeField.getWidth() - 10, console.getLocation().y + console.getHeight() - codeField.getY());
+				treeMenu.setSize(contentPanel.getSize().x - codeField.getWidth() - 10, consoleField.getLocation().y + consoleField.getHeight() - codeField.getY());
+				
+				treeMenuSizer.setSize(5, treeMenu.getHeight());
+				treeMenuSizer.setLocation(treeMenu.getLocation().x + treeMenu.getWidth(), treeMenu.getLocation().y);
 
+				codeFieldSizer.setSize(codeField.getWidth(), 5);
+				codeFieldSizer.setLocation(codeField.getLocation().x, codeField.getLocation().y + codeField.getHeight());
+				codeFieldSizer.setMinimumY(codeField.getY());
+				
 				if (!window.isMaximized() && !window.isFullscreen())
 				{
 					setConfigDataValue("window.width", window.getWidth() + "");
@@ -1471,8 +1525,35 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		{
 			File f = new File(location);
 			f.mkdirs();
+			
+			f = new File(location + "/bin");
+			f.mkdirs();
+			
+			f = new File(location + "/res");
+			f.mkdirs();
+			
+			f = new File(location + "/src");
+			f.mkdirs();
+			
+			try
+			{
+				f = new File(location + "/.classpath");
+				f.createNewFile();
+			
+				f = new File(location + "/.properties");
+				f.createNewFile();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 
 			addToFileViewer(location);
+			addToFileViewer(location + "/bin");
+			addToFileViewer(location + "/res");
+			addToFileViewer(location + "/src");
+			addToFileViewer(location + "/.classpath");
+			addToFileViewer(location + "/.properties");
 			refreshFileViewer(location, false);
 		}
 	}
@@ -1596,6 +1677,11 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		else
 		{
 			File file = new File(location);
+			
+			if (file.isDirectory())
+			{
+				return;
+			}
 			
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			

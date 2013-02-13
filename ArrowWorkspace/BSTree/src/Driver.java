@@ -7,25 +7,22 @@
  */
 public class Driver
 {
+	/**
+	 * Main method that runs the test for the Tree.
+	 */
 	public static void main(String args[])
 	{
 		Tree t = new Tree();
 		
-		String j = "Joe";
-		
 		t.add("Bill");
 		t.add("Fred");
-		t.add(j);
+		t.add("Joe");
 		t.add("Henrietta");
 		t.add("Mr. M");
 		t.add("Noman");
 		t.add("Alfred");
 		t.add("Al");
 		t.add("Fred");
-		
-//		System.out.println("Done: " + t);
-//		
-//		System.out.println(t.remove(j));
 		
 		System.out.println("Done: " + t);
 	}

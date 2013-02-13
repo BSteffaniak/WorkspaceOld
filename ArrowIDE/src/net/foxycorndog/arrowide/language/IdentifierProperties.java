@@ -11,7 +11,7 @@ public class IdentifierProperties
 	
 	public  final Color		COLOR;
 	
-	public  final char		PREVIOUS_CHARS[][], NEXT_CHARS[][];
+	public  final char		PREVIOUS_CHARS[][], NEXT_CHARS[][], SKIP_NEXT_CHARS[][], SKIP_PREV_CHARS[][];
 	
 	public  final String	PREFIXES[][], PREVIOUS_WORDS[][], NEXT_WORDS[][];
 	
@@ -127,21 +127,24 @@ public class IdentifierProperties
 	
 	public IdentifierProperties(char previousChars[], char nextChars[], String prefixes[], String previousWords[], Color color)
 	{
-		this(new char[][] { previousChars }, new char[][] { nextChars }, new String[][] { prefixes }, new String[][] { previousWords }, new String[][] {}, color);
+		this(new char[][] { previousChars }, new char[][] { nextChars }, new char[][] {}, new char[][] {}, new String[][] { prefixes }, new String[][] { previousWords }, new String[][] {}, color);
 	}
 	
-	public IdentifierProperties(char previousChars[][], char nextChars[][], String prefixes[][], String previousWords[][], String nextWords[][], Color color)
+	public IdentifierProperties(char previousChars[][], char nextChars[][], char skipPrevChars[][], char skipNextChars[][], String prefixes[][], String previousWords[][], String nextWords[][], Color color)
 	{
-		this.COLOR          = color;
+		this.COLOR           = color;
 		
-		this.PREVIOUS_CHARS = previousChars;
-		this.NEXT_CHARS     = nextChars;
+		this.PREVIOUS_CHARS  = previousChars;
+		this.NEXT_CHARS      = nextChars;
 		
-		this.PREFIXES       = prefixes;
-		this.PREVIOUS_WORDS = previousWords;
-		this.NEXT_WORDS     = nextWords;
+		this.SKIP_PREV_CHARS = skipPrevChars;
+		this.SKIP_NEXT_CHARS = skipNextChars;
 		
-		this.AMOUNT         = Math.max(Math.max(Math.max(Math.max(previousWords.length, prefixes.length), nextChars.length), previousChars.length), NEXT_WORDS.length);
+		this.PREFIXES        = prefixes;
+		this.PREVIOUS_WORDS  = previousWords;
+		this.NEXT_WORDS      = nextWords;
+		
+		this.AMOUNT          = Math.max(Math.max(Math.max(Math.max(previousWords.length, prefixes.length), nextChars.length), previousChars.length), NEXT_WORDS.length);
 	}
 	
 	public boolean isQualified(char previousChar, char nextChar, String currentWord, String previousWord, String nextWord)
@@ -176,6 +179,16 @@ public class IdentifierProperties
 				{
 					found = true;
 				}
+//				else
+//				{
+//					for (int n = 0; n < SKIP_NEXT_CHARS[i].length; n++)
+//					{
+//						if (nextChar == SKIP_NEXT_CHARS[i][n])
+//						{
+//							
+//						}
+//					}
+//				}
 			}
 			
 			if (!found)

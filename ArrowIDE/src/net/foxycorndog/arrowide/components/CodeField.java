@@ -518,7 +518,7 @@ public class CodeField extends StyledText
 		}
 	}
 	
-	public void highlightSyntax()
+	public synchronized void highlightSyntax()
 	{
 		createSyntaxStyles();
 		createSyntaxStyles();
@@ -527,9 +527,13 @@ public class CodeField extends StyledText
 		{
 			public void run()
 			{
-				if (thisField != null)
+				try
 				{
 					thisField.redraw();//Range(0, thisField.getText().length(), true);
+				}
+				catch (NullPointerException e)
+				{
+					// TODO: fix this
 				}
 			}
 		});
@@ -1140,20 +1144,25 @@ public class CodeField extends StyledText
 				// Possible bug here with isEscape?? dont know...
 				if (c != ' ' && !isEscape)
 				{
-					if (result.onlyCharOtherThanSpace == 0 && !noOtherCharOtherThanSpace)
-					{
-						result.onlyCharOtherThanSpace = c;
-					}
-					else if (!noOtherCharOtherThanSpace && c != result.onlyCharOtherThanSpace)
-					{
-						noOtherCharOtherThanSpace = true;
-						
-						result.onlyCharOtherThanSpace = 0;
-					}
+					boolean isSkippable = false;
 					
-					if (result.firstCharOtherThanSpace == 0)
+					if (!isSkippable)
 					{
-						result.firstCharOtherThanSpace = c;
+						if (result.onlyCharOtherThanSpace == 0 && !noOtherCharOtherThanSpace)
+						{
+							result.onlyCharOtherThanSpace = c;
+						}
+						else if (!noOtherCharOtherThanSpace && c != result.onlyCharOtherThanSpace)
+						{
+							noOtherCharOtherThanSpace = true;
+							
+							result.onlyCharOtherThanSpace = 0;
+						}
+						
+						if (result.firstCharOtherThanSpace == 0)
+						{
+							result.firstCharOtherThanSpace = c;
+						}
 					}
 				}
 				

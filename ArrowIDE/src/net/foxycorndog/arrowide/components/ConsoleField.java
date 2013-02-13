@@ -26,7 +26,7 @@ public class ConsoleField extends StyledText
 		
 //		appendQueue           = new ArrayList<String>();
 		
-		Font f = FileUtils.loadMonospacedFont(Display.getDefault(), "Liberation Mono", "res/fonts/Liberation-Mono/LiberationMono-Regular.ttf", 16, SWT.NORMAL);
+		Font f = FileUtils.loadMonospacedFont(Display.getDefault(), "courier new", "res/fonts/CECOUR.ttf", 10, SWT.NORMAL);
 	    setFont(f);
 		
 		addPaintListener(new PaintListener()
