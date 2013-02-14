@@ -25,5 +25,8 @@ public class Driver
 		t.add("Fred");
 		
 		System.out.println("Done: " + t);
+		System.out.println(t.remove("Joe"));
+		
+		System.out.println("Done: " + t);
 	}
 }

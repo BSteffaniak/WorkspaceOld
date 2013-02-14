@@ -1,0 +1,36 @@
+Done: Tree { ((( Al ) Alfred ) Bill ( Fred ((( Fred ) Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Bill
+Done: Tree { ((( Al ) Alfred ) Bill ( Fred ((( Fred ) Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Compiled successfully.
+Compiled successfully.
+Done: Tree { ((( Al ) Alfred ) Bill ( Fred ((( Fred ) Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Mr. M
+Done: Tree { ((( Al ) Alfred ) Bill ( Fred ((( Fred ) Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Compiled successfully.
+Done: Tree { ((( Al ) Alfred ) Bill ( Fred ((( Fred ) Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Mr. M
+Done: Tree { ((( Al ) Alfred ) Bill ( Fred ((( Fred ) Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Compiled successfully.
+Done: Tree { ((( Al ) Alfred ) Bill ( Fred ((( Fred ) Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Alfred
+Done: Tree { ((( Al ) Alfred ) Bill ( Fred ((( Fred ) Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Compiled successfully.
+Done: Tree { ((( Al ) Alfred ) Bill ( Fred ((( Fred ) Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Bill
+Done: Tree { ((( Al ) Alfred ) Bill ( Fred ((( Fred ) Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Compiled successfully.
+Compiled successfully.
+Done: Tree { ((( Al ) Alfred ) Bill ( Fred ((( Fred ) Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Exception in thread "main" java.lang.NullPointerException
+	at Tree.remove(Tree.java from DynamicJavaSourceCodeObject:281)
+	at Tree.remove(Tree.java from DynamicJavaSourceCodeObject:263)
+	at Driver.main(Driver.java from DynamicJavaSourceCodeObject:28)
+Error on line 279: string:///Tree.java:279: cannot find symbol
+symbol  : method searchparent(java.lang.Comparable,TreeNode)
+location: class TreeError on line 283: string:///Tree.java:283: cannot find symbol
+symbol  : variable found
+location: class TreeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
+Error on line 283: string:///Tree.java:283: cannot find symbol
+symbol  : variable found
+location: class TreeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
+Compiled successfully.

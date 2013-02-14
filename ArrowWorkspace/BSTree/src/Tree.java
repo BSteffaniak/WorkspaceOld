@@ -19,6 +19,7 @@ public class Tree implements BSTree
 	
 	/**
 	 * Not implemented yet...
+	
 	 */
 	public void insert(Comparable c)
 	{
@@ -75,13 +76,13 @@ public class Tree implements BSTree
 	/**
 	 * @return A string representation of the node's left, right nodes and data.
 	 */
-    private String toString(TreeNode node) 
-    { 
+    private String toString(TreeNode node)
+    {
 		if (node == null)
 		{
-			return ""; 
+			return "";
 		}
-		else 
+		else
 		{
 			return "(" + toString(node.getLeftNode()) +
 					" " + node.getData() +
@@ -135,7 +136,7 @@ public class Tree implements BSTree
 		}
 		else
 		{
-			if (c.equals((Comparable)r.getData()))
+			if (c.equals(r.getData()))
 			{
 				return true;
 			}
@@ -145,6 +146,106 @@ public class Tree implements BSTree
 			}
 		}
     }
+
+	/**
+	 * Searches the tree using the binary search method for the
+	 * specified Comparable's parent.
+	 * 
+	 * @return The parent of the Comparable's node.
+	 */
+    private TreeNode searchParent(Comparable c)
+    {
+		return searchParent(c, root);
+    }
+
+	/**
+	 * Searches the tree using the binary search method for the
+	 * specified Comparable's parent.
+	 * 
+	 * @return WThe parent of the Comparable's node.
+	 */
+    private TreeNode searchParent(Comparable c, TreeNode r)
+    {
+		if (r == null)
+		{
+			return null;
+		}
+		else
+		{
+			TreeNode left  = r.getLeftNode();
+			TreeNode right = r.getRightNode();
+			
+			if ((left != null && left.getData().compareTo(c) == 0))
+			{
+				return r;
+			}
+			else if (right != null && right.getData().compareTo(c) == 0)
+			{
+				return r;
+			}
+			else
+			{
+				TreeNode result = null;
+				
+				if (left != null)
+				{
+					result = searchParent(c, left);
+					
+					if (result != null)
+					{
+						return result;
+					}
+				}
+				if (right != null)
+				{
+					result = searchParent(c, right);
+					
+					if (result != null)
+					{
+						return result;
+					}
+				}
+				
+				return null;
+			}
+		}
+    }
+	
+//	/**
+//	 * Searches the tree using the binary search method for the
+//	 * specified Comparable's parent.
+//	 * 
+//	 * @return The parent of the Comparable's node.
+//	 */
+//    private TreeNode searchParent(Comparable c, TreeNode parent)
+//    {
+//		if (parent == null)
+//		{
+//			return null;
+//		}
+//		else
+//		{
+//			TreeNode left  = parent.getLeftNode();
+//			TreeNode right = parent.getRightNode();
+//			
+//			if (left != null && c.compareTo(left.getData()) == 0)
+//			{
+//				return parent;
+//			}
+//			else if (right != null && c.compareTo(right.getData()) == 0)
+//			{
+//				return parent;
+//			}
+//			if (c.compareTo(parent.getData()) == 0)
+//			{
+//				return true;
+//			}
+//			else
+//			{
+//				return (searchParent(c, parent.getLeftNode()) || searchParent(c, parent.getRightNode()));
+//			}
+//		}
+//    }
 	
 	/**
 	 * Searches the tree using the binary search method for the
@@ -157,11 +258,34 @@ public class Tree implements BSTree
 		return search(c, root);
 	}
 	
+	public boolean remove(Comparable c)
+	{
+		return remove(c, root);
+	}
+	
 	/**
 	 * Removes the specified Comparable from the tree.
 	 */
-	public boolean remove(Comparable c)
+	public boolean remove(Comparable c, TreeNode delNode)
 	{
-		return false;
+		if (delNode == null)
+		{
+			return false;
+		}
+		else
+		{
+			delNode = null;
+		
+			TreeNode parent = searchParent(c, delNode);
+			
+			if (c.equals(delNode.getData()))
+			{
+				return true;
+			}
+			else
+			{
+				return (remove(c, delNode.getLeftNode()) || remove(c, delNode.getRightNode()));
+			}
+		}
 	}
 }

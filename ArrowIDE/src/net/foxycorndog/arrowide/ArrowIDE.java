@@ -1931,14 +1931,15 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		fileLocation	  = location;
 		
-		boolean highlight = codeField.getLanguage() == 0;
-		
 		codeField.setLanguage(Language.getLanguage(fileLocation));
 		
+		boolean highlight = codeField.getLanguage() == 0;
+		System.out.println("done");
 		if (highlight)
 		{
 			codeField.highlightSyntax();
 		}
+		System.out.println("done2");
 		
 		if (currentFile)
 		{
