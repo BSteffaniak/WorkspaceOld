@@ -116,7 +116,14 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.GLContext;
 
-
+/**
+ * Main class for the ArrowIDE program.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 13, 2013 at 4:46:00 PM
+ * @since	v0.7
+ * @version	v0.7
+ */
 public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuListener
 {
 	private boolean								filesNeedRefresh;
@@ -207,6 +214,9 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 	}
 	
+	/**
+	 * Instantiate the {@link #DISPLAY display}, and the color palette.
+	 */
 	static
 	{
 		DISPLAY = new Display();
@@ -263,6 +273,9 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		setArchitecture();
 	}
 	
+	/**
+	 * Set the os.arch value for the {@link #PROPERTIES} variable.
+	 */
 	private static void setArchitecture()
 	{
 		int bitness = 32;
@@ -308,7 +321,6 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 * used for programming.
 	 * 
 	 * @param display The display to use.
-	 * @param window The window to use.
 	 */
 	public ArrowIDE(final Display display)
 	{
@@ -758,7 +770,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		treeMenu              = new TreeMenu(contentPanel);
 		treeMenu.setSize(contentPanel.getSize().x - codeField.getWidth() - 10, codeField.getHeight() + consoleField.getHeight());
-		treeMenu.setLocation(5, codeField.getY());
+		treeMenu.setLocation(0, codeField.getY());
 		treeMenu.setBackground(NON_FOCUS_COLOR);
 		
 		treeMenuSizer = new CompositeSizer(contentPanel, CompositeSizer.VERTICAL);
@@ -1133,8 +1145,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 //				tabs.setWidth(codeField.getWidth() + 2);
 				tabs.setLocation(codeField.getX(), toolbar.getY() + toolbar.getHeight() + 2);
 				
-				treeMenu.setLocation(5, codeField.getY());
-				treeMenu.setSize(contentPanel.getSize().x - codeField.getWidth() - 10, consoleField.getLocation().y + consoleField.getHeight() - codeField.getY());
+				treeMenu.setLocation(treeMenu.getLocation().x, codeField.getY());
+				treeMenu.setSize(contentPanel.getSize().x - codeField.getWidth() - 5, consoleField.getLocation().y + consoleField.getHeight() - codeField.getY());
 				
 				treeMenuSizer.setSize(5, treeMenu.getHeight());
 				treeMenuSizer.setLocation(treeMenu.getLocation().x + treeMenu.getWidth(), treeMenu.getLocation().y);
@@ -1177,7 +1189,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			{
 				try
 				{
-					openFile(lastTabs[i], false);
+					openFile(lastTabs[i], false, false);
 					
 					builder.append(lastTabs[i] + ';');
 				}
@@ -1259,7 +1271,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 */
 	public static ArrowIDE openIDE()
 	{
-		String location = CONFIG_DATA.get("workspace.location");
+		String location = CONFIG_DATA.get("workspace.location.relative");
 		
 		try
 		{
@@ -1340,6 +1352,10 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		System.exit(0);
 	}
 	
+	/**
+	 * Method used to choose the Workspace location. Sets the value of
+	 * the absolute location in the workspace.location key for the {@link #CONFIG_DATA}.
+	 */
 	public static void chooseWorkspace()
 	{
 		DialogFilter filter = new DialogFilter()
@@ -1367,6 +1383,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			exit(window);
 		}
 		
+		setConfigDataValue("workspace.location.relative", location);
 		setConfigDataValue("workspace.location", location);
 	}
 	
@@ -1379,19 +1396,23 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	{
 		File workspaceDirectory = null;
 		
-		if (CONFIG_DATA.containsKey("workspace.location"))
-		{
-			workspaceDirectory = new File(CONFIG_DATA.get("workspace.location"));
-		}
-		else
+		if (!CONFIG_DATA.containsKey("workspace.location"))
 		{
 			chooseWorkspace();
 		}
 		
+		workspaceDirectory = new File(CONFIG_DATA.get("workspace.location"));
+		
 		return workspaceDirectory.exists();
 	}
 	
-	public static void appendConfigDataValue(String key, String value)
+	/**
+	 * Method that appends the given String to the value of the key given.
+	 * 
+	 * @param key	The key to append to.
+	 * @param value	The value to append.
+	 */
+	public static synchronized void appendConfigDataValue(String key, String value)
 	{
 		String prev = "";
 		
@@ -1410,7 +1431,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 * @param key The key of the property to set.
 	 * @param value The value of the property to set.
 	 */
-	public static void setConfigDataValue(String key, String value)
+	public static synchronized void setConfigDataValue(String key, String value)
 	{
 		boolean added = false;
 		
@@ -1481,6 +1502,15 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 	}
 	
+	/**
+	 * Method that checks to see if the given location is a valid
+	 * project. If it is, then load all of the classpath and
+	 * project properties into the {@link #PROJECT_PROPERTIES} and
+	 * the classpaths into the {@link #PROJECT_CLASSPATHS}.
+	 * 
+	 * @param location The location of the root folder of the project
+	 * 		to check.
+	 */
 	public static void checkProject(String location)
 	{
 		location = FileUtils.removeEndingSlashes(location);
@@ -1630,7 +1660,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	{
 		try
 		{
-			openFile(location, true);
+			openFile(location, true, true);
 		}
 		catch (IOException e)
 		{
@@ -1641,7 +1671,18 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 	}
 	
-	public void openFile(String location, boolean cache) throws FileNotFoundException, IOException
+	/**
+	 * Method that opens a file at the specified location and also
+	 * takes the option whether or not to cache the save the fileLocation
+	 * in the {@link #CONFIG_DATA} for reuse when the IDE is restarted.
+	 * 
+	 * @param	location The location of the file to open.
+	 * @param	cache Whether or not to save the file for use after restart.
+	 * @param 	setLanguage Whether or not to set the language of the codeField.
+	 * @throws	FileNotFoundException Thrown if the file can not be found.
+	 * @throws	IOException Thrown if there was trouble reading or writing.
+	 */
+	public void openFile(String location, boolean cache, boolean setLanguage) throws FileNotFoundException, IOException
 	{
 		location = location.replace('\\', '/');
 		
@@ -1709,8 +1750,6 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			
 			codeField.setText(fileContents, true);
 			
-			codeField.setLanguage(Language.getLanguage(location));
-			
 			codeField.redraw();
 			
 			if (!location.equals(fileLocation))
@@ -1726,6 +1765,11 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			}
 			
 			fileLocation = location;
+		}
+		
+		if (setLanguage)
+		{
+			codeField.setLanguage(Language.getLanguage(location));
 		}
 		
 		codeField.setFocus();
@@ -1909,6 +1953,12 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 	}
 	
+	/**
+	 * Method that adds the file at the specified location to file viewer.
+	 * Faster than refreshing the whole doggone file viewer.
+	 * 
+	 * @param location The location of the file to add.
+	 */
 	public void addToFileViewer(String location)
 	{
 		if (treeItemLocations.containsValue(location))
@@ -1948,6 +1998,12 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		treeItemIds.put(location, id);
 	}
 	
+	/**
+	 * Method to remove the file at the specified location from the file
+	 * viewer. Faster than refreshing the whole doggone file viewer.
+	 * 
+	 * @param location The location of the file to remove.
+	 */
 	public void removeFromFileViewer(String location)
 	{
 		int id = treeItemIds.get(location);
@@ -1964,14 +2020,25 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	
 	/**
 	 * Refresh the file viewer to all of the updated file names.
-	 * If a file is no longer existent, then remove it, or if a file
-	 * has been added, add it to the TreeMenu.
+	 * If a file has been added, add it to the
+	 * {@link #treeMenu file viewer}.
+	 * 
+	 * @param ignoreRemove Whether or not to ignore the process of
+	 * 		searching for files that were removed.
 	 */
 	public void refreshFileViewer(boolean ignoreRemove)
 	{
 		refreshFileViewer(CONFIG_DATA.get("workspace.location"), 0, ignoreRemove);
 	}
 	
+	/**
+	 * Method to refresh the files within the directory of the specified
+	 * location.
+	 * 
+	 * @param location The location of the root directory to refresh.
+	 * @param ignoreRemove Whether or not to ignore the process of
+	 * 		searching for files that were removed.
+	 */
 	public void refreshFileViewer(String location, boolean ignoreRemove)
 	{
 		int parentId = treeItemIds.get(location);
@@ -1979,6 +2046,15 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		refreshFileViewer(location, parentId, ignoreRemove);
 	}
 
+	/**
+	 * Method to refresh the files within the directory of the specified
+	 * location.
+	 * 
+	 * @param location The location of the root directory to refresh.
+	 * @param parentId The id of the TreeMenu item to refresh.
+	 * @param ignoreRemove Whether or not to ignore the process of
+	 * 		searching for files that were removed.
+	 */
 	public void refreshFileViewer(final String location, final int parentId, final boolean ignoreRemove)
 	{
 		Thread refreshThread = new Thread()
@@ -2323,6 +2399,10 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 	}
 	
+	/**
+	 * Method to remove all of the TreeMenu items and clear the
+	 * HashMaps.
+	 */
 	public void removeAllTreeItems()
 	{
 		treeMenu.removeAllItems();
@@ -2342,6 +2422,13 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		addTab(fileLocation, true);
 	}
 	
+	/**
+	 * Method to add a tab at the specified location.
+	 * 
+	 * @param fileLocation The location of the file that was opened.
+	 * @param cache Whether or not to save the tab for later use after
+	 * 		restart.
+	 */
 	private void addTab(String fileLocation, boolean cache)
 	{
 		String fileName = FileUtils.getFileName(fileLocation);
@@ -2360,6 +2447,15 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		addTab(fileName, location, true);
 	}
 	
+	/**
+	 * Method to add a tab at the specified location with the tab labeled
+	 * with the fileName param.
+	 * 
+	 * @param fileName The String to label the tab with.
+	 * @param location The location of the file that was opened.
+	 * @param cache Whether or not to save the tab for later use after
+	 * 		restart.
+	 */
 	private void addTab(String fileName, final String location, boolean cache)
 	{
 		int id = tabs.addTab(fileName);
@@ -2523,7 +2619,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			
 			codeField.setSelection(tabSelection.get(tabId));
 			codeField.setTopPixel(tabTopPixels.get(tabId));
-			codeField.selected();
+			codeField.select();
 		}
 	}
 	
@@ -2571,11 +2667,6 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 * window.
 	 */
 	public void update()
-	{
-		
-	}
-
-	public void tabOpened(int tabId)
 	{
 		
 	}

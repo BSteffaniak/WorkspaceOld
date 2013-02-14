@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -18,35 +19,122 @@ import net.foxycorndog.arrowide.language.Keyword;
 public class FileUtils
 {
 //	private static final HashMap<String, HashSet<String>>	ENDINGS;
-	private static final HashMap<String, Integer>			TYPES;
+	private static final TypeList TYPES;
 	
 	public  static final int JAVA = 1, GLSL = 2, ASSEMBLY = 3, FOXY = 4, CPP = 5, H = 6, C = 7,
 							TXT = 8, RTF = 9, EXE = 10, CLASS = 11, PHP = 12, PYTHON = 13;
 	
+	/**
+	 * Class used for storing the information of file types.
+	 * 
+	 * @author	Braden Steffaniak
+	 * @since	Feb 13, 2013 at 10:09:45 PM
+	 * @since	v0.7
+	 * @version	v0.7
+	 */
+	private static class Type
+	{
+		private boolean	language;
+		
+		private int		type;
+		
+		private String	ext;
+		
+		public Type(String ext, int type, boolean language)
+		{
+			this.ext      = ext;
+			this.type     = type;
+			this.language = language;
+		}
+	}
+	
+	/**
+	 * Class that holds several Type instances. Can search through
+	 * them too.
+	 * 
+	 * @author	Braden Steffaniak
+	 * @since	Feb 13, 2013 at 10:13:48 PM
+	 * @since	v0.7
+	 * @version	v0.7
+	 */
+	private static class TypeList
+	{
+		private ArrayList<Type> types;
+		
+		public TypeList()
+		{
+			types = new ArrayList<Type>();
+		}
+		
+		public void add(Type type)
+		{
+			types.add(type);
+		}
+		
+		public boolean isLanguage(String ext)
+		{
+			for (Type type : types)
+			{
+				if (type.language && type.ext.equals(ext))
+				{
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		public int getType(String ext)
+		{
+			for (Type type : types)
+			{
+				if (type.language && type.ext.equals(ext))
+				{
+					return type.type;
+				}
+			}
+			
+			return 0;
+		}
+		
+		public boolean containsExt(String ext)
+		{
+			for (Type type : types)
+			{
+				if (type.ext.equals(ext))
+				{
+					return true;
+				}
+			}
+			
+			return false;
+		}
+	}
+	
 	static
 	{
-		TYPES = new HashMap<String, Integer>();
+		TYPES = new TypeList();
 		
-		TYPES.put("java",  JAVA);
-		TYPES.put("vs",    GLSL);
-		TYPES.put("vert",  GLSL);
-		TYPES.put("fs",    GLSL);
-		TYPES.put("frag",  GLSL);
-		TYPES.put("shade", GLSL);
-		TYPES.put("shad",  GLSL);
-		TYPES.put("sha",   GLSL);
-		TYPES.put("asm",   ASSEMBLY);
-		TYPES.put("foxy",  FOXY);
-		TYPES.put("txt",   TXT);
-		TYPES.put("rtf",   RTF);
-		TYPES.put("exe",   EXE);
-		TYPES.put("class", CLASS);
-		TYPES.put("c",     C);
-		TYPES.put("cpp",   CPP);
-		TYPES.put("h",     H);
-		TYPES.put("php",   PHP);
-		TYPES.put("php5",  PHP);
-		TYPES.put("py",    PYTHON);
+		TYPES.add(new Type("java",  JAVA,     true));
+		TYPES.add(new Type("vs",    GLSL,     true));
+		TYPES.add(new Type("vert",  GLSL,     true));
+		TYPES.add(new Type("fs",    GLSL,     true));
+		TYPES.add(new Type("frag",  GLSL,     true));
+		TYPES.add(new Type("shade", GLSL,     true));
+		TYPES.add(new Type("shad",  GLSL,     true));
+		TYPES.add(new Type("sha",   GLSL,     true));
+		TYPES.add(new Type("asm",   ASSEMBLY, true));
+		TYPES.add(new Type("foxy",  FOXY,     true));
+		TYPES.add(new Type("txt",   TXT,      false));
+		TYPES.add(new Type("rtf",   RTF,      false));
+		TYPES.add(new Type("exe",   EXE,      false));
+		TYPES.add(new Type("class", CLASS,    false));
+		TYPES.add(new Type("c",     C,        true));
+		TYPES.add(new Type("cpp",   CPP,      true));
+		TYPES.add(new Type("h",     H,        true));
+		TYPES.add(new Type("php",   PHP,      true));
+		TYPES.add(new Type("php5",  PHP,      true));
+		TYPES.add(new Type("py",    PYTHON,   true));
 		
 //		ENDINGS = new HashMap<String, HashSet<String>>();
 //		
@@ -105,9 +193,9 @@ public class FileUtils
 //			language = CPP;
 //		}
 		
-		if (TYPES.containsKey(ending))
+		if (TYPES.isLanguage(ending))
 		{
-			language = TYPES.get(ending);
+			language = TYPES.getType(ending);
 		}
 		
 		return language;
@@ -203,9 +291,9 @@ public class FileUtils
 		{
 			String ending = name.substring(name.lastIndexOf('.') + 1).toLowerCase();
 			
-			if (TYPES.containsKey(ending))
+			if (TYPES.containsExt(ending))
 			{
-				return TYPES.get(ending);
+				return TYPES.getType(ending);
 			}
 		}
 		

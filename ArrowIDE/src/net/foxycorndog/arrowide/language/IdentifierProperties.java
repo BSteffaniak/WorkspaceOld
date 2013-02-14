@@ -169,13 +169,16 @@ public class IdentifierProperties
 					}
 					else
 					{
-//						for (int n = 0; n < SKIP_NEXT_CHARS[i].length; n++)
-//						{
-//							if (nextChars[q] == SKIP_NEXT_CHARS[i][n])
-//							{
-//								skipped = true;
-//							}
-//						}
+						if (i < SKIP_PREV_CHARS.length)
+						{
+							for (int n = 0; n < SKIP_PREV_CHARS[i].length; n++)
+							{
+								if (previousChars[q] == SKIP_PREV_CHARS[i][n])
+								{
+//									skipped = true;
+								}
+							}
+						}
 					}
 				}
 			}
@@ -197,11 +200,14 @@ public class IdentifierProperties
 					}
 					else
 					{
-						for (int n = 0; n < SKIP_NEXT_CHARS[i].length; n++)
+						if (i < SKIP_NEXT_CHARS.length)
 						{
-							if (nextChars[q] == SKIP_NEXT_CHARS[i][n])
+							for (int n = 0; n < SKIP_NEXT_CHARS[i].length; n++)
 							{
-								
+								if (nextChars[q] == SKIP_NEXT_CHARS[i][n])
+								{
+									
+								}
 							}
 						}
 					}

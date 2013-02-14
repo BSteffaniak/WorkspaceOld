@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.foxycorndog.arrowide.formatter.Formatter"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.ModifyListener"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.ContentListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.custom.ExtendedModifyListener"/>
@@ -55,9 +54,10 @@
 <fullyQualifiedTypeName name="org.eclipse.swt.events.PaintListener"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.CompositeSizer"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.DragDetectListener"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Event"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Listener"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.SizerListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.ControlListener"/>
+<fullyQualifiedTypeName name="java.util.concurrent.ArrayBlockingQueue"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>

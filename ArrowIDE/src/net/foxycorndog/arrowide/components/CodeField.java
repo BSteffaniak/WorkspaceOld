@@ -65,6 +65,15 @@ import sun.swing.BakedArrayList;
 
 import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
 
+/**
+ * Class that extends StyledText, but colors the text according
+ * to the language.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 13, 2013 at 4:53:31 PM
+ * @since	v0.7
+ * @version	v0.7
+ */
 public class CodeField extends StyledText
 {
 	private boolean										commentStarted, textStarted;
@@ -93,8 +102,7 @@ public class CodeField extends StyledText
 	
 	private Runnable									syntaxUpdater;
 
-	private LineStyleListener							lineNumbers,
-			lineSpaces, syntaxHighlighting;
+	private LineStyleListener							lineNumbers, lineSpaces, syntaxHighlighting;
 	
 	private StyledText									lineNumberText;
 
@@ -127,6 +135,15 @@ public class CodeField extends StyledText
 		whitespaceArray = new char[] { ' ', '.', ',', '/', '*', '=', '(', ')', '[', ']', '{', '}', ';', '\n', '\t', '\r', '-', '\\', '+', '\'', '"', ':', '-', '+', '>', '<', '!' };
 	}
 	
+	/**
+	 * Private class that holds the location of the start and the end
+	 * of an error within the text field.
+	 * 
+	 * @author	Braden Steffaniak
+	 * @since	Feb 13, 2013 at 4:54:46 PM
+	 * @since	v0.7
+	 * @version	v0.7
+	 */
 	private class ErrorLocation
 	{
 		private int start, end;
@@ -138,6 +155,15 @@ public class CodeField extends StyledText
 		}
 	}
 	
+	/**
+	 * Class that holds the StyleRanges for several words in the
+	 * text field.
+	 * 
+	 * @author	Braden Steffaniak
+	 * @since	Feb 13, 2013 at 5:02:28 PM
+	 * @since	v0.7
+	 * @version	v0.7
+	 */
 	private class WordList
 	{
 		private HashMap<WordLocation, StyleRange> styles;
@@ -203,6 +229,15 @@ public class CodeField extends StyledText
 		}
 	}
 	
+	/**
+	 * Class that holds the information of a word, such as the
+	 * start index and end index.
+	 * 
+	 * @author	Braden Steffaniak
+	 * @since	Feb 13, 2013 at 5:03:43 PM
+	 * @since	v0.7
+	 * @version	v0.7
+	 */
 	private class WordLocation
 	{
 		private int start, length;
@@ -214,6 +249,14 @@ public class CodeField extends StyledText
 		}
 	}
 	
+	/**
+	 * A word and a StyleRange mixed into one class!!!
+	 * 
+	 * @author	Braden Steffaniak
+	 * @since	Feb 13, 2013 at 6:48:15 PM
+	 * @since	v0.7
+	 * @version	v0.7
+	 */
 	private class WordRange
 	{
 		private String		word;
@@ -226,6 +269,15 @@ public class CodeField extends StyledText
 		}
 	}
 	
+	/**
+	 * Class that holds the information from the calculateSpaceBetween
+	 * method.
+	 * 
+	 * @author	Braden Steffaniak
+	 * @since	Feb 13, 2013 at 6:49:34 PM
+	 * @since	v0.7
+	 * @version	v0.7
+	 */
 	private class SpaceBetweenResult
 	{
 		private char	firstCharOtherThanSpace;
@@ -235,6 +287,11 @@ public class CodeField extends StyledText
 		private char	chars[];
 	}
 	
+	/**
+	 * Instantiates all of the variables needed for the CodeField.
+	 * 
+	 * @param comp The parent Composite to place it in.
+	 */
 	public CodeField(final Composite comp)
 	{
 		super(comp, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | (Integer)PROPERTIES.get("composite.modifiers"));
@@ -492,7 +549,7 @@ public class CodeField extends StyledText
 	    });
 	}
 	
-	public void selected()
+	public void select()
 	{
 		identifierSelectorListener.handleEvent(null);
 	}
@@ -523,6 +580,18 @@ public class CodeField extends StyledText
 	
 	public synchronized void highlightSyntax()
 	{
+		if (language <= 0)
+		{
+			identifierLists.clear();
+			methodLists.clear();
+			identifierWords.clear();
+			methodWords.clear();
+			
+			setStyles(new StyleRange[0]);
+			
+			return;
+		}
+		
 		createSyntaxStyles();
 		createSyntaxStyles();
 		
@@ -530,14 +599,7 @@ public class CodeField extends StyledText
 		{
 			public void run()
 			{
-				try
-				{
-					thisField.redraw();//Range(0, thisField.getText().length(), true);
-				}
-				catch (NullPointerException e)
-				{
-					// TODO: fix this
-				}
+				thisField.redraw();//Range(0, thisField.getText().length(), true);
 			}
 		});
 		
@@ -562,7 +624,7 @@ public class CodeField extends StyledText
 		tempIdLists     = (HashMap<String, WordList>) identifierLists.clone();
 		tempMethodLists = (HashMap<String, WordList>) methodLists.clone();
 		tempIdWords     = (HashMap<WordList, String>) identifierWords.clone();
-		tempMethodWords = (HashMap<WordList, String>) methodWords.clone(); //TODO fix this....
+		tempMethodWords = (HashMap<WordList, String>) methodWords.clone();
 		
 		HashSet<WordRange> idRanges     = new HashSet<WordRange>();
 		HashSet<WordRange> methodRanges = new HashSet<WordRange>();
@@ -806,11 +868,6 @@ public class CodeField extends StyledText
 			}
 			else if (identifierProperties != null)
 			{
-				if (oldResult.chars != null || newResult.chars != null)
-				{
-					System.out.println("asdf");
-				}
-				
 				if (!alreadyAdded && identifierProperties.isQualified(oldResult.chars, newResult.chars, word, prevWord, nextWord))
 				{
 					int offset = offsets[i];
@@ -1165,6 +1222,16 @@ public class CodeField extends StyledText
 			}
 			else
 			{
+				char chs[] = new char[cs.size()];
+				
+				for (int l = 0; l < chs.length; l++)
+				{
+					chs[l] = cs.get(l);
+//					System.out.print(chs[l] + ", ");
+				}
+//				System.out.println();
+				result.chars = chs;
+				
 				return result;
 			}
 		}
@@ -1174,11 +1241,9 @@ public class CodeField extends StyledText
 		for (int i = 0; i < chs.length; i++)
 		{
 			chs[i] = cs.get(i);
-//			System.out.print(chs[i] + ", ");
 		}
-//		System.out.println();
+		
 		result.chars = chs;
-		System.out.println(result.chars );
 		
 		return result;
 	}

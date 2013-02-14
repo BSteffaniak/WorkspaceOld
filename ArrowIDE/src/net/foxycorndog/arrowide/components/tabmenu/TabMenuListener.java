@@ -5,6 +5,4 @@ public interface TabMenuListener
 	public boolean tabClosing(int tabId);
 	
 	public void tabSelected(int tabId);
-	
-	public void tabOpened(int tabId);
 }
