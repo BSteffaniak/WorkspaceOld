@@ -217,7 +217,7 @@ public class Model
 		
 		if (Intersects.cubes(x, y, z, 0, 0, 0, this.x, this.y, this.z, width, height, depth))
 		{
-			if (true){return true;};
+			if (true){return true;}
 			int counter = 0;
 			
 			for (int i = 0; i < faceNormals.length; i += 3)

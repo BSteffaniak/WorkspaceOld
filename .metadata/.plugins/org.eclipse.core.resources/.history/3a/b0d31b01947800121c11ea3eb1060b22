@@ -1,0 +1,9 @@
+package net.foxycorndog.jfoxylib.model;
+
+public class Model
+{
+	public Model(String location)
+	{
+		
+	}
+}

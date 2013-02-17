@@ -5,24 +5,34 @@ import java.util.ArrayList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 15, 2013 at 11:44:58 PM
+ * @since	v0.1
+ * @version	v0.1
+ */
 public class Panel extends Component
 {
-	private Composite				composite;
-	
-	private ArrayList<Component>	components;
+	private Composite	composite;
 	
 	public Panel()
 	{
-		components = new ArrayList<Component>();
+		super(null);
 	}
 	
 	public Panel(Panel parent)
 	{
+		super(parent);
+		
 		create(parent);
 	}
 	
 	public Panel(Composite parent)
 	{
+		super(null);
+		
 		create(parent);
 	}
 	
@@ -62,26 +72,26 @@ public class Panel extends Component
 		composite.setLocation(x, y);
 	}
 	
-	public void add(Component component)
-	{
-		if (!components.contains(component))
-		{
-			components.add(component);
-			component.addTo(this);
-		}
-		else
-		{
-		}
-	}
-	
-	public void remove(Component component)
-	{
-		if (components.contains(component))
-		{
-			components.remove(component);
-			component.removeFrom(this);
-		}
-	}
+//	public void add(Component component)
+//	{
+//		if (!components.contains(component))
+//		{
+//			components.add(component);
+//			component.addTo(this);
+//		}
+//		else
+//		{
+//		}
+//	}
+//	
+//	public void remove(Component component)
+//	{
+//		if (components.contains(component))
+//		{
+//			components.remove(component);
+//			component.removeFrom(this);
+//		}
+//	}
 	
 	public void update()
 	{
@@ -89,10 +99,5 @@ public class Panel extends Component
 //		{
 //			composite.setSize(getWidth(), getHeight());
 //		}
-		
-		for (Component comp : components)
-		{
-			comp.update();
-		}
 	}
 }

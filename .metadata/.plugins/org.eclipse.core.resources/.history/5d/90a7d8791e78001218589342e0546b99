@@ -1,0 +1,144 @@
+package net.foxycorndog.jfoxylib.bundle;
+
+import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
+import static org.lwjgl.opengl.GL11.glDisableClientState;
+import static org.lwjgl.opengl.GL11.glDrawArrays;
+import static org.lwjgl.opengl.GL11.glEnableClientState;
+import static org.lwjgl.opengl.GL11.glVertexPointer;
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_DYNAMIC_DRAW;
+import static org.lwjgl.opengl.GL15.GL_WRITE_ONLY;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glGenBuffers;
+import static org.lwjgl.opengl.GL15.glMapBuffer;
+import static org.lwjgl.opengl.GL15.glUnmapBuffer;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 16, 2013 at 3:23:16 AM
+ * @since	v0.1
+ * @version	v0.1
+ */
+public class Buffer
+{
+	private int			id;
+	private int			size;
+	
+	private FloatBuffer	buffer;
+	private ByteBuffer	mapBuffer;
+	
+	public Buffer(int size)
+	{
+		this.size = size;
+		
+		buffer = BufferUtils.createFloatBuffer(size);
+		
+		id = glGenBuffers();
+		glBindBuffer(GL_ARRAY_BUFFER, id);
+		glBufferData(GL_ARRAY_BUFFER, buffer, GL_DYNAMIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	
+	public int getId()
+	{
+		return id;
+	}
+	
+	public void setData(int index, float data)
+	{
+		beginEditing();
+		
+		buffer.position(index);
+	
+		buffer.put(data);
+		
+		buffer.rewind();
+		
+		endEditing();
+	}
+	
+	public void setData(int index, float data[])
+	{
+		beginEditing();
+		
+		buffer.position(index);
+	
+		buffer.put(data);
+		
+		buffer.rewind();
+		
+		endEditing();
+	}
+	
+	private void beginEditing()
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, id);
+		
+		mapBuffer = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, null);
+		
+		buffer    = mapBuffer.order(ByteOrder.nativeOrder()).asFloatBuffer();
+	}
+	
+	private void endEditing()
+	{
+		glUnmapBuffer(GL_ARRAY_BUFFER);
+		
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	
+	public void render(int mode, int vertexSize)
+	{
+		buffer.position(0);
+		render(mode, 0, size, vertexSize);
+	}
+	
+	public void render(int mode, int start, int amount, int vertexSize)
+	{
+		beginVertexDraw(vertexSize);
+		
+		glDrawArrays(mode, start, amount);
+		
+		endVertexDraw();
+	}
+	
+	private void beginVertexDraw(int vertexSize)
+	{
+		glEnableClientState(GL_VERTEX_ARRAY);
+		
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id);
+
+		glVertexPointer(vertexSize, GL11.GL_FLOAT, 0, 0);
+		
+//		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vertexIndicesId);
+	}
+	
+	private void endVertexDraw()
+	{
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+		
+		glDisableClientState(GL_VERTEX_ARRAY);
+	}
+	
+	public String toString()
+	{
+		StringBuilder builder = new StringBuilder();
+		
+		for (int i = 0; i < size; i++)
+		{
+			builder.append(buffer.get(i) + ", ");
+		}
+		
+		return builder.toString();
+	}
+}

@@ -9,6 +9,26 @@ public class Tree implements BSTree
 {
 	private TreeNode	root;
 	
+	private class ChildInfo
+	{
+		private TreeNode		parent;
+		
+		private int				direction;
+		
+		public static final int	LEFT = 1, RIGHT = 2;
+		
+		public ChildInfo(TreeNode parent, int direction)
+		{
+			this.parent    = parent;
+			this.direction = direction;
+		}
+		
+		public TreeNode getParent()
+		{
+			return parent;
+		}
+	}
+	
 	/**
 	 * Default constructor in place just in case I need to add anything.
 	 */
@@ -19,7 +39,6 @@ public class Tree implements BSTree
 	
 	/**
 	 * Not implemented yet...
-	
 	 */
 	public void insert(Comparable c)
 	{
@@ -43,11 +62,11 @@ public class Tree implements BSTree
 		}
 		else
 		{
-			if (cmp.compareTo((Comparable)r.getData()) < 0)
+			if (cmp.compareTo(r.getData()) < 0)
 			{
 				r.setLeftNode(addData(r.getLeftNode(), cmp));
 			}
-			else
+			else if (cmp.compareTo(r.getData()) > 0)
 			{
 				r.setRightNode(addData(r.getRightNode(), cmp));
 			}
@@ -95,7 +114,20 @@ public class Tree implements BSTree
 	 */
 	public int height()
 	{
-		return 0;
+		return height(root);
+	}
+	
+	/**
+	 * @return The maximum length of any leaf in the tree.
+	 */
+	private int height(TreeNode root)
+	{
+		if (root == null)
+		{
+			return 0;
+		}
+		
+		return 1 + Math.max(height(root.getLeftNode()), height(root.getRightNode()));
 	}
 	
 	/**
@@ -151,9 +183,9 @@ public class Tree implements BSTree
 	 * Searches the tree using the binary search method for the
 	 * specified Comparable's parent.
 	 * 
-	 * @return The parent of the Comparable's node.
+	 * @return The info of the Comparable's node.
 	 */
-    private TreeNode searchParent(Comparable c)
+    public ChildInfo searchParent(Comparable c)
     {
 		return searchParent(c, root);
     }
@@ -162,9 +194,9 @@ public class Tree implements BSTree
 	 * Searches the tree using the binary search method for the
 	 * specified Comparable's parent.
 	 * 
-	 * @return WThe parent of the Comparable's node.
+	 * @return The info of the Comparable's node.
 	 */
-    private TreeNode searchParent(Comparable c, TreeNode r)
+    private ChildInfo searchParent(Comparable c, TreeNode r)
     {
 		if (r == null)
 		{
@@ -175,17 +207,17 @@ public class Tree implements BSTree
 			TreeNode left  = r.getLeftNode();
 			TreeNode right = r.getRightNode();
 			
-			if ((left != null && left.getData().compareTo(c) == 0))
+			if (left != null && left.getData().compareTo(c) == 0)
 			{
-				return r;
+				return new ChildInfo(r, ChildInfo.LEFT);
 			}
 			else if (right != null && right.getData().compareTo(c) == 0)
 			{
-				return r;
+				return new ChildInfo(r, ChildInfo.RIGHT);
 			}
 			else
 			{
-				TreeNode result = null;
+				ChildInfo result = null;
 				
 				if (left != null)
 				{
@@ -205,47 +237,11 @@ public class Tree implements BSTree
 						return result;
 					}
 				}
-				
-				return null;
 			}
 		}
+		
+		return null;
     }
-	
-//	/**
-//	 * Searches the tree using the binary search method for the
-//	 * specified Comparable's parent.
-//	 * 
-//	 * @return The parent of the Comparable's node.
-//	 */
-//    private TreeNode searchParent(Comparable c, TreeNode parent)
-//    {
-//		if (parent == null)
-//		{
-//			return null;
-//		}
-//		else
-//		{
-//			TreeNode left  = parent.getLeftNode();
-//			TreeNode right = parent.getRightNode();
-//			
-//			if (left != null && c.compareTo(left.getData()) == 0)
-//			{
-//				return parent;
-//			}
-//			else if (right != null && c.compareTo(right.getData()) == 0)
-//			{
-//				return parent;
-//			}
-//			if (c.compareTo(parent.getData()) == 0)
-//			{
-//				return true;
-//			}
-//			else
-//			{
-//				return (searchParent(c, parent.getLeftNode()) || searchParent(c, parent.getRightNode()));
-//			}
-//		}
-//    }
 	
 	/**
 	 * Searches the tree using the binary search method for the
@@ -274,12 +270,79 @@ public class Tree implements BSTree
 		}
 		else
 		{
-			delNode = null;
-		
-			TreeNode parent = searchParent(c, delNode);
-			
-			if (c.equals(delNode.getData()))
+			if (c.compareTo(delNode.getData()) == 0)
 			{
+				TreeNode newNode = null;
+				
+				if (delNode == root)
+				{
+					if (root.getLeftNode() != null)
+					{
+						newNode = root.getLeftNode();
+						
+						newNode.setRightNode(root.getRightNode());
+						
+						root = newNode;
+					}
+					else
+					{
+						root = root.getRightNode();
+					}
+				}
+				else
+				{
+					ChildInfo info = searchParent(c);
+					
+					TreeNode parent  = info.parent;
+					
+					if (delNode.getLeftNode() != null)
+					{
+						newNode = delNode.getLeftNode();
+					
+						newNode.setRightNode(delNode.getRightNode());
+					}
+					else if (delNode.getRightNode() != null)
+					{
+						newNode = delNode.getRightNode();
+						
+						while (newNode.getLeftNode() == null)
+						{
+							if (newNode.getRightNode() != null)
+							{
+								newNode = newNode.getRightNode();
+							}
+							else
+							{
+								break;
+							}
+						}
+						
+						if (newNode.getLeftNode() != null)
+						{
+							TreeNode temp = newNode;
+							
+							newNode = newNode.getLeftNode();
+	
+							temp.setLeftNode(null);
+							
+							newNode.setRightNode(temp);
+						}
+						else
+						{
+							
+						}
+					}
+					
+					if (info.direction == ChildInfo.RIGHT)
+					{
+						parent.setRightNode(newNode);
+					}
+					else
+					{
+						parent.setLeftNode(newNode);
+					}
+				}
+								
 				return true;
 			}
 			else

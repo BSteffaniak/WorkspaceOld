@@ -1,0 +1,264 @@
+package net.foxycorndog.jfoxylib;
+
+import static org.lwjgl.opengl.GL11.GL_ALPHA_TEST;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
+import static org.lwjgl.opengl.GL11.GL_GREATER;
+import static org.lwjgl.opengl.GL11.GL_LEQUAL;
+import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
+import static org.lwjgl.opengl.GL11.GL_MODULATE;
+import static org.lwjgl.opengl.GL11.GL_NICEST;
+import static org.lwjgl.opengl.GL11.GL_ONE;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_PERSPECTIVE_CORRECTION_HINT;
+import static org.lwjgl.opengl.GL11.GL_PROJECTION;
+import static org.lwjgl.opengl.GL11.GL_REPEAT;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_ENV;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_ENV_MODE;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_S;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_T;
+import static org.lwjgl.opengl.GL11.glAlphaFunc;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glClearColor;
+import static org.lwjgl.opengl.GL11.glClearDepth;
+import static org.lwjgl.opengl.GL11.glDepthFunc;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glHint;
+import static org.lwjgl.opengl.GL11.glLoadIdentity;
+import static org.lwjgl.opengl.GL11.glMatrixMode;
+import static org.lwjgl.opengl.GL11.glOrtho;
+import static org.lwjgl.opengl.GL11.glPixelStorei;
+import static org.lwjgl.opengl.GL11.glTexEnvi;
+import static org.lwjgl.opengl.GL11.glTexParameteri;
+import static org.lwjgl.opengl.GL11.glViewport;
+import static org.lwjgl.util.glu.GLU.gluPerspective;
+
+import net.foxycorndog.jfoxylib.graphics.Texture;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.opengl.GLCanvas;
+import org.eclipse.swt.opengl.GLData;
+import org.eclipse.swt.widgets.Composite;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 15, 2013 at 11:43:44 PM
+ * @since	v0.1
+ * @version	v0.1
+ */
+public class GL
+{
+	private static boolean inited;
+	
+	private static float zClose, zFar;
+	private static float FOV;
+	
+	public static final int	POINTS = GL11.GL_POINTS, LINES = GL11.GL_LINES, TRIANGLES = GL11.GL_TRIANGLES, QUADS = GL11.GL_QUADS;
+	
+	public static void init()
+	{
+		if (inited)
+		{
+			return;
+		}
+		
+		inited = true;
+		
+		String paths[] = System.getProperty("java.class.path").split(";");
+		
+		String nativeLocation = null;
+		
+		for (int i = 0; i < paths.length; i++)
+		{
+			// TODO: Make more strict...
+			if (paths[i].contains("JFoxyLib"))
+			{
+				String fileSep = System.getProperty("file.separator");
+				StringBuilder builder = new StringBuilder();
+				builder.append(paths[i].replace("\\", "/"));//.substring(0, paths[i].length() - 4);
+				
+				if (builder.indexOf("/bin") >= builder.length() - 4)
+				{
+					builder.delete(builder.length() - 4, builder.length());
+					
+					nativeLocation = builder + "/native/windows/";
+				}
+			}
+		}
+		
+		System.setProperty("org.lwjgl.librarypath", nativeLocation);
+	}
+	
+	public static void initOrtho(int width, int height)
+	{
+		glEnable(GL_TEXTURE_2D);
+		
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.1f); 
+		
+		glEnable(GL_DEPTH_TEST);
+		
+		glClearColor(0.0f, 0.3f, 0.6f, 0.0f); // Blue Background
+		
+		glViewport(0, 0, width, height);
+		glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
+		glLoadIdentity(); // Reset The Projection Matrix
+
+		// Calculate The Aspect Ratio Of The Window
+		glOrtho(0, width, 0, height, -99999, 99999);
+		glMatrixMode(GL_MODELVIEW); // Select The Modelview Matrix
+	}
+	
+	public static void initPerspective(int width, int height)
+	{
+		glEnable(GL11.GL_TEXTURE_2D);
+		
+//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		
+//		glEnable(GL_TEXTURE_2D);
+		
+		glEnable(GL_CULL_FACE);
+		
+//		glShadeModel(GL_SMOOTH); // Enable Smooth Shading
+		glClearColor(0.0f, 0.3f, 0.6f, 0.0f); // Blue Background
+		glClearDepth(1.0); // Depth Buffer Setup
+		glEnable(GL_DEPTH_TEST); // Enables Depth Testing
+		glDepthFunc(GL_LEQUAL); // The Type Of Depth Testing To Do
+		
+		glViewport(0, 0, Display.getWidth(), Display.getHeight());
+		glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
+		glLoadIdentity(); // Reset The Projection Matrix
+		
+		FOV = 55.0f;
+
+		// Calculate The Aspect Ratio Of The Window
+		gluPerspective(FOV, (float)Display.getWidth() / (float)Display.getHeight(), zClose, zFar);
+//		glOrtho(1, 1, 1, 1, -1, 1);
+		glMatrixMode(GL_MODELVIEW); // Select The Modelview Matrix
+
+		// Really Nice Perspective Calculations
+		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+		
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);//GL_DECAL);
+	}
+	
+	public static void rotate(float x, float y, float z)
+	{
+		GL11.glRotatef(x, 1, 0, 0);
+		GL11.glRotatef(y, 0, 1, 0);
+		GL11.glRotatef(z, 0, 0, 1);
+	}
+	
+	public static void translate(float x, float y, float z)
+	{
+		GL11.glTranslatef(x, y, z);
+	}
+	
+	public static void drawRect(int x, int y, int width, int height)
+	{
+		GL11.glBegin(GL11.GL_QUADS);
+		{
+			GL11.glVertex2f(x, y);
+			GL11.glVertex2f(x + width, y);
+			GL11.glVertex2f(x + width, y + height);
+			GL11.glVertex2f(x, y + height);
+		}
+		GL11.glEnd();
+	}
+	
+	public static void drawRect(int x, int y, int width, int height, Texture texture)
+	{
+		texture.bind();
+		float offsets[] = texture.getImageOffsetsf();
+		
+		GL11.glBegin(GL11.GL_QUADS);
+		{
+			GL11.glVertex2f(x, y);
+			GL11.glTexCoord2f(offsets[0], offsets[1]);
+			GL11.glVertex2f(x + width, y);
+			GL11.glTexCoord2f(offsets[0], offsets[3]);
+			GL11.glVertex2f(x + width, y + height);
+			GL11.glTexCoord2f(offsets[2], offsets[3]);
+			GL11.glVertex2f(x, y + height);
+			GL11.glTexCoord2f(offsets[2], offsets[1]);
+		}
+		GL11.glEnd();
+	}
+	
+	public static void resetMatrix()
+	{
+		GL11.glLoadIdentity();
+	}
+	
+//	public static void initBasicView(float zClose, float zFar)
+//	{
+//		glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+//		
+//		GL.zClose = zClose;
+//		GL.zFar   = zFar;
+//		
+//		glEnable(GL_BLEND);
+//		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//		
+//		if (render3D)
+//		{
+//			glEnable(GL11.GL_TEXTURE_2D);
+//			
+//			glEnable(GL_CULL_FACE);
+//			
+//			glClearColor(0.0f, 0.3f, 0.6f, 0.0f); // Blue Background
+//			glClearDepth(1.0); // Depth Buffer Setup
+//			glEnable(GL_DEPTH_TEST); // Enables Depth Testing
+//			glDepthFunc(GL_LEQUAL); // The Type Of Depth Testing To Do
+//			
+//			glViewport(0, 0, Display.getWidth(), Display.getHeight());
+//			glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
+//			glLoadIdentity(); // Reset The Projection Matrix
+//			
+//			FOV = 55.0f;
+//
+//			// Calculate The Aspect Ratio Of The Window
+//			gluPerspective(FOV, (float)Display.getWidth() / (float)Display.getHeight(), zClose, zFar);
+//			glMatrixMode(GL_MODELVIEW);
+//
+//			// Really Nice Perspective Calculations
+//			glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+//			
+//			glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+//		}
+//		else
+//		{
+//			glEnable(GL_TEXTURE_2D);
+//			
+//			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+//			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+//			
+//			glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+//			
+//			glEnable(GL_BLEND);
+//			glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+//			
+//			glEnable(GL_ALPHA_TEST);
+//			glAlphaFunc(GL_GREATER, 0.1f); 
+//			
+//			glEnable(GL_DEPTH_TEST);
+//			
+//			glClearColor(0.0f, 0.3f, 0.6f, 0.0f); // Blue Background
+//		}
+//	}
+}

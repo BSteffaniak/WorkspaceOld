@@ -1,0 +1,33 @@
+package net.foxycorndog.jfoxylib.bundle;
+
+import java.nio.FloatBuffer;
+
+import org.lwjgl.BufferUtils;
+
+public class Buffer
+{
+	private FloatBuffer buffer;
+	
+	public Buffer(int size)
+	{
+		buffer = BufferUtils.createFloatBuffer(size);
+	}
+	
+	public void setData(int index, float data)
+	{
+		buffer.position(index);
+	
+		buffer.put(data);
+		
+		buffer.rewind();
+	}
+	
+	public void setData(int index, float data[])
+	{
+		buffer.position(index);
+	
+		buffer.put(data);
+		
+		buffer.rewind();
+	}
+}

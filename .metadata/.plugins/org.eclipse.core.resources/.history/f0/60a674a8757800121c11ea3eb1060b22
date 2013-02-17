@@ -1,0 +1,7 @@
+package net.foxycorndog.jfoxylib.listeners;
+
+public interface MoveListener
+{
+	public void startedMoving(MoveEvent event);
+	public void stoppedMoving(MoveEvent event);
+}

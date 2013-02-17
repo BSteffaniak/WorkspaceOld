@@ -1,0 +1,71 @@
+import net.foxycorndog.jfoxylib.GL;
+import net.foxycorndog.jfoxylib.GameEntry;
+import net.foxycorndog.jfoxylib.components.GLPanel;
+import net.foxycorndog.jfoxylib.components.Window;
+
+public class Game extends GameEntry
+{
+	private GLPanel	panel;
+	
+	private Window	window;
+	
+	public static void main(String args[])
+	{
+		new Game();
+		
+		System.out.println("done.");
+	}
+	
+	public Game()
+	{
+		window = new Window();
+		window.setSize(800, 600);
+		window.setResizable(true);
+		window.setMaximizable(true);
+		
+		window.open();
+		
+		setMainFrame(window);
+		
+		startGame();
+		
+		start();
+	}
+	
+	public void startGame()
+	{
+		createGame();
+	}
+	
+	public void createGame()
+	{
+		panel = new GLPanel(window.getContentPanel())
+		{
+			float rot = 0;
+			
+			public void init()
+			{
+				
+			}
+			
+			public void render2D()
+			{
+			}
+			
+			public void render3D()
+			{
+				GL.rotate(0, 0, rot++);
+				GL.drawRect(0, 0, 100, 100);
+				
+			}
+		};
+		
+		panel.setSize(window.getContentPanel().getWidth(), window.getContentPanel().getHeight());
+		panel.setFrame(window);
+	}
+
+	public void loop()
+	{
+		
+	}
+}

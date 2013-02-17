@@ -11,6 +11,14 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 15, 2013 at 11:45:27 PM
+ * @since	v0.1
+ * @version	v0.1
+ */
 public class Button extends Component
 {
 	private String		text;
@@ -21,8 +29,10 @@ public class Button extends Component
 	
 	private ArrayList<ButtonListener>	buttonListeners;
 	
-	public Button()
+	public Button(Panel parent)
 	{
+		super(parent);
+		
 		buttonListeners = new ArrayList<ButtonListener>();
 		
 		final Button thisButton = this;
@@ -42,28 +52,21 @@ public class Button extends Component
 				}
 			}
 		};
+		
+		label = new Label(parent.getComposite(), SWT.NONE);
+		
+		label.setLocation(getX(), getY());
+		label.setSize(getWidth(), getHeight());
+		
+		label.addListener(SWT.MouseUp, listener);
+		
+		setControl(label);
 	}
 	
 	public void setText(String text)
 	{
 		this.text = text;
-	}
-	
-	public void addTo(Panel panel)
-	{
-		super.addTo(panel);
-		System.out.println(getX() + ", " + getY());
-		if (label == null)
-		{
-			label = new Label(panel.getComposite(), SWT.NONE);
-			label.setText(text);
-			label.setLocation(getX(), getY());
-			label.setSize(getWidth(), getHeight());
-			
-			label.addListener(SWT.MouseUp, listener);
-		}
-		
-		
+		label.setText(text);
 	}
 	
 	public void addButtonListener(ButtonListener listener)

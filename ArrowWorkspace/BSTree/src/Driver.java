@@ -23,9 +23,20 @@ public class Driver
 		t.add("Alfred");
 		t.add("Al");
 		t.add("Fred");
+		t.add("Greg");
+		t.add("Lyle");
+		t.add("Kyle");
 		
 		System.out.println("Done: " + t);
-		System.out.println(t.remove("Joe"));
+		System.out.println(t.remove("Bill"));
+		
+//		t.add("a");
+//		t.add("b");
+//		t.add("c");
+//		t.add("d");
+//		t.add("e");
+//		t.add("f");
+//		t.add("g");
 		
 		System.out.println("Done: " + t);
 	}

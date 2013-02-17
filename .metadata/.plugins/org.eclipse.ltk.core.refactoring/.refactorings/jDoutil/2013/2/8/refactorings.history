@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy package &apos;net.foxycorndog.jdoutil.network&apos; to &apos;JFoxyLib/src&apos;&#x0D;&#x0A;- Original project: &apos;jDoutil&apos;&#x0D;&#x0A;- Destination element: &apos;JFoxyLib/src&apos;&#x0D;&#x0A;- Original element: &apos;jDoutil/src/net.foxycorndog.jdoutil.network&apos;" description="Copy package" destination="=JFoxyLib/src" element1="/src&lt;net.foxycorndog.jdoutil.network" flags="589830" fragments="1" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyPackages" stamp="1361062692351" version="1.0"/>
+</session>

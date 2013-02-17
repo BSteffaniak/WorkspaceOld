@@ -1,0 +1,33 @@
+package net.foxycorndog.jfoxylib.graphics.pixel;
+
+import org.eclipse.swt.SWT;
+
+import net.foxycorndog.jfoxylib.components.Image;
+import net.foxycorndog.jfoxylib.components.Label;
+import net.foxycorndog.jfoxylib.components.Panel;
+
+public class PixelPanel extends Panel
+{
+	private Label image;
+	
+	public PixelPanel(Panel parent)
+	{
+		super(parent);
+		
+		image = new Label(parent);
+		
+		Image img = new Image("res/images/stone.png");
+		img.setSize(parent.getWidth(), parent.getHeight());
+		
+		long before = System.currentTimeMillis();
+		for (int i = 0; i < 60; i++)
+		{
+			img.updatePixels();
+		}
+		
+		System.out.println(System.currentTimeMillis() - before);
+		
+		image.setImage(img);
+		image.setSize(img.getWidth(), img.getHeight());
+	}
+}

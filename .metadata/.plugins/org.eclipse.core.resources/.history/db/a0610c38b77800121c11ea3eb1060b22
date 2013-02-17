@@ -1,0 +1,45 @@
+package net.foxycorndog.jfoxylib.components;
+
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.widgets.Display;
+
+public class Image
+{
+	private org.eclipse.swt.graphics.Image image;
+	
+	public Image()
+	{
+		
+	}
+	
+	public Image(String location)
+	{
+		image = new org.eclipse.swt.graphics.Image(Display.getDefault(), location);
+		
+		setSize(image.getBounds().width, image.getBounds().height);
+	}
+	
+	public org.eclipse.swt.graphics.Image getImage()
+	{
+		for (int i = 0; i < 100; i++)
+		{
+			image.getImageData().data[i] = 0;
+		}
+		
+		return image;
+	}
+	
+	public void setSize(int width, int height)
+	{
+		if (image == null)
+		{
+			image = new org.eclipse.swt.graphics.Image(Display.getDefault(), width, height);
+		}
+		else
+		{
+			ImageData data = image.getImageData();
+			
+			image = new org.eclipse.swt.graphics.Image(Display.getDefault(), width, height);
+		}
+	}
+}

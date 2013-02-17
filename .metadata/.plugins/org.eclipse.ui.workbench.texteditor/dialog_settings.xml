@@ -3,33 +3,33 @@
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="257" key="DIALOG_WIDTH"/>
 		<item value="424" key="DIALOG_Y_ORIGIN"/>
-		<item value="380" key="DIALOG_HEIGHT"/>
 		<item value="645" key="DIALOG_X_ORIGIN"/>
+		<item value="380" key="DIALOG_HEIGHT"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="isRegEx"/>
 		<item value="true" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="openFil" key="selection"/>
+		<item value="" key="selection"/>
 		<list key="findhistory">
+			<item value="offset + "/>
+			<item value="Color"/>
+			<item value="color"/>
 			<item value="openFil"/>
 			<item value=" new Type("/>
 			<item value="tab"/>
 			<item value="tabSelet"/>
 			<item value="tabSeleted"/>
-			<item value="tabSele"/>
-			<item value="NullPointerException"/>
-			<item value="System.out.println(&quot;as"/>
 		</list>
 		<list key="replacehistory">
+			<item value=""/>
 			<item value=" "/>
 			<item value="PythonLanguage"/>
 			<item value="PYTHON"/>
 			<item value=");"/>
-			<item value=""/>
 			<item value="METHOD"/>
 			<item value="method"/>
 			<item value="PHP"/>

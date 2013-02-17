@@ -1,0 +1,13 @@
+package net.foxycorndog.jfoxylib.graphics;
+
+public class Texture
+{
+	private int id;
+	
+	
+	
+	public int getId()
+	{
+		return id;
+	}
+}

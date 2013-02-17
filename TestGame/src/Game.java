@@ -1,15 +1,39 @@
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import net.foxycorndog.jfoxylib.GL;
 import net.foxycorndog.jfoxylib.GameEntry;
+import net.foxycorndog.jfoxylib.bundle.Bundle;
 import net.foxycorndog.jfoxylib.components.Button;
 import net.foxycorndog.jfoxylib.components.Component;
+import net.foxycorndog.jfoxylib.components.GLPanel;
 import net.foxycorndog.jfoxylib.components.Window;
 import net.foxycorndog.jfoxylib.events.ButtonEvent;
+import net.foxycorndog.jfoxylib.graphics.Texture;
 import net.foxycorndog.jfoxylib.listeners.ButtonListener;
 
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 15, 2013 at 11:45:08 PM
+ * @since	v1.0
+ * @version	v1.0
+ */
 public class Game extends GameEntry
 {
-	private Window window;
+	private Texture	stone;
 	
-	private Button play;
+	private Bundle	crazyStuff;
+	
+	private Button	play;
+	
+	private GLPanel	panel;
+	
+	private Window	window;
 	
 	public static void main(String args[])
 	{
@@ -21,15 +45,13 @@ public class Game extends GameEntry
 	public Game()
 	{
 		window = new Window();
-		window.setSize(800, 600);
 		window.setMaximizable(true);
 		window.setResizable(true);
+		window.setSize(800, 600);
 		
 		createMainMenu();
 		
 		window.open();
-		
-		final Game c = this;
 		
 		setMainFrame(window);
 		
@@ -38,24 +60,107 @@ public class Game extends GameEntry
 	
 	private void createMainMenu()
 	{
-		play = new Button();
+		play = new Button(window.getContentPanel());
 		play.setText("Play Now!");
 		play.setAlignment(Component.CENTER, Component.CENTER);
 		play.setLocation(0, 0);
 		play.setSize(100, 25);
-		play.addTo(window);
 		play.addButtonListener(new ButtonListener()
 		{
 			public void buttonPressed(ButtonEvent event)
 			{
-				System.out.println("clicked");
+				play.setVisible(false);
+				startGame();
 			}
 		});
+	}
+	
+	private void createGame()
+	{
+		BufferedImage image = null;
 		
+		try
+		{
+			image = ImageIO.read(new File("res/images/background.png"));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		stone = new Texture(image);
+		
+		crazyStuff = new Bundle(4, 2);
+		
+		crazyStuff.getVerticesBuffer().setData(0,
+				new float[]
+				{
+					0, 0,
+					100, 0,
+					100, 100,
+					0, 100
+				});
+		
+
+		float offsets[] = stone.getImageOffsetsf();
+		
+		crazyStuff.getTexturesBuffer().setData(0,
+				new float[]
+				{
+					offsets[0], offsets[1],
+					offsets[2], offsets[1],
+					offsets[2], offsets[3],
+					offsets[0], offsets[3],
+				});
+	}
+	
+	public void startGame()
+	{
+		panel = new GLPanel(window.getContentPanel())
+		{
+			float rot = 0;
+			
+			public void init()
+			{
+				createGame();
+			}
+			
+			public void render2D()
+			{
+				GL.translate(window.getContentPanel().getWidth() / 2, window.getContentPanel().getHeight() / 2, 0);
+				
+				crazyStuff.render(GL.QUADS, stone);
+				
+				for (int y = 0; y < 100; y++)
+				{
+					GL.translate(0, 5, 0);
+					GL.rotate(0, 0, rot);
+					
+					for (int x = 0; x < 100; x++)
+					{
+						GL.translate(5, 0, 0);
+						crazyStuff.render(GL.QUADS, stone);
+					}
+					
+					GL.translate(-100 * 5, 0, 0);
+				}
+				
+				rot += 0.05;
+			}
+			
+			public void render3D()
+			{
+				
+			}
+		};
+		
+		panel.setSize(window.getContentPanel().getWidth(), window.getContentPanel().getHeight());
+		
+		panel.setFrame(window);
 	}
 	
 	public void loop()
 	{
-//		stop();
+		
 	}
 }

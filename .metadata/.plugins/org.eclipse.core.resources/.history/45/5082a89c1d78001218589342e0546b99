@@ -1,0 +1,38 @@
+package net.foxycorndog.jfoxylib.bundle;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 16, 2013 at 3:23:29 AM
+ * @since	v0.1
+ * @version	v0.1
+ */
+public class Bundle
+{
+	private int		size;
+	
+	private Buffer	verticesBuffer;
+	
+	public Bundle(int numVertices)
+	{
+		size   = numVertices;
+		
+		verticesBuffer = new Buffer(size);
+	}
+	
+	public Buffer getVerticesBuffer()
+	{
+		return verticesBuffer;
+	}
+	
+	public void setVerticesBuffer(Buffer buffer)
+	{
+		this.verticesBuffer = buffer;
+	}
+	
+	public String toString()
+	{
+		return verticesBuffer.toString();
+	}
+}

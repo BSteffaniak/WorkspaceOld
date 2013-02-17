@@ -1,0 +1,124 @@
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import net.foxycorndog.jfoxylib.GL;
+import net.foxycorndog.jfoxylib.GameEntry;
+import net.foxycorndog.jfoxylib.components.Button;
+import net.foxycorndog.jfoxylib.components.Component;
+import net.foxycorndog.jfoxylib.components.GLPanel;
+import net.foxycorndog.jfoxylib.components.Window;
+import net.foxycorndog.jfoxylib.events.ButtonEvent;
+import net.foxycorndog.jfoxylib.graphics.Texture;
+import net.foxycorndog.jfoxylib.listeners.ButtonListener;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 15, 2013 at 11:45:08 PM
+ * @since	v1.0
+ * @version	v1.0
+ */
+public class Game extends GameEntry
+{
+	private Texture	stone;
+	
+	private Button	play;
+	
+	private GLPanel	panel;
+	
+	private Window	window;
+	
+	public static void main(String args[])
+	{
+		new Game();
+		
+		System.out.println("done");
+	}
+	
+	public Game()
+	{
+		window = new Window();
+		window.setMaximizable(true);
+		window.setResizable(true);
+		window.setSize(800, 600);
+		
+		createMainMenu();
+		
+		window.open();
+		
+		final Game c = this;
+		
+		setMainFrame(window);
+		
+		start();
+	}
+	
+	private void createMainMenu()
+	{
+		play = new Button(window.getContentPanel());
+		play.setText("Play Now!");
+		play.setAlignment(Component.CENTER, Component.CENTER);
+		play.setLocation(0, 0);
+		play.setSize(100, 25);
+		play.addButtonListener(new ButtonListener()
+		{
+			public void buttonPressed(ButtonEvent event)
+			{
+				play.setVisible(false);
+				startGame();
+			}
+		});
+	}
+	
+	private void createGame()
+	{
+		BufferedImage image = null;
+		
+		try
+		{
+			image = ImageIO.read(new File("res/images/background.png"));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		stone = new Texture(image);
+	}
+	
+	public void startGame()
+	{
+		panel = new GLPanel(window.getContentPanel())
+		{
+			int rot = 0;
+			
+			public void init()
+			{
+				createGame();
+			}
+			
+			public void render2D()
+			{
+				GL.translate(100, 100, 0);
+				GL.rotate(0, 0, rot++);
+				GL.drawRect(0, 0, 100, 100, stone);
+			}
+			
+			public void render3D()
+			{
+				
+			}
+		};
+		
+		panel.setSize(window.getContentPanel().getWidth(), window.getContentPanel().getHeight());
+	}
+	
+	public void loop()
+	{
+//		stop();
+	}
+}
