@@ -1,0 +1,13 @@
+package net.foxycorndog.jfoxylib.input;
+
+import static org.lwjgl.input.Mouse.*;
+
+public class Mouse
+{
+	private static org.lwjgl.input.Mouse mouse;
+	
+	public static int getDX()
+	{
+		return mouse.getButtonCount();
+	}
+}

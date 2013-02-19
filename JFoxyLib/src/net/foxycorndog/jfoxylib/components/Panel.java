@@ -68,8 +68,11 @@ public class Panel extends Component
 	public void setLocation(int x, int y)
 	{
 		super.setLocation(x, y);
-		
-		composite.setLocation(x, y);
+
+		if (this instanceof Frame == false)
+		{
+			composite.setLocation(x, y);
+		}
 	}
 	
 //	public void add(Component component)

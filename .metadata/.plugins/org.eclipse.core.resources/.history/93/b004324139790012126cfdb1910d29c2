@@ -1,0 +1,16 @@
+package net.foxycorndog.jfoxylib.graphics;
+
+import java.awt.image.BufferedImage;
+
+public class SpriteSheet extends Texture
+{
+	private int	cols, rows;
+	
+	public SpriteSheet(BufferedImage image, int cols, int rows)
+	{
+		super(image);
+		
+		this.cols = cols;
+		this.rows = rows;
+	}
+}

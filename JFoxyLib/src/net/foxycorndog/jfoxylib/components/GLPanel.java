@@ -1,7 +1,10 @@
 package net.foxycorndog.jfoxylib.components;
 
-import net.foxycorndog.jfoxylib.GL;
+import net.foxycorndog.jfoxylib.GameEntry;
 import net.foxycorndog.jfoxylib.events.MoveEvent;
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+import net.foxycorndog.jfoxylib.input.Keyboard;
+import net.foxycorndog.jfoxylib.input.Mouse;
 import net.foxycorndog.jfoxylib.listeners.MoveListener;
 
 import org.eclipse.swt.SWT;
@@ -76,7 +79,7 @@ public abstract class GLPanel extends Panel
 				if (render)
 				{
 					GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-					GL11.glLoadIdentity();
+					GL.resetMatrix();
 					
 //					GL.initOrtho(getWidth(), getHeight());
 //					render2D();
@@ -91,12 +94,14 @@ public abstract class GLPanel extends Panel
 					
 					GL.resetMatrix();
 					GL.initOrtho(getWidth(), getHeight());
-					GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
-					{
+//					GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
+//					{
 						GL11.glDisable(GL11.GL_LIGHTING);
 						render2D();
-					}
-					GL11.glPopAttrib();
+//					}
+//					GL11.glPopAttrib();
+					
+					loop();
 					
 					dfps++;
 					
@@ -109,6 +114,8 @@ public abstract class GLPanel extends Panel
 					}
 					
 					canvas.swapBuffers();
+					Mouse.update();
+					Keyboard.update();
 				}
 //				else
 //				{
@@ -117,6 +124,8 @@ public abstract class GLPanel extends Panel
 //						render = true;
 //					}
 //				}
+				
+				GameEntry.notifyGameListeners();
 				
 				display.asyncExec(this);
 			}
@@ -183,6 +192,7 @@ public abstract class GLPanel extends Panel
 		frame.addMoveListener(moveListener);
 	}
 
+	public abstract void loop();
 	public abstract void init();
 	public abstract void render2D();
 	public abstract void render3D();

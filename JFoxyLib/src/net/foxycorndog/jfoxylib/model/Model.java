@@ -208,9 +208,14 @@ public class Model
 		return newNormals;
 	}
 	
-	public int verticesAmount()
+	public int getVerticesAmount()
 	{
 		return vertices.length / 3;
+	}
+	
+	public int getSize()
+	{
+		return vertices.length;
 	}
 	
 	public float[] getVertices()

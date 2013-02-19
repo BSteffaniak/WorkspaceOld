@@ -1,0 +1,85 @@
+package net.foxycorndog.jfoxylib.input;
+
+import static org.lwjgl.input.Mouse.*;
+
+import java.awt.MouseInfo;
+import java.awt.PointerInfo;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.lwjgl.LWJGLException;
+
+public class Mouse
+{
+	private static boolean		pressed[], next[];
+	
+	private static int			oldX, oldY;
+	
+	private static PointerInfo	pointerInfo;
+	
+	static
+	{
+		pressed = new boolean[MouseInfo.getNumberOfButtons()];
+		
+		next = new boolean[pressed.length];
+		
+		pointerInfo = MouseInfo.getPointerInfo();
+		
+		Listener listener = new Listener()
+		{
+			public void handleEvent(Event event)
+			{
+				if (event.type == SWT.MouseDown)
+				{
+					pressed[event.button - 1] = true;
+				}
+				else if (event.type == SWT.MouseUp)
+				{
+					pressed[event.button - 1] = false;
+				}
+			}
+		};
+		
+		Display.getDefault().addFilter(SWT.MouseDown, listener);
+		Display.getDefault().addFilter(SWT.MouseUp, listener);
+		
+		update();
+	}
+	
+	public static boolean buttonPressed(int buttonId)
+	{
+		return pressed[buttonId];
+	}
+	
+	public static int getDX()
+	{
+		return pointerInfo.getLocation().x - oldX;
+	}
+	
+	public static int getDY()
+	{
+		return pointerInfo.getLocation().y - oldY;
+	}
+	
+	public static void update()
+	{
+		oldX = pointerInfo.getLocation().x;
+		oldY = pointerInfo.getLocation().y;
+		
+		pointerInfo = MouseInfo.getPointerInfo();
+		
+		for (int i = 0; i < pressed.length; i ++)
+		{
+			if (!pressed[i])
+			{
+				next[i] = true;
+			}
+			else
+			{
+				next[i] = false;
+			}
+		}
+	}
+}

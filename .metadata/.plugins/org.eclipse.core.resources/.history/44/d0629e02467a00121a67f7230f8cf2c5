@@ -1,0 +1,11 @@
+package net.foxycorndog.jfoxylib.input;
+
+public class Keyboard
+{
+	public static final int Q = 'q';
+	
+	public static boolean keyPressed(int code)
+	{
+		return false;
+	}
+}

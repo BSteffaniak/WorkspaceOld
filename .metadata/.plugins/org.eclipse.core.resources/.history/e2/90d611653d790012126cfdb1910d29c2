@@ -1,0 +1,452 @@
+package net.foxycorndog.jfoxylib.font;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import net.foxycorndog.jfoxylib.GL;
+import net.foxycorndog.jfoxylib.bundle.Buffer;
+import net.foxycorndog.jfoxylib.bundle.Bundle;
+import net.foxycorndog.jfoxylib.components.Panel;
+import net.foxycorndog.jfoxylib.graphics.SpriteSheet;
+
+import org.lwjgl.opengl.GL11;
+
+public class Font
+{
+	private int cols, rows;
+	private int yOff, xOff;
+	private int width, height;
+	private int glyphWidth, glyphHeight;
+	private int ids;
+	private int letterMargin;
+	
+	private SpriteSheet characters;
+	
+	private int idArray[][];
+	
+	private HashMap<Character, int[]> charSequence;
+	private HashMap<String, int[]>  history;
+	
+	public static final int LEFT = 0, CENTER = 1, RIGHT = 2, TOP = 2, BOTTOM = 0;
+	
+	public Font(String location, int cols, int rows, char charSequence[])
+	{
+		this.cols         = cols;
+		this.rows         = rows;
+		this.xOff         = xOff;
+		this.yOff         = yOff;
+		
+		try
+		{
+			characters        = new SpriteSheet(location, cols, rows);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		this.width        = characters.getWidth();
+		this.height       = characters.getHeight();
+		
+		this.glyphWidth   = width / cols;
+		this.glyphHeight  = height / rows;
+		
+		this.charSequence = new HashMap<Character, int[]>();
+		this.history      = new HashMap<String, int[]>();
+		
+		this.idArray      = new int[100][];
+		
+		for (int y = 0; y < rows; y ++)
+		{
+			for (int x = 0; x < cols; x ++)
+			{
+				if (x + y * cols >= charSequence.length)
+				{
+					break;
+				}
+				
+				this.charSequence.put(charSequence[x + y * cols], new int[] { x, y });
+			}
+		}
+	}
+	
+	public void render(String text, float x, float y, float z, Panel panel)
+	{
+		render(text, x, y, z, 1, panel);
+	}
+	
+	public void render(String text, float x, float y, float z, float scale, Panel panel)
+	{
+		render(text, x, y, z, scale, LEFT, BOTTOM, panel);
+	}
+	
+	public void render(String text, float x, float y, float z, int horizontalAlignment, int verticalAlignment, Panel panel)
+	{
+		render(text, x, y, z, 1, horizontalAlignment, verticalAlignment, panel);
+	}
+	
+	public void render(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, Panel panel)
+	{
+		renderVertexBuffer(text, x, y, z, scale, horizontalAlignment, verticalAlignment, panel);
+	}
+	
+	public void renderVertexBuffer(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, Panel panel)
+	{
+		renderVertexBuffer(text, x, y, z, scale, horizontalAlignment, verticalAlignment, null, null, panel);
+	}
+	
+	private void renderVertexBuffer(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, Buffer vertices, Buffer textures, Panel panel)
+	{
+		int vId  = 0;
+		int tId  = 0;
+		int viId = 0;
+		
+		Bundle bundle = null;
+		
+		if (history.containsKey(text) && history.get(text)[1] == 1)
+		{
+			if (horizontalAlignment == CENTER)
+			{
+				x += panel.getWidth() / 2;
+				x -= text.length() * scale * glyphWidth / 2;
+			}
+			else if (horizontalAlignment == RIGHT)
+			{
+				x += panel.getWidth();
+				x -= text.length() * scale * glyphWidth;
+			}
+			if (verticalAlignment == CENTER)
+			{
+				y += panel.getHeight() / 2;
+				y -= glyphHeight * scale / 2;
+			}
+			else if (verticalAlignment == TOP)
+			{
+				y += panel.getHeight();
+				y -= glyphHeight * scale;
+			}
+			
+			vId  = history.get(text)[2];
+			tId  = history.get(text)[3];
+			viId = history.get(text)[4];
+		}
+		else
+		{
+			if (vertices == null && textures == null)
+ 			{
+				vertices = new Buffer(text.length() * 4 * 2);
+				textures = new Buffer(text.length() * 4 * 2);
+			}
+			else if (vertices != null || textures != null)
+			{
+				throw new IllegalArgumentException("Vertices and textures must either both be null or both have a value.");
+			}
+			
+			char chars[]            = text.toCharArray();
+			
+			for (int i = 0; i < chars.length; i ++)
+			{
+				if (chars[i] == '\n')
+				{
+					renderVertexBuffer(text.substring(0, i), x, y /*+ ((glyphHeight + 1) / 2) * scale*/ , z, scale, horizontalAlignment, verticalAlignment, vertices, textures, panel);
+					renderVertexBuffer(text.substring(i + 1), x, y - (glyphHeight + 1) * scale/*((glyphHeight + 1) / 2) * scale*/, z, scale, horizontalAlignment, verticalAlignment, vertices, textures, panel);
+					
+					addToHistory(text, vId, tId, viId, vertices, textures, null);
+					
+					return;
+				}
+			}
+			
+			if (horizontalAlignment == CENTER)
+			{
+				x += panel.getWidth() / 2;
+				x -= text.length() * scale * glyphWidth / 2;
+			}
+			else if (horizontalAlignment == RIGHT)
+			{
+				x += panel.getWidth();
+				x -= text.length() * scale * glyphWidth;
+			}
+			if (verticalAlignment == CENTER)
+			{
+				y += panel.getHeight() / 2;
+				y -= glyphHeight * scale / 2;
+			}
+			else if (verticalAlignment == TOP)
+			{
+				y += panel.getHeight();
+				y -= glyphHeight * scale;
+			}
+			
+			for (int i = 0; i < chars.length; i ++)
+			{
+				try
+				{
+					int charX       = charSequence.get(chars[i])[0];
+					int charY       = charSequence.get(chars[i])[1];
+					
+					float offsets[] = characters.getImageOffsetsf(charX, charY, 1, 1);
+					
+					vertices.setData(i * 4 * 2, GL.genRectVerts(i * glyphWidth + (letterMargin * i), 0, glyphWidth, glyphHeight));
+					textures.setData(i * 4 * 2, GL.genRectTextures(offsets));
+				}
+				catch (NullPointerException e)
+				{
+					if (chars[i] == ' ')
+					{
+						
+					}
+					else
+					{
+						addToHistory(text, vId, tId, viId, vertices, textures, null);
+						
+						return;
+					}
+				}
+			}
+			
+//			vertices.genIndices(GL.QUADS, null);
+			
+			vId  = vertices.getId();
+			tId  = textures.getId();
+//			viId = vertices.getIndicesId(0);
+			
+			addToHistory(text, vId, tId, viId, vertices, textures, null);
+		}
+		
+		bundle = new Bundle(vId, tId, 2);
+		
+		GL.pushMatrix();
+		{
+			GL.translate(x, y, z);
+			GL.scale(scale, scale, 1);
+			
+			bundle.render(GL.QUADS, characters);
+		}
+		GL.popMatrix();
+	}
+	
+	public void renderDisplayList(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, Panel panel)
+	{
+		characters.bind();
+		
+		int id = 0;
+		
+		if (history.containsKey(text) && history.get(text)[1] == 0)
+		{
+			if (horizontalAlignment == CENTER)
+			{
+				x += panel.getWidth() / 2;
+				x -= text.length() * scale * glyphWidth / 2;
+			}
+			else if (horizontalAlignment == RIGHT)
+			{
+				x += panel.getWidth();
+				x -= text.length() * scale * glyphWidth;
+			}
+			if (verticalAlignment == CENTER)
+			{
+				y += panel.getHeight() / 2;
+				y -= glyphHeight * scale / 2;
+			}
+			else if (verticalAlignment == TOP)
+			{
+				y += panel.getHeight();
+				y -= glyphHeight * scale;
+			}
+			
+			id = history.get(text)[2];
+		}
+		else
+		{
+			id = GL11.glGenLists(1);
+			
+			GL11.glNewList(id, GL11.GL_COMPILE);
+			{
+				char chars[] = text.toCharArray();
+				
+				for (int i = 0; i < chars.length; i ++)
+				{
+					if (chars[i] == '\n')
+					{
+						renderDisplayList(text.substring(0, i), x, y /*+ ((glyphHeight + 1) / 2) * scale*/ , z, scale, horizontalAlignment, verticalAlignment, panel);
+						renderDisplayList(text.substring(i + 1), x, y - (glyphHeight + 1) * scale/*((glyphHeight + 1) / 2) * scale*/, z, scale, horizontalAlignment, verticalAlignment, panel);
+						
+						GL11.glEndList();
+						addToHistory(text, id);
+	//					y += ((glyphHeight + 1) / 2) * scale;
+						return;
+					}
+				}
+				
+				if (horizontalAlignment == CENTER)
+				{
+					x += panel.getWidth() / 2;
+					x -= text.length() * scale * glyphWidth / 2;
+				}
+				else if (horizontalAlignment == RIGHT)
+				{
+					x += panel.getWidth();
+					x -= text.length() * scale * glyphWidth;
+				}
+				if (verticalAlignment == CENTER)
+				{
+					y += panel.getHeight() / 2;
+					y -= glyphHeight * scale / 2;
+				}
+				else if (verticalAlignment == TOP)
+				{
+					y += panel.getHeight();
+					y -= glyphHeight * scale;
+				}
+				
+				for (int i = 0; i < chars.length; i ++)
+				{
+					try
+					{
+						int charX       = charSequence.get(chars[i])[0];
+						int charY       = charSequence.get(chars[i])[1];
+						
+						float offsets[] = characters.getImageOffsetsf(charX, charY, 1, 1);
+					
+						GL.pushMatrix();
+						{
+//							GL.translatef(x, y, z);
+//							GL.scalef(scale, scale, 1);
+							
+							GL11.glBegin(GL.QUADS);
+							{
+			//					Correct View
+								
+								GL11.glTexCoord2f(offsets[2], offsets[1]);
+								GL11.glVertex2f(i * glyphWidth + glyphWidth + (letterMargin * i), 0);
+								
+								GL11.glTexCoord2f(offsets[2], offsets[3]);
+								GL11.glVertex2f(i * glyphWidth + glyphWidth + (letterMargin * i), glyphHeight);
+								
+								GL11.glTexCoord2f(offsets[0], offsets[3]);
+								GL11.glVertex2f(i * glyphWidth + (letterMargin * i), glyphHeight);
+								
+								GL11.glTexCoord2f(offsets[0], offsets[1]);
+								GL11.glVertex2f(i * glyphWidth + (letterMargin * i), 0);
+								
+			//					Reversed View
+			//					
+			//					GL.glTexCoord2f(offsets[2], offsets[1]);
+			//					GL.glVertex2f(- i * glyphWidth, 0);
+			//					
+			//					GL.glTexCoord2f(offsets[2], offsets[3]);
+			//					GL.glVertex2f(- i * glyphWidth, glyphHeight);
+			//					
+			//					GL.glTexCoord2f(offsets[0], offsets[3]);
+			//					GL.glVertex2f(- i * glyphWidth + glyphWidth, glyphHeight);
+			//					
+			//					GL.glTexCoord2f(offsets[0], offsets[1]);
+			//					GL.glVertex2f(- i * glyphWidth + glyphWidth, 0);
+							}
+							GL11.glEnd();
+						}
+						GL.popMatrix();
+					}
+					catch (NullPointerException e)
+					{
+						if (chars[i] == ' ')
+						{
+							
+						}
+						else
+						{
+							GL11.glEndList();
+							
+							addToHistory(text, id);
+							
+							return;
+						}
+					}
+				}
+			}
+			GL11.glEndList();
+			
+			addToHistory(text, id);
+		}
+			
+		GL.pushMatrix();
+		{
+			GL.translate(x, y, z);
+			GL.scale(scale, scale, 1);
+			
+			GL11.glCallList(id);
+		}
+		GL.popMatrix();
+	}
+	
+	private void addToHistory(String text, int id)
+	{
+		ids = ids + 1 < 100 ? ids + 1 : 0;
+		
+//		if (idArray[ids] != null)
+//		{
+//			GL11.glDeleteLists(idArray[ids][0], 1);
+//		}
+//		
+//		idArray[ids] = new int[] { id };
+		
+		history.put(text, new int[] { ids, 0, id });
+	}
+
+	private void addToHistory(String text, int vId, int tId, int viId, Buffer s, Buffer s2, Buffer s3)
+	{
+		ids = ids + 1 < 100 ? ids + 1 : 0;
+		
+//		if (idArray[ids] != null)
+//		{
+//			GL15.glDeleteBuffers(idArray[ids][0]);
+//			GL15.glDeleteBuffers(idArray[ids][1]);
+//			GL15.glDeleteBuffers(idArray[ids][2]);
+//		}
+//		
+//		idArray[ids] = new int[] { vId, tId, viId };
+		
+		history.put(text, new int[] { ids, 1, vId, tId, viId });
+//		history2.put(text, new LightBuffer[] { s, s2, s3 });
+	}
+	
+	public int getWidth(String text)
+	{
+		int width = 0;
+		
+		for (int i = 0; i < text.length(); i ++)
+		{
+			if (text.charAt(i) == ' ')
+			{
+				width += glyphWidth;
+			}
+			else
+			{
+				width += glyphWidth;
+			}
+		}
+		
+		return width;
+	}
+	
+	public int getGlyphWidth()
+	{
+		return glyphWidth;
+	}
+	
+	public int getGlyphHeight()
+	{
+		return glyphHeight;
+	}
+	
+	public int getLetterMargin()
+	{
+		return letterMargin;
+	}
+	
+	public void setLetterMargin(int letterMargin)
+	{
+		this.letterMargin = letterMargin;
+	}
+}

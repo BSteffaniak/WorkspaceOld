@@ -4,9 +4,13 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import net.foxycorndog.jfoxylib.GL;
+import javax.imageio.ImageIO;
+
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -17,6 +21,11 @@ public class Texture
 	private int width, height;
 	
 	private float texWid, texHei;
+	
+	public Texture(String location) throws IOException
+	{
+		this(ImageIO.read(new File(location)));
+	}
 	
 	public Texture(BufferedImage image)
 	{

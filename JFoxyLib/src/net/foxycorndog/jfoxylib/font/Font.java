@@ -1,9 +1,13 @@
 package net.foxycorndog.jfoxylib.font;
 
+import java.io.IOException;
 import java.util.HashMap;
 
-import net.foxycorndog.jfoxylib.GL;
 import net.foxycorndog.jfoxylib.bundle.Buffer;
+import net.foxycorndog.jfoxylib.bundle.Bundle;
+import net.foxycorndog.jfoxylib.components.Panel;
+import net.foxycorndog.jfoxylib.graphics.SpriteSheet;
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 
 import org.lwjgl.opengl.GL11;
 
@@ -32,7 +36,14 @@ public class Font
 		this.xOff         = xOff;
 		this.yOff         = yOff;
 		
-		characters        = new SpriteSheet(location, cols, rows);
+		try
+		{
+			characters        = new SpriteSheet(location, cols, rows);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 		
 		this.width        = characters.getWidth();
 		this.height       = characters.getHeight();
@@ -59,75 +70,81 @@ public class Font
 		}
 	}
 	
-	public void render(String text, float x, float y, float z)
+	public void render(String text, float x, float y, float z, Panel panel)
 	{
-		render(text, x, y, z, 1);
+		render(text, x, y, z, 1, panel);
 	}
 	
-	public void render(String text, float x, float y, float z, float scale)
+	public void render(String text, float x, float y, float z, float scale, Panel panel)
 	{
-		render(text, x, y, z, scale, LEFT, BOTTOM);
+		render(text, x, y, z, scale, LEFT, BOTTOM, panel);
 	}
 	
-	public void render(String text, float x, float y, float z, int horizontalAlignment, int verticalAlignment)
+	public void render(String text, float x, float y, float z, int horizontalAlignment, int verticalAlignment, Panel panel)
 	{
-		render(text, x, y, z, 1, horizontalAlignment, verticalAlignment);
+		render(text, x, y, z, 1, horizontalAlignment, verticalAlignment, panel);
 	}
 	
-	public void render(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment)
+	public void render(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, Panel panel)
 	{
-		renderVertexBuffer(text, x, y, z, scale, horizontalAlignment, verticalAlignment);
+		renderVertexBuffer(text, x, y, z, scale, horizontalAlignment, verticalAlignment, panel);
 	}
 	
-	public void renderVertexBuffer(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment)
+	public void renderVertexBuffer(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, Panel panel)
 	{
-		renderVertexBuffer(text, x, y, z, scale, horizontalAlignment, verticalAlignment, null, null);
+		renderVertexBuffer(text, x, y, z, scale, horizontalAlignment, verticalAlignment, null, null, panel);
 	}
 	
-	private void renderVertexBuffer(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, VerticesBuffer vertices, LightBuffer textures)
+	private void renderVertexBuffer(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, Buffer vertices, Buffer textures, Panel panel)
 	{
 		int vId  = 0;
 		int tId  = 0;
 		int viId = 0;
+		int size = 0;
+		
+		Bundle bundle = null;
 		
 		if (history.containsKey(text) && history.get(text)[1] == 1)
 		{
 			if (horizontalAlignment == CENTER)
 			{
-				x += Frame.getCenterX();
+				x += panel.getWidth() / 2;
 				x -= text.length() * scale * glyphWidth / 2;
 			}
 			else if (horizontalAlignment == RIGHT)
 			{
-				x += Frame.getWidth();
+				x += panel.getWidth();
 				x -= text.length() * scale * glyphWidth;
 			}
 			if (verticalAlignment == CENTER)
 			{
-				y += Frame.getCenterY();
+				y += panel.getHeight() / 2;
 				y -= glyphHeight * scale / 2;
 			}
 			else if (verticalAlignment == TOP)
 			{
-				y += Frame.getHeight();
+				y += panel.getHeight();
 				y -= glyphHeight * scale;
 			}
 			
 			vId  = history.get(text)[2];
 			tId  = history.get(text)[3];
 			viId = history.get(text)[4];
+			size = history.get(text)[5];
 		}
 		else
 		{
 			if (vertices == null && textures == null)
  			{
-				vertices = new VerticesBuffer(text.length() * 4 * 2, 2);
-				textures = new LightBuffer(text.length() * 4 * 2);
+				vertices = new Buffer(text.length() * 4 * 2);
+				textures = new Buffer(text.length() * 4 * 2);
 			}
 			else if (vertices != null || textures != null)
 			{
-				throw new IllegalArgumentException("vertices and textures must either both be null or both have a value.");
+				throw new IllegalArgumentException("Vertices and textures must either both be null or both have a value.");
 			}
+			
+			size = vertices.getSize();
 			
 			char chars[]            = text.toCharArray();
 			
@@ -135,10 +152,10 @@ public class Font
 			{
 				if (chars[i] == '\n')
 				{
-					renderVertexBuffer(text.substring(0, i), x, y /*+ ((glyphHeight + 1) / 2) * scale*/ , z, scale, horizontalAlignment, verticalAlignment, vertices, textures);
-					renderVertexBuffer(text.substring(i + 1), x, y - (glyphHeight + 1) * scale/*((glyphHeight + 1) / 2) * scale*/, z, scale, horizontalAlignment, verticalAlignment, vertices, textures);
+					renderVertexBuffer(text.substring(0, i), x, y /*+ ((glyphHeight + 1) / 2) * scale*/ , z, scale, horizontalAlignment, verticalAlignment, vertices, textures, panel);
+					renderVertexBuffer(text.substring(i + 1), x, y - (glyphHeight + 1) * scale/*((glyphHeight + 1) / 2) * scale*/, z, scale, horizontalAlignment, verticalAlignment, vertices, textures, panel);
 					
-					addToHistory(text, vId, tId, viId, vertices, textures, null);
+					addToHistory(text, vId, tId, viId, size, vertices, textures, null);
 					
 					return;
 				}
@@ -146,22 +163,22 @@ public class Font
 			
 			if (horizontalAlignment == CENTER)
 			{
-				x += Frame.getCenterX();
+				x += panel.getWidth() / 2;
 				x -= text.length() * scale * glyphWidth / 2;
 			}
 			else if (horizontalAlignment == RIGHT)
 			{
-				x += Frame.getWidth();
+				x += panel.getWidth();
 				x -= text.length() * scale * glyphWidth;
 			}
 			if (verticalAlignment == CENTER)
 			{
-				y += Frame.getCenterY();
+				y += panel.getHeight() / 2;
 				y -= glyphHeight * scale / 2;
 			}
 			else if (verticalAlignment == TOP)
 			{
-				y += Frame.getHeight();
+				y += panel.getHeight();
 				y -= glyphHeight * scale;
 			}
 			
@@ -174,8 +191,8 @@ public class Font
 					
 					float offsets[] = characters.getImageOffsetsf(charX, charY, 1, 1);
 					
-					vertices.addData(GL.genRectVerts(i * glyphWidth + (letterMargin * i), 0, glyphWidth, glyphHeight));
-					textures.addData(GL.addRectTextureArrayf(offsets));
+					vertices.setData(i * 4 * 2, GL.genRectVerts(i * glyphWidth + (letterMargin * i), 0, glyphWidth, glyphHeight));
+					textures.setData(i * 4 * 2, GL.genRectTextures(offsets));
 				}
 				catch (NullPointerException e)
 				{
@@ -185,33 +202,35 @@ public class Font
 					}
 					else
 					{
-						addToHistory(text, vId, tId, viId, vertices, textures, null);
+						addToHistory(text, vId, tId, viId, size, vertices, textures, null);
 						
 						return;
 					}
 				}
 			}
 			
-			vertices.genIndices(GL.QUADS, null);
+//			vertices.genIndices(GL.QUADS, null);
 			
 			vId  = vertices.getId();
 			tId  = textures.getId();
-			viId = vertices.getIndicesId(0);
+//			viId = vertices.getIndicesId(0);
 			
-			addToHistory(text, vId, tId, viId, vertices, textures, null);
+			addToHistory(text, vId, tId, viId, size, vertices, textures, null);
 		}
+		
+		bundle = new Bundle(vId, tId, size / 2, 2);
 		
 		GL.pushMatrix();
 		{
 			GL.translate(x, y, z);
 			GL.scale(scale, scale, 1);
 			
-			GL.renderQuads(vId, 2, tId, 0, 0, viId, characters, 0, text.length(), null);
+			bundle.render(GL.QUADS, characters);
 		}
 		GL.popMatrix();
 	}
 	
-	public void renderDisplayList(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment)
+	public void renderDisplayList(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, Panel panel)
 	{
 		characters.bind();
 		
@@ -221,22 +240,22 @@ public class Font
 		{
 			if (horizontalAlignment == CENTER)
 			{
-				x += Frame.getCenterX();
+				x += panel.getWidth() / 2;
 				x -= text.length() * scale * glyphWidth / 2;
 			}
 			else if (horizontalAlignment == RIGHT)
 			{
-				x += Frame.getWidth();
+				x += panel.getWidth();
 				x -= text.length() * scale * glyphWidth;
 			}
 			if (verticalAlignment == CENTER)
 			{
-				y += Frame.getCenterY();
+				y += panel.getHeight() / 2;
 				y -= glyphHeight * scale / 2;
 			}
 			else if (verticalAlignment == TOP)
 			{
-				y += Frame.getHeight();
+				y += panel.getHeight();
 				y -= glyphHeight * scale;
 			}
 			
@@ -254,8 +273,8 @@ public class Font
 				{
 					if (chars[i] == '\n')
 					{
-						renderDisplayList(text.substring(0, i), x, y /*+ ((glyphHeight + 1) / 2) * scale*/ , z, scale, horizontalAlignment, verticalAlignment);
-						renderDisplayList(text.substring(i + 1), x, y - (glyphHeight + 1) * scale/*((glyphHeight + 1) / 2) * scale*/, z, scale, horizontalAlignment, verticalAlignment);
+						renderDisplayList(text.substring(0, i), x, y /*+ ((glyphHeight + 1) / 2) * scale*/ , z, scale, horizontalAlignment, verticalAlignment, panel);
+						renderDisplayList(text.substring(i + 1), x, y - (glyphHeight + 1) * scale/*((glyphHeight + 1) / 2) * scale*/, z, scale, horizontalAlignment, verticalAlignment, panel);
 						
 						GL11.glEndList();
 						addToHistory(text, id);
@@ -266,22 +285,22 @@ public class Font
 				
 				if (horizontalAlignment == CENTER)
 				{
-					x += Frame.getCenterX();
+					x += panel.getWidth() / 2;
 					x -= text.length() * scale * glyphWidth / 2;
 				}
 				else if (horizontalAlignment == RIGHT)
 				{
-					x += Frame.getWidth();
+					x += panel.getWidth();
 					x -= text.length() * scale * glyphWidth;
 				}
 				if (verticalAlignment == CENTER)
 				{
-					y += Frame.getCenterY();
+					y += panel.getHeight() / 2;
 					y -= glyphHeight * scale / 2;
 				}
 				else if (verticalAlignment == TOP)
 				{
-					y += Frame.getHeight();
+					y += panel.getHeight();
 					y -= glyphHeight * scale;
 				}
 				
@@ -379,7 +398,7 @@ public class Font
 		history.put(text, new int[] { ids, 0, id });
 	}
 
-	private void addToHistory(String text, int vId, int tId, int viId, Buffer s, Buffer s2, Buffer s3)
+	private void addToHistory(String text, int vId, int tId, int viId, int size, Buffer s, Buffer s2, Buffer s3)
 	{
 		ids = ids + 1 < 100 ? ids + 1 : 0;
 		
@@ -392,7 +411,7 @@ public class Font
 //		
 //		idArray[ids] = new int[] { vId, tId, viId };
 		
-		history.put(text, new int[] { ids, 1, vId, tId, viId });
+		history.put(text, new int[] { ids, 1, vId, tId, viId, size });
 //		history2.put(text, new LightBuffer[] { s, s2, s3 });
 	}
 	

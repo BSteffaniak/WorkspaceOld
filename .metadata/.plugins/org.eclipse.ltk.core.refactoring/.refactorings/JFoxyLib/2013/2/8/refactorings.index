@@ -1,2 +1,11 @@
 1361062715034	Rename package 'net.foxycorndog.jdoutil.network'
 1361111791217	Delete element
+1361219088188	Rename field 'position'
+1361219098007	Rename method 'getPosition'
+1361223114772	Rename method 'beginVertexDraw'
+1361223122542	Rename method 'endVertexDraw'
+1361224057553	Rename field 'offsets'
+1361232789468	Rename field 'size'
+1361233502389	Rename method 'verticesAmount'
+1361242287044	Move compilation unit
+1361245689773	Rename local variable 'code'

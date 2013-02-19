@@ -1,0 +1,26 @@
+package net.foxycorndog.jfoxylib.input;
+
+import java.util.HashMap;
+
+public class Keyboard
+{
+	private static HashMap<Integer, Boolean> pressed;
+	
+//	public static final int Q = 'q', W = 'w', E = 'e', R = 'r', T = 't',
+//			Y = 'y', U = 'u', I = 'i', O;
+	
+	static
+	{
+		pressed = new HashMap<Integer, Boolean>();
+		
+		for (int i = 0; i < 256; i++)
+		{
+			pressed.put(i, false);
+		}
+	}
+	
+	public static boolean keyPressed(int code)
+	{
+		return pressed.get(code);
+	}
+}

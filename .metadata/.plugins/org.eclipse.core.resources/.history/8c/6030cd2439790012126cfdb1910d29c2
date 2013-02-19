@@ -1,0 +1,11 @@
+package net.foxycorndog.jfoxylib.graphics;
+
+import java.awt.image.BufferedImage;
+
+public class SpriteSheet extends Texture
+{
+	public SpriteSheet(BufferedImage image)
+	{
+		super(image);
+	}
+}

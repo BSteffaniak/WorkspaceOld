@@ -55,6 +55,21 @@ public class Buffer
 		return id;
 	}
 	
+	public int getSize()
+	{
+		return size;
+	}
+	
+	public int getPosition()
+	{
+		return buffer.position();
+	}
+	
+	public void setPosition(int position)
+	{
+		buffer.position(position);
+	}
+	
 	public void setData(int index, float data)
 	{
 		beginEditing();

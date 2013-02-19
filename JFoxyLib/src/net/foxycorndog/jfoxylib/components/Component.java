@@ -22,6 +22,8 @@ public class Component
 	
 	private Panel	parent;
 	
+	private Frame	frame;
+	
 	private Control	control;
 //	private ArrayList<Panel> parents;
 	
@@ -30,6 +32,8 @@ public class Component
 	public Component(Panel parent)
 	{
 		this.parent = parent;
+		
+		setFrame();
 	}
 	
 	public void setControl(Control control)
@@ -66,6 +70,76 @@ public class Component
 	public void setParent(Panel parent)
 	{
 		this.parent = parent;
+		
+		setFrame();
+	}
+	
+	public Frame getFrame()
+	{
+		return frame;
+	}
+	
+	private void setFrame()
+	{
+		Component comp = parent;
+		
+		while (comp != null)
+		{
+			if (comp instanceof Frame)
+			{
+				frame = (Frame)comp;
+				
+				break;
+			}
+			
+			comp = parent.getParent();
+		}
+	}
+	
+	public int getDisplayX()
+	{
+		int x = 0;
+		
+		Component comp = this;
+		
+		while (comp != null)
+		{
+			if (comp instanceof Frame)
+			{
+				x += ((Frame)comp).getViewBounds().getX();
+			}
+			else
+			{
+				x += comp.getX();
+			}
+			
+			comp = comp.getParent();
+		}
+		
+		return x;
+	}
+	
+	public int getDisplayY()
+	{
+		int y = 0;
+		
+		Component comp = this;
+		
+		while (comp != null)
+		{
+			if (comp instanceof Frame)
+			{
+				y += ((Frame)comp).getViewBounds().getY();
+			}
+			else
+			{
+				y += comp.getY();
+			}
+			
+			comp = comp.getParent();
+		}
+		
+		return y;
 	}
 	
 	private void align()

@@ -16,8 +16,10 @@ import static org.lwjgl.opengl.GL11.glTexCoordPointer;
 import static org.lwjgl.opengl.GL11.glTexParameteri;
 import static org.lwjgl.opengl.GL11.glVertexPointer;
 
-import net.foxycorndog.jfoxylib.GL;
+import java.util.HashMap;
+
 import net.foxycorndog.jfoxylib.graphics.Texture;
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
@@ -32,21 +34,87 @@ import org.lwjgl.opengl.GL15;
  */
 public class Bundle
 {
-	private int				size;
-	private int				vertexSize, textureSize;
+	private int								vertsPosition, texturesPosition;
+	private int								vertexAmount, vertexSize;
+	private int								verticesId, texturesId;
 	
-	private Buffer			verticesBuffer, texturesBuffer;
-	private IndicesBuffer	vertexIndices, normalIndices;
+	private Buffer							verticesBuffer, texturesBuffer;
+	private IndicesBuffer					vertexIndices, normalIndices;
 	
-	public Bundle(int numVertices, int vertexSize)
+	private HashMap<Integer, VertexOffset>	vertexOffsets;
+	private HashMap<Integer, TextureOffset>	textureOffsets;
+	
+	private static int	id;
+	
+	private class VertexOffset
 	{
-		size = numVertices * vertexSize;
+		private int	shape;
+		private int	offset;
+		private int	vertexSize;
+		private int	length;
 		
-		this.vertexSize  = vertexSize;
-		this.textureSize = 2;
+		public VertexOffset(int shape, int offset, int vertexSize, int length)
+		{
+			this.shape      = shape;
+			this.offset     = offset;
+			this.vertexSize = vertexSize;
+			this.length     = length;
+		}
+	}
+	
+	private class TextureOffset
+	{
+		private int	offset;
+		private int	length;
 		
-		verticesBuffer = new Buffer(size);
-		texturesBuffer = new Buffer(size);
+		public TextureOffset(int offset, int length)
+		{
+			this.offset     = offset;
+			this.length     = length;
+		}
+	}
+	
+	public Bundle(int vertexAmount, int vertexSize)
+	{
+		this.vertexAmount = vertexAmount;
+		this.vertexSize   = vertexSize;
+		
+		verticesBuffer = new Buffer(vertexAmount * vertexSize);
+		texturesBuffer = new Buffer(vertexAmount * 2);
+		
+		verticesId = verticesBuffer.getId();
+		texturesId = texturesBuffer.getId();
+	}
+	
+	public Bundle(Buffer verticesBuffer, Buffer texturesBuffer, int vertexSize)
+	{
+		this.verticesBuffer = verticesBuffer;
+		this.texturesBuffer = texturesBuffer;
+		
+		this.vertexSize   = vertexSize;
+		this.vertexAmount = verticesBuffer.getSize() / vertexSize;
+		
+		verticesId = verticesBuffer.getId();
+		texturesId = texturesBuffer.getId();
+	}
+	
+	public Bundle(int verticesId, int texturesId, int vertexAmount, int vertexSize)
+	{
+		this.verticesId   = verticesId;
+		this.texturesId   = texturesId;
+		
+		this.vertexSize   = vertexSize;
+		this.vertexAmount = vertexAmount;
+	}
+	
+	public int getVerticesPosition()
+	{
+		return vertsPosition;
+	}
+	
+	public int getTexturesPosition()
+	{
+		return texturesPosition;
 	}
 	
 	public Buffer getVerticesBuffer()
@@ -59,9 +127,24 @@ public class Bundle
 		this.verticesBuffer = buffer;
 	}
 	
-	public void setVertices(int index, float verts[])
+	public int setVertices(int offset, float verts[])
 	{
-		verticesBuffer.setData(index, verts);
+		verticesBuffer.setData(offset * vertexSize, verts);
+		
+		int id = ++this.id;
+		
+//		vertexOffsets.put(id, new VertexOffset(shape, offset, vertexSize, verts.length));
+		
+		return id;
+	}
+	
+	public int addVertices(float verts[])
+	{
+		int id = setVertices(vertsPosition, verts);
+		
+		vertsPosition += verts.length / vertexSize;
+		
+		return id;
 	}
 	
 	public Buffer getTexturesBuffer()
@@ -74,40 +157,56 @@ public class Bundle
 		this.texturesBuffer = buffer;
 	}
 	
+	public int setTextures(int offset, float textures[])
+	{
+		texturesBuffer.setData(offset * 2, textures);
+		
+		int id = ++this.id;
+
+//		textureOffsets.put(id, new TextureOffset(offset, textures.length));
+		
+		return id;
+	}
+	
+	public int addTextures(float textures[])
+	{
+		int id = setTextures(texturesPosition, textures);
+		
+		texturesPosition += textures.length / 2;
+		
+		return id;
+	}
+	
 	public void render(int shape, Texture texture)
 	{
-		render(shape, 0, size, texture);
+		render(shape, 0, vertexAmount, texture);
 	}
 	
 	public void render(int shape, int start, int amount, Texture texture)
 	{
-		GL.pushAttrib(GL.ALL_ATTRIB_BITS);
-		
-		beginVertexDraw();
-		beginTexturesDraw();
+		beginVerticesDraw();//start * vertexSize);
+		beginTexturesDraw();//start * 2);
 		
 		texture.bind();
 		
 		glDrawArrays(shape, start, amount);
 		
 		endTexturesDraw();
-		endVertexDraw();
-		
-		GL.popAttrib();
+		endVerticesDraw();
 	}
 	
-	private void beginVertexDraw()
+	private void beginVerticesDraw()
 	{
 		glEnableClientState(GL_VERTEX_ARRAY);
 		
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, verticesBuffer.getId());
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, verticesId);
 
 		glVertexPointer(vertexSize, GL11.GL_FLOAT, 0, 0);
 		
 //		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vertexIndicesId);
 	}
 	
-	private void endVertexDraw()
+	private void endVerticesDraw()
 	{
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 		
@@ -124,9 +223,9 @@ public class Bundle
 		
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, texturesBuffer.getId());
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, texturesId);
 
-		glTexCoordPointer(textureSize, GL11.GL_FLOAT, 0, 0);
+		glTexCoordPointer(2, GL11.GL_FLOAT, 0, 0);
 	}
 	
 	private void endTexturesDraw()

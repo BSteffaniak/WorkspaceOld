@@ -1,0 +1,48 @@
+package net.foxycorndog.jfoxylib.input;
+
+import java.util.HashMap;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+
+public class Keyboard
+{
+	private static HashMap<Integer, Boolean> pressed;
+	
+//	public static final int Q = 'q', W = 'w', E = 'e', R = 'r', T = 't',
+//			Y = 'y', U = 'u', I = 'i', O;
+	
+	static
+	{
+		pressed = new HashMap<Integer, Boolean>();
+		
+		for (int i = 0; i < 256; i++)
+		{
+			pressed.put(i, false);
+		}
+		
+		Listener listener = new Listener()
+		{
+			public void handleEvent(Event event)
+			{
+				if (event.type == SWT.KeyDown)
+				{
+					System.out.println(event.character);
+				}
+				else if (event.type == SWT.KeyUp)
+				{
+					System.out.println(event.character);
+				}
+			}
+		};
+		
+		Display.getDefault().addFilter(SWT.KeyDown, listener);
+	}
+	
+	public static boolean keyPressed(int code)
+	{
+		return pressed.get(code);
+	}
+}

@@ -482,6 +482,7 @@ public class CodeField extends StyledText
 	    {
 			public void keyPressed(KeyEvent e)
 			{
+				System.out.println(e.keyCode);
 //				if (getSelectionCount() > 0)
 //				{
 //					selectionLines  = getLineAtOffset(getSelectionCount() + getSelection().x) - getLineAtOffset(getSelection().x);

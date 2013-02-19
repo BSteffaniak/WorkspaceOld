@@ -1,6 +1,9 @@
 package net.foxycorndog.jfoxylib;
 
+import java.util.ArrayList;
+
 import net.foxycorndog.jfoxylib.components.Frame;
+import net.foxycorndog.jfoxylib.listeners.GameListener;
 
 import org.eclipse.swt.widgets.Display;
 
@@ -19,6 +22,13 @@ public abstract class GameEntry
 	private Frame	mainFrame;
 	
 	private Display	display;
+	
+	private static ArrayList<GameListener>	listeners;
+	
+	static
+	{
+		listeners = new ArrayList<GameListener>();
+	}
 	
 	public GameEntry()
 	{
@@ -41,6 +51,8 @@ public abstract class GameEntry
 			{
 				loop();
 				
+				notifyGameListeners();
+				
 				display.sleep();
 			}
 		}
@@ -54,6 +66,24 @@ public abstract class GameEntry
 	public void setMainFrame(Frame frame)
 	{
 		this.mainFrame = frame;
+	}
+	
+	public static void notifyGameListeners()
+	{
+		for (int i = listeners.size() - 1; i >= 0; i--)
+		{
+			listeners.get(i).looped();
+		}
+	}
+	
+	public static void addGameListener(GameListener listener)
+	{
+		listeners.add(listener);
+	}
+	
+	public static void removeGameListener(GameListener listener)
+	{
+		listeners.remove(listener);
 	}
 	
 	public abstract void loop();

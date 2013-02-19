@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import net.foxycorndog.jfoxylib.GL;
 import net.foxycorndog.jfoxylib.GameEntry;
 import net.foxycorndog.jfoxylib.bundle.Bundle;
 import net.foxycorndog.jfoxylib.components.Button;
@@ -13,6 +12,7 @@ import net.foxycorndog.jfoxylib.components.GLPanel;
 import net.foxycorndog.jfoxylib.components.Window;
 import net.foxycorndog.jfoxylib.events.ButtonEvent;
 import net.foxycorndog.jfoxylib.graphics.Texture;
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 import net.foxycorndog.jfoxylib.listeners.ButtonListener;
 
 /**
