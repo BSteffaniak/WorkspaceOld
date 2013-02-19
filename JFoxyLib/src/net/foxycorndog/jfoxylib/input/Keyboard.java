@@ -1,6 +1,7 @@
 package net.foxycorndog.jfoxylib.input;
 
 import java.util.HashMap;
+import java.util.Queue;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -30,6 +31,8 @@ public class Keyboard
 				else if (event.type == SWT.KeyUp)
 				{
 					pressed[(int)event.character] = false;
+					
+					System.out.println("release");
 				}
 			}
 		};

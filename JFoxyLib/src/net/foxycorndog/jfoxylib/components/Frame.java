@@ -105,7 +105,7 @@ public class Frame extends Panel
 		contentPanel.setLocation(area.getX(), area.getY());
 		contentPanel.setSize(area.getWidth(), area.getHeight());
 		
-		viewBounds = new Rectangle(x, y, area.getWidth(), area.getHeight());
+		viewBounds = new Rectangle(x + getX(), y + getY(), area.getWidth(), area.getHeight());
 	}
 	
 	private void recreateShell()

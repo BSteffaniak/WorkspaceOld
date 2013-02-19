@@ -9,6 +9,11 @@ public class Tree implements BSTree
 {
 	private TreeNode	root;
 	
+	/**
+	 * Class used for keeping the information of a node,
+	 * such as the parent node and the direction it stems
+	 * off of from the parent.
+	 */
 	private class ChildInfo
 	{
 		private TreeNode		parent;
@@ -17,12 +22,19 @@ public class Tree implements BSTree
 		
 		public static final int	LEFT = 1, RIGHT = 2;
 		
+		/**
+		 * Create a ChildInfo object with the parent parent.
+		 * Also, specify the direction it branches.
+		 */
 		public ChildInfo(TreeNode parent, int direction)
 		{
 			this.parent    = parent;
 			this.direction = direction;
 		}
 		
+		/**
+		 * @return The parent of the node.
+		 */
 		public TreeNode getParent()
 		{
 			return parent;
@@ -254,6 +266,9 @@ public class Tree implements BSTree
 		return search(c, root);
 	}
 	
+	/**
+	 * Removes the specified Comparable from the tree.
+	 */
 	public boolean remove(Comparable c)
 	{
 		return remove(c, root);

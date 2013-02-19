@@ -146,26 +146,45 @@ public class Game extends GameEntry
 			
 			public void loop()
 			{
-				if (Mouse.inside(window.getContentPanel()))
+				if (Mouse.next(0))
+				{
+					window.setMouseGrabbed(true);
+				}
+					
+				if (window.isMouseGrabbed())
 				{
 					float pitch = Mouse.getDY() * 0.15f;
 					float yaw   = Mouse.getDX() * 0.15f;
 					
+					float slowness = 0.1f;
+					
 					camera.rotate(pitch, yaw, 0);
-					
-					if (Keyboard.next('f'))
-					{
-						window.setMouseGrabbed(true);
-					}
-					
-					if (Mouse.next(0))
-					{
-						window.setMouseGrabbed(true);
-					}
 					
 					if (Keyboard.next(Keyboard.ESCAPE))
 					{
 						window.setMouseGrabbed(false);
+					}
+					
+					if (Keyboard.keyPressed('w'))
+					{
+//						System.out.println('w');
+						camera.moveDirection(0, 0, -1 * slowness);
+					}
+					else if (Keyboard.keyPressed('s'))
+					{
+//						System.out.println('s');
+						camera.moveDirection(0, 0, 1 * slowness);
+					}
+					
+					if (Keyboard.keyPressed('a'))
+					{
+//						System.out.println('a');
+						camera.moveDirection(-1 * slowness, 0, 0);
+					}
+					else if (Keyboard.keyPressed('d'))
+					{
+//						System.out.println('d');
+						camera.moveDirection(1 * slowness, 0, 0);
 					}
 				}
 			}

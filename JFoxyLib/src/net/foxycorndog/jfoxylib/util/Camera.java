@@ -315,7 +315,7 @@ public class Camera implements Cloneable
 //		location.x += xOff;
 //		location.y += yOff;
 //		location.z += zOff;
-		location.move(xOff, yOff, zOff);
+		location.move(-xOff, -yOff, -zOff);
 	}
 	
 	public void move(int direction, float distance)
