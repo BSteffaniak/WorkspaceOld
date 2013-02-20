@@ -11,10 +11,12 @@ import net.foxycorndog.jfoxylib.components.Window;
 import net.foxycorndog.jfoxylib.font.Font;
 import net.foxycorndog.jfoxylib.graphics.SpriteSheet;
 import net.foxycorndog.jfoxylib.graphics.Texture;
+import net.foxycorndog.jfoxylib.graphics.opengl.FrameBuffer;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 import net.foxycorndog.jfoxylib.input.Keyboard;
 import net.foxycorndog.jfoxylib.input.Mouse;
 import net.foxycorndog.jfoxylib.model.Model;
+import net.foxycorndog.jfoxylib.shader.Shader;
 import net.foxycorndog.jfoxylib.util.Camera;
 
 /**
@@ -76,6 +78,10 @@ public class Game extends GameEntry
 			private Bundle		world2D, world3D;
 			
 			private Camera		camera;
+			
+			private Shader		flashlight;
+			
+			private FrameBuffer	frameBuffer;
 			
 			public void init()
 			{
@@ -142,6 +148,17 @@ public class Game extends GameEntry
 						});
 				
 				camera = new Camera(0, 2, 0);
+				
+				flashlight = new Shader(new String[] { "res/shaders/vertex.vs" }, new String[] { "res/shaders/vertex.fs" , "res/shaders/flashlight.shade", "res/shaders/diffuseLights.shade" });
+				
+				try
+				{
+					frameBuffer = new FrameBuffer();
+				}
+				catch ()
+				{
+					
+				}
 			}
 			
 			public void loop()
@@ -203,10 +220,25 @@ public class Game extends GameEntry
 			{
 				camera.lookThrough();
 //				GL.rotate(rot, rot, rot);
+				flashlight.run();
+				
+//				flashlight.uniform1i("time", (int)System.currentTimeMillis());
+//				flashlight.uniform1i("counter", dfps % 8);
+				flashlight.uniform3f("camPos", camera.getX(), camera.getY(), camera.getZ());
+				flashlight.uniform3f("flashlightPos", camera.getX(), camera.getY(), camera.getZ());
+				flashlight.uniform3f("specColor", 1, 1, 1);
+				flashlight.uniform1f("intensity", 1);
+				flashlight.uniform1i("lightNumber", 0);
+//				flashlight.uniform4f("lightModelViewProjectionMatrix", shadowMatrix);
+				flashlight.uniform1i("shadowMap", 0);
+//				GL.setReflection(new Point(0.5f, 0.5f, 0.5f));
+//				GL.setShininess(100);
+				
 				world3D.render(GL.QUADS, 0, 4 * 6, sprites);
 				world3D.render(GL.QUADS, 4 * 6, 4 * 6, tile);
 				world3D.render(GL.QUADS, 4 * 6 * 2, 4 * 6 * 2, brick);
 				
+				flashlight.stop();
 			}
 		};
 		

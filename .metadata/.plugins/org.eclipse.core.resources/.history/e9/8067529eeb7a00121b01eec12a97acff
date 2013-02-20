@@ -1,0 +1,301 @@
+package net.foxycorndog.jfoxylib.components;
+
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.util.ArrayList;
+
+import net.foxycorndog.jfoxylib.GameEntry;
+import net.foxycorndog.jfoxylib.events.MoveEvent;
+import net.foxycorndog.jfoxylib.input.Mouse;
+import net.foxycorndog.jfoxylib.listeners.GameListener;
+import net.foxycorndog.jfoxylib.listeners.MoveListener;
+import net.foxycorndog.jfoxylib.util.Rectangle;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.DragDetectEvent;
+import org.eclipse.swt.events.DragDetectListener;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.GestureEvent;
+import org.eclipse.swt.events.GestureListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MenuDetectEvent;
+import org.eclipse.swt.events.MenuDetectListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.events.ShellListener;
+import org.eclipse.swt.events.TouchEvent;
+import org.eclipse.swt.events.TouchListener;
+import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.PaletteData;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Monitor;
+import org.eclipse.swt.widgets.Shell;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 15, 2013 at 11:43:17 PM
+ * @since	v0.1
+ * @version	v0.1
+ */
+public class Frame extends Panel
+{
+	private boolean			mouseGrabbed;
+	
+	private int				style;
+	
+	private Rectangle		viewBounds;
+	
+	private Panel			contentPanel;
+	
+	private Shell			shell;
+	
+	private Listener		moveListener;
+	
+	private GameListener	grabListener;
+	
+	private Cursor			oldCursor, currentCursor;
+	
+	private ArrayList<MoveListener>	moveListeners;
+	
+	public Frame()
+	{
+		style = SWT.NONE;
+		
+		moveListeners = new ArrayList<MoveListener>();
+		
+		moveListener = new Listener()
+		{
+			public void handleEvent(Event event)
+			{
+				for (int i = moveListeners.size() - 1; i >= 0; i--)
+				{
+					MoveEvent e = new MoveEvent();
+					
+					moveListeners.get(i).moved(e);
+				}
+			}
+		};
+		
+		recreateShell();
+		
+		oldCursor     = shell.getCursor();
+		currentCursor = shell.getCursor();
+		
+		contentPanel = new Panel(this);
+	}
+	
+	private void recreateContentArea()
+	{
+		Rectangle area = new Rectangle(shell.getClientArea());
+		
+		int x = (getWidth() - area.getWidth()) / 2;
+		int y = (getHeight() - area.getHeight() - x);
+		
+		contentPanel.setLocation(area.getX(), area.getY());
+		contentPanel.setSize(area.getWidth(), area.getHeight());
+		
+		viewBounds = new Rectangle(x + getX(), y + getY(), area.getWidth(), area.getHeight());
+	}
+	
+	private void recreateShell()
+	{
+		shell = new Shell(style);
+		shell.setLocation(getX(), getY());
+		shell.setSize(getWidth(), getHeight());
+		
+		create(shell);
+		
+		setControl(shell);
+		
+		shell.addListener(SWT.Move, moveListener);
+		
+		if ((style & SWT.RESIZE) != 0)
+		{
+			shell.addListener(SWT.Resize, new Listener()
+			{
+				public void handleEvent(Event e)
+				{
+					setSize(shell.getSize().x, shell.getSize().y);
+					recreateContentArea();
+					update();
+				}
+			});
+		}
+		
+		shell.addKeyListener(new KeyListener()
+		{
+			public void keyReleased(KeyEvent e)
+			{
+				System.out.println("released " + e.character);
+			}
+			
+			public void keyPressed(KeyEvent e)
+			{
+				System.out.println("pressed " + e.character);
+			}
+		});
+		
+		if (currentCursor != null)
+		{
+			shell.setCursor(currentCursor);
+		}
+	}
+	
+	public void setResizable(boolean resizable)
+	{
+		if (resizable && (style & SWT.RESIZE) == 0)
+		{
+			addStyle(SWT.RESIZE);
+		}
+		else
+		{
+			
+		}
+	}
+	
+	public Rectangle getViewBounds()
+	{
+		return viewBounds;
+	}
+	
+	public void addMoveListener(MoveListener listener)
+	{
+		moveListeners.add(listener);
+	}
+	
+	public void removeMoveListener(MoveListener listener)
+	{
+		moveListeners.remove(listener);
+	}
+	
+	public Panel getContentPanel()
+	{
+		return contentPanel;
+	}
+	
+	public void setMaximizable(boolean maximizable)
+	{
+		if (maximizable)
+		{
+			addStyle(SWT.MAX);
+		}
+		else
+		{
+			
+		}
+	}
+	
+	public void addStyle(int style)
+	{
+		this.style |= style;
+		
+		recreateShell();
+		
+		recreateContentArea();
+	}
+	
+	public boolean isOpen()
+	{
+		return !shell.isDisposed() && shell.isVisible();
+	}
+	
+	public void setSize(int width, int height)
+	{
+		super.setSize(width, height);
+		
+		recreateContentArea();
+	}
+	
+	public void open()
+	{
+		shell.open();
+	}
+	
+	public void close()
+	{
+		if (shell.isDisposed())
+		{
+			return;
+		}
+		
+		shell.close();
+	}
+	
+	public void center()
+	{
+		Monitor monitor  = Display.getDefault().getPrimaryMonitor();
+		
+		Rectangle bounds = new Rectangle(monitor.getBounds());
+		
+		int centerX = bounds.getWidth()  / 2 - getWidth()  / 2;
+		int centerY = bounds.getHeight() / 2 - getHeight() / 2;
+		
+		setLocation(centerX, centerY);
+	}
+	
+	public boolean isMouseGrabbed()
+	{
+		return mouseGrabbed;
+	}
+	
+	public void setMouseGrabbed(boolean mouseGrabbed)
+	{
+		if (mouseGrabbed != this.mouseGrabbed)
+		{
+			if (mouseGrabbed)
+			{
+				Mouse.setLocation(getX() + getWidth() / 2, getY() + getHeight() / 2);
+				
+				if (grabListener == null)
+				{
+					grabListener = new GameListener()
+					{
+						public void looped()
+						{
+							int centerX = getX() + getWidth()  / 2;
+							int centerY = getY() + getHeight() / 2;
+							
+							int newX = centerX;
+							int newY = centerY;
+							
+							Mouse.setLocation(newX, newY);
+						}
+					};
+				}
+				
+				GameEntry.addGameListener(grabListener);
+				
+				Display display = Display.getDefault();
+				
+				PaletteData palette = new PaletteData(new RGB[] { display.getSystemColor(SWT.COLOR_WHITE).getRGB(), display.getSystemColor(SWT.COLOR_BLACK).getRGB() });
+				ImageData data = new ImageData(16, 16, 1, palette);
+				data.transparentPixel = 0;
+				
+				currentCursor = new Cursor(display, data, 0, 0);
+			}
+			else
+			{
+				GameEntry.removeGameListener(grabListener);
+				
+				currentCursor = oldCursor;
+			}
+				
+			shell.setCursor(currentCursor);
+		
+			this.mouseGrabbed = mouseGrabbed;
+		}
+	}
+}

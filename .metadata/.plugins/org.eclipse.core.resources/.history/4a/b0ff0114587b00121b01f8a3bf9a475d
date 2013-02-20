@@ -1,0 +1,12 @@
+package net.foxycorndog.jfoxylib.graphics.opengl;
+
+public class FrameBuffer
+{
+	public FrameBuffer()
+	{
+		if (new String("2.9.6.1").compareTo("3.0") >= 0)
+		{
+			System.out.println("good to go.");
+		}
+	}
+}

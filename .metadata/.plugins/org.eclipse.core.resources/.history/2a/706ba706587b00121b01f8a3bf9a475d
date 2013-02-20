@@ -1,0 +1,11 @@
+package net.foxycorndog.jfoxylib.graphics.opengl;
+
+public class FrameBuffer
+{
+	public FrameBuffer()
+	{
+		System.out.println(GL.getVersion());
+		
+//		if ()
+	}
+}

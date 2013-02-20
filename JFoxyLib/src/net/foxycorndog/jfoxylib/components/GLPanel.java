@@ -79,13 +79,6 @@ public abstract class GLPanel extends Panel
 				if (render)
 				{
 					GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-					GL.resetMatrix();
-					
-//					GL.initOrtho(getWidth(), getHeight());
-//					render2D();
-					
-//					GL.initPerspective(getWidth(), getHeight(), 0.01f, 999f);
-//					render3D();
 					
 					GL.resetMatrix();
 					GL.initPerspective(getWidth(), getHeight(), 0.01f, 999f);
@@ -96,7 +89,7 @@ public abstract class GLPanel extends Panel
 					GL.initOrtho(getWidth(), getHeight());
 //					GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
 //					{
-						GL11.glDisable(GL11.GL_LIGHTING);
+//						GL11.glDisable(GL11.GL_LIGHTING);
 						render2D();
 //					}
 //					GL11.glPopAttrib();

@@ -21,6 +21,7 @@ public class Mouse
 	private static boolean		pressed[], next[];
 	
 	private static int			oldX, oldY, forcedX, forcedY;
+	private static int			mouseWheel;
 	
 	private static PointerInfo	pointerInfo;
 	
@@ -46,11 +47,16 @@ public class Mouse
 				{
 					pressed[event.button - 1] = false;
 				}
+				else if (event.type == SWT.MouseWheel)
+				{
+					mouseWheel = event.count;
+				}
 			}
 		};
 		
 		Display.getDefault().addFilter(SWT.MouseDown, listener);
 		Display.getDefault().addFilter(SWT.MouseUp, listener);
+		Display.getDefault().addFilter(SWT.MouseWheel, listener);
 		
 		try
 		{
@@ -96,6 +102,11 @@ public class Mouse
 		return pointerInfo.getLocation().y - oldY;
 	}
 	
+	public static int getDWheel()
+	{
+		return mouseWheel;
+	}
+	
 	public static void setLocation(int x, int y)
 	{
 		forcedX = x - getX();
@@ -114,11 +125,13 @@ public class Mouse
 	
 	public static void update()
 	{
-		oldX = pointerInfo.getLocation().x + forcedX;
-		oldY = pointerInfo.getLocation().y + forcedY;
+		oldX        = pointerInfo.getLocation().x + forcedX;
+		oldY        = pointerInfo.getLocation().y + forcedY;
 		
-		forcedX = 0;
-		forcedY = 0;
+		forcedX     = 0;
+		forcedY     = 0;
+		
+		mouseWheel  = 0;
 		
 		pointerInfo = MouseInfo.getPointerInfo();
 		

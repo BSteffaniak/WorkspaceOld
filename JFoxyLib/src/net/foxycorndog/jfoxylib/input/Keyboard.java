@@ -1,5 +1,11 @@
 package net.foxycorndog.jfoxylib.input;
 
+import java.awt.DefaultKeyboardFocusManager;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyEventPostProcessor;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Queue;
 
@@ -7,6 +13,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.lwjgl.LWJGLException;
 
 public class Keyboard
 {
@@ -15,8 +22,12 @@ public class Keyboard
 	
 	public static final int ESCAPE = 27;
 	
+	private static ArrayList<Integer>	queue;
+	
 	static
 	{
+		queue = new ArrayList<Integer>();
+		
 		pressed = new boolean[256];
 		next = new boolean[pressed.length];
 		
@@ -26,13 +37,23 @@ public class Keyboard
 			{
 				if (event.type == SWT.KeyDown)
 				{
-					pressed[(int)event.character] = true;
+					int code = (int)event.character;
+					
+					pressed[code] = true;
+					
+					if (!queue.contains(code))
+					{
+//						System.out.println("press " + event.character);
+						queue.add(code);
+					}
 				}
 				else if (event.type == SWT.KeyUp)
 				{
-					pressed[(int)event.character] = false;
+					int code = queue.remove(0);//queue.size() - 1);
 					
-					System.out.println("release");
+					pressed[code] = false;
+					
+//					System.out.println("release " + (char)code);
 				}
 			}
 		};

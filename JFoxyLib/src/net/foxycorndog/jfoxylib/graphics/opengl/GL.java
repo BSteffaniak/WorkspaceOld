@@ -172,6 +172,11 @@ public class GL
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);//GL_DECAL);
 	}
 	
+	public static String getVersion()
+	{
+		return GL11.glGetString(GL11.GL_VERSION);
+	}
+	
 	public static void pushAttrib(int bit)
 	{
 		GL11.glPushAttrib(bit);

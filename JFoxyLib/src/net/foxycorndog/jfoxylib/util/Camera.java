@@ -424,17 +424,17 @@ public class Camera implements Cloneable
 	
 	public float getX()
 	{
-		return -location.getX();
+		return location.getX();
 	}
 	
 	public float getY()
 	{
-		return -location.getY();
+		return location.getY();
 	}
 	
 	public float getZ()
 	{
-		return -location.getZ();
+		return location.getZ();
 	}
 	
 	public void setCameraMode(int mode)

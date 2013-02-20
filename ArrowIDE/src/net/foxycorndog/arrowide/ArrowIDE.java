@@ -347,30 +347,30 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		
 		PROPERTIES.put("arrowide.location", FileUtils.getParentFolder(configLocation));
 		
-//		/**
-//		 * Set up the OpenGL (lwjgl) capabilities for the program.
-//		 */
-//		{
-//			System.setProperty("org.lwjgl.librarypath", PROPERTIES.get("arrowide.location") + "/res/native/" + PROPERTIES.get("os.name") + "/");
-//			
-//			Composite comp = new Composite(window.getShell(), SWT.NONE);
-//			comp.setLayout(new FillLayout());
-//			
-//			GLData data = new GLData();
-//			data.doubleBuffer = true;
-//			final GLCanvas canvas = new GLCanvas(comp, SWT.NONE, data);
-//			
-//			canvas.setCurrent();
-//			
-//			try
-//			{
-//				GLContext.useContext(canvas);
-//			}
-//			catch(LWJGLException e)
-//			{
-//				e.printStackTrace();
-//			}
-//		}
+		/**
+		 * Set up the OpenGL (lwjgl) capabilities for the program.
+		 */
+		{
+			System.setProperty("org.lwjgl.librarypath", PROPERTIES.get("arrowide.location") + "/res/native/" + PROPERTIES.get("os.name") + "/");
+			
+			Composite comp = new Composite(window.getShell(), SWT.NONE);
+			comp.setLayout(new FillLayout());
+			
+			GLData data = new GLData();
+			data.doubleBuffer = true;
+			final GLCanvas canvas = new GLCanvas(comp, SWT.NONE, data);
+			
+			canvas.setCurrent();
+			
+			try
+			{
+				GLContext.useContext(canvas);
+			}
+			catch(LWJGLException e)
+			{
+				e.printStackTrace();
+			}
+		}
 		
 		if (CONFIG_DATA.containsKey("monitor.width") && CONFIG_DATA.containsKey("monitor.height"))
 		{

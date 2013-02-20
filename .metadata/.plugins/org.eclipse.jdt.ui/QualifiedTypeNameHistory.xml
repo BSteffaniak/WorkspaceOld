@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.nio.FloatBuffer"/>
-<fullyQualifiedTypeName name="org.lwjgl.BufferUtils"/>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.listeners.MoveListener"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.events.ControlListener"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.events.MoveEvent"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.events.TouchListener"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.events.DragDetectListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.FocusListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.GestureListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.ShellListener"/>
@@ -33,21 +25,17 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.bundle.Bundle.VertexOffset"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.bundle.Bundle"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.SpriteSheet"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.opengl.GL"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.util.Camera"/>
 <fullyQualifiedTypeName name="org.lwjgl.input.Mouse"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.Display"/>
 <fullyQualifiedTypeName name="java.awt.MouseInfo"/>
 <fullyQualifiedTypeName name="java.awt.PointerInfo"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.input.Keyboard"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Display"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Listener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.MouseListener"/>
 <fullyQualifiedTypeName name="java.awt.Robot"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.input.Mouse"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.listeners.GameListener"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.GameEntry"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Cursor"/>
@@ -60,4 +48,16 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.util.Intersects"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.util.Rectangle"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Rectangle"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.awt.KeyboardFocusManager"/>
+<fullyQualifiedTypeName name="java.awt.KeyEventDispatcher"/>
+<fullyQualifiedTypeName name="java.awt.event.KeyEvent"/>
+<fullyQualifiedTypeName name="java.awt.KeyEventPostProcessor"/>
+<fullyQualifiedTypeName name="java.awt.DefaultKeyboardFocusManager"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Listener"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.events.KeyListener"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.shader.Shader"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.opengl.GL"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.opengl.FrameBuffer"/>
 </qualifiedTypeNameHistroy>

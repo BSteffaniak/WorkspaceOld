@@ -9,3 +9,4 @@
 1361233502389	Rename method 'verticesAmount'
 1361242287044	Move compilation unit
 1361245689773	Rename local variable 'code'
+1361321924272	Rename field 'program'
