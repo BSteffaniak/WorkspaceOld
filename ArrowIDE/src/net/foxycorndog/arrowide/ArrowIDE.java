@@ -595,7 +595,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					PrinterData data = dialog.open();
 					
 					FontData fd[] = codeField.getFont().getFontData().clone();
-					fd[0].setHeight(12);
+					fd[0].setHeight(10);
 					
 					TextPrinter printer = new TextPrinter(data, codeField.getText(), new Font(display, fd[0]), codeField.getStyles());
 					printer.setMargins(1, 1, 1, 1);

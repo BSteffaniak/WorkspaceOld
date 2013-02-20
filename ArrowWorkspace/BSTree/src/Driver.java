@@ -23,21 +23,21 @@ public class Driver
 		t.add("Alfred");
 		t.add("Al");
 		t.add("Fred");
-		t.add("Greg");
-		t.add("Lyle");
-		t.add("Kyle");
 		
-		System.out.println("Done: " + t);
-		System.out.println(t.remove("Bill"));
+		System.out.println(t);
 		
-//		t.add("a");
-//		t.add("b");
-//		t.add("c");
-//		t.add("d");
-//		t.add("e");
-//		t.add("f");
-//		t.add("g");
+		t = new Tree();
 		
-		System.out.println("Done: " + t);
+		t.add("Bill");
+		t.add("Henrietta");
+		t.add("Joe");
+		t.add("Fred");
+		t.add("Mr. M");
+		t.add("Noman");
+		t.add("Alfred");
+		t.add("Al");
+		t.add("Fred");
+		
+		System.out.println(t);
 	}
 }

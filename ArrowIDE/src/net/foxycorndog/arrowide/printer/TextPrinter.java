@@ -116,8 +116,8 @@ public class TextPrinter
 			else if (c == '\n')
 			{
 				printWord(word.toString(), x, y, gc, offset);
-				
 				offset += word.length();
+				
 				break;
 			}
 			
@@ -135,7 +135,7 @@ public class TextPrinter
 			
 			printChar(c, x, y, gc, offset);
 			
-			x += gc.stringExtent(c + "").x;
+			x += gc.stringExtent(c + "").x * (c == '\t' ? 4 : 1);
 		}
 	}
 	

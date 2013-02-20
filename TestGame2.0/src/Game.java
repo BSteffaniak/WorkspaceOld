@@ -149,15 +149,15 @@ public class Game extends GameEntry
 				
 				camera = new Camera(0, 2, 0);
 				
-				flashlight = new Shader(new String[] { "res/shaders/vertex.vs" }, new String[] { "res/shaders/vertex.fs" , "res/shaders/flashlight.shade", "res/shaders/diffuseLights.shade" });
+				flashlight = new Shader(new String[] { "res/shaders/vertex.vs", "res/shaders/shadow.vs" }, new String[] { "res/shaders/vertex.fs" , "res/shaders/flashlight.shade", "res/shaders/diffuseLights.shade", "res/shaders/shadow.frag" });
 				
 				try
 				{
 					frameBuffer = new FrameBuffer();
 				}
-				catch ()
+				catch (UnsupportedOperationException e)
 				{
-					
+					e.printStackTrace();
 				}
 			}
 			
@@ -224,6 +224,7 @@ public class Game extends GameEntry
 				
 //				flashlight.uniform1i("time", (int)System.currentTimeMillis());
 //				flashlight.uniform1i("counter", dfps % 8);
+				flashlight.uniform1i("fboSupported", frameBuffer.isSupported() ? 1 : 0);
 				flashlight.uniform3f("camPos", camera.getX(), camera.getY(), camera.getZ());
 				flashlight.uniform3f("flashlightPos", camera.getX(), camera.getY(), camera.getZ());
 				flashlight.uniform3f("specColor", 1, 1, 1);

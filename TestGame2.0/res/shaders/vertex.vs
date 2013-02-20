@@ -8,20 +8,20 @@
  * program.
  * Attribute is set by the Java code and read by the vertex program.
  */
-uniform int    lightNumber;
-uniform int    time;
-uniform int    counter;
-uniform int    screenWidth, screenHeight;
+uniform int		lightNumber;
+uniform int		time;
+uniform int		counter;
+uniform int		fboSupported;
 
-uniform float  intensity;
+uniform float	intensity;
 
-uniform vec3   camPos;
+uniform vec3	camPos;
 
-uniform vec3   specColor;
+uniform vec3	specColor;
 
-varying vec4   fragScreenPos;
-varying vec4   fragWorldPos;
-varying vec3   fragNormal;
+varying vec4	fragScreenPos;
+varying vec4	fragWorldPos;
+varying vec3	fragNormal;
 
 attribute vec2 texCoord;
 

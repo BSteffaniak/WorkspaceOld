@@ -1,8 +1,0 @@
-Vertex shader at "shadow.frag" was not compiled correctly:
-	shadow.frag:3 : error C1008: undefined variable "pos"
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Vertex shader at "shadow.frag" was not compiled correctly:
-	shadow.frag:9 : error C1067: too little data in type constructor
-Compiled successfully.

@@ -58,15 +58,23 @@ public class Tree implements BSTree
 	}
 	
 	/**
+	 * The public interface to add an object to the tree.
+	 */
+	public void add(Comparable cmp)
+	{
+		root = addData(root, cmp);
+	}
+	
+	/**
 	 * The generic implementation to add an object to the tree.
 	 */
 	private TreeNode addData(TreeNode r, Comparable cmp)
 	{   
 		/* if the TreeNode is empty then create a new Node at the root, r
 		 * else check if the object is smaller than the current object at TreeNode, r
-		 * if smaller then recursively call “addValue” to attach the object to the
+		 * if smaller then recursively call “addData” to attach the object to the
 		 * left side of current TreeNode, r
-		 * if bigger then recursively call “addValue” to attach object to right side
+		 * if bigger then recursively call “addData” to attach object to right side
 		 */
 		if (r == null)
 		{
@@ -89,11 +97,28 @@ public class Tree implements BSTree
 	}
 	
 	/**
-	 * The public interface to add an object to the tree.
+	 * @return A string representation of the tree before ordering.
 	 */
-	public void add(Comparable cmp)
+	public String toStringPreOrder()
 	{
-		root = addData(root, cmp);
+		return this.getClass().getSimpleName() + " { " + toStringPreOrder(root) + " }"; 
+	}
+	
+	/**
+	 * @return A string representation of the tree before ordering.
+	 */
+	public String toStringPreOrder(TreeNode node)
+	{
+		if (node == null)
+		{
+			return "";
+		}
+		else
+		{
+			return node.getData() + ", "
+					+ toStringPreOrder(node.getLeftNode())
+					+ toStringPreOrder(node.getRightNode());
+		}
 	}
 	
 	/**
@@ -101,13 +126,21 @@ public class Tree implements BSTree
 	 */
 	public String toString() 
     { 
-    	return this.getClass().getSimpleName() + " { " + toString(root) + " }"; 
+    	return this.getClass().getSimpleName() + " { " + toStringInOrder() + " }"; 
     }
 	
 	/**
 	 * @return A string representation of the node's left, right nodes and data.
 	 */
-    private String toString(TreeNode node)
+	public String toStringInOrder()
+	{
+		return toStringInOrder(root);
+	}
+	
+	/**
+	 * @return A string representation of the node's left, right nodes and data.
+	 */
+    private String toStringInOrder(TreeNode node)
     {
 		if (node == null)
 		{
@@ -115,9 +148,9 @@ public class Tree implements BSTree
 		}
 		else
 		{
-			return "(" + toString(node.getLeftNode()) +
+			return "(" + toStringInOrder(node.getLeftNode()) +
 					" " + node.getData() +
-					" " + toString(node.getRightNode()) + ")";
+					" " + toStringInOrder(node.getRightNode()) + ")";
 		}
     }
 	
@@ -140,22 +173,6 @@ public class Tree implements BSTree
 		}
 		
 		return 1 + Math.max(height(root.getLeftNode()), height(root.getRightNode()));
-	}
-	
-	/**
-	 * @return The Tree using Pre-Order traversal.
-	 */
-	public String toStringPreOrder()
-	{
-		return null;
-	}
-	
-	/**
-	 * @return The Tree elements using In-Order traversal.
-	 */
-	public String toStringInOrder()
-	{
-		return toString();
 	}
 	
 	/**
