@@ -1,0 +1,33 @@
+package net.foxycorndog.thedigginggame.tile;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import net.foxycorndog.jfoxylib.graphics.SpriteSheet;
+
+public class Tile
+{
+	public static final SpriteSheet TILES;
+	
+	static
+	{
+		int cols = 0;
+		int rows = 0;
+		
+		BufferedImage spriteSheet = null;
+		
+		try
+		{
+			spriteSheet = ImageIO.read(new File("res/images/texturepacks/16/minecraft/sprites.png"));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		TILES = new SpriteSheet(spriteSheet, cols, rows);
+	}
+}

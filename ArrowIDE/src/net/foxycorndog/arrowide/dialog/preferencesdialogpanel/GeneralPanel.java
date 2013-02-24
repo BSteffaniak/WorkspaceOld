@@ -10,10 +10,10 @@ import org.eclipse.swt.widgets.Shell;
 import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.components.DropdownMenu;
 import net.foxycorndog.arrowide.components.FileLocator;
-import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
+import net.foxycorndog.arrowide.dialog.DialogPanel;
 import net.foxycorndog.arrowide.file.FileUtils;
 
-public class GeneralPanel extends PreferencesDialogPanel
+public class GeneralPanel extends DialogPanel
 {
 	private DropdownMenu customWindow;
 	

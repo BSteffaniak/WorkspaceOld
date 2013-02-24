@@ -1,0 +1,121 @@
+package net.foxycorndog.thedigginggame.map;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import net.foxycorndog.jfoxylib.bundle.Bundle;
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+import net.foxycorndog.thedigginggame.actor.Actor;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 22, 2013 at 4:23:10 AM
+ * @since	v
+ * @version Feb 22, 2013 at 4:23:10 AM
+ * @version	v
+ */
+public class Map
+{
+	private boolean	collision;
+	
+	private float	x, y;
+	
+	private HashMap<Integer, HashMap<Integer, Chunk>> chunks;
+	
+	private ArrayList<Actor>	actors;
+	
+	private abstract class Task
+	{
+		public abstract void run(Chunk chunk);
+	}
+	
+	public Map()
+	{
+		chunks = new HashMap<Integer, HashMap<Integer, Chunk>>();
+		
+		actors = new ArrayList<Actor>();
+	}
+	
+	public void addActor(Actor actor)
+	{
+		actors.add(actor);
+	}
+	
+	public void generateChunk(int rx, int ry)
+	{
+		Chunk chunk = new Chunk(this, rx, ry);
+		
+		chunk.generate();
+		
+		if (!chunks.containsKey(rx))
+		{
+			chunks.put(rx, new HashMap<Integer, Chunk>());
+		}
+		
+		chunks.get(rx).put(ry, chunk);
+	}
+	
+	public void render()
+	{
+		iterateChunks(new Task()
+		{
+			public void run(Chunk chunk)
+			{
+				chunk.render();
+			}
+		});
+	}
+	
+	private void iterateChunks(Task task)
+	{
+		Collection<HashMap<Integer, Chunk>> values = chunks.values();
+		
+		Iterator iterator = values.iterator();
+		
+		while (iterator.hasNext())
+		{
+			Object next = iterator.next();
+			
+			HashMap<Integer, Chunk> map = (HashMap<Integer, Chunk>)next;
+			
+			Chunk chunks[] = map.values().toArray(new Chunk[0]);
+			
+			for (Chunk chunk : chunks)
+			{
+				task.run(chunk);
+			}
+		}
+	}
+	
+	public boolean isCollision(final Actor actor)
+	{
+		collision = false;
+		
+		iterateChunks(new Task()
+		{
+			public void run(Chunk chunk)
+			{
+				if (chunk.isCollision(actor))
+				{
+					collision = true;
+				}
+			}
+		});
+		
+		return collision;
+	}
+	
+	public float getX()
+	{
+		return x;
+	}
+	
+	public float getY()
+	{
+		return y;
+	}
+}

@@ -6,57 +6,56 @@ import java.awt.AWTException;
 import java.awt.MouseInfo;
 import java.awt.PointerInfo;
 import java.awt.Robot;
+import java.util.ArrayList;
 
+import net.foxycorndog.jfoxylib.Frame;
 import net.foxycorndog.jfoxylib.components.Panel;
+import net.foxycorndog.jfoxylib.events.MouseEvent;
+import net.foxycorndog.jfoxylib.listeners.MouseListener;
 import net.foxycorndog.jfoxylib.util.Intersects;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 import org.lwjgl.LWJGLException;
 
 public class Mouse
-{
-	private static boolean		pressed[], next[];
-	
-	private static int			oldX, oldY, forcedX, forcedY;
-	private static int			mouseWheel;
-	
-	private static PointerInfo	pointerInfo;
-	
-	private static Robot		robot;
+{	
+	private static org.lwjgl.input.Mouse	mouse;
 	
 	static
 	{
-		pressed = new boolean[MouseInfo.getNumberOfButtons()];
-		
-		next = new boolean[pressed.length];
-		
-		pointerInfo = MouseInfo.getPointerInfo();
-		
-		Listener listener = new Listener()
+		try
 		{
-			public void handleEvent(Event event)
-			{
-				if (event.type == SWT.MouseDown)
-				{
-					pressed[event.button - 1] = true;
-				}
-				else if (event.type == SWT.MouseUp)
-				{
-					pressed[event.button - 1] = false;
-				}
-				else if (event.type == SWT.MouseWheel)
-				{
-					mouseWheel = event.count;
-				}
-			}
-		};
-		
-		Display.getDefault().addFilter(SWT.MouseDown, listener);
-		Display.getDefault().addFilter(SWT.MouseUp, listener);
-		Display.getDefault().addFilter(SWT.MouseWheel, listener);
+			mouse.create();
+		}
+		catch (LWJGLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	private static int				oldX, oldY;
+	private static int				dx, dy;
+	private static int				dWheel;
+	private static int				forcedX, forcedY;
+	
+	private static Robot			robot;
+	
+	private static MouseListener	grabListener;
+	
+	private static boolean			able[];
+	
+	private static ArrayList<MouseListener> listeners;
+	
+	public  static final int BUTTON_0 = 0;
+	public  static final int BUTTON_1 = 1;
+	public  static final int BUTTON_2 = 2;
+	
+	public  static final int LEFT_MOUSE_BUTTON  = BUTTON_0;
+	public  static final int RIGHT_MOUSE_BUTTON = BUTTON_1;
+	public  static final int MOUSE_WHEEL_BUTTON = BUTTON_2;
+	
+	static
+	{
+		listeners = new ArrayList<MouseListener>();
 		
 		try
 		{
@@ -67,84 +66,188 @@ public class Mouse
 			e.printStackTrace();
 		}
 		
-		update();
-	}
-	
-	public static boolean buttonPressed(int buttonId)
-	{
-		return pressed[buttonId];
-	}
-	
-	public static boolean next(int keyId)
-	{
-		boolean nxt = pressed[keyId] && next[keyId];
+		grabListener = new MouseListener()
+		{
+			public void mousePressed(MouseEvent event)
+			{
+				
+			}
+
+			public void mouseReleased(MouseEvent event)
+			{
+				
+			}
+
+			public void mouseMoved(MouseEvent event)
+			{
+//				oldX = event.getX();
+//				oldY = event.getY();
+				
+				setLocation(Frame.getX() + Frame.getWidth() / 2, Frame.getY() + Frame.getHeight() / 2);
+			}
+
+			public void mouseDown(MouseEvent event)
+			{
+				
+			}
+
+			public void mouseUp(MouseEvent event)
+			{
+				
+			}
+		};
 		
-		return nxt;
-	}
-	
-	public static int getX()
-	{
-		return pointerInfo.getLocation().x;
-	}
-	
-	public static int getY()
-	{
-		return pointerInfo.getLocation().y;
-	}
-	
-	public static int getDX()
-	{
-		return pointerInfo.getLocation().x - oldX;
-	}
-	
-	public static int getDY()
-	{
-		return pointerInfo.getLocation().y - oldY;
-	}
-	
-	public static int getDWheel()
-	{
-		return mouseWheel;
+		able = new boolean[3];
+		
+		for (int i = 0; i < able.length; i++)
+		{
+			able[i] = true;
+		}
 	}
 	
 	public static void setLocation(int x, int y)
 	{
-		forcedX = x - getX();
-		forcedY = y - getY();
+		forcedX = x - (getX() + Frame.getX());
+		forcedY = y - (getY() + Frame.getY());
+		
+		System.out.println(forcedX + ", " + forcedY + " : " + getX() + ", " + getY());
 		
 		robot.mouseMove(x, y);
 	}
 	
-	public static boolean inside(Panel panel)
+	public static int getX()
 	{
-		int x = panel.getDisplayX();
-		int y = panel.getDisplayY();
-		
-		return Intersects.rectangles(pointerInfo.getLocation().x, pointerInfo.getLocation().y, 1, 1, x, y, panel.getWidth(), panel.getHeight());
+		return mouse.getX();
+	}
+	
+	public static int getY()
+	{
+		return mouse.getY();
+	}
+	
+	public static int getDX()
+	{
+//		System.out.println("dx: " + dx);
+		return dx;
+	}
+	
+	public static int getDY()
+	{
+//		System.out.println("dy: " + dy);
+		return dy;
+	}
+	
+	public static boolean isButtonDown(int button)
+	{
+		return mouse.isButtonDown(button);
+	}
+	
+	public static boolean isGrabbed()
+	{
+		return mouse.isGrabbed();
+	}
+	
+	public static void setGrabbed(boolean grabbed)
+	{
+		if (grabbed != mouse.isGrabbed())
+		{
+			if (grabbed)
+			{
+				listeners.add(grabListener);
+			}
+			else
+			{
+				listeners.remove(grabListener);
+			}
+			
+//			mouse.setGrabbed(grabbed);
+		}
+	}
+	
+	public static int getDWheel()
+	{
+		return dWheel;
+	}
+	
+	public static boolean[] getButtons()
+	{
+		return new boolean[] { mouse.isButtonDown(BUTTON_0), mouse.isButtonDown(BUTTON_1), mouse.isButtonDown(BUTTON_2) };
 	}
 	
 	public static void update()
 	{
-		oldX        = pointerInfo.getLocation().x + forcedX;
-		oldY        = pointerInfo.getLocation().y + forcedY;
+		dx = mouse.getX() - oldX;
+		dy = mouse.getY() - oldY;
 		
-		forcedX     = 0;
-		forcedY     = 0;
+		dWheel = mouse.getDWheel();
 		
-		mouseWheel  = 0;
-		
-		pointerInfo = MouseInfo.getPointerInfo();
-		
-		for (int i = 0; i < pressed.length; i ++)
+		if (dx != 0 || dy != 0)
 		{
-			if (!pressed[i])
+			for (int i = listeners.size() - 1; i >= 0; i--)
 			{
-				next[i] = true;
+				MouseEvent event = new MouseEvent(getX(), getY(), -1);
+				
+				listeners.get(i).mouseMoved(event);
+			}
+		}
+		
+		for (int button = 0; button < 3; button++)
+		{
+			if (Mouse.isButtonDown(button))
+			{
+				if (able[button])
+				{
+					for (int i = listeners.size() - 1; i >= 0; i--)
+					{
+						MouseEvent event = new MouseEvent(getX(), getY(), button);
+						
+						listeners.get(i).mousePressed(event);
+					}
+					
+					able[button] = false;
+				}
+				
+				for (int i = listeners.size() - 1; i >= 0; i--)
+				{
+					MouseEvent event = new MouseEvent(getX(), getY(), button);
+					
+					listeners.get(i).mouseDown(event);
+				}
 			}
 			else
 			{
-				next[i] = false;
+				if (!able[button])
+				{
+					for (int i = listeners.size() - 1; i >= 0; i--)
+					{
+						MouseEvent event = new MouseEvent(getX(), getY(), button);
+						
+						listeners.get(i).mouseReleased(event);
+					}
+				}
+				
+				able[button] = true;
+				
+				for (int i = listeners.size() - 1; i >= 0; i--)
+				{
+					MouseEvent event = new MouseEvent(getX(), getY(), button);
+					
+					listeners.get(i).mouseUp(event);
+				}
 			}
 		}
+		
+		oldX = mouse.getX();
+		oldY = mouse.getY();
+		
+		forcedX = 0;
+		forcedY = 0;
+		
+		mouse.next();
+	}
+	
+	public static void addMouseListener(MouseListener listener)
+	{
+		listeners.add(listener);
 	}
 }

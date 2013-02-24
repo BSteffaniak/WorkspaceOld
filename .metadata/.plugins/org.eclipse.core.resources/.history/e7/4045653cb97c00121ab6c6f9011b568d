@@ -1,0 +1,10 @@
+package net.foxycorndog.thedigginggame.tile;
+
+import net.foxycorndog.jfoxylib.graphics.SpriteSheet;
+
+public class Tile
+{
+	public static final SpriteSheet TILES;
+	
+	
+}

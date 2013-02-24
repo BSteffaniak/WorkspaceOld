@@ -1,0 +1,20 @@
+package net.foxycorndog.arrowide.dialog;
+
+import org.eclipse.swt.widgets.Composite;
+
+/**
+ * Dialog for each of the projects' properties. Just like the Preferences
+ * Panel.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 20, 2013 at 6:31:56 PM
+ * @since	v0.7
+ * @version	v0.7
+ */
+public class PropertiesDialog extends PanelledDialog
+{
+	public PropertiesDialog(Composite parent)
+	{
+		super(parent);
+	}
+}

@@ -4,7 +4,7 @@ import static net.foxycorndog.arrowide.ArrowIDE.CONFIG_DATA;
 import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.components.DropdownMenu;
 import net.foxycorndog.arrowide.components.FileLocator;
-import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
+import net.foxycorndog.arrowide.dialog.DialogPanel;
 import net.foxycorndog.arrowide.file.FileUtils;
 
 import org.eclipse.swt.SWT;
@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-public class AssemblyPanel extends PreferencesDialogPanel
+public class AssemblyPanel extends DialogPanel
 {
 	private FileLocator		dosboxLocator;
 

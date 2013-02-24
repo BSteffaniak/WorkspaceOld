@@ -1,0 +1,6 @@
+package net.foxycorndog.arrowide.dialog;
+
+public abstract class PanelledDialog implements Dialog
+{
+	
+}

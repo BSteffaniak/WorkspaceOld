@@ -1,0 +1,27 @@
+package net.foxycorndog.jfoxylib;
+
+import org.lwjgl.LWJGLException;
+
+public class Display
+{
+	private static int fps;
+	
+	private static org.lwjgl.opengl.Display display;
+	
+	public static void create()
+	{
+		try
+		{
+			display.create();
+		}
+		catch (LWJGLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public static int getFPS()
+	{
+		return fps;
+	}
+}

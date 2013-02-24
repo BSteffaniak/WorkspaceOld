@@ -1,0 +1,11 @@
+package net.foxycorndog.jfoxylib;
+
+public class Frame
+{
+	private static int fps;
+
+	public static int getFPS()
+	{
+		return fps;
+	}
+}

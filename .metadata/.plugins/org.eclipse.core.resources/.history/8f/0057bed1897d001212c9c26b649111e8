@@ -1,0 +1,19 @@
+package net.foxycorndog.jfoxylib.components;
+
+import org.eclipse.swt.SWT;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 15, 2013 at 11:44:40 PM
+ * @since	v0.1
+ * @version Feb 21, 2013 at 12:24:41 AM
+ * @version	v0.1
+ */
+public class Window extends Frame
+{
+	public Window()
+	{
+	}
+}

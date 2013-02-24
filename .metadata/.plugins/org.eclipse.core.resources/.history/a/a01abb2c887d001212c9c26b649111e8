@@ -1,0 +1,7 @@
+package net.foxycorndog.jfoxylib.listeners;
+
+public interface MouseListener
+{
+	public void mousePressed(MouseEvent event);
+	public void mouseReleased(MouseEvent event);
+}

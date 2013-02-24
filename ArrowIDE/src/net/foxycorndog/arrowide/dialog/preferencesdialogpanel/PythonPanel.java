@@ -2,7 +2,7 @@ package net.foxycorndog.arrowide.dialog.preferencesdialogpanel;
 
 import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.components.FileLocator;
-import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
+import net.foxycorndog.arrowide.dialog.DialogPanel;
 import net.foxycorndog.arrowide.file.FileUtils;
 
 import org.eclipse.swt.SWT;
@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import static net.foxycorndog.arrowide.ArrowIDE.CONFIG_DATA;
 
-public class PythonPanel extends PreferencesDialogPanel
+public class PythonPanel extends DialogPanel
 {
 	private FileLocator pythonLocator;
 	

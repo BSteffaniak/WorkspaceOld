@@ -25,6 +25,7 @@ import static org.lwjgl.opengl.GL11.GL_PROJECTION;
 import static org.lwjgl.opengl.GL11.GL_REPEAT;
 import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_BACK;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_BIT;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_ENV;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_ENV_MODE;
@@ -34,6 +35,7 @@ import static org.lwjgl.opengl.GL11.glAlphaFunc;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glClearDepth;
+import static org.lwjgl.opengl.GL11.glCullFace;
 import static org.lwjgl.opengl.GL11.glDepthFunc;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glHint;
@@ -46,12 +48,13 @@ import static org.lwjgl.opengl.GL11.glTexParameteri;
 import static org.lwjgl.opengl.GL11.glViewport;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 import net.foxycorndog.jfoxylib.graphics.Texture;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.opengl.GLCanvas;
-import org.eclipse.swt.opengl.GLData;
-import org.eclipse.swt.widgets.Composite;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -89,25 +92,62 @@ public class GL
 		
 		String nativeLocation = null;
 		
-		for (int i = 0; i < paths.length; i++)
+		File binFile = null;
+		
+		try
 		{
-			// TODO: Make more strict...
-			if (paths[i].contains("JFoxyLib"))
+			URL loc = GL.class.getProtectionDomain().getCodeSource().getLocation();
+			URI uri = loc.toURI();
+			
+			String uriStr = uri.toString();
+			
+			boolean jar = uriStr.startsWith("rsrc:") || uriStr.startsWith("jar:");
+			
+			String os = System.getProperty("os.name").toLowerCase();
+			
+			if (os.startsWith("win"))
 			{
-				String fileSep = System.getProperty("file.separator");
-				StringBuilder builder = new StringBuilder();
-				builder.append(paths[i].replace("\\", "/"));
+				os = "windows";
+			}
+			else if (os.startsWith("mac"))
+			{
+				os = "macosx";
+			}
+			else if (os.startsWith("lin"))
+			{
+				os = "linux";
+			}
+			else if (os.startsWith("sol"))
+			{
+				os = "solaris";
+			}
+			else
+			{
+				throw new RuntimeException("Unknown operating system!");
+			}
+			
+			if (jar)
+			{
+				String workingDirectory = System.getProperty("user.dir").replace('\\', '/');
 				
-				if (builder.indexOf("/bin") >= builder.length() - 4)
-				{
-					builder.delete(builder.length() - 4, builder.length());
-					
-					nativeLocation = builder + "/native/windows/";
-				}
+				nativeLocation = workingDirectory + "/native/" + os;
+			}
+			else
+			{
+				binFile = new File(uri);
+		
+				nativeLocation = binFile.getParent().replace('\\', '/') + "/native/" + os;
 			}
 		}
+		catch (URISyntaxException e)
+		{
+			e.printStackTrace();
+		}
 		
+//		System.setProperty("java.library.path", System.getProperty("java.library.path") + ";" + nativeLocation + ";");
 		System.setProperty("org.lwjgl.librarypath", nativeLocation);
+		
+		FOV = 55.0f;
 	}
 	
 	public static void initOrtho(int width, int height)
@@ -141,7 +181,7 @@ public class GL
 	
 	public static void initPerspective(int width, int height, float zClose, float zFar)
 	{
-		glEnable(GL11.GL_TEXTURE_2D);
+		glEnable(GL_TEXTURE_2D);
 		
 //		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		
@@ -155,11 +195,12 @@ public class GL
 		glEnable(GL_DEPTH_TEST); // Enables Depth Testing
 		glDepthFunc(GL_LEQUAL); // The Type Of Depth Testing To Do
 		
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		
 		glViewport(0, 0, width, height);
 		glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
 		glLoadIdentity(); // Reset The Projection Matrix
-		
-		FOV = 55.0f;
 
 		// Calculate The Aspect Ratio Of The Window
 		gluPerspective(FOV, (float)width / height, zClose, zFar);
@@ -250,11 +291,26 @@ public class GL
 		GL11.glLoadIdentity();
 	}
 	
+	public static float getFOV()
+	{
+		return FOV;
+	}
+	
+	public static void setFOV(float FOV)
+	{
+		GL.FOV = FOV;
+	}
+	
 	public static float[] genRectVerts(float x, float y, float width, float height)
 	{
 		float array[] = new float[4 * 2];
 		
 		int index = 0;
+		
+		x      -= 0.0001f;
+		width  += 0.0002f;
+		y      -= 0.0001f;
+		height += 0.0002f;
 		
 		// Front
 		array[index++] = x;
@@ -332,46 +388,48 @@ public class GL
 	{
 		float array[] = new float[4 * 2];
 		
+		float tolerance = -0.000001f;
+		
 		if (mirrorHorizontal)
 		{
-			array[0] = rx * offsets[0];
+			array[0] = rx * offsets[2] + tolerance * 2;
 			
-			array[2] = rx * offsets[0];
+			array[2] = rx * offsets[0] - tolerance;
 			
-			array[4] = rx * offsets[2];
+			array[4] = rx * offsets[0] - tolerance;
 
-			array[6] = rx * offsets[2];
+			array[6] = rx * offsets[2] + tolerance * 2;
 		}
 		else
 		{
-			array[0] = rx * offsets[0];
+			array[0] = rx * offsets[0] - tolerance;
 			
-			array[2] = rx * offsets[2];
+			array[2] = rx * offsets[2] + tolerance * 2;
 			
-			array[4] = rx * offsets[2];
+			array[4] = rx * offsets[2] + tolerance * 2;
 			
-			array[6] = rx * offsets[0];
+			array[6] = rx * offsets[0] - tolerance;
 		}
 		
 		if (mirrorVertical)
 		{
-			array[1] = ry * offsets[3];
+			array[1] = ry * offsets[3] + tolerance * 2;
 			
-			array[3] = ry * offsets[1];
+			array[3] = ry * offsets[3] + tolerance * 2;
 			
-			array[5] = ry * offsets[1];	
-
-			array[7] = ry * offsets[3];
+			array[5] = ry * offsets[1] - tolerance;
+			
+			array[7] = ry * offsets[1] - tolerance;
 		}
 		else
 		{
-			array[1] = ry * offsets[1];
+			array[1] = ry * offsets[1] - tolerance;
 			
-			array[3] = ry * offsets[1];
+			array[3] = ry * offsets[1] - tolerance;
 			
-			array[5] = ry * offsets[3];
+			array[5] = ry * offsets[3] + tolerance * 2;
 			
-			array[7] = ry * offsets[3];
+			array[7] = ry * offsets[3] + tolerance * 2;
 		}
 		
 		return array;
@@ -489,6 +547,35 @@ public class GL
 		array[index++] = x + width;
 		array[index++] = y;
 		array[index++] = z + depth;
+		
+		return array;
+	}
+	
+	public static float[] genRectColors(float r, float g, float b, float a)
+	{
+		float array[] = new float[4 * 4];
+		
+		int index = 0;
+		
+		array[index++] = r;
+		array[index++] = g;
+		array[index++] = b;
+		array[index++] = a;
+		
+		array[index++] = r;
+		array[index++] = g;
+		array[index++] = b;
+		array[index++] = a;
+		
+		array[index++] = r;
+		array[index++] = g;
+		array[index++] = b;
+		array[index++] = a;
+		
+		array[index++] = r;
+		array[index++] = g;
+		array[index++] = b;
+		array[index++] = a;
 		
 		return array;
 	}

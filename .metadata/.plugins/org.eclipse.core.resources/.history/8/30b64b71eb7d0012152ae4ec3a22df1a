@@ -1,0 +1,14 @@
+package net.foxycorndog.jfoxylib.components;
+
+public class Label extends Component
+{
+	public Label(Panel parent)
+	{
+		super(parent);
+	}
+	
+	public void setImage(Image image)
+	{
+		
+	}
+}

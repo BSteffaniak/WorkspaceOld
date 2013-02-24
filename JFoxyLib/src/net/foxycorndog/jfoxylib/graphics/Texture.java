@@ -24,15 +24,27 @@ public class Texture
 	
 	public Texture(String location) throws IOException
 	{
-		this(ImageIO.read(new File(location)));
+		BufferedImage img = ImageIO.read(new File(location));
+		
+		create(img, true);
 	}
 	
 	public Texture(BufferedImage image)
 	{
+		create(image, true);
+	}
+	
+	public Texture(BufferedImage image, boolean recreate)
+	{
+		create(image, recreate);
+	}
+	
+	private void create(BufferedImage image, boolean recreate)
+	{
 		GL.pushAttrib(GL.ALL_ATTRIB_BITS);
-		
-		id = loadTexture(image);
-		
+		{
+			id = loadTexture(image, recreate);
+		}
 		GL.popAttrib();
 	}
 	
@@ -48,7 +60,7 @@ public class Texture
 		return textureId;
 	}
 	
-	private int loadTexture(Image image)
+	private int loadTexture(BufferedImage image, boolean recreate)
 	{
 		// In which ID will we be storing this texture?
 	    int id = newTextureId();
@@ -69,8 +81,8 @@ public class Texture
 //	    
 //	    Bitmap bmp = Bitmap.createBitmap(temp, 0, 0, temp.getWidth(), temp.getHeight(), flip, true);
 	    
-	    this.width  = image.getWidth(null);
-	    this.height = image.getHeight(null);
+	    this.width  = image.getWidth();
+	    this.height = image.getHeight();
 	    
 	    this.genTexDimensions();
 	    
@@ -88,14 +100,19 @@ public class Texture
 	    
 //	    GLES10.glTexImage2D(GLES10.GL_TEXTURE_2D, 0, GLES10.GL_RGBA, width, height, 0, GLES10.GL_RGBA, GLES10.GL_UNSIGNED_BYTE, bb);
 	    
-	    BufferedImage img = new BufferedImage(width, height, BufferedImage.BITMASK);
-	    Graphics2D g = img.createGraphics();
-	    g.drawImage(image, 0, 0, null);
-	    g.dispose();
+	    if (recreate)
+	    {
+		    BufferedImage img = new BufferedImage(width, height, BufferedImage.BITMASK);
+		    Graphics2D g = img.createGraphics();
+		    g.drawImage(image, 0, 0, null);
+		    g.dispose();
+		    
+		    image = img;
+	    }
 	    
-	    int pixels[] = ((DataBufferInt)img.getRaster().getDataBuffer()).getData();
+	    int pixels[] = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 
-        ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4); //4 for RGBA, 3 for RGB
+        ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4); // 4 for RGBA, 3 for RGB
         
         for(int y = height - 1; y >= 0; y --)
         {
@@ -109,7 +126,7 @@ public class Texture
             }
         }
 
-        buffer.rewind(); //FOR THE LOVE OF GOD DO NOT FORGET THIS
+        buffer.rewind(); // FOR THE LOVE OF GOD DO NOT FORGET THIS
 
         // You now have a ByteBuffer filled with the color data of each pixel.
         // Now just create a texture ID and bind it. Then you can load it using 
@@ -165,8 +182,6 @@ public class Texture
 		}
 		
 		texHei = (float)height / pow;
-		
-//		Log.v("", "" + texWid + ", " + texHei);
 	}
 	
 	public float[] getImageOffsetsf()

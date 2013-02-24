@@ -1,0 +1,13 @@
+package net.foxycorndog.thedigginggame.map;
+
+import java.util.HashMap;
+
+public class Map
+{
+	private HashMap<Integer, HashMap<Integer, Chunk>> chunks;
+	
+	public Map()
+	{
+		chunks = new HashMap<Integer, HashMap<Integer,Chunk>>();
+	}
+}

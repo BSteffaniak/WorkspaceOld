@@ -1,0 +1,72 @@
+package net.foxycorndog.jfoxylib.components;
+
+import java.util.ArrayList;
+
+import net.foxycorndog.jfoxylib.events.ButtonEvent;
+import net.foxycorndog.jfoxylib.events.MouseEvent;
+import net.foxycorndog.jfoxylib.listeners.ButtonListener;
+import net.foxycorndog.jfoxylib.listeners.MouseListener;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 15, 2013 at 11:45:27 PM
+ * @since	v0.1
+ * @version	v0.1
+ */
+public class Button extends Component
+{
+	private String			text;
+	
+	private Label			label;
+	
+	private MouseListener	listener;
+	
+	private ArrayList<ButtonListener>	buttonListeners;
+	
+	public Button(Panel parent)
+	{
+		super(parent);
+		
+		buttonListeners = new ArrayList<ButtonListener>();
+		
+		final Button thisButton = this;
+		
+		listener = new MouseListener()
+		{
+			public void mousePressed(MouseEvent event)
+			{
+				
+			}
+			
+			public void mouseReleased(MouseEvent event)
+			{
+				if (event.getX() >= 0 && event.getX() < getWidth() && event.getY() >= 0 && event.getY() < getHeight())
+				{
+					ButtonEvent buttonEvent = new ButtonEvent(thisButton);
+					
+					for (int i = buttonListeners.size() - 1; i >= 0; i--)
+					{
+						buttonListeners.get(i).buttonPressed(buttonEvent);
+					}
+				}
+			}
+			
+			public void mouseMoved(MouseEvent event)
+			{
+				
+			}
+		};
+	}
+	
+	public void setText(String text)
+	{
+		this.text = text;
+	}
+	
+	public void addButtonListener(ButtonListener listener)
+	{
+		buttonListeners.add(listener);
+	}
+}

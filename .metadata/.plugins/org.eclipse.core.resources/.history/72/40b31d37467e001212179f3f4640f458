@@ -1,0 +1,26 @@
+package net.foxycorndog.thedigginggame.components;
+
+import net.foxycorndog.jfoxylib.bundle.Bundle;
+import net.foxycorndog.jfoxylib.graphics.Texture;
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+
+public class Cursor
+{
+	private int		size;
+	
+	private Texture	texture;
+	
+	private Bundle	bundle;
+	
+	public Cursor(int size)
+	{
+		this.size = size;
+		
+		bundle = new Bundle(4, 2, true, false);
+	}
+	
+	public void render()
+	{
+		bundle.render(GL.QUADS, texture);
+	}
+}

@@ -159,7 +159,7 @@ public class AssemblyLanguage
 		
 		if (!CONFIG_DATA.containsKey("assembly.compiler") || CONFIG_DATA.get("assembly.compiler").equals(""))
 		{
-			PreferencesDialog.getDefault().openPreferencesTo(AssemblyPanel.class);
+			PreferencesDialog.getDefault().openToPanel(AssemblyPanel.class);
 			
 			return;
 		}

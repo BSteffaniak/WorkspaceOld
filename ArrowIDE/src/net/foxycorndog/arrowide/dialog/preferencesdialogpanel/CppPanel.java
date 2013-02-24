@@ -11,12 +11,12 @@ import org.eclipse.swt.widgets.Text;
 
 import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.components.FileLocator;
-import net.foxycorndog.arrowide.dialog.PreferencesDialogPanel;
+import net.foxycorndog.arrowide.dialog.DialogPanel;
 import net.foxycorndog.arrowide.file.FileUtils;
 
 import static net.foxycorndog.arrowide.ArrowIDE.CONFIG_DATA;
 
-public class CppPanel extends PreferencesDialogPanel
+public class CppPanel extends DialogPanel
 {
 	private FileLocator gppLocator, gccLocator;
 	

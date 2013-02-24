@@ -1,0 +1,28 @@
+package net.foxycorndog.jfoxylib;
+
+public class Frame
+{
+	private static int		fps;
+	
+	private static org.lwjgl.opengl.Display	display;
+	
+	public static void create()
+	{
+		display.create();
+	}
+
+	public static int getFPS()
+	{
+		return fps;
+	}
+	
+	public String getTitle()
+	{
+		return display.getTitle();
+	}
+	
+	public void setTitle()
+	{
+		return 
+	}
+}

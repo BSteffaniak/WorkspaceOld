@@ -1,0 +1,34 @@
+package net.foxycorndog.jfoxylib.events;
+
+public class MouseEvent
+{
+	private int		x, y;
+	private int		button;
+	
+	private long	when;
+	
+	public MouseEvent(int x, int y, int button)
+	{
+		this.when   = System.currentTimeMillis();
+		
+		this.x      = x;
+		this.y      = y;
+		
+		this.button = button;
+	}
+	
+	public int getX()
+	{
+		return x;
+	}
+	
+	public int getY()
+	{
+		return y;
+	}
+	
+	public int getButton()
+	{
+		return button;
+	}
+}

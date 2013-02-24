@@ -1,0 +1,11 @@
+package net.foxycorndog.arrowide.dialog;
+
+import org.eclipse.swt.widgets.Composite;
+
+public class PropertiesDialog extends PanelledDialog
+{
+	public PropertiesDialog(Composite parent)
+	{
+		super(parent);
+	}
+}

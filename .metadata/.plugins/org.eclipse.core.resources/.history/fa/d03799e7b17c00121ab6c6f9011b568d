@@ -1,0 +1,361 @@
+package net.foxycorndog.testgame;
+import java.awt.DefaultKeyboardFocusManager;
+import java.awt.KeyEventPostProcessor;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import net.foxycorndog.jfoxylib.GameEntry;
+import net.foxycorndog.jfoxylib.bundle.Bundle;
+import net.foxycorndog.jfoxylib.components.GLPanel;
+import net.foxycorndog.jfoxylib.components.Window;
+import net.foxycorndog.jfoxylib.font.Font;
+import net.foxycorndog.jfoxylib.graphics.SpriteSheet;
+import net.foxycorndog.jfoxylib.graphics.Texture;
+import net.foxycorndog.jfoxylib.graphics.opengl.FrameBuffer;
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+import net.foxycorndog.jfoxylib.input.Keyboard;
+import net.foxycorndog.jfoxylib.input.Mouse;
+import net.foxycorndog.jfoxylib.model.Model;
+import net.foxycorndog.jfoxylib.shader.Shader;
+import net.foxycorndog.jfoxylib.util.Camera;
+import net.foxycorndog.testgame.actor.Actor;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 18, 2013 at 6:17:58 PM
+ * @since	v
+ * @version	v
+ */
+public class Game extends GameEntry
+{
+	private GLPanel		panel;
+	
+	private Font		font;
+	
+	private Window		window;
+	
+	public static void main(String args[])
+	{
+		new Game();
+		
+		System.out.println("done.");
+	}
+	
+	public Game()
+	{
+		window = new Window();
+		window.setSize(800, 600);
+		window.center();
+		window.setResizable(true);
+		window.setMaximizable(true);
+		
+		window.open();
+		
+		setMainFrame(window);
+		
+		startGame();
+		
+		start();
+	}
+	
+	public void startGame()
+	{
+		createGame();
+	}
+	
+	public void createGame()
+	{
+		panel = new GLPanel(window.getContentPanel())
+		{
+			private boolean		rising;
+			
+			private int			fps;
+			private int			amountX, amountZ;
+			
+			private float		rot, y, loc;
+			
+			private Texture		brick, tile;
+			private SpriteSheet	sprites;
+			
+			private Model		bunny;
+			
+			private Bundle		world2D, world3D;
+			
+			private Actor		actor;
+			
+			private Shader		flashlight;
+			
+			private FrameBuffer	frameBuffer;
+			
+			public void init()
+			{
+				rot = 0;
+				
+				BufferedImage image = null;
+				
+				try
+				{
+					sprites = new SpriteSheet("res/images/sprites.png", 36, 18);
+					brick   = new Texture("res/images/brick.png");
+					tile    = new Texture("res/images/tile.png");
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+				
+				amountX = 400;
+				amountZ = 400;
+				
+				loc = 2.5f;
+				
+				world2D = new Bundle(4 * 3, 2);
+				world3D = new Bundle((4 * 6 * 2) + (4 * 6 * amountX * amountZ), 3);
+				
+				world2D.beginEditingVertices();
+				world2D.addVertices(GL.genRectVerts(0, 0, 100, 100));
+				world2D.endEditingVertices();
+
+				world2D.beginEditingTextures();
+				world2D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
+				world2D.endEditingTextures();
+				
+				world3D.beginEditingTextures();
+				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
+				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
+				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
+				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
+				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(2, 0, 1, 1)));
+				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(2, 0, 1, 1)));
+				world3D.endEditingTextures();
+
+
+				world3D.beginEditingVertices();
+				world3D.addVertices(GL.genCubeVerts(0, loc, -10, 2, 2, 2));
+				
+				world3D.addVertices(GL.genCubeVerts(-100, -2, -100, 200, 2, 200));
+				world3D.endEditingVertices();
+
+				world3D.beginEditingTextures();
+				world3D.addTextures(GL.genRectTextures(tile, 30, 30));
+				world3D.addTextures(GL.genRectTextures(tile, 30, 30));
+				world3D.addTextures(GL.genRectTextures(tile, 30, 30));
+				world3D.addTextures(GL.genRectTextures(tile, 30, 30));
+				world3D.addTextures(GL.genRectTextures(tile, 30, 30));
+				world3D.addTextures(GL.genRectTextures(tile, 30, 30));
+				
+				for (int z = 0; z < amountZ; z++)
+				{
+					for (int x = 0; x < amountX; x++)
+					{
+						world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
+						world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
+						world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
+						world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
+						world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(2, 0, 1, 1)));
+						world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(2, 0, 1, 1)));
+					}
+				}
+				
+				world3D.endEditingTextures();
+
+				world3D.beginEditingVertices();
+				for (int z = 0; z < amountZ; z++)
+				{
+					for (int x = 0; x < amountX; x++)
+					{
+						world3D.addVertices(GL.genCubeVerts(x * 4, y, z * 4, 2, 2, 2));
+					}
+				}
+				
+				world3D.endEditingVertices();
+				
+				world3D.beginEditingColors();
+				
+				world3D.setColors(0, GL.genRectColors(0.5f, 0.5f, 0.5f, 1));
+				
+				for (int i = 0; i < 100000; i++)
+				{
+					world3D.addColors(GL.genRectColors(0.5f, 0.5f, 0.5f, 1));
+				}
+				
+				world3D.endEditingColors();
+				
+				font = new Font("res/images/fonts/font.png", 26, 4,
+						new char[]
+						{
+							'A', 'B', 'C', 'D', 'E', 'F',  'G', 'H', 'I', 'J', 'K', 'L',  'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+							'a', 'b', 'c', 'd', 'e', 'f',  'g', 'h', 'i', 'j', 'k', 'l',  'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+							'0', '1', '2', '3', '4', '5',  '6', '7', '8', '9', '_', '-',  '+', '=', '~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')',
+							'?', '>', '<', ';', ':', '\'', '"', '{', '}', '[', ']', '\\', '|', ',', '.', '/', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+						});
+				
+				actor = new Actor();
+				actor.setLocation(0, 2, 0);
+				
+				flashlight = new Shader(new String[] { "res/shaders/vertex.vs" }, new String[] { "res/shaders/vertex.fs" , "res/shaders/flashlight.shade", "res/shaders/diffuseLights.shade", });
+				
+				try
+				{
+					frameBuffer = new FrameBuffer();
+				}
+				catch (UnsupportedOperationException e)
+				{
+					e.printStackTrace();
+				}
+
+				rising = true;
+			}
+			
+			public void loop()
+			{
+				if (Mouse.next(0))
+				{
+					window.setMouseGrabbed(true);
+				}
+					
+				if (window.isMouseGrabbed())
+				{
+					float pitch = Mouse.getDY() * 0.15f;
+					float yaw   = Mouse.getDX() * 0.15f;
+					
+					float slowness = 0.1f;
+					
+					float speed = slowness * (Keyboard.keyPressed(Keyboard.SHIFT) ? 1.67f : 1);
+					
+					actor.rotate(pitch, yaw, 0);
+					
+					if (Keyboard.keyPressed(Keyboard.ESCAPE))
+					{
+						window.setMouseGrabbed(false);
+					}
+					
+					if (Keyboard.keyPressed('W'))
+					{
+						actor.moveForeward(speed);
+					}
+					else if (Keyboard.keyPressed('S'))
+					{
+						actor.moveBackward(speed);
+					}
+					
+					if (Keyboard.keyPressed('A'))
+					{
+						actor.moveLeft(speed);
+					}
+					else if (Keyboard.keyPressed('D'))
+					{
+						actor.moveRight(speed);
+					}
+					
+					if (Keyboard.keyPressed('E'))
+					{
+						actor.moveUp(speed);
+					}
+					
+					if (Keyboard.keyPressed('Q'))
+					{
+						actor.moveDown(speed);
+					}
+					
+					int dWheel = Mouse.getDWheel();
+					
+					if (dWheel != 0)
+					{
+						GL.setFOV(GL.getFOV() - dWheel);
+					}
+				}
+				
+				if (rising)
+				{
+					y = 0.2f;
+				}
+				else
+				{
+					y = -0.2f;
+				}
+
+//				world3D.beginEditingVertices();
+//				
+//				for (int z = 0; z < amountZ; z++)
+//				{
+//					for (int x = 0; x < amountX; x++)
+//					{
+//						int offset = (4 * 6 * 2) + (x + z * amountX) * (4 * 6);
+//						
+//						world3D.setVertices(offset, GL.genCubeVerts(x * 4, 2, z * 4, 2, loc, 2));
+//					}
+//				}
+//				world3D.endEditingVertices();
+				
+				loc += y;
+				
+				if (rising && loc >= 20)
+				{
+					rising = false;
+				}
+				else if (!rising && loc <= 0)
+				{
+					rising = true;
+				}
+				
+				if (fps != panel.getFps())
+				{
+					fps = panel.getFps();
+					
+					window.setTitle(fps + "");
+				}
+			}
+			
+			public void render2D()
+			{
+				GL.translate(100, 100, 0);
+//				
+//				GL.rotate(0, 0, rot++);
+//				world2D.render(GL.QUADS, 0, 4, sprites);
+//				
+				font.render("test", 0, 100, 0, 8, window.getContentPanel());
+			}
+			
+			public void render3D()
+			{
+				actor.lookThrough();
+//				GL.rotate(rot, rot, rot);
+				flashlight.run();
+				
+//				flashlight.uniform1i("time", (int)System.currentTimeMillis());
+//				flashlight.uniform1i("counter", dfps % 8);
+				flashlight.uniform1i("fboSupported", frameBuffer.isSupported() ? 1 : 0);
+				flashlight.uniform3f("camPos", actor.getX(), actor.getY(), actor.getZ());
+				flashlight.uniform3f("flashlightPos", actor.getX(), actor.getY(), actor.getZ());
+				flashlight.uniform3f("specColor", 1, 1, 1);
+				flashlight.uniform1f("intensity", 1);
+				flashlight.uniform1i("lightNumber", 0);
+//				flashlight.uniform4f("lightModelViewProjectionMatrix", shadowMatrix);
+				flashlight.uniform1i("shadowMap", 0);
+//				GL.setReflection(new Point(0.5f, 0.5f, 0.5f));
+//				GL.setShininess(100);
+				
+				world3D.render(GL.QUADS, 0, 4 * 6, sprites);
+				world3D.render(GL.QUADS, 4 * 6, 4 * 6, tile);
+				world3D.render(GL.QUADS, 4 * 6 * 2, 4 * 6 * amountX * amountZ, sprites);
+				
+				flashlight.stop();
+			}
+		};
+		
+		panel.setSize(window.getContentPanel().getWidth(), window.getContentPanel().getHeight());
+		panel.setFrame(window);
+	}
+
+	public void loop()
+	{
+		
+	}
+}

@@ -253,7 +253,7 @@ public class Camera implements Cloneable
 	
 	public void setLocation(float x, float y, float z)
 	{
-		location.set(-x, -y, -z);
+		location.set(x, y, z);
 		
 //		location.x = -x;
 //		location.y = -y;
@@ -262,7 +262,7 @@ public class Camera implements Cloneable
 	
 	public void move(float dx, float dy, float dz)
 	{
-		location.move(-dx, -dy, -dz);
+		location.move(dx, dy, dz);
 		
 //		location.x -= dx;
 //		location.y -= dy;

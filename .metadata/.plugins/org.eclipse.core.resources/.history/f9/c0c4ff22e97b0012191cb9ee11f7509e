@@ -1,0 +1,158 @@
+package net.foxycorndog.jfoxylib.input;
+
+import java.awt.DefaultKeyboardFocusManager;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyEventPostProcessor;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Queue;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
+import org.jnativehook.keyboard.NativeKeyEvent;
+import org.jnativehook.keyboard.NativeKeyListener;
+import org.lwjgl.LWJGLException;
+
+public class Keyboard
+{
+	private static boolean pressed[];
+	private static boolean next[];
+	
+	public static final int ESCAPE = 27;
+	
+	private static final NativeKeyListener nativeKeyListener;
+	
+	static
+	{
+		pressed = new boolean[256];
+		next = new boolean[pressed.length];
+		
+		nativeKeyListener = new NativeKeyListener()
+		{
+			public void nativeKeyTyped(NativeKeyEvent e)
+			{
+				System.out.println("typed " + e.getID());
+			}
+			
+			public void nativeKeyReleased(NativeKeyEvent e)
+			{
+				System.out.println("released " + e.getID());
+			}
+			
+			public void nativeKeyPressed(NativeKeyEvent e)
+			{
+				System.out.println("pressed " + e.getID());
+			}
+		};
+		
+		File binFile = null;
+		
+		try
+		{
+			binFile = new File(GlobalScreen.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+		}
+		catch (URISyntaxException e)
+		{
+			e.printStackTrace();
+		}
+		
+		String binPath = binFile.getAbsolutePath().replace('\\', '/') + "/";
+		System.out.println(binPath);
+		System.setProperty("java.library.path", System.getProperty("java.library.path") + ";" + binPath + ";");
+		System.out.println(System.getProperty("java.library.path"));
+		
+		try
+		{
+			GlobalScreen.registerNativeHook();
+		}
+		catch (NativeHookException e1)
+		{
+			e1.printStackTrace();
+		}
+		
+		GlobalScreen.getInstance().addNativeKeyListener(nativeKeyListener);
+	}
+	
+	public static boolean keyPressed(int keyId)
+	{
+		return false;
+	}
+	
+	public static boolean next(int keyId)
+	{
+		return false;
+	}
+//	
+//	
+//	private static ArrayList<Integer>	queue;
+//	
+//	static
+//	{
+//		queue = new ArrayList<Integer>();
+//		
+//		Listener listener = new Listener()
+//		{
+//			public void handleEvent(Event event)
+//			{
+//				if (event.type == SWT.KeyDown)
+//				{
+//					int code = (int)event.character;
+//					
+//					pressed[code] = true;
+//					
+//					if (!queue.contains(code))
+//					{
+////						System.out.println("press " + event.character);
+//						queue.add(code);
+//					}
+//				}
+//				else if (event.type == SWT.KeyUp)
+//				{
+//					int code = queue.remove(0);//queue.size() - 1);
+//					
+//					pressed[code] = false;
+//					
+////					System.out.println("release " + (char)code);
+//				}
+//			}
+//		};
+//		
+//		Display.getDefault().addFilter(SWT.KeyDown, listener);
+//		Display.getDefault().addFilter(SWT.KeyUp, listener);
+//	}
+//	
+//	public static boolean keyPressed(int keyId)
+//	{
+//		return pressed[keyId];
+//	}
+//	
+//	public static boolean next(int keyId)
+//	{
+//		boolean nxt = pressed[keyId] && next[keyId];
+//		
+//		return nxt;
+//	}
+	
+	public static void update()
+	{
+		for (int i = 0; i < pressed.length; i ++)
+		{
+			if (!pressed[i])
+			{
+				next[i] = true;
+			}
+			else
+			{
+				next[i] = false;
+			}
+		}
+	}
+}

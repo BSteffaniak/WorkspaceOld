@@ -15,12 +15,6 @@ public class Point
 		this.y = y;
 	}
 	
-	public Point(org.eclipse.swt.graphics.Point point)
-	{
-		x = point.x;
-		y = point.y;
-	}
-	
 	public int getX()
 	{
 		return x;

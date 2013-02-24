@@ -1,0 +1,27 @@
+package net.foxycorndog.thedigginggame.map;
+
+import java.util.HashMap;
+
+public class Map
+{
+	private HashMap<Integer, HashMap<Integer, Chunk>> chunks;
+	
+	public Map()
+	{
+		chunks = new HashMap<Integer, HashMap<Integer, Chunk>>();
+		
+		
+	}
+	
+	public void generateChunk(int rx, int ry)
+	{
+		Chunk chunk = new Chunk(rx, ry);
+		
+		if (!chunks.containsKey(rx))
+		{
+			chunks.put(rx, new HashMap<Integer, Chunk>());
+		}
+		
+		chunks.get(rx).put(ry, chunk);
+	}
+}

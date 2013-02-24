@@ -37,7 +37,7 @@ vec3 flashlight(vec3 origColor)
 	
 	dist = dist;
 	
-	float radAffect = (dist / 20);
+	float radAffect = (dist / 10);
 
 	if (fragDist <= radius + radAffect)
 	{
@@ -51,7 +51,7 @@ vec3 flashlight(vec3 origColor)
 
 		if (fragDist <= radius + radAffect)
 		{
-			float num = radius + radAffect - (radDist * 1);
+			float num = (radius + radAffect - (radDist * 1)) / (dist / 5);
 			
 			if (num > 1)
 			{

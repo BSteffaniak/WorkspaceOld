@@ -1,0 +1,32 @@
+package net.foxycorndog.arrowide.dialog;
+
+import java.util.ArrayList;
+
+import org.eclipse.swt.widgets.Composite;
+
+/**
+ * Dialog for each of the projects' properties. Just like the Preferences
+ * Panel.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 20, 2013 at 6:31:56 PM
+ * @since	v0.7
+ * @version Feb 20, 2013 at 7:56:59 PM
+ * @version	v0.7
+ */
+public class PropertiesDialog extends PanelledDialog
+{
+	private ArrayList<Integer>	types;
+	
+	public PropertiesDialog(Composite parent)
+	{
+		super(parent);
+		
+		types = new ArrayList<Integer>();
+	}
+	
+	public void addDialogPanel(int types[], DialogPanel panel)
+	{
+		super.addDialogPanel(panel);
+	}
+}

@@ -1,0 +1,48 @@
+package net.foxycorndog.testgame.actor;
+
+import net.foxycorndog.jfoxylib.util.Camera;
+
+public class Actor
+{
+	private Camera camera;
+	
+	public Actor()
+	{
+		camera = new Camera();
+	}
+	
+	public void setLocation(float x, float y, float z)
+	{
+		camera.setLocation(x, y, z);
+	}
+	
+	public void rotate(float pitch, float yaw, float roll)
+	{
+		camera.rotate(pitch, yaw, roll);
+	}
+	
+	public void moveForeward()
+	{
+		camera.moveDirection(0, 0, -1);
+	}
+	
+	public void moveBackward()
+	{
+		camera.moveDirection(0, 0, 1);
+	}
+	
+	public void moveLeft()
+	{
+		camera.moveDirection(-1, 0, 0);
+	}
+	
+	public void moveRight()
+	{
+		camera.moveDirection(1, 0, 0);
+	}
+	
+	public void lookThrough()
+	{
+		camera.lookThrough();
+	}
+}

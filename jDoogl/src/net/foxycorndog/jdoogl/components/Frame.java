@@ -372,8 +372,6 @@ public abstract class Frame
 		
 		
 		Display.setIcon(new ByteBuffer[] { buf16, buf32 });
-		
-		
 	}
 	
 	public static void setFont(Font font)

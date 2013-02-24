@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;net.foxycorndog.jfoxylib.GameEntry&apos; to &apos;GameStarter&apos;&#x0D;&#x0A;- Original project: &apos;JFoxyLib&apos;&#x0D;&#x0A;- Original element: &apos;net.foxycorndog.jfoxylib.GameEntry&apos;&#x0D;&#x0A;- Renamed element: &apos;net.foxycorndog.jfoxylib.GameStarter&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;GameEntry&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;net.foxycorndog.jfoxylib{GameEntry.java[GameEntry" matchStrategy="1" name="GameStarter" qualified="false" references="true" similarDeclarations="false" stamp="1361670360687" textual="false" version="1.0"/>
+</session>

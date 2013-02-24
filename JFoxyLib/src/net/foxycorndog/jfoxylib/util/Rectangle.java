@@ -13,7 +13,7 @@ public class Rectangle
 		this.height = height;
 	}
 	
-	public Rectangle(org.eclipse.swt.graphics.Rectangle rectangle)
+	public Rectangle(java.awt.Rectangle rectangle)
 	{
 		this.x      = rectangle.x;
 		this.y      = rectangle.y;
@@ -59,5 +59,14 @@ public class Rectangle
 	public void setHeight(int height)
 	{
 		this.height = height;
+	}
+	
+	public String toString()
+	{
+		String str = "";
+		
+		str += this.getClass().getSimpleName() + " { " + x + ", " + y + ", " + width + ", " + height + " }";
+		
+		return str;
 	}
 }

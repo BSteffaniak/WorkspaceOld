@@ -1,0 +1,24 @@
+package net.foxycorndog.jfoxylib.components;
+
+import java.util.ArrayList;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 15, 2013 at 11:44:58 PM
+ * @since	v0.1
+ * @version	v0.1
+ */
+public class Panel extends Component
+{
+	public Panel()
+	{
+		super(null);
+	}
+	
+	public Panel(Panel parent)
+	{
+		super(parent);
+	}
+}

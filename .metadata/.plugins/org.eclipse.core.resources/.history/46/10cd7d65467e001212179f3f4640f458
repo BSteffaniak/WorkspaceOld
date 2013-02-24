@@ -1,0 +1,37 @@
+package net.foxycorndog.thedigginggame.components;
+
+import java.io.IOException;
+
+import net.foxycorndog.jfoxylib.bundle.Bundle;
+import net.foxycorndog.jfoxylib.graphics.Texture;
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+
+public class Cursor
+{
+	private int		size;
+	
+	private Texture	texture;
+	
+	private Bundle	bundle;
+	
+	public Cursor(int size)
+	{
+		this.size = size;
+		
+		try
+		{
+			texture   = new Texture("res/images/cursor.png");
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		bundle = new Bundle(4, 2, true, false);
+	}
+	
+	public void render()
+	{
+		bundle.render(GL.QUADS, texture);
+	}
+}

@@ -1,0 +1,111 @@
+package net.foxycorndog.jfoxylib.input;
+
+import static org.lwjgl.input.Mouse.*;
+
+import java.awt.AWTException;
+import java.awt.MouseInfo;
+import java.awt.PointerInfo;
+import java.awt.Robot;
+import java.util.ArrayList;
+
+import net.foxycorndog.jfoxylib.components.Panel;
+import net.foxycorndog.jfoxylib.listeners.MouseListener;
+import net.foxycorndog.jfoxylib.util.Intersects;
+
+import org.lwjgl.LWJGLException;
+
+public class Mouse
+{	
+	private static org.lwjgl.input.Mouse	mouse;
+	
+	static
+	{
+		try
+		{
+			mouse.create();
+		}
+		catch (LWJGLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	private static int	oldX, oldY;
+	private static int	dx, dy;
+	
+	private static ArrayList<MouseListener> listeners;
+	
+	public  static final int BUTTON_0 = 0;
+	public  static final int BUTTON_1 = 1;
+	public  static final int BUTTON_2 = 2;
+	
+	public  static final int LEFT_MOUSE_BUTTON  = BUTTON_0;
+	public  static final int RIGHT_MOUSE_BUTTON = BUTTON_1;
+	public  static final int MOUSE_WHEEL_BUTTON = BUTTON_2;
+	
+	public static int getX()
+	{
+		return mouse.getX();
+	}
+	
+	public static int getY()
+	{
+		return mouse.getY();
+	}
+	
+	public static int getDX()
+	{
+		return dx;
+	}
+	
+	public static int getDY()
+	{
+		return dy;
+	}
+	
+	public static boolean isButtonDown(int button)
+	{
+		return mouse.isButtonDown(button);
+	}
+	
+	public static boolean isGrabbed()
+	{
+		return mouse.isGrabbed();
+	}
+	
+	public static void setGrabbed(boolean grabbed)
+	{
+		mouse.setGrabbed(grabbed);
+	}
+	
+	public static int getDWheel()
+	{
+		return mouse.getDWheel();
+	}
+	
+	public static boolean[] getButtons()
+	{
+		return new boolean[] { mouse.isButtonDown(BUTTON_0), mouse.isButtonDown(BUTTON_1), mouse.isButtonDown(BUTTON_2) };
+	}
+	
+	public static void update()
+	{
+		dx = mouse.getX() - oldX;
+		dy = mouse.getY() - oldY;
+		
+		oldX = mouse.getX();
+		oldY = mouse.getY();
+		
+		mouse.next();
+		
+		if (dx != 0 || dy != 0)
+		{
+			
+		}
+	}
+	
+	public static void addMouseListener(MouseListener listener)
+	{
+		Mouse.listeners.add(listener);
+	}
+}

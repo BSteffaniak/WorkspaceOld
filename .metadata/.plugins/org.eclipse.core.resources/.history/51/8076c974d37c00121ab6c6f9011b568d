@@ -1,0 +1,64 @@
+package net.foxycorndog.thedigginggame.map;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import net.foxycorndog.jfoxylib.bundle.Bundle;
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+import net.foxycorndog.thedigginggame.actor.Actor;
+
+public class Map
+{
+	private HashMap<Integer, HashMap<Integer, Chunk>> chunks;
+	
+	private ArrayList<Actor>	actors;
+	
+	public Map()
+	{
+		chunks = new HashMap<Integer, HashMap<Integer, Chunk>>();
+		
+		actors = new ArrayList<Actor>();
+	}
+	
+	public void addActor(Actor actor)
+	{
+		actors.add(actor);
+	}
+	
+	public void generateChunk(int rx, int ry)
+	{
+		Chunk chunk = new Chunk(rx, ry);
+		
+		chunk.generate();
+		
+		if (!chunks.containsKey(rx))
+		{
+			chunks.put(rx, new HashMap<Integer, Chunk>());
+		}
+		
+		chunks.get(rx).put(ry, chunk);
+	}
+	
+	public void render()
+	{
+		Collection<HashMap<Integer, Chunk>> values = chunks.values();
+		
+		Iterator iterator = values.iterator();
+		
+		while (iterator.hasNext())
+		{
+			Object next = iterator.next();
+			
+			HashMap<Integer, Chunk> map = (HashMap<Integer, Chunk>)next;
+			
+			Chunk chunks[] = map.values().toArray(new Chunk[0]);
+			
+			for (Chunk chunk : chunks)
+			{
+				chunk.render();
+			}
+		}
+	}
+}

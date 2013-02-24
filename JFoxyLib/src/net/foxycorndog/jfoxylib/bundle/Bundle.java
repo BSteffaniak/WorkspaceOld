@@ -34,11 +34,11 @@ import org.lwjgl.opengl.GL15;
  */
 public class Bundle
 {
-	private int								vertsPosition, texturesPosition;
+	private int								vertsPosition, texturesPosition, colorsPosition;
 	private int								vertexAmount, vertexSize;
-	private int								verticesId, texturesId;
+	private int								verticesId, texturesId, colorsId;
 	
-	private Buffer							verticesBuffer, texturesBuffer;
+	private Buffer							verticesBuffer, texturesBuffer, colorsBuffer;
 	private IndicesBuffer					vertexIndices, normalIndices;
 	
 	private HashMap<Integer, VertexOffset>	vertexOffsets;
@@ -74,34 +74,66 @@ public class Bundle
 		}
 	}
 	
-	public Bundle(int vertexAmount, int vertexSize)
+	public Bundle(int vertexAmount, int vertexSize, boolean textures, boolean colors)
 	{
 		this.vertexAmount = vertexAmount;
 		this.vertexSize   = vertexSize;
 		
 		verticesBuffer = new Buffer(vertexAmount * vertexSize);
-		texturesBuffer = new Buffer(vertexAmount * 2);
-		
 		verticesId = verticesBuffer.getId();
-		texturesId = texturesBuffer.getId();
+		
+		if (textures)
+		{
+			texturesBuffer = new Buffer(vertexAmount * 2);
+			texturesId = texturesBuffer.getId();
+		}
+		
+		if (colors)
+		{
+			colorsBuffer   = new Buffer(vertexAmount * 4);
+			colorsId   = colorsBuffer.getId();
+		
+			colorsBuffer.beginEditing();
+			
+			float cols[] = new float[vertexAmount * 4];
+			
+			for (int i = 0; i < cols.length; i++)
+			{
+				cols[i] = 1;
+			}
+			
+			colorsBuffer.setData(0, cols);
+			
+			colorsBuffer.endEditing();
+		}
 	}
 	
-	public Bundle(Buffer verticesBuffer, Buffer texturesBuffer, int vertexSize)
+	public Bundle(Buffer verticesBuffer, Buffer texturesBuffer, Buffer colorsBuffer, int vertexSize)
 	{
 		this.verticesBuffer = verticesBuffer;
-		this.texturesBuffer = texturesBuffer;
+		verticesId = verticesBuffer.getId();
+		
+		if (texturesBuffer != null)
+		{
+			this.texturesBuffer = texturesBuffer;
+			texturesId = texturesBuffer.getId();
+		}
+		
+		if (colorsBuffer != null)
+		{
+			this.colorsBuffer   = colorsBuffer;
+			colorsId   = colorsBuffer.getId();
+		}
 		
 		this.vertexSize   = vertexSize;
 		this.vertexAmount = verticesBuffer.getSize() / vertexSize;
-		
-		verticesId = verticesBuffer.getId();
-		texturesId = texturesBuffer.getId();
 	}
 	
-	public Bundle(int verticesId, int texturesId, int vertexAmount, int vertexSize)
+	public Bundle(int verticesId, int texturesId, int colorsId, int vertexAmount, int vertexSize)
 	{
 		this.verticesId   = verticesId;
 		this.texturesId   = texturesId;
+		this.colorsId     = colorsId;
 		
 		this.vertexSize   = vertexSize;
 		this.vertexAmount = vertexAmount;
@@ -147,6 +179,11 @@ public class Bundle
 		return id;
 	}
 	
+	public void translate(int offset, int numVertices, float dx, float dy, float dz)
+	{
+		verticesBuffer.translate(offset * vertexSize, numVertices * vertexSize, dx, dy, dz);
+	}
+	
 	public Buffer getTexturesBuffer()
 	{
 		return texturesBuffer;
@@ -177,6 +214,66 @@ public class Bundle
 		return id;
 	}
 	
+	public Buffer getColorsBuffer()
+	{
+		return colorsBuffer;
+	}
+	
+	public void setColorsBuffer(Buffer buffer)
+	{
+		this.colorsBuffer = buffer;
+	}
+	
+	public int setColors(int offset, float colors[])
+	{
+		colorsBuffer.setData(offset * 4, colors);
+		
+		int id = ++this.id;
+
+//		textureOffsets.put(id, new TextureOffset(offset, textures.length));
+		
+		return id;
+	}
+	
+	public int addColors(float colors[])
+	{
+		int id = setColors(colorsPosition, colors);
+		
+		colorsPosition += colors.length / 4;
+		
+		return id;
+	}
+	
+	public void beginEditingVertices()
+	{
+		verticesBuffer.beginEditing();
+	}
+	
+	public void endEditingVertices()
+	{
+		verticesBuffer.endEditing();
+	}
+	
+	public void beginEditingTextures()
+	{
+		texturesBuffer.beginEditing();
+	}
+	
+	public void endEditingTextures()
+	{
+		texturesBuffer.endEditing();
+	}
+	
+	public void beginEditingColors()
+	{
+		colorsBuffer.beginEditing();
+	}
+	
+	public void endEditingColors()
+	{
+		colorsBuffer.endEditing();
+	}
+	
 	public void render(int shape, Texture texture)
 	{
 		render(shape, 0, vertexAmount, texture);
@@ -186,11 +283,13 @@ public class Bundle
 	{
 		beginVerticesDraw();//start * vertexSize);
 		beginTexturesDraw();//start * 2);
+		beginColorsDraw();
 		
 		texture.bind();
 		
 		glDrawArrays(shape, start, amount);
 		
+		endColorsDraw();
 		endTexturesDraw();
 		endVerticesDraw();
 	}
@@ -233,6 +332,27 @@ public class Bundle
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	}
+	
+	private void beginColorsDraw()
+	{
+		if (colorsId == 0)
+		{
+			return;
+		}
+		
+		glEnableClientState(GL11.GL_COLOR_ARRAY);
+		
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, colorsId);
+		
+		GL11.glColorPointer(4, GL11.GL_FLOAT, 0, 0);
+	}
+	
+	private void endColorsDraw()
+	{
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+		
+		glDisableClientState(GL11.GL_COLOR_ARRAY);
 	}
 	
 	public String toString()

@@ -10,3 +10,10 @@
 1361242287044	Move compilation unit
 1361245689773	Rename local variable 'code'
 1361321924272	Rename field 'program'
+1361425148418	Rename local variable 'binLoc'
+1361426150239	Rename local variable 'binPath'
+1361494193754	Rename method 'startEditingVertices'
+1361603809109	Rename method 'keyPressed'
+1361608207222	Delete element
+1361608308510	Delete element
+1361646094641	Delete elements

@@ -1,0 +1,214 @@
+package net.foxycorndog.thedigginggame.map;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import net.foxycorndog.jfoxylib.bundle.Bundle;
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+import net.foxycorndog.thedigginggame.actor.Actor;
+
+/**
+ * Class that holds the information of everything on the map. Such things
+ * include: Actors, chunks, and location.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 22, 2013 at 4:23:10 AM
+ * @since	v0.1
+ * @version Feb 22, 2013 at 4:23:10 AM
+ * @version	v0.1
+ */
+public class Map
+{
+	private boolean	collision;
+	
+	private float	x, y;
+	
+	private HashMap<Integer, HashMap<Integer, Chunk>> chunks;
+	
+	private ArrayList<Actor>	actors;
+	
+	/**
+	 * Class that has a method that is to be implemented. Used
+	 * While iterating through the Chunks.
+	 * 
+	 * @author	Braden Steffaniak
+	 * @since	Feb 22, 2013 at 4:23:10 AM
+	 * @since	v0.1
+	 * @version Feb 22, 2013 at 4:23:10 AM
+	 * @version	v0.1
+	 */
+	private abstract class Task
+	{
+		/**
+		 * Method to be implemented.
+		 * 
+		 * @param chunk The chunk that is currently being iterated.
+		 */
+		public abstract void run(Chunk chunk);
+	}
+	
+	/**
+	 * Construct a Map.
+	 */
+	public Map()
+	{
+		chunks = new HashMap<Integer, HashMap<Integer, Chunk>>();
+		
+		actors = new ArrayList<Actor>();
+	}
+	
+	/**
+	 * Add an actor to the Map if not already added.
+	 * 
+	 * @param actor The Actor to add to the map.
+	 */
+	public void addActor(Actor actor)
+	{
+		if (!actors.contains(actor))
+		{
+			actors.add(actor);
+		}
+	}
+	
+	public void setActorFocused(Actor actor)
+	{
+		for (int i = actors.size() - 1; i >= 0; i--)
+		{
+			if (actors.get(i) != actor)
+			{
+				actors.get(i).setFocused(false);
+			}
+		}
+	}
+	
+	/**
+	 * Generate a chunk at the specified location.
+	 * 
+	 * @param rx The relative horizontal location of the Chunk to
+	 * 		generate.
+	 * @param ry The relative vertical location of the Chunk to
+	 * 		generate.
+	 */
+	public void generateChunk(int rx, int ry)
+	{
+		Chunk chunk = new Chunk(this, rx, ry);
+		
+		chunk.generate();
+		
+		if (!chunks.containsKey(rx))
+		{
+			chunks.put(rx, new HashMap<Integer, Chunk>());
+		}
+		
+		chunks.get(rx).put(ry, chunk);
+	}
+	
+	/**
+	 * Render all of the Chunks in the Map.
+	 */
+	public void render()
+	{
+		GL.pushMatrix();
+		{
+			GL.translate(x, y, 0);
+			
+			iterateChunks(new Task()
+			{
+				public void run(Chunk chunk)
+				{
+					chunk.render();
+				}
+			});
+		}
+		GL.popMatrix();
+		
+		for (int i = actors.size() - 1; i >= 0; i--)
+		{
+			Actor actor = actors.get(i);
+			
+			actor.render();
+		}
+	}
+	
+	/**
+	 * Method that uses the iterates through each of the Chunks and
+	 * calls the Task.run(Chunk) method for each Chunk.
+	 * 
+	 * @param task The Task to iterate with.
+	 */
+	private void iterateChunks(Task task)
+	{
+		Collection<HashMap<Integer, Chunk>> values = chunks.values();
+		
+		Iterator iterator = values.iterator();
+		
+		while (iterator.hasNext())
+		{
+			Object next = iterator.next();
+			
+			HashMap<Integer, Chunk> map = (HashMap<Integer, Chunk>)next;
+			
+			Chunk chunks[] = map.values().toArray(new Chunk[0]);
+			
+			for (Chunk chunk : chunks)
+			{
+				task.run(chunk);
+			}
+		}
+	}
+	
+	/**
+	 * Checks whether there is a collision with the Actor and any of the
+	 * Chunks.
+	 * 
+	 * @param actor The Actor to check collisions on.
+	 * @return Whether there is a collision.
+	 */
+	public boolean isCollision(final Actor actor)
+	{
+		collision = false;
+		
+		iterateChunks(new Task()
+		{
+			public void run(Chunk chunk)
+			{
+				if (chunk.isCollision(actor))
+				{
+					collision = true;
+				}
+			}
+		});
+		
+		return collision;
+	}
+	
+	/**
+	 * @return The horizontal location of the Map.
+	 */
+	public float getX()
+	{
+		return x;
+	}
+	
+	/**
+	 * @return The vertical location of the Map.
+	 */
+	public float getY()
+	{
+		return y;
+	}
+	
+	/**
+	 * Move the Map the specified amount.
+	 * 
+	 * @param dx The displacement horizontal component.
+	 * @param dy The displacement vertical component.
+	 */
+	public void move(float dx, float dy)
+	{
+		this.x += dx;
+		this.y += dy;
+	}
+}

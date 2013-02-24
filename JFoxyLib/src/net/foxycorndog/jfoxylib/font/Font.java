@@ -3,6 +3,7 @@ package net.foxycorndog.jfoxylib.font;
 import java.io.IOException;
 import java.util.HashMap;
 
+import net.foxycorndog.jfoxylib.Frame;
 import net.foxycorndog.jfoxylib.bundle.Buffer;
 import net.foxycorndog.jfoxylib.bundle.Bundle;
 import net.foxycorndog.jfoxylib.components.Panel;
@@ -108,22 +109,54 @@ public class Font
 		{
 			if (horizontalAlignment == CENTER)
 			{
-				x += panel.getWidth() / 2;
+				if (panel != null)
+				{
+					x += panel.getWidth() / 2;
+				}
+				else
+				{
+					x += Frame.getWidth() / 2;
+				}
+				
 				x -= text.length() * scale * glyphWidth / 2;
 			}
 			else if (horizontalAlignment == RIGHT)
 			{
-				x += panel.getWidth();
+				if (panel != null)
+				{
+					x += panel.getWidth();
+				}
+				else
+				{
+					x += Frame.getWidth();
+				}
+				
 				x -= text.length() * scale * glyphWidth;
 			}
 			if (verticalAlignment == CENTER)
 			{
-				y += panel.getHeight() / 2;
+				if (panel != null)
+				{
+					y += panel.getHeight() / 2;
+				}
+				else
+				{
+					x += Frame.getHeight() / 2;
+				}
+				
 				y -= glyphHeight * scale / 2;
 			}
 			else if (verticalAlignment == TOP)
 			{
-				y += panel.getHeight();
+				if (panel != null)
+				{
+					y += panel.getHeight();
+				}
+				else
+				{
+					x += Frame.getHeight();
+				}
+				
 				y -= glyphHeight * scale;
 			}
 			
@@ -191,8 +224,13 @@ public class Font
 					
 					float offsets[] = characters.getImageOffsetsf(charX, charY, 1, 1);
 					
+					vertices.beginEditing();
 					vertices.setData(i * 4 * 2, GL.genRectVerts(i * glyphWidth + (letterMargin * i), 0, glyphWidth, glyphHeight));
+					vertices.endEditing();
+					
+					textures.beginEditing();
 					textures.setData(i * 4 * 2, GL.genRectTextures(offsets));
+					textures.endEditing();
 				}
 				catch (NullPointerException e)
 				{
@@ -218,7 +256,7 @@ public class Font
 			addToHistory(text, vId, tId, viId, size, vertices, textures, null);
 		}
 		
-		bundle = new Bundle(vId, tId, size / 2, 2);
+		bundle = new Bundle(vId, tId, 0, size / 2, 2);
 		
 		GL.pushMatrix();
 		{

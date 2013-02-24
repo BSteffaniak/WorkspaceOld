@@ -1,0 +1,9 @@
+package net.foxycorndog.thedigginggame.components;
+
+public class Cursor
+{
+	public void render()
+	{
+		
+	}
+}

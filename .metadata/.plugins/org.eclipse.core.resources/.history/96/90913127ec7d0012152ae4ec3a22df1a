@@ -1,0 +1,11 @@
+package net.foxycorndog.jfoxylib.components;
+
+public class Component
+{
+	private Panel parent;
+	
+	public Component(Panel parent)
+	{
+		this.parent = parent;
+	}
+}

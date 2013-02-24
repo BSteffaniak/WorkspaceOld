@@ -269,6 +269,11 @@ public class TreeMenu extends Composite
 		item.dispose();
 	}
 	
+	public boolean contains(int id)
+	{
+		return ids.containsValue(id);
+	}
+	
 	public void setTreeItemText(int id, String text)
 	{
 		items.get(id).setText(text);

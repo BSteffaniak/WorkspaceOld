@@ -1,0 +1,58 @@
+package net.foxycorndog.thedigginggame.components;
+
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import java.io.IOException;
+
+import net.foxycorndog.jfoxylib.bundle.Bundle;
+import net.foxycorndog.jfoxylib.graphics.Texture;
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+
+public class Cursor
+{
+	private int		size;
+	
+	private Texture	texture;
+	
+	private Bundle	bundle;
+	
+	public Cursor(int size)
+	{
+		this.size = size;
+		
+		BufferedImage img = new BufferedImage(size, size, BufferedImage.BITMASK);
+		
+		Graphics2D g = img.createGraphics();
+		g.setColor(Color.BLACK);
+		g.drawRect(0, 0, size - 1, size - 1);
+		g.dispose();
+		
+//		texture   = new Texture(img, false);
+		try
+		{
+			texture = new Texture("res/images/curs.png");
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		bundle = new Bundle(4, 2, true, false);
+		
+		bundle.addVertices(GL.genRectVerts(0, 0, size, size));
+		bundle.addTextures(GL.genRectTextures(texture.getImageOffsetsf()));
+	}
+	
+	public void render(float x, float y, float z)
+	{
+		GL.pushMatrix();
+		{
+			GL.translate(x, y, z);
+			
+			bundle.render(GL.QUADS, texture);
+		}
+		GL.popMatrix();
+	}
+}

@@ -1,298 +1,325 @@
 package net.foxycorndog.thedigginggame.map;
 
-import net.foxycorndog.presto2d.graphics.PixelPanel;
-import net.foxycorndog.thedigginggame.Display;
-import net.foxycorndog.thedigginggame.TheDiggingGame;
-import net.foxycorndog.thedigginggame.actors.Actor;
-import net.foxycorndog.thedigginggame.tiles.Tile;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 
+import net.foxycorndog.jfoxylib.bundle.Bundle;
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+import net.foxycorndog.thedigginggame.TheDiggingGame;
+import net.foxycorndog.thedigginggame.actor.Actor;
+import net.foxycorndog.thedigginggame.tile.Tile;
+
+/**
+ * Class that holds the information of everything on the map. Such things
+ * include: Actors, chunks, and location.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 22, 2013 at 4:23:10 AM
+ * @since	v0.1
+ * @version Feb 22, 2013 at 4:23:10 AM
+ * @version	v0.1
+ */
 public class Map
 {
-	private Tile    tiles[];
-	private int     width, height;
-	private float   x, y;
-	private boolean rendered;
+	private boolean	collision;
 	
-	private TheDiggingGame tdg;
-	private Display        display;
+	private float	x, y;
 	
-	public Map(int width, int height, float x, float y, TheDiggingGame tdg)
+	private TheDiggingGame	game;
+	
+	private HashMap<Integer, HashMap<Integer, Chunk>> chunks;
+	
+	private ArrayList<Actor>	actors;
+	
+	/**
+	 * Class that has a method that is to be implemented. Used
+	 * While iterating through the Chunks.
+	 * 
+	 * @author	Braden Steffaniak
+	 * @since	Feb 22, 2013 at 4:23:10 AM
+	 * @since	v0.1
+	 * @version Feb 22, 2013 at 4:23:10 AM
+	 * @version	v0.1
+	 */
+	private abstract class Task
 	{
-		this.width  = width;
-		this.height = height;
-		
-		tiles = new Tile[width * height];
-		
-		this.x = x;
-		this.y = y;
-		
-		this.tdg     = tdg;
-		this.display = tdg.getDisplay();
+		/**
+		 * Method to be implemented.
+		 * 
+		 * @param chunk The chunk that is currently being iterated.
+		 */
+		public abstract void run(Chunk chunk);
 	}
 	
-	public void setTile(int x, int y, int type)
+	/**
+	 * Construct a Map.
+	 */
+	public Map(TheDiggingGame game)
 	{
-		getTiles()[x + y * width] = Tile.getTile(type);
+		chunks    = new HashMap<Integer, HashMap<Integer, Chunk>>();
+		
+		actors    = new ArrayList<Actor>();
+		
+		this.game = game;
 	}
 	
-	public void setTiles(int x, int y, int width, int height, int type)
+	/**
+	 * @return The game in which the Map is located.
+	 */
+	public TheDiggingGame getGame()
 	{
-		int tx;
-		int ty;
-		
-		for (int yy = 0; yy < height; yy ++)
+		return game;
+	}
+	
+	/**
+	 * Add an actor to the Map if not already added.
+	 * 
+	 * @param actor The Actor to add to the map.
+	 */
+	public void addActor(Actor actor)
+	{
+		if (!actors.contains(actor))
 		{
-			for (int xx = 0; xx < width; xx ++)
+			actors.add(actor);
+		}
+	}
+	
+	public void setActorFocused(Actor actor)
+	{
+		for (int i = actors.size() - 1; i >= 0; i--)
+		{
+			if (actors.get(i) != actor)
 			{
-				tx = x + xx;
-				ty = y + yy;
-				
-				if (tx + ty * width >= tiles.length || tx + ty * width < 0) continue;
-				
-				tiles[tx + ty * this.width] = Tile.getTile(type);
+				actors.get(i).setFocused(false);
 			}
 		}
 	}
 	
-	public void render(Display display)
+	/**
+	 * Generate a chunk at the specified location.
+	 * 
+	 * @param rx The relative horizontal location of the Chunk to
+	 * 		generate.
+	 * @param ry The relative vertical location of the Chunk to
+	 * 		generate.
+	 */
+	public void generateChunk(int rx, int ry)
 	{
-		if (!rendered)
+		Chunk chunk = new Chunk(this, rx, ry);
+		
+		chunk.generate();
+		
+		if (!chunks.containsKey(rx))
 		{
-			PixelPanel pixels   = display.getTerrainPanel();
+			chunks.put(rx, new HashMap<Integer, Chunk>());
+		}
+		
+		chunks.get(rx).put(ry, chunk);
+	}
+	
+	/**
+	 * Render all of the Chunks in the Map.
+	 */
+	public void render()
+	{
+		GL.pushMatrix();
+		{
+			GL.translate(x, y, 0);
 			
-			int frameScaleWidth  = display.getWidth()  / display.getScale();
-			int frameScaleHeight = display.getHeight() / display.getScale();
-			
-			int w   = frameScaleWidth  / display.getBlockSize();
-			int h   = frameScaleHeight / display.getBlockSize();
-			
-			int frw = display.getWidth()  % display.getBlockShowSize();
-			int frh = display.getHeight() % display.getBlockShowSize();
-			
-			frw = frw > 0 ? 1 : 0;
-			frh = frh > 0 ? 1 : 0;
-			
-			int mapX = (int)(x / display.getScale());
-			int mapY = (int)(y / display.getScale());
-			
-			int mrw  = mapX % display.getBlockSize();
-			int mrh  = mapY % display.getBlockSize();
-			
-			int xo = 0;
-			int yo = 0;
-			
-			int index = 0;
-			Tile tile = null;
-			
-			for (int yy = h + frh; yy >= 0; yy --)
+			iterateChunks(new Task()
 			{
-				for (int xx = w + frw; xx >= 0; xx --)
+				public void run(Chunk chunk)
 				{
-					xo = xx - (mapX / display.getBlockSize());
-					yo = yy - (mapY / display.getBlockSize());
-					
-					index = xo + yo * width;
-					
-					if (xo < 0 || xo >= width || yo < 0 || yo >= height) continue;
-					
-					tile = tiles[index];
-					
-					if (tile == null) continue;
-					
-					pixels.getPixelGraphics().drawPixels(tile.getPixels(), tile.getBlockSize(), mrw + xx * display.getBlockSize(), mrh + yy * display.getBlockSize());
+					chunk.render();
 				}
+			});
+		
+			for (int i = actors.size() - 1; i >= 0; i--)
+			{
+				Actor actor = actors.get(i);
+				
+				actor.render();
 			}
+		}
+		GL.popMatrix();
+	}
+	
+	/**
+	 * Adds a Tile from the Chunk at the specified location. Still
+	 * needs an update() call afterwards.
+	 * 
+	 * @param tile The tile to add to the queue.
+	 * @param x The horizontal location of the new Tile.
+	 * 		(0 - CHUNK_SIZE-1)
+	 * @param y The vertical location of the new Tile.
+	 * 		(0 - CHUNK_SIZE-1)
+	 * @return Whether a Tile was successfully added or not.
+	 */
+	public boolean addTile(Tile tile, int x, int y, int layer, boolean replace)
+	{
+		int rx = x / Chunk.CHUNK_SIZE;
+		int ry = y / Chunk.CHUNK_SIZE;
+		
+		if (chunks.containsKey(rx))
+		{
+			HashMap<Integer, Chunk> map = chunks.get(rx);
 			
-			rendered = true;
-		}
-	}
-	
-	public void clear(PixelPanel pixels)
-	{
-		if (!rendered)
-		{
-			pixels.getPixelGraphics().fillRect(0, 0, pixels.getWidth(), pixels.getHeight(), 0x00000000);
-		}
-	}
-	
-	public void createBlock(int x, int y, int type, boolean overwrite)
-	{
-		if (x < 0 || x >= width || y < 0 || y >= height) return;
-		
-		if (overwrite || tiles[x + y * width] == null)
-		{
-			tiles[x + y * width] = Tile.getTile(type);
-		}
-		
-		rendered = false;
-	}
-	
-	public void removeBlock(int x, int y)
-	{
-		if (x < 0 || x >= width || y < 0 || y >= height) return;
-		
-		tiles[x + y * width] = null;
-		
-		rendered = false;
-	}
-	
-	public boolean collided(Actor a, float dx, float dy)
-	{
-		boolean collided = false;
-		
-		int mapX = (int)(x / a.getTdg().getDisplay().getScale());
-		int mapY = (int)(y / a.getTdg().getDisplay().getScale());
-		
-		int mrw  = mapX % a.getTdg().getDisplay().getBlockSize();
-		int mrh  = mapY % a.getTdg().getDisplay().getBlockSize();
-		
-		int rx   = getDisplayX() % a.getTdg().getDisplay().getBlockShowSize();
-		int ry   = getDisplayY() % a.getTdg().getDisplay().getBlockShowSize();
-		
-		// x pos and y pos of map
-		int xp = (int)(x * a.getTdg().getDisplay().getScale());
-		int yp = (int)(y * a.getTdg().getDisplay().getScale());
-		
-		// actor bottom, actor top, actor left, actor right sides.
-		int abs = (int)(a.getY() + dy) + a.getHeight() - getDisplayY();
-		int ats = (int)(a.getY() + dy) - getDisplayY();
-		int als = (int)(a.getX() + dx) - getDisplayX();
-		int ars = (int)(a.getX() + dx) + a.getWidth() - getDisplayX();
-		
-		// block bottom, block top, block left, block right sides.
-		int   bbs = 0;
-		int   bts = 0;
-		int   bls = 0;
-		int   brs = 0;
-		
-		boolean onGround = false;
-		
-		int xo = 0;
-		int yo = 0;
-		
-		for (int yy = height - 1; yy >= 0; yy --)
-		{
-			for (int xx = width - 1; xx >= 0; xx --)
+			if (map.containsKey(ry))
 			{
-				xo = xx - (mapX / a.getTdg().getDisplay().getBlockSize());
-				yo = yy - (mapY / a.getTdg().getDisplay().getBlockSize());
+				Chunk chunk = map.get(ry);
 				
-				if (xo >= width || xo < 0 || yo >= height || yo < 0 || tiles[xo + yo * width] == null) continue;
-				
-				bbs = yy * a.getTdg().getDisplay().getBlockShowSize() + a.getTdg().getDisplay().getBlockShowSize() - ry - getDisplayY();
-				bts = yy * a.getTdg().getDisplay().getBlockShowSize() - ry - getDisplayY();
-				bls = xx * a.getTdg().getDisplay().getBlockShowSize() + rx - getDisplayX();
-				brs = xx * a.getTdg().getDisplay().getBlockShowSize() + a.getTdg().getDisplay().getBlockShowSize() + rx - getDisplayX();
-				
-				// ((abs > bts && abs <= bbs) || (ats < bbs && bts <= ats) || (bts > ats && bbs < abs)) && ((ars > bls && brs > ars) || (als < brs && bls < ars))
-				
-				if (((abs > bts && abs <= bbs) || (ats < bbs && bts <= ats) || (bts > ats && bbs < abs)) && ((ars > bls && brs > ars) || (als < brs && bls < ars)))
-				{
-					collided = true;
-				}
-				
-				// hit bottom
-				if ((abs > bts && abs <= bbs) && ((ars > bls && brs > ars) || (als < brs && bls < ars)))
-				{
-					onGround = true;
-				}
-				
-				// hit bottom
-				if ((ats < bbs && bts <= ats) && ((ars > bls && brs > ars) || (als < brs && bls < ars)))
-				{
-					a.setJumping(false);
-				}
+				return chunk.addTile(tile, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE, layer, replace);
 			}
 		}
 		
-		a.setOnGround(onGround);
-		
-		if (!a.getJumpingUp() && onGround)
-		{
-			a.setJumping(false);
-		}
-		
-//		if (!collided)
-//		{
-//			a.setLocation(a.getFx(), a.getFy());
-//		}
-//		else
-//		{
-//			a.setFx(a.getX());
-//			a.setFy(a.getY());
-//		}
-		return collided;
-	}
-	
-	public void setLoacation(float x, float y)
-	{
-		this.x = x;
-		this.y = y;
-		
-		rendered = false;
-	}
-	
-	public void move(float dx, float dy)
-	{
-		x += dx;
-		y += dy;
-		
-		rendered = false;
-	}
-	
-	public int getWidth()
-	{
-		return width;
-	}
-	
-	public int getHeight()
-	{
-		return height;
+		return false;
 	}
 
+	/**
+	 * Removes a Tile from the Chunk at the specified location. Still
+	 * needs an update() call afterwards.
+	 * 
+	 * @param x The horizontal location of the Tile.
+	 * 		(0 - CHUNK_SIZE-1)
+	 * @param y The vertical location of the Tile.
+	 * 		(0 - CHUNK_SIZE-1)
+	 * @return Whether a Tile was successfully removed or not.
+	 */
+	public boolean removeTile(int x, int y, int layer)
+	{
+		int rx = x / Chunk.CHUNK_SIZE;
+		int ry = y / Chunk.CHUNK_SIZE;
+		
+		if (chunks.containsKey(rx))
+		{
+			HashMap<Integer, Chunk> map = chunks.get(rx);
+			
+			if (map.containsKey(ry))
+			{
+				Chunk chunk = map.get(ry);
+				
+				return chunk.removeTile(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE, layer);
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Updates the buffers of the Chunk at the specified location.
+	 * 
+	 * @param x The absolute Tile horizontal location.
+	 * @param y The absolute Tile vertical location.
+	 */
+	public void updateChunkAt(int x, int y)
+	{
+		int rx = x / Chunk.CHUNK_SIZE;
+		int ry = y / Chunk.CHUNK_SIZE;
+		
+		if (chunks.containsKey(rx))
+		{
+			HashMap<Integer, Chunk> map = chunks.get(rx);
+			
+			if (map.containsKey(ry))
+			{
+				Chunk chunk = map.get(ry);
+				
+				chunk.update();
+			}
+		}
+	}
+	
+	/**
+	 * Method that uses the iterates through each of the Chunks and
+	 * calls the Task.run(Chunk) method for each Chunk.
+	 * 
+	 * @param task The Task to iterate with.
+	 */
+	private void iterateChunks(Task task)
+	{
+		Collection<HashMap<Integer, Chunk>> values = chunks.values();
+		
+		Iterator iterator = values.iterator();
+		
+		while (iterator.hasNext())
+		{
+			Object next = iterator.next();
+			
+			HashMap<Integer, Chunk> map = (HashMap<Integer, Chunk>)next;
+			
+			Chunk chunks[] = map.values().toArray(new Chunk[0]);
+			
+			for (Chunk chunk : chunks)
+			{
+				task.run(chunk);
+			}
+		}
+	}
+	
+	/**
+	 * Checks whether there is a collision with the Actor and any of the
+	 * Chunks.
+	 * 
+	 * @param actor The Actor to check collisions on.
+	 * @return Whether there is a collision.
+	 */
+	public boolean isCollision(final Actor actor)
+	{
+		collision = false;
+		
+		iterateChunks(new Task()
+		{
+			public void run(Chunk chunk)
+			{
+				if (chunk.isCollision(actor))
+				{
+					collision = true;
+				}
+			}
+		});
+		
+		return collision;
+	}
+	
+	/**
+	 * @return The horizontal location of the Map.
+	 */
 	public float getX()
 	{
 		return x;
 	}
 	
+	/**
+	 * @return The vertical location of the Map.
+	 */
 	public float getY()
 	{
 		return y;
 	}
 	
-	public boolean getRendered()
+	/**
+	 * Set the absolute location of the Map.
+	 * 
+	 * @param x The horizontal component to set.
+	 * @param y The vertical component to set.
+	 */
+	public void setLocation(float x, float y)
 	{
-		return rendered;
-	}
-	
-	public void setRendered(boolean r)
-	{
-		rendered = r;
+		this.x = x;
+		this.y = y;
 	}
 	
 	/**
-	* @return the tiles
-	*/
-	public Tile[] getTiles()
+	 * Move the Map the specified amount.
+	 * 
+	 * @param dx The displacement horizontal component.
+	 * @param dy The displacement vertical component.
+	 */
+	public void move(float dx, float dy)
 	{
-		return tiles;
-	}
-
-	/**
-	* @param t the tiles to set
-	*/
-	public void setTiles(Tile t[])
-	{
-		this.tiles = t;
-	}
-	
-	public int getDisplayX()
-	{
-		return ((int)x / display.getScale()) * display.getScale();
-	}
-	
-	public int getDisplayY()
-	{
-		return ((int)y / display.getScale()) * display.getScale();
+		this.x += dx;
+		this.y += dy;
 	}
 }
