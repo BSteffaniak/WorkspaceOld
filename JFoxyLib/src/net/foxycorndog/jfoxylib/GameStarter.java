@@ -12,7 +12,10 @@ import net.foxycorndog.jfoxylib.input.Mouse;
 import net.foxycorndog.jfoxylib.listeners.GameListener;
 
 /**
- * 
+ * This class serves as the entry point for all of the
+ * OpenGL functionality. Once the start() method is
+ * called, the loop will run until the Frame is closed
+ * or the stop() method is called.
  * 
  * @author	Braden Steffaniak
  * @since	Feb 15, 2013 at 11:44:47 PM
@@ -34,7 +37,7 @@ public abstract class GameStarter
 	}
 	
 	/**
-	 * 
+	 * Initializes all of the necessary OpenGL components.
 	 */
 	public GameStarter()
 	{
@@ -42,7 +45,9 @@ public abstract class GameStarter
 	}
 	
 	/**
-	 * 
+	 * Method that runs a loop that goes until the Frame
+	 * is closed. The loop and render methods are called
+	 * during each iteration of the loop.
 	 */
 	public void start()
 	{
@@ -102,7 +107,7 @@ public abstract class GameStarter
 	}
 	
 	/**
-	 * 
+	 * Method that stops the loop from running.
 	 */
 	public void stop()
 	{
@@ -110,16 +115,8 @@ public abstract class GameStarter
 	}
 	
 	/**
-	 * 
-	 * @param frame
-	 */
-	public void setMainFrame(Frame frame)
-	{
-		this.mainFrame = frame;
-	}
-	
-	/**
-	 * 
+	 * Method that notifies the game listeners by calling their
+	 * looped() method.
 	 */
 	public static void notifyGameListeners()
 	{
@@ -130,9 +127,10 @@ public abstract class GameStarter
 	}
 	
 	/**
+	 * Method that adds a GameListener to the list. During every
+	 * iteration, the listeners looped method will be called.
 	 * 
-	 * 
-	 * @param listener
+	 * @param listener The GameListener to add to the list.
 	 */
 	public static void addGameListener(GameListener listener)
 	{
@@ -140,9 +138,10 @@ public abstract class GameStarter
 	}
 	
 	/**
+	 * Method that removes a GameListener from the list. The
+	 * listener will no longer be called each loop.
 	 * 
-	 * 
-	 * @param listener
+	 * @param listener The GameListener to remove from the list.
 	 */
 	public static void removeGameListener(GameListener listener)
 	{
@@ -150,7 +149,7 @@ public abstract class GameStarter
 	}
 	
 	/**
-	 * 
+	 * Method in which you initialize all of your OpenGL data.
 	 */
 	public abstract void init();
 	
