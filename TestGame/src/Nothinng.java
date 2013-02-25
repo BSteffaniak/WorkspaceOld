@@ -36,11 +36,6 @@ public class Nothinng extends GameEntry
 	
 	private void createMainMenu()
 	{
-		play = new Button();
-		play.setText("Play Now!");
-		play.setAlignment(Component.CENTER, Component.CENTER);
-		play.setLocation(0, 30);
-		play.addTo(window);
 		
 		
 	}

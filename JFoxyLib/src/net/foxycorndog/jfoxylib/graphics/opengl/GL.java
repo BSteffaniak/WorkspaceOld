@@ -286,6 +286,11 @@ public class GL
 		GL11.glEnd();
 	}
 	
+	public static void setClearColor(float r, float g, float b, float a)
+	{
+		GL11.glClearColor(r, g, b, a);
+	}
+	
 	public static void resetMatrix()
 	{
 		GL11.glLoadIdentity();

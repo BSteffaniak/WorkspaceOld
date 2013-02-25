@@ -13,7 +13,6 @@ public class Driver
 	public static void main(String args[])
 	{
 		Tree t = new Tree();
-		
 		t.add("Bill");
 		t.add("Fred");
 		t.add("Joe");
@@ -23,21 +22,25 @@ public class Driver
 		t.add("Alfred");
 		t.add("Al");
 		t.add("Fred");
+		System.out.println(t);
+		
+		t.remove("");
 		
 		System.out.println(t);
 		
 		t = new Tree();
 		
+		
 		t.add("Bill");
-		t.add("Henrietta");
-		t.add("Joe");
 		t.add("Fred");
+		t.add("Joe");
+		t.add("Henrietta");
 		t.add("Mr. M");
 		t.add("Noman");
 		t.add("Alfred");
 		t.add("Al");
 		t.add("Fred");
 		
-		System.out.println(t);
+		System.out.println(t.toStringPreOrder());
 	}
 }

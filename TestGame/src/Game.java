@@ -21,7 +21,7 @@ import net.foxycorndog.jfoxylib.graphics.opengl.GL;
  */
 public class Game extends GameStarter
 {
-	private int		fps;
+	private int		fps, flash;
 	
 	private float	rot;
 	
@@ -68,14 +68,7 @@ public class Game extends GameStarter
 		
 		crazyStuff.beginEditingVertices();
 		{
-			crazyStuff.getVerticesBuffer().setData(0,
-					new float[]
-					{
-						0, 0,
-						100, 0,
-						100, 100,
-						0, 100
-					});
+			crazyStuff.getVerticesBuffer().setData(0, GL.genRectVerts(0, 0, 100, 40));
 		}
 		crazyStuff.endEditingVertices();
 
@@ -106,21 +99,34 @@ public class Game extends GameStarter
 		
 //		crazyStuff.render(GL.QUADS, stone);
 		
-		for (int y = 0; y < 100; y++)
+		for (int y = 0; y < 50; y++)
 		{
 			GL.translate(0, 5, 0);
 			GL.rotate(0, 0, rot);
 			
-			for (int x = 0; x < 100; x++)
+			for (int x = 0; x < 50; x++)
 			{
 				GL.translate(5, 0, 0);
 				crazyStuff.render(GL.QUADS, stone);
 			}
 			
-			GL.translate(-100 * 5, 0, 0);
+			GL.translate(-50 * 5, 0, 0);
 		}
 		
-		rot += 0.09;
+//		if (flash % 2 == 0)
+//		{
+//			GL.setClearColor(1, 1, 0, 1);
+//		}
+//		else
+//		{
+//			GL.setClearColor(0, 0, 0, 1);
+//		}
+		
+		GL.setClearColor((float)Math.random(), (float)Math.random(), (float)Math.random(), 1);
+		
+		flash++;
+		
+		rot += 0.19;
 	}
 	
 	public void render3D(int dfps)
