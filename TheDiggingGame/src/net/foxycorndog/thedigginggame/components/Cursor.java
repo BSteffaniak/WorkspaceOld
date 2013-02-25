@@ -11,13 +11,13 @@ import net.foxycorndog.jfoxylib.graphics.Texture;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 
 /**
- * 
+ * Class that is used to organize information for the cursor.
  * 
  * @author	Braden Steffaniak
  * @since	Feb 24, 2013 at 12:27:58 AM
- * @since	v
- * @version Feb 24, 2013 at 12:27:58 AM
- * @version	v
+ * @since	v0.1
+ * @version Feb 25, 2013 at 6:20:00 AM
+ * @version	v0.1
  */
 public class Cursor
 {
@@ -28,6 +28,12 @@ public class Cursor
 	
 	private Bundle	bundle;
 	
+	/**
+	 * Create a cursor with the specified size. The size indicates the
+	 * length of all four sides of a square.
+	 * 
+	 * @param size The size of the sides.
+	 */
 	public Cursor(int size)
 	{
 		this.size = size;
@@ -56,6 +62,13 @@ public class Cursor
 		bundle.endEditingTextures();
 	}
 	
+	/**
+	 * Renders the cursor at the specified location.
+	 * 
+	 * @param x The horizontal location to render to.
+	 * @param y The vertical location to render to.
+	 * @param z The oblique location to render to.
+	 */
 	public void render(float x, float y, float z)
 	{
 		GL.pushMatrix();

@@ -28,6 +28,7 @@ import org.lwjgl.opengl.GL15;
  * @author	Braden Steffaniak
  * @since	Feb 16, 2013 at 3:23:16 AM
  * @since	v0.1
+ * @version	Feb 16, 2013 at 3:23:16 AM
  * @version	v0.1
  */
 public class Buffer
@@ -38,6 +39,11 @@ public class Buffer
 	private FloatBuffer	buffer;
 	private ByteBuffer	mapBuffer;
 	
+	/**
+	 * 
+	 * 
+	 * @param size
+	 */
 	public Buffer(int size)
 	{
 		this.size = size;
@@ -50,26 +56,46 @@ public class Buffer
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 	
+	/**
+	 * @return
+	 */
 	public int getId()
 	{
 		return id;
 	}
 	
+	/**
+	 * @return
+	 */
 	public int getSize()
 	{
 		return size;
 	}
 	
+	/**
+	 * @return
+	 */
 	public int getPosition()
 	{
 		return buffer.position();
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param position
+	 */
 	public void setPosition(int position)
 	{
 		buffer.position(position);
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param index
+	 * @param data
+	 */
 	public void setData(int index, float data)
 	{
 		buffer.position(index);
@@ -79,6 +105,12 @@ public class Buffer
 		buffer.rewind();
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param index
+	 * @param data
+	 */
 	public void setData(int index, float data[])
 	{
 		buffer.position(index);
@@ -88,6 +120,15 @@ public class Buffer
 		buffer.rewind();
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param offset
+	 * @param size
+	 * @param dx
+	 * @param dy
+	 * @param dz
+	 */
 	public void translate(int offset, int size, float dx, float dy, float dz)
 	{
 		buffer.position(offset);
@@ -102,6 +143,9 @@ public class Buffer
 		buffer.rewind();
 	}
 	
+	/**
+	 * 
+	 */
 	public void beginEditing()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, id);
@@ -111,6 +155,9 @@ public class Buffer
 		buffer    = mapBuffer.order(ByteOrder.nativeOrder()).asFloatBuffer();
 	}
 	
+	/**
+	 * 
+	 */
 	public void endEditing()
 	{
 		glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -118,6 +165,9 @@ public class Buffer
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 	
+	/**
+	 * @return 
+	 */
 	public String toString()
 	{
 		StringBuilder builder = new StringBuilder();

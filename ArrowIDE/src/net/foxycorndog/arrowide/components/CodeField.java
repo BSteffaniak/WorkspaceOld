@@ -482,7 +482,7 @@ public class CodeField extends StyledText
 	    {
 			public void keyPressed(KeyEvent e)
 			{
-				System.out.println(e.keyCode);
+//				System.out.println(e.keyCode);
 //				if (getSelectionCount() > 0)
 //				{
 //					selectionLines  = getLineAtOffset(getSelectionCount() + getSelection().x) - getLineAtOffset(getSelection().x);
@@ -1027,7 +1027,7 @@ public class CodeField extends StyledText
 					newRange.underlineStyle = SWT.UNDERLINE_SQUIGGLE;
 					newRange.underlineColor = new Color(Display.getDefault(), 240, 0, 0);
 					
-					System.out.println("Adding to (" + i + ")" + newStart + ", " + newLength);
+//					System.out.println("Adding to (" + i + ")" + newStart + ", " + newLength);
 					
 					// TODO: Potential error with replacing the next lastStyle with the new style.
 					styles.add(i++, newRange);

@@ -684,6 +684,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 							
 							try
 							{
+								consoleField.setText("");
+								
 								Language.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
 							}
 							catch (UnsupportedOperationException e)
@@ -1966,12 +1968,13 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		codeField.setLanguage(Language.getLanguage(fileLocation));
 		
 		boolean highlight = codeField.getLanguage() == 0;
-		System.out.println("done");
+		//TODO: did if rog et something?
+//		System.out.println("done");
 		if (highlight)
 		{
 			codeField.highlightSyntax();
 		}
-		System.out.println("done2");
+//		System.out.println("done2");
 		
 		if (currentFile)
 		{
@@ -2277,8 +2280,26 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					public void run()
 					{
 						codeField.clearErrors();
-						String outputLocation = FileUtils.getParentFolder(fileLocation) + "/";
-						Language.compile(fileLocation, code, outputLocation, null);
+						final String outputLocation = FileUtils.getParentFolder(fileLocation) + "/";
+						
+						DISPLAY.syncExec(new Runnable()
+						{
+							public void run()
+							{
+								try
+								{
+									consoleField.setText("");
+									
+									Language.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
+								}
+								catch (UnsupportedOperationException e)
+								{
+									consoleStream.println(e.getMessage());
+								}
+							}
+						});
+						
+//						Language.compile(fileLocation, code, outputLocation, null);
 					}
 				}.start();
 			}

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Monitor"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.components.Panel"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Rectangle"/>
 <fullyQualifiedTypeName name="java.awt.KeyboardFocusManager"/>
 <fullyQualifiedTypeName name="java.awt.KeyEventDispatcher"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Listener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.KeyListener"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.shader.Shader"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.opengl.FrameBuffer"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.dialog.PropertiesDialog"/>
 <fullyQualifiedTypeName name="java.awt.KeyEventPostProcessor"/>
@@ -38,7 +36,6 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.input.Keyboard"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.Display"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.Display"/>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
 <fullyQualifiedTypeName name="java.awt.DisplayMode"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.DisplayMode"/>
 <fullyQualifiedTypeName name="java.awt.Toolkit"/>
@@ -60,4 +57,7 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.Frame"/>
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.map.Chunk"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.util.Intersects"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.shader.Shader"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GL20"/>
 </qualifiedTypeNameHistroy>

@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import net.foxycorndog.jfoxylib.bundle.Bundle;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+import net.foxycorndog.jfoxylib.shader.Shader;
 import net.foxycorndog.thedigginggame.TheDiggingGame;
 import net.foxycorndog.thedigginggame.actor.Actor;
 import net.foxycorndog.thedigginggame.tile.Tile;
@@ -28,6 +29,8 @@ public class Map
 	private float	x, y;
 	
 	private TheDiggingGame	game;
+	
+	private Shader			lighting;
 	
 	private HashMap<Integer, HashMap<Integer, Chunk>> chunks;
 	
@@ -58,6 +61,8 @@ public class Map
 	 */
 	public Map(TheDiggingGame game)
 	{
+		lighting = new Shader("res/shaders/", new String[] { "lighting.vs" }, new String[] { "lighting.frag" });
+		
 		chunks    = new HashMap<Integer, HashMap<Integer, Chunk>>();
 		
 		actors    = new ArrayList<Actor>();
@@ -124,6 +129,10 @@ public class Map
 	 */
 	public void render()
 	{
+		lighting.run();
+		
+		
+		
 		GL.pushMatrix();
 		{
 			GL.translate(x, y, 0);
@@ -144,6 +153,8 @@ public class Map
 			}
 		}
 		GL.popMatrix();
+		
+		lighting.stop();
 	}
 	
 	/**

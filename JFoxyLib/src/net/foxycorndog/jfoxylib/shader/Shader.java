@@ -60,11 +60,26 @@ public class Shader
 	
 	private HashMap<String, Integer> uniformCache;
 	
+	public Shader(String parentDir, String vertexShaderLocations[], String fragmentShaderLocations[])
+	{
+		if (parentDir == null)
+		{
+			parentDir = "";
+		}
+		
+		create(parentDir, vertexShaderLocations, fragmentShaderLocations);
+	}
+	
 	public Shader(String vertexShaderLocations[], String fragmentShaderLocations[])
+	{
+		create("", vertexShaderLocations, fragmentShaderLocations);
+	}
+	
+	private void create(String parentDir, String vertexShaderLocations[], String fragmentShaderLocations[])
 	{
 		uniformCache = new HashMap<String, Integer>();
 		
-		programId = loadShaderProgram(vertexShaderLocations, fragmentShaderLocations);
+		programId = loadShaderProgram(parentDir, vertexShaderLocations, fragmentShaderLocations);
 	}
 	
 	private int genShaderProgramId()
@@ -239,11 +254,11 @@ public class Shader
 		return formattedError;
 	}
 	
-	private int loadShaderProgram(String vertexShaderLocation, String fragmentShaderLocation)
+	private int loadShaderProgram(String parentDir, String vertexShaderLocation, String fragmentShaderLocation)
 	{
 		int shaderProgram  = genShaderProgramId();
-		int vertexShader   = loadVertexShader(vertexShaderLocation);
-		int fragmentShader = loadFragmentShader(fragmentShaderLocation);
+		int vertexShader   = loadVertexShader(parentDir + vertexShaderLocation);
+		int fragmentShader = loadFragmentShader(parentDir + fragmentShaderLocation);
 		attachShader(vertexShader, shaderProgram);
 		attachShader(fragmentShader, shaderProgram);
 		genShaderProgram(shaderProgram);
@@ -251,19 +266,19 @@ public class Shader
 		return shaderProgram;
 	}
 	
-	private int loadShaderProgram(String vertexShaderLocations[], String fragmentShaderLocations[])
+	private int loadShaderProgram(String parentDir, String vertexShaderLocations[], String fragmentShaderLocations[])
 	{
 		int shaderProgram  = genShaderProgramId();
 		
 		for (int i = 0; i < vertexShaderLocations.length; i ++)
 		{
-			int vertexShader   = loadVertexShader(vertexShaderLocations[i]);
+			int vertexShader   = loadVertexShader(parentDir + vertexShaderLocations[i]);
 			attachShader(vertexShader, shaderProgram);
 		}
 		
 		for (int i = 0; i < fragmentShaderLocations.length; i ++)
 		{
-			int fragmentShader = loadFragmentShader(fragmentShaderLocations[i]);
+			int fragmentShader = loadFragmentShader(parentDir + fragmentShaderLocations[i]);
 			attachShader(fragmentShader, shaderProgram);
 		}
 		

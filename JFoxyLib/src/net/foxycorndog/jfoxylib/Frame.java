@@ -18,6 +18,9 @@ public class Frame
 	
 	private static org.lwjgl.opengl.Display	display;
 	
+	/**
+	 * 
+	 */
 	public static void create()
 	{
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
@@ -25,6 +28,12 @@ public class Frame
 		create((int)(size.width * 0.7f), (int)(size.height * 0.7f));
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param width
+	 * @param height
+	 */
 	public static void create(int width, int height)
 	{
 		try
@@ -40,66 +49,123 @@ public class Frame
 		}
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param resizable
+	 */
 	public static void setResizable(boolean resizable)
 	{
 		display.setResizable(resizable);
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param vSync
+	 */
 	public static void setVSyncEnabled(boolean vSync)
 	{
 		display.setVSyncEnabled(vSync);
 	}
 
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	public static int getFPS()
 	{
 		return fps;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param fps
+	 */
 	public static void setFPS(int fps)
 	{
 		Frame.fps = fps;
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	public static int getTargetFPS()
 	{
 		return targetFPS;
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param targetFPS
+	 */
 	public static void setTargetFPS(int targetFPS)
 	{
 		Frame.targetFPS = targetFPS;
 	}
 	
+	/**
+	 * @return
+	 */
 	public static String getTitle()
 	{
 		return display.getTitle();
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param title
+	 */
 	public static void setTitle(String title)
 	{
 		display.setTitle(title);
 	}
 	
+	/**
+	 * @return
+	 */
 	public static int getX()
 	{
 		return display.getX();
 	}
 	
+	/**
+	 * @return
+	 */
 	public static int getY()
 	{
 		return display.getY();
 	}
 	
+	/**
+	 * @return
+	 */
 	public static int getWidth()
 	{
 		return display.getWidth();
 	}
 	
+	/**
+	 * @return
+	 */
 	public static int getHeight()
 	{
 		return display.getHeight();
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param image16Location
+	 * @param image32Location
+	 * @throws IOException
+	 */
 	public static void setIcon(String image16Location, String image32Location) throws IOException
 	{
 //		InputStream in;

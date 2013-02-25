@@ -17,6 +17,7 @@ import net.foxycorndog.jfoxylib.listeners.GameListener;
  * @author	Braden Steffaniak
  * @since	Feb 15, 2013 at 11:44:47 PM
  * @since	v0.1
+ * @version	Feb 15, 2013 at 11:44:47 PM
  * @version	v0.1
  */
 public abstract class GameStarter
@@ -32,11 +33,17 @@ public abstract class GameStarter
 		listeners = new ArrayList<GameListener>();
 	}
 	
+	/**
+	 * 
+	 */
 	public GameStarter()
 	{
 		GL.init();
 	}
 	
+	/**
+	 * 
+	 */
 	public void start()
 	{
 		running = true;
@@ -94,16 +101,26 @@ public abstract class GameStarter
 		System.exit(0);
 	}
 	
+	/**
+	 * 
+	 */
 	public void stop()
 	{
 		running = false;
 	}
 	
+	/**
+	 * 
+	 * @param frame
+	 */
 	public void setMainFrame(Frame frame)
 	{
 		this.mainFrame = frame;
 	}
 	
+	/**
+	 * 
+	 */
 	public static void notifyGameListeners()
 	{
 		for (int i = listeners.size() - 1; i >= 0; i--)
@@ -112,18 +129,49 @@ public abstract class GameStarter
 		}
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param listener
+	 */
 	public static void addGameListener(GameListener listener)
 	{
 		listeners.add(listener);
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param listener
+	 */
 	public static void removeGameListener(GameListener listener)
 	{
 		listeners.remove(listener);
 	}
 	
+	/**
+	 * 
+	 */
 	public abstract void init();
+	
+	/**
+	 * 
+	 * 
+	 * @param dfps
+	 */
 	public abstract void render2D(int dfps);
+	
+	/**
+	 * 
+	 * 
+	 * @param dfps
+	 */
 	public abstract void render3D(int dfps);
+	
+	/**
+	 * 
+	 * 
+	 * @param dfps
+	 */
 	public abstract void loop(int dfps);
 }

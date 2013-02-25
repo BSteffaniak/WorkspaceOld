@@ -228,7 +228,7 @@ public class Formatter
 	{
 		for (int i = start - 1; i <= end; i++)
 		{
-			if (text.charAt(i) == '\n' || i == start - 1)
+			if (i >= 0 && text.charAt(i) == '\n' || i == start - 1)
 			{
 				for (int j = 0; j < startsWith.length(); j++)
 				{

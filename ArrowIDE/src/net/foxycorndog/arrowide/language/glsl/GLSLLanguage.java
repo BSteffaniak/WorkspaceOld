@@ -87,7 +87,7 @@ public class GLSLLanguage
 		
 		CompileOutput outputs[] = new CompileOutput[1];
 		
-		outputs[0] = new CompileOutput(0, 0, 0, successful ? 0 : 1, "ASDF");
+		outputs[0] = new CompileOutput(0, 0, 0, successful ? 0 : 1, error);
 		
 		for (int i = compilerListeners.size() - 1; i >= 0; i--)
 		{

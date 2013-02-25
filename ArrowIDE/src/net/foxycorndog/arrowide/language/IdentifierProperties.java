@@ -160,7 +160,6 @@ public class IdentifierProperties
 			
 			for (int j = 0; !found && j < PREVIOUS_CHARS[i].length; j++)
 			{
-				System.out.println("in");
 				for (int q = 0; q < previousChars.length; q++)
 				{
 					if (PREVIOUS_CHARS[i][j] == previousChars[q])
