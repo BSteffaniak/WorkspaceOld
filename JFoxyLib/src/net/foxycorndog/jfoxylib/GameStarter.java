@@ -56,15 +56,29 @@ public abstract class GameStarter
 		int fps  = 0;
 		int dfps = 0;
 		
+		int pred = 0;
+		
 		init();
 		
 		long startTime = System.currentTimeMillis();
+		long oldTime   = startTime;
 		
 		while (!Display.isCloseRequested() && running)
 		{
 			long newTime = System.currentTimeMillis();
 			
+			if (fps == 0 && dfps > 0)
+			{
+				pred = 1000 / (int)(newTime - oldTime);
+				
+				Frame.setFPS(pred);
+			}
+			
+			oldTime = newTime;
+			
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+
+			loop(dfps);
 			
 			GL.resetMatrix();
 			GL.initPerspective(Frame.getWidth(), Frame.getHeight(), 0.01f, 99999f);
@@ -79,8 +93,6 @@ public abstract class GameStarter
 				render2D(dfps);
 //			}
 //			GL11.glPopAttrib();
-			
-			loop(dfps);
 			
 			dfps++;
 			
@@ -154,23 +166,29 @@ public abstract class GameStarter
 	public abstract void init();
 	
 	/**
+	 * Method that is used to render through the orthographic
+	 * mode. All two deminsional drawing should be done in here.
 	 * 
-	 * 
-	 * @param dfps
+	 * @param dfps A counter that counts up to the fps of each
+	 * 		frame.
 	 */
 	public abstract void render2D(int dfps);
 	
 	/**
+	 * Method that is used to render through the perspective
+	 * mode. All three deminsional drawing should be done in here.
 	 * 
-	 * 
-	 * @param dfps
+	 * @param dfps A counter that counts up to the fps of each
+	 * 		frame.
 	 */
 	public abstract void render3D(int dfps);
 	
 	/**
+	 * Method that is right before the render methods are called.
+	 * All calculations should be done in here.
 	 * 
-	 * 
-	 * @param dfps
+	 * @param dfps A counter that counts up to the fps of each
+	 * 		frame.
 	 */
 	public abstract void loop(int dfps);
 }
