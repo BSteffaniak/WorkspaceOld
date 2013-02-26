@@ -8,6 +8,7 @@ import net.foxycorndog.jfoxylib.Frame;
 import net.foxycorndog.jfoxylib.GameStarter;
 import net.foxycorndog.jfoxylib.bundle.Bundle;
 import net.foxycorndog.jfoxylib.components.Component;
+import net.foxycorndog.jfoxylib.font.Font;
 import net.foxycorndog.jfoxylib.graphics.Texture;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 
@@ -22,8 +23,13 @@ import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 public class Game extends GameStarter
 {
 	private int		fps, flash;
+	private int		length;
 	
 	private float	rot;
+	
+	private long	startTime;
+	
+	private Font	font;
 	
 	private Texture	stone;
 	
@@ -86,6 +92,19 @@ public class Game extends GameStarter
 					});
 		}
 		crazyStuff.endEditingTextures();
+		
+		font = new Font("res/images/fonts/font.png", 26, 4,
+				new char[]
+				{
+					'A', 'B', 'C', 'D', 'E', 'F',  'G', 'H', 'I', 'J', 'K', 'L',  'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+					'a', 'b', 'c', 'd', 'e', 'f',  'g', 'h', 'i', 'j', 'k', 'l',  'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+					'0', '1', '2', '3', '4', '5',  '6', '7', '8', '9', '_', '-',  '+', '=', '~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')',
+					'?', '>', '<', ';', ':', '\'', '"', '{', '}', '[', ']', '\\', '|', ',', '.', '/', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+				});
+		
+		length = 5000;
+		
+		startTime = System.currentTimeMillis();
 	}
 	
 	public void init()
@@ -95,38 +114,48 @@ public class Game extends GameStarter
 	
 	public void render2D(int dfps)
 	{
-		GL.translate(Frame.getWidth() / 2, Frame.getHeight() / 2, 0);
+		long newTime = System.currentTimeMillis();
 		
-//		crazyStuff.render(GL.QUADS, stone);
-		
-		for (int y = 0; y < 50; y++)
+		if (newTime > startTime + length)
 		{
-			GL.translate(0, 5, 0);
-			GL.rotate(0, 0, rot);
+			GL.translate(Frame.getWidth() / 2, Frame.getHeight() / 2, 0);
 			
-			for (int x = 0; x < 50; x++)
+	//		crazyStuff.render(GL.QUADS, stone);
+			
+			for (int y = 0; y < 50; y++)
 			{
-				GL.translate(5, 0, 0);
-				crazyStuff.render(GL.QUADS, stone);
+				GL.translate(0, 5, 0);
+				GL.rotate(0, 0, rot);
+				
+				for (int x = 0; x < 50; x++)
+				{
+					GL.translate(5, 0, 0);
+					crazyStuff.render(GL.QUADS, stone);
+				}
+				
+				GL.translate(-50 * 5, 0, 0);
 			}
 			
-			GL.translate(-50 * 5, 0, 0);
+	//		if (flash % 2 == 0)
+	//		{
+	//			GL.setClearColor(1, 1, 0, 1);
+	//		}
+	//		else
+	//		{
+	//			GL.setClearColor(0, 0, 0, 1);
+	//		}
+			
+			GL.setClearColor((float)Math.random(), (float)Math.random(), (float)Math.random(), 1);
+			
+			flash++;
+			
+			rot += 0.19;
 		}
-		
-//		if (flash % 2 == 0)
-//		{
-//			GL.setClearColor(1, 1, 0, 1);
-//		}
-//		else
-//		{
-//			GL.setClearColor(0, 0, 0, 1);
-//		}
-		
-		GL.setClearColor((float)Math.random(), (float)Math.random(), (float)Math.random(), 1);
-		
-		flash++;
-		
-		rot += 0.19;
+		else
+		{
+//			System.out.println(Frame.getWidth());
+			font.render("CAUTION: Flashing Lights. Those with epilepsy may die.", 0, 0, 0, 2, Font.CENTER, Font.CENTER, null);
+		}
 	}
 	
 	public void render3D(int dfps)

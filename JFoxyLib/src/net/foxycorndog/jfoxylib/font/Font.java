@@ -105,61 +105,64 @@ public class Font
 		
 		Bundle bundle = null;
 		
-		if (history.containsKey(text) && history.get(text)[1] == 1)
+		if (horizontalAlignment == CENTER)
 		{
-			if (horizontalAlignment == CENTER)
+			if (panel != null)
 			{
-				if (panel != null)
-				{
-					x += panel.getWidth() / 2;
-				}
-				else
-				{
-					x += Frame.getWidth() / 2;
-				}
-				
-				x -= text.length() * scale * glyphWidth / 2;
+				x += panel.getWidth() / 2;
 			}
-			else if (horizontalAlignment == RIGHT)
+			else
 			{
-				if (panel != null)
-				{
-					x += panel.getWidth();
-				}
-				else
-				{
-					x += Frame.getWidth();
-				}
-				
-				x -= text.length() * scale * glyphWidth;
-			}
-			if (verticalAlignment == CENTER)
-			{
-				if (panel != null)
-				{
-					y += panel.getHeight() / 2;
-				}
-				else
-				{
-					x += Frame.getHeight() / 2;
-				}
-				
-				y -= glyphHeight * scale / 2;
-			}
-			else if (verticalAlignment == TOP)
-			{
-				if (panel != null)
-				{
-					y += panel.getHeight();
-				}
-				else
-				{
-					x += Frame.getHeight();
-				}
-				
-				y -= glyphHeight * scale;
+				x += Frame.getWidth() / 2;
 			}
 			
+			x -= (text.length() * glyphWidth) / 2;
+		}
+		else if (horizontalAlignment == RIGHT)
+		{
+			if (panel != null)
+			{
+				x += panel.getWidth();
+			}
+			else
+			{
+				x += Frame.getWidth();
+			}
+			
+			x -= text.length() * glyphWidth;
+		}
+		if (verticalAlignment == CENTER)
+		{
+			if (panel != null)
+			{
+				y += panel.getHeight() / 2;
+			}
+			else
+			{
+				x += Frame.getHeight() / 2;
+			}
+			
+			y -= (glyphHeight) / 2;
+		}
+		else if (verticalAlignment == TOP)
+		{
+			if (panel != null)
+			{
+				y += panel.getHeight();
+			}
+			else
+			{
+				x += Frame.getHeight();
+			}
+			
+			y -= glyphHeight;
+		}
+		
+		x *= scale;
+		y *= scale;
+		
+		if (history.containsKey(text) && history.get(text)[1] == 1)
+		{
 			vId  = history.get(text)[2];
 			tId  = history.get(text)[3];
 			viId = history.get(text)[4];
@@ -192,27 +195,6 @@ public class Font
 					
 					return;
 				}
-			}
-			
-			if (horizontalAlignment == CENTER)
-			{
-				x += panel.getWidth() / 2;
-				x -= text.length() * scale * glyphWidth / 2;
-			}
-			else if (horizontalAlignment == RIGHT)
-			{
-				x += panel.getWidth();
-				x -= text.length() * scale * glyphWidth;
-			}
-			if (verticalAlignment == CENTER)
-			{
-				y += panel.getHeight() / 2;
-				y -= glyphHeight * scale / 2;
-			}
-			else if (verticalAlignment == TOP)
-			{
-				y += panel.getHeight();
-				y -= glyphHeight * scale;
 			}
 			
 			for (int i = 0; i < chars.length; i ++)
@@ -278,22 +260,54 @@ public class Font
 		{
 			if (horizontalAlignment == CENTER)
 			{
-				x += panel.getWidth() / 2;
+				if (panel != null)
+				{
+					x += panel.getWidth() / 2;
+				}
+				else
+				{
+					x += Frame.getWidth() / 2;
+				}
+				
 				x -= text.length() * scale * glyphWidth / 2;
 			}
 			else if (horizontalAlignment == RIGHT)
 			{
-				x += panel.getWidth();
+				if (panel != null)
+				{
+					x += panel.getWidth();
+				}
+				else
+				{
+					x += Frame.getWidth();
+				}
+				
 				x -= text.length() * scale * glyphWidth;
 			}
 			if (verticalAlignment == CENTER)
 			{
-				y += panel.getHeight() / 2;
+				if (panel != null)
+				{
+					y += panel.getHeight() / 2;
+				}
+				else
+				{
+					x += Frame.getHeight() / 2;
+				}
+				
 				y -= glyphHeight * scale / 2;
 			}
 			else if (verticalAlignment == TOP)
 			{
-				y += panel.getHeight();
+				if (panel != null)
+				{
+					y += panel.getHeight();
+				}
+				else
+				{
+					x += Frame.getHeight();
+				}
+				
 				y -= glyphHeight * scale;
 			}
 			

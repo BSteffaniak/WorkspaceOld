@@ -1,1 +1,279 @@
+Error on line 44: string:///Driver.java:44: <identifier> expected
 Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Error on line 45: string:///Driver.java:45: ';' expected
+Error on line 45: string:///Driver.java:45: package T.System does not exist
+Error on line 45: string:///Driver.java:45: ';' expected
+Compiled successfully.
+Error on line 45: string:///Driver.java:45: ';' expected
+Error on line 43: string:///Driver.java:43: cannot find symbol
+symbol  : variable System
+location: class Tree
+Error on line 45: string:///Driver.java:45: ';' expected
+Error on line 45: string:///Driver.java:45: ';' expected
+Error on line 45: string:///Driver.java:45: ';' expected
+Error on line 45: string:///Driver.java:45: ')' expected
+Error on line 43: string:///Driver.java:43: ';' expected
+Error on line 43: string:///Driver.java:43: add(java.lang.Comparable) in Tree cannot be applied to ()
+Error on line 43: string:///Driver.java:43: unclosed string literal
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Error on line 42: string:///Driver.java:42: unclosed string literal
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Error on line 37: string:///Driver.java:37: unclosed string literal
+Error on line 37: string:///Driver.java:37: unclosed string literal
+Error on line 37: string:///Driver.java:37: unclosed string literal
+Error on line 37: string:///Driver.java:37: unclosed string literal
+Error on line 37: string:///Driver.java:37: unclosed string literal
+Error on line 37: string:///Driver.java:37: unclosed string literal
+Compiled successfully.
+Compiled successfully.
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Error on line 45: string:///Driver.java:45: <identifier> expected
+Error on line 45: string:///Driver.java:45: cannot find symbol
+symbol  : variable t
+location: class Tree
+Error on line 45: string:///Driver.java:45: cannot find symbol
+symbol  : variable to
+location: class Tree
+Error on line 45: string:///Driver.java:45: cannot find symbol
+symbol  : variable toS
+location: class Tree
+Error on line 45: string:///Driver.java:45: cannot find symbol
+symbol  : variable toSt
+location: class Tree
+Error on line 45: string:///Driver.java:45: cannot find symbol
+symbol  : variable toStr
+location: class Tree
+Error on line 45: string:///Driver.java:45: cannot find symbol
+symbol  : variable toString
+location: class Tree
+Error on line 45: string:///Driver.java:45: cannot find symbol
+symbol  : variable toString
+location: class Tree
+Error on line 45: string:///Driver.java:45: cannot find symbol
+symbol  : variable toString
+location: class Tree
+Error on line 45: string:///Driver.java:45: cannot find symbol
+symbol  : variable toStringP
+location: class Tree
+Error on line 45: string:///Driver.java:45: cannot find symbol
+symbol  : variable toStringPr
+location: class Tree
+Error on line 45: string:///Driver.java:45: cannot find symbol
+symbol  : variable toStringPre
+location: class Tree
+Error on line 45: string:///Driver.java:45: cannot find symbol
+symbol  : variable toStringPreO
+location: class Tree
+Error on line 45: string:///Driver.java:45: cannot find symbol
+symbol  : variable toStringPreOr
+location: class Tree
+Error on line 45: string:///Driver.java:45: cannot find symbol
+symbol  : variable toStringPreOrd
+location: class Tree
+Error on line 45: string:///Driver.java:45: cannot find symbol
+symbol  : variable toStringPreOrde
+location: class Tree
+Error on line 45: string:///Driver.java:45: cannot find symbol
+symbol  : variable toStringPreOrder
+location: class Tree
+Error on line 45: string:///Driver.java:45: ')' expected
+Compiled successfully.
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
+Tree { L, D, A, B, F, R, M, U, T, V,  }
+Compiled successfully.
+Compiled successfully.
+Error on line 47: string:///Driver.java:47: not a statementError on line 47: string:///Driver.java:47: ';' expected
+Error on line 47: string:///Driver.java:47: <identifier> expectedError on line 47: string:///Driver.java:47: not a statement
+Error on line 47: string:///Driver.java:47: not a statementError on line 47: string:///Driver.java:47: ';' expected
+Error on line 47: string:///Driver.java:47: not a statementError on line 47: string:///Driver.java:47: ';' expected
+Error on line 47: string:///Driver.java:47: not a statementError on line 47: string:///Driver.java:47: ';' expected
+Error on line 47: string:///Driver.java:47: not a statementError on line 47: string:///Driver.java:47: ';' expected
+Error on line 47: string:///Driver.java:47: not a statementError on line 47: string:///Driver.java:47: ';' expected
+Error on line 47: string:///Driver.java:47: not a statementError on line 47: string:///Driver.java:47: ';' expected
+Error on line 48: string:///Driver.java:48: illegal start of expression
+Error on line 47: string:///Driver.java:47: ';' expected
+Error on line 47: string:///Driver.java:47: ';' expected
+Error on line 47: string:///Driver.java:47: ';' expected
+Error on line 47: string:///Driver.java:47: ';' expectedError on line 47: string:///Driver.java:47: ';' expected
+Error on line 47: string:///Driver.java:47: ';' expected
+Error on line 47: string:///Driver.java:47: cannot find symbol
+symbol  : method remove()
+location: class Tree
+Error on line 47: string:///Driver.java:47: unclosed string literal
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 47: string:///Driver.java:47: package sYSTEM does not exist
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Compiled successfully.
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 47: string:///Driver.java:47: package Ssytem does not exist
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 47: string:///Driver.java:47: not a statementError on line 47: string:///Driver.java:47: ';' expected
+Error on line 47: string:///Driver.java:47: not a statementError on line 47: string:///Driver.java:47: ';' expected
+Error on line 47: string:///Driver.java:47: not a statementError on line 47: string:///Driver.java:47: ';' expectedError on line 49: string:///Driver.java:49: ';' expected
+Error on line 47: string:///Driver.java:47: not a statementError on line 47: string:///Driver.java:47: ';' expectedError on line 49: string:///Driver.java:49: ';' expected
+Error on line 47: string:///Driver.java:47: not a statementError on line 47: string:///Driver.java:47: ';' expectedError on line 49: string:///Driver.java:49: ';' expected
+Error on line 47: string:///Driver.java:47: not a statementError on line 47: string:///Driver.java:47: ';' expected
+Error on line 47: string:///Driver.java:47: not a statementError on line 47: string:///Driver.java:47: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 47: string:///Driver.java:47: cannot find symbol
+symbol  : variable t
+location: class java.lang.System
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 47: string:///Driver.java:47: cannot find symbol
+symbol  : variable t
+location: class java.io.PrintStream
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ';' expected
+Error on line 49: string:///Driver.java:49: ')' expected
+Error on line 47: string:///Driver.java:47: ';' expected
+Compiled successfully.
+Compiled successfully.
+Error on line 47: string:///Driver.java:47: <identifier> expected
+Error on line 47: string:///Driver.java:47: cannot find symbol
+symbol  : variable h
+location: class Tree
+Error on line 47: string:///Driver.java:47: cannot find symbol
+symbol  : variable he
+location: class Tree
+Error on line 47: string:///Driver.java:47: cannot find symbol
+symbol  : variable heig
+location: class Tree
+Error on line 47: string:///Driver.java:47: cannot find symbol
+symbol  : variable height
+location: class Tree
+Error on line 47: string:///Driver.java:47: cannot find symbol
+symbol  : variable height
+location: class Tree
+Error on line 47: string:///Driver.java:47: cannot find symbol
+symbol  : variable height
+location: class Tree
+Error on line 47: string:///Driver.java:47: ')' expected
+Compiled successfully.
+Compiled successfully.
+Error on line 48: string:///Driver.java:48: cannot find symbol
+symbol  : method s()
+location: class Tree
+Error on line 48: string:///Driver.java:48: cannot find symbol
+symbol  : method sea()
+location: class Tree
+Error on line 48: string:///Driver.java:48: cannot find symbol
+symbol  : method sear()
+location: class Tree
+Error on line 48: string:///Driver.java:48: cannot find symbol
+symbol  : method searc()
+location: class Tree
+Error on line 48: string:///Driver.java:48: cannot find symbol
+symbol  : method searc()
+location: class Tree
+Error on line 48: string:///Driver.java:48: cannot find symbol
+symbol  : method search()
+location: class Tree
+Error on line 48: string:///Driver.java:48: unclosed string literal
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
+Tree { L, D, A, B, F, R, M, U, T, V,  }
+4
+true
+Compiled successfully.
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
+Tree { L, D, A, B, F, R, M, U, T, V,  }
+4
+true
+Tree { ( D ( M ( T ( V )))) }
+Tree { D, M, T, V,  }
