@@ -154,7 +154,7 @@ public class Map
 		}
 		GL.popMatrix();
 		
-//		lighting.stop();
+		lighting.stop();
 	}
 	
 	/**

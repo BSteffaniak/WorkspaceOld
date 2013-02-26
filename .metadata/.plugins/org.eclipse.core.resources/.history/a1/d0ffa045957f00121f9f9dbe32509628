@@ -334,6 +334,7 @@ public class CodeField extends StyledText
 		{
 			public void run()
 			{
+				System.out.println("in?");
 				highlightSyntax();
 			}
 		};
@@ -589,9 +590,10 @@ public class CodeField extends StyledText
 			methodWords.clear();
 			
 			setStyles(new StyleRange[0]);
-			
+			System.out.println("didnt pass");
 			return;
 		}
+		System.out.println("passed");
 		
 		createSyntaxStyles();
 		createSyntaxStyles();
@@ -1494,6 +1496,7 @@ public class CodeField extends StyledText
 		
 //		if (language > 0)
 //		{
+		System.out.println("??");
 			new Thread(syntaxUpdater).start();
 //		}
 	}

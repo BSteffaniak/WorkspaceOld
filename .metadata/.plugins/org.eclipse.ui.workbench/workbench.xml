@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="25" version="2.0">
+<workbench progressCount="28" version="2.0">
 <workbenchAdvisor/>
 <window height="799" maximized="true" width="1016" x="11" y="-25">
 <fastViewData fastViewLocation="1024">
@@ -170,7 +170,7 @@
 </editorArea>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ArrowIDE.java" partName="ArrowIDE.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java" title="ArrowIDE.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="61197" selectionTopPixel="33735"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="37223" selectionTopPixel="17577"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Compiler.java" partName="Compiler.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java" title="Compiler.java" tooltip="GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/GLShaderIDE/src/net/foxycorndog/glshaderide/compiler/Compiler.java"/>
@@ -222,7 +222,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CodeField.java" partName="CodeField.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java" title="CodeField.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="26774" selectionTopPixel="588"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="15472" selectionTopPixel="8580"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ContentListener.java" partName="ContentListener.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/components/ContentListener.java" title="ContentListener.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/components/ContentListener.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/components/ContentListener.java"/>
@@ -250,11 +250,11 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GLSLKeyword.java" partName="GLSLKeyword.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/language/glsl/GLSLKeyword.java" title="GLSLKeyword.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/language/glsl/GLSLKeyword.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/glsl/GLSLKeyword.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="930" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="890" selectionTopPixel="56"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GLSLLanguage.java" partName="GLSLLanguage.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/language/glsl/GLSLLanguage.java" title="GLSLLanguage.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/language/glsl/GLSLLanguage.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/glsl/GLSLLanguage.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3762" selectionTopPixel="1137"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2104" selectionTopPixel="339"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="DialogFilter.java" partName="DialogFilter.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/dialog/DialogFilter.java" title="DialogFilter.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/dialog/DialogFilter.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/dialog/DialogFilter.java"/>
@@ -294,7 +294,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="JavaLanguage.java" partName="JavaLanguage.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/language/java/JavaLanguage.java" title="JavaLanguage.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/language/java/JavaLanguage.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/java/JavaLanguage.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="10801" selectionTopPixel="582"/>
+<editorState selectionHorizontalPixel="0" selectionLength="35" selectionOffset="2493" selectionTopPixel="582"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Keyword.java" partName="Keyword.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/language/Keyword.java" title="Keyword.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/language/Keyword.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/Keyword.java"/>
@@ -512,9 +512,9 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/bundle/Bundle.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="7092" selectionTopPixel="4220"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Buffer.java" partName="Buffer.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/bundle/Buffer.java" title="Buffer.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/bundle/Buffer.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Buffer.java" partName="Buffer.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/bundle/Buffer.java" title="Buffer.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/bundle/Buffer.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/bundle/Buffer.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3112" selectionTopPixel="1841"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3112" selectionTopPixel="1631"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Model.java" partName="Model.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/model/Model.java" title="Model.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/model/Model.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/model/Model.java"/>
@@ -598,15 +598,15 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TheDiggingGame.java" partName="TheDiggingGame.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGame/src/net/foxycorndog/thedigginggame/TheDiggingGame.java" title="TheDiggingGame.java" tooltip="TheDiggingGame/src/net/foxycorndog/thedigginggame/TheDiggingGame.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/TheDiggingGame.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3867" selectionTopPixel="1764"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3349" selectionTopPixel="1806"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Map.java" partName="Map.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Map.java" title="Map.java" tooltip="TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Map.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Map.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3070" selectionTopPixel="1731"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3268" selectionTopPixel="1806"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Chunk.java" partName="Chunk.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Chunk.java" title="Chunk.java" tooltip="TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Chunk.java" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Chunk.java" partName="Chunk.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Chunk.java" title="Chunk.java" tooltip="TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Chunk.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Chunk.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="6388" selectionTopPixel="3240"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="6954" selectionTopPixel="3002"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Tile.java" partName="Tile.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGame/src/net/foxycorndog/thedigginggame/tile/Tile.java" title="Tile.java" tooltip="TheDiggingGame/src/net/foxycorndog/thedigginggame/tile/Tile.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/tile/Tile.java"/>
@@ -642,7 +642,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Game.java" partName="Game.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TestGame/src/Game.java" title="Game.java" tooltip="TestGame/src/Game.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TestGame/src/Game.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="629" selectionTopPixel="104"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FileUtils.java" partName="FileUtils.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/util/FileUtils.java" title="FileUtils.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/util/FileUtils.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/util/FileUtils.java"/>
@@ -695,9 +695,7 @@
 </view>
 <view id="org.eclipse.jdt.ui.PackageExplorer" partName="Package Explorer">
 <viewState group_libraries="1" layout="2" linkWithEditor="0" rootMode="1" workingSetName="">
-<customFilters userDefinedPatternsEnabled="false">
-<xmlDefinedFilters>
-<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
+<customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.LocalTypesFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.StaticsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.ClosedProjectsFilter" isEnabled="false"/>
@@ -800,7 +798,7 @@
 <hide_toolbar_item_id id="org.eclipse.jdt.ui.actions.OpenProjectWizard"/>
 <hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
 <fastViewBars>
-<fastViewBar fastViewLocation="1024" id="bottom" orientation="256" selectedTabId="org.eclipse.search.ui.views.SearchView" style="0">
+<fastViewBar fastViewLocation="1024" id="bottom" orientation="256" selectedTabId="org.eclipse.ui.console.ConsoleView" style="0">
 <fastViews>
 <view id="org.eclipse.ui.console.ConsoleView" ratio="0.20320855"/>
 <view id="org.eclipse.ui.views.ProblemView" ratio="0.29898402"/>
@@ -1018,15 +1016,6 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Map.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/shader/Shader.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/file/FileUtils.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/util/FileUtils.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TestGame2.0/src/net/foxycorndog/testgame/Game.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Chunk.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/bundle/Bundle.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/formatter/Formatter.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/IdentifierProperties.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/glsl/GLSLLanguage.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/Language.java"/>
@@ -1037,156 +1026,167 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/components/Cursor.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/GameStarter.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/bundle/Buffer.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/TheDiggingGame.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Map.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java"/>
+<editor factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" org.eclipse.jdt.ui.ClassFileIdentifier="=ArrowIDE/C:\/Program Files\/Java\/jdk1.7.0_03\/jre\/lib\/rt.jar&lt;java.lang(Thread.class"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/glsl/GLSLKeyword.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/glsl/GLSLLanguage.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/java/JavaLanguage.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Map.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Chunk.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TestGame/src/Game.java"/>
 </editors>
-<item historyLabel="Shader.java" index="1">
-<position info="not_deleted" x="2954" y="0"/>
-</item>
-<item historyLabel="FileUtils.java" index="2">
-<position info="not_deleted" x="9794" y="0"/>
-</item>
-<item historyLabel="FileUtils.java" index="3">
-<position info="not_deleted" x="92" y="0"/>
-</item>
-<item historyLabel="Shader.java" index="1">
-<position info="not_deleted" x="2757" y="0"/>
-</item>
-<item historyLabel="Shader.java" index="1">
-<position info="not_deleted" x="2877" y="0"/>
-</item>
-<item historyLabel="Map.java" index="0">
-<position info="not_deleted" x="1548" y="0"/>
-</item>
-<item historyLabel="Game.java" index="4">
-<position info="not_deleted" x="8073" y="480"/>
-</item>
-<item historyLabel="Map.java" index="0">
-<position info="not_deleted" x="1336" y="0"/>
-</item>
-<item historyLabel="Chunk.java" index="5">
-<position info="not_deleted" x="9739" y="0"/>
-</item>
-<item historyLabel="Chunk.java" index="5">
-<position info="not_deleted" x="5960" y="6"/>
-</item>
-<item historyLabel="Bundle.java" index="6">
-<position info="not_deleted" x="3320" y="0"/>
-</item>
-<item historyLabel="Bundle.java" index="6">
-<position info="not_deleted" x="6453" y="6"/>
-</item>
-<item historyLabel="Bundle.java" index="6">
-<position info="not_deleted" x="7278" y="0"/>
-</item>
-<item historyLabel="Formatter.java" index="7">
-<position info="not_deleted" x="448" y="0"/>
-</item>
-<item historyLabel="Formatter.java" index="7">
-<position info="not_deleted" x="4859" y="58"/>
-</item>
-<item historyLabel="IdentifierProperties.java" index="8">
-<position info="not_deleted" x="7130" y="0"/>
-</item>
-<item historyLabel="IdentifierProperties.java" index="8">
-<position/>
-</item>
-<item historyLabel="GLSLLanguage.java" index="9">
-<position info="not_deleted" x="3085" y="130"/>
-</item>
-<item historyLabel="GLSLLanguage.java" index="9">
-<position info="not_deleted" x="2507" y="54"/>
-</item>
-<item historyLabel="ArrowIDE.java" index="10">
-<position info="not_deleted" x="16596" y="0"/>
-</item>
-<item historyLabel="ArrowIDE.java" index="10">
+<item historyLabel="ArrowIDE.java" index="1">
 <position info="not_deleted" x="61702" y="487"/>
 </item>
-<item historyLabel="Language.java" index="11">
-<position info="not_deleted" x="3669" y="0"/>
-</item>
-<item historyLabel="Language.java" index="11">
-<position info="not_deleted" x="5574" y="73"/>
-</item>
-<item historyLabel="GLSLLanguage.java" index="9">
-<position info="not_deleted" x="2507" y="54"/>
-</item>
-<item historyLabel="Language.java" index="11">
-<position info="not_deleted" x="5574" y="73"/>
-</item>
-<item historyLabel="ArrowIDE.java" index="10">
-<position info="not_deleted" x="61702" y="487"/>
-</item>
-<item historyLabel="CodeField.java" index="12">
+<item historyLabel="CodeField.java" index="3">
 <position info="not_deleted" x="12943" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="12">
+<item historyLabel="CodeField.java" index="3">
 <position info="not_deleted" x="35025" y="57"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="10">
+<item historyLabel="ArrowIDE.java" index="1">
 <position info="not_deleted" x="61867" y="93"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="10">
+<item historyLabel="ArrowIDE.java" index="1">
 <position info="not_deleted" x="61886" y="0"/>
 </item>
-<item historyLabel="Language.java" index="11">
+<item historyLabel="Language.java" index="2">
 <position info="not_deleted" x="5595" y="0"/>
 </item>
-<item historyLabel="GLSLLanguage.java" index="9">
+<item historyLabel="GLSLLanguage.java" index="0">
 <position info="not_deleted" x="3314" y="0"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="10">
+<item historyLabel="ArrowIDE.java" index="1">
 <position info="not_deleted" x="24327" y="0"/>
 </item>
-<item historyLabel="GLSLLanguage.java" index="9">
+<item historyLabel="GLSLLanguage.java" index="0">
 <position info="not_deleted" x="4127" y="0"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="10">
+<item historyLabel="ArrowIDE.java" index="1">
 <position info="not_deleted" x="21470" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="12">
+<item historyLabel="CodeField.java" index="3">
 <position info="not_deleted" x="35025" y="57"/>
 </item>
-<item historyLabel="GLSLLanguage.java" index="9">
+<item historyLabel="GLSLLanguage.java" index="0">
 <position info="not_deleted" x="3762" y="0"/>
 </item>
-<item historyLabel="Language.java" index="11">
+<item historyLabel="Language.java" index="2">
 <position info="not_deleted" x="5595" y="0"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="10">
+<item historyLabel="ArrowIDE.java" index="1">
 <position info="not_deleted" x="21470" y="0"/>
 </item>
-<item historyLabel="JavaLanguage.java" index="13">
+<item historyLabel="JavaLanguage.java" index="4">
 <position info="not_deleted" x="10801" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="12">
+<item historyLabel="CodeField.java" index="3">
 <position info="not_deleted" x="12915" y="19"/>
 </item>
-<item historyLabel="CodeField.java" index="12">
+<item historyLabel="CodeField.java" index="3">
 <position info="not_deleted" x="12945" y="0"/>
 </item>
-<item historyLabel="CodeField.java" index="12">
+<item historyLabel="CodeField.java" index="3">
 <position info="not_deleted" x="26528" y="19"/>
 </item>
-<item historyLabel="Display.java" index="14">
+<item historyLabel="Display.java" index="5">
 <position info="not_deleted" x="96" y="0"/>
 </item>
-<item historyLabel="Frame.java" index="15">
+<item historyLabel="Frame.java" index="6">
 <position info="not_deleted" x="370" y="0"/>
 </item>
-<item historyLabel="Cursor.java" index="16">
+<item historyLabel="Cursor.java" index="7">
 <position info="not_deleted" x="582" y="0"/>
 </item>
-<item historyLabel="Frame.java" index="15">
+<item historyLabel="Frame.java" index="6">
 <position info="not_deleted" x="3232" y="0"/>
 </item>
-<item historyLabel="Cursor.java" index="16">
+<item historyLabel="Cursor.java" index="7">
 <position info="not_deleted" x="582" y="0"/>
 </item>
-<item historyLabel="GameStarter.java" index="17">
+<item historyLabel="GameStarter.java" index="8">
 <position info="not_deleted" x="1845" y="0"/>
 </item>
-<item active="true" historyLabel="Buffer.java" index="18">
+<item historyLabel="Buffer.java" index="9">
 <position info="not_deleted" x="2880" y="0"/>
+</item>
+<item historyLabel="TheDiggingGame.java" index="10">
+<position info="not_deleted" x="3867" y="0"/>
+</item>
+<item historyLabel="Map.java" index="11">
+<position info="not_deleted" x="3070" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="12">
+<position info="not_deleted" x="36266" y="0"/>
+</item>
+<item historyLabel="Thread.class" index="13">
+<position info="not_deleted" x="25242" y="5"/>
+</item>
+<item historyLabel="CodeField.java" index="12">
+<position info="not_deleted" x="36266" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="12">
+<position info="not_deleted" x="36253" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="12">
+<position info="not_deleted" x="3703" y="13"/>
+</item>
+<item historyLabel="CodeField.java" index="12">
+<position info="not_deleted" x="9480" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="12">
+<position info="not_deleted" x="15255" y="15"/>
+</item>
+<item historyLabel="CodeField.java" index="12">
+<position info="not_deleted" x="9479" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="12">
+<position info="not_deleted" x="15287" y="15"/>
+</item>
+<item historyLabel="ArrowIDE.java" index="14">
+<position info="not_deleted" x="61216" y="0"/>
+</item>
+<item historyLabel="GLSLKeyword.java" index="15">
+<position info="not_deleted" x="930" y="0"/>
+</item>
+<item historyLabel="GLSLLanguage.java" index="16">
+<position info="not_deleted" x="3769" y="0"/>
+</item>
+<item historyLabel="JavaLanguage.java" index="17">
+<position info="not_deleted" x="2493" y="35"/>
+</item>
+<item historyLabel="GLSLLanguage.java" index="16">
+<position info="not_deleted" x="2104" y="0"/>
+</item>
+<item historyLabel="TheDiggingGame.java" index="10">
+<position info="not_deleted" x="3963" y="0"/>
+</item>
+<item historyLabel="Map.java" index="18">
+<position info="not_deleted" x="2947" y="0"/>
+</item>
+<item historyLabel="Chunk.java" index="19">
+<position info="not_deleted" x="6402" y="0"/>
+</item>
+<item historyLabel="Chunk.java" index="19">
+<position info="not_deleted" x="1756" y="0"/>
+</item>
+<item historyLabel="Map.java" index="18">
+<position info="not_deleted" x="2947" y="0"/>
+</item>
+<item historyLabel="Game.java" index="20">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Game.java" index="20">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Map.java" index="18">
+<position info="not_deleted" x="3268" y="0"/>
+</item>
+<item active="true" historyLabel="Chunk.java" index="19">
+<position info="not_deleted" x="1756" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -1210,6 +1210,9 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="Thread.class" tooltip="java.lang.Thread">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=ArrowIDE/C:\/Program Files\/Java\/jdk1.7.0_03\/jre\/lib\/rt.jar&lt;java.lang(Thread.class"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FileUtils.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/util/FileUtils.java">
 <persistable path="/JFoxyLib/src/net/foxycorndog/jfoxylib/util/FileUtils.java"/>
 </file>
@@ -1251,9 +1254,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MouseEvent.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/events/MouseEvent.java">
 <persistable path="/JFoxyLib/src/net/foxycorndog/jfoxylib/events/MouseEvent.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MouseListener.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/listeners/MouseListener.java">
-<persistable path="/JFoxyLib/src/net/foxycorndog/jfoxylib/listeners/MouseListener.java"/>
 </file>
 </mruList>
 </workbench>

@@ -45,7 +45,7 @@ public class Chunk
 	
 	static
 	{
-		verticesBuffer = new Buffer(4 * 3 * CHUNK_SIZE * CHUNK_SIZE * 3);
+		verticesBuffer = new Buffer(4 * 2 * CHUNK_SIZE * CHUNK_SIZE * 3);
 		
 		verticesBuffer.beginEditing();
 		
@@ -53,13 +53,13 @@ public class Chunk
 		
 		int tileSize = Tile.getTileSize();
 		
-		for (int z = -5; z <= 5; z += 5)
+		for (int i = 0; i < 3; i++)
 		{
 			for (int y = 0; y < CHUNK_SIZE; y++)
 			{
 				for (int x = 0; x < CHUNK_SIZE; x++)
 				{
-					float verts[] = GL.genRectVerts(x * tileSize, y * tileSize, z, tileSize, tileSize);
+					float verts[] = GL.genRectVerts(x * tileSize, y * tileSize, tileSize, tileSize);
 					
 					verticesBuffer.setData(offset, verts);
 					
@@ -116,7 +116,7 @@ public class Chunk
 		
 		texturesBuffer = new Buffer(2 * CHUNK_VERT_COUNT);
 		
-		bundle = new Bundle(verticesBuffer, texturesBuffer, null, 3);
+		bundle = new Bundle(verticesBuffer, texturesBuffer, null, 2);
 		
 		tiles    = new Tile[CHUNK_SIZE * CHUNK_SIZE * 3];
 		newTiles = new ArrayList<NewTile>();
@@ -249,13 +249,13 @@ public class Chunk
 	 */
 	private void renderBackground()
 	{
-//		GL.pushMatrix();
-//		{
-//			GL.translate(0, 0, -5);
+		GL.pushMatrix();
+		{
+			GL.translate(0, 0, -5);
 			
 			bundle.render(GL.QUADS, 0, 4 * CHUNK_SIZE * CHUNK_SIZE, Tile.getTerrainSprites());
-//		}
-//		GL.popMatrix();
+		}
+		GL.popMatrix();
 	}
 
 	/**
@@ -263,11 +263,11 @@ public class Chunk
 	 */
 	private void renderMiddleground()
 	{
-//		GL.pushMatrix();
-//		{
+		GL.pushMatrix();
+		{
 			bundle.render(GL.QUADS, 4 * CHUNK_SIZE * CHUNK_SIZE, 4 * CHUNK_SIZE * CHUNK_SIZE, Tile.getTerrainSprites());
-//		}
-//		GL.popMatrix();
+		}
+		GL.popMatrix();
 	}
 
 	/**
@@ -275,12 +275,12 @@ public class Chunk
 	 */
 	private void renderForeground()
 	{
-//		GL.pushMatrix();
-//		{
-//			GL.translate(0, 0, 5);
+		GL.pushMatrix();
+		{
+			GL.translate(0, 0, 5);
 			
 			bundle.render(GL.QUADS, 4 * CHUNK_SIZE * CHUNK_SIZE * 2, 4 * CHUNK_SIZE * CHUNK_SIZE, Tile.getTerrainSprites());
-//		}
+		}
 		GL.popMatrix();
 	}
 	

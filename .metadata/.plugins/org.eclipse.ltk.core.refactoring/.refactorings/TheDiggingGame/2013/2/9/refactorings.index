@@ -1,3 +1,4 @@
 1361667946623	Rename field 'movingHorizontal'
 1361667968108	Rename field 'movingVertical'
 1361737227363	Rename field 'shader'
+1361881263360	Rename local variable 'i'

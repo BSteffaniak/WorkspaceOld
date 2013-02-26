@@ -498,7 +498,7 @@ public class CodeField extends StyledText
 				int caretPosition = getCaretPosition();
 				int lineNum       = getCaretLineNumber();
 				
-				if (isPrintable(e.character) || e.keyCode == 13 || e.keyCode == 127 || e.keyCode == SWT.BS || e.keyCode == SWT.CR || e.character == '\t')
+				if (isPrintable(e.character) || e.keyCode == 13 || e.keyCode == SWT.BS || e.keyCode == SWT.CR || e.character == '\t')
 				{
 					contentChanged();
 				}

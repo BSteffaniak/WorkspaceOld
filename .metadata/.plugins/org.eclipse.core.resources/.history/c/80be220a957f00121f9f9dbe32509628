@@ -589,9 +589,10 @@ public class CodeField extends StyledText
 			methodWords.clear();
 			
 			setStyles(new StyleRange[0]);
-			
+			System.out.println("didnt pass");
 			return;
 		}
+		System.out.println("passed");
 		
 		createSyntaxStyles();
 		createSyntaxStyles();

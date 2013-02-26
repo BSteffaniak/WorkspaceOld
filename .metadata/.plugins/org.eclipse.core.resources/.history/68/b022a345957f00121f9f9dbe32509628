@@ -1203,7 +1203,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			{
 				try
 				{
-					openFile(lastTabs[i], false, i == lastTabs.length - 1);
+					openFile(lastTabs[i], false, false);
 					
 					builder.append(lastTabs[i] + ';');
 				}
