@@ -310,17 +310,21 @@ public class Tree implements BSTree
 
 				if (delNode == root)
 				{
-					if (root.getLeftNode() != null)
+					if (root.getRightNode() != null)
+					{
+						newNode = root.getLeftNode();
+						
+						root = root.getRightNode();
+						
+						root.setLeftNode(newNode);
+					}
+					else
 					{
 						newNode = root.getLeftNode();
 
 						newNode.setRightNode(root.getRightNode());
 
 						root = newNode;
-					}
-					else
-					{
-						root = root.getRightNode();
 					}
 				}
 				else

@@ -1,81 +1,77 @@
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:58 : error C1068: too much data in type constructor
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:58 : error C1068: too much data in type constructor
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:58 : error C1068: too much data in type constructor
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:58 : error C0000: syntax error, unexpected '/', expecting "::" at token "/"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:61 : error C0000: syntax error, unexpected '}', expecting "::" at token "}"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:61 : error C0000: syntax error, unexpected '}', expecting ',' or ';' at token "}"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:61 : error C0000: syntax error, unexpected '}', expecting ',' or ';' at token "}"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:61 : error C0000: syntax error, unexpected '}', expecting ',' or ';' at token "}"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:61 : error C0000: syntax error, unexpected '}', expecting ',' or ';' at token "}"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:61 : error C0000: syntax error, unexpected '}', expecting ',' or ';' at token "}"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:61 : error C0000: syntax error, unexpected '}', expecting ',' or ';' at token "}"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:61 : error C0000: syntax error, unexpected '}', expecting ',' or ';' at token "}"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:61 : error C0000: syntax error, unexpected '}', expecting ',' or ';' at token "}"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:61 : error C0000: syntax error, unexpected '}', expecting ',' or ';' at token "}"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:61 : error C0000: syntax error, unexpected '}', expecting ',' or ';' at token "}"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:61 : error C0000: syntax error, unexpected '}', expecting ',' or ';' at token "}"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:61 : error C0000: syntax error, unexpected '}', expecting ',' or ';' at token "}"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-	lighting.vs:61 : error C0000: syntax error, unexpected '}', expecting ',' or ';' at token "}"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:24 : error C1038: declaration of "vPosition" conflicts with previous declaration at lighting.vs:7
-	lighting.vs:26 : error C1013: function "main" is already defined at lighting.vs:12
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
+Tree { L, D, A, B, F, R, M, U, T, V,  }
+4
+true
+Tree { ( D ( M ( T ( V )))) }
+Tree { D, M, T, V,  }
+Compiled successfully.
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
+Tree { L, D, A, B, F, R, M, U, T, V,  }
+4
+true
+Tree { (( D ( F )) L ( M ( T ( V )))) }
+Tree { ( D ( M ( T ( V )))) }
+Tree { D, M, T, V,  }
+Error on line 313: string:///Tree.java:313: cannot find symbol
+symbol  : method g()
+location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
+Error on line 313: string:///Tree.java:313: cannot find symbol
+symbol  : method ge()
+location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
+Error on line 313: string:///Tree.java:313: cannot find symbol
+symbol  : method get()
+location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
+Error on line 313: string:///Tree.java:313: cannot find symbol
+symbol  : method getR()
+location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
+Error on line 313: string:///Tree.java:313: cannot find symbol
+symbol  : method getRi()
+location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
+Error on line 313: string:///Tree.java:313: cannot find symbol
+symbol  : method getRig()
+location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
+Error on line 313: string:///Tree.java:313: cannot find symbol
+symbol  : method getRigh()
+location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
+Error on line 313: string:///Tree.java:313: cannot find symbol
+symbol  : method getRight()
+location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
+Error on line 313: string:///Tree.java:313: cannot find symbol
+symbol  : method getRightN()
+location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
+Error on line 313: string:///Tree.java:313: cannot find symbol
+symbol  : method getRightNo()
+location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
+Error on line 313: string:///Tree.java:313: cannot find symbol
+symbol  : method getRightNod()
+location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
+Compiled successfully.
+Error on line 368: string:///Tree.java:368: 'else' without 'if'Error on line 373: string:///Tree.java:373: class, interface, or enum expected
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Error on line 370: string:///Tree.java:370: 'else' without 'if'Error on line 375: string:///Tree.java:375: class, interface, or enum expected
+Error on line 371: string:///Tree.java:371: 'else' without 'if'Error on line 376: string:///Tree.java:376: class, interface, or enum expected
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Error on line 391: string:///Tree.java:391: reached end of file while parsing
+Error on line 355: string:///Tree.java:355: 'else' without 'if'Error on line 406: string:///Tree.java:406: reached end of file while parsing
+Error on line 391: string:///Tree.java:391: reached end of file while parsing
+Error on line 378: string:///Tree.java:378: reached end of file while parsing
 Compiled successfully.
 Compiled successfully.
 Compiled successfully.
@@ -86,126 +82,113 @@ Compiled successfully.
 Compiled successfully.
 Compiled successfully.
 Compiled successfully.
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "f"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fr"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fra"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "frag"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragS"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragSc"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragScr"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragScre"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragScree"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragScreen"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragScreenP"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragScreenPo"
-Compiled successfully.
-Compiled successfully.
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "f"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fr"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fra"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "frag"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragS"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "frag"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragW"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragWo"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragWor"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragWorl"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragWorld"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragWorldP"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragWorldPo"
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Vertex shader at "lighting.frag" was not compiled correctly:
-	lighting.frag:25 : error C0000: syntax error, unexpected ',', expecting "::" at token ","
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "f"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fr"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fra"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "frag"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragS"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragSc"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragScr"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragScre"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragScree"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragScreen"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragScreenP"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "fragScreenPo"
 Compiled successfully.
 Compiled successfully.
 Compiled successfully.
 Compiled successfully.
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C0000: syntax error, unexpected ';', expecting "::" at token ";"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "f"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "ft"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "ftr"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "ftra"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "ftran"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "ftrans"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "ftranso"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "ftransof"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "ftranso"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "ftrans"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "ftransf"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "ftransfo"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1008: undefined variable "ftransfor"
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C1035: assignment of incompatible types
-Vertex shader at "lighting.vs" was not compiled correctly:
-	lighting.vs:58 : error C0000: syntax error, unexpected ';', expecting '' at token ";"
 Compiled successfully.
 Compiled successfully.
+Error on line 315: string:///Tree.java:315: ';' expected
+Error on line 315: string:///Tree.java:315: ';' expected
+Error on line 315: string:///Tree.java:315: ';' expected
+Error on line 315: string:///Tree.java:315: ';' expected
+Error on line 315: string:///Tree.java:315: ';' expected
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
+Tree { L, D, A, B, F, R, M, U, T, V,  }
+4
+true
+Tree { (( D ( F )) L ( M ( T ( V )))) }
+Tree { ( M ( T ( V ))) }
+Tree { M, T, V,  }
+Error on line 314: string:///Tree.java:314: illegal character: \92Error on line 315: string:///Tree.java:315: ';' expected
+Error on line 315: string:///Tree.java:315: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 368: string:///Tree.java:368: 'else' without 'if'Error on line 373: string:///Tree.java:373: class, interface, or enum expected
+Error on line 317: string:///Tree.java:317: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expected
+Error on line 316: string:///Tree.java:316: ';' expected
+Error on line 316: string:///Tree.java:316: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: <identifier> expectedError on line 319: string:///Tree.java:319: not a statement
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 320: string:///Tree.java:320: illegal start of expression
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 320: string:///Tree.java:320: illegal start of expression
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 320: string:///Tree.java:320: illegal start of expression
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: ';' expectedError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: <identifier> expected
+Error on line 317: string:///Tree.java:317: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expected
+Error on line 317: string:///Tree.java:317: ';' expected
+java.lang.NoSuchMethodError: main
+Exception in thread "main" 
+Error on line 317: string:///Tree.java:317: ';' expected
+java.lang.NoSuchMethodError: main
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
+Tree { L, D, A, B, F, R, M, U, T, V,  }
+4
+true
+Tree { (( D ( F )) L ( M ( T ( V )))) }
+Tree { ( M ( T ( V ))) }
+Tree { M, T, V,  }
+Error on line 317: string:///Tree.java:317: ';' expected
 Compiled successfully.
+Compiled successfully.
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
+Tree { L, D, A, B, F, R, M, U, T, V,  }
+4
+true
+Tree { (( D ( F )) L ( M ( T ( V )))) }
+Tree { (( D ( F )) M ( T ( V ))) }
+Tree { M, D, F, T, V,  }
+Compiled successfully.
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
+Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
+Tree { L, D, A, B, F, R, M, U, T, V,  }
+4
+true
+Tree { (( D ( F )) M ( T ( V ))) }
+Tree { M, D, F, T, V,  }
+Compiled successfully.
+Compiled successfully.
+Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
+Tree { L, D, A, B, F, R, M, U, T, V,  }
+4
+true
+Tree { (( D ( F )) M ( T ( V ))) }
+Tree { M, D, F, T, V,  }
