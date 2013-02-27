@@ -23,12 +23,12 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 
 /**
- * 
+ * Class used to store float data in order of index.
  * 
  * @author	Braden Steffaniak
  * @since	Feb 16, 2013 at 3:23:16 AM
  * @since	v0.1
- * @version	Feb 16, 2013 at 3:23:16 AM
+ * @version	Feb 26, 2013 at 6:39:16 AM
  * @version	v0.1
  */
 public class Buffer
@@ -40,9 +40,10 @@ public class Buffer
 	private ByteBuffer	mapBuffer;
 	
 	/**
+	 * Create a Buffer suitable for storing a specific amount
+	 * of floats.
 	 * 
-	 * 
-	 * @param size
+	 * @param size The specific amount of floats to use.
 	 */
 	public Buffer(int size)
 	{
@@ -57,7 +58,7 @@ public class Buffer
 	}
 	
 	/**
-	 * @return
+	 * @return The OpenGL GL_ARRAY_BUFFER id.
 	 */
 	public int getId()
 	{
@@ -65,7 +66,8 @@ public class Buffer
 	}
 	
 	/**
-	 * @return
+	 * @return The capacity of the Buffer. The max amount of
+	 *		data that can be stored in this Buffer.
 	 */
 	public int getSize()
 	{
@@ -73,7 +75,8 @@ public class Buffer
 	}
 	
 	/**
-	 * @return
+	 * @return The current position of the Buffer. This is the
+	 *		index that you will next insert values into.
 	 */
 	public int getPosition()
 	{
@@ -81,9 +84,10 @@ public class Buffer
 	}
 	
 	/**
+	 * Set the place in which the Buffer will next insert data
+	 *		into.
 	 * 
-	 * 
-	 * @param position
+	 * @param position The position to set for the Buffer.
 	 */
 	public void setPosition(int position)
 	{
@@ -91,7 +95,9 @@ public class Buffer
 	}
 	
 	/**
-	 * 
+	 * Method used for setting the values at the specified
+	 * index to the specified values of the floats in the
+	 * dat
 	 * 
 	 * @param index
 	 * @param data

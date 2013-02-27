@@ -20,7 +20,7 @@ import net.foxycorndog.jfoxylib.listeners.GameListener;
  * @author	Braden Steffaniak
  * @since	Feb 15, 2013 at 11:44:47 PM
  * @since	v0.1
- * @version	Feb 15, 2013 at 11:44:47 PM
+ * @version	Feb 26, 2013 at 6:36:47 AM
  * @version	v0.1
  */
 public abstract class GameStarter
@@ -51,7 +51,7 @@ public abstract class GameStarter
 	 */
 	public void start()
 	{
-		running = true;
+		running  = true;
 		
 		int fps  = 0;
 		int dfps = 0;
