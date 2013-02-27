@@ -171,21 +171,57 @@ public class Formatter
 		int selEnd = sel.y + offsetY;
 
 		// Make sure that the selection does not end on a \r or \n.
-		if (!add)
+		if (!add && selEnd < 0 || selEnd >= text.getText().length())
 		{
+//			char c = 0;
+//			
+//			for (int i = selEnd; i >= 0; i--)
+//			{
+//				c = text.getText().charAt(i);
+//				
+//				if (c == '\r' || c == '\n')
+//				{
+//					selEnd--;
+//				}
+//				else
+//				{
+//					selEnd++;
+//					break;
+//				}
+//			}
+
 			char c = text.getText().charAt(selEnd - 1);
 			
 			if (c == '\r' || c == '\n')
 			{
-				selEnd++;
+				selEnd--;
 			}
 		}
 		
 		int selStart = sel.x + (add ? 2 : -2);
 
 		// Make sure the selection does not start on a \r or \n.
-		if (!add)
+		if (!add && selStart < 0 || selStart >= text.getText().length())
 		{
+//			char c = 0;
+//			
+//			int length = text.getText().length();
+//			
+//			for (int i = selStart - 1; i < length; i++)
+//			{
+//				c = text.getText().charAt(i);
+//				
+//				if (c == '\r' || c == '\n')
+//				{
+//					selStart++;
+//				}
+//				else
+//				{
+//					selStart--;
+//					break;
+//				}
+//			}
+//			
 			char c = text.getText().charAt(selStart - 1);
 			
 			if (c == '\r' || c == '\n')
@@ -228,7 +264,7 @@ public class Formatter
 	{
 		for (int i = start - 1; i <= end; i++)
 		{
-			if (i >= 0 && text.charAt(i) == '\n' || i == start - 1)
+			if (i >= 0 && i < text.length() && text.charAt(i) == '\n' || i == start - 1)
 			{
 				for (int j = 0; j < startsWith.length(); j++)
 				{

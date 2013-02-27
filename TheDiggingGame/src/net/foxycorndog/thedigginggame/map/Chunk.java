@@ -281,7 +281,7 @@ public class Chunk
 			
 			bundle.render(GL.QUADS, 4 * CHUNK_SIZE * CHUNK_SIZE * 2, 4 * CHUNK_SIZE * CHUNK_SIZE, Tile.getTerrainSprites());
 //		}
-		GL.popMatrix();
+//		GL.popMatrix();
 	}
 	
 	/**
