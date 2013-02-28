@@ -15,7 +15,7 @@ import net.foxycorndog.thedigginggame.map.Map;
  * @author	Braden Steffaniak
  * @since	Feb 22, 2013 at 4:23:36 AM
  * @since	v0.1
- * @version Feb 22, 2013 at 4:23:36 AM
+ * @version Feb 22, 2013 at 4:23:37 AM
  * @version	v0.1
  */
 public class Player extends Actor

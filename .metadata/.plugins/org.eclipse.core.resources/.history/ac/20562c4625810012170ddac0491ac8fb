@@ -1,0 +1,43 @@
+package net.foxycorndog.jfoxylibpixel.components;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 27, 2013 at 3:26:41 PM
+ * @since	v
+ * @version Feb 27, 2013 at 3:26:41 PM
+ * @version	v
+ */
+public class Component
+{
+	private Panel	parent;
+	
+	/**
+	 * Create a new Component with the specified parent.
+	 * 
+	 * @param parent The Panel that contains this Component.
+	 */
+	public Component(Panel parent)
+	{
+		this.parent = parent;
+	}
+	
+	/**
+	 * @return The parent Panel of this Component.
+	 */
+	public Panel getParent()
+	{
+		return parent;
+	}
+	
+	/**
+	 * Method to set the parent Panel of this Component.
+	 * 
+	 * @param parent The parent Panel to set.
+	 */
+	public void setParent(Panel parent)
+	{
+		this.parent = parent;
+	}
+}

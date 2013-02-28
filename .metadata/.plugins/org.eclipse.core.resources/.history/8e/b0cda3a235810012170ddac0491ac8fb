@@ -1,0 +1,21 @@
+package net.foxycorndog.pixelgame;
+
+import net.foxycorndog.jfoxylibpixel.components.Window;
+
+public class PixelGame
+{
+	public static void main(String args[])
+	{
+		new PixelGame();
+	}
+	
+	public PixelGame()
+	{
+		Window window = new Window();
+		window.setSize(800, 600);
+		window.center();
+		window.setResizable(false);
+		
+		window.setVisible(true);
+	}
+}

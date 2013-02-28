@@ -59,7 +59,7 @@
 		</list>
 	</section>
 	<section name="BuildPathsPropertyPage">
-		<item value="2" key="pageIndex"/>
+		<item value="1" key="pageIndex"/>
 	</section>
 	<section name="FatJarPackageWizard">
 		<item value="TheDiggingGame\TDG.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
@@ -135,14 +135,14 @@
 		<item value="public" key="access"/>
 		<item value="true" key="version"/>
 		<item value="false" key="nodeprecated"/>
-		<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\TheDiggingGame\doc" key="destdir"/>
+		<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\JFoxyLibPixel\doc" key="destdir"/>
 		<item value="true" key="author"/>
 		<item value="" key="docletname"/>
 		<item value="1.6" key="source"/>
 		<item value="false" key="openinbrowser"/>
 		<item value="false" key="noindex"/>
 		<item value="" key="docletpath"/>
-		<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\TheDiggingGame\javadoc.xml" key="antpath"/>
+		<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\JFoxyLibPixel\javadoc.xml" key="antpath"/>
 		<item value="true" key="fromStandard"/>
 		<section name="projects">
 			<section name="Minecraft Copy">
@@ -370,6 +370,11 @@
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\GridWorldExample\javadoc.xml" key="antpath"/>
 				<item value="" key="href"/>
 			</section>
+			<section name="JFoxyLibPixel">
+				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\JFoxyLibPixel\doc" key="destdir"/>
+				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\JFoxyLibPixel\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
+			</section>
 			<section name="TheDiggingGame">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\TheDiggingGame\doc" key="destdir"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\TheDiggingGame\javadoc.xml" key="antpath"/>
@@ -468,6 +473,11 @@
 			<section name="TDG">
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\TDG\doc" key="destdir"/>
 				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\TDG\javadoc.xml" key="antpath"/>
+				<item value="" key="href"/>
+			</section>
+			<section name="PixelGame">
+				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\PixelGame\doc" key="destdir"/>
+				<item value="C:\Users\Braden Steffaniak\Documents\GitHub\Workspace\PixelGame\javadoc.xml" key="antpath"/>
 				<item value="" key="href"/>
 			</section>
 			<section name="jDoogl">

@@ -1,0 +1,122 @@
+package net.foxycorndog.jfoxylibpixel.components;
+
+import javax.swing.JFrame;
+
+/**
+ * Class that is used to create a Frame on the screen.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 27, 2013 at 5:18:39 PM
+ * @since	v0.1
+ * @version Feb 27, 2013 at 5:18:39 PM
+ * @version	v0.1
+ */
+public class Frame extends Panel
+{
+	private JFrame	frame;
+	
+	private Panel	contentPanel;
+	
+	/**
+	 * Constructs a Frame.
+	 */
+	public Frame()
+	{
+		super(null);
+		
+		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setUndecorated(true);
+		
+		contentPanel = new Panel(this);
+	}
+	
+	/**
+	 * Method that centers the Frame in the middle of the screen.
+	 */
+	public void center()
+	{
+		frame.setLocationRelativeTo(null);
+	}
+	
+	/**
+	 * @return The actual JFrame that is used as the Frame.
+	 */
+	public JFrame getJFrame()
+	{
+		return frame;
+	}
+	
+	/**
+	 * @return Whether or not this Frame can be resized.
+	 */
+	public boolean isResizable()
+	{
+		return frame.isResizable();
+	}
+	
+	/**
+	 * Method to set whether the Frame will be able to be resized or not.
+	 * 
+	 * @param resizable Whether or not to allow resizing.
+	 */
+	public void setResizable(boolean resizable)
+	{
+		frame.setResizable(resizable);
+	}
+	
+	/**
+	 * @return Whether or not the Frame is visible.
+	 */
+	public boolean isVisible()
+	{
+		return frame.isVisible();
+	}
+	
+	/**
+	 * Set the Frame visible on the screen or not.
+	 * 
+	 * @param visible Whether to set it visible or invisible.
+	 */
+	public void setVisible(boolean visible)
+	{
+		frame.setVisible(visible);
+	}
+	
+	/**
+	 * Sets the horizontal size of this Frame.
+	 * 
+	 * @param width The horizontal size.
+	 */
+	public void setWidth(int width)
+	{
+		super.setWidth(width);
+		
+		frame.setSize(getWidth(), getHeight());
+	}
+
+	/**
+	 * Sets the vertical size of this Frame.
+	 * 
+	 * @param height The vertical size.
+	 */
+	public void setHeight(int height)
+	{
+		super.setHeight(height);
+		
+		frame.setSize(getWidth(), getHeight());
+	}
+
+	/**
+	 * Sets the horizontal and vertical size of this Frame.
+	 * 
+	 * @param width The horizontal size.
+	 * @param height The vertical size.
+	 */
+	public void setSize(int width, int height)
+	{
+		setWidth(width);
+		setHeight(height);
+	}
+}

@@ -1,0 +1,48 @@
+package net.foxycorndog.jfoxylibpixel;
+
+/**
+ * Method that does all of the Graphics to the Pixel integer arrays.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 27, 2013 at 3:26:28 PM
+ * @since	v0.1
+ * @version Feb 27, 2013 at 3:26:28 PM
+ * @version	v0.1
+ */
+public class GL
+{
+	public static void fillRect(int x, int y, int width, int height, int color, int pixels[], int pixelsWidth)
+	{
+		int pixelsHeight = pixels.length / pixelsWidth;
+		
+		if (x < 0)
+		{
+			width += x;
+			
+			x = 0;
+		}
+		if (y < 0)
+		{
+			height += y;
+			
+			y = 0;
+		}
+		
+		if (x + width >= pixelsWidth)
+		{
+			x = width - x;
+		}
+		if (y + height >= pixelsHeight)
+		{
+			y = height - y;
+		}
+		
+		for (int y2 = y + height - 1; y2 >= y; y2--)
+		{
+			for (int x2 = x + width - 1; x2 >= x; x2--)
+			{
+				pixels[x2 + y2 * pixelsWidth] = color;
+			}
+		}
+	}
+}

@@ -15,7 +15,7 @@ import net.foxycorndog.jfoxylib.graphics.SpriteSheet;
  * @author	Braden Steffaniak
  * @since	Feb 22, 2013 at 4:23:23 AM
  * @since	v0.1
- * @version Feb 22, 2013 at 4:23:23 AM
+ * @version Feb 22, 2013 at 4:23:24 AM
  * @version	v0.1
  */
 public class Tile

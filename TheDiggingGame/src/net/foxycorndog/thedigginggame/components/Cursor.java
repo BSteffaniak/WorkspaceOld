@@ -16,7 +16,7 @@ import net.foxycorndog.jfoxylib.graphics.opengl.GL;
  * @author	Braden Steffaniak
  * @since	Feb 24, 2013 at 12:27:58 AM
  * @since	v0.1
- * @version Feb 25, 2013 at 6:20:00 AM
+ * @version Feb 25, 2013 at 6:20:01 AM
  * @version	v0.1
  */
 public class Cursor

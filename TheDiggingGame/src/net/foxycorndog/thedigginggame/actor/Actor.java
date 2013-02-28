@@ -13,7 +13,7 @@ import net.foxycorndog.thedigginggame.map.Map;
  * @author	Braden Steffaniak
  * @since	Feb 22, 2013 at 4:23:30 AM
  * @since	v0.1
- * @version Feb 22, 2013 at 11:32:07 PM
+ * @version Feb 22, 2013 at 11:32:08 PM
  * @version	v0.1
  */
 public class Actor

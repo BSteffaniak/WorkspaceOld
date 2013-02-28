@@ -60,8 +60,9 @@ public abstract class GameStarter
 		
 		init();
 		
-		long startTime = System.currentTimeMillis();
-		long oldTime   = startTime;
+		long startTime  = System.currentTimeMillis();
+		long newOldTime = System.nanoTime();
+		long oldTime    = newOldTime;
 		
 		while (!Display.isCloseRequested() && running)
 		{
@@ -69,12 +70,19 @@ public abstract class GameStarter
 			
 			if (fps == 0 && dfps > 0)
 			{
-				pred = 1000 / (int)(newTime - oldTime);
+				newOldTime = System.nanoTime();
 				
-				Frame.setFPS(pred);
-			}
+				int change = (int)(newOldTime - oldTime);
+				
+				if (change != 0)
+				{
+					pred = 1000000000 / change;
+					
+					Frame.setFPS(pred);
+				}
 			
-			oldTime = newTime;
+				oldTime = newOldTime;
+			}
 			
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 

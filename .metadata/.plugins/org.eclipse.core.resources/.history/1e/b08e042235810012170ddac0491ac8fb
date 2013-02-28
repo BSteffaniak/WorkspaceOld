@@ -1,0 +1,22 @@
+package net.foxycorndog.jfoxylibpixel.components;
+
+/**
+ * Class that extends Frame. Has special capabilities that are more
+ * specific to a Window than a Frame.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 27, 2013 at 5:20:46 PM
+ * @since	v0.1
+ * @version Feb 27, 2013 at 5:20:46 PM
+ * @version	v0.1
+ */
+public class Window extends Frame
+{
+	/**
+	 * Create a Window with a title bar and other special things.
+	 */
+	public Window()
+	{
+		getJFrame().setUndecorated(false);
+	}
+}

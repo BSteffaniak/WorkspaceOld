@@ -48,6 +48,14 @@ public class Tree implements BSTree
 	{
 
 	}
+	
+	/**
+	 * Clears out the Tree completely of all TreeNodes.
+	 */
+	public void clear()
+	{
+		root = null;
+	}
 
 	/**
 	 * Not implemented yet...

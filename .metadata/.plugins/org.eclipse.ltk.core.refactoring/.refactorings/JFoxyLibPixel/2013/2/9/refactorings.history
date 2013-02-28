@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;net.foxycorndog.jfoxylibpixel.util.Deminsion&apos; to &apos;Dimension&apos;&#x0D;&#x0A;- Original project: &apos;JFoxyLibPixel&apos;&#x0D;&#x0A;- Original element: &apos;net.foxycorndog.jfoxylibpixel.util.Deminsion&apos;&#x0D;&#x0A;- Renamed element: &apos;net.foxycorndog.jfoxylibpixel.util.Dimension&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Deminsion&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;net.foxycorndog.jfoxylibpixel.util{Deminsion.java[Deminsion" matchStrategy="1" name="Dimension" qualified="false" references="true" similarDeclarations="false" stamp="1362008228284" textual="false" version="1.0"/>
+</session>

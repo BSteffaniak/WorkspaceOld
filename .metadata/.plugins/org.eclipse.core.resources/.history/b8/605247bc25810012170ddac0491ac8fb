@@ -1,0 +1,15 @@
+package net.foxycorndog.jfoxylibpixel.components;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 27, 2013 at 3:26:33 PM
+ * @since	v
+ * @version Feb 27, 2013 at 3:26:33 PM
+ * @version	v
+ */
+public class Panel extends Component
+{
+	
+}

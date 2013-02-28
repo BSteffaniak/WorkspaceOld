@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.components.Panel"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.graphics.Rectangle"/>
-<fullyQualifiedTypeName name="java.awt.KeyboardFocusManager"/>
-<fullyQualifiedTypeName name="java.awt.KeyEventDispatcher"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Listener"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.events.KeyListener"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.opengl.FrameBuffer"/>
-<fullyQualifiedTypeName name="net.foxycorndog.arrowide.dialog.PropertiesDialog"/>
-<fullyQualifiedTypeName name="java.awt.KeyEventPostProcessor"/>
-<fullyQualifiedTypeName name="java.awt.DefaultKeyboardFocusManager"/>
-<fullyQualifiedTypeName name="java.awt.event.KeyEvent"/>
-<fullyQualifiedTypeName name="org.jnativehook.keyboard.NativeKeyListener"/>
 <fullyQualifiedTypeName name="org.jnativehook.GlobalScreen"/>
 <fullyQualifiedTypeName name="java.lang.Thread"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.util.Rectangle"/>
@@ -39,7 +27,6 @@
 <fullyQualifiedTypeName name="java.awt.DisplayMode"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.DisplayMode"/>
 <fullyQualifiedTypeName name="java.awt.Toolkit"/>
-<fullyQualifiedTypeName name="java.awt.Dimension"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.events.MouseEvent"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.input.Mouse"/>
@@ -50,8 +37,6 @@
 <fullyQualifiedTypeName name="java.awt.Graphics2D"/>
 <fullyQualifiedTypeName name="java.awt.Color"/>
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.components.Cursor"/>
-<fullyQualifiedTypeName name="java.awt.image.DataBufferInt"/>
-<fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.listeners.MouseListener"/>
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.tile.Tile"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.Frame"/>
@@ -60,4 +45,19 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.shader.Shader"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL20"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylibpixel.util.Bounds"/>
+<fullyQualifiedTypeName name="javax.swing.JFrame"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylibpixel.components.Panel"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylibpixel.components.Window"/>
+<fullyQualifiedTypeName name="java.awt.Dimension"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylibpixel.util.Dimension"/>
+<fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
+<fullyQualifiedTypeName name="java.awt.image.DataBufferInt"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylibpixel.GL"/>
+<fullyQualifiedTypeName name="java.awt.Image"/>
+<fullyQualifiedTypeName name="java.awt.Graphics"/>
+<fullyQualifiedTypeName name="java.util.Timer"/>
+<fullyQualifiedTypeName name="java.util.TimerTask"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylibpixel.GameStarter"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
 </qualifiedTypeNameHistroy>

@@ -1,0 +1,10 @@
+package net.foxycorndog.jfoxylibpixel.components;
+
+public class Frame extends Panel
+{
+	public Frame()
+	{
+		super(null);
+	}
+	
+}

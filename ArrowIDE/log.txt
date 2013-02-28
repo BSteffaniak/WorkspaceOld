@@ -1,190 +1,3 @@
-Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
-Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
-Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
-Tree { L, D, A, B, F, R, M, U, T, V,  }
-4
-true
-Tree { ( D ( M ( T ( V )))) }
-Tree { D, M, T, V,  }
-Compiled successfully.
-Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
-Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
-Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
-Tree { L, D, A, B, F, R, M, U, T, V,  }
-4
-true
-Tree { (( D ( F )) L ( M ( T ( V )))) }
-Tree { ( D ( M ( T ( V )))) }
-Tree { D, M, T, V,  }
-Error on line 313: string:///Tree.java:313: cannot find symbol
-symbol  : method g()
-location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
-Error on line 313: string:///Tree.java:313: cannot find symbol
-symbol  : method ge()
-location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
-Error on line 313: string:///Tree.java:313: cannot find symbol
-symbol  : method get()
-location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
-Error on line 313: string:///Tree.java:313: cannot find symbol
-symbol  : method getR()
-location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
-Error on line 313: string:///Tree.java:313: cannot find symbol
-symbol  : method getRi()
-location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
-Error on line 313: string:///Tree.java:313: cannot find symbol
-symbol  : method getRig()
-location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
-Error on line 313: string:///Tree.java:313: cannot find symbol
-symbol  : method getRigh()
-location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
-Error on line 313: string:///Tree.java:313: cannot find symbol
-symbol  : method getRight()
-location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
-Error on line 313: string:///Tree.java:313: cannot find symbol
-symbol  : method getRightN()
-location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
-Error on line 313: string:///Tree.java:313: cannot find symbol
-symbol  : method getRightNo()
-location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
-Error on line 313: string:///Tree.java:313: cannot find symbol
-symbol  : method getRightNod()
-location: class TreeNodeError on line -1: Note: string:///Tree.java from DynamicJavaSourceCodeObject uses unchecked or unsafe operations.Error on line -1: Note: Recompile with -Xlint:unchecked for details.
-Compiled successfully.
-Error on line 368: string:///Tree.java:368: 'else' without 'if'Error on line 373: string:///Tree.java:373: class, interface, or enum expected
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Error on line 370: string:///Tree.java:370: 'else' without 'if'Error on line 375: string:///Tree.java:375: class, interface, or enum expected
-Error on line 371: string:///Tree.java:371: 'else' without 'if'Error on line 376: string:///Tree.java:376: class, interface, or enum expected
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Error on line 391: string:///Tree.java:391: reached end of file while parsing
-Error on line 355: string:///Tree.java:355: 'else' without 'if'Error on line 406: string:///Tree.java:406: reached end of file while parsing
-Error on line 391: string:///Tree.java:391: reached end of file while parsing
-Error on line 378: string:///Tree.java:378: reached end of file while parsing
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Error on line 315: string:///Tree.java:315: ';' expected
-Error on line 315: string:///Tree.java:315: ';' expected
-Error on line 315: string:///Tree.java:315: ';' expected
-Error on line 315: string:///Tree.java:315: ';' expected
-Error on line 315: string:///Tree.java:315: ';' expected
-Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
-Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
-Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
-Tree { L, D, A, B, F, R, M, U, T, V,  }
-4
-true
-Tree { (( D ( F )) L ( M ( T ( V )))) }
-Tree { ( M ( T ( V ))) }
-Tree { M, T, V,  }
-Error on line 314: string:///Tree.java:314: illegal character: \92Error on line 315: string:///Tree.java:315: ';' expected
-Error on line 315: string:///Tree.java:315: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 368: string:///Tree.java:368: 'else' without 'if'Error on line 373: string:///Tree.java:373: class, interface, or enum expected
-Error on line 317: string:///Tree.java:317: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expected
-Error on line 316: string:///Tree.java:316: ';' expected
-Error on line 316: string:///Tree.java:316: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: <identifier> expectedError on line 319: string:///Tree.java:319: not a statement
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 320: string:///Tree.java:320: illegal start of expression
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 320: string:///Tree.java:320: illegal start of expression
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: not a statementError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 320: string:///Tree.java:320: illegal start of expression
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: ';' expectedError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expectedError on line 319: string:///Tree.java:319: <identifier> expected
-Error on line 317: string:///Tree.java:317: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expected
-Error on line 317: string:///Tree.java:317: ';' expected
-java.lang.NoSuchMethodError: main
-Exception in thread "main" 
-Error on line 317: string:///Tree.java:317: ';' expected
-java.lang.NoSuchMethodError: main
-Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
-Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
-Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
-Tree { L, D, A, B, F, R, M, U, T, V,  }
-4
-true
-Tree { (( D ( F )) L ( M ( T ( V )))) }
-Tree { ( M ( T ( V ))) }
-Tree { M, T, V,  }
-Error on line 317: string:///Tree.java:317: ';' expected
-Compiled successfully.
-Compiled successfully.
-Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
-Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
-Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
-Tree { L, D, A, B, F, R, M, U, T, V,  }
-4
-true
-Tree { (( D ( F )) L ( M ( T ( V )))) }
-Tree { (( D ( F )) M ( T ( V ))) }
-Tree { M, D, F, T, V,  }
-Compiled successfully.
-Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
-Tree { ((( Al ) Alfred ) Bill ( Fred (( Henrietta ) Joe ( Mr. M ( Noman ))))) }
-Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
-Tree { L, D, A, B, F, R, M, U, T, V,  }
-4
-true
-Tree { (( D ( F )) M ( T ( V ))) }
-Tree { M, D, F, T, V,  }
-Compiled successfully.
 Compiled successfully.
 Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
 Tree { L, D, A, B, F, R, M, U, T, V,  }
@@ -192,3 +5,189 @@ Tree { L, D, A, B, F, R, M, U, T, V,  }
 true
 Tree { (( D ( F )) M ( T ( V ))) }
 Tree { M, D, F, T, V,  }
+Compiled successfully.
+Compiled successfully.
+Error on line 52: <identifier> expected
+Error on line 52: <identifier> expected
+Error on line 52: <identifier> expected
+Error on line 52: <identifier> expected
+Error on line 52: <identifier> expected
+Error on line 57: repeated modifier
+Error on line 57: repeated modifier
+Error on line 52: <identifier> expected
+Error on line 52: <identifier> expected
+Error on line 52: <identifier> expected
+Error on line 52: <identifier> expectedError on line 57: '(' expected
+Error on line 52: <identifier> expectedError on line 57: '(' expected
+Error on line 57: '(' expected
+Error on line 57: '(' expected
+Error on line 57: '(' expected
+Error on line 57: '(' expected
+Error on line 57: '(' expected
+Error on line 57: modifier public not allowed hereError on line 57: ')' expectedError on line 57: ';' expected
+Error on line 52: ';' expected
+Error on line 52: ';' expected
+Error on line 58: illegal start of expressionError on line 58: illegal start of expressionError on line 58: ';' expectedError on line 58: ';' expectedError on line 66: illegal start of expressionError on line 66: illegal start of expressionError on line 66: ';' expectedError on line 66: ';' expectedError on line 74: illegal start of expressionError on line 74: ';' expectedError on line 74: ';' expectedError on line 74: not a statementError on line 74: ';' expectedError on line 105: illegal start of expressionError on line 105: ';' expectedError on line 113: illegal start of expressionError on line 113: ';' expectedError on line 113: ';' expectedError on line 130: illegal start of expressionError on line 130: ';' expectedError on line 138: illegal start of expressionError on line 138: ';' expectedError on line 146: illegal start of expressionError on line 146: ';' expectedError on line 146: ';' expectedError on line 163: illegal start of expressionError on line 163: ';' expectedError on line 171: illegal start of expressionError on line 171: ';' expectedError on line 171: ';' expectedError on line 185: illegal start of expressionError on line 185: ';' expectedError on line 196: illegal start of expressionError on line 196: ';' expectedError on line 196: ';' expectedError on line 196: not a statementError on line 196: ';' expectedError on line 222: illegal start of expressionError on line 222: ';' expectedError on line 222: ';' expectedError on line 233: illegal start of expressionError on line 233: ';' expectedError on line 233: ';' expectedError on line 233: not a statementError on line 233: ';' expectedError on line 286: illegal start of expressionError on line 286: ';' expectedError on line 286: ';' expectedError on line 294: illegal start of expressionError on line 294: ';' expectedError on line 294: ';' expectedError on line 302: illegal start of expressionError on line 302: ';' expectedError on line 302: ';' expectedError on line 302: not a statementError on line 302: ';' expectedError on line 379: reached end of file while parsing
+Compiled successfully.
+Error on line 54: not a statementError on line 54: ';' expected
+Error on line 54: not a statementError on line 54: ';' expected
+Error on line 54: not a statementError on line 54: ';' expected
+Error on line 54: not a statementError on line 54: ';' expected
+Error on line 54: not a statementError on line 54: ';' expected
+Error on line 55: illegal start of expressionError on line 60: illegal start of expressionError on line 60: ';' expectedError on line 60: ')' expectedError on line 60: illegal start of expressionError on line 60: ';' expected
+Error on line 55: illegal start of expressionError on line 60: illegal start of expressionError on line 60: ';' expectedError on line 60: ')' expectedError on line 60: illegal start of expressionError on line 60: ';' expected
+Error on line 54: ';' expected
+Error on line 54: ';' expected
+Error on line 54: ';' expected
+Error on line 54: ';' expected
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Error on line 43: not a statementError on line 43: ';' expected
+Error on line 43: <identifier> expectedError on line 43: not a statementError on line 45: reached end of file while parsing
+Error on line 43: not a statementError on line 43: ';' expected
+Error on line 43: not a statementError on line 43: ';' expected
+Error on line 43: not a statementError on line 43: ';' expected
+Error on line 43: not a statementError on line 43: ';' expected
+Error on line 43: not a statementError on line 43: ';' expected
+Error on line 44: illegal start of expressionError on line 44: ';' expectedError on line 45: reached end of file while parsing
+Error on line 43: ';' expected
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Error on line 45: not a statementError on line 45: ';' expected
+Error on line 45: not a statementError on line 45: ';' expected
+Error on line 45: not a statementError on line 45: ';' expected
+Error on line 45: not a statementError on line 45: ';' expected
+Error on line 45: not a statementError on line 45: ';' expected
+Error on line 45: not a statementError on line 45: ';' expected
+Error on line 45: <identifier> expectedError on line 45: not a statementError on line 47: reached end of file while parsing
+Error on line 45: not a statementError on line 45: ';' expected
+Error on line 45: not a statementError on line 45: ';' expected
+Error on line 45: not a statementError on line 45: ';' expected
+Error on line 45: <identifier> expectedError on line 45: not a statementError on line 47: reached end of file while parsing
+Error on line 45: not a statementError on line 45: ';' expected
+Error on line 45: not a statementError on line 45: ';' expected
+Error on line 45: not a statementError on line 45: ';' expected
+Error on line 45: not a statementError on line 45: ';' expected
+Error on line 45: not a statementError on line 45: ';' expected
+Error on line 45: not a statementError on line 45: ';' expected
+Error on line 45: not a statementError on line 45: ';' expected
+Error on line 46: illegal start of expressionError on line 46: ';' expectedError on line 47: reached end of file while parsing
+Error on line 45: ')' expectedError on line 47: reached end of file while parsing
+Error on line 45: ';' expected
+Compiled successfully.
+Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
+Tree { L, D, A, B, F, R, M, U, T, V,  }
+4
+true
+Tree { (( D ( F )) M ( T ( V ))) }
+Tree { M, D, F, T, V,  }
+Tree {  }
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Error on line 52: illegal start of typeError on line 52: ';' expected
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Error on line 22: ';' expected
+Error on line 20: cannot find symbol
+  symbol:   variable t
+  location: variable t of type Tree
+Error on line 22: ';' expected
+Error on line 22: ';' expected
+Error on line 22: ';' expected
+Error on line 22: ';' expected
+Error on line 22: ';' expected
+Error on line 22: ')' expected
+Error on line 20: ';' expected
+Compiled successfully.
+Tree { ( A (( B ) F (( M ) R (( T ) U ( V ))))) }
+Tree { A, F, B, R, M, U, T, V,  }
+5
+true
+Tree { ( F ( M ( T ( V )))) }
+Tree { F, M, T, V,  }
+Compiled successfully.
+Compiled successfully.
+Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
+Tree { L, D, A, B, F, R, M, U, T, V,  }
+4
+true
+Tree { (( D ( F )) M ( T ( V ))) }
+Tree { M, D, F, T, V,  }
+Compiled successfully.

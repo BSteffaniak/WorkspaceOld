@@ -1,0 +1,50 @@
+package net.foxycorndog.jfoxylibpixel.components;
+
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+
+import net.foxycorndog.jfoxylibpixel.GL;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 27, 2013 at 6:12:19 PM
+ * @since	v0.1
+ * @version Feb 27, 2013 at 6:12:19 PM
+ * @version	v0.1
+ */
+public class PixelPanel extends Panel
+{
+	private int				pixelSize;
+	
+	private BufferedImage	image;
+	
+	private int				pixels[];
+	
+	/**
+	 * 
+	 * @param parent
+	 */
+	public PixelPanel(Panel parent)
+	{
+		super(parent);
+		
+		image = new BufferedImage(0, 0, BufferedImage.BITMASK);
+		
+		pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+	}
+	
+	/**
+	 * @return
+	 */
+	public int[] getPixels()
+	{
+		return pixels;
+	}
+	
+	public void fillRect(int x, int y, int width, int height, int color)
+	{
+		GL.fillRect(x, y, width, height, color, pixels, image.getWidth());
+	}
+}

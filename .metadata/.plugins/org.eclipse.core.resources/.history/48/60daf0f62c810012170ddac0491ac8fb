@@ -1,0 +1,69 @@
+package net.foxycorndog.jfoxylibpixel;
+
+import net.foxycorndog.jfoxylibpixel.util.Bounds;
+
+/**
+ * Method that does all of the Graphics to the Pixel integer arrays.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 27, 2013 at 3:26:28 PM
+ * @since	v0.1
+ * @version Feb 27, 2013 at 3:26:28 PM
+ * @version	v0.1
+ */
+public class GL
+{
+	/**
+	 * Method that fills the integer array with a rectangle at the
+	 * specified location with the specified size and color.
+	 * 
+	 * @param x The x location to fill the rectangle.
+	 * @param y The y location to fill the rectangle.
+	 * @param width The width of the rectangle.
+	 * @param height The height of the rectangle.
+	 * @param color The color of the rectangle.
+	 * @param pixels The integer pixel array to apply this to.
+	 * @param pixelsWidth The width of the integer pixel array.
+	 */
+	public static void fillRect(int x, int y, int width, int height, int color, int pixels[], int pixelsWidth)
+	{
+		int pixelsHeight = pixels.length / pixelsWidth;
+		
+		Bounds bounds = calculateBounds(x, y, width, height, pixelsWidth, pixelsHeight);
+		
+		for (int y2 = y + height - 1; y2 >= y; y2--)
+		{
+			for (int x2 = x + width - 1; x2 >= x; x2--)
+			{
+				pixels[x2 + y2 * pixelsWidth] = color;
+			}
+		}
+	}
+	
+	private static Bounds calculateBounds(int x, int y, int width, int height, int pixelsWidth, int pixelsHeight)
+	{
+		if (x < 0)
+		{
+			width += x;
+			
+			x = 0;
+		}
+		if (y < 0)
+		{
+			height += y;
+			
+			y = 0;
+		}
+		
+		if (x + width >= pixelsWidth)
+		{
+			width = pixelsWidth - x;
+		}
+		if (y + height >= pixelsHeight)
+		{
+			height = pixelsHeight - y;
+		}
+		
+		return new Bounds(x, y, width, height);
+	}
+}

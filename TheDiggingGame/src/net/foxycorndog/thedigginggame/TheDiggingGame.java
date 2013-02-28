@@ -170,8 +170,8 @@ public class TheDiggingGame extends GameStarter
 			}
 		}
 		
-		if (fps > 0)
-		{
+//		if (fps > 0)
+//		{
 			if (Keyboard.isKeyDown(Keyboard.KEY_A))
 			{
 				player.moveLeft(delta);
@@ -219,7 +219,7 @@ public class TheDiggingGame extends GameStarter
 			}
 			
 			player.update(delta);
-		}
+//		}
 	}
 	
 	private void renderCursor()

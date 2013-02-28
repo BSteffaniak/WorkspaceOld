@@ -129,7 +129,7 @@ public class Map
 	 */
 	public void render()
 	{
-		lighting.run();
+//		lighting.run();
 		
 		
 		
@@ -154,7 +154,7 @@ public class Map
 		}
 		GL.popMatrix();
 		
-		lighting.stop();
+//		lighting.stop();
 	}
 	
 	/**
