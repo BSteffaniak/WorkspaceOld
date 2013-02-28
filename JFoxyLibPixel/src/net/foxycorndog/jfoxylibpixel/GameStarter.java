@@ -41,7 +41,8 @@ public abstract class GameStarter
 			public void run()
 			{
 				loop();
-				render();
+				
+				
 			}
 		}, delay, 1);
 	}

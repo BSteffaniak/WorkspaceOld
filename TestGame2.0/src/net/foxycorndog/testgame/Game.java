@@ -324,4 +324,19 @@ public class Game extends GameStarter
 		
 		flashlight.stop();
 	}
+
+	@Override
+	public void render2D(int dfps)
+	{
+	}
+
+	@Override
+	public void render3D(int dfps)
+	{
+	}
+
+	@Override
+	public void loop(int dfps)
+	{
+	}
 }

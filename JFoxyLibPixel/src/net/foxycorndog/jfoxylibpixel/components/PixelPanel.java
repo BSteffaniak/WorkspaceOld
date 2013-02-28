@@ -32,8 +32,6 @@ public class PixelPanel extends Panel
 	public PixelPanel(Panel parent)
 	{
 		super(parent);
-		
-		create(0, 0);
 	}
 	
 	/**
