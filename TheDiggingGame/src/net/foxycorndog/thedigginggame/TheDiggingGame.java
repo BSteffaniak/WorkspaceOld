@@ -58,8 +58,8 @@ public class TheDiggingGame extends GameStarter
 	 */
 	public TheDiggingGame()
 	{
-		Frame.create(1280, 800);
-//		Frame.setTargetFPS(60);
+		Frame.create(1080, 800);
+		Frame.setTargetFPS(60);
 		Frame.setResizable(true);
 		
 		scale = 2;
@@ -111,6 +111,8 @@ public class TheDiggingGame extends GameStarter
 	 */
 	public void render2D(int dfps)
 	{
+		font.render("Editing: " + editing, 0, 0, 10, 2, Font.LEFT, Font.TOP, null);
+		
 		GL.scale(scale, scale, 1);
 		map.render();
 		
