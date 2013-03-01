@@ -1,5 +1,6 @@
 package net.foxycorndog.jfoxylibpixel;
 
+import java.awt.Graphics2D;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -58,11 +59,11 @@ public abstract class GameStarter
 	 * loop right after the loop() call. You are supposed to do all
 	 * of the rendering to PixelPanels in here.
 	 */
-	public abstract void render();
+	public abstract void render(Graphics2D g);
 	
 	/**
 	 * Method that is called during each iteration of the main game
-	 * loop right before the render() call. You are supposted to do
+	 * loop right before the render() call. You are supposed to do
 	 * all calculations for the game in here.
 	 */
 	public abstract void loop();

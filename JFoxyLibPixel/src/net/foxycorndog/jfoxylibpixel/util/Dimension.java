@@ -1,5 +1,14 @@
 package net.foxycorndog.jfoxylibpixel.util;
 
+/**
+ * Class used to organize a size.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 27, 2013 at 4:00:11 PM
+ * @since	v0.1
+ * @version Feb 27, 2013 at 4:00:11 PM
+ * @version	v0.1
+ */
 public class Dimension
 {
 	private int width, height;

@@ -1,5 +1,7 @@
 package net.foxycorndog.pixelgame;
 
+import java.awt.Graphics2D;
+
 import net.foxycorndog.jfoxylibpixel.GameStarter;
 import net.foxycorndog.jfoxylibpixel.components.PixelPanel;
 import net.foxycorndog.jfoxylibpixel.components.Window;

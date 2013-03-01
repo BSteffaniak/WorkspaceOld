@@ -140,13 +140,6 @@ public class Chunk
 			}
 		}
 		
-		addTile(Tile.getTile("Stone"), 8, 12, 1, false);
-		addTile(Tile.getTile("Stone"), 9, 13, 1, false);
-		addTile(Tile.getTile("Stone"), 10, 14, 1, false);
-		addTile(Tile.getTile("Stone"), 11, 15, 1, false);
-		addTile(Tile.getTile("Stone"), 12, 16, 1, false);
-		addTile(Tile.getTile("Stone"), 13, 17, 1, false);
-		
 		update();
 	}
 	
@@ -319,7 +312,7 @@ public class Chunk
 	/**
 	 * @return The width of the Chunk in pixels.
 	 */
-	public int getWidth()
+	public static int getWidth()
 	{
 		return CHUNK_SIZE * Tile.getTileSize();
 	}
@@ -327,7 +320,7 @@ public class Chunk
 	/**
 	 * @return The height of the Chunk in pixels.
 	 */
-	public int getHeight()
+	public static int getHeight()
 	{
 		return CHUNK_SIZE * Tile.getTileSize();
 	}

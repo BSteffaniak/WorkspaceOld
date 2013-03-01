@@ -24,14 +24,14 @@ public class Actor
 	private boolean			sprinting;
 	private boolean			focused;
 	
+	private int				width, height;
+	private int				facing, oldFacing;
+	
 	private float			x, y;
 	private float			mx, my;
 	private float			jumpHeight, startY;
 	private float			speed;
 	private float			rotation;
-	
-	private int				width, height;
-	private int				facing, oldFacing;
 	
 	private SpriteSheet		sprites;
 	
@@ -119,6 +119,22 @@ public class Actor
 	}
 	
 	/**
+	 * @return The x position of the Actor relative to the screen.
+	 */
+	public float getScreenX()
+	{
+		return x + map.getX();
+	}
+	
+	/**
+	 * @return The y position of the Actor relative to the screen.
+	 */
+	public float getScreenY()
+	{
+		return y + map.getY();
+	}
+	
+	/**
 	 * Set the absolute location of the Actor on the Map.
 	 * 
 	 * @param x The horizontal component to set.
@@ -151,33 +167,66 @@ public class Actor
 	}
 	
 	/**
-	 * Move the Actor to the left at the rate of the Actor's speed.
+	 * Attempt to make a move in the direction that the specified values
+	 * express.
+	 * 
+	 * @param dx The horizontal magnitude in which to try to move.
+	 * @param dy The vertical magnitude in which to try to move.
+	 * @return Whether or not a move was successful.
 	 */
-	public void moveLeft(float delta)
+	public boolean tryMove(float dx, float dy)
 	{
-		move(-speed * delta, 0);
+		float dx2 = dx;
+		float dy2 = dy;
 		
-		if (map.isCollision(this))
+		move(dx2, dy2);
+		
+		boolean collision = map.isCollision(this);
+		
+		boolean moved     = !collision;
+		
+		while (collision && (Math.abs(dx2) >= 0.25f || Math.abs(dy2) > 0.25f))
 		{
-			move(speed * delta, 0);
+			move(-dx2, -dy2);
+			
+			dx2 /= 2;
+			dy2 /= 2;
+			
+			move(dx2, dy2);
+			
+			collision = map.isCollision(this);
 		}
 		
+		if (collision)
+		{
+			move(-dx2, -dy2);
+		}
+		
+		return moved;
+	}
+	
+	/**
+	 * Move the Actor to the left at the rate of the Actor's speed.
+	 * 
+	 * @return Whether or not the Actor was able to move left.
+	 */
+	public boolean moveLeft(float delta)
+	{
 		facing = LEFT;
+		
+		return tryMove(-speed * delta, 0);
 	}
 	
 	/**
 	 * Move the Actor to the right at the rate of the Actor's speed.
+	 * 
+	 * @return Whether or not the Actor was able to move right.
 	 */
-	public void moveRight(float delta)
+	public boolean moveRight(float delta)
 	{
-		move(speed * delta, 0);
-		
-		if (map.isCollision(this))
-		{
-			move(-speed * delta, 0);
-		}
-		
 		facing = RIGHT;
+		
+		return tryMove(speed * delta, 0);
 	}
 	
 	/**
@@ -386,17 +435,13 @@ public class Actor
 		{
 			float speed = 3f * delta;
 			
-			move(0, speed);
-			
-			if (map.isCollision(this))
+			if (tryMove(0, speed))
 			{
-				move(0, -speed);
-				
-				jumping = false;
+				onGround = false;
 			}
 			else
 			{
-				onGround = false;
+				jumping = false;
 			}
 			
 			if (y >= startY + jumpHeight)
@@ -406,20 +451,9 @@ public class Actor
 		}
 		else
 		{
-			float speed = 2f * delta;
+			float speed = 3f * delta;
 			
-			move(0, -speed);
-			
-			if (map.isCollision(this))
-			{
-				move(0, speed);
-				
-				onGround = true;
-			}
-			else
-			{
-				onGround = false;
-			}
+			onGround = !tryMove(0, -speed);
 		}
 	}
 }

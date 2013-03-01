@@ -33,8 +33,10 @@ public class Bounds
 	 */
 	public Bounds(int x, int y, int width, int height)
 	{
-		this.x = x;
-		this.y = y;
+		this.x      = x;
+		this.y      = y;
+		this.width  = width;
+		this.height = height;
 	}
 	
 	/**
@@ -142,8 +144,8 @@ public class Bounds
 	public String toString()
 	{
 		String str = "";
-		
-		str += this.getClass().getSimpleName() + " { " + x + ", " + y + " }";
+
+		str += this.getClass().getSimpleName() + " { " + x + ", " + y + ", " + width + ", " + height + " }";
 		
 		return str;
 	}

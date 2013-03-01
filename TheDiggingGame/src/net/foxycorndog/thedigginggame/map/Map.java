@@ -5,9 +5,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import net.foxycorndog.jfoxylib.Frame;
 import net.foxycorndog.jfoxylib.bundle.Bundle;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 import net.foxycorndog.jfoxylib.shader.Shader;
+import net.foxycorndog.jfoxylib.util.Bounds;
 import net.foxycorndog.thedigginggame.TheDiggingGame;
 import net.foxycorndog.thedigginggame.actor.Actor;
 import net.foxycorndog.thedigginggame.tile.Tile;
@@ -110,18 +112,93 @@ public class Map
 	 * @param ry The relative vertical location of the Chunk to
 	 * 		generate.
 	 */
-	public void generateChunk(int rx, int ry)
+	public boolean generateChunk(int rx, int ry)
 	{
-		Chunk chunk = new Chunk(this, rx, ry);
-		
-		chunk.generate();
-		
-		if (!chunks.containsKey(rx))
+		if (!isChunkAt(rx, ry))
 		{
-			chunks.put(rx, new HashMap<Integer, Chunk>());
+			Chunk chunk = new Chunk(this, rx, ry);
+			
+			chunk.generate();
+			
+			if (!chunks.containsKey(rx))
+			{
+				chunks.put(rx, new HashMap<Integer, Chunk>());
+			}
+			
+			chunks.get(rx).put(ry, chunk);
+			
+			return true;
 		}
 		
-		chunks.get(rx).put(ry, chunk);
+		return false;
+	}
+	
+	public boolean generateChunksAround(Actor actor)
+	{
+		boolean generated = false;
+		
+		int tileSize    = Tile.getTileSize();
+		
+		int chunkWidth  = Chunk.getWidth();
+		int chunkHeight = Chunk.getHeight();
+		
+		int width  = Frame.getWidth()  + chunkWidth;
+		int height = Frame.getHeight() + chunkHeight;
+		
+//		width  /= game.getScale();
+//		height /= game.getScale();
+		
+		int startX = -chunkWidth  - width  / 2;
+		int startY = -chunkHeight - height / 2;
+		
+		int x = startX;
+		int y = startY;
+		
+		while (y <= height)
+		{
+			x = startX;
+			
+			while (x <= width)
+			{
+				int offsetX = x + (int)(actor.getX());
+				int offsetY = y + (int)(actor.getY());
+				
+				int rx = offsetX / chunkWidth;
+				int ry = offsetY / chunkHeight;
+				
+				if (offsetX < 0)
+				{
+					rx--;
+				}
+				if (offsetY < 0)
+				{
+					ry--;
+				}
+				
+				if (!isChunkAt(rx, ry))
+				{
+					generateChunk(rx, ry);
+				}
+				
+				x += chunkWidth;
+			}
+			
+			y += chunkHeight;
+		}
+		
+		return generated;
+	}
+	
+	public boolean isChunkAt(int rx, int ry)
+	{
+		boolean contains = false;
+		
+		if (chunks.containsKey(rx))
+		{
+			contains = chunks.get(rx).containsKey(ry);
+		}
+		
+		return contains;
 	}
 	
 	/**
@@ -170,19 +247,23 @@ public class Map
 	 */
 	public boolean addTile(Tile tile, int x, int y, int layer, boolean replace)
 	{
-		int rx = x / Chunk.CHUNK_SIZE;
-		int ry = y / Chunk.CHUNK_SIZE;
+		int chunkSize = Chunk.CHUNK_SIZE;
 		
-		if (chunks.containsKey(rx))
+		int rx = x / chunkSize;
+		int ry = y / chunkSize;
+		
+		Bounds bounds = checkNegativeLocation(x, y, rx, ry);
+		
+		x  = bounds.getX();
+		y  = bounds.getY();
+		rx = bounds.getWidth();
+		ry = bounds.getHeight();
+		
+		if (isChunkAt(rx, ry))
 		{
-			HashMap<Integer, Chunk> map = chunks.get(rx);
+			Chunk chunk = chunks.get(rx).get(ry);
 			
-			if (map.containsKey(ry))
-			{
-				Chunk chunk = map.get(ry);
-				
-				return chunk.addTile(tile, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE, layer, replace);
-			}
+			return chunk.addTile(tile, x % chunkSize, y % chunkSize, layer, replace);
 		}
 		
 		return false;
@@ -200,19 +281,23 @@ public class Map
 	 */
 	public boolean removeTile(int x, int y, int layer)
 	{
-		int rx = x / Chunk.CHUNK_SIZE;
-		int ry = y / Chunk.CHUNK_SIZE;
+		int chunkSize = Chunk.CHUNK_SIZE;
 		
-		if (chunks.containsKey(rx))
+		int rx = x / chunkSize;
+		int ry = y / chunkSize;
+		
+		Bounds bounds = checkNegativeLocation(x, y, rx, ry);
+		
+		x  = bounds.getX();
+		y  = bounds.getY();
+		rx = bounds.getWidth();
+		ry = bounds.getHeight();
+		
+		if (isChunkAt(rx, ry))
 		{
-			HashMap<Integer, Chunk> map = chunks.get(rx);
+			Chunk chunk = chunks.get(rx).get(ry);
 			
-			if (map.containsKey(ry))
-			{
-				Chunk chunk = map.get(ry);
-				
-				return chunk.removeTile(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE, layer);
-			}
+			return chunk.removeTile(x % chunkSize, y % chunkSize, layer);
 		}
 		
 		return false;
@@ -226,20 +311,56 @@ public class Map
 	 */
 	public void updateChunkAt(int x, int y)
 	{
-		int rx = x / Chunk.CHUNK_SIZE;
-		int ry = y / Chunk.CHUNK_SIZE;
+		int chunkSize = Chunk.CHUNK_SIZE;
 		
-		if (chunks.containsKey(rx))
+		int rx = x / chunkSize;
+		int ry = y / chunkSize;
+		
+		Bounds bounds = checkNegativeLocation(x, y, rx, ry);
+		
+		x  = bounds.getX();
+		y  = bounds.getY();
+		rx = bounds.getWidth();
+		ry = bounds.getHeight();
+		
+		if (isChunkAt(rx, ry))
 		{
-			HashMap<Integer, Chunk> map = chunks.get(rx);
+			Chunk chunk = chunks.get(rx).get(ry);
 			
-			if (map.containsKey(ry))
+			chunk.update();
+		}
+	}
+	
+	private Bounds checkNegativeLocation(int x, int y, int rx, int ry)
+	{
+		int chunkSize = Chunk.CHUNK_SIZE;
+		
+		if (x < 0)
+		{
+			rx--;
+			
+			x = -rx * chunkSize + x;
+			
+			if (x % chunkSize == 0)
 			{
-				Chunk chunk = map.get(ry);
-				
-				chunk.update();
+				rx++;
+				x = 0;
 			}
 		}
+		if (y < 0)
+		{
+			ry--;
+			
+			y = -ry * chunkSize + y;
+			
+			if (y % chunkSize == 0)
+			{
+				ry++;
+				y = 0;
+			}
+		}
+		
+		return new Bounds(x, y, rx, ry);
 	}
 	
 	/**

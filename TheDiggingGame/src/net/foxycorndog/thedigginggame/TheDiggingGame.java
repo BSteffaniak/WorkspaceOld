@@ -139,8 +139,8 @@ public class TheDiggingGame extends GameStarter
 			Frame.setTitle("FPS: " + fps);
 		}
 		
-		int target = Frame.getTargetFPS();
-		target = target == 0 ? 60 : target;
+		int target  = Frame.getTargetFPS();
+		target      = target == 0 ? 60 : target;
 		
 		float delta = 60f / (fps == 0 ? target : fps);
 		
@@ -222,6 +222,8 @@ public class TheDiggingGame extends GameStarter
 			
 			player.update(delta);
 //		}
+			
+			map.generateChunksAround(player);
 	}
 	
 	private void renderCursor()
