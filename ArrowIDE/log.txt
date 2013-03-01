@@ -1,187 +1,19 @@
 Compiled successfully.
-Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
-Tree { L, D, A, B, F, R, M, U, T, V,  }
-4
-true
-Tree { (( D ( F )) M ( T ( V ))) }
-Tree { M, D, F, T, V,  }
+Exception in thread "main" java.lang.UnsupportedClassVersionError: Tree : Unsupported major.minor version 51.0
+	at java.lang.ClassLoader.defineClass1(Native Method)
+	at java.lang.ClassLoader.defineClass(ClassLoader.java:620)
+	at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:124)
+	at java.net.URLClassLoader.defineClass(URLClassLoader.java:260)
+	at java.net.URLClassLoader.access$000(URLClassLoader.java:56)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:195)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:188)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:276)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:251)
+	at java.lang.ClassLoader.loadClassInternal(ClassLoader.java:319)
+	at Driver.main(Driver.java from DynamicJavaSourceCodeObject:15)
 Compiled successfully.
-Compiled successfully.
-Error on line 52: <identifier> expected
-Error on line 52: <identifier> expected
-Error on line 52: <identifier> expected
-Error on line 52: <identifier> expected
-Error on line 52: <identifier> expected
-Error on line 57: repeated modifier
-Error on line 57: repeated modifier
-Error on line 52: <identifier> expected
-Error on line 52: <identifier> expected
-Error on line 52: <identifier> expected
-Error on line 52: <identifier> expectedError on line 57: '(' expected
-Error on line 52: <identifier> expectedError on line 57: '(' expected
-Error on line 57: '(' expected
-Error on line 57: '(' expected
-Error on line 57: '(' expected
-Error on line 57: '(' expected
-Error on line 57: '(' expected
-Error on line 57: modifier public not allowed hereError on line 57: ')' expectedError on line 57: ';' expected
-Error on line 52: ';' expected
-Error on line 52: ';' expected
-Error on line 58: illegal start of expressionError on line 58: illegal start of expressionError on line 58: ';' expectedError on line 58: ';' expectedError on line 66: illegal start of expressionError on line 66: illegal start of expressionError on line 66: ';' expectedError on line 66: ';' expectedError on line 74: illegal start of expressionError on line 74: ';' expectedError on line 74: ';' expectedError on line 74: not a statementError on line 74: ';' expectedError on line 105: illegal start of expressionError on line 105: ';' expectedError on line 113: illegal start of expressionError on line 113: ';' expectedError on line 113: ';' expectedError on line 130: illegal start of expressionError on line 130: ';' expectedError on line 138: illegal start of expressionError on line 138: ';' expectedError on line 146: illegal start of expressionError on line 146: ';' expectedError on line 146: ';' expectedError on line 163: illegal start of expressionError on line 163: ';' expectedError on line 171: illegal start of expressionError on line 171: ';' expectedError on line 171: ';' expectedError on line 185: illegal start of expressionError on line 185: ';' expectedError on line 196: illegal start of expressionError on line 196: ';' expectedError on line 196: ';' expectedError on line 196: not a statementError on line 196: ';' expectedError on line 222: illegal start of expressionError on line 222: ';' expectedError on line 222: ';' expectedError on line 233: illegal start of expressionError on line 233: ';' expectedError on line 233: ';' expectedError on line 233: not a statementError on line 233: ';' expectedError on line 286: illegal start of expressionError on line 286: ';' expectedError on line 286: ';' expectedError on line 294: illegal start of expressionError on line 294: ';' expectedError on line 294: ';' expectedError on line 302: illegal start of expressionError on line 302: ';' expectedError on line 302: ';' expectedError on line 302: not a statementError on line 302: ';' expectedError on line 379: reached end of file while parsing
-Compiled successfully.
-Error on line 54: not a statementError on line 54: ';' expected
-Error on line 54: not a statementError on line 54: ';' expected
-Error on line 54: not a statementError on line 54: ';' expected
-Error on line 54: not a statementError on line 54: ';' expected
-Error on line 54: not a statementError on line 54: ';' expected
-Error on line 55: illegal start of expressionError on line 60: illegal start of expressionError on line 60: ';' expectedError on line 60: ')' expectedError on line 60: illegal start of expressionError on line 60: ';' expected
-Error on line 55: illegal start of expressionError on line 60: illegal start of expressionError on line 60: ';' expectedError on line 60: ')' expectedError on line 60: illegal start of expressionError on line 60: ';' expected
-Error on line 54: ';' expected
-Error on line 54: ';' expected
-Error on line 54: ';' expected
-Error on line 54: ';' expected
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Error on line 43: not a statementError on line 43: ';' expected
-Error on line 43: <identifier> expectedError on line 43: not a statementError on line 45: reached end of file while parsing
-Error on line 43: not a statementError on line 43: ';' expected
-Error on line 43: not a statementError on line 43: ';' expected
-Error on line 43: not a statementError on line 43: ';' expected
-Error on line 43: not a statementError on line 43: ';' expected
-Error on line 43: not a statementError on line 43: ';' expected
-Error on line 44: illegal start of expressionError on line 44: ';' expectedError on line 45: reached end of file while parsing
-Error on line 43: ';' expected
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Error on line 45: not a statementError on line 45: ';' expected
-Error on line 45: not a statementError on line 45: ';' expected
-Error on line 45: not a statementError on line 45: ';' expected
-Error on line 45: not a statementError on line 45: ';' expected
-Error on line 45: not a statementError on line 45: ';' expected
-Error on line 45: not a statementError on line 45: ';' expected
-Error on line 45: <identifier> expectedError on line 45: not a statementError on line 47: reached end of file while parsing
-Error on line 45: not a statementError on line 45: ';' expected
-Error on line 45: not a statementError on line 45: ';' expected
-Error on line 45: not a statementError on line 45: ';' expected
-Error on line 45: <identifier> expectedError on line 45: not a statementError on line 47: reached end of file while parsing
-Error on line 45: not a statementError on line 45: ';' expected
-Error on line 45: not a statementError on line 45: ';' expected
-Error on line 45: not a statementError on line 45: ';' expected
-Error on line 45: not a statementError on line 45: ';' expected
-Error on line 45: not a statementError on line 45: ';' expected
-Error on line 45: not a statementError on line 45: ';' expected
-Error on line 45: not a statementError on line 45: ';' expected
-Error on line 46: illegal start of expressionError on line 46: ';' expectedError on line 47: reached end of file while parsing
-Error on line 45: ')' expectedError on line 47: reached end of file while parsing
-Error on line 45: ';' expected
-Compiled successfully.
-Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
-Tree { L, D, A, B, F, R, M, U, T, V,  }
-4
-true
-Tree { (( D ( F )) M ( T ( V ))) }
-Tree { M, D, F, T, V,  }
-Tree {  }
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Error on line 52: illegal start of typeError on line 52: ';' expected
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Error on line 22: ';' expected
-Error on line 20: cannot find symbol
-  symbol:   variable t
-  location: variable t of type Tree
-Error on line 22: ';' expected
-Error on line 22: ';' expected
-Error on line 22: ';' expected
-Error on line 22: ';' expected
-Error on line 22: ';' expected
-Error on line 22: ')' expected
-Error on line 20: ';' expected
-Compiled successfully.
-Tree { ( A (( B ) F (( M ) R (( T ) U ( V ))))) }
-Tree { A, F, B, R, M, U, T, V,  }
-5
-true
-Tree { ( F ( M ( T ( V )))) }
-Tree { F, M, T, V,  }
 Compiled successfully.
 Compiled successfully.
 Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
@@ -190,4 +22,3 @@ Tree { L, D, A, B, F, R, M, U, T, V,  }
 true
 Tree { (( D ( F )) M ( T ( V ))) }
 Tree { M, D, F, T, V,  }
-Compiled successfully.
