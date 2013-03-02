@@ -128,7 +128,7 @@ public class Chunk
 	public void generate()
 	{
 		
-		if (relativeY == 0 || relativeY < 0)
+		if (relativeY == 0)
 		{
 			for (int y = 0; y < CHUNK_SIZE - 21; y++)
 			{
