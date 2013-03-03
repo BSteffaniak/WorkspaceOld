@@ -95,12 +95,11 @@ public class Buffer
 	}
 	
 	/**
-	 * Method used for setting the values at the specified
-	 * index to the specified values of the floats in the
-	 * dat
+	 * Method used for setting the value at the specified
+	 * index to the specified value of the float.
 	 * 
-	 * @param index
-	 * @param data
+	 * @param index The index of the float data.
+	 * @param data The data to set it to.
 	 */
 	public void setData(int index, float data)
 	{
@@ -112,10 +111,12 @@ public class Buffer
 	}
 	
 	/**
+	 * Method used for setting the values at the specified
+	 * index to the specified values of the floats in the
+	 * data array.
 	 * 
-	 * 
-	 * @param index
-	 * @param data
+	 * @param index The index of the float data.
+	 * @param data The data to set it to.
 	 */
 	public void setData(int index, float data[])
 	{
