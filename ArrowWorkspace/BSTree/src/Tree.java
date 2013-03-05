@@ -339,7 +339,7 @@ public class Tree implements BSTree
 				{
 					ChildInfo info = searchParent(c);
 
-					TreeNode parent  = info.parent;
+					TreeNode parent = info.parent;
 
 					if (delNode.getLeftNode() != null)
 					{

@@ -23,6 +23,7 @@ public class Driver
 		t.add("M");
 		t.add("U");
 		t.add("T");
+		t.add("TT");
 		t.add("V");
 		
 		System.out.println(t);

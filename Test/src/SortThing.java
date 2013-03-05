@@ -336,15 +336,8 @@ public class SortThing implements SortingInterface
 	 * @param right The right index.
 	 * @return The middle index.
 	 */
-	private int partition(int arr[], int left, int right)
-	{
-		int leftIndex    = left;
-		int rightIndex   = right;
-		int pivotElement = arr[leftIndex];
-		 
-		do
-		{
-			while (arr[leftIndex] < pivotElement)
+	private int partition(int arr[],int left,int right){int leftIndex=left;int rightIndex=right;int pivotElement=arr[leftIndex];do{
+while (arr[leftIndex] < pivotElement)
 			{
 				leftIndex ++;
 			}

@@ -156,15 +156,15 @@ public class Map
 								int x2 = point.getX();
 								int y2 = point.getY();
 								
-								if (Intersects.rectangles(x2, y2, width, height, 0, 0, tileSize, tileSize))
-								{
+//								if (Intersects.rectangles(x2, y2, width, height, 0, 0, tileSize, tileSize))
+//								{
 									float col = chunk.getLightness(x2, y2);
 									
 									if (col <= min)
 									{
 										min = col;
 									}
-								}
+//								}
 							}
 						}
 						

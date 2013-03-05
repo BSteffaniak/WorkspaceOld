@@ -1,0 +1,24 @@
+Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
+Tree { L, D, A, B, F, R, M, U, T, V,  }
+4
+true
+Tree { (( D ( F )) M ( T ( V ))) }
+Tree { M, D, F, T, V,  }
+Compiled successfully.
+Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
+Tree { L, D, A, B, F, R, M, U, T, V,  }
+4
+true
+Tree { (( D ( F )) M ( T ( V ))) }
+Tree { M, D, F, T, V,  }
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ( TT )) U ( V )))) }
+Tree { L, D, A, B, F, R, M, U, T, TT, V,  }
+5
+true
+Tree { (( D ( F )) M ( T ( V ))) }
+Tree { M, D, F, T, V,  }
