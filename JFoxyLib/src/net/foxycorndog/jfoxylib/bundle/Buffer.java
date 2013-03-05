@@ -95,6 +95,17 @@ public class Buffer
 	}
 	
 	/**
+	 * Get the float data at the specified index.
+	 * 
+	 * @param index The index in which to get the data from.
+	 * @return The data at the specified index.
+	 */
+	public float getData(int index)
+	{
+		return buffer.get(index);
+	}
+	
+	/**
 	 * Method used for setting the value at the specified
 	 * index to the specified value of the float.
 	 * 

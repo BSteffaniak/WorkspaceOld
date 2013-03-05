@@ -59,7 +59,7 @@ public class TheDiggingGame extends GameStarter
 	public TheDiggingGame()
 	{
 		Frame.create(1080, 800);
-		Frame.setTargetFPS(60);
+//		Frame.setTargetFPS(60);
 		Frame.setResizable(true);
 		
 		scale = 2;
@@ -74,10 +74,9 @@ public class TheDiggingGame extends GameStarter
 	{
 		map = new Map(this);
 		map.generateChunk(0, 0);
-		map.generateChunk(1, 0);
 		
 		player = new Player(map);
-		player.setLocation(100, 200);
+		player.setLocation(96, 200);
 		player.setFocused(true);
 		
 		map.addActor(player);
@@ -163,7 +162,7 @@ public class TheDiggingGame extends GameStarter
 			
 			Tile tile    = Tile.getTile("Stone");
 			
-			if (!Intersects.rectangles(cursorX * tileSize, cursorY * tileSize, tile.getCols() * tileSize, tile.getRows() * tileSize, player.getX() + 1, player.getY(), player.getWidth() - 2, player.getHeight() - 1))
+			if (editing != Chunk.MIDDLEGROUND|| !Intersects.rectangles(cursorX * tileSize, cursorY * tileSize, tile.getCols() * tileSize, tile.getRows() * tileSize, player.getX() + 1, player.getY(), player.getWidth() - 2, player.getHeight() - 1))
 			{
 				if (map.addTile(tile, cursorX, cursorY, editing, false))
 				{
@@ -221,9 +220,14 @@ public class TheDiggingGame extends GameStarter
 			}
 			
 			player.update(delta);
-//		}
 			
-			map.generateChunksAround(player);
+			if (player.isMoving())
+			{
+				map.updateActorLighting();
+			}
+//		}
+		
+		map.generateChunksAround(player);
 	}
 	
 	private void renderCursor()

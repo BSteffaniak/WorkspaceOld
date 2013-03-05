@@ -39,6 +39,8 @@ public class Actor
 	
 	private Map				map;
 	
+	private float			color[];
+	
 	public static final int	LEFT = 0, FORWARD = 1, RIGHT = 2, BACKWARD = 3;
 	
 	/**
@@ -63,6 +65,8 @@ public class Actor
 		this.facing      = FORWARD;
 		
 		this.increaseRot = true;
+		
+		this.color       = new float[] { 1, 1, 1, 1 };
 	}
 	
 	/**
@@ -374,6 +378,22 @@ public class Actor
 	}
 	
 	/**
+	 * @return The rgba float color array of this Actor.
+	 */
+	public float[] getColor()
+	{
+		return color;
+	}
+	
+	public void setColor(float r, float g, float b, float a)
+	{
+		color[0] = r;
+		color[1] = g;
+		color[2] = b;
+		color[3] = a;
+	}
+	
+	/**
 	 * Render the Actor to the screen at its absolute x and y location.
 	 */
 	public void render()
@@ -381,6 +401,7 @@ public class Actor
 		GL.pushMatrix();
 		{
 			GL.translate(x, y, 1);
+			GL.setColor(color[0], color[1], color[2], color[3]);
 			
 			bundle.render(GL.QUADS, sprites);
 		}

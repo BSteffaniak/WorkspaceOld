@@ -1,26 +1,27 @@
-uniform sampler2D texture;
+uniform sampler2D	texture;
 
-//varying float v_Dot;
-//varying vec2 v_texCoord;
-//
-//void main()
-//{
-//    vec2 texCoord = vec2(v_texCoord.s, 1.0 - v_texCoord.t);
-//    vec4 color = texture2D(texture, texCoord);
-//    color += vec4(0.1, 0.1, 0.1, 1);
-//    gl_FragColor = vec4(color.xyz * v_Dot, color.a);
-//}
+varying vec4		fragWorldPos;
+varying vec4		fragScreenPos;
+
+uniform vec4 lights[12 * 3];
 
 void main()
 {
 	gl_FragColor = texture2D(texture, gl_TexCoord[0].st);
 	
-	vec3 origColor = gl_FragColor.rgb;
-	vec3 amb = gl_LightModel.ambient.rgb;
-	vec3 finalColor = origColor * amb;
+	vec4 finalColor = gl_FragColor;
 	
-	// Apply lighting to the scene.
-	// finalColor *= applyLighting(amb, origColor);
+	float tileX = fragWorldPos.x / (16 * 16);
 	
-	gl_FragColor = vec4(1);
+	float remainder = int(tileX) - tileX;
+	
+	float xOff = int(tileX) % 16;//int(fragWorldPos.x) % 1;
+	
+	float test = fragScreenPos.x / 16;
+	
+	float r = int(test);
+	
+	finalColor *= vec4(1);
+	
+	gl_FragColor = finalColor;
 }

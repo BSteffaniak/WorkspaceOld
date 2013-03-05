@@ -10,8 +10,11 @@ import net.foxycorndog.jfoxylib.bundle.Bundle;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 import net.foxycorndog.jfoxylib.shader.Shader;
 import net.foxycorndog.jfoxylib.util.Bounds;
+import net.foxycorndog.jfoxylib.util.Intersects;
+import net.foxycorndog.jfoxylib.util.Point;
 import net.foxycorndog.thedigginggame.TheDiggingGame;
 import net.foxycorndog.thedigginggame.actor.Actor;
+import net.foxycorndog.thedigginggame.map.Chunk.Intersections;
 import net.foxycorndog.thedigginggame.tile.Tile;
 
 /**
@@ -63,7 +66,8 @@ public class Map
 	 */
 	public Map(TheDiggingGame game)
 	{
-		lighting = new Shader("res/shaders/", new String[] { "lighting.vs" }, new String[] { "lighting.frag" });
+		lighting = new Shader();
+		lighting.loadFile("res/shaders/", new String[] { "lighting.vs" }, new String[] { "lighting.frag" });
 		
 		chunks    = new HashMap<Integer, HashMap<Integer, Chunk>>();
 		
@@ -81,6 +85,14 @@ public class Map
 	}
 	
 	/**
+	 * @return An ArrayList of all of the Actors in the Map.
+	 */
+	public ArrayList<Actor> getActors()
+	{
+		return actors;
+	}
+	
+	/**
 	 * Add an actor to the Map if not already added.
 	 * 
 	 * @param actor The Actor to add to the map.
@@ -93,8 +105,15 @@ public class Map
 		}
 	}
 	
+	/**
+	 * Used to set an Actor to the center of the Display.
+	 * 
+	 * @param actor
+	 */
 	public void setActorFocused(Actor actor)
 	{
+		actor.setFocused(true);
+		
 		for (int i = actors.size() - 1; i >= 0; i--)
 		{
 			if (actors.get(i) != actor)
@@ -102,6 +121,74 @@ public class Map
 				actors.get(i).setFocused(false);
 			}
 		}
+	}
+	
+	/**
+	 * Update all of the Actors colors according to where they are
+	 * in the Map.
+	 */
+	public synchronized void updateActorLighting()
+	{
+		iterateChunks(new Task()
+		{
+			public void run(Chunk chunk)
+			{
+				int tileSize = Tile.getTileSize();
+				
+				for (int i = actors.size() - 1; i >= 0; i--)
+				{
+					Actor actor = actors.get(i);
+					
+					if (chunk.inChunk(actor))
+					{
+						Intersections intersections = chunk.getIntersections(actor);
+						
+						Point points[] = intersections.getPoints();
+						
+						float min = 1;
+						
+						for (int y = 1; y < intersections.getHeight() - 1; y++)
+						{
+							for (int x = 1; x < intersections.getWidth(); x++)
+							{
+								Point point = points[x + y * intersections.getWidth()];
+								
+								int x2 = point.getX();
+								int y2 = point.getY();
+								
+								if (Intersects.rectangles(x2, y2, width, height, 0, 0, tileSize, tileSize))
+								{
+									float col = chunk.getLightness(x2, y2);
+									
+									if (col <= min)
+									{
+										min = col;
+									}
+								}
+							}
+						}
+						
+						actor.setColor(min, min, min, 1);
+					}
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Updates all of the lighting for the Chunks.
+	 */
+	public synchronized void updateLighting()
+	{
+		iterateChunks(new Task()
+		{
+			public void run(Chunk chunk)
+			{
+				chunk.updateLighting();
+			}
+		});
+		
+		updateActorLighting();
 	}
 	
 	/**
@@ -127,12 +214,21 @@ public class Map
 			
 			chunks.get(rx).put(ry, chunk);
 			
+			updateLighting();
+			
 			return true;
 		}
 		
 		return false;
 	}
 	
+	/**
+	 * Method that generates any Chunks around the proximity of the
+	 * specified Actor.
+	 * 
+	 * @param actor The Actor to generate the Chunks around.
+	 * @return Whether any Chunks were generated.
+	 */
 	public boolean generateChunksAround(Actor actor)
 	{
 		boolean generated = false;
@@ -178,6 +274,8 @@ public class Map
 				if (!isChunkAt(rx, ry))
 				{
 					generateChunk(rx, ry);
+					
+					generated = true;
 				}
 				
 				x += chunkWidth;
@@ -189,6 +287,16 @@ public class Map
 		return generated;
 	}
 	
+	/**
+	 * Tell whether there is a Chunk already located at the specified
+	 * location.
+	 * 
+	 * @param rx The relative horizontal location of the location
+	 * 		to check.
+	 * @param ry The relative vertical location of the location
+	 * 		to check.
+	 * @return Whether there is a Chunk at the location or not.
+	 */
 	public boolean isChunkAt(int rx, int ry)
 	{
 		boolean contains = false;
@@ -202,25 +310,63 @@ public class Map
 	}
 	
 	/**
+	 * Tell whether there is a Chunk already located at the specified
+	 * location relative to the specified Chunk.
+	 * 
+	 * @param x The relative horizontal location of the location
+	 * 		to check.
+	 * @param y The relative vertical location of the location
+	 * 		to check.
+	 * @return Whether there is a Chunk at the location or not.
+	 */
+	public boolean isChunkAt(Chunk chunk, int x, int y)
+	{
+		int rx = x / Chunk.CHUNK_SIZE + chunk.getRelativeX();
+		int ry = y / Chunk.CHUNK_SIZE + chunk.getRelativeY();
+		
+		Bounds bounds = checkNegativeLocation(x, y, rx, ry);
+		
+		x  = bounds.getX();
+		y  = bounds.getY();
+		rx = bounds.getWidth();
+		ry = bounds.getHeight();
+		
+		y %= Chunk.CHUNK_SIZE;
+		
+		return isChunkAt(rx, ry);
+	}
+	
+	/**
 	 * Render all of the Chunks in the Map.
 	 */
 	public void render()
 	{
-//		lighting.run();
-		
-		
-		
 		GL.pushMatrix();
 		{
-			GL.translate(x, y, 0);
-			
-			iterateChunks(new Task()
 			{
-				public void run(Chunk chunk)
+//				lighting.run();
+//				
+//				float array[] = new float[]
+//				{
+//					1, 0, 0, 1,
+//					0, 1, 0, 1,
+//					0, 0, 1, 1
+//				};
+//				
+//				lighting.uniform4f("lights", array);
+			
+				GL.translate(x, y, 0);
+				
+				iterateChunks(new Task()
 				{
-					chunk.render();
-				}
-			});
+					public void run(Chunk chunk)
+					{
+						chunk.render();
+					}
+				});
+			
+//				lighting.stop();
+			}
 		
 			for (int i = actors.size() - 1; i >= 0; i--)
 			{
@@ -230,8 +376,41 @@ public class Map
 			}
 		}
 		GL.popMatrix();
+	}
+	
+	/**
+	 * Get the Tile located in the Map relative to the Chunk and location
+	 * given.
+	 * 
+	 * @param chunk The Chunk to search relative to.
+	 * @param x The horizontal location to search relative to.
+	 * @param y The vertical location to search relative to.
+	 * @return The Tile at the location.
+	 */
+	public Tile getTile(Chunk chunk, int x, int y, int layer)
+	{
+		Tile tile = null;
 		
-//		lighting.stop();
+		int rx = x / Chunk.CHUNK_SIZE + chunk.getRelativeX();
+		int ry = y / Chunk.CHUNK_SIZE + chunk.getRelativeY();
+		
+		Bounds bounds = checkNegativeLocation(x, y, rx, ry);
+		
+		x  = bounds.getX();
+		y  = bounds.getY();
+		rx = bounds.getWidth();
+		ry = bounds.getHeight();
+		
+		y %= Chunk.CHUNK_SIZE;
+		
+		if (isChunkAt(rx, ry))
+		{
+			chunk = chunks.get(rx).get(ry);
+			
+			tile  = chunk.getTile(x, y, layer);
+		}
+		
+		return tile;
 	}
 	
 	/**
@@ -329,6 +508,8 @@ public class Map
 			
 			chunk.update();
 		}
+		
+		updateLighting();
 	}
 	
 	private Bounds checkNegativeLocation(int x, int y, int rx, int ry)

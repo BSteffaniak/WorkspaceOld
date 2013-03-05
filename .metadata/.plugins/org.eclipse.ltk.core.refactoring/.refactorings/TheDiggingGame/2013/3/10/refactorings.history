@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;darkness&apos; in &apos;net.foxycorndog.thedigginggame.map.Chunk.updateLighting()&apos; to &apos;lightness&apos;&#x0D;&#x0A;- Original project: &apos;TheDiggingGame&apos;&#x0D;&#x0A;- Original element: &apos;net.foxycorndog.thedigginggame.map.Chunk.updateLighting().darkness&apos;&#x0D;&#x0A;- Renamed element: &apos;darkness&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;darkness&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;net.foxycorndog.thedigginggame.map{Chunk.java[Chunk~updateLighting@darkness!6496!6514!6502!6509!F!0!false" name="lightness" references="true" stamp="1362432599818" version="1.0"/>
+</session>

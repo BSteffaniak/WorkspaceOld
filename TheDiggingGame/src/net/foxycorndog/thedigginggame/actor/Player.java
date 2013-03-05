@@ -41,7 +41,7 @@ public class Player extends Actor
 			e.printStackTrace();
 		}
 		
-		Bundle bundle = new Bundle(4 * 6 * 4, 2, true, true);
+		Bundle bundle = new Bundle(4 * 6 * 4, 2, true, false);
 		
 		bundle.beginEditingVertices();
 		{
@@ -173,10 +173,12 @@ public class Player extends Actor
 		SpriteSheet sprites = getSprites();
 		int facing          = getFacing();
 		float rotation      = getRotation();
+		float color[]       = getColor();
 		
 		GL.pushMatrix();
 		{
 			GL.translate(getX(), getY(), 1);
+			GL.setColor(color[0], color[1], color[2], color[3]);
 			
 			renderAppendages(bundle, sprites, facing, rotation);
 		}

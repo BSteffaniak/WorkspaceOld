@@ -6,6 +6,7 @@ import net.foxycorndog.jfoxylib.bundle.Buffer;
 import net.foxycorndog.jfoxylib.bundle.Bundle;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 import net.foxycorndog.jfoxylib.util.Intersects;
+import net.foxycorndog.jfoxylib.util.Point;
 import net.foxycorndog.thedigginggame.TheDiggingGame;
 import net.foxycorndog.thedigginggame.actor.Actor;
 import net.foxycorndog.thedigginggame.tile.Tile;
@@ -18,7 +19,7 @@ import net.foxycorndog.thedigginggame.tile.Tile;
  * @author	Braden Steffaniak
  * @since	Feb 22, 2013 at 4:23:18 AM
  * @since	v0.1
- * @version Feb 22, 2013 at 11:52:23 PM
+ * @version Mar 3, 2013 at 4:51:19 PM
  * @version	v0.1
  */
 public class Chunk
@@ -39,13 +40,14 @@ public class Chunk
 
 	public static final int		CHUNK_SIZE = 32;
 	public static final int		LAYER_COUNT = CHUNK_SIZE * CHUNK_SIZE;
+	public static final int		VERTEX_SIZE = 2;
 	public static final int		TILE_COUNT = LAYER_COUNT * 3;
 	public static final int		CHUNK_VERT_COUNT = TILE_COUNT * 4 * 3;
 	public static final int		BACKGROUND = 0, MIDDLEGROUND = 1, FOREGROUND = 2;
 	
 	static
 	{
-		verticesBuffer = new Buffer(4 * 3 * CHUNK_SIZE * CHUNK_SIZE * 3);
+		verticesBuffer = new Buffer(4 * 3 * CHUNK_SIZE * CHUNK_SIZE * VERTEX_SIZE);
 		
 		verticesBuffer.beginEditing();
 		
@@ -59,7 +61,16 @@ public class Chunk
 			{
 				for (int x = 0; x < CHUNK_SIZE; x++)
 				{
-					float verts[] = GL.genRectVerts(x * tileSize, y * tileSize, z, tileSize, tileSize);
+					float verts[] = null;
+					
+					if (VERTEX_SIZE == 2)
+					{
+						verts = GL.genRectVerts(x * tileSize, y * tileSize, tileSize, tileSize);
+					}
+					else if (VERTEX_SIZE == 3)
+					{
+						verts = GL.genRectVerts(x * tileSize, y * tileSize, z, tileSize, tileSize);
+					}
 					
 					verticesBuffer.setData(offset, verts);
 					
@@ -100,6 +111,74 @@ public class Chunk
 	}
 	
 	/**
+	 * Class that holds the information for an intersection with an
+	 * Actor and a Chunk.
+	 * 
+	 * @author	Braden Steffaniak
+	 * @since	Mar 4, 2013 at 4:15:18 PM
+	 * @since	v0.1
+	 * @version Mar 4, 2013 at 4:15:18 PM
+	 * @version	v0.1
+	 */
+	class Intersections
+	{
+		private int		x, y;
+		private int 	width, height;
+		
+		private Point	points[];
+		
+		public Intersections(int x, int y, int width, int height, Point points[])
+		{
+			this.x      = x;
+			this.y      = y;
+			this.width  = width;
+			this.height = height;
+			
+			this.points = points;
+		}
+		
+		/**
+		 * @return The horizontal location of the Intersection.
+		 */
+		public int getX()
+		{
+			return x;
+		}
+		
+		/**
+		 * @return The vertical location of the Intersection.
+		 */
+		public int getY()
+		{
+			return y;
+		}
+		
+		/**
+		 * @return The horizontal size of the Intersection.
+		 */
+		public int getWidth()
+		{
+			return width;
+		}
+		
+		/**
+		 * @return The vertical size of the Intersection.
+		 */
+		public int getHeight()
+		{
+			return height;
+		}
+		
+		/**
+		 * @return The Points of each intersection.
+		 */
+		public Point[] getPoints()
+		{
+			return points;
+		}
+	}
+	
+	/**
 	 * Constructs a Chunk in the specified Map at the specified relative
 	 * location.
 	 * 
@@ -116,7 +195,22 @@ public class Chunk
 		
 		texturesBuffer = new Buffer(2 * CHUNK_VERT_COUNT);
 		
-		bundle = new Bundle(verticesBuffer, texturesBuffer, null, 3);
+		Buffer colorsBuffer = new Buffer(4 * CHUNK_VERT_COUNT);
+		
+		float data[] = new float[colorsBuffer.getSize()];
+		
+		for (int i = 0; i < data.length; i++)
+		{
+			data[i] = 1;
+		}
+		
+		colorsBuffer.beginEditing();
+		{
+			colorsBuffer.setData(0, data);
+		}
+		colorsBuffer.endEditing();
+		
+		bundle = new Bundle(verticesBuffer, texturesBuffer, colorsBuffer, VERTEX_SIZE);
 		
 		tiles    = new Tile[CHUNK_SIZE * CHUNK_SIZE * 3];
 		newTiles = new ArrayList<NewTile>();
@@ -127,7 +221,6 @@ public class Chunk
 	 */
 	public void generate()
 	{
-		
 		if (relativeY == 0 || relativeY < 0)
 		{
 			for (int y = 0; y < CHUNK_SIZE - 21; y++)
@@ -135,6 +228,7 @@ public class Chunk
 				for (int x = 0; x < CHUNK_SIZE; x++)
 				{
 					addTile(Tile.getTile("Dirt"), x, y, MIDDLEGROUND, true);
+					addTile(Tile.getTile("Dirt"), x, y, BACKGROUND, true);
 				}
 			}
 			
@@ -145,6 +239,7 @@ public class Chunk
 					for (int x = 0; x < CHUNK_SIZE; x++)
 					{
 						addTile(Tile.getTile("Dirt"), x, y, MIDDLEGROUND, true);
+						addTile(Tile.getTile("Dirt"), x, y, BACKGROUND, true);
 					}
 				}
 			}
@@ -153,11 +248,13 @@ public class Chunk
 				for (int i = 0; i < CHUNK_SIZE; i++)
 				{
 					addTile(Tile.getTile("Grass"), i, CHUNK_SIZE - 21, MIDDLEGROUND, true);
+					addTile(Tile.getTile("Grass"), i, CHUNK_SIZE - 21, BACKGROUND, true);
 				}
 			}
 		}
 		
 		update();
+		updateLighting();
 	}
 	
 	/**
@@ -178,7 +275,9 @@ public class Chunk
 			return false;
 		}
 		
-		return newTiles.add(new NewTile(tile, x, y, layer));
+		boolean added = newTiles.add(new NewTile(tile, x, y, layer));
+		
+		return added;
 	}
 
 	/**
@@ -198,7 +297,126 @@ public class Chunk
 			return false;
 		}
 		
-		return newTiles.add(new NewTile(null, x, y, layer));
+		boolean removed = newTiles.add(new NewTile(null, x, y, layer));
+		
+		return removed;
+	}
+	
+	/**
+	 * Get the Tile at the specified location in the Chunk.
+	 * 
+	 * @param x The horizontal offset of the Tile.
+	 * @param y The vertical offset of the Tile.
+	 * @param layer The layer to get the Tile from.
+	 * @return The Tile at the location.
+	 */
+	public Tile getTile(int x, int y, int layer)
+	{
+		return tiles[layer * LAYER_COUNT + x + y * CHUNK_SIZE];
+	}
+	
+	/**
+	 * Update the lighting buffer for this Chunk.
+	 */
+	public synchronized void updateLighting()
+	{
+		float colors[]   = new float[4 * 4 * LAYER_COUNT];
+		float bgColors[] = new float[4 * 4 * LAYER_COUNT];
+		
+		float lightness = 1;
+		
+		for (int i = 0; i < LAYER_COUNT; i++)
+		{
+			lightness = 1;
+				
+			boolean isTile = tiles[LAYER_COUNT + i] != null || tiles[i] != null || tiles[LAYER_COUNT * 2 + i] != null;
+			
+			int x = i % CHUNK_SIZE;
+			int y = i / CHUNK_SIZE;
+			
+			int offset = i * 4 * 4;
+			
+			if (isTile)
+			{
+				int index = y + 1;
+				
+				Tile above = map.getTile(this, x, index, MIDDLEGROUND);
+				
+				boolean chunkAvailable = map.isChunkAt(this, x, index);
+				
+				while (chunkAvailable && lightness > 0)
+				{
+					if (above != null)
+					{
+						lightness -= 0.18f;
+					}
+					
+					above = map.getTile(this, x, index, MIDDLEGROUND);
+					
+					index++;
+					
+					chunkAvailable = map.isChunkAt(this, x, index);
+				}
+				
+				setRGBA(colors, lightness, lightness, lightness, 1, offset);
+			}
+			else
+			{
+				setRGBA(colors, 1, 1, 1, 1, offset);
+			}
+			
+			setRGBA(bgColors, lightness * 0.3f, lightness * 0.3f, lightness * 0.3f, 1, offset);
+		}
+		
+		bundle.beginEditingColors();
+		{
+			bundle.setColors(0, bgColors);
+			bundle.setColors(4 * LAYER_COUNT, colors);
+			bundle.setColors(4 * LAYER_COUNT * 2, colors);
+		}
+		bundle.endEditingColors();
+	}
+	
+	/**
+	 * Set the RGBA values for a float array.
+	 * 
+	 * @param colors The float array to set the values on.
+	 * @param r The red component.
+	 * @param g The green component.
+	 * @param b The blue component.
+	 * @param a The alpha component.
+	 * @param offset The offset in the array to set the values at.
+	 */
+	private void setRGBA(float colors[], float r, float g, float b, float a, int offset)
+	{
+		for (int j = 0; j < 4 * 4; j += 4)
+		{
+			colors[offset + j + 0] = r;
+			colors[offset + j + 1] = g;
+			colors[offset + j + 2] = b;
+			colors[offset + j + 3] = a;
+		}
+	}
+	
+	/**
+	 * Whether the specified Actor is located in the Chunk.
+	 * 
+	 * @param actor The Actor to check.
+	 * @return Whether the Actor is in the Chunk.
+	 */
+	public boolean inChunk(Actor actor)
+	{
+		return Intersects.rectangles(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight(), getX(), getY(), getWidth(), getHeight());
+	}
+	
+	public float getLightness(int x, int y)
+	{
+		float lightness = 1;
+		
+//		colors[4 * 4 * (x2 + y2 * Chunk.CHUNK_SIZE)];
+		lightness = bundle.getColorsBuffer().getData(LAYER_COUNT * 4 * 4 + 4 * 4 * (x + y * Chunk.CHUNK_SIZE));
+		
+		return lightness;
 	}
 	
 	/**
@@ -207,34 +425,34 @@ public class Chunk
 	public synchronized void update()
 	{
 		bundle.beginEditingTextures();
-		
-		while (newTiles.size() > 0)
 		{
-			NewTile newTile = newTiles.remove(0);
-			
-			int x      = newTile.x;
-			int y      = newTile.y;
-			
-			int offset = 4 * LAYER_COUNT * newTile.layer;
-			
-			Tile tile  = newTile.tile;
-			
-			float textures[] = null;
-			
-			if (tile == null)
+			while (newTiles.size() > 0)
 			{
-				textures = new float[4 * 2];
+				NewTile newTile = newTiles.remove(0);
+				
+				int x      = newTile.x;
+				int y      = newTile.y;
+				
+				int offset = 4 * LAYER_COUNT * newTile.layer;
+				
+				Tile tile  = newTile.tile;
+				
+				float textures[] = null;
+				
+				if (tile == null)
+				{
+					textures = new float[4 * 2];
+				}
+				else
+				{
+					textures = GL.genRectTextures(Tile.getTerrainSprites().getImageOffsetsf(tile.getX(), tile.getY(), tile.getCols(), tile.getRows()));
+				}
+				
+				bundle.setTextures(offset + (x + y * CHUNK_SIZE) * 4, textures);
+				
+				tiles[LAYER_COUNT * newTile.layer + (x + y * CHUNK_SIZE)] = tile;
 			}
-			else
-			{
-				textures = GL.genRectTextures(Tile.getTerrainSprites().getImageOffsetsf(tile.getX(), tile.getY(), tile.getCols(), tile.getRows()));
-			}
-			
-			bundle.setTextures(offset + (x + y * CHUNK_SIZE) * 4, textures);
-			
-			tiles[LAYER_COUNT * newTile.layer + (x + y * CHUNK_SIZE)] = tile;
 		}
-		
 		bundle.endEditingTextures();
 	}
 	
@@ -259,13 +477,13 @@ public class Chunk
 	 */
 	private void renderBackground()
 	{
-//		GL.pushMatrix();
-//		{
-//			GL.translate(0, 0, -5);
+		GL.pushMatrix();
+		{
+			GL.translate(0, 0, -5);
 			
 			bundle.render(GL.QUADS, 0, 4 * CHUNK_SIZE * CHUNK_SIZE, Tile.getTerrainSprites());
-//		}
-//		GL.popMatrix();
+		}
+		GL.popMatrix();
 	}
 
 	/**
@@ -273,11 +491,11 @@ public class Chunk
 	 */
 	private void renderMiddleground()
 	{
-//		GL.pushMatrix();
-//		{
+		GL.pushMatrix();
+		{
 			bundle.render(GL.QUADS, 4 * CHUNK_SIZE * CHUNK_SIZE, 4 * CHUNK_SIZE * CHUNK_SIZE, Tile.getTerrainSprites());
-//		}
-//		GL.popMatrix();
+		}
+		GL.popMatrix();
 	}
 
 	/**
@@ -285,13 +503,13 @@ public class Chunk
 	 */
 	private void renderForeground()
 	{
-//		GL.pushMatrix();
-//		{
-//			GL.translate(0, 0, 5);
+		GL.pushMatrix();
+		{
+			GL.translate(0, 0, 5);
 			
 			bundle.render(GL.QUADS, 4 * CHUNK_SIZE * CHUNK_SIZE * 2, 4 * CHUNK_SIZE * CHUNK_SIZE, Tile.getTerrainSprites());
-//		}
-//		GL.popMatrix();
+		}
+		GL.popMatrix();
 	}
 	
 	/**
@@ -342,6 +560,51 @@ public class Chunk
 		return CHUNK_SIZE * Tile.getTileSize();
 	}
 	
+	public Intersections getIntersections(Actor actor)
+	{
+		float actorX    = actor.getX() + 1;
+		float actorY    = actor.getY();
+		int actorWidth  = actor.getWidth() - 2;
+		int actorHeight = actor.getHeight() - 1;
+		
+		float chunkX    = getX();
+		float chunkY    = getY();
+		
+		int startX = 0;
+		int startY = 0;
+		int width  = 0;
+		int height = 0;
+		
+		int tileSize = Tile.getTileSize();
+		
+		startX = (int)((actorX - chunkX)  / tileSize) - 1;
+		startY = (int)((actorY - chunkY)  / tileSize) - 1;
+		width  = (int)(Math.ceil(((float)actorWidth  / tileSize)) + 2);
+		height = (int)(Math.ceil(((float)actorHeight / tileSize)) + 1);
+		
+		startX = startX < 0 ? 0 : startX;
+		startY = startY < 0 ? 0 : startY;
+		width  = width  + startX >= CHUNK_SIZE ? CHUNK_SIZE - 1 : width;
+		height = height + startY >= CHUNK_SIZE ? CHUNK_SIZE - 1 : height;
+		
+		width  = startX + width  >= CHUNK_SIZE ? CHUNK_SIZE - startX : width;
+		height = startY + height >= CHUNK_SIZE ? CHUNK_SIZE - startY : height;
+		
+		Point points[] = new Point[width * height];
+		
+		for (int y = 0; y < height; y++)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				points[x + y * width] = new Point(x + startX, y + startY);
+			}
+		}
+		
+		Intersections intersections = new Intersections(startX, startY, width, height, points);
+		
+		return intersections;
+	}
+	
 	/**
 	 * Checks whether there is a collision with the Actor and any of the
 	 * Tiles.
@@ -359,44 +622,26 @@ public class Chunk
 		float chunkX    = getX();
 		float chunkY    = getY();
 		
-		if (Intersects.rectangles(actorX, actorY, actorWidth, actorHeight, chunkX, chunkY, getWidth(), getHeight()))
+		int tileSize = Tile.getTileSize();
+		
+		if (inChunk(actor))
 		{
-			int startX = 0;
-			int startY = 0;
-			int width  = 0;
-			int height = 0;
+			Intersections intersections = getIntersections(actor);
 			
-			int tileSize = Tile.getTileSize();
-			
-//			float startYf = (actorY - chunkY)  / tileSize;
-			
-//			float remainder = (float)Math.ceil(startYf) - startYf;
-			
-			startX = (int)((actorX - chunkX)  / tileSize);
-			startY = (int)((actorY - chunkY)  / tileSize);
-			width  = (int)((float)actorWidth  / tileSize) + 2;
-			height = (int)((float)actorHeight / tileSize) + 2;
-			
-			startX = startX < 0 ? 0 : startX;
-			startY = startY < 0 ? 0 : startY;
-			width  = width  + startX >= CHUNK_SIZE ? CHUNK_SIZE - 1 : width;
-			height = height + startY >= CHUNK_SIZE ? CHUNK_SIZE - 1 : height;
-			
-			width  = startX + width  >= CHUNK_SIZE ? CHUNK_SIZE - startX : width;
-			height = startY + height >= CHUNK_SIZE ? CHUNK_SIZE - startY : height;
+			Point points[] = intersections.points;
 			
 			int offset = LAYER_COUNT * MIDDLEGROUND;
 			
-			for (int y = startY; y < startY + height; y++)
+			for (int i = points.length - 1; i >= 0; i--)
 			{
-				for (int x = startX; x < startX + width; x++)
+				int x = points[i].getX();
+				int y = points[i].getY();
+				
+				if (tiles[offset + x + y * CHUNK_SIZE] != null)
 				{
-					if (tiles[offset + x + y * CHUNK_SIZE] != null)
+					if (Intersects.rectangles(x * tileSize + chunkX, y * tileSize + chunkY, tileSize, tileSize, actorX, actorY, actorWidth, actorHeight))
 					{
-						if (Intersects.rectangles(x * tileSize + chunkX, y * tileSize + chunkY, tileSize, tileSize, actorX, actorY, actorWidth, actorHeight))
-						{
-							return true;
-						}
+						return true;
 					}
 				}
 			}

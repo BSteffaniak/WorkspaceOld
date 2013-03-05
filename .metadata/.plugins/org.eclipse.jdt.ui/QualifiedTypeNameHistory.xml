@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.util.Rectangle"/>
-<fullyQualifiedTypeName name="java.net.URL"/>
-<fullyQualifiedTypeName name="java.net.URI"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.model.Model"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.util.Camera"/>
 <fullyQualifiedTypeName name="net.foxycorndog.testgame.actor.Actor"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.GameEntry"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.components.Window"/>
@@ -14,7 +9,6 @@
 <fullyQualifiedTypeName name="java.util.Collection"/>
 <fullyQualifiedTypeName name="java.util.Iterator"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.bundle.Buffer"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.SpriteSheet"/>
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.actor.Player"/>
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.actor.Actor"/>
@@ -36,11 +30,7 @@
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.components.Cursor"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.listeners.MouseListener"/>
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.tile.Tile"/>
-<fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.map.Chunk"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.util.Intersects"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.shader.Shader"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.GL20"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylibpixel.util.Bounds"/>
 <fullyQualifiedTypeName name="javax.swing.JFrame"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylibpixel.components.Panel"/>
@@ -60,4 +50,14 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.Frame"/>
 <fullyQualifiedTypeName name="java.awt.Dimension"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.util.Bounds"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GL20"/>
+<fullyQualifiedTypeName name="java.nio.IntBuffer"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.shader.Shader"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.bundle.Buffer"/>
+<fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.map.Chunk"/>
+<fullyQualifiedTypeName name="java.util.ConcurrentModificationException"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.util.Point"/>
+<fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.map.Chunk.Intersections"/>
+<fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.map.Map.Task"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.util.Intersects"/>
 </qualifiedTypeNameHistroy>
