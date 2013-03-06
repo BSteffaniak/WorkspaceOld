@@ -1,1 +1,6 @@
 1362432599818	Rename local variable 'darkness'
+1362516839877	Rename method 'update'
+1362517087979	Rename method 'updateLighting'
+1362517690043	Rename method 'updateLighting'
+1362517699467	Rename method 'updateActorLighting'
+1362518812746	Rename method 'calculateActorLighting'

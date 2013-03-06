@@ -24,6 +24,8 @@ import net.foxycorndog.thedigginggame.tile.Tile;
  */
 public class Chunk
 {
+	private boolean				lightingReady, tilesReady;
+	
 	private int					relativeX, relativeY;
 	
 	private Buffer				texturesBuffer;
@@ -31,6 +33,8 @@ public class Chunk
 	private Bundle				bundle;
 	
 	private Map					map;
+	
+	private float				colors[], bgColors[];
 	
 	private Tile				tiles[];
 	
@@ -221,40 +225,45 @@ public class Chunk
 	 */
 	public void generate()
 	{
-		if (relativeY == 0 || relativeY < 0)
+		new Thread()
 		{
-			for (int y = 0; y < CHUNK_SIZE - 21; y++)
+			public void run()
 			{
-				for (int x = 0; x < CHUNK_SIZE; x++)
+				if (relativeY == 0 || relativeY < 0)
 				{
-					addTile(Tile.getTile("Dirt"), x, y, MIDDLEGROUND, true);
-					addTile(Tile.getTile("Dirt"), x, y, BACKGROUND, true);
-				}
-			}
-			
-			if (relativeY < 0)
-			{
-				for (int y = CHUNK_SIZE - 21; y < CHUNK_SIZE; y++)
-				{
-					for (int x = 0; x < CHUNK_SIZE; x++)
+					for (int y = 0; y < CHUNK_SIZE - 21; y++)
 					{
-						addTile(Tile.getTile("Dirt"), x, y, MIDDLEGROUND, true);
-						addTile(Tile.getTile("Dirt"), x, y, BACKGROUND, true);
+						for (int x = 0; x < CHUNK_SIZE; x++)
+						{
+							addTile(Tile.getTile("Dirt"), x, y, MIDDLEGROUND, true);
+							addTile(Tile.getTile("Dirt"), x, y, BACKGROUND, true);
+						}
+					}
+					
+					if (relativeY < 0)
+					{
+						for (int y = CHUNK_SIZE - 21; y < CHUNK_SIZE; y++)
+						{
+							for (int x = 0; x < CHUNK_SIZE; x++)
+							{
+								addTile(Tile.getTile("Dirt"), x, y, MIDDLEGROUND, true);
+								addTile(Tile.getTile("Dirt"), x, y, BACKGROUND, true);
+							}
+						}
+					}
+					else
+					{
+						for (int i = 0; i < CHUNK_SIZE; i++)
+						{
+							addTile(Tile.getTile("Grass"), i, CHUNK_SIZE - 21, MIDDLEGROUND, true);
+							addTile(Tile.getTile("Grass"), i, CHUNK_SIZE - 21, BACKGROUND, true);
+						}
 					}
 				}
+				
+				calculateLighting();
 			}
-			else
-			{
-				for (int i = 0; i < CHUNK_SIZE; i++)
-				{
-					addTile(Tile.getTile("Grass"), i, CHUNK_SIZE - 21, MIDDLEGROUND, true);
-					addTile(Tile.getTile("Grass"), i, CHUNK_SIZE - 21, BACKGROUND, true);
-				}
-			}
-		}
-		
-		update();
-		updateLighting();
+		}.start();
 	}
 	
 	/**
@@ -276,6 +285,8 @@ public class Chunk
 		}
 		
 		boolean added = newTiles.add(new NewTile(tile, x, y, layer));
+		
+		calculateTiles();
 		
 		return added;
 	}
@@ -299,6 +310,8 @@ public class Chunk
 		
 		boolean removed = newTiles.add(new NewTile(null, x, y, layer));
 		
+		calculateTiles();
+		
 		return removed;
 	}
 	
@@ -316,12 +329,17 @@ public class Chunk
 	}
 	
 	/**
-	 * Update the lighting buffer for this Chunk.
+	 * Calculates all of the lighting in the Chunk.
 	 */
-	public synchronized void updateLighting()
+	public synchronized void calculateLighting()
 	{
-		float colors[]   = new float[4 * 4 * LAYER_COUNT];
-		float bgColors[] = new float[4 * 4 * LAYER_COUNT];
+		if (lightingReady)
+		{
+			return;
+		}
+		
+		colors   = new float[4 * 4 * LAYER_COUNT];
+		bgColors = new float[4 * 4 * LAYER_COUNT];
 		
 		float lightness = 1;
 		
@@ -368,6 +386,21 @@ public class Chunk
 			setRGBA(bgColors, lightness * 0.3f, lightness * 0.3f, lightness * 0.3f, 1, offset);
 		}
 		
+		lightingReady = true;
+	}
+
+	/**
+	 * Updates all of the lighting in the Chunk and puts it into action.
+	 */
+	public synchronized void updateLighting()
+	{
+		if (!lightingReady)
+		{
+			return;
+		}
+		
+		lightingReady = false;
+		
 		bundle.beginEditingColors();
 		{
 			bundle.setColors(0, bgColors);
@@ -375,6 +408,9 @@ public class Chunk
 			bundle.setColors(4 * LAYER_COUNT * 2, colors);
 		}
 		bundle.endEditingColors();
+		
+		colors   = null;
+		bgColors = null;
 	}
 	
 	/**
@@ -420,10 +456,44 @@ public class Chunk
 	}
 	
 	/**
-	 * Method that updates the current Tiles with the newTiles.
+	 * Calculate all of the new tiles and add then to the Tiles array.
 	 */
-	public synchronized void update()
+	public synchronized void calculateTiles()
 	{
+		int size = newTiles.size();
+		
+		for (int i = size - 1; i >= 0; i--)
+		{
+			NewTile newTile = newTiles.get(i);
+			
+			int x      = newTile.x;
+			int y      = newTile.y;
+			
+			int offset = 4 * LAYER_COUNT * newTile.layer;
+			
+			Tile tile  = newTile.tile;
+			
+			tiles[LAYER_COUNT * newTile.layer + (x + y * CHUNK_SIZE)] = tile;
+		}
+		
+		if (size > 0)
+		{
+			tilesReady = true;
+		}
+	}
+	
+	/**
+	 * Method that updates the textures of the new Tiles.
+	 */
+	public synchronized void updateTiles()
+	{
+		if (!tilesReady)
+		{
+			return;
+		}
+		
+		tilesReady = false;
+		
 		bundle.beginEditingTextures();
 		{
 			while (newTiles.size() > 0)
@@ -449,11 +519,18 @@ public class Chunk
 				}
 				
 				bundle.setTextures(offset + (x + y * CHUNK_SIZE) * 4, textures);
-				
-				tiles[LAYER_COUNT * newTile.layer + (x + y * CHUNK_SIZE)] = tile;
 			}
 		}
 		bundle.endEditingTextures();
+	}
+	
+	/**
+	 * Update everything that needs updating in the Chunk.
+	 */
+	public void update()
+	{
+		updateTiles();
+		updateLighting();
 	}
 	
 	/**
@@ -580,7 +657,7 @@ public class Chunk
 		startX = (int)((actorX - chunkX)  / tileSize) - 1;
 		startY = (int)((actorY - chunkY)  / tileSize) - 1;
 		width  = (int)(Math.ceil(((float)actorWidth  / tileSize)) + 2);
-		height = (int)(Math.ceil(((float)actorHeight / tileSize)) + 1);
+		height = (int)(Math.ceil(((float)actorHeight / tileSize)) + 2);
 		
 		startX = startX < 0 ? 0 : startX;
 		startY = startY < 0 ? 0 : startY;
@@ -637,7 +714,9 @@ public class Chunk
 				int x = points[i].getX();
 				int y = points[i].getY();
 				
-				if (tiles[offset + x + y * CHUNK_SIZE] != null)
+				Tile tile = tiles[offset + x + y * CHUNK_SIZE];
+				
+				if (tile != null && tile.isCollidable())
 				{
 					if (Intersects.rectangles(x * tileSize + chunkX, y * tileSize + chunkY, tileSize, tileSize, actorX, actorY, actorWidth, actorHeight))
 					{

@@ -20,6 +20,8 @@ import net.foxycorndog.jfoxylib.graphics.SpriteSheet;
  */
 public class Tile
 {
+	private boolean							collidable;
+	
 	private int								x, y;
 	private int								cols, rows;
 	
@@ -53,49 +55,49 @@ public class Tile
 		
 		int index = 0;
 		
-		tiles.put("Stone",				new Tile(1,  0, 1, 1));
-		tiles.put("Dirt",				new Tile(2,  0, 1, 1));
-		tiles.put("Grass",				new Tile(3,  0, 1, 1));
-		tiles.put("Wooden Planks",		new Tile(4,  0, 1, 1));
-		tiles.put("Double Stone Slab",	new Tile(5,  0, 1, 1));
-		tiles.put("Stone Slab",			new Tile(6,  0, 1, 1));
-		tiles.put("Bricks",				new Tile(7,  0, 1, 1));
-		tiles.put("TNT",				new Tile(8,  0, 1, 1));
-		tiles.put("Cobblestone",		new Tile(0,  1, 1, 1));
-		tiles.put("Bedrock",			new Tile(1,  1, 1, 1));
-		tiles.put("Sand",				new Tile(2,  1, 1, 1));
-		tiles.put("Gravel",				new Tile(3,  1, 1, 1));
-		tiles.put("Log", 				new Tile(4,  1, 1, 1));
-		tiles.put("Iron Block",			new Tile(6,  1, 1, 1));
-		tiles.put("Gold Block",			new Tile(7,  1, 1, 1));
-		tiles.put("Diamond Block",		new Tile(8,  1, 1, 1));
-		tiles.put("Emerald Block",		new Tile(9,  1, 1, 1));
-		tiles.put("Gold Ore",			new Tile(0,  2, 1, 1));
-		tiles.put("Iron Ore",			new Tile(1,  2, 1, 1));
-		tiles.put("Coal Ore",			new Tile(2,  2, 1, 1));
-		tiles.put("Bookshelf",			new Tile(3,  2, 1, 1));
-		tiles.put("Mossy Cobblestone",	new Tile(4,  2, 1, 1));
-		tiles.put("Obsidian",			new Tile(5,  2, 1, 1));
-		tiles.put("Furnace",			new Tile(12, 2, 1, 1));
-		tiles.put("Dispenser",			new Tile(14, 2, 1, 1));
-		tiles.put("Sponge",				new Tile(0,  3, 1, 1));
-		tiles.put("Glass",				new Tile(1,  3, 1, 1));
-		tiles.put("Diamond Ore",		new Tile(2,  3, 1, 1));
-		tiles.put("Redstone Ore",		new Tile(3,  3, 1, 1));
-		tiles.put("Leaves",				new Tile(5,  3, 1, 1));
-		tiles.put("White Wool",			new Tile(0,  4, 1, 1));
-		tiles.put("Snow Block",			new Tile(2,  4, 1, 1));
-		tiles.put("Ice Block",			new Tile(3,  4, 1, 1));
-		tiles.put("Snowy Grass",		new Tile(4,  4, 1, 1));
-		tiles.put("Cactus",				new Tile(6,  4, 1, 1));
-		tiles.put("Sugar Cane",			new Tile(9,  4, 1, 1));
-		tiles.put("Record Player",		new Tile(10, 4, 1, 1));
-		tiles.put("Torch",				new Tile(0,  5, 1, 1));
-		tiles.put("Wooden Door",		new Tile(1,  5, 1, 2));
-		tiles.put("Iron Door",			new Tile(2,  5, 1, 2));
-		tiles.put("Ladder",				new Tile(3,  5, 1, 1));
-		tiles.put("Trap Door",			new Tile(4,  5, 1, 1));
-		tiles.put("Lever",				new Tile(0,  6, 1, 1));
+		tiles.put("Stone",				new Tile(1,  0, 1, 1, true));
+		tiles.put("Dirt",				new Tile(2,  0, 1, 1, true));
+		tiles.put("Grass",				new Tile(3,  0, 1, 1, true));
+		tiles.put("Wooden Planks",		new Tile(4,  0, 1, 1, true));
+		tiles.put("Double Stone Slab",	new Tile(5,  0, 1, 1, true));
+		tiles.put("Stone Slab",			new Tile(6,  0, 1, 1, true));
+		tiles.put("Bricks",				new Tile(7,  0, 1, 1, true));
+		tiles.put("TNT",				new Tile(8,  0, 1, 1, true));
+		tiles.put("Cobblestone",		new Tile(0,  1, 1, 1, true));
+		tiles.put("Bedrock",			new Tile(1,  1, 1, 1, true));
+		tiles.put("Sand",				new Tile(2,  1, 1, 1, true));
+		tiles.put("Gravel",				new Tile(3,  1, 1, 1, true));
+		tiles.put("Log", 				new Tile(4,  1, 1, 1, true));
+		tiles.put("Iron Block",			new Tile(6,  1, 1, 1, true));
+		tiles.put("Gold Block",			new Tile(7,  1, 1, 1, true));
+		tiles.put("Diamond Block",		new Tile(8,  1, 1, 1, true));
+		tiles.put("Emerald Block",		new Tile(9,  1, 1, 1, true));
+		tiles.put("Gold Ore",			new Tile(0,  2, 1, 1, true));
+		tiles.put("Iron Ore",			new Tile(1,  2, 1, 1, true));
+		tiles.put("Coal Ore",			new Tile(2,  2, 1, 1, true));
+		tiles.put("Bookshelf",			new Tile(3,  2, 1, 1, true));
+		tiles.put("Mossy Cobblestone",	new Tile(4,  2, 1, 1, true));
+		tiles.put("Obsidian",			new Tile(5,  2, 1, 1, true));
+		tiles.put("Furnace",			new Tile(12, 2, 1, 1, true));
+		tiles.put("Dispenser",			new Tile(14, 2, 1, 1, true));
+		tiles.put("Sponge",				new Tile(0,  3, 1, 1, true));
+		tiles.put("Glass",				new Tile(1,  3, 1, 1, true));
+		tiles.put("Diamond Ore",		new Tile(2,  3, 1, 1, true));
+		tiles.put("Redstone Ore",		new Tile(3,  3, 1, 1, true));
+		tiles.put("Leaves",				new Tile(5,  3, 1, 1, true));
+		tiles.put("White Wool",			new Tile(0,  4, 1, 1, true));
+		tiles.put("Snow Block",			new Tile(2,  4, 1, 1, true));
+		tiles.put("Ice Block",			new Tile(3,  4, 1, 1, true));
+		tiles.put("Snowy Grass",		new Tile(4,  4, 1, 1, true));
+		tiles.put("Cactus",				new Tile(6,  4, 1, 1, true));
+		tiles.put("Sugar Cane",			new Tile(9,  4, 1, 1, true));
+		tiles.put("Record Player",		new Tile(10, 4, 1, 1, true));
+		tiles.put("Torch",				new Tile(0,  5, 1, 1, false));
+		tiles.put("Wooden Door",		new Tile(1,  5, 1, 2, true));
+		tiles.put("Iron Door",			new Tile(2,  5, 1, 2, true));
+		tiles.put("Ladder",				new Tile(3,  5, 1, 1, true));
+		tiles.put("Trap Door",			new Tile(4,  5, 1, 1, true));
+		tiles.put("Lever",				new Tile(0,  6, 1, 1, true));
 	}
 	
 	/**
@@ -107,13 +109,24 @@ public class Tile
 	 * 		SpriteSheet.
 	 * @param rows The amount of rows the Tile takes up on the
 	 * 		SpriteSheet.
+	 * @param collidable Whether or not the Tile collides with Actors.
 	 */
-	public Tile(int x, int y, int cols, int rows)
+	public Tile(int x, int y, int cols, int rows, boolean collidable)
 	{
 		this.x    = x;
 		this.y    = y;
 		this.cols = cols;
 		this.rows = rows;
+		
+		this.collidable = collidable;
+	}
+	
+	/**
+	 * @return Whether or not the Tile collides with Actors.
+	 */
+	public boolean isCollidable()
+	{
+		return collidable;
 	}
 	
 	/**

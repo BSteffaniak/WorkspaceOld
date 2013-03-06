@@ -58,6 +58,6 @@
 <fullyQualifiedTypeName name="java.util.ConcurrentModificationException"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.util.Point"/>
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.map.Chunk.Intersections"/>
-<fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.map.Map.Task"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.util.Intersects"/>
+<fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.map.Map.Task"/>
 </qualifiedTypeNameHistroy>

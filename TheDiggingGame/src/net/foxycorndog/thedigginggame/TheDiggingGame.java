@@ -151,6 +151,7 @@ public class TheDiggingGame extends GameStarter
 			if (map.removeTile(cursorX, cursorY, editing))
 			{
 				map.updateChunkAt(cursorX, cursorY);
+				map.updateActorLighting();
 			}
 		}
 		else if (Mouse.isButtonDown(Mouse.RIGHT_MOUSE_BUTTON))
@@ -160,13 +161,14 @@ public class TheDiggingGame extends GameStarter
 			
 			int tileSize = Tile.getTileSize();
 			
-			Tile tile    = Tile.getTile("Stone");
+			Tile tile    = Tile.getTile("Torch");
 			
 			if (editing != Chunk.MIDDLEGROUND|| !Intersects.rectangles(cursorX * tileSize, cursorY * tileSize, tile.getCols() * tileSize, tile.getRows() * tileSize, player.getX() + 1, player.getY(), player.getWidth() - 2, player.getHeight() - 1))
 			{
 				if (map.addTile(tile, cursorX, cursorY, editing, false))
 				{
 					map.updateChunkAt(cursorX, cursorY);
+					map.updateActorLighting();
 				}
 			}
 		}
@@ -225,6 +227,8 @@ public class TheDiggingGame extends GameStarter
 			{
 				map.updateActorLighting();
 			}
+			
+			map.update();
 //		}
 		
 		map.generateChunksAround(player);
