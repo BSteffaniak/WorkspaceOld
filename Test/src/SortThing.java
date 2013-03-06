@@ -336,29 +336,7 @@ public class SortThing implements SortingInterface
 	 * @param right The right index.
 	 * @return The middle index.
 	 */
-	private int partition(int arr[],int left,int right){int leftIndex=left;int rightIndex=right;int pivotElement=arr[leftIndex];do{
-while (arr[leftIndex] < pivotElement)
-			{
-				leftIndex ++;
-			}
-			
-			while (arr[rightIndex] > pivotElement)
-			{
-				rightIndex --;
-			}
-			
-			if (leftIndex <= rightIndex)
-			{
-				swap(arr, leftIndex, rightIndex);
-				
-				leftIndex ++;
-				rightIndex --;
-			}
-		}
-		while (leftIndex <= rightIndex);
-		 
-		return leftIndex;
-	}
+	private int partition(int arr[],int left,int right){int leftIndex=left;int rightIndex=right;int pivotElement=arr[leftIndex];do{while(arr[leftIndex]<pivotElement){leftIndex++;}while(arr[rightIndex]>pivotElement){rightIndex--;}if(leftIndex<=rightIndex){swap(arr,leftIndex,rightIndex);leftIndex++;rightIndex--;}}while(leftIndex<=rightIndex);return leftIndex;}
 	
 	/**
 	 * call the other mergesort method.

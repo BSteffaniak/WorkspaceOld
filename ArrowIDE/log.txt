@@ -1,24 +1,483 @@
-Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
-Tree { L, D, A, B, F, R, M, U, T, V,  }
-4
-true
-Tree { (( D ( F )) M ( T ( V ))) }
-Tree { M, D, F, T, V,  }
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 1: string:///Driver.java:1: reached end of file while parsing
+Error on line 2: string:///Driver.java:2: reached end of file while parsing
 Compiled successfully.
-Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ) U ( V )))) }
-Tree { L, D, A, B, F, R, M, U, T, V,  }
-4
-true
-Tree { (( D ( F )) M ( T ( V ))) }
-Tree { M, D, F, T, V,  }
+Error on line 3: string:///Driver.java:3: <identifier> expected
+Error on line 3: string:///Driver.java:3: <identifier> expected
+Error on line 3: string:///Driver.java:3: <identifier> expected
+Error on line 3: string:///Driver.java:3: <identifier> expected
+Error on line 3: string:///Driver.java:3: <identifier> expected
+Error on line 4: string:///Driver.java:4: illegal start of type
+Error on line 4: string:///Driver.java:4: illegal start of type
+Error on line 3: string:///Driver.java:3: <identifier> expected
+Error on line 3: string:///Driver.java:3: <identifier> expected
+Error on line 3: string:///Driver.java:3: <identifier> expected
+Error on line 3: string:///Driver.java:3: <identifier> expected
+Error on line 3: string:///Driver.java:3: <identifier> expected
+Error on line 3: string:///Driver.java:3: <identifier> expected
+Error on line 4: string:///Driver.java:4: illegal start of type
+Error on line 3: string:///Driver.java:3: ';' expected
+Error on line 3: string:///Driver.java:3: ';' expected
+Error on line 5: string:///Driver.java:5: reached end of file while parsing
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Error on line 1: string:///Driver.java:1: class, interface, or enum expected
+Error on line 1: string:///Driver.java:1: unclosed comment
+Error on line 1: string:///Driver.java:1: unclosed comment
+Error on line 1: string:///Driver.java:1: unclosed comment
+Error on line 1: string:///Driver.java:1: unclosed comment
+Error on line 1: string:///Driver.java:1: unclosed comment
+Error on line 1: string:///Driver.java:1: unclosed comment
+Error on line 1: string:///Driver.java:1: unclosed comment
+Error on line 1: string:///Driver.java:1: unclosed comment
 Compiled successfully.
 Compiled successfully.
 Compiled successfully.
 Compiled successfully.
 Compiled successfully.
-Tree { ((( A ( B )) D ( F )) L (( M ) R (( T ( TT )) U ( V )))) }
-Tree { L, D, A, B, F, R, M, U, T, TT, V,  }
-5
-true
-Tree { (( D ( F )) M ( T ( V ))) }
-Tree { M, D, F, T, V,  }
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Error on line 12: string:///Driver.java:12: class, interface, or enum expected
+Error on line 10: string:///Driver.java:10: illegal start of typeError on line 12: string:///Driver.java:12: class, interface, or enum expected
+Error on line 10: string:///Driver.java:10: illegal start of type
+Error on line 10: string:///Driver.java:10: illegal start of type
+Error on line 10: string:///Driver.java:10: unclosed commentError on line 15: string:///Driver.java:15: reached end of file while parsing
+Error on line 10: string:///Driver.java:10: unclosed commentError on line 15: string:///Driver.java:15: reached end of file while parsing
+Error on line 10: string:///Driver.java:10: unclosed commentError on line 16: string:///Driver.java:16: reached end of file while parsing
+Error on line 10: string:///Driver.java:10: unclosed commentError on line 16: string:///Driver.java:16: reached end of file while parsing
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Error on line 15: string:///Driver.java:15: class, interface, or enum expected
+Error on line 16: string:///Driver.java:16: class, interface, or enum expected
+Compiled successfully.
+Compiled successfully.
+Error on line 10: string:///Driver.java:10: illegal start of type
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Compiled successfully.
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 18: string:///Driver.java:18: repeated modifier
+Error on line 18: string:///Driver.java:18: repeated modifier
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 18: string:///Driver.java:18: repeated modifier
+Error on line 18: string:///Driver.java:18: repeated modifier
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expectedError on line 18: string:///Driver.java:18: '(' expected
+Error on line 13: string:///Driver.java:13: <identifier> expectedError on line 18: string:///Driver.java:18: '(' expected
+Error on line 18: string:///Driver.java:18: '(' expected
+Error on line 18: string:///Driver.java:18: '(' expected
+Error on line 18: string:///Driver.java:18: '(' expected
+Error on line 18: string:///Driver.java:18: '(' expected
+Error on line 18: string:///Driver.java:18: modifier public not allowed hereError on line 18: string:///Driver.java:18: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: <identifier> expected
+Error on line 13: string:///Driver.java:13: ')' expected
+Error on line 13: string:///Driver.java:13: ')' expected
+Error on line 13: string:///Driver.java:13: ')' expected
+Error on line 13: string:///Driver.java:13: ')' expected
+Error on line 13: string:///Driver.java:13: ']' expected
+Error on line 13: string:///Driver.java:13: ')' expected
+Error on line 13: string:///Driver.java:13: ')' expected
+Error on line 13: string:///Driver.java:13: ')' expected
+Error on line 13: string:///Driver.java:13: ';' expected
+Error on line 13: string:///Driver.java:13: ';' expected
+Error on line 19: string:///Driver.java:19: illegal start of expression
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.
+Compiled successfully.

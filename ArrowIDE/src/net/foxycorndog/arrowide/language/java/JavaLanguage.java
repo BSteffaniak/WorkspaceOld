@@ -232,67 +232,70 @@ public class JavaLanguage
 			
 			XMLItem items[] = map.get("classpath.classpathentry");
 			
-			for (int i = 0; i < items.length; i++)
+			if (items != null)
 			{
-				HashMap<String, String> attribute = items[i].getAttributes();
-				
-				if (attribute.containsKey("kind"))
+				for (int i = 0; i < items.length; i++)
 				{
-					String kind = attribute.get("kind");
-					String path = attribute.get("path");
+					HashMap<String, String> attribute = items[i].getAttributes();
 					
-					if (kind.equals("src"))
+					if (attribute.containsKey("kind"))
 					{
-						if (!path.equals("src"))
+						String kind = attribute.get("kind");
+						String path = attribute.get("path");
+						
+						if (kind.equals("src"))
 						{
-							if (path.startsWith("/"))
+							if (!path.equals("src"))
 							{
-								path = parentLocation + path;
-							}
-							
-							String pathOutput = path + "/bin";
-							
-							dependencies.add(pathOutput);
-							
-							dependencies.add(path);
-							
-							if (!new File(pathOutput).isDirectory())
-							{
-								File parentFile = new File(path);
-								
-								File children[] = parentFile.listFiles();
-								
-								for (int j = 0; children != null && j < children.length; j++)
+								if (path.startsWith("/"))
 								{
-									String name = children[j].getName();
+									path = parentLocation + path;
+								}
+								
+								String pathOutput = path + "/bin";
+								
+								dependencies.add(pathOutput);
+								
+								dependencies.add(path);
+								
+								if (!new File(pathOutput).isDirectory())
+								{
+									File parentFile = new File(path);
 									
-									if (name.endsWith(".jar"))
+									File children[] = parentFile.listFiles();
+									
+									for (int j = 0; children != null && j < children.length; j++)
 									{
-										dependencies.add(path + "/" + name);
+										String name = children[j].getName();
+										
+										if (name.endsWith(".jar"))
+										{
+											dependencies.add(path + "/" + name);
+										}
 									}
 								}
-							}
-							
-							ArrowIDE.checkProject(path);
-							
-							String more[] = getDependencies(path);
-							
-							for (int d = 0; d < more.length; d++)
-							{
-								dependencies.add(more[d]);
+								
+								ArrowIDE.checkProject(path);
+								
+								String more[] = getDependencies(path);
+								
+								for (int d = 0; d < more.length; d++)
+								{
+									dependencies.add(more[d]);
+								}
 							}
 						}
-					}
-					else if (kind.equals("lib"))
-					{
-						String pLoc = "";
-						
-						if (path.startsWith("/"))
+						else if (kind.equals("lib"))
 						{
-							pLoc = parentLocation;
+							String pLoc = "";
+							
+							if (path.startsWith("/"))
+							{
+								pLoc = parentLocation;
+							}
+							
+							dependencies.add(pLoc + path);
 						}
-						
-						dependencies.add(pLoc + path);
 					}
 				}
 			}
