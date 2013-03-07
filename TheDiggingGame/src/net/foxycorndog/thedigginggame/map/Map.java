@@ -37,6 +37,8 @@ public class Map
 	
 	private Shader			lighting;
 	
+	private Thread			lightingThread;
+	
 	private HashMap<Integer, HashMap<Integer, Chunk>> chunks;
 	
 	private ArrayList<Actor>	actors;
@@ -74,6 +76,38 @@ public class Map
 		actors    = new ArrayList<Actor>();
 		
 		this.game = game;
+		
+		lightingThread = new Thread("Lighting")
+		{
+			public void run()
+			{
+				while (true)
+				{
+					synchronized (this)
+					{
+						try
+						{
+							wait();
+						}
+						catch (InterruptedException e)
+						{
+							e.printStackTrace();
+						}
+					}
+					
+					iterateChunks(new Task()
+					{
+						public void run(Chunk chunk)
+						{
+							chunk.calculateLighting();
+						}
+					});
+				}
+			}
+		};
+		
+		lightingThread.setPriority(Thread.MIN_PRIORITY);
+		lightingThread.start();
 	}
 	
 	/**
@@ -180,21 +214,12 @@ public class Map
 	 */
 	public synchronized void calculateLighting()
 	{
-		new Thread()
+		synchronized (lightingThread)
 		{
-			public void run()
-			{
-				iterateChunks(new Task()
-				{
-					public void run(Chunk chunk)
-					{
-						chunk.calculateLighting();
-					}
-				});
-			}
-		}.start();
+			lightingThread.notify();
+		}
 		
-		updateActorLighting();
+//		updateActorLighting();
 	}
 	
 //	public synchronized void updateLighting()
@@ -231,7 +256,39 @@ public class Map
 			
 			chunks.get(rx).put(ry, chunk);
 			
-//			calculateLighting();
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Generate a chunk at the specified location and perform the hook
+	 * after the generation of the Chunk has finished.
+	 * 
+	 * @param rx The relative horizontal location of the Chunk to
+	 * 		generate.
+	 * @param ry The relative vertical location of the Chunk to
+	 * 		generate.
+	 * @param hook The generation hook to perform after the Chunk
+	 * 		is generated.
+	 */
+	public boolean generateChunk(int rx, int ry, Thread hook)
+	{
+		if (!isChunkAt(rx, ry))
+		{
+			Chunk chunk = new Chunk(this, rx, ry);
+			
+			chunk.addGenerateHook(hook);
+			
+			chunk.generate();
+			
+			if (!chunks.containsKey(rx))
+			{
+				chunks.put(rx, new HashMap<Integer, Chunk>());
+			}
+			
+			chunks.get(rx).put(ry, chunk);
 			
 			return true;
 		}
@@ -279,6 +336,7 @@ public class Map
 				int rx = offsetX / chunkWidth;
 				int ry = offsetY / chunkHeight;
 				
+				
 				if (offsetX < 0)
 				{
 					rx--;
@@ -290,7 +348,20 @@ public class Map
 				
 				if (!isChunkAt(rx, ry))
 				{
-					generateChunk(rx, ry);
+					if (x + chunkWidth > width && y + chunkHeight > height)
+					{
+						generateChunk(rx, ry, new Thread()
+						{
+							public void run()
+							{
+								calculateLighting();
+							}
+						});
+					}
+					else
+					{
+						generateChunk(rx, ry);
+					}
 					
 					generated = true;
 				}
@@ -351,6 +422,18 @@ public class Map
 		y %= Chunk.CHUNK_SIZE;
 		
 		return isChunkAt(rx, ry);
+	}
+	
+	/**
+	 * Get the Chunk at the specified relative location.
+	 * 
+	 * @param rx The relative horizontal location of the Chunk.
+	 * @param ry The relative vertical location of the Chunk.
+	 * @return The Chunk at the specified relative location.
+	 */
+	public Chunk getChunk(int rx, int ry)
+	{
+		return chunks.get(rx).get(ry);
 	}
 	
 	/**

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.foxycorndog.testgame.actor.Actor"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.GameEntry"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.components.Window"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.components.GLPanel"/>
@@ -20,7 +19,6 @@
 <fullyQualifiedTypeName name="org.lwjgl.opengl.DisplayMode"/>
 <fullyQualifiedTypeName name="java.awt.Toolkit"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.events.MouseEvent"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.input.Mouse"/>
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.TheDiggingGame"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.bundle.Bundle"/>
@@ -60,4 +58,6 @@
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.map.Chunk.Intersections"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.util.Intersects"/>
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.map.Map.Task"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.lang.Thread"/>
 </qualifiedTypeNameHistroy>

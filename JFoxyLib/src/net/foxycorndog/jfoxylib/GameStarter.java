@@ -20,7 +20,7 @@ import net.foxycorndog.jfoxylib.listeners.GameListener;
  * @author	Braden Steffaniak
  * @since	Feb 15, 2013 at 11:44:47 PM
  * @since	v0.1
- * @version	Feb 26, 2013 at 6:36:47 AM
+ * @version	Mar 6, 2013 at 6:36:47 PM
  * @version	v0.1
  */
 public abstract class GameStarter
@@ -86,19 +86,19 @@ public abstract class GameStarter
 			
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
-			loop(dfps);
+			loop();
 			
 			GL.resetMatrix();
 			GL.initPerspective(Frame.getWidth(), Frame.getHeight(), 0.01f, 99999f);
 			
-			render3D(dfps);
+			render3D();
 			
 			GL.resetMatrix();
 			GL.initOrtho(Frame.getWidth(), Frame.getHeight());
 //			GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
 //			{
 //				GL11.glDisable(GL11.GL_LIGHTING);
-				render2D(dfps);
+				render2D();
 //			}
 //			GL11.glPopAttrib();
 			
@@ -176,27 +176,18 @@ public abstract class GameStarter
 	/**
 	 * Method that is used to render through the orthographic
 	 * mode. All two deminsional drawing should be done in here.
-	 * 
-	 * @param dfps A counter that counts up to the fps of each
-	 * 		frame.
 	 */
-	public abstract void render2D(int dfps);
+	public abstract void render2D();
 	
 	/**
 	 * Method that is used to render through the perspective
 	 * mode. All three deminsional drawing should be done in here.
-	 * 
-	 * @param dfps A counter that counts up to the fps of each
-	 * 		frame.
 	 */
-	public abstract void render3D(int dfps);
+	public abstract void render3D();
 	
 	/**
 	 * Method that is right before the render methods are called.
 	 * All calculations should be done in here.
-	 * 
-	 * @param dfps A counter that counts up to the fps of each
-	 * 		frame.
 	 */
-	public abstract void loop(int dfps);
+	public abstract void loop();
 }

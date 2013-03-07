@@ -38,6 +38,8 @@ public class Chunk
 	
 	private Tile				tiles[];
 	
+	private ArrayList<Thread>	generateHooks;
+	
 	private ArrayList<NewTile>	newTiles;
 	
 	private static Buffer		verticesBuffer;
@@ -197,6 +199,9 @@ public class Chunk
 		this.relativeX = rx;
 		this.relativeY = ry;
 		
+		this.colors    = new float[4 * 4 * LAYER_COUNT];
+		this.bgColors  = new float[4 * 4 * LAYER_COUNT];
+		
 		texturesBuffer = new Buffer(2 * CHUNK_VERT_COUNT);
 		
 		Buffer colorsBuffer = new Buffer(4 * CHUNK_VERT_COUNT);
@@ -218,6 +223,8 @@ public class Chunk
 		
 		tiles    = new Tile[CHUNK_SIZE * CHUNK_SIZE * 3];
 		newTiles = new ArrayList<NewTile>();
+		
+		generateHooks = new ArrayList<Thread>();
 	}
 	
 	/**
@@ -261,9 +268,27 @@ public class Chunk
 					}
 				}
 				
-				calculateLighting();
+				calculateTiles();
+				
+				while (generateHooks.size() > 0)
+				{
+					Thread hook = generateHooks.remove(0);
+					
+					hook.start();
+				}
 			}
 		}.start();
+	}
+	
+	/**
+	 * Add a Thread hook that will be called after the generation of
+	 * this Chunk has finished.
+	 * 
+	 * @param hook The Thread hook instance to add.
+	 */
+	public void addGenerateHook(Thread hook)
+	{
+		generateHooks.add(hook);
 	}
 	
 	/**
@@ -286,8 +311,6 @@ public class Chunk
 		
 		boolean added = newTiles.add(new NewTile(tile, x, y, layer));
 		
-		calculateTiles();
-		
 		return added;
 	}
 
@@ -309,8 +332,6 @@ public class Chunk
 		}
 		
 		boolean removed = newTiles.add(new NewTile(null, x, y, layer));
-		
-		calculateTiles();
 		
 		return removed;
 	}
@@ -338,8 +359,8 @@ public class Chunk
 			return;
 		}
 		
-		colors   = new float[4 * 4 * LAYER_COUNT];
-		bgColors = new float[4 * 4 * LAYER_COUNT];
+//		colors   = new float[4 * 4 * LAYER_COUNT];
+//		bgColors = new float[4 * 4 * LAYER_COUNT];
 		
 		float lightness = 1;
 		
@@ -366,7 +387,7 @@ public class Chunk
 				{
 					if (above != null)
 					{
-						lightness -= 0.18f;
+						lightness -= 0.18f * (1 - above.getTransparency());
 					}
 					
 					above = map.getTile(this, x, index, MIDDLEGROUND);
@@ -409,8 +430,8 @@ public class Chunk
 		}
 		bundle.endEditingColors();
 		
-		colors   = null;
-		bgColors = null;
+//		colors   = null;
+//		bgColors = null;
 	}
 	
 	/**
@@ -529,6 +550,7 @@ public class Chunk
 	 */
 	public void update()
 	{
+		calculateTiles();
 		updateTiles();
 		updateLighting();
 	}

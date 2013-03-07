@@ -30,6 +30,7 @@ public class TheDiggingGame extends GameStarter
 {
 	private int		fps;
 	private int		editing;
+	private int		counter;
 	
 	private float	scale;
 	
@@ -108,7 +109,7 @@ public class TheDiggingGame extends GameStarter
 	/**
 	 * Method that renders using the Ortho method.
 	 */
-	public void render2D(int dfps)
+	public void render2D()
 	{
 		font.render("Editing: " + editing, 0, 0, 10, 2, Font.LEFT, Font.TOP, null);
 		
@@ -121,7 +122,7 @@ public class TheDiggingGame extends GameStarter
 	/**
 	 * Method that renders in the 3D mode.
 	 */
-	public void render3D(int dfps)
+	public void render3D()
 	{
 		
 	}
@@ -129,7 +130,7 @@ public class TheDiggingGame extends GameStarter
 	/**
 	 * Method that is called each time after the render methods.
 	 */
-	public void loop(int dfps)
+	public void loop()
 	{
 		if (fps != Frame.getFPS())
 		{
@@ -228,10 +229,19 @@ public class TheDiggingGame extends GameStarter
 				map.updateActorLighting();
 			}
 			
+			if (counter % 10000 == 0)
+			{
+				map.calculateLighting();
+			}
+			
 			map.update();
 //		}
 		
 		map.generateChunksAround(player);
+		
+		counter++;
+		
+		counter = counter > 1000000 ? 0 : counter;
 	}
 	
 	private void renderCursor()
