@@ -32,10 +32,14 @@ public class Mouse
 		}
 	}
 	
+	private static boolean			grabbed;
+	
 	private static int				oldX, oldY;
 	private static int				dx, dy;
 	private static int				dWheel;
 	private static int				forcedX, forcedY;
+	
+	private static PointerInfo		pointerInfo;
 	
 	private static Robot			robot;
 	
@@ -82,8 +86,20 @@ public class Mouse
 			{
 //				oldX = event.getX();
 //				oldY = event.getY();
+
+				int x = oldX;
+				int y = oldY;
 				
-				setLocation(Frame.getX() + Frame.getWidth() / 2, Frame.getY() + Frame.getHeight() / 2);
+				setLocation(Frame.getX() + Frame.getWidth() / 2 + 3, Frame.getY() + Frame.getHeight() / 2 + 25);
+				
+				int offX = x - getX();
+				int offY = y - getY();
+				
+//				dx -= offX;
+//				dy -= offY;
+				
+				oldX -= offX;
+				oldY -= offY;
 			}
 
 			public void mouseDown(MouseEvent event)
@@ -103,26 +119,35 @@ public class Mouse
 		{
 			able[i] = true;
 		}
+		
+		pointerInfo = MouseInfo.getPointerInfo();
 	}
 	
 	public static void setLocation(int x, int y)
 	{
-		forcedX = x - (getX() + Frame.getX());
-		forcedY = y - (getY() + Frame.getY());
-		
-		System.out.println(forcedX + ", " + forcedY + " : " + getX() + ", " + getY());
-		
 		robot.mouseMove(x, y);
+		
+		int offX = x - getX();
+		int offY = y - getY();
+		
+		pointerInfo = MouseInfo.getPointerInfo();
+		
+		System.out.println(getX() + ", " + getY());
+		
+		forcedX = offX;
+		forcedY = offY;
+		
+		System.out.println(offX + ", " + offY);
 	}
 	
 	public static int getX()
 	{
-		return mouse.getX();
+		return pointerInfo.getLocation().x;
 	}
 	
 	public static int getY()
 	{
-		return mouse.getY();
+		return pointerInfo.getLocation().y;
 	}
 	
 	public static int getDX()
@@ -144,7 +169,7 @@ public class Mouse
 	
 	public static boolean isGrabbed()
 	{
-		return mouse.isGrabbed();
+		return grabbed;
 	}
 	
 	public static void setGrabbed(boolean grabbed)
@@ -160,7 +185,7 @@ public class Mouse
 				listeners.remove(grabListener);
 			}
 			
-//			mouse.setGrabbed(grabbed);
+			Mouse.grabbed = grabbed;
 		}
 	}
 	
@@ -176,8 +201,10 @@ public class Mouse
 	
 	public static void update()
 	{
-		dx = mouse.getX() - oldX;
-		dy = mouse.getY() - oldY;
+		pointerInfo = MouseInfo.getPointerInfo();
+		
+		dx = mouse.getX() - oldX + forcedX;
+		dy = mouse.getY() - oldY + forcedY;
 		
 		dWheel = mouse.getDWheel();
 		
@@ -190,6 +217,9 @@ public class Mouse
 				listeners.get(i).mouseMoved(event);
 			}
 		}
+		
+		forcedX = 0;
+		forcedY = 0;
 		
 		for (int button = 0; button < 3; button++)
 		{
@@ -239,9 +269,6 @@ public class Mouse
 		
 		oldX = mouse.getX();
 		oldY = mouse.getY();
-		
-		forcedX = 0;
-		forcedY = 0;
 		
 		mouse.next();
 	}

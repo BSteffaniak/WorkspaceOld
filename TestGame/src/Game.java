@@ -112,7 +112,7 @@ public class Game extends GameStarter
 		createGame();
 	}
 	
-	public void render2D(int dfps)
+	public void render2D()
 	{
 		long newTime = System.currentTimeMillis();
 		
@@ -158,12 +158,12 @@ public class Game extends GameStarter
 		}
 	}
 	
-	public void render3D(int dfps)
+	public void render3D()
 	{
 		
 	}
 	
-	public void loop(int dfps)
+	public void loop()
 	{
 		if (fps != Frame.getFPS())
 		{
