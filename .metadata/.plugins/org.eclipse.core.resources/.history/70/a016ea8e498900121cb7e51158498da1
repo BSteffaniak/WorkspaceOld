@@ -1,0 +1,9 @@
+package net.foxycorndog.jfoxylib.components;
+
+public class Button extends Component
+{
+	public Button(Panel parent)
+	{
+		super(parent);
+	}
+}

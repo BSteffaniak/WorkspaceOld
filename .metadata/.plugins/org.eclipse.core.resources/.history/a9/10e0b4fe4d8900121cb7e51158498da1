@@ -1,0 +1,97 @@
+package net.foxycorndog.jfoxylib.components;
+
+/**
+ * Abstract parent class that is used for every Component. Holds the
+ * position, size, and parent of each Component.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Mar 10, 2013 at 12:24:21 AM
+ * @since	v0.1
+ * @version Mar 10, 2013 at 12:24:21 AM
+ * @version	v0.2
+ */
+public abstract class Component
+{
+	private int		x, y;
+	private int		width, height;
+	
+	private Panel	parent;
+	
+	/**
+	 * Construct a Component with the specified parent Panel.
+	 * 
+	 * @param parent The parent Panel of this Component.
+	 */
+	public Component(Panel parent)
+	{
+		this.parent = parent;
+		
+		parent.addChild(this);
+	}
+	
+	/**
+	 * Get the horizontal location of this Component.
+	 * 
+	 * @return The horizontal location of this Component.
+	 */
+	public int getX()
+	{
+		return x;
+	}
+
+	/**
+	 * Get the vertical location of this Component.
+	 * 
+	 * @return The vertical location of this Component.
+	 */
+	public int getY()
+	{
+		return y;
+	}
+
+	/**
+	 * Get the horizontal size of this Component.
+	 * 
+	 * @return The horizontal size of this Component.
+	 */
+	public int getWidth()
+	{
+		return width;
+	}
+
+	/**
+	 * Get the vertical size of this Component.
+	 * 
+	 * @return The vertical size of this Component.
+	 */
+	public int getHeight()
+	{
+		return height;
+	}
+	
+	/**
+	 * Get the parent Panel of this Component.
+	 * 
+	 * @return The parent Panel of this Component.
+	 */
+	public Panel getParent()
+	{
+		return parent;
+	}
+	
+	/**
+	 * Set the parent Panel of this Component.
+	 * 
+	 * @param parent The parent Panel of this Component.
+	 */
+	public void setParent(Panel parent)
+	{
+		this.parent = parent;
+	}
+	
+	/**
+	 * Method that must be implemented. Renders the Component to
+	 * the screen.
+	 */
+	public abstract void render();
+}

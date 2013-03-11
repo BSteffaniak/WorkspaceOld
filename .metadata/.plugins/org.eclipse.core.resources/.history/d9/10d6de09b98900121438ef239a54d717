@@ -1,0 +1,160 @@
+package net.foxycorndog.jfoxylib.components;
+
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+import net.foxycorndog.jfoxylib.Frame;
+import net.foxycorndog.jfoxylib.events.ButtonEvent;
+import net.foxycorndog.jfoxylib.events.ButtonListener;
+import net.foxycorndog.jfoxylib.graphics.Texture;
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+
+/**
+ * Class used as a button on the screen.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Mar 10, 2013 at 12:10:22 AM
+ * @since	v0.2
+ * @version Mar 10, 2013 at 12:10:22 AM
+ * @version	v0.2
+ */
+public class Button extends Image
+{
+	private boolean						hovered;
+	
+	private BufferedImage				normalImage, hoveredImage;
+	
+	private ArrayList<ButtonListener>	buttonListeners;
+	
+	/**
+	 * Construct a Button in the specified parent Panel.
+	 * 
+	 * @param parent The Panel that is to be the parent of this Button.
+	 */
+	public Button(Panel parent)
+	{
+		super(parent);
+		
+		buttonListeners = new ArrayList<ButtonListener>();
+		
+		Frame.add(this);
+		
+		addButtonListener(new ButtonListener()
+		{
+			public void buttonUnHovered(ButtonEvent event)
+			{
+				if (hoveredImage != null)
+				{
+					setImage(normalImage);
+				}
+			}
+			
+			public void buttonReleased(ButtonEvent event)
+			{
+				
+			}
+			
+			public void buttonPressed(ButtonEvent event)
+			{
+				
+			}
+			
+			public void buttonHovered(ButtonEvent event)
+			{
+				if (hoverImage != null)
+				{
+					BufferedImage normal = normalImage;
+					
+					setImage(hoveredImage);
+					
+					normalImage = normal;
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Set the Image of this Button Component.
+	 * 
+	 * @param image The new Image of this Button Component.
+	 */
+	public void setImage(BufferedImage image)
+	{
+		super.setImage(image);
+		
+		normalImage = image;
+	}
+	
+	/**
+	 * Set the Image of this Button Component that will display when
+	 * the Button is hovered by the Mouse.
+	 * 
+	 * @param image The new Image of this Button Component that will
+	 * 		display when the Button is hovered by the Mouse.
+	 */
+	public void setHoveredImage(BufferedImage image)
+	{
+		hoveredImage = image;
+	}
+	
+	/**
+	 * Add the specified ButtonListener to this Button.
+	 * 
+	 * @param listener The ButtonListener to add to this Button.
+	 * @return Whether the ButtonListener was added successfully or not.
+	 */
+	public boolean addButtonListener(ButtonListener listener)
+	{
+		return buttonListeners.add(listener);
+	}
+	
+	/**
+	 * Remove the specified ButtonListener from this Button.
+	 * 
+	 * @param listener The ButtonListener to remove from this Button.
+	 * @return Whether the remove was successful or not.
+	 */
+	public boolean removeButtonListener(ButtonListener listener)
+	{
+		return buttonListeners.remove(listener);
+	}
+	
+	/**
+	 * Get the ButtonListeners from this Button.
+	 * 
+	 * @return The ButtonListeners from this Button.
+	 */
+	public ArrayList<ButtonListener> getButtonListeners()
+	{
+		return buttonListeners;
+	}
+	
+	/**
+	 * Return whether the Button is being hovered by the Mouse or not.
+	 * 
+	 * @return Whether the Button is being hovered by the Mouse or not.
+	 */
+	public boolean isHovered()
+	{
+		return hovered;
+	}
+	
+//	/**
+//	 * Set whether the Button is being hovered by the Mouse or not.
+//	 * 
+//	 * @param hovered Whether the Button is being hovered by
+//	 * 		the Mouse or not.
+//	 */
+//	public void setHovered(boolean hovered)
+//	{
+//		this.hovered = hovered;
+//	}
+
+	/**
+	 * Renders the Button to the screen.
+	 */
+	public void render()
+	{
+		super.render();
+	}
+}

@@ -107,59 +107,59 @@ public class Player extends Actor
 		{
 			// LEFT
 			// Head
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(4, 2, 2, 2)));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(4, 2, 2, 2)));
 			// Right arm
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(13, 5, 1, 3)));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(13, 5, 1, 3)));
 			// Torso
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(5, 5, 2, 3)));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(5, 5, 2, 3)));
 			// Left arm
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(13, 5, 1, 3), true, false));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(13, 5, 1, 3), true, false));
 			// Right leg
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 5, 1, 3)));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 5, 1, 3)));
 			// Left leg
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 5, 1, 3), true, false));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 5, 1, 3), true, false));
 
 			// FORWARD
 			// Head
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(2, 2, 2, 2)));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(2, 2, 2, 2)));
 			// Right arm
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(13, 5, 1, 3)));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(13, 5, 1, 3)));
 			// Torso
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(5, 5, 2, 3)));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(5, 5, 2, 3)));
 			// Left arm
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(13, 5, 1, 3), true, false));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(13, 5, 1, 3), true, false));
 			// Right leg
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 5, 1, 3)));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 5, 1, 3)));
 			// Left leg
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 5, 1, 3), true, false));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 5, 1, 3), true, false));
 
 			// RIGHT
 			// Head
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(0, 2, 2, 2)));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(0, 2, 2, 2)));
 			// Right arm
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(13, 5, 1, 3)));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(13, 5, 1, 3)));
 			// Torso
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(5, 5, 2, 3)));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(5, 5, 2, 3)));
 			// Left arm
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(13, 5, 1, 3), true, false));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(13, 5, 1, 3), true, false));
 			// Right leg
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 5, 1, 3)));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 5, 1, 3)));
 			// Left leg
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 5, 1, 3), true, false));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 5, 1, 3), true, false));
 
 			// BACKWARD
 			// Head
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(2, 2, 2, 2)));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(2, 2, 2, 2)));
 			// Right arm
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(13, 5, 1, 3)));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(13, 5, 1, 3)));
 			// Torso
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(5, 5, 2, 3)));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(5, 5, 2, 3)));
 			// Left arm
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(13, 5, 1, 3), true, false));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(13, 5, 1, 3), true, false));
 			// Right leg
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 5, 1, 3)));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 5, 1, 3)));
 			// Left leg
-			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 5, 1, 3), true, false));
+			bundle.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 5, 1, 3), true, false));
 		}
 		bundle.endEditingTextures();
 		

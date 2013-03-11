@@ -1,5 +1,6 @@
 package net.foxycorndog.thedigginggame.map;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import net.foxycorndog.jfoxylib.bundle.Buffer;
@@ -22,7 +23,7 @@ import net.foxycorndog.thedigginggame.tile.Tile;
  * @version Mar 3, 2013 at 4:51:19 PM
  * @version	v0.1
  */
-public class Chunk
+public class Chunk implements Serializable
 {
 	private boolean				lightingReady, tilesReady;
 	
@@ -466,6 +467,15 @@ public class Chunk
 		return Intersects.rectangles(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight(), getX(), getY(), getWidth(), getHeight());
 	}
 	
+	/**
+	 * Get the level of lightness ranging from 0.0-1.0 at the specified
+	 * location. 
+	 * 
+	 * @param x The horizontal location of the Tile.
+	 * @param y The vertical location of the Tile.
+	 * @return The float value of the lightness of the Tile at the
+	 * 		specified location.
+	 */
 	public float getLightness(int x, int y)
 	{
 		float lightness = 1;
@@ -536,13 +546,42 @@ public class Chunk
 				}
 				else
 				{
-					textures = GL.genRectTextures(Tile.getTerrainSprites().getImageOffsetsf(tile.getX(), tile.getY(), tile.getCols(), tile.getRows()));
+					textures = GL.genRectTextures(Tile.getTerrainSprites().getImageOffsets(tile.getX(), tile.getY(), tile.getCols(), tile.getRows()));
 				}
 				
 				bundle.setTextures(offset + (x + y * CHUNK_SIZE) * 4, textures);
 			}
 		}
 		bundle.endEditingTextures();
+	}
+	
+	/**
+	 * Get the Tile array that holds the information of the Tiles in the
+	 * Chunk.
+	 * 
+	 * @return The Tile array.
+	 */
+	public Tile[] getTiles()
+	{
+		return tiles;
+	}
+	
+	/**
+	 * Set the tiles in the Chunk to the specified array.
+	 * 
+	 * @param tiles The tiles to replace the old ones.
+	 */
+	public void setTiles(Tile tiles[])
+	{
+		for (int layer = 0; layer < 3; layer++)
+		{
+			int offset = layer * LAYER_COUNT;
+			
+			for (int index = 0; index < LAYER_COUNT; index++)
+			{
+				addTile(tiles[index + offset], index % CHUNK_SIZE, index / CHUNK_SIZE, layer, true);
+			}
+		}
 	}
 	
 	/**

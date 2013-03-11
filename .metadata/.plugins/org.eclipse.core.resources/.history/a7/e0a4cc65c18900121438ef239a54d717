@@ -1,0 +1,9 @@
+package net.foxycorndog.jfoxylib.events;
+
+public class FrameEvent extends Event
+{
+	public FrameEvent()
+	{
+		
+	}
+}

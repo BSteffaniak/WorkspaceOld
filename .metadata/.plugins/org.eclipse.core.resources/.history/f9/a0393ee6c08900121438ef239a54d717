@@ -1,0 +1,6 @@
+package net.foxycorndog.jfoxylib.events;
+
+public class Event
+{
+	private long	when;
+}

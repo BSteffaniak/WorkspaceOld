@@ -1,0 +1,175 @@
+package net.foxycorndog.thedigginggame.menu;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import net.foxycorndog.jfoxylib.Display;
+import net.foxycorndog.jfoxylib.Frame;
+import net.foxycorndog.jfoxylib.components.Button;
+import net.foxycorndog.jfoxylib.components.Component;
+import net.foxycorndog.jfoxylib.components.Image;
+import net.foxycorndog.jfoxylib.components.Panel;
+import net.foxycorndog.jfoxylib.events.ButtonEvent;
+import net.foxycorndog.jfoxylib.events.ButtonListener;
+import net.foxycorndog.jfoxylib.events.FrameEvent;
+import net.foxycorndog.jfoxylib.events.FrameListener;
+import net.foxycorndog.jfoxylib.font.Font;
+import net.foxycorndog.thedigginggame.TheDiggingGame;
+
+/**
+ * Class that is used for the Main Menu of the game. Contains
+ * a few Buttons that are used as the Main interface for the game.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Mar 10, 2013 at 12:41:56 AM
+ * @since	v0.1
+ * @version Mar 10, 2013 at 12:41:56 AM
+ * @version	v0.1
+ */
+public class MainMenu extends Menu
+{
+	private Image	backgroundImage;
+	
+	private Button	playButton, optionsButton, quitButton;
+	
+	private Font	font;
+	
+	/**
+	 * Construct the Main Menu with the specified parent Panel.
+	 * 
+	 * @param font The Font to render the text on the Buttons with.
+	 * @param parent The parent Panel of this Main Menu.0
+	 */
+	public MainMenu(Font font, final TheDiggingGame game, Panel parent)
+	{
+		super(parent);
+		
+		this.font = font;
+		
+		playButton = new Button(this);
+		playButton.setAlignment(Component.CENTER, Component.CENTER);
+		playButton.setLocation(0, 0);
+		playButton.setFont(font);
+		playButton.setText("Play");
+
+		optionsButton = new Button(this);
+		optionsButton.setAlignment(Component.CENTER, Component.CENTER);
+		optionsButton.setLocation(0, -35);
+		optionsButton.setFont(font);
+		optionsButton.setText("Options");
+
+		quitButton = new Button(this);
+		quitButton.setAlignment(Component.CENTER, Component.CENTER);
+		quitButton.setLocation(0, -70);
+		quitButton.setFont(font);
+		quitButton.setText("Quit");
+		
+		backgroundImage = new Image(this);
+		
+		try
+		{
+			BufferedImage normalImage = ImageIO.read(new File("res/images/GUI/button.png"));
+			BufferedImage hoverImage  = ImageIO.read(new File("res/images/GUI/buttonhover.png"));
+			BufferedImage background = ImageIO.read(new File("res/images/background.png"));
+			
+			playButton.setImage(normalImage);
+			playButton.setHoverImage(hoverImage);
+			
+			optionsButton.setImage(normalImage);
+			optionsButton.setHoverImage(hoverImage);
+			
+			quitButton.setImage(normalImage);
+			quitButton.setHoverImage(hoverImage);
+			
+			backgroundImage.setImage(background, 75, 75);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		int max = Math.max(Display.getWidth(), Display.getHeight());
+		
+		backgroundImage.setSize(max, max);
+		
+		Frame.addFrameListener(new FrameListener()
+		{
+			public void frameResized(FrameEvent e)
+			{
+				setSize(Frame.getWidth(), Frame.getHeight());
+			}
+		});
+		
+		ButtonListener buttonListener = new ButtonListener()
+		{
+			public void buttonUnHovered(ButtonEvent event)
+			{
+				
+			}
+			
+			public void buttonReleased(ButtonEvent event)
+			{
+				if (event.getSource() == playButton)
+				{
+					dispose();
+					
+					game.startGame();
+				}
+				else if (event.getSource() == optionsButton)
+				{
+					
+				}
+				else if (event.getSource() == quitButton)
+				{
+					dispose();
+					
+					System.exit(0);
+				}
+			}
+			
+			public void buttonPressed(ButtonEvent event)
+			{
+				
+			}
+			
+			public void buttonHovered(ButtonEvent event)
+			{
+				
+			}
+		};
+
+		playButton.addButtonListener(buttonListener);
+		optionsButton.addButtonListener(buttonListener);
+		quitButton.addButtonListener(buttonListener);
+	}
+	
+	/**
+	 * Renders the Component to the screen.
+	 */
+	public void render()
+	{
+		super.render();
+		
+		font.render("Test", 0, 65, 0, 3, Font.CENTER, Font.CENTER, null);
+	}
+	
+	/**
+	 * Dispose this Menu from the Listeners.
+	 * 
+	 * @return Whether it was successfully disposed.
+	 */
+	public boolean dispose()
+	{
+		super.dispose();
+		
+		playButton.dispose();
+		optionsButton.dispose();
+		quitButton.dispose();
+		backgroundImage.dispose();
+		
+		return true;
+	}
+}

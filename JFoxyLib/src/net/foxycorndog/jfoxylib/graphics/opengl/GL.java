@@ -52,9 +52,12 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.FloatBuffer;
+import java.util.ArrayList;
 
 import net.foxycorndog.jfoxylib.graphics.Texture;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -168,8 +171,6 @@ public class GL
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LEQUAL); // The Type Of Depth Testing To Do
 		
-		glClearColor(0.0f, 0.3f, 0.6f, 0.0f); // Blue Background
-		
 		glViewport(0, 0, width, height);
 		glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
 		glLoadIdentity(); // Reset The Projection Matrix
@@ -190,7 +191,6 @@ public class GL
 //		glEnable(GL_CULL_FACE);
 		
 //		glShadeModel(GL_SMOOTH); // Enable Smooth Shading
-		glClearColor(0.0f, 0.3f, 0.6f, 0.0f); // Blue Background
 		glClearDepth(1.0); // Depth Buffer Setup
 		glEnable(GL_DEPTH_TEST); // Enables Depth Testing
 		glDepthFunc(GL_LEQUAL); // The Type Of Depth Testing To Do
@@ -255,6 +255,36 @@ public class GL
 		GL11.glScalef(x, y, z);
 	}
 	
+	public static float[] getAmountScaled()
+	{
+		float scaled[] = new float[3];
+		
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(4 * 4);
+		
+		GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, buffer);
+		
+		scaled[0] = buffer.get(0);
+		scaled[1] = buffer.get(1 + 1 * 4);
+		scaled[2] = buffer.get(2 + 2 * 4);
+		
+		return scaled;
+	}
+	
+	public static float[] getAmountTranslated()
+	{
+		float translated[] = new float[3];
+		
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(4 * 4);
+		
+		GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, buffer);
+		
+		translated[0] = buffer.get(0 + 3 * 4);
+		translated[1] = buffer.get(1 + 3 * 4);
+		translated[2] = buffer.get(2 + 3 * 4);
+		
+		return translated;
+	}
+	
 	public static void drawRect(int x, int y, int width, int height)
 	{
 		GL11.glBegin(GL11.GL_QUADS);
@@ -270,7 +300,7 @@ public class GL
 	public static void drawRect(int x, int y, int width, int height, Texture texture)
 	{
 		texture.bind();
-		float offsets[] = texture.getImageOffsetsf();
+		float offsets[] = texture.getImageOffsets();
 		
 		GL11.glBegin(GL11.GL_QUADS);
 		{
@@ -366,17 +396,17 @@ public class GL
 	
 	public static float[] genRectTextures(Texture texture)
 	{
-		return genRectTextures(texture.getImageOffsetsf());
+		return genRectTextures(texture.getImageOffsets());
 	}
 	
 	public static float[] genRectTextures(Texture texture, int rx, int ry)
 	{
-		return genRectTextures(texture.getImageOffsetsf(), rx, ry);
+		return genRectTextures(texture.getImageOffsets(), rx, ry);
 	}
 	
 	public static float[] genRectTextures(Texture texture, boolean mirrorHorizontal, boolean mirrorVertical)
 	{
-		return genRectTextures(texture.getImageOffsetsf(), mirrorHorizontal, mirrorVertical);
+		return genRectTextures(texture.getImageOffsets(), mirrorHorizontal, mirrorVertical);
 	}
 	
 	public static float[] genRectTextures(float offsets[])

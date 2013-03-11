@@ -1,0 +1,9 @@
+package net.foxycorndog.thedigginggame.launcher;
+
+public class Launcher
+{
+	public void startGame()
+	{
+		
+	}
+}

@@ -184,27 +184,12 @@ public class Texture
 		texHei = (float)height / pow;
 	}
 	
-	public float[] getImageOffsetsf()
+	public float[] getImageOffsets()
 	{
 		float offsets[] = new float[4];
 		
-		float w = texWid;
-		float h = texHei;
-		
-		offsets[0] = 0;
-		offsets[1] = 0;
-		offsets[2] = w;
-		offsets[3] = h;
-		
-		return offsets;
-	}
-	
-	public double[] getImageOffsetsd()
-	{
-		double offsets[] = new double[4];
-		
-		double w = texWid;
-		double h = texHei;
+		float w = 1;//texWid;
+		float h = 1;//texHei;
 		
 		offsets[0] = 0;
 		offsets[1] = 0;

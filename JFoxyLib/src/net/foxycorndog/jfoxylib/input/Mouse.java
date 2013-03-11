@@ -11,11 +11,21 @@ import java.util.ArrayList;
 import net.foxycorndog.jfoxylib.Frame;
 import net.foxycorndog.jfoxylib.components.Panel;
 import net.foxycorndog.jfoxylib.events.MouseEvent;
-import net.foxycorndog.jfoxylib.listeners.MouseListener;
+import net.foxycorndog.jfoxylib.events.MouseListener;
 import net.foxycorndog.jfoxylib.util.Intersects;
 
 import org.lwjgl.LWJGLException;
 
+/**
+ * Class that is used to calculate and obtain information about the
+ * Mouse and cursor.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Mar 9, 2013 at 3:08:15 AM
+ * @since	v0.1
+ * @version Mar 9, 2013 at 3:08:15 AM
+ * @version	v0.1
+ */
 public class Mouse
 {	
 	private static org.lwjgl.input.Mouse	mouse;
@@ -123,58 +133,127 @@ public class Mouse
 		pointerInfo = MouseInfo.getPointerInfo();
 	}
 	
+	/**
+	 * Set the location of the cursor to the specified location on the
+	 * Monitors display.
+	 * 
+	 * @param x The horizontal location from left to right. (left = 0)
+	 * @param y The vertical location from top to bottom. (top = 0)
+	 */
 	public static void setLocation(int x, int y)
 	{
-		robot.mouseMove(x, y);
-		
-		int offX = x - getX();
-		int offY = y - getY();
-		
 		pointerInfo = MouseInfo.getPointerInfo();
 		
-		System.out.println(getX() + ", " + getY());
+		int offX = x - getDisplayX();
+		int offY = -(y - getDisplayY());
+		
+		robot.mouseMove(x, y);
 		
 		forcedX = offX;
 		forcedY = offY;
 		
-		System.out.println(offX + ", " + offY);
+//		System.out.println("offsets: " + offX + ", " + offY);
 	}
 	
+	/**
+	 * Get the integer form of the Pointers horizontal location in
+	 * the Frame.
+	 * 
+	 * @return The horizontal location of the Pointer in the Frame.
+	 */
 	public static int getX()
+	{
+		return mouse.getX();
+	}
+	
+	/**
+	 * Get the integer form of the pointers vertical location in
+	 * the Frame.
+	 * 
+	 * @return The vertical location of the pointer in the Frame.
+	 */
+	public static int getY()
+	{
+		return mouse.getY();
+	}
+	
+	/**
+	 * Get the pointers horizontal location in the Monitors Display.
+	 * 
+	 * @return The pointers horizontal location in the Monitors Display.
+	 */
+	public static int getDisplayX()
 	{
 		return pointerInfo.getLocation().x;
 	}
 	
-	public static int getY()
+	/**
+	 * Get the pointers vertical location in the Monitors Display.
+	 * 
+	 * @return The pointers vertical location in the Monitors Display.
+	 */
+	public static int getDisplayY()
 	{
 		return pointerInfo.getLocation().y;
 	}
 	
+	/**
+	 * Get the displacement horizontal value of the cursor since the
+	 * last frame.
+	 * 
+	 * @return The displacement horizontal value of the cursor.
+	 */
 	public static int getDX()
 	{
 //		System.out.println("dx: " + dx);
 		return dx;
 	}
 	
+	/**
+	 * Get the displacement vertical value of the cursor since the
+	 * last frame.
+	 * 
+	 * @return The displacement vertical value of the cursor.
+	 */
 	public static int getDY()
 	{
 //		System.out.println("dy: " + dy);
 		return dy;
 	}
 	
+	/**
+	 * Returns whether the specified button is down.<br>
+	 * <br>
+	 * left mouse button = 0<br>
+	 * right mouse button = 1<br>
+	 * mouse wheel button = 2
+	 * 
+	 * @param button
+	 * @return
+	 */
 	public static boolean isButtonDown(int button)
 	{
 		return mouse.isButtonDown(button);
 	}
 	
+	/**
+	 * Returns whether the mouse is grabbed by the Frame.
+	 * 
+	 * @return Whether the mouse is grabbed by the Frame.
+	 */
 	public static boolean isGrabbed()
 	{
 		return grabbed;
 	}
 	
+	/**
+	 * Set whether the mouse should be grabbed by the Frame or not.
+	 * 
+	 * @param grabbed Whether the Frame should grab the mouse or not.
+	 */
 	public static void setGrabbed(boolean grabbed)
 	{
-		if (grabbed != mouse.isGrabbed())
+		if (grabbed != Mouse.grabbed)
 		{
 			if (grabbed)
 			{
@@ -189,24 +268,27 @@ public class Mouse
 		}
 	}
 	
+	/**
+	 * Get the displacement of the mouse wheel.
+	 * 
+	 * @return The displacement value of the mouse wheel.
+	 */
 	public static int getDWheel()
 	{
 		return dWheel;
 	}
 	
-	public static boolean[] getButtons()
-	{
-		return new boolean[] { mouse.isButtonDown(BUTTON_0), mouse.isButtonDown(BUTTON_1), mouse.isButtonDown(BUTTON_2) };
-	}
-	
+	/**
+	 * Method used to update the Mouse each frame. Does all of the
+	 * calculations for displacements and also notifies the listeners
+	 * for their appropriate calls.
+	 */
 	public static void update()
 	{
 		pointerInfo = MouseInfo.getPointerInfo();
 		
-		dx = mouse.getX() - oldX + forcedX;
-		dy = mouse.getY() - oldY + forcedY;
-		
-		dWheel = mouse.getDWheel();
+		dx = mouse.getX() - oldX;
+		dy = mouse.getY() - oldY;
 		
 		if (dx != 0 || dy != 0)
 		{
@@ -218,8 +300,7 @@ public class Mouse
 			}
 		}
 		
-		forcedX = 0;
-		forcedY = 0;
+		dWheel = mouse.getDWheel();
 		
 		for (int button = 0; button < 3; button++)
 		{
@@ -267,14 +348,37 @@ public class Mouse
 			}
 		}
 		
+		dx -= forcedX;
+		dy -= forcedY;
+		
 		oldX = mouse.getX();
 		oldY = mouse.getY();
+		
+		forcedX = 0;
+		forcedY = 0;
 		
 		mouse.next();
 	}
 	
-	public static void addMouseListener(MouseListener listener)
+	/**
+	 * Add a MouseListener to be notified for actions.
+	 * 
+	 * @param listener The MouseListener instance to be used.
+	 * @return Whether the add was successful.
+	 */
+	public static boolean addMouseListener(MouseListener listener)
 	{
-		listeners.add(listener);
+		return listeners.add(listener);
+	}
+	
+	/**
+	 * Remove the specified MouseListener from the list to be called.
+	 * 
+	 * @param listener The MouseListener to remove.
+	 * @return Whether the remove was successful.
+	 */
+	public static boolean removeMouseListener(MouseListener listener)
+	{
+		return listeners.remove(listener);
 	}
 }

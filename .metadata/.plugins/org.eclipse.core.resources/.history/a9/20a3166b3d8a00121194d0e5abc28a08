@@ -1,0 +1,26 @@
+package net.foxycorndog.thedigginggame.launcher;
+
+public class Launcher
+{
+	public static void main(String args[])
+	{
+		Launcher launch = new Launcher();
+		
+		launch.open();
+	}
+	
+	public Launcher()
+	{
+		
+	}
+	
+	public void open()
+	{
+		
+	}
+	
+	public void startGame()
+	{
+		
+	}
+}

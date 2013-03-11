@@ -57,7 +57,7 @@ public class Cursor
 		
 		bundle.beginEditingTextures();
 		{
-			bundle.addTextures(GL.genRectTextures(texture.getImageOffsetsf()));
+			bundle.addTextures(GL.genRectTextures(texture.getImageOffsets()));
 		}
 		bundle.endEditingTextures();
 	}

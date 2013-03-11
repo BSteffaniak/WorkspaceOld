@@ -99,16 +99,16 @@ public class Game extends GameStarter
 		world2D.endEditingVertices();
 
 		world2D.beginEditingTextures();
-		world2D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
+		world2D.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 0, 1, 1)));
 		world2D.endEditingTextures();
 		
 		world3D.beginEditingTextures();
-		world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
-		world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
-		world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
-		world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
-		world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(2, 0, 1, 1)));
-		world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(2, 0, 1, 1)));
+		world3D.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 0, 1, 1)));
+		world3D.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 0, 1, 1)));
+		world3D.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 0, 1, 1)));
+		world3D.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 0, 1, 1)));
+		world3D.addTextures(GL.genRectTextures(sprites.getImageOffsets(2, 0, 1, 1)));
+		world3D.addTextures(GL.genRectTextures(sprites.getImageOffsets(2, 0, 1, 1)));
 		world3D.endEditingTextures();
 
 
@@ -130,12 +130,12 @@ public class Game extends GameStarter
 		{
 			for (int x = 0; x < amountX; x++)
 			{
-				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
-				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
-				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
-				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(1, 0, 1, 1)));
-				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(2, 0, 1, 1)));
-				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsetsf(2, 0, 1, 1)));
+				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 0, 1, 1)));
+				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 0, 1, 1)));
+				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 0, 1, 1)));
+				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsets(1, 0, 1, 1)));
+				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsets(2, 0, 1, 1)));
+				world3D.addTextures(GL.genRectTextures(sprites.getImageOffsets(2, 0, 1, 1)));
 			}
 		}
 		

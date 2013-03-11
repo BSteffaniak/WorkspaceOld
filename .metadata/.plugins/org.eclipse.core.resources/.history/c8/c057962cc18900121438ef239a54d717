@@ -1,0 +1,26 @@
+package net.foxycorndog.jfoxylib.events;
+
+import net.foxycorndog.jfoxylib.components.Button;
+
+public class Event
+{
+	private long	when;
+	
+	/**
+	 * Create an Event.
+	 */
+	public Event()
+	{
+		when         = System.currentTimeMillis();
+	}
+	
+	/**
+	 * Get when the event occurred.
+	 * 
+	 * @return
+	 */
+	public long when()
+	{
+		return when;
+	}
+}

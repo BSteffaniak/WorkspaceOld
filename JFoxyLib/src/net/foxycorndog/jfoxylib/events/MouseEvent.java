@@ -1,16 +1,12 @@
 package net.foxycorndog.jfoxylib.events;
 
-public class MouseEvent
+public class MouseEvent extends Event
 {
 	private int		x, y;
 	private int		button;
 	
-	private long	when;
-	
 	public MouseEvent(int x, int y, int button)
 	{
-		this.when   = System.currentTimeMillis();
-		
 		this.x      = x;
 		this.y      = y;
 		

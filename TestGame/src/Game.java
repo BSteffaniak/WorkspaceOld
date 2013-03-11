@@ -46,6 +46,7 @@ public class Game extends GameStarter
 	{
 		Frame.create(800, 600);
 		Frame.setResizable(true);
+		Frame.setTargetFPS(100);
 		
 		start();
 	}
@@ -78,7 +79,7 @@ public class Game extends GameStarter
 		}
 		crazyStuff.endEditingVertices();
 
-		float offsets[] = stone.getImageOffsetsf();
+		float offsets[] = stone.getImageOffsets();
 		
 		crazyStuff.beginEditingTextures();
 		{
@@ -101,6 +102,8 @@ public class Game extends GameStarter
 					'0', '1', '2', '3', '4', '5',  '6', '7', '8', '9', '_', '-',  '+', '=', '~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')',
 					'?', '>', '<', ';', ':', '\'', '"', '{', '}', '[', ']', '\\', '|', ',', '.', '/', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
 				});
+		
+		GL.setClearColor(0, 0, 0, 1);
 		
 		length = 5000;
 		

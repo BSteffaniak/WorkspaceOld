@@ -1,0 +1,20 @@
+package net.foxycorndog.thedigginggame.menu;
+
+/**
+ * Class that is used for each Menu that is used.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Mar 10, 2013 at 12:21:32 AM
+ * @since	v0.1
+ * @version Mar 10, 2013 at 12:21:32 AM
+ * @version	v0.1
+ */
+public abstract class Menu
+{
+	public Menu()
+	{
+		
+	}
+	
+	public 
+}

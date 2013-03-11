@@ -1,20 +1,32 @@
 package net.foxycorndog.thedigginggame;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import net.foxycorndog.jfoxylib.Display;
 import net.foxycorndog.jfoxylib.Frame;
 import net.foxycorndog.jfoxylib.GameStarter;
 import net.foxycorndog.jfoxylib.bundle.Bundle;
+import net.foxycorndog.jfoxylib.components.Button;
+import net.foxycorndog.jfoxylib.components.Component;
+import net.foxycorndog.jfoxylib.components.Image;
+import net.foxycorndog.jfoxylib.events.ButtonEvent;
+import net.foxycorndog.jfoxylib.events.ButtonListener;
 import net.foxycorndog.jfoxylib.events.MouseEvent;
+import net.foxycorndog.jfoxylib.events.MouseListener;
 import net.foxycorndog.jfoxylib.font.Font;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 import net.foxycorndog.jfoxylib.input.Keyboard;
 import net.foxycorndog.jfoxylib.input.Mouse;
-import net.foxycorndog.jfoxylib.listeners.MouseListener;
 import net.foxycorndog.jfoxylib.util.Intersects;
 import net.foxycorndog.thedigginggame.actor.Player;
 import net.foxycorndog.thedigginggame.components.Cursor;
 import net.foxycorndog.thedigginggame.map.Chunk;
 import net.foxycorndog.thedigginggame.map.Map;
+import net.foxycorndog.thedigginggame.menu.MainMenu;
 import net.foxycorndog.thedigginggame.tile.Tile;
 
 /**
@@ -28,19 +40,21 @@ import net.foxycorndog.thedigginggame.tile.Tile;
  */
 public class TheDiggingGame extends GameStarter
 {
-	private int		fps;
-	private int		editing;
-	private int		counter;
+	private int			fps;
+	private int			editing;
+	private int			counter;
 	
-	private float	scale;
+	private float		scale;
 	
-	private Cursor	cursor;
+	private Cursor		cursor;
 	
-	private Player	player;
+	private Player		player;
 	
-	private Font	font;
+	private MainMenu	mainMenu;
 	
-	private Map		map;
+	private Font		font;
+	
+	private Map			map;
 	
 	/**
 	 * Main method for the game. First method ran.
@@ -59,8 +73,9 @@ public class TheDiggingGame extends GameStarter
 	 */
 	public TheDiggingGame()
 	{
-		Frame.create(1080, 800);
+		Frame.create(800, 600);
 //		Frame.setTargetFPS(60);
+		Frame.setVSyncEnabled(true);
 		Frame.setResizable(true);
 		
 		scale = 2;
@@ -73,14 +88,16 @@ public class TheDiggingGame extends GameStarter
 	 */
 	public void init()
 	{
-		map = new Map(this);
-		map.generateChunk(0, 0);
-		
-		player = new Player(map);
-		player.setLocation(96, 200);
-		player.setFocused(true);
-		
-		map.addActor(player);
+//		map = new Map(this);
+//		
+//		map.load("world");
+////		map.generateChunk(0, 0);
+//		
+//		player = new Player(map);
+//		player.setLocation(16 * 6, 16 * 13);
+//		player.setFocused(true);
+//		
+//		map.addActor(player);
 		
 		font = new Font("res/images/fonts/font.png", 26, 4,
 				new char[]
@@ -91,11 +108,43 @@ public class TheDiggingGame extends GameStarter
 					'?', '>', '<', ';', ':', '\'', '"', '{', '}', '[', ']', '\\', '|', ',', '.', '/', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
 				});
 		
+		mainMenu = new MainMenu(font, this, null);
+		mainMenu.setSize(Frame.getWidth(), Frame.getHeight());
+		
+//		cursor = new Cursor(Tile.getTileSize());
+//		
+//		player.center();
+//		
+//		editing = Chunk.MIDDLEGROUND;
+//		
+//		GL.setClearColor(0.2f, 0.5f, 0.8f, 1);
+	}
+	
+	/**
+	 * Start the game. Exits the current menu that it is in.
+	 */
+	public void startGame()
+	{
+		mainMenu = null;
+		
+		map = new Map(this);
+		
+		map.load("world");
+//		map.generateChunk(0, 0);
+		
+		player = new Player(map);
+		player.setLocation(16 * 6, 16 * 13);
+		player.setFocused(true);
+		
+		map.addActor(player);
+		
 		cursor = new Cursor(Tile.getTileSize());
 		
 		player.center();
 		
 		editing = Chunk.MIDDLEGROUND;
+		
+		GL.setClearColor(0.2f, 0.5f, 0.8f, 1);
 	}
 	
 	/**
@@ -111,12 +160,25 @@ public class TheDiggingGame extends GameStarter
 	 */
 	public void render2D()
 	{
-		font.render("Editing: " + editing, 0, 0, 10, 2, Font.LEFT, Font.TOP, null);
-		
-		GL.scale(scale, scale, 1);
-		map.render();
-		
-		renderCursor();
+		if (mainMenu != null)
+		{
+			GL.pushMatrix();
+			{
+				GL.scale(3, 3, 1);
+				
+				mainMenu.render();
+			}
+			GL.popMatrix();
+		}
+		else
+		{
+			font.render("Editing: " + editing, 0, 0, 10, 2, Font.LEFT, Font.TOP, null);
+			
+			GL.scale(scale, scale, 1);
+			map.render();
+			
+			renderCursor();
+		}
 	}
 	
 	/**
@@ -131,6 +193,21 @@ public class TheDiggingGame extends GameStarter
 	 * Method that is called each time after the render methods.
 	 */
 	public void loop()
+	{
+		if (mainMenu != null)
+		{
+			
+		}
+		else
+		{
+			gameLoop();
+		}
+	}
+	
+	/**
+	 * The loop method for each frame of the game.
+	 */
+	private void gameLoop()
 	{
 		if (fps != Frame.getFPS())
 		{
@@ -174,68 +251,70 @@ public class TheDiggingGame extends GameStarter
 			}
 		}
 		
-//		if (fps > 0)
-//		{
-			if (Keyboard.isKeyDown(Keyboard.KEY_A))
-			{
-				player.moveLeft(delta);
-			}
-			else if (Keyboard.isKeyDown(Keyboard.KEY_D))
-			{
-				player.moveRight(delta);
-			}
-	
-			if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) || Keyboard.isKeyDown(Keyboard.KEY_W))
-			{
-				player.jump();
-			}
+		if (Keyboard.next(Keyboard.KEY_L))
+		{
+			map.save("world");
+		}
+		
+		if (Keyboard.isKeyDown(Keyboard.KEY_A))
+		{
+			player.moveLeft(delta);
+		}
+		else if (Keyboard.isKeyDown(Keyboard.KEY_D))
+		{
+			player.moveRight(delta);
+		}
+
+		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) || Keyboard.isKeyDown(Keyboard.KEY_W))
+		{
+			player.jump();
+		}
+		
+		if (Keyboard.isKeyDown(Keyboard.KEY_LEFT_SHIFT))
+		{
+			player.setSprinting(true);
+		}
+		else
+		{
+			player.setSprinting(false);
+		}
+		
+		if (Keyboard.next(Keyboard.KEY_Q))
+		{
+			editing--;
 			
-			if (Keyboard.isKeyDown(Keyboard.KEY_LEFT_SHIFT))
+			if (editing < 0)
 			{
-				player.setSprinting(true);
+				editing = Chunk.FOREGROUND;
 			}
-			else
-			{
-				player.setSprinting(false);
-			}
+		}
+		else if (Keyboard.next(Keyboard.KEY_E))
+		{
+			editing = (editing + 1) % 3;
+		}
+		
+		if (Mouse.getDWheel() != 0)
+		{
+			int dWheel = Mouse.getDWheel() / 112;
 			
-			if (Keyboard.next(Keyboard.KEY_Q))
-			{
-				editing--;
-				
-				if (editing < 0)
-				{
-					editing = Chunk.FOREGROUND;
-				}
-			}
-			else if (Keyboard.next(Keyboard.KEY_E))
-			{
-				editing = (editing + 1) % 3;
-			}
+			float amount = dWheel < 0 ? 0.95f : 1.05f;
 			
-			if (Mouse.getDWheel() != 0)
-			{
-				int dWheel = Mouse.getDWheel() / 112;
-				
-				float amount = dWheel < 0 ? 0.95f : 1.05f;
-				
-				scale *= (amount);
-			}
-			
-			player.update(delta);
-			
-			if (player.isMoving())
-			{
-				map.updateActorLighting();
-			}
-			
-			if (counter % 10000 == 0)
-			{
-				map.calculateLighting();
-			}
-			
-			map.update();
-//		}
+			scale *= (amount);
+		}
+		
+		player.update(delta);
+		
+		if (player.isMoving())
+		{
+			map.updateActorLighting();
+		}
+		
+		if (counter % 10000 == 0)
+		{
+			map.calculateLighting();
+		}
+		
+		map.update();
 		
 		map.generateChunksAround(player);
 		
@@ -244,6 +323,9 @@ public class TheDiggingGame extends GameStarter
 		counter = counter > 1000000 ? 0 : counter;
 	}
 	
+	/**
+	 * Render the Cursor that is used in game for breaking Tiles.
+	 */
 	private void renderCursor()
 	{
 		int tileSize = Tile.getTileSize();

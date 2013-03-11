@@ -23,7 +23,7 @@ public class SpriteSheet extends Texture
 		this.rows = rows;
 	}
 	
-	public float[] getImageOffsetsf(int x, int y, int width, int height)
+	public float[] getImageOffsets(int x, int y, int width, int height)
 	{
 		float offsets[] = new float[4];
 		

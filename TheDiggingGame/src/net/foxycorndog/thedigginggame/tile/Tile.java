@@ -3,6 +3,7 @@ package net.foxycorndog.thedigginggame.tile;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -18,7 +19,7 @@ import net.foxycorndog.jfoxylib.graphics.SpriteSheet;
  * @version Feb 22, 2013 at 4:23:24 AM
  * @version	v0.1
  */
-public class Tile
+public class Tile implements Serializable
 {
 	private boolean							collidable;
 	

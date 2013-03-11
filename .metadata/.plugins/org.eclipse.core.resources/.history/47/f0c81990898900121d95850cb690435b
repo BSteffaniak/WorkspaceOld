@@ -1,0 +1,283 @@
+package net.foxycorndog.jfoxylib;
+
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import net.foxycorndog.jfoxylib.components.Button;
+import net.foxycorndog.jfoxylib.components.Component;
+import net.foxycorndog.jfoxylib.events.ButtonListener;
+
+import org.lwjgl.BufferUtils;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+
+/**
+ * Class that is used to control the Frame used in the game.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Mar 9, 2013 at 3:18:44 AM
+ * @since	v0.1
+ * @version Mar 9, 2013 at 3:18:44 AM
+ * @version	v0.1
+ */
+public class Frame
+{
+	private static boolean	vSync;
+	
+	private static int		fps, targetFPS;
+	
+	private static org.lwjgl.opengl.Display	display;
+	
+	private static ArrayList<Component> components;
+	
+	/**
+	 * Method to create a default Frame 7/10's the width and height of
+	 * the screen size.
+	 */
+	public static void create()
+	{
+		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+		
+		create((int)(size.width * 0.7f), (int)(size.height * 0.7f));
+	}
+	
+	/**
+	 * Method to create a Frame the specified size.
+	 * 
+	 * @param width The width of the Frame to create.
+	 * @param height The height of the Frame to create.
+	 */
+	public static void create(int width, int height)
+	{
+		if (width <= 0 || height <= 0)
+		{
+			throw new IllegalArgumentException("The width and height of the Frame must both be > 0");
+		}
+		
+		try
+		{
+			DisplayMode d = new DisplayMode(width, height);
+			display.setDisplayMode(d);
+			
+			display.create();
+			
+			setVSyncEnabled(false);
+		}
+		catch (LWJGLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Updates the Frame and its Components. Called every frame.
+	 */
+	public void loop()
+	{
+		
+	}
+	
+	/**
+	 * Set whether the Frame should be resizable.
+	 * 
+	 * @param resizable Whether the Frame should be resizable.
+	 */
+	public static void setResizable(boolean resizable)
+	{
+		if (resizable != display.isResizable())
+		{
+			display.setResizable(resizable);
+		}
+	}
+	
+	/**
+	 * Limit the frame rate to the monitors capable speed to reduce
+	 * the tearing of the frames. Map slow down the performance, but
+	 * in most cases looks better.
+	 * 
+	 * @param vSync Whether or not to enable or disable vertical
+	 * 		synchronization.
+	 */
+	public static void setVSyncEnabled(boolean vSync)
+	{
+		if (vSync != Frame.vSync)
+		{
+			display.setVSyncEnabled(vSync);
+			
+			Frame.vSync = vSync;
+		}
+	}
+
+	/**
+	 * Get the amount of frames that the Frame gets per second. Each
+	 * frame includes the clearing of the screen, calls to the loop and
+	 * render methods, and other methods too.
+	 * 
+	 * @return The most recent amount of frames per second.
+	 */
+	public static int getFPS()
+	{
+		return fps;
+	}
+
+	/**
+	 * Set the value that is used to display the frames per second.
+	 * 
+	 * @param fps The value to set it to.
+	 */
+	public static void setFPS(int fps)
+	{
+		Frame.fps = fps;
+	}
+	
+	/**
+	 * Get the value that is set for the target FPS. The target FPS
+	 * is used to create a goal for the Frame to try to reach whenever
+	 * looping through the main loop. The program tries to accomplish
+	 * the specified amount of frames per second each second.
+	 * 
+	 * @return The target frames per second each second.
+	 */
+	public static int getTargetFPS()
+	{
+		return targetFPS;
+	}
+	
+	/**
+	 * Set the value that is set for the target FPS. The target FPS
+	 * is used to create a goal for the Frame to try to reach whenever
+	 * looping through the main loop. The program tries to accomplish
+	 * the specified amount of frames per second each second.
+	 * 
+	 * @param targetFPS The target frames per second each second.
+	 */
+	public static void setTargetFPS(int targetFPS)
+	{
+		Frame.targetFPS = targetFPS;
+	}
+	
+	/**
+	 * Get the title that is displayed in the Title Bar of the Frame.
+	 * 
+	 * @return The title that is displayed in the Title Bar.
+	 */
+	public static String getTitle()
+	{
+		return display.getTitle();
+	}
+	
+	/**
+	 * Set the title that is displayed in the Title Bar of the Frame.
+	 * 
+	 * @param title The title that is to be displayed in the Title Bar.
+	 */
+	public static void setTitle(String title)
+	{
+		display.setTitle(title);
+	}
+	
+	/**
+	 * Get the horizontal location of the Frame in the Display.
+	 * 
+	 * @return The horizontal location of the Frame in the Display.
+	 */
+	public static int getX()
+	{
+		return display.getX();
+	}
+	
+	/**
+	 * Get the vertical location of the Frame in the Display.
+	 * 
+	 * @return The vertical location of the Frame in the Display.
+	 */
+	public static int getY()
+	{
+		return display.getY();
+	}
+	
+	/**
+	 * Get the horizontal size of the Frame in the Display.
+	 * 
+	 * @return The horizontal size of the Frame in the Display.
+	 */
+	public static int getWidth()
+	{
+		return display.getWidth();
+	}
+	
+	/**
+	 * Get the vertical size of the Frame in the Display.
+	 * 
+	 * @return The vertical size of the Frame in the Display.
+	 */
+	public static int getHeight()
+	{
+		return display.getHeight();
+	}
+	
+	/**
+	 * Add the specified ButtonListener to this Button.
+	 * 
+	 * @param listener The ButtonListener to add to this Button.
+	 * @return Whether the ButtonListener was added successfully or not.
+	 */
+	public boolean addButtonListener(ButtonListener listener)
+	{
+		return buttonListeners.add(listener);
+	}
+	
+	/**
+	 * Remove the specified ButtonListener from this Button.
+	 * 
+	 * @param listener The ButtonListener to remove from this Button.
+	 * @return Whether the remove was successful or not.
+	 */
+	public boolean removeButtonListener(ButtonListener listener)
+	{
+		return buttonListeners.remove(listener);
+	}
+	
+//	/**
+//	 * 
+//	 * 
+//	 * @param image16Location
+//	 * @param image32Location
+//	 * @throws IOException
+//	 */
+//	public static void setIcon(String image16Location, String image32Location) throws IOException
+//	{
+////		InputStream in;
+////		
+////		in = new FileInputStream(image16Location);
+////	
+////		PNGDecoder decoder = new PNGDecoder(in);
+////		
+////		ByteBuffer buf16 = BufferUtils.createByteBuffer(4 * decoder.getWidth() * decoder.getHeight());
+////		decoder.decode(buf16, decoder.getWidth() * 4, Format.RGBA);
+////		buf16.flip();
+////		
+////		in.close();
+////		
+////		
+////		in = new FileInputStream(image32Location);
+////		
+////		decoder = new PNGDecoder(in);
+////		
+////		ByteBuffer buf32 = BufferUtils.createByteBuffer(4 * decoder.getWidth() * decoder.getHeight());
+////		decoder.decode(buf32, decoder.getWidth() * 4, Format.RGBA);
+////		buf32.flip();
+////		
+////		in.close();
+////		
+////		
+////		Display.setIcon(new ByteBuffer[] { buf16, buf32 });
+//	}
+}

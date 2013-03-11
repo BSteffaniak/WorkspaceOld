@@ -1,0 +1,68 @@
+package net.foxycorndog.jfoxylib.components;
+
+import java.awt.image.BufferedImage;
+
+import net.foxycorndog.jfoxylib.bundle.Bundle;
+import net.foxycorndog.jfoxylib.graphics.Texture;
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Mar 10, 2013 at 12:55:25 AM
+ * @since	v0.2
+ * @version Mar 10, 2013 at 12:55:25 AM
+ * @version	v0.2
+ */
+public class Image extends Component
+{
+	private Texture	texture;
+	
+	private Bundle	bundle;
+	
+	/**
+	 * Construct an Image in the specified parent Panel.
+	 * 
+	 * @param parent The Panel that is to be the parent of this Image.
+	 */
+	public Image(Panel parent)
+	{
+		super(parent);
+	}
+	
+	/**
+	 * Set the Image of this Image Component.
+	 * 
+	 * @param image The new Image of this Image Component.
+	 */
+	public void setImage(BufferedImage image)
+	{
+		texture = new Texture(image);
+		
+		int width  = image.getWidth();
+		int height = image.getHeight();
+		
+		setSize(width, height);
+		
+		bundle.beginEditingVertices();
+		{
+			bundle.setVertices(0, GL.genRectVerts(0, 0, width, height));
+		}
+		bundle.endEditingVertices();
+		
+		bundle.beginEditingTextures();
+		{
+			bundle.setTextures(0, GL.genRectTextures(texture.getImageOffsetsf()));
+		}
+		bundle.endEditingTextures();
+	}
+
+	/**
+	 * Renders the Image to the screen.
+	 */
+	public void render()
+	{
+		
+	}
+}

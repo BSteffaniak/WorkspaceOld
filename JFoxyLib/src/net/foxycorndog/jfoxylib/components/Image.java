@@ -1,182 +1,106 @@
 package net.foxycorndog.jfoxylib.components;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
+import net.foxycorndog.jfoxylib.bundle.Bundle;
+import net.foxycorndog.jfoxylib.graphics.Texture;
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.PaletteData;
-import org.eclipse.swt.widgets.Display;
-
-public class Image
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Mar 10, 2013 at 12:55:25 AM
+ * @since	v0.2
+ * @version Mar 10, 2013 at 12:55:25 AM
+ * @version	v0.2
+ */
+public class Image extends Component
 {
-	private BufferedImage	bufferedImage;
+	private Texture	texture;
 	
-	private org.eclipse.swt.graphics.Image image;
+	private Bundle	bundle;
 	
-	private byte	alphaData[];
-	
-	private int		pixels[];
-	
-	public Image()
+	/**
+	 * Construct an Image in the specified parent Panel.
+	 * 
+	 * @param parent The Panel that is to be the parent of this Image.
+	 */
+	public Image(Panel parent)
 	{
+		super(parent);
 		
+		bundle = new Bundle(4, 2, true, false);
 	}
 	
-	public Image(String location)
+	/**
+	 * Set the Image of this Image Component.
+	 * 
+	 * @param image The new Image of this Image Component.
+	 */
+	public void setImage(BufferedImage image)
 	{
-		BufferedImage image = null;
+		setImage(image, 1, 1);
+	}
+	
+	/**
+	 * Set the Image of this Image Component.
+	 * 
+	 * @param image The new Image of this Image Component.
+	 * @param rx The amount of times to repeat the Image horizontally.
+	 * @param ry The amount of times to repeat the Image vertically.
+	 */
+	public void setImage(BufferedImage image, int rx, int ry)
+	{
+		texture = new Texture(image);
 		
-		try
+		int width  = image.getWidth() * rx;
+		int height = image.getHeight() * ry;
+		
+		setSize(width, height);
+		
+		bundle.beginEditingTextures();
 		{
-			image = ImageIO.read(new File(location));
+			bundle.setTextures(0, GL.genRectTextures(texture.getImageOffsets(), rx, ry));
 		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		
-		createImage(image);
+		bundle.endEditingTextures();
 	}
 	
-	public Image(BufferedImage image)
-	{
-		createImage(image);
-	}
-	
-	private void createImage(BufferedImage img)
-	{
-		bufferedImage = img;
-		
-		int width  = img.getWidth();
-		int height = img.getHeight();
-		
-		BufferedImage newImg = convertToInt(img);
-		
-		pixels = ((DataBufferInt)newImg.getRaster().getDataBuffer()).getData();
-		
-		ImageData imageData = createImageData();
-		
-		alphaData = new byte[width * height];
-//		imageData.alphaData = alphaData;
-		
-		for (int i = 0; i < width * height; i++)
-		{
-			alphaData[i] = (byte)255;
-		}
-	    
-	    imageData.setPixels(0, 0, pixels.length, pixels, 0);
-	    
-		image = new org.eclipse.swt.graphics.Image(Display.getDefault(), imageData);
-	}
-	
-	private BufferedImage convertToInt(BufferedImage image)
-	{
-		BufferedImage newImg = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.BITMASK);
-		
-		Graphics2D g = newImg.createGraphics();
-		g.drawImage(image, 0, 0, null);
-		g.dispose();
-		
-		return newImg;
-	}
-	
-	public org.eclipse.swt.graphics.Image getImage()
-	{
-		return image;
-	}
-	
+	/**
+	 * Set the size of this Image to the specified size.
+	 * 
+	 * @param width The new horizontal size of the Image.
+	 * @param height The new vertical size of the Image.
+	 */
 	public void setSize(int width, int height)
 	{
-		if (image == null)
+		super.setSize(width, height);
+		
+		bundle.beginEditingVertices();
 		{
-			image = new org.eclipse.swt.graphics.Image(Display.getDefault(), width, height);
+			bundle.setVertices(0, GL.genRectVerts(0, 0, width, height));
 		}
-		else
+		bundle.endEditingVertices();
+	}
+
+	/**
+	 * Renders the Image to the screen.
+	 */
+	public void render()
+	{
+		update();
+		
+		if (texture == null)
 		{
-			int oldWidth  = bufferedImage.getWidth();
-			int oldHeight = bufferedImage.getHeight();
-			
-			bufferedImage = new BufferedImage(width, height, BufferedImage.BITMASK);
-			
-			ImageData imageData = createImageData();
-			
-			byte newAlpha[] = new byte[width * height];
-			int newPixels[] = new int[width * height];
-			
-			for (int y = 0; y < oldWidth; y++)
-			{
-				for (int x = 0; x < oldWidth; x++)
-				{
-					newAlpha[x + y * width] = alphaData[x + y * oldWidth];
-					newPixels[x + y * width] = pixels[x + y * oldWidth];
-				}
-			}
-			
-//			for (int y = oldHeight; y < height; y++)
-//			{
-//				for (int x = 0; x < width; x++)
-//				{
-//					newAlpha[x + y * width] = (byte)0;
-//					newPixels[x + y * width] = (byte)0;
-//				}
-//			}
-//			
-//			for (int y = 0; y < oldHeight; y++)
-//			{
-//				for (int x = oldWidth; x < width; x++)
-//				{
-//					newAlpha[x + y * width] = (byte)0;
-//					newPixels[x + y * width] = (byte)0;
-//				}
-//			}
-			
-			pixels              = newPixels;
-			alphaData           = newAlpha;
-//			imageData.alphaData = alphaData;
-			
-			imageData.setPixels(0, 0, pixels.length, pixels, 0);
-			
-			image = new org.eclipse.swt.graphics.Image(Display.getDefault(), imageData);
+			return;
 		}
-	}
-	
-	public int[] getPixels()
-	{
-		return pixels;
-	}
-	
-	public void updatePixels()
-	{
-		ImageData imageData = createImageData();
 		
-		imageData.setPixels(0, 0, pixels.length, pixels, 0);
-		
-		image = new org.eclipse.swt.graphics.Image(Display.getDefault(), imageData);
-	}
-	
-	private ImageData createImageData()
-	{
-		int width  = bufferedImage.getWidth();
-		int height = bufferedImage.getHeight();
-		
-		PaletteData palette = new PaletteData(0xFF0000, 0xFF00, 0xFF);
-		ImageData imageData = new ImageData(width, height, bufferedImage.getColorModel().getPixelSize(), palette);
-		
-		return imageData;
-	}
-	
-	public int getWidth()
-	{
-		return bufferedImage.getWidth();
-	}
-	
-	public int getHeight()
-	{
-		return bufferedImage.getHeight();
+		GL.pushMatrix();
+		{
+			GL.translate(getX(), getY(), 0);
+			
+			bundle.render(GL.QUADS, texture);
+		}
+		GL.popMatrix();
 	}
 }

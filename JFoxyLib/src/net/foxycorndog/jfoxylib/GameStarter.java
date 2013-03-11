@@ -6,10 +6,10 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
+import net.foxycorndog.jfoxylib.events.GameListener;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 import net.foxycorndog.jfoxylib.input.Keyboard;
 import net.foxycorndog.jfoxylib.input.Mouse;
-import net.foxycorndog.jfoxylib.listeners.GameListener;
 
 /**
  * This class serves as the entry point for all of the
@@ -58,6 +58,8 @@ public abstract class GameStarter
 		
 		int pred = 0;
 		
+		GL.init();
+		
 		init();
 		
 		long startTime  = System.currentTimeMillis();
@@ -86,6 +88,7 @@ public abstract class GameStarter
 			
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
+			Frame.loop();
 			loop();
 			
 			GL.resetMatrix();

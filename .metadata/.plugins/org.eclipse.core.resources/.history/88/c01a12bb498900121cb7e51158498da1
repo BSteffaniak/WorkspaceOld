@@ -1,0 +1,39 @@
+package net.foxycorndog.jfoxylib.components;
+
+import java.util.ArrayList;
+
+import net.foxycorndog.jfoxylib.listeners.ButtonListener;
+
+/**
+ * Class used as a button on the screen.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Mar 10, 2013 at 12:10:22 AM
+ * @since	v
+ * @version Mar 10, 2013 at 12:10:22 AM
+ * @version	v
+ */
+public class Button extends Component
+{
+	private ArrayList<ButtonListener> buttonListeners;
+	
+	/**
+	 * Construct a Button in the specified parent Panel.
+	 * 
+	 * @param parent The Panel that is to be the parent of this Button.
+	 */
+	public Button(Panel parent)
+	{
+		super(parent);
+	}
+	
+	/**
+	 * Add the specified ButtonListener to this Button.
+	 * 
+	 * @param listener The ButtonListener to add to this Button.
+	 */
+	public void addButtonListener(ButtonListener listener)
+	{
+		buttonListeners.add(listener);
+	}
+}

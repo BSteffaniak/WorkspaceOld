@@ -1,0 +1,32 @@
+package net.foxycorndog.jfoxylib.events;
+
+import net.foxycorndog.jfoxylib.components.Button;
+
+public class Event
+{
+	private long	when;
+	
+	/**
+	 * Create a ButtonEvent with the specified source.
+	 * 
+	 * @param source The Button that had an action performed on it.
+	 */
+	public ButtonEvent(Button source, boolean buttons[])
+	{
+		when         = System.currentTimeMillis();
+		
+		this.source  = source;
+		
+		this.buttons = buttons;
+	}
+	
+	/**
+	 * Get when the event occurred.
+	 * 
+	 * @return
+	 */
+	public long when()
+	{
+		return when;
+	}
+}

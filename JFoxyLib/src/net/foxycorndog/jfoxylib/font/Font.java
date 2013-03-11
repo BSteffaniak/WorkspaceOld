@@ -105,61 +105,66 @@ public class Font
 		
 		Bundle bundle = null;
 		
+		float glScale[] = GL.getAmountScaled();
+		
+		float scaleX = glScale[0];
+		float scaleY = glScale[1];
+		
 		if (horizontalAlignment == CENTER)
 		{
 			if (panel != null)
 			{
-				x += panel.getWidth() / 2;
+				x += (Frame.getWidth() / scaleX) / 2;
 			}
 			else
 			{
-				x += Frame.getWidth() / 2;
+				x += (Frame.getWidth() / scaleX) / 2;
 			}
 			
-			x -= (text.length() * glyphWidth) / 2;
+			x -= ((text.length() * glyphWidth) * (scale / 2));
 		}
 		else if (horizontalAlignment == RIGHT)
 		{
 			if (panel != null)
 			{
-				x += panel.getWidth();
+				x += panel.getWidth() / scaleX;
 			}
 			else
 			{
-				x += Frame.getWidth();
+				x += Frame.getWidth() / scaleX;
 			}
 			
-			x -= text.length() * glyphWidth;
+			x -= text.length() * glyphWidth * scale;
 		}
 		if (verticalAlignment == CENTER)
 		{
 			if (panel != null)
 			{
-				y += panel.getHeight() / 2;
+				y += (panel.getHeight() / scaleY) / 2;
 			}
 			else
 			{
-				x += Frame.getHeight() / 2;
+				y += (Frame.getHeight() / scaleY) / 2;
 			}
 			
-			y -= (glyphHeight) / 2;
+			y -= (glyphHeight) * (scale / 2);
 		}
 		else if (verticalAlignment == TOP)
 		{
 			if (panel != null)
 			{
-				y += panel.getHeight();
+				y += panel.getHeight() / scaleY;
 			}
 			else
 			{
-				x += Frame.getHeight();
+				y += Frame.getHeight() / scaleY;
 			}
 			
-			y -= glyphHeight;
+			y -= glyphHeight * scale;
 		}
 		
-		x *= scale;
-		y *= scale;
+//		x /= scaleX;
+//		y /= scaleY;
 		
 		if (history.containsKey(text) && history.get(text)[1] == 1)
 		{
@@ -189,7 +194,7 @@ public class Font
 				if (chars[i] == '\n')
 				{
 					renderVertexBuffer(text.substring(0, i), x, y /*+ ((glyphHeight + 1) / 2) * scale*/ , z, scale, horizontalAlignment, verticalAlignment, vertices, textures, panel);
-					renderVertexBuffer(text.substring(i + 1), x, y - (glyphHeight + 1) * scale/*((glyphHeight + 1) / 2) * scale*/, z, scale, horizontalAlignment, verticalAlignment, vertices, textures, panel);
+					renderVertexBuffer(text.substring(i + 1), x, y - (glyphHeight + 1)/*((glyphHeight + 1) / 2) * scale*/, z, scale, horizontalAlignment, verticalAlignment, vertices, textures, panel);
 					
 					addToHistory(text, vId, tId, viId, size, vertices, textures, null);
 					
@@ -204,7 +209,7 @@ public class Font
 					int charX       = charSequence.get(chars[i])[0];
 					int charY       = charSequence.get(chars[i])[1];
 					
-					float offsets[] = characters.getImageOffsetsf(charX, charY, 1, 1);
+					float offsets[] = characters.getImageOffsets(charX, charY, 1, 1);
 					
 					vertices.beginEditing();
 					vertices.setData(i * 4 * 2, GL.genRectVerts(i * glyphWidth + (letterMargin * i), 0, glyphWidth, glyphHeight));
@@ -363,7 +368,7 @@ public class Font
 						int charX       = charSequence.get(chars[i])[0];
 						int charY       = charSequence.get(chars[i])[1];
 						
-						float offsets[] = characters.getImageOffsetsf(charX, charY, 1, 1);
+						float offsets[] = characters.getImageOffsets(charX, charY, 1, 1);
 					
 						GL.pushMatrix();
 						{

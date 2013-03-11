@@ -1,0 +1,28 @@
+package net.foxycorndog.jfoxylib.components;
+
+import net.foxycorndog.jfoxylib.graphics.Texture;
+
+public class Image extends Component
+{
+	private Texture	textures;
+	
+	private Bundle	bundle;
+	
+	/**
+	 * Construct an Image in the specified parent Panel.
+	 * 
+	 * @param parent The Panel that is to be the parent of this Image.
+	 */
+	public Image(Panel parent)
+	{
+		super(parent);
+	}
+
+	/**
+	 * Renders the Image to the screen.
+	 */
+	public void render()
+	{
+		
+	}
+}
