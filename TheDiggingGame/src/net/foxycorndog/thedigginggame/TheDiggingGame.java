@@ -38,7 +38,7 @@ import net.foxycorndog.thedigginggame.tile.Tile;
  * @version Feb 22, 2013 at 4:23:04 AM
  * @version	v0.1
  */
-public class TheDiggingGame extends GameStarter
+public class TheDiggingGame implements GameInterface
 {
 	private int			fps;
 	private int			editing;
@@ -69,18 +69,11 @@ public class TheDiggingGame extends GameStarter
 	}
 	
 	/**
-	 * Construct the game. Creates the window and starts the game.
+	 * Constructor of the game.
 	 */
 	public TheDiggingGame()
 	{
-		Frame.create(800, 600);
-//		Frame.setTargetFPS(60);
-		Frame.setVSyncEnabled(true);
-		Frame.setResizable(true);
 		
-		scale = 2;
-		
-		start();
 	}
 	
 	/**
@@ -88,6 +81,8 @@ public class TheDiggingGame extends GameStarter
 	 */
 	public void init()
 	{
+		scale = 2;
+		
 //		map = new Map(this);
 //		
 //		map.load("world");

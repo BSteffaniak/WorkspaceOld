@@ -1,5 +1,13 @@
 package net.foxycorndog.thedigginggame.launcher;
 
+import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+
 import net.foxycorndog.jfoxylib.Frame;
 import net.foxycorndog.jfoxylib.GameStarter;
 import net.foxycorndog.jfoxylib.font.Font;
@@ -12,6 +20,8 @@ public class Launcher extends GameStarter
 	
 	private MainMenu	mainMenu;
 	
+	private Method		init, loop, render;
+	
 	public static void main(String args[])
 	{
 		Launcher launch = new Launcher();
@@ -22,13 +32,76 @@ public class Launcher extends GameStarter
 	public Launcher()
 	{
 		Frame.create(800, 600);
+		Frame.setVSyncEnabled(true);
+		Frame.setResizable(true);
 		
 		start();
 	}
 	
 	public void startGame()
 	{
-		mainMenu.dispose();
+		try
+		{
+			
+			URL urls[] = null;
+			
+			String jarLoc = "";
+			
+//			if (Base.insideJar(Launcher.class))
+//			{
+//				System.out.println("in jar");
+//				urls = new URL[] { new File("P1XELAND.jar").toURI().toURL() };
+//			}
+//			else
+//			{
+//				System.out.println("not in jar");
+				urls = new URL[] { new File(jarLoc).toURI().toURL() };
+//			}
+			
+			URLClassLoader loader = new URLClassLoader(urls);
+			
+			Class clazz  = loader.loadClass("net.foxycorndog.p1xeland.P1xeland");
+			
+			Constructor<?> constr = clazz.getConstructor();
+			
+			Object obj    = constr.newInstance();
+			
+			init   = clazz.getDeclaredMethod("init", new Class<?>[] {});
+			
+			init.invoke(obj, new Object[] {});
+			
+			loop   = clazz.getDeclaredMethod("loop", new Class<?>[] {});
+			
+			render = clazz.getDeclaredMethod("render", new Class<?>[] {});
+			
+			mainMenu.dispose();
+		
+			mainMenu = null;
+		}
+		catch (InstantiationException ex)
+		{
+			ex.printStackTrace();
+		}
+		catch (IllegalAccessException ex)
+		{
+			ex.printStackTrace();
+		}
+		catch (InvocationTargetException ex)
+		{
+			ex.printStackTrace();
+		}
+		catch (NoSuchMethodException ex)
+		{
+			ex.printStackTrace();
+		}
+		catch (ClassNotFoundException ex)
+		{
+			ex.printStackTrace();
+		}
+		catch (MalformedURLException ex)
+		{
+			ex.printStackTrace();
+		}
 	}
 
 	public void init()
