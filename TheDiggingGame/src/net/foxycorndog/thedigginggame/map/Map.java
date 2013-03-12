@@ -786,7 +786,7 @@ public class Map
 	 */
 	public void save(String world)
 	{
-		final String parent = "saves/" + world + "/region/";
+		final String parent = TheDiggingGame.getResourcesLocation() + "saves/" + world + "/region/";
 		
 		File parentFile = new File(parent);
 		parentFile.mkdirs();
@@ -826,7 +826,7 @@ public class Map
 	 */
 	public void load(String world)
 	{
-		final String parent = "saves/" + world + "/region/";
+		final String parent = TheDiggingGame.getResourcesLocation() + "saves/" + world + "/region/";
 		
 		File parentFile = new File(parent);
 		

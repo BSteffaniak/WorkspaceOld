@@ -35,6 +35,7 @@ public class MainMenu extends Menu
 	private boolean	rUp, gUp, bUp;
 	
 	private int		r, g, b;
+	private int		width, height;
 	private int		counter;
 	
 	private Image	backgroundImage;
@@ -156,6 +157,9 @@ public class MainMenu extends Menu
 		playButton.addButtonListener(buttonListener);
 		optionsButton.addButtonListener(buttonListener);
 		quitButton.addButtonListener(buttonListener);
+		
+		width  = font.getWidth("The Digging");
+		height = 80 + font.getGlyphHeight();
 	}
 	
 	/**

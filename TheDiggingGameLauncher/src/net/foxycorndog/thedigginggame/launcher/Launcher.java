@@ -76,7 +76,8 @@ public class Launcher extends GameStarter
 			
 			if (debug)
 			{
-				parentDir = "../thedigginggame/";
+				jarName = "";
+				parentDir = "../thedigginggame/bin/";
 //				parentDir = "../thedigginggame/bin/";
 			}
 			
@@ -90,7 +91,9 @@ public class Launcher extends GameStarter
 			
 			gameInterface = (GameInterface)constr.newInstance();
 			
-			System.setProperty("game.resources.location", parentDir);
+			String resourcesDir = "../thedigginggame/";
+			
+			System.setProperty("game.resources.location", resourcesDir);
 			
 			gameInterface.init();
 			
