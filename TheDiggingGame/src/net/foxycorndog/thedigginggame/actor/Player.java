@@ -6,6 +6,7 @@ import net.foxycorndog.jfoxylib.bundle.Bundle;
 import net.foxycorndog.jfoxylib.graphics.SpriteSheet;
 import net.foxycorndog.jfoxylib.graphics.Texture;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+import net.foxycorndog.thedigginggame.TheDiggingGame;
 import net.foxycorndog.thedigginggame.map.Map;
 
 /**
@@ -34,7 +35,7 @@ public class Player extends Actor
 		
 		try
 		{
-			sprites = new SpriteSheet("res/images/actors/player/skins/default.png", 16, 8);
+			sprites = new SpriteSheet(TheDiggingGame.getResourcesLocation() + "res/images/actors/player/skins/default.png", 16, 8);
 		}
 		catch (IOException e)
 		{

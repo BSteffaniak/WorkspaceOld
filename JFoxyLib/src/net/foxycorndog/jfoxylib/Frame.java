@@ -193,6 +193,39 @@ public class Frame
 			{
 				
 			}
+
+			public void mouseEntered(MouseEvent event)
+			{
+				
+			}
+
+			public void mouseExited(MouseEvent event)
+			{
+				for (int i = components.size() - 1; i >= 0; i--)
+				{
+					Component comp = components.get(i);
+					
+					boolean intersects = intersectsMouse(comp);
+					
+					boolean buttons[] = new boolean[] { Mouse.isButtonDown(0), Mouse.isButtonDown(1), Mouse.isButtonDown(2) };
+					
+					if (comp instanceof Button)
+					{
+						Button button = (Button)comp;
+						
+						ArrayList<ButtonListener> buttonListeners = button.getButtonListeners();
+						
+						for (int n = buttonListeners.size() - 1; n >= 0; n--)
+						{
+							ButtonListener listener = buttonListeners.get(n);
+							
+							ButtonEvent buttonEvent = new ButtonEvent(button, buttons);
+							
+							listener.buttonUnHovered(buttonEvent);
+						}
+					}
+				}
+			}
 		});
 	}
 	
@@ -200,7 +233,7 @@ public class Frame
 	{
 		float trans[] = GL.getAmountTranslated();
 		
-		return Intersects.rectangles(comp.getX() * comp.getScaleX() + comp.getTranslatedX(), comp.getY() * comp.getScaleY() + comp.getTranslatedY(), comp.getWidth() * comp.getScaleX(), comp.getHeight() * comp.getScaleY(), Mouse.getX(), Mouse.getY(), 1, 1);
+		return Mouse.isInFrame() && Intersects.rectangles(comp.getX() * comp.getScaleX() + comp.getTranslatedX(), comp.getY() * comp.getScaleY() + comp.getTranslatedY(), comp.getWidth() * comp.getScaleX(), comp.getHeight() * comp.getScaleY(), Mouse.getX(), Mouse.getY(), 1, 1);
 	}
 	
 	/**

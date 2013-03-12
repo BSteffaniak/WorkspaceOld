@@ -3,3 +3,5 @@
 1362875429660	Rename local variable 'n'
 1362898030523	Rename field 'buttons'
 1363000468314	Copy compilation units
+1363033930987	Delete element
+1363034519696	Rename field 'RESOURCES_LOCATION'

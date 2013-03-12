@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylibpixel.util.Dimension"/>
 <fullyQualifiedTypeName name="java.awt.image.DataBufferInt"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylibpixel.GL"/>
 <fullyQualifiedTypeName name="java.awt.Image"/>
@@ -42,7 +41,6 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.components.Button"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.components.Component"/>
 <fullyQualifiedTypeName name="org.lwjgl.input.Mouse"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.input.Mouse"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.events.ButtonEvent"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.events.MouseListener"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.components.Image"/>
@@ -53,11 +51,13 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.Frame"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.events.FrameListener"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.events.ButtonListener"/>
-<fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.TheDiggingGame"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.util.Intersects"/>
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.launcher.Launcher"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.GameStarter"/>
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.launcher.menu.MainMenu"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.font.Font"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.opengl.GL"/>
+<fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.GameInterface"/>
+<fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.TheDiggingGame"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.input.Mouse"/>
 </qualifiedTypeNameHistroy>

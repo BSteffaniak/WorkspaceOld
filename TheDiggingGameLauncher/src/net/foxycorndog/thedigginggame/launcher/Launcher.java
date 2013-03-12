@@ -12,16 +12,34 @@ import net.foxycorndog.jfoxylib.Frame;
 import net.foxycorndog.jfoxylib.GameStarter;
 import net.foxycorndog.jfoxylib.font.Font;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+import net.foxycorndog.thedigginggame.GameInterface;
 import net.foxycorndog.thedigginggame.launcher.menu.MainMenu;
 
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Mar 11, 2013 at 8:00:20 PM
+ * @since	v0.1
+ * @version Mar 11, 2013 at 8:00:20 PM
+ * @version	v0.1
+ */
 public class Launcher extends GameStarter
 {
-	private Font		font;
+	private Font			font;
 	
-	private MainMenu	mainMenu;
+	private MainMenu		mainMenu;
 	
-	private Method		init, loop, render;
+	private Method			init, loop, render;
 	
+	private GameInterface	gameInterface;
+	
+	/**
+	 * The main entry point for the launcher. First method ran.
+	 * Creates a launcher instance.
+	 * 
+	 * @param args The command line arguments.
+	 */
 	public static void main(String args[])
 	{
 		Launcher launch = new Launcher();
@@ -29,6 +47,9 @@ public class Launcher extends GameStarter
 		System.out.println("done.");
 	}
 	
+	/**
+	 * Construct and start the launcher for the game.
+	 */
 	public Launcher()
 	{
 		Frame.create(800, 600);
@@ -38,41 +59,42 @@ public class Launcher extends GameStarter
 		start();
 	}
 	
+	/**
+	 * Locate the jar file and create an instance of it. Then start the
+	 * game using it.
+	 */
 	public void startGame()
 	{
 		try
 		{
+			boolean debug = true;
 			
-			URL urls[] = null;
+			String parentDir = null;
+			String jarName = null;
 			
-			String jarLoc = "";
+			jarName = "TDG.jar";
 			
-//			if (Base.insideJar(Launcher.class))
-//			{
-//				System.out.println("in jar");
-//				urls = new URL[] { new File("P1XELAND.jar").toURI().toURL() };
-//			}
-//			else
-//			{
-//				System.out.println("not in jar");
-				urls = new URL[] { new File(jarLoc).toURI().toURL() };
-//			}
+			if (debug)
+			{
+				parentDir = "../thedigginggame/";
+//				parentDir = "../thedigginggame/bin/";
+			}
+			
+			URL urls[] = new URL[] { new File(parentDir + jarName).toURI().toURL() };
 			
 			URLClassLoader loader = new URLClassLoader(urls);
 			
-			Class clazz  = loader.loadClass("net.foxycorndog.p1xeland.P1xeland");
+			Class clazz = loader.loadClass("net.foxycorndog.thedigginggame.TheDiggingGame");
 			
 			Constructor<?> constr = clazz.getConstructor();
 			
-			Object obj    = constr.newInstance();
+			gameInterface = (GameInterface)constr.newInstance();
 			
-			init   = clazz.getDeclaredMethod("init", new Class<?>[] {});
+			System.setProperty("game.resources.location", parentDir);
 			
-			init.invoke(obj, new Object[] {});
+			gameInterface.init();
 			
-			loop   = clazz.getDeclaredMethod("loop", new Class<?>[] {});
-			
-			render = clazz.getDeclaredMethod("render", new Class<?>[] {});
+			gameInterface.startGame();
 			
 			mainMenu.dispose();
 		
@@ -103,7 +125,10 @@ public class Launcher extends GameStarter
 			ex.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Initialize the data.
+	 */
 	public void init()
 	{
 		font = new Font("res/images/fonts/font.png", 26, 4,
@@ -118,19 +143,67 @@ public class Launcher extends GameStarter
 		mainMenu = new MainMenu(font, this, null);
 	}
 
+	/**
+	 * Method that renders using the Ortho method.
+	 */
 	public void render2D()
 	{
-		GL.scale(3, 3, 1);
-		mainMenu.render();
+		if (mainMenu != null)
+		{
+			GL.scale(3, 3, 1);
+		
+			mainMenu.render();
+		}
+		else
+		{
+			gameInterface.render2D();
+		}
 	}
 
+	/**
+	 * Method that renders in the 3D mode.
+	 */
 	public void render3D()
 	{
-		
+		if (mainMenu != null)
+		{
+			
+		}
+		else
+		{
+			gameInterface.render3D();
+		}
 	}
-
+	
+	/**
+	 * Method that is called each time before the render methods.
+	 */
 	public void loop()
 	{
-		
+		if (mainMenu != null)
+		{
+			
+		}
+		else
+		{
+			gameInterface.loop();
+			
+//			try
+//			{
+//				loop.invoke(obj, null);
+//			}
+//			catch (IllegalAccessException e)
+//			{
+//				e.printStackTrace();
+//			}
+//			catch (IllegalArgumentException e)
+//			{
+//				e.printStackTrace();
+//			}
+//			catch (InvocationTargetException e)
+//			{
+//				e.printStackTrace();
+//			}
+		}
 	}
 }

@@ -43,6 +43,7 @@ public class Mouse
 	}
 	
 	private static boolean			grabbed;
+	private static boolean			inFrame;
 	
 	private static int				oldX, oldY;
 	private static int				dx, dy;
@@ -118,6 +119,16 @@ public class Mouse
 			}
 
 			public void mouseUp(MouseEvent event)
+			{
+				
+			}
+
+			public void mouseEntered(MouseEvent event)
+			{
+				
+			}
+
+			public void mouseExited(MouseEvent event)
 			{
 				
 			}
@@ -279,6 +290,16 @@ public class Mouse
 	}
 	
 	/**
+	 * Returns whether the Mouse cursor is inside the bounds of the Frame.
+	 * 
+	 * @return Whether the Mouse cursor is inside the bounds of the Frame.
+	 */
+	public static boolean isInFrame()
+	{
+		return inFrame;
+	}
+	
+	/**
 	 * Method used to update the Mouse each frame. Does all of the
 	 * calculations for displacements and also notifies the listeners
 	 * for their appropriate calls.
@@ -287,8 +308,12 @@ public class Mouse
 	{
 		pointerInfo = MouseInfo.getPointerInfo();
 		
-		dx = mouse.getX() - oldX;
-		dy = mouse.getY() - oldY;
+		boolean newInFrame = mouse.isInsideWindow();
+		
+		dx = pointerInfo.getLocation().x - oldX;
+		dy = pointerInfo.getLocation().y - oldY;
+		
+		dWheel = mouse.getDWheel();
 		
 		if (dx != 0 || dy != 0)
 		{
@@ -300,7 +325,22 @@ public class Mouse
 			}
 		}
 		
-		dWheel = mouse.getDWheel();
+		if (newInFrame != inFrame)
+		{
+			for (int i = listeners.size() - 1; i >= 0; i--)
+			{
+				MouseEvent event = new MouseEvent(getX(), getY(), -1);
+			
+				if (newInFrame)
+				{
+					listeners.get(i).mouseEntered(event);
+				}
+				else
+				{
+					listeners.get(i).mouseExited(event);
+				}
+			}
+		}
 		
 		for (int button = 0; button < 3; button++)
 		{
@@ -351,11 +391,13 @@ public class Mouse
 		dx -= forcedX;
 		dy -= forcedY;
 		
-		oldX = mouse.getX();
-		oldY = mouse.getY();
+		oldX = pointerInfo.getLocation().x;
+		oldY = pointerInfo.getLocation().y;
 		
 		forcedX = 0;
 		forcedY = 0;
+		
+		inFrame = newInFrame;
 		
 		mouse.next();
 	}

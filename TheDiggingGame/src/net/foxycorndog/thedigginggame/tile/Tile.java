@@ -9,6 +9,7 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 import net.foxycorndog.jfoxylib.graphics.SpriteSheet;
+import net.foxycorndog.thedigginggame.TheDiggingGame;
 
 /**
  * Class that holds information for a Tile that is used in the terrain.
@@ -43,7 +44,7 @@ public class Tile implements Serializable
 		
 		try
 		{
-			spriteSheet = ImageIO.read(new File("res/images/texturepacks/16/minecraft/terrain.png"));
+			spriteSheet = ImageIO.read(new File(TheDiggingGame.getResourcesLocation() + "res/images/texturepacks/16/minecraft/terrain.png"));
 		}
 		catch (IOException e)
 		{

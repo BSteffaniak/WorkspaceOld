@@ -8,4 +8,6 @@ public interface MouseListener
 	public void mouseDown(MouseEvent event);
 	public void mouseUp(MouseEvent event);
 	public void mouseMoved(MouseEvent event);
+	public void mouseEntered(MouseEvent event);
+	public void mouseExited(MouseEvent event);
 }

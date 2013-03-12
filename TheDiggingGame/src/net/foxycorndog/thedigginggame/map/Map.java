@@ -76,7 +76,7 @@ public class Map
 	public Map(TheDiggingGame game)
 	{
 		lighting = new Shader();
-		lighting.loadFile("res/shaders/", new String[] { "lighting.vs" }, new String[] { "lighting.frag" });
+		lighting.loadFile(TheDiggingGame.getResourcesLocation() + "res/shaders/", new String[] { "lighting.vs" }, new String[] { "lighting.frag" });
 		
 		chunks    = new HashMap<Integer, HashMap<Integer, Chunk>>();
 		

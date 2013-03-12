@@ -180,6 +180,8 @@
 <part id="133"/>
 <part id="134"/>
 <part id="135"/>
+<part id="136"/>
+<part id="137"/>
 </presentation>
 </folder>
 </info>
@@ -486,7 +488,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GameStarter.java" partName="GameStarter.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/GameStarter.java" title="GameStarter.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/GameStarter.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/GameStarter.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="9" selectionOffset="1356" selectionTopPixel="650"/>
+<editorState selectionHorizontalPixel="0" selectionLength="18" selectionOffset="2509" selectionTopPixel="1332"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Window.java" partName="Window.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Window.java" title="Window.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/components/Window.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Window.java"/>
@@ -550,7 +552,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SpriteSheet.java" partName="SpriteSheet.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/graphics/SpriteSheet.java" title="SpriteSheet.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/graphics/SpriteSheet.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/graphics/SpriteSheet.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="554" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="53" selectionOffset="325" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Camera.java" partName="Camera.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/util/Camera.java" title="Camera.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/util/Camera.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/util/Camera.java"/>
@@ -562,7 +564,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Mouse.java" partName="Mouse.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/input/Mouse.java" title="Mouse.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/input/Mouse.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/input/Mouse.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="7063" selectionTopPixel="2016"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="6121" selectionTopPixel="4080"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Keyboard.java" partName="Keyboard.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/input/Keyboard.java" title="Keyboard.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/input/Keyboard.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/input/Keyboard.java"/>
@@ -606,7 +608,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TheDiggingGame.java" partName="TheDiggingGame.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGame/src/net/foxycorndog/thedigginggame/TheDiggingGame.java" title="TheDiggingGame.java" tooltip="TheDiggingGame/src/net/foxycorndog/thedigginggame/TheDiggingGame.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/TheDiggingGame.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="23" selectionOffset="2103" selectionTopPixel="809"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4489" selectionTopPixel="2487"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Chunk.java" partName="Chunk.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Chunk.java" title="Chunk.java" tooltip="TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Chunk.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Chunk.java"/>
@@ -614,7 +616,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Tile.java" partName="Tile.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGame/src/net/foxycorndog/thedigginggame/tile/Tile.java" title="Tile.java" tooltip="TheDiggingGame/src/net/foxycorndog/thedigginggame/tile/Tile.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/tile/Tile.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="229" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1064" selectionTopPixel="555"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Actor.java" partName="Actor.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGame/src/net/foxycorndog/thedigginggame/actor/Actor.java" title="Actor.java" tooltip="TheDiggingGame/src/net/foxycorndog/thedigginggame/actor/Actor.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/actor/Actor.java"/>
@@ -622,7 +624,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" partName="Player.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGame/src/net/foxycorndog/thedigginggame/actor/Player.java" title="Player.java" tooltip="TheDiggingGame/src/net/foxycorndog/thedigginggame/actor/Player.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/actor/Player.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5862" selectionTopPixel="2478"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1096" selectionTopPixel="345"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MouseListener.java" partName="MouseListener.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/listeners/MouseListener.java" title="MouseListener.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/listeners/MouseListener.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/listeners/MouseListener.java"/>
@@ -638,7 +640,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Frame.java" partName="Frame.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/Frame.java" title="Frame.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/Frame.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/Frame.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5494" selectionTopPixel="2709"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4999" selectionTopPixel="2442"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Cursor.java" partName="Cursor.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGame/src/net/foxycorndog/thedigginggame/components/Cursor.java" title="Cursor.java" tooltip="TheDiggingGame/src/net/foxycorndog/thedigginggame/components/Cursor.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/components/Cursor.java"/>
@@ -694,7 +696,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Map.java" partName="Map.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Map.java" title="Map.java" tooltip="TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Map.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Map.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="8447" selectionTopPixel="5444"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2125" selectionTopPixel="1020"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Game.java" partName="Game.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TestGame2.0/src/net/foxycorndog/testgame/Game.java" title="Game.java" tooltip="TestGame2.0/src/net/foxycorndog/testgame/Game.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TestGame2.0/src/net/foxycorndog/testgame/Game.java"/>
@@ -722,11 +724,19 @@
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Launcher.java" partName="Launcher.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/Launcher.java" title="Launcher.java" tooltip="TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/Launcher.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/Launcher.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="653" selectionTopPixel="56"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2164" selectionTopPixel="554"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MainMenu.java" partName="MainMenu.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/menu/MainMenu.java" title="MainMenu.java" tooltip="TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/menu/MainMenu.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/menu/MainMenu.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3745" selectionTopPixel="1389"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3745" selectionTopPixel="2355"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GameInterface.java" partName="GameInterface.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGameInterface/src/net/foxycorndog/thedigginggame/GameInterface.java" title="GameInterface.java" tooltip="TheDiggingGameInterface/src/net/foxycorndog/thedigginggame/GameInterface.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGameInterface/src/net/foxycorndog/thedigginggame/GameInterface.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="283" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MouseListener.java" partName="MouseListener.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/JFoxyLib/src/net/foxycorndog/jfoxylib/events/MouseListener.java" title="MouseListener.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/events/MouseListener.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/events/MouseListener.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="372" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
@@ -762,9 +772,6 @@
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
-<expanded>
-<category IMemento.internal.id="Errors"/>
-</expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
@@ -1101,165 +1108,166 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/menu/MainMenu.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/TheDiggingGame.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/P1XELAND Launcher/src/net/foxycorndog/p1xeland/launcher/menus/LoginMenu.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/graphics/opengl/GL.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/Frame.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/components/Component.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/Launcher.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/TheDiggingGame.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGameInterface/src/net/foxycorndog/thedigginggame/GameInterface.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Map.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/menu/MainMenu.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/GameStarter.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/TheDiggingGame.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/Frame.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/input/Mouse.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/events/MouseListener.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/jDoutil/src/net/foxycorndog/jdoutil/web/Downloader.java"/>
 </editors>
-<item historyLabel="LoginMenu.java" index="2">
-<position info="not_deleted" x="3425" y="194"/>
-</item>
-<item historyLabel="MainMenu.java" index="0">
-<position info="not_deleted" x="1687" y="0"/>
-</item>
-<item historyLabel="LoginMenu.java" index="2">
-<position info="not_deleted" x="4898" y="521"/>
-</item>
-<item historyLabel="MainMenu.java" index="0">
-<position info="not_deleted" x="5300" y="0"/>
+<item historyLabel="Map.java" index="3">
+<position info="not_deleted" x="2125" y="0"/>
 </item>
 <item historyLabel="TheDiggingGame.java" index="1">
-<position info="not_deleted" x="4090" y="0"/>
+<position info="not_deleted" x="2494" y="0"/>
 </item>
-<item historyLabel="TheDiggingGame.java" index="1">
-<position info="not_deleted" x="2187" y="0"/>
+<item historyLabel="GameInterface.java" index="2">
+<position info="not_deleted" x="38" y="0"/>
 </item>
-<item historyLabel="MainMenu.java" index="0">
-<position info="not_deleted" x="4992" y="0"/>
-</item>
-<item historyLabel="TheDiggingGame.java" index="1">
-<position info="not_deleted" x="2187" y="0"/>
-</item>
-<item historyLabel="MainMenu.java" index="0">
-<position info="not_deleted" x="5053" y="0"/>
-</item>
-<item historyLabel="TheDiggingGame.java" index="1">
-<position info="not_deleted" x="2122" y="0"/>
-</item>
-<item historyLabel="MainMenu.java" index="0">
-<position info="not_deleted" x="5053" y="0"/>
-</item>
-<item historyLabel="MainMenu.java" index="0">
-<position info="not_deleted" x="4373" y="0"/>
-</item>
-<item historyLabel="MainMenu.java" index="0">
-<position info="not_deleted" x="4377" y="0"/>
-</item>
-<item historyLabel="MainMenu.java" index="0">
-<position info="not_deleted" x="4380" y="0"/>
-</item>
-<item historyLabel="MainMenu.java" index="0">
-<position/>
-</item>
-<item historyLabel="GL.java" index="3">
-<position info="not_deleted" x="8207" y="0"/>
-</item>
-<item historyLabel="MainMenu.java" index="0">
-<position/>
-</item>
-<item historyLabel="MainMenu.java" index="0">
-<position/>
-</item>
-<item historyLabel="Frame.java" index="4">
-<position info="not_deleted" x="10201" y="0"/>
-</item>
-<item historyLabel="Component.java" index="5">
-<position info="not_deleted" x="5133" y="0"/>
-</item>
-<item historyLabel="Component.java" index="5">
-<position info="not_deleted" x="4990" y="0"/>
-</item>
-<item historyLabel="TheDiggingGame.java" index="1">
-<position info="not_deleted" x="2122" y="0"/>
-</item>
-<item historyLabel="Launcher.java" index="6">
-<position info="not_deleted" x="1529" y="0"/>
-</item>
-<item historyLabel="MainMenu.java" index="7">
-<position info="not_deleted" x="3725" y="0"/>
-</item>
-<item historyLabel="Launcher.java" index="6">
-<position info="not_deleted" x="1529" y="0"/>
-</item>
-<item historyLabel="Launcher.java" index="6">
-<position info="not_deleted" x="440" y="0"/>
-</item>
-<item historyLabel="Launcher.java" index="6">
-<position/>
-</item>
-<item historyLabel="Launcher.java" index="6">
-<position/>
-</item>
-<item historyLabel="Launcher.java" index="6">
-<position/>
-</item>
-<item historyLabel="TheDiggingGame.java" index="1">
-<position info="not_deleted" x="2558" y="634"/>
-</item>
-<item historyLabel="Launcher.java" index="6">
-<position info="not_deleted" x="439" y="0"/>
-</item>
-<item historyLabel="Launcher.java" index="6">
-<position info="not_deleted" x="581" y="0"/>
-</item>
-<item historyLabel="Launcher.java" index="6">
-<position info="not_deleted" x="1178" y="135"/>
-</item>
-<item historyLabel="GameStarter.java" index="8">
-<position info="not_deleted" x="1971" y="0"/>
-</item>
-<item historyLabel="GameStarter.java" index="8">
-<position info="not_deleted" x="1242" y="5"/>
-</item>
-<item historyLabel="GameStarter.java" index="8">
-<position info="not_deleted" x="1361" y="0"/>
-</item>
-<item historyLabel="GameStarter.java" index="8">
-<position info="not_deleted" x="1350" y="0"/>
-</item>
-<item historyLabel="TheDiggingGame.java" index="1">
-<position info="not_deleted" x="2558" y="634"/>
-</item>
-<item historyLabel="Launcher.java" index="6">
-<position info="not_deleted" x="589" y="0"/>
-</item>
-<item historyLabel="Launcher.java" index="6">
-<position info="not_deleted" x="1178" y="135"/>
-</item>
-<item historyLabel="GameStarter.java" index="8">
-<position info="not_deleted" x="1356" y="9"/>
-</item>
-<item historyLabel="TheDiggingGame.java" index="1">
-<position info="not_deleted" x="2103" y="23"/>
-</item>
-<item historyLabel="Launcher.java" index="6">
-<position info="not_deleted" x="577" y="0"/>
-</item>
-<item historyLabel="MainMenu.java" index="7">
-<position info="not_deleted" x="2395" y="0"/>
-</item>
-<item historyLabel="Launcher.java" index="6">
-<position info="not_deleted" x="577" y="0"/>
-</item>
-<item historyLabel="Launcher.java" index="6">
-<position info="not_deleted" x="1421" y="0"/>
-</item>
-<item historyLabel="Launcher.java" index="6">
-<position info="not_deleted" x="1424" y="0"/>
-</item>
-<item historyLabel="Launcher.java" index="6">
-<position info="not_deleted" x="1421" y="0"/>
-</item>
-<item historyLabel="MainMenu.java" index="7">
+<item historyLabel="MainMenu.java" index="4">
 <position info="not_deleted" x="3745" y="0"/>
 </item>
-<item active="true" historyLabel="Launcher.java" index="6">
-<position info="not_deleted" x="615" y="9"/>
+<item historyLabel="TheDiggingGame.java" index="1">
+<position info="not_deleted" x="2357" y="38"/>
+</item>
+<item historyLabel="GameInterface.java" index="2">
+<position info="not_deleted" x="468" y="0"/>
+</item>
+<item historyLabel="TheDiggingGame.java" index="1">
+<position info="not_deleted" x="3559" y="72"/>
+</item>
+<item historyLabel="GameInterface.java" index="2">
+<position info="not_deleted" x="395" y="0"/>
+</item>
+<item historyLabel="TheDiggingGame.java" index="1">
+<position info="not_deleted" x="4153" y="61"/>
+</item>
+<item historyLabel="GameInterface.java" index="2">
+<position info="not_deleted" x="560" y="0"/>
+</item>
+<item historyLabel="TheDiggingGame.java" index="1">
+<position info="not_deleted" x="4403" y="53"/>
+</item>
+<item historyLabel="GameInterface.java" index="2">
+<position info="not_deleted" x="641" y="0"/>
+</item>
+<item historyLabel="TheDiggingGame.java" index="1">
+<position info="not_deleted" x="4496" y="75"/>
+</item>
+<item historyLabel="GameInterface.java" index="2">
+<position info="not_deleted" x="283" y="0"/>
+</item>
+<item historyLabel="MainMenu.java" index="4">
+<position info="not_deleted" x="3745" y="0"/>
+</item>
+<item historyLabel="Launcher.java" index="0">
+<position info="not_deleted" x="994" y="0"/>
+</item>
+<item historyLabel="MainMenu.java" index="4">
+<position info="not_deleted" x="3745" y="0"/>
+</item>
+<item historyLabel="Launcher.java" index="0">
+<position info="not_deleted" x="994" y="0"/>
+</item>
+<item historyLabel="Launcher.java" index="0">
+<position info="not_deleted" x="1182" y="0"/>
+</item>
+<item historyLabel="TheDiggingGame.java" index="5">
+<position info="not_deleted" x="2357" y="38"/>
+</item>
+<item historyLabel="Launcher.java" index="0">
+<position info="not_deleted" x="2831" y="0"/>
+</item>
+<item historyLabel="TheDiggingGame.java" index="5">
+<position info="not_deleted" x="4153" y="61"/>
+</item>
+<item historyLabel="Launcher.java" index="0">
+<position info="not_deleted" x="3870" y="0"/>
+</item>
+<item historyLabel="TheDiggingGame.java" index="5">
+<position info="not_deleted" x="4153" y="61"/>
+</item>
+<item historyLabel="Launcher.java" index="0">
+<position info="not_deleted" x="3870" y="0"/>
+</item>
+<item historyLabel="TheDiggingGame.java" index="5">
+<position info="not_deleted" x="4403" y="53"/>
+</item>
+<item historyLabel="Launcher.java" index="0">
+<position info="not_deleted" x="3870" y="0"/>
+</item>
+<item historyLabel="TheDiggingGame.java" index="5">
+<position info="not_deleted" x="4495" y="77"/>
+</item>
+<item historyLabel="Launcher.java" index="0">
+<position info="not_deleted" x="4044" y="0"/>
+</item>
+<item historyLabel="TheDiggingGame.java" index="5">
+<position info="not_deleted" x="4546" y="0"/>
+</item>
+<item historyLabel="Launcher.java" index="0">
+<position info="not_deleted" x="4044" y="0"/>
+</item>
+<item historyLabel="Launcher.java" index="0">
+<position info="not_deleted" x="1681" y="0"/>
+</item>
+<item historyLabel="Frame.java" index="6">
+<position info="not_deleted" x="6389" y="0"/>
+</item>
+<item historyLabel="Mouse.java" index="7">
+<position info="not_deleted" x="7454" y="0"/>
+</item>
+<item historyLabel="MouseListener.java" index="8">
+<position info="not_deleted" x="372" y="0"/>
+</item>
+<item historyLabel="Frame.java" index="6">
+<position info="not_deleted" x="6389" y="0"/>
+</item>
+<item historyLabel="Mouse.java" index="7">
+<position info="not_deleted" x="7135" y="0"/>
+</item>
+<item historyLabel="Frame.java" index="6">
+<position info="not_deleted" x="6389" y="0"/>
+</item>
+<item historyLabel="Frame.java" index="6">
+<position info="not_deleted" x="4433" y="0"/>
+</item>
+<item historyLabel="Frame.java" index="6">
+<position info="not_deleted" x="6287" y="0"/>
+</item>
+<item historyLabel="Mouse.java" index="7">
+<position info="not_deleted" x="6121" y="0"/>
+</item>
+<item historyLabel="Frame.java" index="6">
+<position info="not_deleted" x="4999" y="0"/>
+</item>
+<item historyLabel="TheDiggingGame.java" index="5">
+<position info="not_deleted" x="4489" y="0"/>
+</item>
+<item historyLabel="Launcher.java" index="0">
+<position info="not_deleted" x="1805" y="0"/>
+</item>
+<item historyLabel="Launcher.java" index="0">
+<position info="not_deleted" x="1634" y="0"/>
+</item>
+<item historyLabel="Launcher.java" index="0">
+<position info="not_deleted" x="1661" y="0"/>
+</item>
+<item historyLabel="Launcher.java" index="0">
+<position info="not_deleted" x="1661" y="0"/>
+</item>
+<item historyLabel="Launcher.java" index="0">
+<position info="not_deleted" x="2164" y="0"/>
+</item>
+<item historyLabel="Downloader.java" index="9">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item active="true" historyLabel="Launcher.java" index="0">
+<position info="not_deleted" x="2164" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -1283,6 +1291,15 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Downloader.java" tooltip="jDoutil/src/net/foxycorndog/jdoutil/web/Downloader.java">
+<persistable path="/jDoutil/src/net/foxycorndog/jdoutil/web/Downloader.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MouseListener.java" tooltip="JFoxyLib/src/net/foxycorndog/jfoxylib/events/MouseListener.java">
+<persistable path="/JFoxyLib/src/net/foxycorndog/jfoxylib/events/MouseListener.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GameInterface.java" tooltip="TheDiggingGameInterface/src/net/foxycorndog/thedigginggame/GameInterface.java">
+<persistable path="/TheDiggingGameInterface/src/net/foxycorndog/thedigginggame/GameInterface.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MainMenu.java" tooltip="TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/menu/MainMenu.java">
 <persistable path="/TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/menu/MainMenu.java"/>
 </file>
@@ -1318,15 +1335,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Publisher.java" tooltip="P1XELAND Market/src/net/foxycorndog/p1xeland/market/Publisher.java">
 <persistable path="/P1XELAND Market/src/net/foxycorndog/p1xeland/market/Publisher.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SaveData.java" tooltip="TheDiggingGame/src/net/foxycorndog/thedigginggame/map/SaveData.java">
-<persistable path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/SaveData.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Game.java" tooltip="TestGame2.0/src/net/foxycorndog/testgame/Game.java">
-<persistable path="/TestGame2.0/src/net/foxycorndog/testgame/Game.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Chunk.java" tooltip="P1XELAND/src/net/foxycorndog/p1xeland/map/chunks/Chunk.java">
-<persistable path="/P1XELAND/src/net/foxycorndog/p1xeland/map/chunks/Chunk.java"/>
 </file>
 </mruList>
 </workbench>

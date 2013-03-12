@@ -40,21 +40,21 @@ import net.foxycorndog.thedigginggame.tile.Tile;
  */
 public class TheDiggingGame implements GameInterface
 {
-	private int			fps;
-	private int			editing;
-	private int			counter;
+	private int				fps;
+	private int				editing;
+	private int				counter;
 	
-	private float		scale;
+	private float			scale;
 	
-	private Cursor		cursor;
+	private Cursor			cursor;
 	
-	private Player		player;
+	private Player			player;
 	
-	private MainMenu	mainMenu;
+	private Font			font;
 	
-	private Font		font;
+	private Map				map;
 	
-	private Map			map;
+	private static String	resourcesLocation;
 	
 	/**
 	 * Main method for the game. First method ran.
@@ -77,10 +77,23 @@ public class TheDiggingGame implements GameInterface
 	}
 	
 	/**
+	 * Get the location in which the resources for the game are stored.
+	 * 
+	 * @return The location in which the resources for the game are
+	 * 		stored.
+	 */
+	public static String getResourcesLocation()
+	{
+		return resourcesLocation;
+	}
+	
+	/**
 	 * Initialize the data.
 	 */
 	public void init()
 	{
+		resourcesLocation = System.getProperty("game.resources.location");
+		
 		scale = 2;
 		
 //		map = new Map(this);
@@ -103,9 +116,6 @@ public class TheDiggingGame implements GameInterface
 					'?', '>', '<', ';', ':', '\'', '"', '{', '}', '[', ']', '\\', '|', ',', '.', '/', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
 				});
 		
-		mainMenu = new MainMenu(font, this, null);
-		mainMenu.setSize(Frame.getWidth(), Frame.getHeight());
-		
 //		cursor = new Cursor(Tile.getTileSize());
 //		
 //		player.center();
@@ -120,8 +130,6 @@ public class TheDiggingGame implements GameInterface
 	 */
 	public void startGame()
 	{
-		mainMenu = null;
-		
 		map = new Map(this);
 		
 		map.load("world");
@@ -155,25 +163,12 @@ public class TheDiggingGame implements GameInterface
 	 */
 	public void render2D()
 	{
-		if (mainMenu != null)
-		{
-			GL.pushMatrix();
-			{
-				GL.scale(3, 3, 1);
-				
-				mainMenu.render();
-			}
-			GL.popMatrix();
-		}
-		else
-		{
-			font.render("Editing: " + editing, 0, 0, 10, 2, Font.LEFT, Font.TOP, null);
-			
-			GL.scale(scale, scale, 1);
-			map.render();
-			
-			renderCursor();
-		}
+		font.render("Editing: " + editing, 0, 0, 10, 2, Font.LEFT, Font.TOP, null);
+		
+		GL.scale(scale, scale, 1);
+		map.render();
+		
+		renderCursor();
 	}
 	
 	/**
@@ -185,18 +180,11 @@ public class TheDiggingGame implements GameInterface
 	}
 	
 	/**
-	 * Method that is called each time after the render methods.
+	 * Method that is called each time before the render methods.
 	 */
 	public void loop()
 	{
-		if (mainMenu != null)
-		{
-			
-		}
-		else
-		{
-			gameLoop();
-		}
+		gameLoop();
 	}
 	
 	/**
