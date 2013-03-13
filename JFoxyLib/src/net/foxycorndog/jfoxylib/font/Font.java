@@ -1,6 +1,7 @@
 package net.foxycorndog.jfoxylib.font;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.foxycorndog.jfoxylib.Frame;
@@ -28,7 +29,7 @@ public class Font
 	private HashMap<Character, int[]> charSequence;
 	private HashMap<String, int[]>  history;
 	
-	public static final int LEFT = 0, CENTER = 1, RIGHT = 2, TOP = 2, BOTTOM = 0;
+	public static final int	LEFT = 0, CENTER = 1, RIGHT = 2, BOTTOM = 0, TOP = 2;
 	
 	public Font(String location, int cols, int rows, char charSequence[])
 	{
@@ -110,6 +111,39 @@ public class Font
 		float scaleX = glScale[0];
 		float scaleY = glScale[1];
 		
+		String lines[]  = null;
+		
+		char chars[]    = text.toCharArray();
+		
+		int longestLine = 0;
+		int count       = 0;
+		
+		ArrayList<String> tempLines = new ArrayList<String>();
+		
+		StringBuilder builder = new StringBuilder();
+		
+		for (int i = 0; i < chars.length; i++)
+		{
+			if (chars[i] != '\n')
+			{
+				count++;
+				
+				longestLine = count > longestLine ? count : longestLine;
+				
+				builder.append(chars[i]);
+			}
+			else
+			{
+				count = 0;
+				
+				tempLines.add(builder.toString());
+			}
+		}
+		
+		lines = tempLines.toArray(new String[0]);
+		
+		int numLines = lines.length;
+		
 		if (horizontalAlignment == CENTER)
 		{
 			if (panel != null)
@@ -121,7 +155,7 @@ public class Font
 				x += (Frame.getWidth() / scaleX) / 2;
 			}
 			
-			x -= ((text.length() * glyphWidth) * (scale / 2));
+			x -= ((longestLine * glyphWidth) * (scale / 2));
 		}
 		else if (horizontalAlignment == RIGHT)
 		{
@@ -134,7 +168,7 @@ public class Font
 				x += Frame.getWidth() / scaleX;
 			}
 			
-			x -= text.length() * glyphWidth * scale;
+			x -= longestLine * glyphWidth * scale;
 		}
 		if (verticalAlignment == CENTER)
 		{
@@ -147,7 +181,7 @@ public class Font
 				y += (Frame.getHeight() / scaleY) / 2;
 			}
 			
-			y -= (glyphHeight) * (scale / 2);
+			y -= (glyphHeight * (numLines + 1)) * (scale / 2);
 		}
 		else if (verticalAlignment == TOP)
 		{
@@ -187,50 +221,65 @@ public class Font
 			
 			size = vertices.getSize();
 			
-			char chars[]            = text.toCharArray();
+//			for (int i = 0; i < chars.length; i ++)
+//			{
+//				if (chars[i] == '\n')
+//				{
+//					renderVertexBuffer(text.substring(0, i), x, y /*+ ((glyphHeight + 1) / 2) * scale*/ , z, scale, horizontalAlignment, verticalAlignment, vertices, textures, panel);
+//					renderVertexBuffer(text.substring(i + 1), x, y - (glyphHeight + 1)/*((glyphHeight + 1) / 2) * scale*/, z, scale, horizontalAlignment, verticalAlignment, vertices, textures, panel);
+//					
+//					addToHistory(text, vId, tId, viId, size, vertices, textures, null);
+//					
+//					return;
+//				}
+//			}
+			
+			float yOffset = 0;
+			float xOffset = 0;
 			
 			for (int i = 0; i < chars.length; i ++)
 			{
-				if (chars[i] == '\n')
+				if (chars[i] != '\n')
 				{
-					renderVertexBuffer(text.substring(0, i), x, y /*+ ((glyphHeight + 1) / 2) * scale*/ , z, scale, horizontalAlignment, verticalAlignment, vertices, textures, panel);
-					renderVertexBuffer(text.substring(i + 1), x, y - (glyphHeight + 1)/*((glyphHeight + 1) / 2) * scale*/, z, scale, horizontalAlignment, verticalAlignment, vertices, textures, panel);
-					
-					addToHistory(text, vId, tId, viId, size, vertices, textures, null);
-					
-					return;
-				}
-			}
-			
-			for (int i = 0; i < chars.length; i ++)
-			{
-				try
-				{
-					int charX       = charSequence.get(chars[i])[0];
-					int charY       = charSequence.get(chars[i])[1];
-					
-					float offsets[] = characters.getImageOffsets(charX, charY, 1, 1);
-					
-					vertices.beginEditing();
-					vertices.setData(i * 4 * 2, GL.genRectVerts(i * glyphWidth + (letterMargin * i), 0, glyphWidth, glyphHeight));
-					vertices.endEditing();
-					
-					textures.beginEditing();
-					textures.setData(i * 4 * 2, GL.genRectTextures(offsets));
-					textures.endEditing();
-				}
-				catch (NullPointerException e)
-				{
-					if (chars[i] == ' ')
+					try
 					{
+						int charX       = charSequence.get(chars[i])[0];
+						int charY       = charSequence.get(chars[i])[1];
 						
+						float offsets[] = characters.getImageOffsets(charX, charY, 1, 1);
+						
+						vertices.beginEditing();
+						{
+							vertices.setData(i * 4 * 2, GL.genRectVerts(xOffset, yOffset, glyphWidth, glyphHeight));
+						}
+						vertices.endEditing();
+						
+						textures.beginEditing();
+						{
+							textures.setData(i * 4 * 2, GL.genRectTextures(offsets));
+						}
+						textures.endEditing();
+						
+						xOffset += glyphWidth + letterMargin;
 					}
-					else
+					catch (NullPointerException e)
 					{
-						addToHistory(text, vId, tId, viId, size, vertices, textures, null);
-						
-						return;
+						if (chars[i] == ' ')
+						{
+							
+						}
+						else
+						{
+							addToHistory(text, vId, tId, viId, size, vertices, textures, null);
+							
+							return;
+						}
 					}
+				}
+				else
+				{
+					yOffset -= glyphHeight + 1;
+					xOffset  = 0;
 				}
 			}
 			

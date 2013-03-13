@@ -26,7 +26,6 @@ import net.foxycorndog.thedigginggame.actor.Player;
 import net.foxycorndog.thedigginggame.components.Cursor;
 import net.foxycorndog.thedigginggame.map.Chunk;
 import net.foxycorndog.thedigginggame.map.Map;
-import net.foxycorndog.thedigginggame.menu.MainMenu;
 import net.foxycorndog.thedigginggame.tile.Tile;
 
 /**
@@ -55,6 +54,8 @@ public class TheDiggingGame implements GameInterface
 	private Map				map;
 	
 	private static String	resourcesLocation;
+	
+	public static final String VERSION	= "v0.1";
 	
 	/**
 	 * Main method for the game. First method ran.
@@ -353,5 +354,15 @@ public class TheDiggingGame implements GameInterface
 		int finalY = (int)Math.round(y);
 		
 		cursor.setLocation(finalX, finalY);
+	}
+	
+	/**
+	 * Get the current version of the client that is being ran.
+	 * 
+	 * @return The current version in the String format.
+	 */
+	public String getVersion()
+	{
+		return VERSION;
 	}
 }

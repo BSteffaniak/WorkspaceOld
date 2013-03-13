@@ -229,19 +229,24 @@ public class MainMenu extends Menu
 	}
 	
 	/**
-	 * Dispose this Menu from the Listeners.
-	 * 
-	 * @return Whether it was successfully disposed.
+	 * Set the buttons visible so they can be seen and pressed.
 	 */
-	public boolean dispose()
+	public void enable()
 	{
-		super.dispose();
-		
-		playButton.dispose();
-		optionsButton.dispose();
-		quitButton.dispose();
-		backgroundImage.dispose();
-		
-		return true;
+		playButton.setVisible(true);
+		optionsButton.setVisible(true);
+		quitButton.setVisible(true);
+		backgroundImage.setVisible(true);
+	}
+	
+	/**
+	 * Set the buttons invisible so they cant be seen or pressed.
+	 */
+	public void disable()
+	{
+		playButton.setVisible(false);
+		optionsButton.setVisible(false);
+		quitButton.setVisible(false);
+		backgroundImage.setVisible(false);
 	}
 }

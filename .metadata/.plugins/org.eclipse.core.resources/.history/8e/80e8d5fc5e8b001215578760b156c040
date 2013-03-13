@@ -1,0 +1,16 @@
+package net.foxycorndog.thedigginggame.launcher.menu;
+
+import net.foxycorndog.jfoxylib.components.Panel;
+
+public class UpdateMenu extends Menu
+{
+	public UpdateMenu(Panel parent)
+	{
+		super(parent);
+	}
+	
+	public void render()
+	{
+		super.render();
+	}
+}

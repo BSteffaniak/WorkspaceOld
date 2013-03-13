@@ -16,6 +16,7 @@ import net.foxycorndog.jfoxylib.graphics.opengl.GL;
  */
 public abstract class Component
 {
+	private boolean	disposed;
 	private boolean	visible;
 	
 	private int		x, y;
@@ -37,9 +38,11 @@ public abstract class Component
 	 */
 	public Component(Panel parent)
 	{
-		this.parent  = parent;
+		this.parent   = parent;
 		
-		this.visible = true;
+		this.visible  = true;
+		
+		this.disposed = false;
 		
 		if (parent != null)
 		{
@@ -198,13 +201,27 @@ public abstract class Component
 	}
 	
 	/**
+	 * Returns whether this Component is disposed or not.
+	 * 
+	 * @return Whether this Component is disposed or not.
+	 */
+	public boolean isDisposed()
+	{
+		return disposed;
+	}
+	
+	/**
 	 * Dispose this Component from the Listeners.
 	 * 
 	 * @return Whether it was successfully disposed.
 	 */
 	public boolean dispose()
 	{
-		return Frame.remove(this);
+		Frame.remove(this);
+		
+		disposed = true;
+		
+		return disposed;
 	}
 	
 	/**

@@ -94,10 +94,15 @@ public class Frame
 			
 			public void mouseReleased(MouseEvent event)
 			{
-				for (int i = components.size() - 1; i >= 0; i--)
+				for (int i = 0; i < components.size(); i++)
 				{
 					Component comp = components.get(i);
-
+					
+					if (comp.isDisposed())
+					{
+						continue;
+					}
+					
 					boolean intersects = intersectsMouse(comp);
 					
 					boolean buttons[] = new boolean[] { Mouse.isButtonDown(0), Mouse.isButtonDown(1), Mouse.isButtonDown(2) };
@@ -125,9 +130,14 @@ public class Frame
 			
 			public void mousePressed(MouseEvent event)
 			{
-				for (int i = components.size() - 1; i >= 0; i--)
+				for (int i = 0; i < components.size(); i++)
 				{
 					Component comp = components.get(i);
+					
+					if (comp.isDisposed())
+					{
+						continue;
+					}
 
 					boolean intersects = intersectsMouse(comp);
 					
@@ -156,9 +166,14 @@ public class Frame
 			
 			public void mouseMoved(MouseEvent event)
 			{
-				for (int i = components.size() - 1; i >= 0; i--)
+				for (int i = 0; i < components.size(); i++)
 				{
 					Component comp = components.get(i);
+					
+					if (comp.isDisposed())
+					{
+						continue;
+					}
 					
 					boolean intersects = intersectsMouse(comp);
 					
@@ -201,9 +216,14 @@ public class Frame
 
 			public void mouseExited(MouseEvent event)
 			{
-				for (int i = components.size() - 1; i >= 0; i--)
+				for (int i = 0; i < components.size(); i++)
 				{
 					Component comp = components.get(i);
+					
+					if (comp.isDisposed())
+					{
+						continue;
+					}
 					
 					boolean intersects = intersectsMouse(comp);
 					
@@ -233,7 +253,7 @@ public class Frame
 	{
 		float trans[] = GL.getAmountTranslated();
 		
-		return Mouse.isInFrame() && Intersects.rectangles(comp.getX() * comp.getScaleX() + comp.getTranslatedX(), comp.getY() * comp.getScaleY() + comp.getTranslatedY(), comp.getWidth() * comp.getScaleX(), comp.getHeight() * comp.getScaleY(), Mouse.getX(), Mouse.getY(), 1, 1);
+		return comp.isVisible() && Mouse.isInFrame() && Intersects.rectangles(comp.getX() * comp.getScaleX() + comp.getTranslatedX(), comp.getY() * comp.getScaleY() + comp.getTranslatedY(), comp.getWidth() * comp.getScaleX(), comp.getHeight() * comp.getScaleY(), Mouse.getX(), Mouse.getY(), 1, 1);
 	}
 	
 	/**

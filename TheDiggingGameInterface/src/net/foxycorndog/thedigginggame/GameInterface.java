@@ -36,4 +36,11 @@ public interface GameInterface
 	 * Method that is called each time before the render methods.
 	 */
 	public void loop();
+	
+	/**
+	 * Get the current version of the client that is being ran.
+	 * 
+	 * @return The current version in the String format.
+	 */
+	public String getVersion();
 }

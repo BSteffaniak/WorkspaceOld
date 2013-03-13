@@ -1,0 +1,72 @@
+package net.foxycorndog.thedigginggame.launcher.menu;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import net.foxycorndog.jfoxylib.Display;
+import net.foxycorndog.jfoxylib.components.Button;
+import net.foxycorndog.jfoxylib.components.Panel;
+import net.foxycorndog.jfoxylib.font.Font;
+
+public class UpdateMenu extends Menu
+{
+	private Button	yesButton, noButton;
+	
+	public UpdateMenu(Font font, Panel parent)
+	{
+		super(parent);
+		
+		BufferedImage smallButtonImage      = null;
+		BufferedImage smallButtonHoverImage = null;
+		BufferedImage background            = null;
+		
+		try
+		{
+			smallButtonImage      = ImageIO.read(new File("res/images/GUI/SmallButton.png"));
+			smallButtonHoverImage = ImageIO.read(new File("res/images/GUI/SmallButtonHover.png"));
+			background            = ImageIO.read(new File("res/images/background.png"));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		int max = Math.max(Display.getWidth(), Display.getHeight());
+		
+		backgroundImage.setSize(max, max);
+		
+		yesButton = new Button(this);
+		yesButton.setImage(smallButtonImage);
+		yesButton.setHoverImage(smallButtonHoverImage);
+		yesButton.setFont(font);
+		yesButton.setText("Yes");
+		yesButton.setAlignment(Font.CENTER, Font.CENTER);
+//		yesButton.setLocation(-50, 0);
+		
+		noButton = new Button(this);
+		noButton.setImage(smallButtonImage);
+		noButton.setHoverImage(smallButtonHoverImage);
+		noButton.setFont(font);
+		noButton.setText("No");
+		noButton.setAlignment(Font.CENTER, Font.CENTER);
+//		noButton.setLocation(50, 0);
+	}
+	
+	public void render()
+	{
+		super.render();
+	}
+	
+	public boolean dispose()
+	{
+		super.dispose();
+		
+		yesButton.dispose();
+		noButton.dispose();
+		
+		return true;
+	}
+}

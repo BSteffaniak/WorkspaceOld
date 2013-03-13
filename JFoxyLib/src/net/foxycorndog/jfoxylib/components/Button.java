@@ -209,6 +209,20 @@ public class Button extends Image
 //	{
 //		this.hovered = hovered;
 //	}
+	
+	/**
+	 * Dispose this Button from the Listeners.
+	 * 
+	 * @return Whether it was successfully disposed.
+	 */
+	public boolean dispose()
+	{
+		boolean disposed = super.dispose();
+		
+		buttonListeners = null;
+		
+		return disposed;
+	}
 
 	/**
 	 * Renders the Button to the screen.

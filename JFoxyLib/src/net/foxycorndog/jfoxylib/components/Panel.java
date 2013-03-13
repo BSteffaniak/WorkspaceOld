@@ -2,6 +2,8 @@ package net.foxycorndog.jfoxylib.components;
 
 import java.util.ArrayList;
 
+import net.foxycorndog.jfoxylib.Frame;
+
 /**
  * Class that is used to contain other Components.
  * 
@@ -44,6 +46,23 @@ public class Panel extends Component
 		}
 		
 		return children.add(child);
+	}
+	
+	/**
+	 * Dispose this Panel and all of its children from the Listeners.
+	 * 
+	 * @return Whether it was successfully disposed.
+	 */
+	public boolean dispose()
+	{
+		boolean disposed = super.dispose();
+		
+		for (int i = 0; i < children.size(); i++)
+		{
+			children.get(i).dispose();
+		}
+		
+		return disposed;
 	}
 
 	/**

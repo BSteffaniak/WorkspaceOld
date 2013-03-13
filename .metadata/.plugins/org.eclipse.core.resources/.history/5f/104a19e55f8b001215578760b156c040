@@ -1,0 +1,58 @@
+package net.foxycorndog.thedigginggame.launcher.menu;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import net.foxycorndog.jfoxylib.components.Button;
+import net.foxycorndog.jfoxylib.components.Panel;
+
+public class UpdateMenu extends Menu
+{
+	private Button	yesButton, noButton;
+	
+	public UpdateMenu(Font font, Panel parent)
+	{
+		super(parent);
+		
+		BufferedImage smallButtonImage      = null;
+		BufferedImage smallButtonHoverImage = null;
+		
+		try
+		{
+			smallButtonImage      = ImageIO.read(new File("res/images/GUI/SmallButton.png"));
+			smallButtonHoverImage = ImageIO.read(new File("res/images/GUI/SmallButtonHover.png"));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		yesButton = new Button(this);
+		yesButton.setImage(smallButtonImage);
+		yesButton.setHoverImage(smallButtonHoverImage);
+		yesButton.setFont(font);
+		yesButton.setText("Yes");
+		
+		noButton = new Button(this);
+		noButton.setImage(smallButtonImage);
+		noButton.setHoverImage(smallButtonHoverImage);
+		noButton.setFont(font);
+		noButton.setText("No");
+	}
+	
+	public void render()
+	{
+		super.render();
+	}
+	
+	public boolean dispose()
+	{
+		yesButton.dispose();
+		noButton.dispose();
+		
+		return true;
+	}
+}
