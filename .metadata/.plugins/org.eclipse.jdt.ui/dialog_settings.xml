@@ -59,7 +59,7 @@
 		</list>
 	</section>
 	<section name="BuildPathsPropertyPage">
-		<item value="2" key="pageIndex"/>
+		<item value="1" key="pageIndex"/>
 	</section>
 	<section name="FatJarPackageWizard">
 		<item value="TheDiggingGame\TDG.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>

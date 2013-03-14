@@ -337,8 +337,6 @@ public class FileUtils
 			
 			int index = path.lastIndexOf(folderName);
 			
-			index = index < 0 ? 0 : index;
-			
 			return path.substring(0, index);
 //		}
 //		else
@@ -368,20 +366,6 @@ public class FileUtils
 //		{
 //			throw new IllegalArgumentException('"' + relativeTo + '"' + " must be an existing location.");
 //		}
-	}
-	
-	/**
-	 * Check whether the File at the specified location is of the
-	 * type file.
-	 * 
-	 * @param location The location of the File to check.
-	 * @return Whether the File at the location is of the type file.
-	 */
-	public static boolean isFile(String location)
-	{
-		File f = new File(location);
-		
-		return f.isFile();
 	}
 	
 	public static Font loadMonospacedFont(Display display, String name, String location, int size, int style)

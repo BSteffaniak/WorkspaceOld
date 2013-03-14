@@ -58,24 +58,7 @@ public class FileInputDialog extends TextInputDialog
 				
 				if (!file.exists())
 				{
-					boolean isDirectory = !FileUtils.isFileName(location);
-					
-					if ((!directory && !isDirectory) || (directory && isDirectory))
-					{
-						setText(location);
-					}
-					else if (!directory && isDirectory)
-					{
-						return "Must be a file name, not a directory name.";
-					}
-					else if (directory && !isDirectory)
-					{
-						return "Must be a directory name, not a file name.";
-					}
-					else
-					{
-						return "An unknown error has ocurred.";
-					}
+					setText(location);
 				}
 				else
 				{

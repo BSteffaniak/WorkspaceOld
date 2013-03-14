@@ -877,10 +877,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					
 					String preLocation = FileUtils.removeEndingSlashes(preLoc);
 
-					if (FileUtils.isFile(preLocation))
-					{
-						preLocation = FileUtils.getParentFolder(preLocation);
-					}
+					//TODO: CHECK FILENAME.ISFILENAME
+					preLocation = FileUtils.getParentFolder(preLocation);
 					
 					newFolderDialog = new FileInputDialog("Enter the folder name:", "Folder name:", true, preLocation + "/", false);
 					
@@ -904,11 +902,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					}
 					
 					String preLocation = FileUtils.removeEndingSlashes(preLoc);
-					
-					if (FileUtils.isFile(preLocation))
-					{
-						preLocation = FileUtils.getParentFolder(preLocation);
-					}
+					//TODO: CHECK FILENAME.ISFILENAME
+					preLocation = FileUtils.getParentFolder(preLocation);
 					
 					newFileDialog = new FileInputDialog("Enter the file name:", "File name:", false, preLocation + "/", false);
 					

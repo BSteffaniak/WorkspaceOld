@@ -370,20 +370,6 @@ public class FileUtils
 //		}
 	}
 	
-	/**
-	 * Check whether the File at the specified location is of the
-	 * type file.
-	 * 
-	 * @param location The location of the File to check.
-	 * @return Whether the File at the location is of the type file.
-	 */
-	public static boolean isFile(String location)
-	{
-		File f = new File(location);
-		
-		return f.isFile();
-	}
-	
 	public static Font loadMonospacedFont(Display display, String name, String location, int size, int style)
 	{
 		File file = new File(location);
