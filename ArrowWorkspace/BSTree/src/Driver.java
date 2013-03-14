@@ -14,31 +14,16 @@ public class Driver
 	{
 		Tree t = new Tree();
 		
-		t.add("L");
-		t.add("D");
-		t.add("A");
-		t.add("F");
-		t.add("B");
-		t.add("R");
-		t.add("M");
-		t.add("U");
-		t.add("T");
-		t.add("TT");
-		t.add("V");
+		t.add(10);
+		t.add(8);
+		t.add(7);
+		t.add(9);
+		t.add(12);
+		t.add(11);
+		t.add(13);
+		t.add(14);
+		t.add(15);
 		
-		System.out.println(t);
-		System.out.println(t.toStringPreOrder());
-		
-		System.out.println(t.height());
-		System.out.println(t.search("B"));
-		
-		t.remove("A");
-		t.remove("B");
-		t.remove("U");
-		t.remove("R");
-		t.remove("L");
-		
-		System.out.println(t);
-		System.out.println(t.toStringPreOrder());
+		System.out.println(t.mystery());
 	}
 }

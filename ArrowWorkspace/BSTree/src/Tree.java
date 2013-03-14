@@ -381,4 +381,28 @@ public class Tree implements BSTree
 			}
 		}
 	}
+	
+	public int mystery()
+	{
+		return mystery(root);
+	}
+	
+	private int mystery(TreeNode node)
+	{
+		if (node == null)
+		{
+			return 0;
+		}
+		else
+		{
+			if (mystery(node.getLeftNode()) > mystery(node.getRightNode()))
+			{
+				return 1 + mystery(node.getLeftNode());
+			}
+			else
+			{
+				return 1 + mystery(node.getRightNode());
+			}
+		}
+	}
 }
