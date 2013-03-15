@@ -1,0 +1,131 @@
+package net.foxycorndog.thedigginggame.launcher.menu;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import net.foxycorndog.jfoxylib.Display;
+import net.foxycorndog.jfoxylib.components.Button;
+import net.foxycorndog.jfoxylib.components.Image;
+import net.foxycorndog.jfoxylib.components.Panel;
+import net.foxycorndog.jfoxylib.events.ButtonEvent;
+import net.foxycorndog.jfoxylib.events.ButtonListener;
+import net.foxycorndog.jfoxylib.font.Font;
+import net.foxycorndog.thedigginggame.launcher.Launcher;
+
+/**
+ * Menu used to edit the preferences for the game.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Mar 14, 2013 at 8:28:22 PM
+ * @since	v0.1
+ * @version Mar 14, 2013 at 8:28:22 PM
+ * @version	v0.1
+ */
+public class OptionsMenu extends Menu
+{
+	private Image		backgroundImage;
+	
+	private Button		playOfflineButton;
+	
+	private Font		font;
+	
+	private Launcher	launcher;
+	
+	/**
+	 * Create an OptionsMenu.
+	 * 
+	 * @param parent The parent Panel of this OptionsMenu.
+	 */
+	public OptionsMenu(final Launcher launcher, Font font, Panel parent)
+	{
+		super(parent);
+		
+		this.launcher = launcher;
+		
+		this.font     = font;
+		
+		BufferedImage smallButtonImage      = null;
+		BufferedImage smallButtonHoverImage = null;
+		BufferedImage largeButtonImage      = null;
+		BufferedImage largeButtonHoverImage = null;
+		BufferedImage background            = null;
+		
+		try
+		{
+			smallButtonImage      = ImageIO.read(new File("res/images/GUI/SmallButton.png"));
+			smallButtonHoverImage = ImageIO.read(new File("res/images/GUI/SmallButtonHover.png"));
+			largeButtonImage      = ImageIO.read(new File("res/images/GUI/Button.png"));
+			largeButtonHoverImage = ImageIO.read(new File("res/images/GUI/ButtonHover.png"));
+			background            = ImageIO.read(new File("res/images/background.png"));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		int max = Math.max(Display.getWidth(), Display.getHeight());
+		
+		playOfflineButton = new Button(this);
+		playOfflineButton.setImage(largeButtonImage);
+		playOfflineButton.setHoverImage(largeButtonHoverImage);
+		playOfflineButton.setFont(font);
+		playOfflineButton.setText("Play Offline");
+		
+		backgroundImage = new Image(this);
+		backgroundImage.setSize(max, max);
+		backgroundImage.setImage(background, 75, 75);
+		
+		ButtonListener listener = new ButtonListener()
+		{
+			public void buttonUnHovered(ButtonEvent event)
+			{
+				
+			}
+			
+			public void buttonReleased(ButtonEvent event)
+			{
+				if (event.getSource() == playOfflineButton)
+				{
+					boolean playOffline = playOfflineButton.getText().equals("Play Offline");
+					
+					launcher.setPlayOffline(playOffline);
+					
+					if (playOffline)
+					{
+						playOfflineButton.setText("Play Online");
+					}
+					else
+					{
+						playOfflineButton.setText("Play Offline");
+					}
+				}
+			}
+			
+			public void buttonPressed(ButtonEvent event)
+			{
+				
+			}
+			
+			public void buttonHovered(ButtonEvent event)
+			{
+				
+			}
+		};
+		
+		playOfflineButton.addButtonListener(listener);
+	}
+	
+	/**
+	 * Method that is called each time it is needed to be rendered.
+	 * All of the drawing should be done in this method.
+	 */
+	public void render()
+	{
+		super.render();
+		
+		
+	}
+}

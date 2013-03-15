@@ -461,6 +461,17 @@ public class Frame
 	}
 	
 //	/**
+//	 * Set whether to render the Frame to the monitor display or not.
+//	 * 
+//	 * @param visible Whether to render the Frame to the monitor display
+//	 * 		or not.
+//	 */
+//	public static void setVisible(boolean visible)
+//	{
+//		
+//	}
+	
+//	/**
 //	 * 
 //	 * 
 //	 * @param image16Location

@@ -18,6 +18,7 @@ import net.foxycorndog.jfoxylib.events.FrameEvent;
 import net.foxycorndog.jfoxylib.events.FrameListener;
 import net.foxycorndog.jfoxylib.font.Font;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+import net.foxycorndog.jfoxylib.util.Bounds2f;
 import net.foxycorndog.thedigginggame.launcher.Launcher;
 
 /**
@@ -32,17 +33,33 @@ import net.foxycorndog.thedigginggame.launcher.Launcher;
  */
 public class MainMenu extends Menu
 {
+	private boolean	splashScaleIncreasing;
 	private boolean	rUp, gUp, bUp;
 	
 	private int		r, g, b;
 	private int		width, height;
-	private int		counter;
+	
+	private float	counter;
+	private float	splashScale;
+	
+	private String	splash;
 	
 	private Image	backgroundImage;
 	
 	private Button	playButton, optionsButton, quitButton;
 	
 	private Font	font;
+	
+	private static final String splashes[] = new String[]
+	{
+		"Splash!",
+		"Not Minecraft!",
+		"Don't Sue!",
+		"_________!",
+		"F2P!",
+		"|_|",
+		"\\o/",
+	};
 	
 	/**
 	 * Construct the Main Menu with the specified parent Panel.
@@ -64,51 +81,91 @@ public class MainMenu extends Menu
 		g = g <= 100 ? 100 : g;
 		b = b <= 100 ? 100 : b;
 		
-		playButton = new Button(this);
-		playButton.setAlignment(Component.CENTER, Component.CENTER);
-		playButton.setLocation(0, 0);
-		playButton.setFont(font);
-		playButton.setText("Play");
-
-		optionsButton = new Button(this);
-		optionsButton.setAlignment(Component.CENTER, Component.CENTER);
-		optionsButton.setLocation(0, -35);
-		optionsButton.setFont(font);
-		optionsButton.setText("Options");
-
-		quitButton = new Button(this);
-		quitButton.setAlignment(Component.CENTER, Component.CENTER);
-		quitButton.setLocation(0, -70);
-		quitButton.setFont(font);
-		quitButton.setText("Quit");
+		splashScale = 1;
 		
-		backgroundImage = new Image(this);
+		splash = splashes[(int)(Math.random() * splashes.length)];
+		
+		new Thread()
+		{
+			public void run()
+			{
+				while (!isDisposed())
+				{
+					if (splashScaleIncreasing)
+					{
+						splashScale *= 1.005f;
+						
+						if (splashScale >= 1.1f)
+						{
+							splashScaleIncreasing = false;
+						}
+					}
+					else
+					{
+						splashScale *= 0.995f;
+						
+						if (splashScale <= 0.95f)
+						{
+							splashScaleIncreasing = true;
+						}
+					}
+					
+					try
+					{
+						Thread.sleep(10);
+					}
+					catch (InterruptedException e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}
+		}.start();
+		
+		BufferedImage normalImage = null;
+		BufferedImage hoverImage  = null;
+		BufferedImage background  = null;
 		
 		try
 		{
-			BufferedImage normalImage = ImageIO.read(new File("res/images/GUI/button.png"));
-			BufferedImage hoverImage  = ImageIO.read(new File("res/images/GUI/buttonhover.png"));
-			BufferedImage background = ImageIO.read(new File("res/images/background.png"));
-			
-			playButton.setImage(normalImage);
-			playButton.setHoverImage(hoverImage);
-			
-			optionsButton.setImage(normalImage);
-			optionsButton.setHoverImage(hoverImage);
-			
-			quitButton.setImage(normalImage);
-			quitButton.setHoverImage(hoverImage);
-			
-			backgroundImage.setImage(background, 75, 75);
+			normalImage = ImageIO.read(new File("res/images/GUI/button.png"));
+			hoverImage  = ImageIO.read(new File("res/images/GUI/buttonhover.png"));
+			background = ImageIO.read(new File("res/images/background.png"));
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 		
+		playButton = new Button(this);
+		playButton.setAlignment(Component.CENTER, Component.CENTER);
+		playButton.setLocation(0, 0);
+		playButton.setFont(font);
+		playButton.setText("Play");
+		playButton.setImage(normalImage);
+		playButton.setHoverImage(hoverImage);
+
+		optionsButton = new Button(this);
+		optionsButton.setAlignment(Component.CENTER, Component.CENTER);
+		optionsButton.setLocation(0, -35);
+		optionsButton.setFont(font);
+		optionsButton.setText("Options");
+		optionsButton.setImage(normalImage);
+		optionsButton.setHoverImage(hoverImage);
+
+		quitButton = new Button(this);
+		quitButton.setAlignment(Component.CENTER, Component.CENTER);
+		quitButton.setLocation(0, -70);
+		quitButton.setFont(font);
+		quitButton.setText("Quit");
+		quitButton.setImage(normalImage);
+		quitButton.setHoverImage(hoverImage);
+		
 		int max = Math.max(Display.getWidth(), Display.getHeight());
 		
+		backgroundImage = new Image(this);
 		backgroundImage.setSize(max, max);
+		backgroundImage.setImage(background, 75, 75);
 		
 		Frame.addFrameListener(new FrameListener()
 		{
@@ -133,13 +190,13 @@ public class MainMenu extends Menu
 				}
 				else if (event.getSource() == optionsButton)
 				{
-					
+					launcher.openOptionsMenu();
 				}
 				else if (event.getSource() == quitButton)
 				{
 					dispose();
 					
-					System.exit(0);
+					launcher.quit();
 				}
 			}
 			
@@ -167,11 +224,17 @@ public class MainMenu extends Menu
 	 */
 	public void render()
 	{
+		float delta = 60f / Frame.getFPS();
+		
+		counter += delta;
+		
 		GL.pushMatrix();
 		{
 			GL.translate(0, -7, 0);
 			
 			super.render();
+			
+			renderSplashMessage();
 	
 			GL.setColor(r / 255f, g / 255f, b / 255f, 1);
 			font.render("The Digging", 0, 80, 2, 3, Font.CENTER, Font.CENTER, null);
@@ -182,8 +245,46 @@ public class MainMenu extends Menu
 			font.render("Game", 3, 51 + 3, 1, 3, Font.CENTER, Font.CENTER, null);
 			
 			GL.setColor(1, 1, 1, 1);
+		}
+		GL.popMatrix();
 			
-			updateColor();
+		updateColor();
+	}
+	
+	/**
+	 * Renders the yellow subliminal message copied from the original
+	 * Minecraft to the screen.
+	 */
+	private void renderSplashMessage()
+	{
+		GL.pushMatrix();
+		{
+			GL.scale(splashScale, splashScale, 1);
+			
+			float x     = 50;
+			float y     = 20;
+			float z     = 4;
+			float scale = 2;
+			
+			Bounds2f bounds = font.getRenderBounds(splash, x, y, scale, Font.CENTER, Font.CENTER, null);
+			
+			float scaled[] = GL.getAmountScaled();
+			
+			float rx = bounds.getX() / scaled[0];
+			float ry = bounds.getY() / scaled[1];
+			
+			float width  = 0;//bounds.getWidth();
+			float height = 0;//bounds.getHeight();
+			
+			GL.translate(rx + width / 2, ry + height / 2, 10);
+			GL.rotate(0, 0, 15);
+			GL.translate(-rx - width / 2, -ry - height / 2, 0);
+			
+			GL.setColor(0, 0, 0, 0.5f);
+			font.render(splash, x + 2, y + 2, z - 1, scale, Font.CENTER, Font.CENTER, null);
+		
+			GL.setColor(1, 1, 0, 1);
+			font.render(splash, x, y, z, scale, Font.CENTER, Font.CENTER, null);
 		}
 		GL.popMatrix();
 	}
@@ -193,11 +294,7 @@ public class MainMenu extends Menu
 	 */
 	private void updateColor()
 	{
-		counter++;
-		
-		float delta = 60f / Frame.getFPS();
-		
-		if (counter * delta >= 1)
+		if (counter >= 1)
 		{
 			r = rUp ? r + 1 : r - 1;
 			r = r >= 256 ? 255 : r;
@@ -229,24 +326,12 @@ public class MainMenu extends Menu
 	}
 	
 	/**
-	 * Set the buttons visible so they can be seen and pressed.
+	 * Get the Play Button instance.
+	 * 
+	 * @return The Play Button instance.
 	 */
-	public void enable()
+	public Button getPlayButton()
 	{
-		playButton.setVisible(true);
-		optionsButton.setVisible(true);
-		quitButton.setVisible(true);
-		backgroundImage.setVisible(true);
-	}
-	
-	/**
-	 * Set the buttons invisible so they cant be seen or pressed.
-	 */
-	public void disable()
-	{
-		playButton.setVisible(false);
-		optionsButton.setVisible(false);
-		quitButton.setVisible(false);
-		backgroundImage.setVisible(false);
+		return playButton;
 	}
 }

@@ -1,0 +1,6 @@
+package net.foxycorndog.thedigginggame.launcher.events;
+
+public class DialogMenuListener
+{
+	
+}

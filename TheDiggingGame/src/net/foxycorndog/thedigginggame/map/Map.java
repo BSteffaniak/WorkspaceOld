@@ -36,9 +36,9 @@ import net.foxycorndog.thedigginggame.tile.Tile;
  */
 public class Map
 {
-	private boolean	collision;
+	private boolean			collision;
 	
-	private float	x, y;
+	private float			x, y;
 	
 	private TheDiggingGame	game;
 	
@@ -221,10 +221,16 @@ public class Map
 	 */
 	public synchronized void calculateLighting()
 	{
-		synchronized (lightingThread)
+		new Thread()
 		{
-			lightingThread.notify();
-		}
+			public void run()
+			{
+				synchronized (lightingThread)
+				{
+					lightingThread.notify();
+				}
+			}
+		}.start();
 		
 //		updateActorLighting();
 	}

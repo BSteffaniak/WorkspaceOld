@@ -1,0 +1,27 @@
+package net.foxycorndog.thedigginggame.launcher.menu;
+
+import net.foxycorndog.jfoxylib.components.Panel;
+
+/**
+ * Menu used to edit the preferences for the game.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Mar 14, 2013 at 8:28:22 PM
+ * @since	v0.1
+ * @version Mar 14, 2013 at 8:28:22 PM
+ * @version	v0.1
+ */
+public class OptionsMenu extends Menu
+{
+	
+	
+	/**
+	 * Create an OptionsMenu.
+	 * 
+	 * @param parent The parent Panel of this OptionsMenu.
+	 */
+	public OptionsMenu(Panel parent)
+	{
+		super(parent);
+	}
+}

@@ -12,9 +12,9 @@ import java.util.TreeMap;
  */
 public class Driver
 {
-	private HashSet<String> set;
-	private HashMap<String, Integer> map;
-	private TreeMap<Integer, String> tree;
+	private HashSet<String>				set;
+	private HashMap<String, Integer>	map;
+	private TreeMap<Integer, String>	tree;
 	
 	/**
 	 * First method ran. Does all of the neccessary testing.

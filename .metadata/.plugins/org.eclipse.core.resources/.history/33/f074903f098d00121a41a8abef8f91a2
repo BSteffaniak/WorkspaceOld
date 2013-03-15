@@ -1,0 +1,36 @@
+package net.foxycorndog.thedigginggame.launcher.events;
+
+/**
+ * Class that holds information from a notification of a
+ * DialogMenuListener. Tells whether the Button pressed was yes or no.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Mar 14, 2013 at 7:40:53 PM
+ * @since	v0.1
+ * @version Mar 14, 2013 at 7:40:53 PM
+ * @version	v0.1
+ */
+public class DialogMenuEvent extends Event
+{
+	private boolean yes;
+	
+	/**
+	 * Create a DialogMenuEvent with the specified value of yes.
+	 * 
+	 * @param yes Whether the Button pressed was "yes". If not, it
+	 * 		was "no".
+	 */
+	public DialogMenuEvent(boolean yes)
+	{
+		this.yes = yes;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean wasYes()
+	{
+		return yes;
+	}
+}

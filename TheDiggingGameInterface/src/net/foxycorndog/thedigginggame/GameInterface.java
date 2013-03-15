@@ -19,8 +19,13 @@ public interface GameInterface
 
 	/**
 	 * Initialize the data for the game.
+	 * 
+	 * @param online Whether or not to include online capabilities in the game.
+	 * @param resourcesLocation The location to the game parent folder in which
+	 * 		the res folder is located. All of the games resources are located
+	 * 		in the res folder.
 	 */
-	public void init();
+	public void init(boolean online, String resourcesLocation);
 
 	/**
 	 * Method that renders using the Ortho method.

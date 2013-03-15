@@ -29,7 +29,7 @@ public class WebPage
 		}
 		catch (Exception e)
 		{
-			throw new RuntimeException("Can not connect to url: " + url);
+			throw new ConnectionException("Can not connect to url: " + url);
 		}
 	}
 	
@@ -58,7 +58,7 @@ public class WebPage
 		}
 		catch (Exception e)
 		{
-			throw new RuntimeException("Can not connect to url: " + url);
+			throw new ConnectionException("Can not connect to url: " + url);
 		}
 	}
 }

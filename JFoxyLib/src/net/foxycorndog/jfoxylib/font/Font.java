@@ -10,6 +10,9 @@ import net.foxycorndog.jfoxylib.bundle.Bundle;
 import net.foxycorndog.jfoxylib.components.Panel;
 import net.foxycorndog.jfoxylib.graphics.SpriteSheet;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+import net.foxycorndog.jfoxylib.util.Bounds;
+import net.foxycorndog.jfoxylib.util.Bounds2f;
+import net.foxycorndog.jfoxylib.util.Point;
 
 import org.lwjgl.opengl.GL11;
 
@@ -72,48 +75,18 @@ public class Font
 		}
 	}
 	
-	public void render(String text, float x, float y, float z, Panel panel)
+	public Bounds2f getRenderBounds(String text, float x, float y, float scale, int horizontalAlignment, int verticalAlignment, Panel panel)
 	{
-		render(text, x, y, z, 1, panel);
-	}
-	
-	public void render(String text, float x, float y, float z, float scale, Panel panel)
-	{
-		render(text, x, y, z, scale, LEFT, BOTTOM, panel);
-	}
-	
-	public void render(String text, float x, float y, float z, int horizontalAlignment, int verticalAlignment, Panel panel)
-	{
-		render(text, x, y, z, 1, horizontalAlignment, verticalAlignment, panel);
-	}
-	
-	public void render(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, Panel panel)
-	{
-		renderVertexBuffer(text, x, y, z, scale, horizontalAlignment, verticalAlignment, panel);
-	}
-	
-	public void renderVertexBuffer(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, Panel panel)
-	{
-		renderVertexBuffer(text, x, y, z, scale, horizontalAlignment, verticalAlignment, null, null, panel);
-	}
-	
-	private void renderVertexBuffer(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, Buffer vertices, Buffer textures, Panel panel)
-	{
-		int vId  = 0;
-		int tId  = 0;
-		int viId = 0;
-		int size = 0;
-		
-		Bundle bundle = null;
+		Bounds2f bounds = new Bounds2f();
 		
 		float glScale[] = GL.getAmountScaled();
 		
 		float scaleX = glScale[0];
 		float scaleY = glScale[1];
 		
-		String lines[]  = null;
-		
 		char chars[]    = text.toCharArray();
+		
+		String lines[]  = null;
 		
 		int longestLine = 0;
 		int count       = 0;
@@ -142,7 +115,7 @@ public class Font
 		
 		lines = tempLines.toArray(new String[0]);
 		
-		int numLines = lines.length;
+		int numLines = lines.length + 1;
 		
 		if (horizontalAlignment == CENTER)
 		{
@@ -181,7 +154,7 @@ public class Font
 				y += (Frame.getHeight() / scaleY) / 2;
 			}
 			
-			y -= (glyphHeight * (numLines + 1)) * (scale / 2);
+			y -= (glyphHeight * numLines) * (scale / 2);
 		}
 		else if (verticalAlignment == TOP)
 		{
@@ -196,6 +169,60 @@ public class Font
 			
 			y -= glyphHeight * scale;
 		}
+		
+		bounds.setX(x * scaleX);
+		bounds.setY(y * scaleY);
+		bounds.setWidth(longestLine * glyphWidth * scaleX);
+		bounds.setHeight(numLines * (glyphHeight + 1) * scaleY);
+		
+		return bounds;
+	}
+	
+	public Bounds2f render(String text, float x, float y, float z, Panel panel)
+	{
+		return render(text, x, y, z, 1, panel);
+	}
+	
+	public Bounds2f render(String text, float x, float y, float z, float scale, Panel panel)
+	{
+		return render(text, x, y, z, scale, LEFT, BOTTOM, panel);
+	}
+	
+	public Bounds2f render(String text, float x, float y, float z, int horizontalAlignment, int verticalAlignment, Panel panel)
+	{
+		return render(text, x, y, z, 1, horizontalAlignment, verticalAlignment, panel);
+	}
+	
+	public Bounds2f render(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, Panel panel)
+	{
+		return renderVertexBuffer(text, x, y, z, scale, horizontalAlignment, verticalAlignment, panel);
+	}
+	
+	public Bounds2f renderVertexBuffer(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, Panel panel)
+	{
+		return renderVertexBuffer(text, x, y, z, scale, horizontalAlignment, verticalAlignment, null, null, panel);
+	}
+	
+	private Bounds2f renderVertexBuffer(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, Buffer vertices, Buffer textures, Panel panel)
+	{
+		int vId  = 0;
+		int tId  = 0;
+		int viId = 0;
+		int size = 0;
+		
+		float glScale[] = GL.getAmountScaled();
+		
+		float scaleX = glScale[0];
+		float scaleY = glScale[1];
+		
+		Bundle bundle = null;
+		
+		char chars[]    = text.toCharArray();
+		
+		Bounds2f bounds = getRenderBounds(text, x, y, scale, horizontalAlignment, verticalAlignment, panel);
+		
+		x = bounds.getX() / scaleX;
+		y = bounds.getY() / scaleY;
 		
 //		x /= scaleX;
 //		y /= scaleY;
@@ -272,7 +299,7 @@ public class Font
 						{
 							addToHistory(text, vId, tId, viId, size, vertices, textures, null);
 							
-							return;
+							return null;
 						}
 					}
 				}
@@ -302,6 +329,8 @@ public class Font
 			bundle.render(GL.QUADS, characters);
 		}
 		GL.popMatrix();
+		
+		return bounds;
 	}
 	
 	public void renderDisplayList(String text, float x, float y, float z, float scale, int horizontalAlignment, int verticalAlignment, Panel panel)

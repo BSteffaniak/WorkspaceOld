@@ -58,6 +58,25 @@ public abstract class Component
 	 */
 	public boolean isVisible()
 	{
+		if (!visible)
+		{
+			return false;
+		}
+		else
+		{
+			Panel parent = this.parent;
+			
+			while (parent != null)
+			{
+				if (!parent.isVisible())
+				{
+					return false;
+				}
+				
+				parent = parent.getParent();
+			}
+		}
+		
 		return visible;
 	}
 	

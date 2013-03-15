@@ -3,6 +3,11 @@ package net.foxycorndog.thedigginggame;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 import javax.imageio.ImageIO;
 
@@ -39,6 +44,8 @@ import net.foxycorndog.thedigginggame.tile.Tile;
  */
 public class TheDiggingGame implements GameInterface
 {
+	private boolean			online;
+	
 	private int				fps;
 	private int				editing;
 	private int				counter;
@@ -64,9 +71,61 @@ public class TheDiggingGame implements GameInterface
 	 */
 	public static void main(String args[])
 	{
-		new TheDiggingGame();
-		
-		System.out.println("done.");
+		try
+		{
+			boolean debug    = true;
+			
+			String parentDir = null;
+			String jarName   = null;
+			
+			jarName          = "TDGLauncher.jar";
+			
+			if (debug)
+			{
+				jarName   = "";
+				parentDir = "../thedigginggamelauncher/bin/";
+//				parentDir = "../thedigginggame/bin/";
+			}
+			
+			URL urls[] = new URL[]
+			{
+				new File(parentDir + jarName).toURI().toURL()
+			};
+			
+			URLClassLoader loader = new URLClassLoader(urls);
+			
+			Class clazz = loader.loadClass("net.foxycorndog.thedigginggame.launcher.Launcher");
+			
+			clazz.getDeclaredMethod("main", new Class[] { String[].class }).invoke(null, new String[1]);
+		}
+		catch (IllegalAccessException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IllegalArgumentException e)
+		{
+			e.printStackTrace();
+		}
+		catch (InvocationTargetException e)
+		{
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch (MalformedURLException e)
+		{
+			e.printStackTrace();
+		}
+		catch (NoSuchMethodException e)
+		{
+			e.printStackTrace();
+		}
+		catch (SecurityException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -91,9 +150,11 @@ public class TheDiggingGame implements GameInterface
 	/**
 	 * Initialize the data.
 	 */
-	public void init()
+	public void init(boolean online, String resourcesLocation)
 	{
-		resourcesLocation = System.getProperty("game.resources.location");
+		this.online = online;
+		
+		this.resourcesLocation = resourcesLocation;
 		
 		scale = 2;
 		

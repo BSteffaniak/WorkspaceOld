@@ -70,13 +70,16 @@ public class Panel extends Component
 	 */
 	public void render()
 	{
-		for (int i = children.size() - 1; i >= 0; i--)
+		if (isVisible())
 		{
-			Component child = children.get(i);
-			
-			if (child.isVisible())
+			for (int i = children.size() - 1; i >= 0; i--)
 			{
-				child.render();
+				Component child = children.get(i);
+				
+				if (child.isVisible())
+				{
+					child.render();
+				}
 			}
 		}
 	}

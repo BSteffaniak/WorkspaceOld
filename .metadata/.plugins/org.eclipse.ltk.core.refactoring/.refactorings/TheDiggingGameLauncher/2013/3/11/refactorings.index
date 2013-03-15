@@ -1,2 +1,5 @@
 1363033934838	Delete element
 1363124370785	Rename method 'checkVersion'
+1363306088510	Rename type 'UpdateMenu'
+1363307427797	Rename package 'net.foxycorndog.thedigginggame.launcher.event'
+1363307798726	Rename method 'alertListeners'
