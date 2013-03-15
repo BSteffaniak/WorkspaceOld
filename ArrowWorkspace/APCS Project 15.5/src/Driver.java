@@ -1,6 +1,12 @@
 import java.util.HashSet;
 import java.util.HashMap;
 import java.util.TreeMap;
+import java.util.ArrayList;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * File Name:	Driver.java
@@ -12,6 +18,10 @@ import java.util.TreeMap;
  */
 public class Driver
 {
+	private BufferedReader				reader;
+	
+	private String						words[][];
+	
 	private HashSet<String>				set;
 	private HashMap<String, Integer>	map;
 	private TreeMap<Integer, String>	tree;
@@ -36,6 +46,31 @@ public class Driver
 	 */
 	public Driver()
 	{
+		try
+		{
+			reader = new BufferedReader(new FileReader(new File("data.txt")));
+			
+			ArrayList<String[]> temp = new ArrayList<String[]>();
+			
+			String line = null;
+			
+			while ((line = reader.readLine()) != null)
+			{
+				temp.add(line.split(" "));
+			}
+			
+			words = new String[temp.size()][];
+			
+			for (int i = 0; i < temp.size(); i++)
+			{
+				words[i] = temp.get(i);
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
 		createHashSet();
 		createHashMap();
 		createTreeMap();
@@ -49,16 +84,10 @@ public class Driver
 	{
 		set = new HashSet<String>();
 		
-		set.add("Fork");
-		set.add("Spoon");
-		set.add("boul");
-		set.add("Fried");
-		set.add("Chicken");
-		set.add("Chair");
-		set.add("floor");
-		set.add("cheese");
-		set.add("school");
-		set.add("zap");
+		for (int i = 0; i < words[0].length; i++)
+		{
+			set.add(words[0][i]);
+		}
 	}
 	
 	/**
@@ -69,16 +98,10 @@ public class Driver
 	{
 		map = new HashMap<String, Integer>();
 		
-		map.put("Braden Steffaniak", 95);
-		map.put("John Doe", 58);
-		map.put("Max Spicer", 100);
-		map.put("Henry Rybolt", 72);
-		map.put("Barack Obama", 59);
-		map.put("Hillary Clinton", 68);
-		map.put("Joe Biden", 49);
-		map.put("Tom Cruise", 75);
-		map.put("Arnold Schwarzenegger", 87);
-		map.put("Ed Hightower", 66);
+		for (int i = 0; i < words[1].length; i += 3)
+		{
+			map.put(words[1][i] + " " + words[1][i + 1], Integer.valueOf(words[1][i + 2]));
+		}
 	}
 	
 	/**
@@ -90,15 +113,11 @@ public class Driver
 	{
 		tree = new TreeMap<Integer, String>();
 		
-		tree.put(100, "George W");
-		tree.put(97, "Jacob");
-		tree.put(93, "Jeremy");
-		tree.put(98, "Bob");
-		tree.put(95, "Leonardo");
-		tree.put(110, "Thomas E");
-		tree.put(109, "Max");
-		tree.put(120, "Mr M");
-		tree.put(115, "Henry");
-		tree.put(250, "Braden Steffaniak");
+		for (int i = 0; i < words[2].length; i += 3)
+		{
+			tree.put(Integer.valueOf(words[2][i]), words[2][i + 1] + " " + words[2][i + 2]);
+		}
 	}
+	
+	
 }

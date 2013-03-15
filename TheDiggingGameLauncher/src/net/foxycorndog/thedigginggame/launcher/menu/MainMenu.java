@@ -57,7 +57,6 @@ public class MainMenu extends Menu
 		"Don't Sue!",
 		"_________!",
 		"F2P!",
-		"|_|",
 		"\\o/",
 	};
 	
