@@ -313,6 +313,18 @@ public class Frame
 	}
 	
 	/**
+	 * Returns whether the Frame has Vertical Synchronization enabled or
+	 * not.
+	 * 
+	 * @return Whether the Frame has Vertical Synchronization enabled or
+	 * 		not.
+	 */
+	public static boolean isVSyncEnabled()
+	{
+		return vSync;
+	}
+	
+	/**
 	 * Limit the frame rate to the monitors capable speed to reduce
 	 * the tearing of the frames. Map slow down the performance, but
 	 * in most cases looks better.

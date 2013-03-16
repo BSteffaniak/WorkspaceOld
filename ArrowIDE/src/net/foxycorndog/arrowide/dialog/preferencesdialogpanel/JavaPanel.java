@@ -39,7 +39,7 @@ public class JavaPanel extends DialogPanel
 
 	public void apply()
 	{
-		if (jdkLocator.getText() != null && !jdkLocator.getText().equals("") && !jdkLocator.getText().equals(CONFIG_DATA.get("jdk.location")))
+		if (jdkLocator.getText() != null && !jdkLocator.getText().equals(CONFIG_DATA.get("jdk.location")))
 		{
 			String location = FileUtils.removeEndingSlashes(jdkLocator.getText().replace('\\', '/'));
 			

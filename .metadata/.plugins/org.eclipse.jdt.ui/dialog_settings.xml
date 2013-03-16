@@ -59,20 +59,20 @@
 		</list>
 	</section>
 	<section name="BuildPathsPropertyPage">
-		<item value="2" key="pageIndex"/>
+		<item value="1" key="pageIndex"/>
 	</section>
 	<section name="FatJarPackageWizard">
-		<item value="TheDiggingGame\TDG.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
-		<item value="TheDiggingGame (1) - TheDiggingGame" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
+		<item value="TheDiggingGameLauncher\TDGLauncher.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
+		<item value="Launcher - TheDiggingGameLauncher" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
 		<item value="" key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION"/>
 		<item value="false" key="FatJarPackageWizardPage.ANTSCRIPT_SAVE"/>
 		<item value="2" key="FatJarPackageWizardPage.LIBRARY_HANDLING"/>
 		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="TheDiggingGameLauncher\TDGLauncher.jar"/>
 			<item value="TheDiggingGame\TDG.jar"/>
 			<item value="TheDiggingGame/TDG.jar"/>
 			<item value="TestGame2.0\Test.jar"/>
 			<item value="TestGame2.0/Test.jar"/>
-			<item value="ArrowIDE\Arrow\Arrow.jar"/>
 		</list>
 		<list key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION_HISTORY">
 			<item value=".xml"/>

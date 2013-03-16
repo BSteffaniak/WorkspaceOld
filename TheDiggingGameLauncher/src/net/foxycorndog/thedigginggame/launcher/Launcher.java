@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URISyntaxException;
 import java.net.URLClassLoader;
 
 import net.foxycorndog.jfoxylib.Frame;
@@ -14,6 +15,7 @@ import net.foxycorndog.jfoxylib.font.Font;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 import net.foxycorndog.jfoxylib.web.ConnectionException;
 import net.foxycorndog.jfoxylib.web.WebPage;
+import net.foxycorndog.jfoxylib.util.FileUtils;
 import net.foxycorndog.thedigginggame.GameInterface;
 import net.foxycorndog.thedigginggame.launcher.events.DialogMenuEvent;
 import net.foxycorndog.thedigginggame.launcher.events.DialogMenuListener;
@@ -433,6 +435,21 @@ public class Launcher extends GameStarter
 					if (connectionSuccessful || playOffline)
 					{
 						String resourcesDir = "../thedigginggame/";
+						
+						try
+						{
+							File f = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+							
+							File parent = f.getParentFile();
+							
+							resourcesDir = parent.getAbsolutePath().replace("\\", "/");
+							
+							resourcesDir = FileUtils.removeEndingSlashes(resourcesDir) + "/";
+						}
+						catch (URISyntaxException e)
+						{
+							e.printStackTrace();
+						}
 						
 						gameInterface.init(!playOffline, resourcesDir);
 						

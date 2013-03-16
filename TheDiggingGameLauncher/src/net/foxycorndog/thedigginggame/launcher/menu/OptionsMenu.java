@@ -30,13 +30,15 @@ import net.foxycorndog.thedigginggame.launcher.Launcher;
  */
 public class OptionsMenu extends Menu
 {
-	private Image		backgroundImage;
+	private Image				backgroundImage;
 	
-	private Button		playOfflineButton, backButton;
+	private Button				playOfflineButton, videoButton, backButton;
 	
-	private Font		font;
+	private Font				font;
 	
-	private Launcher	launcher;
+	private VideoOptionsMenu	videoOptionsMenu;
+	
+	private Launcher			launcher;
 	
 	/**
 	 * Create an OptionsMenu.
@@ -50,35 +52,6 @@ public class OptionsMenu extends Menu
 		this.launcher = launcher;
 		
 		this.font     = font;
-		
-		setSize(Frame.getWidth(), Frame.getHeight());
-		
-		Frame.addFrameListener(new FrameListener()
-		{
-			public void frameResized(FrameEvent e)
-			{
-				setSize(Frame.getWidth(), Frame.getHeight());
-			}
-		});
-		
-		BufferedImage smallButtonImage      = null;
-		BufferedImage smallButtonHoverImage = null;
-		BufferedImage largeButtonImage      = null;
-		BufferedImage largeButtonHoverImage = null;
-		BufferedImage background            = null;
-		
-		try
-		{
-			smallButtonImage      = ImageIO.read(new File("res/images/GUI/SmallButton.png"));
-			smallButtonHoverImage = ImageIO.read(new File("res/images/GUI/SmallButtonHover.png"));
-			largeButtonImage      = ImageIO.read(new File("res/images/GUI/Button.png"));
-			largeButtonHoverImage = ImageIO.read(new File("res/images/GUI/ButtonHover.png"));
-			background            = ImageIO.read(new File("res/images/background.png"));
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
 		
 		ButtonListener listener = new ButtonListener()
 		{
@@ -104,6 +77,10 @@ public class OptionsMenu extends Menu
 						playOfflineButton.setText("Playing: Offline");
 					}
 				}
+				else if (event.getSource() == videoButton)
+				{
+					openVideoOptionsMenu();
+				}
 				else if (event.getSource() == backButton)
 				{
 					launcher.closeOptionsMenu();
@@ -121,29 +98,38 @@ public class OptionsMenu extends Menu
 			}
 		};
 		
-		int max = Math.max(Display.getWidth(), Display.getHeight());
-		
 		playOfflineButton = new Button(this);
-		playOfflineButton.setImage(largeButtonImage);
-		playOfflineButton.setHoverImage(largeButtonHoverImage);
+		playOfflineButton.setImage(getLargeButtonImage());
+		playOfflineButton.setHoverImage(getLargeButtonHoverImage());
 		playOfflineButton.setFont(font);
 		playOfflineButton.setText(launcher.willPlayOffline() ? "Playing: Offline" : "Playing: Online");
 		playOfflineButton.setAlignment(Component.CENTER, Component.CENTER);
-		playOfflineButton.setLocation(0, 20);
+		playOfflineButton.setLocation(0, -7);
 		playOfflineButton.addButtonListener(listener);
 		
+		videoButton = new Button(this);
+		videoButton.setImage(getLargeButtonImage());
+		videoButton.setHoverImage(getLargeButtonHoverImage());
+		videoButton.setFont(font);
+		videoButton.setText("Video");
+		videoButton.setAlignment(Component.CENTER, Component.CENTER);
+		videoButton.setLocation(0, -42);
+		videoButton.addButtonListener(listener);
+		
 		backButton = new Button(this);
-		backButton.setImage(largeButtonImage);
-		backButton.setHoverImage(largeButtonHoverImage);
+		backButton.setImage(getLargeButtonImage());
+		backButton.setHoverImage(getLargeButtonHoverImage());
 		backButton.setFont(font);
 		backButton.setText("Back");
 		backButton.setAlignment(Component.CENTER, Component.CENTER);
-		backButton.setLocation(0, -20);
+		backButton.setLocation(0, -77);
 		backButton.addButtonListener(listener);
+		
+		int max = Math.max(Display.getWidth(), Display.getHeight());
 		
 		backgroundImage = new Image(this);
 		backgroundImage.setSize(max, max);
-		backgroundImage.setImage(background, 75, 75);
+		backgroundImage.setImage(getBackgroundImage(), 75, 75);
 	}
 	
 	/**
@@ -154,6 +140,31 @@ public class OptionsMenu extends Menu
 	{
 		super.render();
 		
+		if (videoOptionsMenu != null)
+		{
+			videoOptionsMenu.render();
+		}
+	}
+	
+	/**
+	 * Opens the video options menu so you can edit the video options of
+	 * the game.
+	 */
+	public void openVideoOptionsMenu()
+	{
+		videoOptionsMenu = new VideoOptionsMenu(this, font, getParent());
 		
+		setVisible(false);
+	}
+	
+	/**
+	 * Closes the video options menu and returns you to this menu.
+	 */
+	public void closeVideoOptionsMenu()
+	{
+		videoOptionsMenu.dispose();
+		videoOptionsMenu = null;
+		
+		setVisible(true);
 	}
 }

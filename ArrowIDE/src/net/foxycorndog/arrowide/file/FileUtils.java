@@ -384,6 +384,19 @@ public class FileUtils
 		return f.isFile();
 	}
 	
+	/**
+	 * Check whether the File at the specified location exists.
+	 * 
+	 * @param location The location of the File to check.
+	 * @return Whether the File at the location exists.
+	 */
+	public static boolean fileExists(String location)
+	{
+		File f = new File(location);
+		
+		return f.exists();
+	}
+	
 	public static Font loadMonospacedFont(Display display, String name, String location, int size, int style)
 	{
 		File file = new File(location);

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -180,6 +182,43 @@ public class FileUtils
 //		{
 //			throw new IllegalArgumentException('"' + relativeTo + '"' + " must be an existing location.");
 //		}
+	}
+	
+	/**
+	 * Read the text from a File and store it in a String array.
+	 * 
+	 * @param location the location of the file to read from.
+	 * @return A String array filled with each line in order.
+	 */
+	public static String[] readFile(String location)
+	{
+		File file = new File(location);
+		
+		try
+		{
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			
+			ArrayList<String> temp = new ArrayList<String>();
+			
+			String line = reader.readLine();
+			
+			while (line != null)
+			{
+				temp.add(line);
+				
+				line = reader.readLine();
+			}
+			
+			reader.close();
+			
+			return temp.toArray(new String[0]);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	public static void writeFile(String location, String text)

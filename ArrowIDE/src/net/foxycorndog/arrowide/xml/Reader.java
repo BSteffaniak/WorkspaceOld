@@ -143,6 +143,7 @@ public class Reader
 			    	stack.remove(stack.size() - 1);
 			    }
 			    
+			    //TODO: FIX THIS!
 			    reader.next();
 			}
 			
@@ -157,7 +158,7 @@ public class Reader
 		}
 		catch (XMLStreamException e)
 		{
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		
 		return map;

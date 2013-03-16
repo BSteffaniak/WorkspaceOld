@@ -36,7 +36,7 @@ public class FileBrowseDialog extends TextInputDialog
 	
 	public FileBrowseDialog(String windowInstruction, String textFieldInstruction, String defaultTextField, final int directory)
 	{
-		super(windowInstruction, textFieldInstruction);
+		super(windowInstruction, textFieldInstruction, defaultTextField);
 		
 		getContentPanel().setSize(480, 230);
 		getErrorLabel().setLocation(100, 140);

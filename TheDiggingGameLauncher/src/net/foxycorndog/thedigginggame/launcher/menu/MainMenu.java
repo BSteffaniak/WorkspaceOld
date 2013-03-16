@@ -19,6 +19,7 @@ import net.foxycorndog.jfoxylib.events.FrameListener;
 import net.foxycorndog.jfoxylib.font.Font;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 import net.foxycorndog.jfoxylib.util.Bounds2f;
+import net.foxycorndog.jfoxylib.util.FileUtils;
 import net.foxycorndog.thedigginggame.launcher.Launcher;
 
 /**
@@ -50,15 +51,12 @@ public class MainMenu extends Menu
 	
 	private Font	font;
 	
-	private static final String splashes[] = new String[]
+	private static final String splashes[];
+	
+	static
 	{
-		"Splash!",
-		"Not Minecraft!",
-		"Don't Sue!",
-		"_________!",
-		"F2P!",
-		"\\o/",
-	};
+		splashes = FileUtils.readFile("res/splashes.txt");
+	}
 	
 	/**
 	 * Construct the Main Menu with the specified parent Panel.
@@ -138,7 +136,7 @@ public class MainMenu extends Menu
 		
 		playButton = new Button(this);
 		playButton.setAlignment(Component.CENTER, Component.CENTER);
-		playButton.setLocation(0, 0);
+		playButton.setLocation(0, -7);
 		playButton.setFont(font);
 		playButton.setText("Play");
 		playButton.setImage(normalImage);
@@ -146,7 +144,7 @@ public class MainMenu extends Menu
 
 		optionsButton = new Button(this);
 		optionsButton.setAlignment(Component.CENTER, Component.CENTER);
-		optionsButton.setLocation(0, -35);
+		optionsButton.setLocation(0, -42);
 		optionsButton.setFont(font);
 		optionsButton.setText("Options");
 		optionsButton.setImage(normalImage);
@@ -154,7 +152,7 @@ public class MainMenu extends Menu
 
 		quitButton = new Button(this);
 		quitButton.setAlignment(Component.CENTER, Component.CENTER);
-		quitButton.setLocation(0, -70);
+		quitButton.setLocation(0, -77);
 		quitButton.setFont(font);
 		quitButton.setText("Quit");
 		quitButton.setImage(normalImage);
@@ -165,14 +163,6 @@ public class MainMenu extends Menu
 		backgroundImage = new Image(this);
 		backgroundImage.setSize(max, max);
 		backgroundImage.setImage(background, 75, 75);
-		
-		Frame.addFrameListener(new FrameListener()
-		{
-			public void frameResized(FrameEvent e)
-			{
-				setSize(Frame.getWidth(), Frame.getHeight());
-			}
-		});
 		
 		ButtonListener buttonListener = new ButtonListener()
 		{
@@ -227,25 +217,19 @@ public class MainMenu extends Menu
 		
 		counter += delta;
 		
-		GL.pushMatrix();
-		{
-			GL.translate(0, -7, 0);
-			
-			super.render();
-			
-			renderSplashMessage();
-	
-			GL.setColor(r / 255f, g / 255f, b / 255f, 1);
-			font.render("The Digging", 0, 80, 2, 3, Font.CENTER, Font.CENTER, null);
-			font.render("Game", 0, 51, 2, 3, Font.CENTER, Font.CENTER, null);
-			
-			GL.setColor(0, 0, 0, 0.5f);
-			font.render("The Digging", 3, 80 + 3, 1, 3, Font.CENTER, Font.CENTER, null);
-			font.render("Game", 3, 51 + 3, 1, 3, Font.CENTER, Font.CENTER, null);
-			
-			GL.setColor(1, 1, 1, 1);
-		}
-		GL.popMatrix();
+		super.render();
+		
+		renderSplashMessage();
+
+		GL.setColor(r / 255f, g / 255f, b / 255f, 1);
+		font.render("The Digging", 0, 73, 2, 3, Font.CENTER, Font.CENTER, null);
+		font.render("Game", 0, 44, 2, 3, Font.CENTER, Font.CENTER, null);
+		
+		GL.setColor(0, 0, 0, 0.5f);
+		font.render("The Digging", 3, 73 + 3, 1, 3, Font.CENTER, Font.CENTER, null);
+		font.render("Game", 3, 44 + 3, 1, 3, Font.CENTER, Font.CENTER, null);
+		
+		GL.setColor(1, 1, 1, 1);
 			
 		updateColor();
 	}

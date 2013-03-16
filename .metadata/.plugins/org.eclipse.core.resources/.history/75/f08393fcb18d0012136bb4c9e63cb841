@@ -1,0 +1,13 @@
+package net.foxycorndog.thedigginggame.launcher.menu;
+
+import net.foxycorndog.jfoxylib.components.Panel;
+
+public class VideoOptionsMenu extends Menu
+{
+
+	public VideoOptionsMenu(Panel parent)
+	{
+		super(parent);
+	}
+	
+}

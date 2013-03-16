@@ -1,0 +1,26 @@
+package net.foxycorndog.thedigginggame.launcher.menu;
+
+import net.foxycorndog.jfoxylib.Frame;
+import net.foxycorndog.jfoxylib.components.Button;
+import net.foxycorndog.jfoxylib.components.Component;
+import net.foxycorndog.jfoxylib.components.Panel;
+import net.foxycorndog.jfoxylib.font.Font;
+
+public class VideoOptionsMenu extends Menu
+{
+	private Button	vSyncButton;
+	
+	public VideoOptionsMenu(Font font, Panel parent)
+	{
+		super(parent);
+		
+		vSyncButton = new Button(this);
+		vSyncButton.setImage(getLargeButtonImage());
+		vSyncButton.setHoverImage(getLargeButtonHoverImage());
+		vSyncButton.setFont(font);
+		vSyncButton.setText(Frame.isVSyncEnabled() ? "VSync: On" : "VSync: Off");
+		vSyncButton.setAlignment(Component.CENTER, Component.CENTER);
+		vSyncButton.setLocation(0, 20);
+		vSyncButton.addButtonListener(listener);
+	}
+}

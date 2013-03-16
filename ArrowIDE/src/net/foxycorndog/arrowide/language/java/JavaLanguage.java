@@ -173,6 +173,26 @@ public class JavaLanguage
 //			e.printStackTrace();
 //		}
 		
+		if (!FileUtils.fileExists(CONFIG_DATA.get("jdk.location")))
+		{
+			FileBrowseDialog jdkSearch = new FileBrowseDialog("Specify your JDK location.", "Location:", CONFIG_DATA.get("jdk.location"), FileBrowseDialog.DIRECTORY);
+			
+			String jdkLoc = jdkSearch.open();
+			
+			if (jdkLoc != null)
+			{
+				String location = FileUtils.removeEndingSlashes(jdkLoc.replace('\\', '/'));
+			
+				ArrowIDE.setConfigDataValue("jdk.location", location);
+			}
+			else
+			{
+				stream.println("You must specify a valid jdk to compile this program.");
+				
+				return;
+			}
+		}
+		
 		String classpath = getClasspath(projectLocation);
 		
 		Command c = new Command(Display.getDefault(), new String[] { CONFIG_DATA.get("jdk.location") + "/bin/java", "-cp", classpath, className }, stream, projectLocation);

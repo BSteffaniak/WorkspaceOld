@@ -286,7 +286,7 @@ public class TheDiggingGame implements GameInterface
 			
 			Tile tile    = Tile.getTile("Torch");
 			
-			if (editing != Chunk.MIDDLEGROUND|| !Intersects.rectangles(cursorX * tileSize, cursorY * tileSize, tile.getCols() * tileSize, tile.getRows() * tileSize, player.getX() + 1, player.getY(), player.getWidth() - 2, player.getHeight() - 1))
+			if (editing != Chunk.MIDDLEGROUND || !Intersects.rectangles(cursorX * tileSize, cursorY * tileSize, tile.getCols() * tileSize, tile.getRows() * tileSize, player.getX() + 1, player.getY(), player.getWidth() - 2, player.getHeight() - 1))
 			{
 				if (map.addTile(tile, cursorX, cursorY, editing, false))
 				{
