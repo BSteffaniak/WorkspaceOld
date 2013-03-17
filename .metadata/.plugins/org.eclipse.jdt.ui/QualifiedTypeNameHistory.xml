@@ -10,10 +10,8 @@
 <fullyQualifiedTypeName name="java.util.ConcurrentModificationException"/>
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.map.Chunk.Intersections"/>
 <fullyQualifiedTypeName name="java.lang.Thread"/>
-<fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.map.Map.Task"/>
 <fullyQualifiedTypeName name="java.io.ObjectOutputStream"/>
 <fullyQualifiedTypeName name="java.io.FileOutputStream"/>
-<fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="java.io.Serializable"/>
 <fullyQualifiedTypeName name="java.io.ObjectInputStream"/>
 <fullyQualifiedTypeName name="java.io.FileInputStream"/>
@@ -60,4 +58,6 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.font.Font"/>
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.launcher.menu.OptionsMenu"/>
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.launcher.menu.VideoOptionsMenu"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.map.Map.Task"/>
 </qualifiedTypeNameHistroy>

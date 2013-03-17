@@ -185,6 +185,8 @@ public class TheDiggingGame implements GameInterface
 //		editing = Chunk.MIDDLEGROUND;
 //		
 //		GL.setClearColor(0.2f, 0.5f, 0.8f, 1);
+		
+		startGame();
 	}
 	
 	/**
@@ -349,19 +351,19 @@ public class TheDiggingGame implements GameInterface
 		
 		player.update(delta);
 		
-		if (player.isMoving())
-		{
-			map.updateActorLighting();
-		}
+//		if (player.isMoving())
+//		{
+//			map.updateActorLighting();
+//		}
 		
-		if (counter % 10000 == 0)
-		{
-			map.calculateLighting();
-		}
-		
-		map.update();
+//		if (counter % 100 == 0)
+//		{
+//			map.calculateLighting();
+//		}
 		
 		map.generateChunksAround(player);
+		
+		map.update();
 		
 		counter++;
 		

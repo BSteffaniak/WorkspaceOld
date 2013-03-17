@@ -1,6 +1,7 @@
 package net.foxycorndog.thedigginggame.launcher;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -42,7 +43,9 @@ public class Launcher extends GameStarter
 	private int					timeOutLength;
 
 	private long				loadStart;
-
+	
+	private Object				gameInstance;
+	
 	private Font				font;
 
 	private MainMenu			mainMenu;
@@ -53,12 +56,52 @@ public class Launcher extends GameStarter
 
 	private Thread				loaderThread;
 
-	private Method				init, loop, render;
+	private Method				init, loop, render2D, render3D;
 
-	private GameInterface		gameInterface;
+//	private GameInterface		gameInterface;
+	
+	private static final String	resourcesLocation = locateResources();
 	
 	public static final String	VERSION		= "v0.1";
 	public static final String	SERVER_URL	= "http://www.thedigginggame.co.nf/";
+	
+	private static final String locateResources()
+	{
+		String resLoc = "../thedigginggame/";
+	
+		try
+		{
+			String classLoc = Launcher.class.getResource("Launcher.class").toString();
+			
+			boolean jar = classLoc.startsWith("jar:") || classLoc.startsWith("rsrc:");
+			
+			if (jar)
+			{
+				resLoc = new File(new File(System.getProperty("java.class.path")).getCanonicalPath()).getParentFile().getCanonicalPath();
+			}
+			else
+			{
+				File f = new File(Launcher.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+				
+				File parent = f.getParentFile();
+				
+				resLoc = parent.getCanonicalPath();
+			}
+			
+			resLoc = resLoc.replace("\\", "/");
+			resLoc = FileUtils.removeEndingSlashes(resLoc) + "/";
+		}
+		catch (URISyntaxException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return resLoc;
+	}
 	
 	/**
 	 * The main entry point for the launcher. First method ran.
@@ -146,7 +189,12 @@ public class Launcher extends GameStarter
 					
 					Constructor<?> constr = clazz.getConstructor();
 				
-					gameInterface = (GameInterface)constr.newInstance();
+					gameInstance = constr.newInstance();
+					
+					init = clazz.getDeclaredMethod("init", new Class[] { boolean.class, String.class });
+					render2D = clazz.getDeclaredMethod("render2D", new Class[] {  });
+					render3D = clazz.getDeclaredMethod("render3D", new Class[] {  });
+					loop = clazz.getDeclaredMethod("loop", new Class[] {  });
 					
 					try
 					{
@@ -201,10 +249,10 @@ public class Launcher extends GameStarter
 	{
 		String lines[] = WebPage.getOutput(SERVER_URL + "clientVersion.txt");
 		
-		if (lines[0].compareTo(gameInterface.getVersion()) > 0)
-		{
-			
-		}
+//		if (lines[0].compareTo(gameInterface.getVersion()) > 0)
+//		{
+//			
+//		}
 	}
 	
 	/**
@@ -382,7 +430,22 @@ public class Launcher extends GameStarter
 		}
 		else
 		{
-			gameInterface.render2D();
+			try
+			{
+				render2D.invoke(gameInstance, new Object[] {});
+			}
+			catch (IllegalAccessException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IllegalArgumentException e)
+			{
+				e.printStackTrace();
+			}
+			catch (InvocationTargetException e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -397,7 +460,22 @@ public class Launcher extends GameStarter
 		}
 		else
 		{
-			gameInterface.render3D();
+			try
+			{
+				render3D.invoke(gameInstance, new Object[] {});
+			}
+			catch (IllegalAccessException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IllegalArgumentException e)
+			{
+				e.printStackTrace();
+			}
+			catch (InvocationTargetException e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -423,7 +501,7 @@ public class Launcher extends GameStarter
 				
 				if (loadTime >= timeOutLength * 1000)
 				{
-					System.out.println("asdf");
+					//TODO: timout function
 				}
 			}
 			else
@@ -434,26 +512,25 @@ public class Launcher extends GameStarter
 				{
 					if (connectionSuccessful || playOffline)
 					{
-						String resourcesDir = "../thedigginggame/";
-						
+//						gameInterface.init(!playOffline, resourcesLocation);
+//						
+//						gameInterface.startGame();
 						try
 						{
-							File f = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-							
-							File parent = f.getParentFile();
-							
-							resourcesDir = parent.getAbsolutePath().replace("\\", "/");
-							
-							resourcesDir = FileUtils.removeEndingSlashes(resourcesDir) + "/";
+							init.invoke(gameInstance, new Object[] { !playOffline, resourcesLocation });
 						}
-						catch (URISyntaxException e)
+						catch (IllegalAccessException e)
 						{
 							e.printStackTrace();
 						}
-						
-						gameInterface.init(!playOffline, resourcesDir);
-						
-						gameInterface.startGame();
+						catch (IllegalArgumentException e)
+						{
+							e.printStackTrace();
+						}
+						catch (InvocationTargetException e)
+						{
+							e.printStackTrace();
+						}
 						
 						mainMenu.dispose();
 					
@@ -489,7 +566,22 @@ public class Launcher extends GameStarter
 		}
 		else
 		{
-			gameInterface.loop();
+			try
+			{
+				loop.invoke(gameInstance, new Object[] {});
+			}
+			catch (IllegalAccessException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IllegalArgumentException e)
+			{
+				e.printStackTrace();
+			}
+			catch (InvocationTargetException e)
+			{
+				e.printStackTrace();
+			}
 			
 //			try
 //			{
@@ -508,5 +600,15 @@ public class Launcher extends GameStarter
 //				e.printStackTrace();
 //			}
 		}
+	}
+	
+	/**
+	 * Get the location in which the resources folder is located.
+	 * 
+	 * @return The location in which the resources folder is located.
+	 */
+	public static String getResourcesLocation()
+	{
+		return resourcesLocation;
 	}
 }

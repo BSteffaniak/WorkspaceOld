@@ -46,6 +46,8 @@ public class Map
 	
 	private Thread			lightingThread;
 	
+	private LightingClass	lightingInstance;
+	
 	private HashMap<Integer, HashMap<Integer, Chunk>> chunks;
 	
 	private ArrayList<Actor>	actors;
@@ -71,6 +73,32 @@ public class Map
 	}
 	
 	/**
+	 * Class that calculates the lighting in the Chunks.
+	 * 
+	 * @author	Braden Steffaniak
+	 * @since	Mar 16, 2013 at 11:02:55 PM
+	 * @since	v0.1
+	 * @version Mar 16, 2013 at 11:02:55 PM
+	 * @version	v0.1
+	 */
+	private class LightingClass implements Runnable
+	{
+		/**
+		 * Method called when the Thread is started.
+		 */
+		public void run()
+		{
+			iterateChunks(new Task()
+			{
+				public void run(Chunk chunk)
+				{
+					chunk.calculateLighting(false);
+				}
+			});
+		}
+	}
+	
+	/**
 	 * Construct a Map.
 	 */
 	public Map(TheDiggingGame game)
@@ -78,43 +106,45 @@ public class Map
 		lighting = new Shader();
 		lighting.loadFile(TheDiggingGame.getResourcesLocation() + "res/shaders/", new String[] { "lighting.vs" }, new String[] { "lighting.frag" });
 		
+		lightingInstance = new LightingClass();
+		
 		chunks    = new HashMap<Integer, HashMap<Integer, Chunk>>();
 		
 		actors    = new ArrayList<Actor>();
 		
 		this.game = game;
 		
-		lightingThread = new Thread("Lighting")
-		{
-			public void run()
-			{
-				while (true)
-				{
-					synchronized (this)
-					{
-						try
-						{
-							wait();
-						}
-						catch (InterruptedException e)
-						{
-							e.printStackTrace();
-						}
-					}
-					
-					iterateChunks(new Task()
-					{
-						public void run(Chunk chunk)
-						{
-							chunk.calculateLighting();
-						}
-					});
-				}
-			}
-		};
-		
-		lightingThread.setPriority(Thread.MIN_PRIORITY);
-		lightingThread.start();
+//		lightingThread = new Thread("Lighting")
+//		{
+//			public void run()
+//			{
+//				while (true)
+//				{
+//					synchronized (this)
+//					{
+//						try
+//						{
+//							wait();
+//						}
+//						catch (InterruptedException e)
+//						{
+//							e.printStackTrace();
+//						}
+//					}
+//					
+//					iterateChunks(new Task()
+//					{
+//						public void run(Chunk chunk)
+//						{
+//							chunk.calculateLighting();
+//						}
+//					});
+//				}
+//			}
+//		};
+//		
+//		lightingThread.setPriority(Thread.MIN_PRIORITY);
+//		lightingThread.start();
 	}
 	
 	/**
@@ -170,67 +200,72 @@ public class Map
 	 */
 	public synchronized void updateActorLighting()
 	{
-		iterateChunks(new Task()
-		{
-			public void run(Chunk chunk)
-			{
-				int tileSize = Tile.getTileSize();
-				
-				for (int i = actors.size() - 1; i >= 0; i--)
-				{
-					Actor actor = actors.get(i);
-					
-					if (chunk.inChunk(actor))
-					{
-						Intersections intersections = chunk.getIntersections(actor);
-						
-						Point points[] = intersections.getPoints();
-						
-						float min = 1;
-						
-						for (int y = 1; y < intersections.getHeight() - 1; y++)
-						{
-							for (int x = 1; x < intersections.getWidth(); x++)
-							{
-								Point point = points[x + y * intersections.getWidth()];
-								
-								int x2 = point.getX();
-								int y2 = point.getY();
-								
-//								if (Intersects.rectangles(x2, y2, width, height, 0, 0, tileSize, tileSize))
-//								{
-									float col = chunk.getLightness(x2, y2);
-									
-									if (col <= min)
-									{
-										min = col;
-									}
-//								}
-							}
-						}
-						
-						actor.setColor(min, min, min, 1);
-					}
-				}
-			}
-		});
+//		iterateChunks(new Task()
+//		{
+//			public void run(Chunk chunk)
+//			{
+//				int tileSize = Tile.getTileSize();
+//				
+//				for (int i = actors.size() - 1; i >= 0; i--)
+//				{
+//					Actor actor = actors.get(i);
+//					
+//					if (chunk.inChunk(actor))
+//					{
+//						Intersections intersections = chunk.getIntersections(actor);
+//						
+//						Point points[] = intersections.getPoints();
+//						
+//						float min = 1;
+//						
+//						for (int y = 1; y < intersections.getHeight() - 1; y++)
+//						{
+//							for (int x = 1; x < intersections.getWidth(); x++)
+//							{
+//								Point point = points[x + y * intersections.getWidth()];
+//								
+//								int x2 = point.getX();
+//								int y2 = point.getY();
+//								
+////								if (Intersects.rectangles(x2, y2, width, height, 0, 0, tileSize, tileSize))
+////								{
+//									float col = chunk.getLightness(x2, y2);
+//									
+//									if (col <= min)
+//									{
+//										min = col;
+//									}
+////								}
+//							}
+//						}
+//						
+//						actor.setColor(min, min, min, 1);
+//					}
+//				}
+//			}
+//		});
 	}
 	
 	/**
 	 * Updates all of the lighting for the Chunks.
 	 */
-	public synchronized void calculateLighting()
+	public void calculateLighting()
 	{
-		new Thread()
-		{
-			public void run()
-			{
-				synchronized (lightingThread)
-				{
-					lightingThread.notify();
-				}
-			}
-		}.start();
+//		new Thread()
+//		{
+//			public void run()
+//			{
+//				synchronized (lightingThread)
+//				{
+//					lightingThread.notify();
+//				}
+//			}
+//		}.start();
+		
+		lightingThread = new Thread(lightingInstance);
+		
+		lightingThread.setPriority(Thread.MIN_PRIORITY);
+		lightingThread.start();
 		
 //		updateActorLighting();
 	}
@@ -254,10 +289,9 @@ public class Map
 			
 			chunk.setTiles(tiles);
 			
-			chunk.calculateTiles();
-			chunk.updateTiles();
-			chunk.calculateLighting();
-			chunk.updateLighting();
+			chunk.update();
+//			chunk.calculateLighting();
+//			chunk.updateLighting();
 			
 			if (!chunks.containsKey(rx))
 			{
@@ -387,20 +421,7 @@ public class Map
 				
 				if (!isChunkAt(rx, ry))
 				{
-					if (x + chunkWidth > width && y + chunkHeight > height)
-					{
-						generateChunk(rx, ry, new Thread()
-						{
-							public void run()
-							{
-								calculateLighting();
-							}
-						});
-					}
-					else
-					{
-						generateChunk(rx, ry);
-					}
+					generateChunk(rx, ry);
 					
 					generated = true;
 				}
@@ -645,11 +666,8 @@ public class Map
 		{
 			Chunk chunk = chunks.get(rx).get(ry);
 			
-			chunk.calculateTiles();
-			chunk.updateTiles();
+			chunk.update();
 		}
-		
-		calculateLighting();
 	}
 	
 	/**
@@ -875,6 +893,15 @@ public class Map
 				}
 			}
 		}
+		
+		iterateChunks(new Task()
+		{
+			public void run(Chunk chunk)
+			{
+				chunk.calculateLighting(true);
+				chunk.updateLighting(true);
+			}
+		});
 	}
 	
 	/**

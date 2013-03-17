@@ -25,7 +25,7 @@ import net.foxycorndog.thedigginggame.tile.Tile;
  */
 public class Chunk implements Serializable
 {
-	private boolean				lightingReady, tilesReady;
+	private boolean				lightingChanged, tilesChanged;
 	
 	private int					relativeX, relativeY;
 	
@@ -207,18 +207,19 @@ public class Chunk implements Serializable
 		
 		Buffer colorsBuffer = new Buffer(4 * CHUNK_VERT_COUNT);
 		
-		float data[] = new float[colorsBuffer.getSize()];
+//		float data[] = new float[colorsBuffer.getSize()];
 		
-		for (int i = 0; i < data.length; i++)
+		for (int i = 0; i < colors.length; i++)
 		{
-			data[i] = 1;
+			colors[i] = 1;
+			bgColors[i] = 1;
 		}
 		
-		colorsBuffer.beginEditing();
-		{
-			colorsBuffer.setData(0, data);
-		}
-		colorsBuffer.endEditing();
+//		colorsBuffer.beginEditing();
+//		{
+//			colorsBuffer.setData(0, data);
+//		}
+//		colorsBuffer.endEditing();
 		
 		bundle = new Bundle(verticesBuffer, texturesBuffer, colorsBuffer, VERTEX_SIZE);
 		
@@ -312,6 +313,9 @@ public class Chunk implements Serializable
 		
 		boolean added = newTiles.add(new NewTile(tile, x, y, layer));
 		
+		lightingChanged = true;
+		tilesChanged = true;
+		
 		return added;
 	}
 
@@ -334,6 +338,9 @@ public class Chunk implements Serializable
 		
 		boolean removed = newTiles.add(new NewTile(null, x, y, layer));
 		
+		lightingChanged = true;
+		tilesChanged = true;
+		
 		return removed;
 	}
 	
@@ -353,9 +360,9 @@ public class Chunk implements Serializable
 	/**
 	 * Calculates all of the lighting in the Chunk.
 	 */
-	public synchronized void calculateLighting()
+	public void calculateLighting(boolean force)
 	{
-		if (lightingReady)
+		if (!force && !lightingChanged)
 		{
 			return;
 		}
@@ -363,11 +370,9 @@ public class Chunk implements Serializable
 //		colors   = new float[4 * 4 * LAYER_COUNT];
 //		bgColors = new float[4 * 4 * LAYER_COUNT];
 		
-		float lightness = 1;
-		
 		for (int i = 0; i < LAYER_COUNT; i++)
 		{
-			lightness = 1;
+			float lightness = 1;
 				
 			boolean isTile = tiles[LAYER_COUNT + i] != null || tiles[i] != null || tiles[LAYER_COUNT * 2 + i] != null;
 			
@@ -380,18 +385,18 @@ public class Chunk implements Serializable
 			{
 				int index = y + 1;
 				
-				Tile above = map.getTile(this, x, index, MIDDLEGROUND);
+				Tile above = null;
 				
-				boolean chunkAvailable = map.isChunkAt(this, x, index);
+				boolean chunkAvailable = true;//map.isChunkAt(this, x, index);
 				
 				while (chunkAvailable && lightness > 0)
 				{
+					above = map.getTile(this, x, index, MIDDLEGROUND);
+					
 					if (above != null)
 					{
 						lightness -= 0.18f * (1 - above.getTransparency());
 					}
-					
-					above = map.getTile(this, x, index, MIDDLEGROUND);
 					
 					index++;
 					
@@ -407,21 +412,17 @@ public class Chunk implements Serializable
 			
 			setRGBA(bgColors, lightness * 0.3f, lightness * 0.3f, lightness * 0.3f, 1, offset);
 		}
-		
-		lightingReady = true;
 	}
 
 	/**
 	 * Updates all of the lighting in the Chunk and puts it into action.
 	 */
-	public synchronized void updateLighting()
+	public void updateLighting(boolean force)
 	{
-		if (!lightingReady)
+		if (!force && !lightingChanged)
 		{
 			return;
 		}
-		
-		lightingReady = false;
 		
 		bundle.beginEditingColors();
 		{
@@ -430,6 +431,8 @@ public class Chunk implements Serializable
 			bundle.setColors(4 * LAYER_COUNT * 2, colors);
 		}
 		bundle.endEditingColors();
+		
+		lightingChanged = false;
 		
 //		colors   = null;
 //		bgColors = null;
@@ -489,8 +492,13 @@ public class Chunk implements Serializable
 	/**
 	 * Calculate all of the new tiles and add then to the Tiles array.
 	 */
-	public synchronized void calculateTiles()
+	public void calculateTiles()
 	{
+		if (!tilesChanged)
+		{
+			return;
+		}
+		
 		int size = newTiles.size();
 		
 		for (int i = size - 1; i >= 0; i--)
@@ -507,23 +515,21 @@ public class Chunk implements Serializable
 			tiles[LAYER_COUNT * newTile.layer + (x + y * CHUNK_SIZE)] = tile;
 		}
 		
-		if (size > 0)
-		{
-			tilesReady = true;
-		}
+//		if (size > 0)
+//		{
+//			tilesChanged = false;
+//		}
 	}
 	
 	/**
 	 * Method that updates the textures of the new Tiles.
 	 */
-	public synchronized void updateTiles()
+	public void updateTiles()
 	{
-		if (!tilesReady)
+		if (!tilesChanged)
 		{
 			return;
 		}
-		
-		tilesReady = false;
 		
 		bundle.beginEditingTextures();
 		{
@@ -553,6 +559,8 @@ public class Chunk implements Serializable
 			}
 		}
 		bundle.endEditingTextures();
+		
+		tilesChanged = false;
 	}
 	
 	/**
@@ -591,7 +599,8 @@ public class Chunk implements Serializable
 	{
 		calculateTiles();
 		updateTiles();
-		updateLighting();
+		calculateLighting(false);
+		updateLighting(false);
 	}
 	
 	/**

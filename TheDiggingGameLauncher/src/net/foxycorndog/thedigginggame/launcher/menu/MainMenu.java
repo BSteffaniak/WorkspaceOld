@@ -51,11 +51,16 @@ public class MainMenu extends Menu
 	
 	private Font	font;
 	
-	private static final String splashes[];
+	private static String	splashes[];
 	
-	static
+	private static void init()
 	{
-		splashes = FileUtils.readFile("res/splashes.txt");
+		if (splashes != null)
+		{
+			return;
+		}
+		
+		splashes = FileUtils.readFile(Launcher.getResourcesLocation() + "res/splashes.txt");
 	}
 	
 	/**
@@ -67,6 +72,8 @@ public class MainMenu extends Menu
 	public MainMenu(Font font, final Launcher launcher, Panel parent)
 	{
 		super(parent);
+		
+		init();
 		
 		this.font = font;
 
