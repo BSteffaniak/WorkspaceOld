@@ -49,6 +49,7 @@ import static org.lwjgl.opengl.GL11.glViewport;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -99,12 +100,16 @@ public class GL
 		
 		try
 		{
-			URL loc = GL.class.getProtectionDomain().getCodeSource().getLocation();
-			URI uri = loc.toURI();
+			String classLoc = GL.class.getResource("GL.class").toString();
 			
-			String uriStr = uri.toString();
+			boolean jar = classLoc.startsWith("jar:") || classLoc.startsWith("rsrc:");
 			
-			boolean jar = uriStr.startsWith("rsrc:") || uriStr.startsWith("jar:");
+			
+			
+//			if (jar)
+//			{
+//				resLoc = new File(new File(System.getProperty("java.class.path")).getCanonicalPath()).getParentFile().getCanonicalPath();
+//			}
 			
 			String os = System.getProperty("os.name").toLowerCase();
 			
@@ -131,15 +136,41 @@ public class GL
 			
 			if (jar)
 			{
-				String workingDirectory = System.getProperty("user.dir").replace('\\', '/');
+//				String workingDirectory = System.getProperty("user.dir").replace('\\', '/');
+				
+				String workingDirectory = null;
+				
+				try
+				{
+					workingDirectory = new File(new File(System.getProperty("java.class.path")).getCanonicalPath()).getParentFile().getCanonicalPath();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
 				
 				nativeLocation = workingDirectory + "/native/" + os;
+				
+				System.out.println("asdf");
 			}
 			else
 			{
-				binFile = new File(uri);
-		
-				nativeLocation = binFile.getParent().replace('\\', '/') + "/native/" + os;
+				File f = new File(GL.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+			
+				File parent = f.getParentFile();
+				
+				String resLoc = null;
+				
+				try
+				{
+					resLoc = parent.getCanonicalPath();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			
+				nativeLocation = resLoc.replace('\\', '/') + "/native/" + os;
 			}
 		}
 		catch (URISyntaxException e)

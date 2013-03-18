@@ -493,7 +493,12 @@ public class Map
 	 */
 	public Chunk getChunk(int rx, int ry)
 	{
-		return chunks.get(rx).get(ry);
+		if (chunks.containsKey(rx))
+		{
+			return chunks.get(rx).get(ry);
+		}
+		
+		return null;
 	}
 	
 	/**

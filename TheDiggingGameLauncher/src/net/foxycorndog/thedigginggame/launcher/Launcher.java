@@ -532,6 +532,8 @@ public class Launcher extends GameStarter
 							e.printStackTrace();
 						}
 						
+//						System.exit(1);
+						
 						mainMenu.dispose();
 					
 						mainMenu = null;

@@ -199,7 +199,19 @@ public class Player extends Actor
 		renderRightLeg(4 * 4 + offset, bundle, sprites, rotation, facing);
 		renderLeftLeg(4 * 5 + offset, bundle, sprites, -rotation, facing);
 	}
-	
+
+	/**
+	 * Renders the Player's head to the screen with the specified
+	 * rotation and facing.
+	 * 
+	 * @param offset The offset in which the head is located in the
+	 * 		Buffer.
+	 * @param bundle The Bundle in which to use to render the head.
+	 * @param sprites The SpriteSheet to use to render the textures to the
+	 * 		head.
+	 * @param rotation The rotation to rotate the head to.
+	 * @param facing The direction that the head will face.
+	 */
 	private void renderHead(int offset, Bundle bundle, SpriteSheet sprites, float rotation, int facing)
 	{
 		GL.pushMatrix();
@@ -226,7 +238,19 @@ public class Player extends Actor
 		}
 		GL.popMatrix();
 	}
-	
+
+	/**
+	 * Renders the Player's right arm to the screen with the specified
+	 * rotation and facing.
+	 * 
+	 * @param offset The offset in which the right arm is located in the
+	 * 		Buffer.
+	 * @param bundle The Bundle in which to use to render the right arm.
+	 * @param sprites The SpriteSheet to use to render the textures to the
+	 * 		right arm.
+	 * @param rotation The rotation to rotate the right arm to.
+	 * @param facing The direction that the right arm will face.
+	 */
 	private void renderRightArm(int offset, Bundle bundle, SpriteSheet sprites, float rotation, int facing)
 	{
 		GL.pushMatrix();
@@ -254,6 +278,18 @@ public class Player extends Actor
 		GL.popMatrix();
 	}
 	
+	/**
+	 * Renders the Player's torso to the screen with the specified
+	 * rotation and facing.
+	 * 
+	 * @param offset The offset in which the torso is located in the
+	 * 		Buffer.
+	 * @param bundle The Bundle in which to use to render the torso.
+	 * @param sprites The SpriteSheet to use to render the textures to the
+	 * 		torso.
+	 * @param rotation The rotation to rotate the torso to.
+	 * @param facing The direction that the torso will face.
+	 */
 	private void renderTorso(int offset, Bundle bundle, SpriteSheet sprites, float rotation, int facing)
 	{
 		GL.pushMatrix();
@@ -280,7 +316,19 @@ public class Player extends Actor
 		}
 		GL.popMatrix();
 	}
-	
+
+	/**
+	 * Renders the Player's left arm to the screen with the specified
+	 * rotation and facing.
+	 * 
+	 * @param offset The offset in which the left arm is located in the
+	 * 		Buffer.
+	 * @param bundle The Bundle in which to use to render the left arm.
+	 * @param sprites The SpriteSheet to use to render the textures to the
+	 * 		left arm.
+	 * @param rotation The rotation to rotate the left arm to.
+	 * @param facing The direction that the left arm will face.
+	 */
 	private void renderLeftArm(int offset, Bundle bundle, SpriteSheet sprites, float rotation, int facing)
 	{
 		GL.pushMatrix();
@@ -308,6 +356,18 @@ public class Player extends Actor
 		GL.popMatrix();
 	}
 	
+	/**
+	 * Renders the Player's right leg to the screen with the specified
+	 * rotation and facing.
+	 * 
+	 * @param offset The offset in which the right leg is located in the
+	 * 		Buffer.
+	 * @param bundle The Bundle in which to use to render the right leg.
+	 * @param sprites The SpriteSheet to use to render the textures to the
+	 * 		right leg.
+	 * @param rotation The rotation to rotate the right leg to.
+	 * @param facing The direction that the right leg will face.
+	 */
 	private void renderRightLeg(int offset, Bundle bundle, SpriteSheet sprites, float rotation, int facing)
 	{
 		GL.pushMatrix();
@@ -335,6 +395,18 @@ public class Player extends Actor
 		GL.popMatrix();
 	}
 	
+	/**
+	 * Renders the Player's left leg to the screen with the specified
+	 * rotation and facing.
+	 * 
+	 * @param offset The offset in which the left leg is located in the
+	 * 		Buffer.
+	 * @param bundle The Bundle in which to use to render the left leg.
+	 * @param sprites The SpriteSheet to use to render the textures to the
+	 * 		left leg.
+	 * @param rotation The rotation to rotate the left leg to.
+	 * @param facing The direction that the left leg will face.
+	 */
 	private void renderLeftLeg(int offset, Bundle bundle, SpriteSheet sprites, float rotation, int facing)
 	{
 		GL.pushMatrix();
@@ -360,5 +432,22 @@ public class Player extends Actor
 			bundle.render(GL.QUADS, offset, 4, sprites);
 		}
 		GL.popMatrix();
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @author	Braden Steffaniak
+	 * @since	Mar 18, 2013 at 6:18:00 AM
+	 * @since	v0.1
+	 * @version Mar 18, 2013 at 6:18:00 AM
+	 * @version	v0.1
+	 */
+	private class QuickBar
+	{
+		public QuickBar()
+		{
+			
+		}
 	}
 }

@@ -155,6 +155,7 @@ public class TheDiggingGame implements GameInterface
 		this.online = online;
 		
 		this.resourcesLocation = resourcesLocation;
+		System.out.println(online  +", " + resourcesLocation);
 		
 		scale = 2;
 		
