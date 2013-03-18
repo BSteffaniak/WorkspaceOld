@@ -378,10 +378,10 @@ public class GL
 		
 		int index = 0;
 		
-		x      -= 0.0001f;
-		width  += 0.0002f;
-		y      -= 0.0001f;
-		height += 0.0002f;
+		x      -= 0.01f;
+		width  += 0.02f;
+		y      -= 0.01f;
+		height += 0.02f;
 		
 		// Front
 		array[index++] = x;
@@ -459,7 +459,7 @@ public class GL
 	{
 		float array[] = new float[4 * 2];
 		
-		float tolerance = -0.000001f;
+		float tolerance = -0.0001f;
 		
 		if (mirrorHorizontal)
 		{

@@ -1,6 +1,10 @@
 package net.foxycorndog.thedigginggame.actor;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import net.foxycorndog.jfoxylib.bundle.Bundle;
 import net.foxycorndog.jfoxylib.graphics.SpriteSheet;
@@ -21,6 +25,13 @@ import net.foxycorndog.thedigginggame.map.Map;
  */
 public class Player extends Actor
 {
+	private static QuickBar quickBar;
+	
+	static
+	{
+		quickBar = new QuickBar();
+	}
+	
 	/**
 	 * Creates a Player. Sets up the vertices and textures for the bundle
 	 * that is used in the Actor.
@@ -443,26 +454,53 @@ public class Player extends Actor
 	 * @version Mar 18, 2013 at 6:18:00 AM
 	 * @version	v0.1
 	 */
-	private class QuickBar
+	private static class QuickBar
 	{
-		private Bundle bundle;
+		private Bundle	bundle;
 		
+		private Texture	slots[];
+		
+		/**
+		 * 
+		 */
 		public QuickBar()
 		{
 			bundle = new Bundle(4 * 9 * 2, 2, true, false);
 			
 			BufferedImage slots[] = new BufferedImage[9];
 			
-			for (int i = 0; i < slots.length; i++)
+			for (int i = 1; i <= slots.length; i++)
 			{
 				try
 				{
-					slots[] = ImageIO.read(TheDiggingGame.getResourcesLocation() + "res/images/quickbar/slot" + i + ".png");
+					slots[i - 1] = ImageIO.read(new File(TheDiggingGame.getResourcesLocation() + "res/images/quickbar/slot" + i + ".png"));
+					
+					this.slots[i - 1] = new Texture(slots[i - 1]);
 				}
 				catch (IOException e)
 				{
 					e.printStackTrace();
 				}
+			}
+		}
+		
+		/**
+		 * Render the QuickBar to the bottom center of the screen.
+		 */
+		public void render()
+		{
+			Texture slot = null;
+			
+			for (int i = 0; i < 9; i++)
+			{
+				if (slots[i] != null)
+				{
+					slot = slots[i];
+				}
+				
+				bundle.render(GL.QUADS, slot);
+				
+				GL.translate(slot.getWidth(), 0, 0);
 			}
 		}
 	}
