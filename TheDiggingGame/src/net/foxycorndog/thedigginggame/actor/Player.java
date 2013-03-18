@@ -445,9 +445,25 @@ public class Player extends Actor
 	 */
 	private class QuickBar
 	{
+		private Bundle bundle;
+		
 		public QuickBar()
 		{
+			bundle = new Bundle(4 * 9 * 2, 2, true, false);
 			
+			BufferedImage slots[] = new BufferedImage[9];
+			
+			for (int i = 0; i < slots.length; i++)
+			{
+				try
+				{
+					slots[] = ImageIO.read(TheDiggingGame.getResourcesLocation() + "res/images/quickbar/slot" + i + ".png");
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }
