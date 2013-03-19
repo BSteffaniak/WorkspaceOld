@@ -380,6 +380,10 @@ public class Bundle
 	
 	private void endColorsDraw()
 	{
+		if (colorsId == 0)
+		{
+			return;
+		}
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 		
 		glDisableClientState(GL11.GL_COLOR_ARRAY);

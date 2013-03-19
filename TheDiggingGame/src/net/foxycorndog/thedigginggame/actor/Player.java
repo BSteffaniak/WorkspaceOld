@@ -2,6 +2,7 @@ package net.foxycorndog.thedigginggame.actor;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -25,12 +26,7 @@ import net.foxycorndog.thedigginggame.map.Map;
  */
 public class Player extends Actor
 {
-	private static QuickBar quickBar;
-	
-	static
-	{
-		quickBar = new QuickBar();
-	}
+	private QuickBar	quickBar;
 	
 	/**
 	 * Creates a Player. Sets up the vertices and textures for the bundle
@@ -41,6 +37,8 @@ public class Player extends Actor
 	public Player(Map map)
 	{
 		super(map, 16, 32, 1.25f, 25);
+		
+		quickBar = new QuickBar();
 		
 		SpriteSheet sprites = null;
 		
@@ -446,7 +444,17 @@ public class Player extends Actor
 	}
 	
 	/**
+	 * Get the QuickBar that the user has.
 	 * 
+	 * @return The QuickBar that the user has.
+	 */
+	public QuickBar getQuickBar()
+	{
+		return quickBar;
+	}
+	
+	/**
+	 * Class that is used to render the items that are the hot-keys.
 	 * 
 	 * @author	Braden Steffaniak
 	 * @since	Mar 18, 2013 at 6:18:00 AM
@@ -454,20 +462,21 @@ public class Player extends Actor
 	 * @version Mar 18, 2013 at 6:18:00 AM
 	 * @version	v0.1
 	 */
-	private static class QuickBar
+	public class QuickBar
 	{
 		private Bundle	bundle;
 		
 		private Texture	slots[];
 		
 		/**
-		 * 
+		 * Create the bar that shows what items are on the hot-keys.
 		 */
 		public QuickBar()
 		{
 			bundle = new Bundle(4 * 9 * 2, 2, true, false);
 			
 			BufferedImage slots[] = new BufferedImage[9];
+			this.slots            = new Texture[9];
 			
 			for (int i = 1; i <= slots.length; i++)
 			{
@@ -479,9 +488,41 @@ public class Player extends Actor
 				}
 				catch (IOException e)
 				{
-					e.printStackTrace();
+//					e.printStackTrace();
 				}
 			}
+			
+			Texture slot = null;
+			
+			bundle.beginEditingVertices();
+			{
+				for (int i = 0; i < 9; i++)
+				{
+					if (this.slots[i] != null)
+					{
+						slot = this.slots[i];
+					}
+
+					bundle.addVertices(GL.genRectVerts(0, 0, slot.getWidth(), slot.getHeight()));
+				}
+			}
+			bundle.endEditingVertices();
+			
+			slot = null;
+			
+			bundle.beginEditingTextures();
+			{
+			for (int i = 0; i < 9; i++)
+				{
+					if (this.slots[i] != null)
+					{
+						slot = this.slots[i];
+					}
+					
+					bundle.addTextures(GL.genRectTextures(slot.getImageOffsets()));
+				}
+			}
+			bundle.endEditingTextures();
 		}
 		
 		/**

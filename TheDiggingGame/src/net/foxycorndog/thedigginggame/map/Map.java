@@ -508,30 +508,15 @@ public class Map
 	{
 		GL.pushMatrix();
 		{
+			GL.translate(x, y, 0);
+			
+			iterateChunks(new Task()
 			{
-//				lighting.run();
-//				
-//				float array[] = new float[]
-//				{
-//					1, 0, 0, 1,
-//					0, 1, 0, 1,
-//					0, 0, 1, 1
-//				};
-//				
-//				lighting.uniform4f("lights", array);
-			
-				GL.translate(x, y, 0);
-				
-				iterateChunks(new Task()
+				public void run(Chunk chunk)
 				{
-					public void run(Chunk chunk)
-					{
-						chunk.render();
-					}
-				});
-			
-//				lighting.stop();
-			}
+					chunk.renderChunks();
+				}
+			});
 		
 			for (int i = actors.size() - 1; i >= 0; i--)
 			{
@@ -539,6 +524,14 @@ public class Map
 				
 				actor.render();
 			}
+			
+			iterateChunks(new Task()
+			{
+				public void run(Chunk chunk)
+				{
+					chunk.renderLighting();
+				}
+			});
 		}
 		GL.popMatrix();
 	}
