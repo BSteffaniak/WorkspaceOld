@@ -134,6 +134,27 @@ public class Chunk implements Serializable
 	}
 	
 	/**
+	 * Class that holds the information for a new Tile that will be
+	 * added to the tiles when the update() method is called.
+	 * 
+	 * @author	Braden Steffaniak
+	 * @since	Feb 22, 2013 at 7:18:20 PM
+	 * @since	v0.1
+	 * @version Feb 22, 2013 at 7:18:20 PM
+	 * @version	v0.1
+	 */
+	private class LightSource
+	{
+		private int x, y;
+		private int strength;
+		
+		public LightSource()
+		{
+			
+		}
+	}
+	
+	/**
 	 * Class that holds the information for an intersection with an
 	 * Actor and a Chunk.
 	 * 
@@ -408,7 +429,11 @@ public class Chunk implements Serializable
 		{
 			float lightness = 1;
 				
-			boolean isTile = tiles[LAYER_COUNT + i] != null || tiles[i] != null || tiles[LAYER_COUNT * 2 + i] != null;
+			boolean isTile  = tiles[LAYER_COUNT + i] != null || tiles[i] != null || tiles[LAYER_COUNT * 2 + i] != null;
+			
+			Tile torch = Tile.getTile("Torch");
+			
+			boolean isTorch = tiles[LAYER_COUNT + i] == torch || tiles[i] == torch || tiles[LAYER_COUNT * 2 + i] == torch;
 			
 			int x = i % CHUNK_SIZE;
 			int y = i / CHUNK_SIZE;
