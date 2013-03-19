@@ -14,9 +14,9 @@ import java.io.IOException;
  * File Name:	Driver.java
  * Programming:	APCS
  * Author:		Braden Steffaniak
- * Date:		13Mar2013
- * Description:	Class that tests out the functionality of a
- * 	HashSet, HashMap, and TreeMap.
+ * Date:		18Mar2013
+ * Description:	Class that tests out the functionality the three
+ * 	challenge functions.
  */
 public class Driver
 {
@@ -32,17 +32,27 @@ public class Driver
 	{
 		Driver d = new Driver();
 
+		TreeMap<Object, Object> wordFreq = d.wordMap("poem.txt");
+
+		System.out.println("Functions:");
 		System.out.println(d.func(1));
 		System.out.println(d.func(15));
 		System.out.println(d.func(27));
 		System.out.println(d.func(53));
-		System.out.println(d.numOnes(65, 867));
+		System.out.println("\nNumber of bit 1's:");
+		System.out.println(d.numOnes(0, 34));
+		System.out.println("\nWordFreq:");
+		System.out.println(wordFreq);
 
+		d.writer.println("Functions:");
 		d.writer.println(d.func(1));
 		d.writer.println(d.func(15));
 		d.writer.println(d.func(27));
 		d.writer.println(d.func(53));
-		d.writer.println(d.numOnes(65, 867));
+		d.writer.println("\nNumber of bit 1's:");
+		d.writer.println(d.numOnes(0, 34));
+		d.writer.println("\nWordFreq:");
+		d.writer.println(wordFreq);
 
 		d.writer.close();
 	}
@@ -58,7 +68,6 @@ public class Driver
 			writer = new PrintWriter(new FileWriter(
 					new File("binaryPoemMap.txt")));
 
-
 		}
 		catch (IOException e)
 		{
@@ -69,7 +78,7 @@ public class Driver
 	/**
 	 * Tests out the functions given by mister m.
 	 */
-	public int func(int x)
+	private int func(int x)
 	{
 		boolean isPrime = isPrime(x);
 
@@ -112,25 +121,29 @@ public class Driver
 	 */
 	private int numOnes(int x, int y)
 	{
+		if (x > y)
+		{
+			throw new IllegalArgumentException("X must " +
+					"be smaller than Y!!");
+		}
+		else if (x < 0)
+		{
+			throw new IllegalArgumentException("X must >= 0");
+		}
+		else if (y >= 1023)
+		{
+			throw new IllegalArgumentException("I am told " +
+					"to assume that y is supposed to me " +
+					"smaller than 1023");
+		}
+
 		int count = 0;
 
 		while (x <= y)
 		{
-			if (x > y)
-			{
-				throw new IllegalArgumentException("X must " +
-						"be smaller than Y!!");
-			}
-			else if (y >= 1024)
-			{
-				throw new IllegalArgumentException("I am told " +
-						"to assume that y is supposed to me " +
-						"smaller than 1024");
-			}
-
 			if (Integer.bitCount(x) == 8)
 			{
-				count ++;
+				count++;
 			}
 
 			x++;
@@ -142,8 +155,12 @@ public class Driver
 	/**
 	 * Tests the word frequency of the poem.
 	 */
-	private void wordMap()
+	private TreeMap<Object, Object> wordMap(String location)
 	{
+		TreeMap<Object, Object> map = new TreeMap<Object, Object>();
 
+		WordFreq f = new WordFreq(map, location);
+
+		return map;
 	}
 }
