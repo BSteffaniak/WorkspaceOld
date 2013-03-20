@@ -166,7 +166,7 @@ public class AssemblyLanguage
 		
 		try
 		{
-			String text = null;
+			String text[] = null;
 			
 			String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
 			
@@ -177,7 +177,8 @@ public class AssemblyLanguage
 				compilerName = CONFIG_DATA.get("assembly.compiler");
 			}
 			
-			String fileEnding = compilerName.equals("FASM") ? ".exe" : ".img";
+//			String fileEnding = compilerName.equals("FASM") ? ".exe" : ".img";
+			String fileEnding = ".obj";
 			
 			int compiler = 0;
 			
@@ -196,29 +197,32 @@ public class AssemblyLanguage
 			
 			String outputFile = null;
 			
+			String resLoc = (String)PROPERTIES.get("arrowide.location");
+			
 			if (compiler == NASM)
 			{
-				String compilerLocation = "\"res/assembly/nasm/" + PROPERTIES.get("os.name") + "/nasm" + PROPERTIES.get("os.executable.extension") + "\"";
+				String compilerLocation = '"' + resLoc + "/res/assembly/nasm/" + PROPERTIES.get("os.name") + "/nasm" + PROPERTIES.get("os.executable.extension") + "\"";
 				String inputFile        = "\"" + fileLocation + "\"";
 				outputFile              = "\"" + outputLocation + fileName + fileEnding + "\"";
 				
-				text = compilerLocation + " -f bin " + inputFile + " -o " + outputFile + " -w+orphan-labels";
+				text = new String[] { compilerLocation, "-f bin", inputFile, " -o " + outputFile, "-w+orphan-labels" };
 			}
 			else if (compiler == FASM)
 			{
-				String compilerLocation = "\"res/assembly/fasm/" + PROPERTIES.get("os.name") + "/fasm" + PROPERTIES.get("os.executable.extension") + "\"";
+				String compilerLocation = '"' + resLoc + "/res/assembly/fasm/" + PROPERTIES.get("os.name") + "/fasm" + PROPERTIES.get("os.executable.extension") + "\"";
 				String inputFile        = "\"" + fileLocation + "\"";
 				outputFile              = "\"" + outputLocation + fileName + fileEnding + "\"";
 				
-				text = compilerLocation + " " + inputFile + " " + outputFile;
+				text = new String[] { compilerLocation, inputFile, outputFile };
 			}
 			else if (compiler == MASM)
 			{
-				String compilerLocation = "\"res/assembly/masm/" + PROPERTIES.get("os.name") + "/ml" + PROPERTIES.get("os.executable.extension") + "\"";
-				String inputFile        = "/c \"" + fileLocation + "\"";
+				String compilerLocation = '"' + resLoc + "/res/assembly/masm/" + PROPERTIES.get("os.name") + "/ml" + PROPERTIES.get("os.executable.extension") + "\"";
+				System.out.println(fileLocation);
+				String inputFile        = "\"" + fileLocation + "\"";
 				outputFile              = "\"" + outputLocation + fileName + fileEnding + "\"";
 				
-				text = compilerLocation + " " + inputFile;// + " " + outputFile;
+				text = new String[] { compilerLocation, "/Fo", outputFile, "/c", fileLocation };
 			}
 			
 			final String outputFiles[] = new String[] { outputFile.replace("\"", "") };
