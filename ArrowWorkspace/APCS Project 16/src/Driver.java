@@ -40,7 +40,7 @@ public class Driver
 		System.out.println(d.func(27));
 		System.out.println(d.func(53));
 		System.out.println("\nNumber of bit 1's:");
-		System.out.println(d.numOnes(0, 34));
+		System.out.println(d.numOnes(1, 1022));
 		System.out.println("\nWordFreq:");
 		System.out.println(wordFreq);
 
@@ -103,9 +103,7 @@ public class Driver
 	{
 		int sqr = (int)Math.sqrt(x) + 1;
 
-		for (int i = 2;
-		 i < sqr;
-		 i++)
+		for (int i = 2; i < sqr; i++)
 		{
 			if (x % i == 0)
 			{
@@ -141,7 +139,7 @@ public class Driver
 
 		while (x <= y)
 		{
-			if (Integer.bitCount(x) == 8)
+			if (Integer.bitCount(x) >= 8)
 			{
 				count++;
 			}
