@@ -310,14 +310,33 @@ public class FileUtils
 		return location;
 	}
 	
+	/**
+	 * Removes the extension from the file, however keeps the preceding
+	 * path.
+	 * 
+	 * @param location The location of the file.
+	 * @return The file location without the extension.
+	 */
 	public static String removeExtension(String location)
 	{
-		int lastIndex = location.lastIndexOf('.');
+		int lastIndex = location.length();
 		
-		if (lastIndex > 0)
+		for (int i = location.length() - 1; i >= 0; i--)
 		{
-			location = location.substring(0, lastIndex);
+			char c = location.charAt(i);
+			
+			if (c == '.')
+			{
+				lastIndex = i;
+				break;
+			}
+			if (c == '/' || c == '\\')
+			{
+				break;
+			}
 		}
+		
+		location = location.substring(0, lastIndex);
 		
 		return location;
 	}

@@ -194,6 +194,7 @@
 <part id="147"/>
 <part id="148"/>
 <part id="149"/>
+<part id="150"/>
 </presentation>
 </folder>
 </info>
@@ -312,7 +313,7 @@
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AssemblyLanguage.java" partName="AssemblyLanguage.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/language/assembly/AssemblyLanguage.java" title="AssemblyLanguage.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/language/assembly/AssemblyLanguage.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/assembly/AssemblyLanguage.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="6471" selectionTopPixel="2912"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2924" selectionTopPixel="972"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AssemblyKeyword.java" partName="AssemblyKeyword.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/language/assembly/AssemblyKeyword.java" title="AssemblyKeyword.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/language/assembly/AssemblyKeyword.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/assembly/AssemblyKeyword.java"/>
@@ -328,7 +329,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CppLanguage.java" partName="CppLanguage.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/language/cpp/CppLanguage.java" title="CppLanguage.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/language/cpp/CppLanguage.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/cpp/CppLanguage.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2033" selectionTopPixel="776"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3495" selectionTopPixel="1028"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CppKeyword.java" partName="CppKeyword.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/language/cpp/CppKeyword.java" title="CppKeyword.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/language/cpp/CppKeyword.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/cpp/CppKeyword.java"/>
@@ -336,7 +337,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Command.java" partName="Command.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/command/Command.java" title="Command.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/command/Command.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/command/Command.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2278" selectionTopPixel="1140"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4558" selectionTopPixel="1965"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="OptionDialog.java" partName="OptionDialog.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/dialog/OptionDialog.java" title="OptionDialog.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/dialog/OptionDialog.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/dialog/OptionDialog.java"/>
@@ -476,7 +477,7 @@
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FileUtils.java" partName="FileUtils.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/file/FileUtils.java" title="FileUtils.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/file/FileUtils.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/file/FileUtils.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="8884" selectionTopPixel="5333"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="7355" selectionTopPixel="4455"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TreeMenu.java" partName="TreeMenu.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/components/treemenu/TreeMenu.java" title="TreeMenu.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/components/treemenu/TreeMenu.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/components/treemenu/TreeMenu.java"/>
@@ -797,6 +798,10 @@
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Menu.java" partName="Menu.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/menu/Menu.java" title="Menu.java" tooltip="TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/menu/Menu.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/menu/Menu.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1605" selectionTopPixel="347"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CommandListener.java" partName="CommandListener.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/command/CommandListener.java" title="CommandListener.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/command/CommandListener.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/command/CommandListener.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="241" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
@@ -1176,164 +1181,164 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/map/Chunk.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/TheDiggingGame.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/graphics/opengl/GL.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/bundle/Bundle.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/assembly/AssemblyLanguage.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/command/Command.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.binaryEditor" path="/ArrowIDE/res/assembly/masm/windows/ml.exe"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/file/FileUtils.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/command/Command.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/command/CommandListener.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/language/cpp/CppLanguage.java"/>
 </editors>
-<item historyLabel="GL.java" index="2">
-<position info="not_deleted" x="12458" y="0"/>
-</item>
-<item historyLabel="Chunk.java" index="0">
-<position info="not_deleted" x="15459" y="0"/>
-</item>
-<item historyLabel="Bundle.java" index="3">
-<position info="not_deleted" x="7228" y="42"/>
-</item>
-<item historyLabel="Bundle.java" index="3">
-<position info="not_deleted" x="8095" y="0"/>
-</item>
-<item historyLabel="TheDiggingGame.java" index="1">
-<position info="not_deleted" x="5762" y="0"/>
-</item>
-<item historyLabel="AssemblyLanguage.java" index="4">
-<position info="not_deleted" x="5584" y="0"/>
-</item>
-<item historyLabel="AssemblyLanguage.java" index="4">
-<position info="not_deleted" x="5662" y="0"/>
-</item>
-<item historyLabel="AssemblyLanguage.java" index="4">
-<position info="not_deleted" x="7218" y="0"/>
-</item>
-<item historyLabel="AssemblyLanguage.java" index="4">
-<position info="not_deleted" x="6895" y="16"/>
-</item>
-<item historyLabel="AssemblyLanguage.java" index="4">
-<position info="not_deleted" x="6023" y="0"/>
-</item>
-<item historyLabel="Command.java" index="5">
-<position info="not_deleted" x="5415" y="0"/>
-</item>
-<item historyLabel="Command.java" index="5">
+<item historyLabel="Command.java" index="1">
 <position info="not_deleted" x="1410" y="7"/>
 </item>
-<item historyLabel="Command.java" index="5">
-<position info="not_deleted" x="1529" y="0"/>
-</item>
-<item historyLabel="Command.java" index="5">
-<position info="not_deleted" x="1753" y="0"/>
-</item>
-<item historyLabel="TheDiggingGame.java" index="1">
-<position info="not_deleted" x="5843" y="0"/>
-</item>
-<item historyLabel="Command.java" index="5">
-<position info="not_deleted" x="1753" y="0"/>
-</item>
-<item historyLabel="AssemblyLanguage.java" index="4">
-<position info="not_deleted" x="7765" y="0"/>
-</item>
-<item historyLabel="Command.java" index="5">
-<position/>
-</item>
-<item historyLabel="AssemblyLanguage.java" index="4">
-<position info="not_deleted" x="7765" y="0"/>
-</item>
-<item historyLabel="AssemblyLanguage.java" index="4">
-<position/>
-</item>
-<item historyLabel="AssemblyLanguage.java" index="4">
-<position info="not_deleted" x="7137" y="0"/>
-</item>
-<item historyLabel="Command.java" index="5">
-<position/>
-</item>
-<item historyLabel="AssemblyLanguage.java" index="4">
-<position/>
-</item>
-<item historyLabel="Command.java" index="5">
-<position info="not_deleted" x="2126" y="0"/>
-</item>
-<item historyLabel="AssemblyLanguage.java" index="4">
+<item historyLabel="AssemblyLanguage.java" index="0">
 <position info="not_deleted" x="7860" y="0"/>
 </item>
-<item historyLabel="Command.java" index="5">
-<position info="not_deleted" x="1410" y="7"/>
-</item>
-<item historyLabel="AssemblyLanguage.java" index="4">
-<position info="not_deleted" x="7860" y="0"/>
-</item>
-<item historyLabel="Command.java" index="5">
+<item historyLabel="Command.java" index="1">
 <position info="not_deleted" x="2486" y="0"/>
 </item>
-<item historyLabel="AssemblyLanguage.java" index="4">
+<item historyLabel="AssemblyLanguage.java" index="0">
 <position info="not_deleted" x="7971" y="0"/>
 </item>
-<item historyLabel="Command.java" index="5">
+<item historyLabel="Command.java" index="1">
 <position info="not_deleted" x="1410" y="7"/>
 </item>
-<item historyLabel="Command.java" index="5">
+<item historyLabel="Command.java" index="1">
 <position/>
 </item>
-<item historyLabel="Command.java" index="5">
+<item historyLabel="Command.java" index="1">
 <position info="not_deleted" x="2466" y="43"/>
 </item>
-<item historyLabel="AssemblyLanguage.java" index="4">
+<item historyLabel="AssemblyLanguage.java" index="0">
 <position info="not_deleted" x="7971" y="0"/>
 </item>
-<item historyLabel="Command.java" index="5">
+<item historyLabel="Command.java" index="1">
 <position/>
 </item>
-<item historyLabel="AssemblyLanguage.java" index="4">
+<item historyLabel="AssemblyLanguage.java" index="0">
 <position info="not_deleted" x="7971" y="0"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="6">
+<item historyLabel="ArrowIDE.java" index="2">
 <position info="not_deleted" x="24028" y="0"/>
 </item>
-<item historyLabel="ArrowIDE.java" index="6">
+<item historyLabel="ArrowIDE.java" index="2">
 <position info="not_deleted" x="11523" y="0"/>
 </item>
-<item historyLabel="AssemblyLanguage.java" index="4">
+<item historyLabel="AssemblyLanguage.java" index="0">
 <position/>
 </item>
-<item historyLabel="Command.java" index="5">
+<item historyLabel="Command.java" index="1">
 <position/>
 </item>
-<item historyLabel="AssemblyLanguage.java" index="4">
+<item historyLabel="AssemblyLanguage.java" index="0">
 <position/>
 </item>
-<item historyLabel="AssemblyLanguage.java" index="4">
+<item historyLabel="AssemblyLanguage.java" index="0">
 <position/>
 </item>
-<item historyLabel="Command.java" index="5">
+<item historyLabel="Command.java" index="1">
 <position info="not_deleted" x="2334" y="0"/>
 </item>
-<item historyLabel="ml.exe" index="7">
+<item historyLabel="ml.exe" index="3">
 <position info="not_deleted" x="4971" y="1"/>
 </item>
-<item historyLabel="Command.java" index="5">
+<item historyLabel="Command.java" index="1">
 <position/>
 </item>
-<item historyLabel="AssemblyLanguage.java" index="4">
+<item historyLabel="AssemblyLanguage.java" index="0">
 <position info="not_deleted" x="7349" y="0"/>
 </item>
-<item historyLabel="Command.java" index="5">
+<item historyLabel="Command.java" index="1">
 <position/>
 </item>
-<item historyLabel="Command.java" index="5">
+<item historyLabel="Command.java" index="1">
 <position/>
 </item>
-<item historyLabel="AssemblyLanguage.java" index="4">
+<item historyLabel="AssemblyLanguage.java" index="0">
 <position info="not_deleted" x="7731" y="0"/>
+</item>
+<item historyLabel="Command.java" index="1">
+<position info="not_deleted" x="2278" y="0"/>
+</item>
+<item historyLabel="AssemblyLanguage.java" index="0">
+<position info="not_deleted" x="7731" y="0"/>
+</item>
+<item historyLabel="AssemblyLanguage.java" index="0">
+<position/>
+</item>
+<item historyLabel="AssemblyLanguage.java" index="0">
+<position/>
+</item>
+<item historyLabel="FileUtils.java" index="4">
+<position info="not_deleted" x="9264" y="0"/>
+</item>
+<item historyLabel="FileUtils.java" index="4">
+<position info="not_deleted" x="7139" y="15"/>
+</item>
+<item historyLabel="FileUtils.java" index="4">
+<position info="not_deleted" x="7355" y="0"/>
+</item>
+<item historyLabel="AssemblyLanguage.java" index="0">
+<position/>
+</item>
+<item historyLabel="AssemblyLanguage.java" index="0">
+<position/>
+</item>
+<item historyLabel="FileUtils.java" index="4">
+<position info="not_deleted" x="7355" y="0"/>
+</item>
+<item historyLabel="AssemblyLanguage.java" index="0">
+<position/>
+</item>
+<item historyLabel="AssemblyLanguage.java" index="0">
+<position info="not_deleted" x="7561" y="2"/>
+</item>
+<item historyLabel="AssemblyLanguage.java" index="0">
+<position/>
+</item>
+<item historyLabel="AssemblyLanguage.java" index="0">
+<position/>
+</item>
+<item historyLabel="AssemblyLanguage.java" index="0">
+<position info="not_deleted" x="7977" y="0"/>
+</item>
+<item historyLabel="AssemblyLanguage.java" index="0">
+<position info="not_deleted" x="7643" y="14"/>
 </item>
 <item historyLabel="Command.java" index="5">
 <position info="not_deleted" x="2278" y="0"/>
 </item>
-<item active="true" historyLabel="AssemblyLanguage.java" index="4">
-<position info="not_deleted" x="7731" y="0"/>
+<item historyLabel="Command.java" index="5">
+<position info="not_deleted" x="2975" y="0"/>
+</item>
+<item historyLabel="AssemblyLanguage.java" index="0">
+<position/>
+</item>
+<item historyLabel="Command.java" index="5">
+<position info="not_deleted" x="4901" y="0"/>
+</item>
+<item historyLabel="CommandListener.java" index="6">
+<position info="not_deleted" x="241" y="0"/>
+</item>
+<item historyLabel="AssemblyLanguage.java" index="0">
+<position info="not_deleted" x="7924" y="0"/>
+</item>
+<item historyLabel="Command.java" index="5">
+<position info="not_deleted" x="4558" y="0"/>
+</item>
+<item historyLabel="AssemblyLanguage.java" index="0">
+<position info="not_deleted" x="7977" y="0"/>
+</item>
+<item historyLabel="CppLanguage.java" index="7">
+<position info="not_deleted" x="3495" y="0"/>
+</item>
+<item historyLabel="AssemblyLanguage.java" index="0">
+<position info="not_deleted" x="7977" y="0"/>
+</item>
+<item active="true" historyLabel="AssemblyLanguage.java" index="0">
+<position info="not_deleted" x="2746" y="12"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -1357,6 +1362,9 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CommandListener.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/command/CommandListener.java">
+<persistable path="/ArrowIDE/src/net/foxycorndog/arrowide/command/CommandListener.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.binaryEditor" name="ml.exe" tooltip="ArrowIDE/res/assembly/masm/windows/ml.exe">
 <persistable path="/ArrowIDE/res/assembly/masm/windows/ml.exe"/>
 </file>
@@ -1398,9 +1406,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="todo.txt" tooltip="TheDiggingGame/todo.txt">
 <persistable path="/TheDiggingGame/todo.txt"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="todo.txt" tooltip="ArrowIDE/todo.txt">
-<persistable path="/ArrowIDE/todo.txt"/>
 </file>
 </mruList>
 </workbench>

@@ -1,17 +1,18 @@
-.model small
-.stack 100h
-.data
-message db "Hello, world!", 0dh, 0ah, '$'
+.386
+.model flat, stdcall
+option casemap :none
 
+include c:/masm32/include/windows.inc
+include c:/masm32/include/kernel32.inc
+include c:/masm32/include/masm32.inc
+
+includelib kernel32.lib
+includelib masm32.lib
+
+.data
+    HelloWorld db "Hello World!", 0
 .code
-main proc
-	mov	ax, @data
-	mov	ds, ax
-	
-	mov	ah, 9
-	mov	dx, offset message
-	int	21h
-	mov	ax, 4C00h
-	int	21h
-main endp
-end main
+start: 
+    invoke StdOut, addr HelloWorld
+    invoke ExitProcess, 0
+end start

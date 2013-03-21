@@ -169,6 +169,17 @@ public class Command
 									process.waitFor();
 									
 									process.destroy();
+									
+									display.syncExec(new Runnable()
+									{
+										public void run()
+										{
+											for (int i = listeners.size() - 1; i >= 0; i --)
+											{
+												listeners.get(i).commandExecuted();
+											}
+										}
+									});
 								}
 								catch (InterruptedException e)
 								{

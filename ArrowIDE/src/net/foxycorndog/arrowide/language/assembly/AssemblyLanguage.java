@@ -70,74 +70,80 @@ public class AssemblyLanguage
 		
 		Command command = null;
 		
-		int lastInd = fileLocation.lastIndexOf('.');
-		lastInd = lastInd < 0 ? fileLocation.length() : lastInd;
-		
-		String loc  = fileLocation.substring(0, lastInd);
+		String loc = FileUtils.removeExtension(fileLocation);
 		
 		String name = FileUtils.getFileNameWithoutExtension(fileLocation);
 		
-		String fileEnding = compilerName.equals("FASM") ? ".exe" : ".com";
+		int compiler = getCompilerValue(compilerName);
 		
-		if (bit16Supported)
+		String fileEnding = compiler == FASM ? ".exe" : ".com";
+		
+		if (compiler == MASM)
 		{
-			command = new Command(Display.getDefault(), "\"" + loc + fileEnding + "\"", stream, null);
+			command = new Command(Display.getDefault(), "\"" + loc + ".exe" + "\"", stream, null);
 		}
 		else
 		{
-			if (!CONFIG_DATA.containsKey("dosbox.location") || !new File(CONFIG_DATA.get("dosbox.location")).exists())
+			if (bit16Supported)
 			{
-				FileBrowseDialog gppSearch = new FileBrowseDialog("Specify your DOSBox location.", "Location:", FileBrowseDialog.FILE);
-				
-				String dosboxLoc = gppSearch.open();
-				
-				if (dosboxLoc != null)
+				command = new Command(Display.getDefault(), "\"" + loc + fileEnding + "\"", stream, null);
+			}
+			else
+			{
+				if (!CONFIG_DATA.containsKey("dosbox.location") || !new File(CONFIG_DATA.get("dosbox.location")).exists())
 				{
-					ArrowIDE.setConfigDataValue("dosbox.location", dosboxLoc);
-				}
-				else
-				{
-					stream.println("You must specify a valid dosbox to run this 16 bit program.");
+					FileBrowseDialog gppSearch = new FileBrowseDialog("Specify your DOSBox location.", "Location:", FileBrowseDialog.FILE);
 					
-					return;
+					String dosboxLoc = gppSearch.open();
+					
+					if (dosboxLoc != null)
+					{
+						ArrowIDE.setConfigDataValue("dosbox.location", dosboxLoc);
+					}
+					else
+					{
+						stream.println("You must specify a valid dosbox to run this 16 bit program.");
+						
+						return;
+					}
 				}
-			}
-			
-			String dosboxLocation = CONFIG_DATA.get("dosbox.location");
-			String confLocation   = (String)PROPERTIES.get("arrowide.location") + "/res/assembly";
-			String fileLoc        = FileUtils.getParentFolder(fileLocation);
-			
-			if (!fileLocation.equals(lastFile))
-			{
-				try
+				
+				String dosboxLocation = CONFIG_DATA.get("dosbox.location");
+				String confLocation   = (String)PROPERTIES.get("arrowide.location") + "/res/assembly";
+				String fileLoc        = FileUtils.getParentFolder(fileLocation);
+				
+				if (!fileLocation.equals(lastFile))
 				{
-				    PrintWriter out = new PrintWriter((new FileWriter(confLocation + "/dosbox.conf")));
-				    out.println("[autoexec]\r\n" +
-				    		"mount c \"" + fileLoc + "\"\r\n" +
-				    		"c:\r\n" +
-				    		"cls\r\n" +
-				    		name + "\r\n" +
-				    		"exit");
-				    out.close();
+					try
+					{
+					    PrintWriter out = new PrintWriter((new FileWriter(confLocation + "/dosbox.conf")));
+					    out.println("[autoexec]\r\n" +
+					    		"mount c \"" + fileLoc + "\"\r\n" +
+					    		"c:\r\n" +
+					    		"cls\r\n" +
+					    		name + "\r\n" +
+					    		"exit");
+					    out.close();
+					}
+					catch (IOException e)
+					{
+						e.printStackTrace();
+					}
 				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
+				
+				lastFile = fileLocation;
+				
+				command = new Command(Display.getDefault(), new String[] { dosboxLocation, "-conf '" + confLocation + "/dosbox.conf'", "-noconsole" }, stream, confLocation);//new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-name '" + FileUtils.getParentFolder(loc) + "'", "-noconsole" }, stream);
+	//			try
+	//			{
+	////				Runtime.getRuntime().exec(new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-conf \"" + PROPERTIES.get("arrowide.location") + "/res/assembly/new.conf\"", "-noconsole", "-printconf" });
+	//				Runtime.getRuntime().exec(new String[] { "res/DOSBox", "-c mount c", "-noconsole" });
+	//			}
+	//			catch (IOException e)
+	//			{
+	//				e.printStackTrace();
+	//			}
 			}
-			
-			lastFile = fileLocation;
-			
-			command = new Command(Display.getDefault(), new String[] { dosboxLocation, "-conf '" + confLocation + "/dosbox.conf'", "-noconsole" }, stream, confLocation);//new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-name '" + FileUtils.getParentFolder(loc) + "'", "-noconsole" }, stream);
-//			try
-//			{
-////				Runtime.getRuntime().exec(new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-conf \"" + PROPERTIES.get("arrowide.location") + "/res/assembly/new.conf\"", "-noconsole", "-printconf" });
-//				Runtime.getRuntime().exec(new String[] { "res/DOSBox", "-c mount c", "-noconsole" });
-//			}
-//			catch (IOException e)
-//			{
-//				e.printStackTrace();
-//			}
 		}
 		
 		try
@@ -168,7 +174,7 @@ public class AssemblyLanguage
 		{
 			String text[] = null;
 			
-			String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
+			final String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
 			
 			String compilerName = "";
 			
@@ -180,28 +186,15 @@ public class AssemblyLanguage
 //			String fileEnding = compilerName.equals("FASM") ? ".exe" : ".img";
 			String fileEnding = ".obj";
 			
-			int compiler = 0;
-			
-			if (compilerName.equals("NASM"))
-			{
-				compiler = NASM;
-			}
-			else if (compilerName.equals("FASM"))
-			{
-				compiler = FASM;
-			}
-			else if (compilerName.equals("MASM"))
-			{
-				compiler = MASM;
-			}
-			
-			String outputFile = null;
+			final int compiler = getCompilerValue(compilerName);
 			
 			String resLoc = (String)PROPERTIES.get("arrowide.location");
 			
+			String outputFile = null;
+			final String compilerLocation = getCompilerLocation(compiler, resLoc);
+			
 			if (compiler == NASM)
 			{
-				String compilerLocation = '"' + resLoc + "/res/assembly/nasm/" + PROPERTIES.get("os.name") + "/nasm" + PROPERTIES.get("os.executable.extension") + "\"";
 				String inputFile        = "\"" + fileLocation + "\"";
 				outputFile              = "\"" + outputLocation + fileName + fileEnding + "\"";
 				
@@ -209,7 +202,6 @@ public class AssemblyLanguage
 			}
 			else if (compiler == FASM)
 			{
-				String compilerLocation = '"' + resLoc + "/res/assembly/fasm/" + PROPERTIES.get("os.name") + "/fasm" + PROPERTIES.get("os.executable.extension") + "\"";
 				String inputFile        = "\"" + fileLocation + "\"";
 				outputFile              = "\"" + outputLocation + fileName + fileEnding + "\"";
 				
@@ -217,17 +209,17 @@ public class AssemblyLanguage
 			}
 			else if (compiler == MASM)
 			{
-				String compilerLocation = '"' + resLoc + "/res/assembly/masm/" + PROPERTIES.get("os.name") + "/ml" + PROPERTIES.get("os.executable.extension") + "\"";
-				System.out.println(fileLocation);
 				String inputFile        = "\"" + fileLocation + "\"";
 				outputFile              = "\"" + outputLocation + fileName + fileEnding + "\"";
 				
-				text = new String[] { compilerLocation, "/Fo", outputFile, "/c", fileLocation };
+				text = new String[] { '"' + compilerLocation + "ml" + PROPERTIES.get("os.executable.extension") + '"', "/c", "/coff", fileName + ".asm" };
 			}
+			
+			final String directory = FileUtils.getParentFolder(fileLocation);
 			
 			final String outputFiles[] = new String[] { outputFile.replace("\"", "") };
 			
-			Command command = new Command(Display.getDefault(), text, stream, null);
+			Command command = new Command(Display.getDefault(), text, stream, directory);
 			
 			command.addCommandListener(new CommandListener()
 			{
@@ -242,9 +234,52 @@ public class AssemblyLanguage
 						compilerListeners.get(i).compiled(outputFiles, outputs, stream, fileLocation);
 					}
 				}
+								
+				public void commandExecuted()
+				{
+//					if (result == 0)
+//					{
+						if (compiler == MASM)
+						{
+							String text[] = new String[] { '"' + compilerLocation + "link" + PROPERTIES.get("os.executable.extension") + '"', "/SUBSYSTEM:CONSOLE", "/LIBPATH:C:/masm32/lib", fileName + ".obj" };
+							
+							Command command = new Command(Display.getDefault(), text, stream, directory);
+							
+							command.addCommandListener(new CommandListener()
+							{
+								public void resultReceived(final int result)
+								{
+									CompileOutput outputs[] = new CompileOutput[1];
+									
+									outputs[0] = new CompileOutput(0, 0, 0, result, "ASDF");
+									
+									for (int i = compilerListeners.size() - 1; i >= 0; i--)
+									{
+										compilerListeners.get(i).compiled(outputFiles, outputs, stream, fileLocation);
+									}
+								}
+								
+								public void commandExecuted()
+								{
+									
+								}
+							});
+							
+							try
+							{
+								command.execute();
+							}
+							catch (IOException e)
+							{
+								e.printStackTrace();
+							}
+						}
+//					}
+				}
 			});
 			
 			command.execute();
+						
 			
 //			if (p.exitValue() == 0)
 //			{
@@ -259,5 +294,41 @@ public class AssemblyLanguage
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	private static final String getCompilerLocation(int compiler, String resLoc)
+	{
+		if (compiler == NASM)
+		{
+			return '"' + resLoc + "/res/assembly/nasm/" + PROPERTIES.get("os.name") + "/nasm" + PROPERTIES.get("os.executable.extension") + "\"";
+		}
+		else if (compiler == FASM)
+		{
+			return '"' + resLoc + "/res/assembly/fasm/" + PROPERTIES.get("os.name") + "/fasm" + PROPERTIES.get("os.executable.extension") + "\"";
+		}
+		else if (compiler == MASM)
+		{
+			return resLoc + "/res/assembly/masm/" + PROPERTIES.get("os.name") + "/";
+		}
+		
+		return null;
+	}
+	
+	private static final int getCompilerValue(String compilerName)
+	{
+		if (compilerName.equals("NASM"))
+		{
+			return NASM;
+		}
+		else if (compilerName.equals("FASM"))
+		{
+			return FASM;
+		}
+		else if (compilerName.equals("MASM"))
+		{
+			return MASM;
+		}
+		
+		return 0;
 	}
 }

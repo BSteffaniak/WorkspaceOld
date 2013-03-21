@@ -110,6 +110,11 @@ public class CppLanguage
 						compilerListeners.get(i).compiled(outputFiles, outputs, stream, fileLocation);
 					}
 				}
+				
+				public void commandExecuted()
+				{
+					
+				}
 			});
 			
 			command.execute();
