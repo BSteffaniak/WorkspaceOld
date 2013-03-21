@@ -1018,11 +1018,16 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 									
 									if (tabFileLocations.containsValue(loc))
 									{
-										int tabId = tabFileIds.get(loc);
+										int tabId = tabFileIds.remove(loc);
 										
 										tabs.setTabText(tabId, FileUtils.getFileName(newLoc));
 										tabFileLocations.put(tabId, newLoc);
 										
+										tabFileIds.put(newLoc, tabId);
+									}
+									
+									if (tabFileIds.containsKey(loc))
+									{
 										tabFileIds.put(newLoc, tabFileIds.remove(loc));
 									}
 									
@@ -1033,6 +1038,11 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 										codeField.setLanguage(Language.getLanguage(fileLocation));
 										
 										codeField.highlightSyntax();
+									}
+									
+									if (loc.equals(fileLocation))
+									{
+										fileLocation = newLoc;
 									}
 									
 									boolean before = true;
@@ -2286,16 +2296,16 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 						{
 							public void run()
 							{
-								try
-								{
-									consoleField.setText("");
-									
-									Language.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
-								}
-								catch (UnsupportedOperationException e)
-								{
-									consoleStream.println(e.getMessage());
-								}
+//								try
+//								{
+//									consoleField.setText("");
+//									
+//									Language.compile(fileLocation, codeField.getRawText(), outputLocation, consoleStream);
+//								}
+//								catch (UnsupportedOperationException e)
+//								{
+//									consoleStream.println(e.getMessage());
+//								}
 							}
 						});
 						

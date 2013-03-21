@@ -89,8 +89,6 @@ public class Command
 								{
 									ProcessBuilder builder = new ProcessBuilder(commands);
 									
-									System.out.println(commands[0]);
-									
 									if (directory != null)
 									{
 										builder.directory(new File(directory));
