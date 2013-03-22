@@ -1,3 +1,10 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.io.FileWriter;
+import java.io.File;
+import java.io.IOException;
+
 /**
  * File Name:	Driver.java
  * Programming:	APCS
@@ -8,8 +15,11 @@
  */
 public class Driver
 {
-	private Heap heap;
-	
+	private Heap			heap;
+
+	private BufferedReader	reader;
+	private PrintWriter		writer;
+
 	/**
 	 * First method ran. Does all of the neccessary testing.
 	 *
@@ -18,26 +28,69 @@ public class Driver
 	public static void main(String args[])
 	{
 		Driver d = new Driver();
-		
-		d.heap.add(1);
-		d.heap.add(10);
-		d.heap.add(2);
-		d.heap.add(20);
-		d.heap.add(11);
-		d.heap.add(4);
-		d.heap.add(3);
-		d.heap.add(22);
-		d.heap.add(21);
-		d.heap.add(12);
-		d.heap.add(13);
-		d.heap.add(5);
-		d.heap.add(6);
-		d.heap.add(7);
-		d.heap.add(8);
-		
-		System.out.println(d.heap.removeMin());
-		
-		System.out.println(d.heap);
+
+		d.readDataFile();
+
+		System.out.println("Before remove: " + d.heap + "\n");
+		d.writer.println("Before remove: " + d.heap + "\n");
+
+		while (!d.heap.isEmpty())
+		{
+			Comparable removed = d.heap.removeMin();
+
+			System.out.println("Removed min(" + removed + "): " + d.heap);
+			d.writer.println("Removed min(" + removed + "): " + d.heap);
+
+
+		}
+
+		d.outputData();
+
+		d.writer.close();
+	}
+
+	/**
+	 * Reads the data file and inputs the data into the Heap.
+	 */
+	private void readDataFile()
+	{
+		try
+		{
+			System.out.println("Adding:");
+			writer.println("Adding:");
+
+			String line = reader.readLine();
+
+			while (line != null)
+			{
+				int value = Integer.valueOf(line);
+
+				heap.add(value);
+
+				System.out.println("Add " + value + ": " + heap);
+				writer.println("Add " + value + ": " + heap);
+
+				line = reader.readLine();
+			}
+
+			System.out.println();
+			writer.println();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Output the data to the console and a file named "heapOutput.txt"
+	 */
+	private void outputData()
+	{
+		System.out.println("Final Heap:");
+		System.out.println(heap);
+		writer.println("Final Heap:");
+		writer.println(heap);
 	}
 
 	/**
@@ -47,5 +100,23 @@ public class Driver
 	public Driver()
 	{
 		heap = new Heap();
+
+		try
+		{
+			reader = new BufferedReader(new FileReader("data.txt"));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+		try
+		{
+			writer = new PrintWriter(new FileWriter("heapOutput.txt"));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

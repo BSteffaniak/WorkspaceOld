@@ -1,0 +1,30 @@
+Adding:
+Add 45: Heap { 45 }
+Add 13: Heap { 13, 45 }
+Add 17: Heap { 13, 45, 17 }
+Add 77: Heap { 13, 45, 17, 77 }
+Add 55: Heap { 13, 45, 17, 77, 55 }
+Add 16: Heap { 13, 45, 16, 77, 55, 17 }
+Add 22: Heap { 13, 45, 16, 77, 55, 17, 22 }
+Add 44: Heap { 13, 44, 16, 45, 55, 17, 22, 77 }
+Add 46: Heap { 13, 44, 16, 45, 55, 17, 22, 77, 46 }
+Add 1: Heap { 1, 13, 16, 45, 44, 17, 22, 77, 46, 55 }
+Add 12: Heap { 1, 12, 16, 45, 13, 17, 22, 77, 46, 55, 44 }
+Add 23: Heap { 1, 12, 16, 45, 13, 17, 22, 77, 46, 55, 44, 23 }
+
+Before remove: Heap { 1, 12, 16, 45, 13, 17, 22, 77, 46, 55, 44, 23 }
+
+Removed min(1): Heap { 12, 13, 16, 45, 23, 17, 22, 77, 46, 55, 44 }
+Removed min(12): Heap { 13, 23, 16, 45, 44, 17, 22, 77, 46, 55 }
+Removed min(13): Heap { 16, 23, 17, 45, 44, 55, 22, 77, 46 }
+Removed min(16): Heap { 17, 23, 22, 45, 44, 55, 46, 77 }
+Removed min(17): Heap { 22, 23, 46, 45, 44, 55, 77 }
+Removed min(22): Heap { 23, 44, 46, 45, 77, 55 }
+Removed min(23): Heap { 44, 45, 46, 55, 77 }
+Removed min(44): Heap { 45, 55, 46, 77 }
+Removed min(45): Heap { 46, 55, 77 }
+Removed min(46): Heap { 55, 77 }
+Removed min(55): Heap { 77 }
+Removed min(77): Heap {  }
+Final Heap:
+Heap {  }
