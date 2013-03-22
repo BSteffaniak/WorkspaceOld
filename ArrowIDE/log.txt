@@ -1,18 +1,16 @@
 Compiled successfully.
-Error on line 11: string:///Heap.java:11: cannot find symbol
-symbol  : class ArrayList
-location: class HeapError on line 18: string:///Heap.java:18: cannot find symbol
-symbol  : class ArrayList
-location: class Heap
-Error on line 29: string:///Heap.java:29: missing return statementError on line 37: string:///Heap.java:37: missing return statementError on line 45: string:///Heap.java:45: missing return statementError on line 53: string:///Heap.java:53: missing return statement
+2
+Heap { 1, 10, 4, 20, 11, 5, 3, 22, 21, 12, 13, 8, 6, 7 }
+Compiled successfully.
+2
+Heap { 1, 10, 4, 20, 11, 5, 3, 22, 21, 12, 13, 8, 6, 7 }
 Compiled successfully.
 Compiled successfully.
+2
+Heap { 1, 10, 3, 20, 11, 4, 7, 22, 21, 12, 13, 5, 6, 8 }
 Compiled successfully.
-0
-Compiled successfully.
+2
+Heap { 1, 10, 3, 20, 11, 4, 7, 22, 21, 12, 13, 5, 6, 8 }
 Compiled successfully.
 1
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
-Compiled successfully.
+Heap { 2, 10, 3, 20, 11, 4, 7, 22, 21, 12, 13, 5, 6, 8 }
