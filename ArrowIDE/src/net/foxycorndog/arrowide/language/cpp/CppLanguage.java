@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 
 import net.foxycorndog.arrowide.ArrowIDE;
+import net.foxycorndog.arrowide.Program;
 import net.foxycorndog.arrowide.command.Command;
 import net.foxycorndog.arrowide.command.CommandListener;
 import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
@@ -43,7 +44,7 @@ public class CppLanguage
 		CppKeyword.init();
 	}
 	
-	public static void run(final String fileLocation, final PrintStream stream)
+	public static Program run(final String fileLocation, final PrintStream stream)
 	{
 		int lastInd = fileLocation.lastIndexOf('.');
 		lastInd = lastInd < 0 ? fileLocation.length() : lastInd;
@@ -52,14 +53,20 @@ public class CppLanguage
 		
 		Command command = new Command(Display.getDefault(), exe, stream, null);
 		
+		String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
+		
 		try
 		{
 			command.execute();
+			
+			return new Program(command.getProcess(), fileName);
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
+		
+		return null;
 	}
 	
 	public static void compile(final String fileLocation, String outputLocation, final PrintStream stream, final ArrayList<CompilerListener> compilerListeners)

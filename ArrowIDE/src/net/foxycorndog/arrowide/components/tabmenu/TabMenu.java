@@ -90,6 +90,8 @@ public class TabMenu
 			}
 		});
 		
+		final TabMenu thisMenu = this;
+		
 		tabFolder.addCTabFolder2Listener(new CTabFolder2Listener()
 		{
 			public void close(CTabFolderEvent e)
@@ -102,7 +104,7 @@ public class TabMenu
 
 				for (int i = listeners.size() - 1; i >= 0; i--)
 				{
-					if (!listeners.get(i).tabClosing(id))
+					if (!listeners.get(i).tabClosing(new TabMenuEvent(thisMenu, id)))
 					{
 						close = false;
 					}
@@ -152,7 +154,7 @@ public class TabMenu
 		
 		for (int i = listeners.size() - 1; i >= 0; i--)
 		{
-			listeners.get(i).tabSelected(id);
+			listeners.get(i).tabSelected(new TabMenuEvent(this, id));
 		}
 	}
 	

@@ -31,9 +31,6 @@ public class Driver
 
 		d.readDataFile();
 
-		System.out.println("Before remove: " + d.heap + "\n");
-		d.writer.println("Before remove: " + d.heap + "\n");
-
 		while (!d.heap.isEmpty())
 		{
 			Comparable removed = d.heap.removeMin();
@@ -72,9 +69,6 @@ public class Driver
 
 				line = reader.readLine();
 			}
-
-			System.out.println();
-			writer.println();
 		}
 		catch (IOException e)
 		{

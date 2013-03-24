@@ -11,6 +11,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
 import net.foxycorndog.arrowide.ArrowIDE;
+import net.foxycorndog.arrowide.Program;
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
@@ -86,13 +87,13 @@ public class Language
 		return FileUtils.getLanguage(name);
 	}
 	
-	public static void run(int language, String fileLocation, ConsoleStream stream)
+	public static Program run(int language, String fileLocation, ConsoleStream stream)
 	{
 		fileLocation = FileUtils.removeEndingSlashes(fileLocation.replace('\\', '/'));
 		
 		if (language == JAVA)
 		{
-			JavaLanguage.run(fileLocation, stream);
+			return JavaLanguage.run(fileLocation, stream);
 		}
 		else if (language == GLSL)
 		{
@@ -100,16 +101,18 @@ public class Language
 		}
 		else if (language == ASSEMBLY)
 		{
-			AssemblyLanguage.run(fileLocation, stream);
+			return AssemblyLanguage.run(fileLocation, stream);
 		}
 		else if (language == CPP)
 		{
-			CppLanguage.run(fileLocation, stream);
+			return CppLanguage.run(fileLocation, stream);
 		}
 		else if (language == PYTHON)
 		{
-			PythonLanguage.run(fileLocation, stream);
+			return PythonLanguage.run(fileLocation, stream);
 		}
+		
+		return null;
 	}
 	
 	public static boolean canCompile(int fileType)

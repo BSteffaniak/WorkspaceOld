@@ -1,0 +1,25 @@
+package net.foxycorndog.arrowide.components.tabmenu;
+
+/**
+ * Class that holds the information for each event that is
+ * dispatched from the TabMenu.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Mar 24, 2013 at 1:45:46 AM
+ * @since	v0.2
+ * @version Mar 24, 2013 at 1:45:46 AM
+ * @version	v0.2
+ */
+public class TabMenuEvent
+{
+	private int		tabId;
+	
+	private TabMenu source;
+	
+	public TabMenuEvent(TabMenu source, int tabId)
+	{
+		this.source = source;
+		
+		this.tabId  = tabId;
+	}
+}

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import net.foxycorndog.arrowide.ArrowIDE;
+import net.foxycorndog.arrowide.Program;
 import net.foxycorndog.arrowide.command.Command;
 import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
 import net.foxycorndog.arrowide.file.FileUtils;
@@ -39,7 +40,7 @@ public class PythonLanguage
 		PythonKeyword.init();
 	}
 	
-	public static void run(String fileLocation, PrintStream stream)
+	public static Program run(String fileLocation, PrintStream stream)
 	{
 		if (!CONFIG_DATA.containsKey("python.location") || !(new File(CONFIG_DATA.get("python.location")).isDirectory()))
 		{
@@ -57,19 +58,25 @@ public class PythonLanguage
 			{
 				stream.println("You must specify a valid python directory to compile this program.");
 				
-				return;
+				return null;
 			}
 		}
 		
-		Command runner = new Command(Display.getDefault(), new String[] { CONFIG_DATA.get("python.location") + "/python", fileLocation }, stream, FileUtils.getParentFolder(fileLocation));
+		Command command = new Command(Display.getDefault(), new String[] { CONFIG_DATA.get("python.location") + "/python", fileLocation }, stream, FileUtils.getParentFolder(fileLocation));
+		
+		String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
 		
 		try
 		{
-			runner.execute();
+			command.execute();
+			
+			return new Program(command.getProcess(), fileName);
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
+		
+		return null;
 	}
 }

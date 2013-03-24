@@ -34,6 +34,7 @@ import net.foxycorndog.arrowide.components.TitleBar;
 import net.foxycorndog.arrowide.components.menubar.Menubar;
 import net.foxycorndog.arrowide.components.menubar.MenubarListener;
 import net.foxycorndog.arrowide.components.tabmenu.TabMenu;
+import net.foxycorndog.arrowide.components.tabmenu.TabMenuEvent;
 import net.foxycorndog.arrowide.components.tabmenu.TabMenuListener;
 import net.foxycorndog.arrowide.components.toolbar.Toolbar;
 import net.foxycorndog.arrowide.components.toolbar.ToolbarListener;
@@ -123,6 +124,7 @@ import org.lwjgl.opengl.GLContext;
  * @author	Braden Steffaniak
  * @since	Feb 13, 2013 at 4:46:00 PM
  * @since	v0.7
+ * @version	Feb 13, 2013 at 4:46:00 PM
  * @version	v0.7
  */
 public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuListener
@@ -159,7 +161,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	
 	private CompositeSizer						treeMenuSizer, codeFieldSizer;
 
-	private TabMenu								tabs;
+	private TabMenu								fileTabs, consoleTabs;
 
 	private ConsoleStream						consoleStream;
 
@@ -176,6 +178,10 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	private HashMap<String, Integer>			tabFileIds;
 	private HashMap<Integer, Integer>			tabTopPixels;
 	private HashMap<Integer, Point>				tabSelection;
+//	private HashMap<, Integer>					consoleTabIds;
+	private HashMap<Integer, Program>					consoleTabPrograms;
+	
+	private ArrayList<Program>					programs;
 
 	private static boolean						restarting;
 	private static boolean						exiting;
@@ -514,14 +520,21 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		tabTopPixels      = new HashMap<Integer, Integer>();
 		tabSelection      = new HashMap<Integer, Point>();
 		
-		tabs = new TabMenu(contentPanel);
-		tabs.setBackground(ColorUtils.darken(contentPanel.getBackground(), 20));
-		tabs.addListener(this);
-//		shell.setBackground(tabs.getBackground());
+		fileTabs = new TabMenu(contentPanel);
+		fileTabs.setBackground(ColorUtils.darken(contentPanel.getBackground(), 20));
+		fileTabs.addListener(this);
 		
-	    tabs.setMaxWidth(codeField.getWidth() + 2);
-		codeField.setLocation(codeField.getX(), codeField.getY() + tabs.getHeight());
-		tabs.setLocation(codeField.getX(), 2);
+		consoleTabs = new TabMenu(contentPanel);
+		consoleTabs.setBackground(ColorUtils.darken(contentPanel.getBackground(), 20));
+		consoleTabs.setMaxWidth(codeField.getWidth() + 2);
+		consoleTabs.addListener(this);
+		
+		programs = new ArrayList<Program>();
+		consoleTabPrograms = new HashMap<Integer, Program>();
+		
+	    fileTabs.setMaxWidth(codeField.getWidth() + 2);
+		codeField.setLocation(codeField.getX(), codeField.getY() + fileTabs.getHeight());
+		fileTabs.setLocation(codeField.getX(), 2);
 		
 		preferences = new PreferencesDialog(contentPanel);
 		preferences.addDialogPanel(new GeneralPanel(preferences.getContentPanel(), this));
@@ -707,7 +720,16 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 						
 						try
 						{
-							Language.run(codeField.getLanguage(), fileLocation, consoleStream);
+							Program program = Language.run(codeField.getLanguage(), fileLocation, consoleStream);
+							
+							if (program != null)
+							{
+								programs.add(program);
+								
+								consoleTabPrograms.put(consoleTabs.addTab(program.getName()), program);
+								
+								updateLayout();
+							}
 						}
 						catch (UnsupportedOperationException e)
 						{
@@ -809,7 +831,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				codeFieldSizer.setMinimumY(codeField.getY());
 				
 				toolbar.setLocation(codeField.getX(), toolbar.getY());
-				tabs.setLocation(codeField.getX(), tabs.getY());
+				fileTabs.setLocation(codeField.getX(), fileTabs.getY());
+				consoleTabs.setLocation(codeField.getX(), consoleTabs.getY());
 			}
 		});
 		
@@ -827,6 +850,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				
 				consoleField.setSize(codeField.getWidth(), consoleField.getHeight() - dy);
 				consoleField.setLocation(codeField.getX(), consoleField.getLocation().y + dy);
+				
+				consoleTabs.setLocation(codeField.getX(), consoleTabs.getY() + dy);
 			}
 		});
 		
@@ -1020,7 +1045,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 									{
 										int tabId = tabFileIds.remove(loc);
 										
-										tabs.setTabText(tabId, FileUtils.getFileName(newLoc));
+										fileTabs.setTabText(tabId, FileUtils.getFileName(newLoc));
 										tabFileLocations.put(tabId, newLoc);
 										
 										tabFileIds.put(newLoc, tabId);
@@ -1149,35 +1174,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			// TODO clean this crap up.
 			public void controlResized(ControlEvent e)
 			{
-				contentPanel.setSize(window.getClientArea().width, window.getClientArea().height);
-				
-				int width     = (int)(contentPanel.getSize().x / 100f * 80);
-				int conHeight = (int)(contentPanel.getSize().y / 100f * 20);
-				
-				menubar.setSize(contentPanel.getSize().x, menubar.getHeight());
-				menubar.setLocation(0, titleBarHeight);
-				
-				codeField.setSize(width, contentPanel.getSize().y - conHeight - toolbar.getHeight() - tabs.getY());
-				codeField.setLocation(contentPanel.getSize().x - codeField.getWidth(), tabs.getHeight() + tabs.getY());
-				
-				toolbar.setSize(toolbar.getWidth(), 25);
-				toolbar.setLocation(codeField.getX(), menubar.getY() + menubar.getHeight());
-				
-				consoleField.setSize(width, conHeight - 5);
-				consoleField.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y + 5);
-				
-//				tabs.setWidth(codeField.getWidth() + 2);
-				tabs.setLocation(codeField.getX(), toolbar.getY() + toolbar.getHeight() + 2);
-				
-				treeMenu.setLocation(treeMenu.getLocation().x, codeField.getY());
-				treeMenu.setSize(contentPanel.getSize().x - codeField.getWidth() - 5, consoleField.getLocation().y + consoleField.getHeight() - codeField.getY());
-				
-				treeMenuSizer.setSize(5, treeMenu.getHeight());
-				treeMenuSizer.setLocation(treeMenu.getLocation().x + treeMenu.getWidth(), treeMenu.getLocation().y);
-
-				codeFieldSizer.setSize(codeField.getWidth(), 5);
-				codeFieldSizer.setLocation(codeField.getLocation().x, codeField.getLocation().y + codeField.getHeight());
-				codeFieldSizer.setMinimumY(codeField.getY());
+				updateLayout();
 				
 				if (!window.isMaximized() && !window.isFullscreen())
 				{
@@ -1225,6 +1222,46 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			
 			setConfigDataValue("last.tabs", builder.toString());
 		}
+	}
+	
+	/**
+	 * Updates the components locations in the frame.
+	 */
+	private void updateLayout()
+	{
+		contentPanel.setSize(window.getClientArea().width, window.getClientArea().height);
+		
+		int width     = (int)(contentPanel.getSize().x / 100f * 80);
+		int conHeight = (int)(contentPanel.getSize().y / 100f * 20);
+		
+		menubar.setSize(contentPanel.getSize().x, menubar.getHeight());
+		menubar.setLocation(0, titleBarHeight);
+		
+		codeField.setSize(width, contentPanel.getSize().y - conHeight - toolbar.getHeight() - fileTabs.getY());
+		codeField.setLocation(contentPanel.getSize().x - codeField.getWidth(), fileTabs.getHeight() + fileTabs.getY());
+		
+		toolbar.setSize(toolbar.getWidth(), 25);
+		toolbar.setLocation(codeField.getX(), menubar.getY() + menubar.getHeight());
+		
+		boolean cTabs = programs.size() > 0;
+		int cOffset   = cTabs ? consoleTabs.getHeight() : 0;
+		
+		consoleField.setSize(width, conHeight - 5 - cOffset);
+		consoleField.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y + 5 + cOffset);
+		
+//		tabs.setWidth(codeField.getWidth() + 2);
+		fileTabs.setLocation(codeField.getX(), toolbar.getY() + toolbar.getHeight() + 2);
+		consoleTabs.setLocation(consoleField.getLocation().x, consoleField.getLocation().y - cOffset);
+		
+		treeMenu.setLocation(treeMenu.getLocation().x, codeField.getY());
+		treeMenu.setSize(contentPanel.getSize().x - codeField.getWidth() - 5, consoleField.getLocation().y + consoleField.getHeight() - codeField.getY());
+		
+		treeMenuSizer.setSize(5, treeMenu.getHeight());
+		treeMenuSizer.setLocation(treeMenu.getLocation().x + treeMenu.getWidth(), treeMenu.getLocation().y);
+
+		codeFieldSizer.setSize(codeField.getWidth(), 5);
+		codeFieldSizer.setLocation(codeField.getLocation().x, codeField.getLocation().y + codeField.getHeight());
+		codeFieldSizer.setMinimumY(codeField.getY());
 	}
 	
 	/**
@@ -1752,7 +1789,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			
 			fileLocation = location;
 			
-			tabs.setSelection(tabId);
+			fileTabs.setSelection(tabId);
 			
 			if (!location.equals(oldLocation))
 			{
@@ -1944,7 +1981,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 					
 					tabFileIds.remove(oldLoc);
 					
-					tabs.setTabText(tabId, fileName);
+					fileTabs.setTabText(tabId, fileName);
 					
 					tabFileIds.put(location, tabId);
 					tabFileLocations.put(tabId, location);
@@ -2413,7 +2450,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			{
 				int tabId	= tabFileIds.get(locKey);
 				
-				text		= tabs.getTabText(tabId);
+				text		= fileTabs.getTabText(tabId);
 			}
 			else if (treeItemLocations.containsValue(locKey))
 			{
@@ -2430,7 +2467,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				}
 				if (tabFileIds.containsKey(locKey))
 				{
-					tabs.setTabText(tabFileIds.get(locKey), text);
+					fileTabs.setTabText(tabFileIds.get(locKey), text);
 				}
 			}
 			
@@ -2440,7 +2477,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		{
 			int tabId = tabFileIds.get(locKey);
 			
-			text = tabs.getTabText(tabId);
+			text = fileTabs.getTabText(tabId);
 			
 			if (!text.startsWith("*"))
 			{
@@ -2453,7 +2490,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 				treeMenu.setTreeItemText(id, text);
 			}
 			
-			tabs.setTabText(tabId, text);
+			fileTabs.setTabText(tabId, text);
 			
 			fileCacheSaved.put(locKey, false);
 			
@@ -2522,7 +2559,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 */
 	private void addTab(String fileName, final String location, boolean cache)
 	{
-		int id = tabs.addTab(fileName);
+		int id = fileTabs.addTab(fileName);
 		
 		if (oldTabId == 0)
 		{
@@ -2552,104 +2589,120 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 * is pressed. If the file in the tab is not saved, ask whether to
 	 * save it or not.
 	 * 
-	 * @param tabId The id of the tab that is closing.
+	 * @param event The TabMenuEvent sent with the tab close.
 	 * @return Whether to close the tab or not.
 	 */
-	public boolean tabClosing(int tabId)
+	public boolean tabClosing(TabMenuEvent event)
 	{
-		int newId		= tabs.getSelected();
+		int tabId       = event.getTabId();
 		
-		String location = tabFileLocations.get(tabId);
-		String result	= null;
-
-		boolean askSave	= false;
-		boolean cancel	= false;
+		boolean cancel = false;
 		
-		if (fileCacheSaved.containsKey(location))
+		if (event.getSource() == fileTabs)
 		{
-			if (!fileCacheSaved.get(location))
-			{
-				askSave = true;
-			}
-		}
-		else
-		{
-			if (!isCodeFieldEmpty())
-			{
-				askSave = true;
-			}
-		}
-		
-		if (askSave)
-		{
-			OptionDialog saveDialog = new OptionDialog("Save?", "\"" + FileUtils.getFileName(location) + "\" has not been saved, would you like to save it?");
+			int newId		= fileTabs.getSelected();
 			
-			result = saveDialog.open();
-		}
-		
-		if (!askSave || (result != null && (result.equals("yes") || result.equals("no"))))
-		{
-			String files = CONFIG_DATA.get("last.tabs").replace((tabFileLocations.get(tabId) + ';'), "");
-			setConfigDataValue("last.tabs", files);
+			String location = tabFileLocations.get(tabId);
+			String result	= null;
+	
+			boolean askSave	= false;
 			
-			tabFileLocations.remove(tabId);
-			tabFileIds.remove(location);
-			tabTopPixels.remove(tabId);
-			tabSelection.remove(tabId);
-		}
-		
-		if (result != null)
-		{
-			if (result.equals("yes"))
+			if (fileCacheSaved.containsKey(location))
 			{
-				saveFile(location);
-			}
-			else if (result.equals("no"))
-			{
-				setFileSaved(location, true);
-			}
-			else
-			{
-				cancel = true;
-			}
-		}
-		else
-		{
-			cancel = askSave;
-		}
-		
-		if (cancel)
-		{
-			
-		}
-		else
-		{
-			fileCache.remove(location);
-			fileCacheSaved.remove(location);
-			
-			if (tabId == oldTabId)
-			{
-				oldTabId = newId;
-			}
-			
-			if (tabId != newId)
-			{
-				String loc = tabFileLocations.get(newId);
-
-				try
+				if (!fileCacheSaved.get(location))
 				{
-					openFile(loc);
-				}
-				catch (FileNotFoundException e)
-				{
-					e.printStackTrace();
+					askSave = true;
 				}
 			}
 			else
 			{
-				fileLocation = null;
-				codeField.setText("");
+				if (!isCodeFieldEmpty())
+				{
+					askSave = true;
+				}
 			}
+			
+			if (askSave)
+			{
+				OptionDialog saveDialog = new OptionDialog("Save?", "\"" + FileUtils.getFileName(location) + "\" has not been saved, would you like to save it?");
+				
+				result = saveDialog.open();
+			}
+			
+			if (!askSave || (result != null && (result.equals("yes") || result.equals("no"))))
+			{
+				String files = CONFIG_DATA.get("last.tabs").replace((tabFileLocations.get(tabId) + ';'), "");
+				setConfigDataValue("last.tabs", files);
+				
+				tabFileLocations.remove(tabId);
+				tabFileIds.remove(location);
+				tabTopPixels.remove(tabId);
+				tabSelection.remove(tabId);
+			}
+			
+			if (result != null)
+			{
+				if (result.equals("yes"))
+				{
+					saveFile(location);
+				}
+				else if (result.equals("no"))
+				{
+					setFileSaved(location, true);
+				}
+				else
+				{
+					cancel = true;
+				}
+			}
+			else
+			{
+				cancel = askSave;
+			}
+			
+			if (cancel)
+			{
+				
+			}
+			else
+			{
+				fileCache.remove(location);
+				fileCacheSaved.remove(location);
+				
+				if (tabId == oldTabId)
+				{
+					oldTabId = newId;
+				}
+				
+				if (tabId != newId)
+				{
+					String loc = tabFileLocations.get(newId);
+	
+					try
+					{
+						openFile(loc);
+					}
+					catch (FileNotFoundException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				else
+				{
+					fileLocation = null;
+					codeField.setText("");
+				}
+			}
+		}
+		else if (event.getSource() == consoleTabs)
+		{
+			Program program = consoleTabPrograms.get(tabId);
+			
+			program.getProcess().destroy();
+			
+			programs.remove(program);
+			
+			updateLayout();
 		}
 		
 		return !cancel;
@@ -2659,31 +2712,40 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 * Implemented method that is called whenever a tab is selected
 	 * in a TabMenu. It then opens the file.
 	 * 
-	 * @param tabId the id of the tab that was selected.
+	 * @param event The TabMenuEvent sent with the tab select.
 	 */
-	public void tabSelected(int tabId)
+	public void tabSelected(TabMenuEvent event)
 	{
-		String location = tabFileLocations.get(tabId);
+		int tabId = event.getTabId();
 		
-		if (location.equals(fileLocation))
+		if (event.getSource() == fileTabs)
 		{
-			return;
-		}
-		
-		if (location != null)
-		{
-			try
+			String location = tabFileLocations.get(tabId);
+			
+			if (location.equals(fileLocation))
 			{
-				openFile(location);
-			}
-			catch (FileNotFoundException e)
-			{
-				e.printStackTrace();
+				return;
 			}
 			
-			codeField.setSelection(tabSelection.get(tabId));
-			codeField.setTopPixel(tabTopPixels.get(tabId));
-			codeField.select();
+			if (location != null)
+			{
+				try
+				{
+					openFile(location);
+				}
+				catch (FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				
+				codeField.setSelection(tabSelection.get(tabId));
+				codeField.setTopPixel(tabTopPixels.get(tabId));
+				codeField.select();
+			}
+		}
+		else if (event.getSource() == consoleTabs)
+		{
+			
 		}
 	}
 	

@@ -25,6 +25,8 @@ public class Command
 {
 	private String                      directory, line;
 	
+	private Process						process;
+	
 	private PrintStream					stream;
 	
 	private Display						display;
@@ -73,6 +75,15 @@ public class Command
 	{
 //		System.out.println(Arrays.asList(commands) + ", " + directory);
 		
+		ProcessBuilder builder = new ProcessBuilder(commands);
+		
+		if (directory != null)
+		{
+			builder.directory(new File(directory));
+		}
+		
+		process = builder.start();
+		
 		new Thread()
 		{
 			public void run()
@@ -87,15 +98,6 @@ public class Command
 							{
 								try
 								{
-									ProcessBuilder builder = new ProcessBuilder(commands);
-									
-									if (directory != null)
-									{
-										builder.directory(new File(directory));
-									}
-									
-									Process process = builder.start();
-									
 									LogStreamReader lsr = new LogStreamReader(display, process.getInputStream(), stream, CONFIG_DATA.get("workspace.location") + "/");
 									Thread thread = new Thread(lsr, "LogStreamReader");
 									thread.start();
@@ -199,8 +201,27 @@ public class Command
 	{
 		listeners.add(lisetener);
 	}
+	
+	/**
+	 * Get the Process instance that this Command is using.
+	 * 
+	 * @return The Process instance that is Command is using.
+	 */
+	public Process getProcess()
+	{
+		return process;
+	}
 }
 
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Mar 24, 2013 at 1:35:58 AM
+ * @since	v0.1
+ * @version Mar 24, 2013 at 1:35:58 AM
+ * @version	v0.1
+ */
 class LogStreamReader implements Runnable
 {
 	private boolean			running;

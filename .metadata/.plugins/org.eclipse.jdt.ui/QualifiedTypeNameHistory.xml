@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.shader.Shader"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.bundle.Buffer"/>
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.map.Chunk"/>
 <fullyQualifiedTypeName name="java.util.ConcurrentModificationException"/>
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.map.Chunk.Intersections"/>
@@ -16,7 +14,6 @@
 <fullyQualifiedTypeName name="net.foxycorndog.thedigginggame.menu.MainMenu"/>
 <fullyQualifiedTypeName name="org.lwjgl.BufferUtils"/>
 <fullyQualifiedTypeName name="java.nio.FloatBuffer"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="org.lwjgl.input.Mouse"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.events.ButtonEvent"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.events.MouseListener"/>
@@ -60,4 +57,7 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.Texture"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.bundle.Bundle"/>
 <fullyQualifiedTypeName name="java.awt.Color"/>
+<fullyQualifiedTypeName name="net.foxycorndog.arrowide.Program"/>
+<fullyQualifiedTypeName name="net.foxycorndog.arrowide.components.tabmenu.TabMenuEvent"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
 </qualifiedTypeNameHistroy>

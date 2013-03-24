@@ -19,6 +19,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
 import net.foxycorndog.arrowide.ArrowIDE;
+import net.foxycorndog.arrowide.Program;
 import net.foxycorndog.arrowide.command.Command;
 import net.foxycorndog.arrowide.command.CommandListener;
 import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
@@ -57,7 +58,7 @@ public class AssemblyLanguage
 		AssemblyKeyword.init();
 	}
 	
-	public static void run(String fileLocation, PrintStream stream)
+	public static Program run(String fileLocation, PrintStream stream)
 	{
 		if (PROPERTIES.get("os.name").equals("macosx"))
 		{
@@ -104,7 +105,7 @@ public class AssemblyLanguage
 					{
 						stream.println("You must specify a valid dosbox to run this 16 bit program.");
 						
-						return;
+						return null;
 					}
 				}
 				
@@ -146,14 +147,20 @@ public class AssemblyLanguage
 			}
 		}
 		
+		String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
+		
 		try
 		{
 			command.execute();
+			
+			return new Program(command.getProcess(), fileName);
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
+		
+		return null;
 	}
 	
 	public static void compile(final String fileLocation, String outputLocation, final PrintStream stream, final ArrayList<CompilerListener> compilerListeners)
