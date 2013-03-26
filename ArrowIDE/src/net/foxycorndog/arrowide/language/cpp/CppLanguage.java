@@ -51,15 +51,15 @@ public class CppLanguage
 		
 		String exe  = "\"" + fileLocation.substring(0, lastInd) + ".exe\"";
 		
-		Command command = new Command(Display.getDefault(), exe, stream, null);
+		Command command = new Command(Display.getDefault(), exe, null);
 		
 		String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
 		
 		try
 		{
-			command.execute();
+			command.execute(fileName);
 			
-			return new Program(command.getProcess(), fileName);
+			return command.getProgram();
 		}
 		catch (IOException e)
 		{
@@ -98,7 +98,7 @@ public class CppLanguage
 			
 			System.out.println(text);
 			
-			Command command = new Command(Display.getDefault(), text, stream, null);
+			Command command = new Command(Display.getDefault(), text, null);
 			
 			String outputFile = outputLocation + FileUtils.getFileName(fileLocation);
 			

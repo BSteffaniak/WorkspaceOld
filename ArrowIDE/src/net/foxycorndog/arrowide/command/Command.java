@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.swt.widgets.Display;
 
+import net.foxycorndog.arrowide.Program;
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.file.FileUtils;
 
@@ -25,9 +26,7 @@ public class Command
 {
 	private String                      directory, line;
 	
-	private Process						process;
-	
-	private PrintStream					stream;
+	private Program						program;
 	
 	private Display						display;
 	
@@ -35,7 +34,7 @@ public class Command
 
 	private ArrayList<CommandListener>	listeners;
 	
-	public Command(Display display, String command, PrintStream stream, String directory)
+	public Command(Display display, String command, String directory)
 	{
 		List<String> list = new ArrayList<String>();
 		Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(command);
@@ -49,16 +48,16 @@ public class Command
 		    list.add(s);
 		}
 		
-		init(display, list.toArray(new String[0]), stream, directory);
+		init(display, list.toArray(new String[0]), directory);
 	}
 	
-	public Command(Display display, String command[], PrintStream stream, String directory)
+	public Command(Display display, String command[], String directory)
 	{
 //		this.command = command;
-		init(display, command, stream, directory);
+		init(display, command, directory);
 	}
 	
-	private void init(Display display, String command[], PrintStream stream, String directory)
+	private void init(Display display, String command[], String directory)
 	{
 		this.display   = display;
 		
@@ -66,12 +65,15 @@ public class Command
 		
 		this.commands  = command;
 		
-		this.stream    = stream;
-		
 		listeners      = new ArrayList<CommandListener>();
 	}
 	
 	public void execute() throws IOException
+	{
+		execute(null);
+	}
+	
+	public void execute(String title) throws IOException
 	{
 //		System.out.println(Arrays.asList(commands) + ", " + directory);
 		
@@ -82,7 +84,9 @@ public class Command
 			builder.directory(new File(directory));
 		}
 		
-		process = builder.start();
+		final Process process = builder.start();
+		
+		program = new Program(process, title);
 		
 		new Thread()
 		{
@@ -98,7 +102,7 @@ public class Command
 							{
 								try
 								{
-									LogStreamReader lsr = new LogStreamReader(display, process.getInputStream(), stream, CONFIG_DATA.get("workspace.location") + "/");
+									LogStreamReader lsr = new LogStreamReader(display, process.getInputStream(), program, CONFIG_DATA.get("workspace.location") + "/");
 									Thread thread = new Thread(lsr, "LogStreamReader");
 									thread.start();
 									
@@ -120,16 +124,16 @@ public class Command
 											
 											failed = true;
 											
-											display.syncExec(new Runnable()
-											{
-												public void run()
-												{
-													if (stream != null)
+//											display.syncExec(new Runnable()
+//											{
+//												public void run()
+//												{
+						    						if (program != null)
 													{
-														stream.println(line);
+						    							program.append(line + "\n");
 													}
-												}
-											});
+//												}
+//											});
 											
 											if (!reader.ready())
 											{
@@ -203,14 +207,24 @@ public class Command
 	}
 	
 	/**
-	 * Get the Process instance that this Command is using.
+	 * Get the Program instance that this Command is using.
 	 * 
-	 * @return The Process instance that is Command is using.
+	 * @return The Program instance that this Command is using.
 	 */
-	public Process getProcess()
+	public Program getProgram()
 	{
-		return process;
+		return program;
 	}
+	
+//	/**
+//	 * Get the Process instance that this Command is using.
+//	 * 
+//	 * @return The Process instance that is Command is using.
+//	 */
+//	public Process getProcess()
+//	{
+//		return program.getProcess();
+//	}
 }
 
 /**
@@ -227,22 +241,22 @@ class LogStreamReader implements Runnable
 	private boolean			running;
 
 	private String			location, line;
-
-	private PrintStream		stream;
+	
+	private Program			program;
 
 	private BufferedReader	reader;
     
 	private Display			display;
 	
-    public LogStreamReader(Display display, InputStream is, PrintStream stream, String location)
+    public LogStreamReader(Display display, InputStream is, Program program, String location)
     {
     	this.location = location;
     	
         this.reader = new BufferedReader(new InputStreamReader(is));
         
-        this.stream = stream;
-        
         this.display = display;
+        
+        this.program = program;
         
         running = true;
     }
@@ -261,9 +275,9 @@ class LogStreamReader implements Runnable
     				{
     					public void run()
     					{
-    						if (stream != null)
+    						if (program != null)
 							{
-    							stream.println(line);
+    							program.append(line + "\n");
 							}
     					}
     				});

@@ -141,6 +141,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	private ConsoleField						consoleField;
 
 	private String								fileLocation;
+	
+	private Program								mainProgram;
 
 	private Image								folderImage, fileImage,
 			javaFileImage, classFileImage, glslFileImage, txtFileImage,
@@ -726,7 +728,11 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 							{
 								programs.add(program);
 								
-								consoleTabPrograms.put(consoleTabs.addTab(program.getName()), program);
+								int tabId = consoleTabs.addTab(program.getName());
+								
+								consoleTabPrograms.put(tabId, program);
+								
+								setMainProgram(tabId);
 								
 								updateLayout();
 							}
@@ -2745,8 +2751,15 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		}
 		else if (event.getSource() == consoleTabs)
 		{
-			
+			setMainProgram(tabId);
 		}
+	}
+	
+	private void setMainProgram(int tabId)
+	{
+		mainProgram = consoleTabPrograms.get(tabId);
+		
+		consoleField.setText(mainProgram.getText());
 	}
 	
 	/**
@@ -2794,6 +2807,12 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	 */
 	public void update()
 	{
-		
+		if (mainProgram != null)
+		{
+			if (!consoleField.getText().equals(mainProgram.getText()))
+			{
+				consoleField.setText(mainProgram.getText());
+			}
+		}
 	}
 }

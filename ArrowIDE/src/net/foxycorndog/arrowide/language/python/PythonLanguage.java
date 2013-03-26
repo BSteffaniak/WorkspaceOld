@@ -62,15 +62,15 @@ public class PythonLanguage
 			}
 		}
 		
-		Command command = new Command(Display.getDefault(), new String[] { CONFIG_DATA.get("python.location") + "/python", fileLocation }, stream, FileUtils.getParentFolder(fileLocation));
+		Command command = new Command(Display.getDefault(), new String[] { CONFIG_DATA.get("python.location") + "/python", fileLocation }, FileUtils.getParentFolder(fileLocation));
 		
 		String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
 		
 		try
 		{
-			command.execute();
+			command.execute(fileName);
 			
-			return new Program(command.getProcess(), fileName);
+			return command.getProgram();
 		}
 		catch (IOException e)
 		{

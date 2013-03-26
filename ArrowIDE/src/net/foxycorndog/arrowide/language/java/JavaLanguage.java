@@ -196,15 +196,15 @@ public class JavaLanguage
 		
 		String classpath = getClasspath(projectLocation);
 		
-		Command c = new Command(Display.getDefault(), new String[] { CONFIG_DATA.get("jdk.location") + "/bin/java", "-cp", classpath, className }, stream, projectLocation);
+		Command c = new Command(Display.getDefault(), new String[] { CONFIG_DATA.get("jdk.location") + "/bin/java", "-cp", classpath, className }, projectLocation);
 		
 		String fileName = FileUtils.getFileNameWithoutExtension(fileLocation);
 		
 		try
 		{
-			c.execute();
+			c.execute(fileName);
 			
-			return new Program(c.getProcess(), fileName);
+			return c.getProgram();
 		}
 		catch (IOException e)
 		{
@@ -340,7 +340,7 @@ public class JavaLanguage
 		
 		String outputLocation = FileUtils.getParentFolder(classLocation);
 		
-		Command command = new Command(Display.getDefault(), "\"" + javaBin + "\" -cp " + "\"" + classpath + "\" " + className, stream, outputLocation);
+		Command command = new Command(Display.getDefault(), "\"" + javaBin + "\" -cp " + "\"" + classpath + "\" " + className, outputLocation);
 		
 		command.execute();
 	}

@@ -16,6 +16,7 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.internal.C;
 import org.eclipse.swt.widgets.Display;
 
 import net.foxycorndog.arrowide.ArrowIDE;
@@ -81,13 +82,13 @@ public class AssemblyLanguage
 		
 		if (compiler == MASM)
 		{
-			command = new Command(Display.getDefault(), "\"" + loc + ".exe" + "\"", stream, null);
+			command = new Command(Display.getDefault(), "\"" + loc + ".exe" + "\"", null);
 		}
 		else
 		{
 			if (bit16Supported)
 			{
-				command = new Command(Display.getDefault(), "\"" + loc + fileEnding + "\"", stream, null);
+				command = new Command(Display.getDefault(), "\"" + loc + fileEnding + "\"", null);
 			}
 			else
 			{
@@ -134,7 +135,7 @@ public class AssemblyLanguage
 				
 				lastFile = fileLocation;
 				
-				command = new Command(Display.getDefault(), new String[] { dosboxLocation, "-conf '" + confLocation + "/dosbox.conf'", "-noconsole" }, stream, confLocation);//new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-name '" + FileUtils.getParentFolder(loc) + "'", "-noconsole" }, stream);
+				command = new Command(Display.getDefault(), new String[] { dosboxLocation, "-conf '" + confLocation + "/dosbox.conf'", "-noconsole" }, confLocation);//new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-name '" + FileUtils.getParentFolder(loc) + "'", "-noconsole" }, stream);
 	//			try
 	//			{
 	////				Runtime.getRuntime().exec(new String[] { "\"C:/Program Files (x86)/DOSBox-0.74/DOSBox\"", "-conf \"" + PROPERTIES.get("arrowide.location") + "/res/assembly/new.conf\"", "-noconsole", "-printconf" });
@@ -151,9 +152,9 @@ public class AssemblyLanguage
 		
 		try
 		{
-			command.execute();
+			command.execute(fileName);
 			
-			return new Program(command.getProcess(), fileName);
+			return command.getProgram();
 		}
 		catch (IOException e)
 		{
@@ -226,7 +227,7 @@ public class AssemblyLanguage
 			
 			final String outputFiles[] = new String[] { outputFile.replace("\"", "") };
 			
-			Command command = new Command(Display.getDefault(), text, stream, directory);
+			Command command = new Command(Display.getDefault(), text, directory);
 			
 			command.addCommandListener(new CommandListener()
 			{
@@ -250,7 +251,7 @@ public class AssemblyLanguage
 						{
 							String text[] = new String[] { '"' + compilerLocation + "link" + PROPERTIES.get("os.executable.extension") + '"', "/SUBSYSTEM:CONSOLE", "/LIBPATH:C:/masm32/lib", fileName + ".obj" };
 							
-							Command command = new Command(Display.getDefault(), text, stream, directory);
+							Command command = new Command(Display.getDefault(), text, directory);
 							
 							command.addCommandListener(new CommandListener()
 							{
