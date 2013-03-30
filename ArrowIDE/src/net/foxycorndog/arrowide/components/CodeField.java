@@ -100,7 +100,7 @@ public class CodeField extends StyledText
 
 	private Listener									identifierSelectorListener;
 	
-	private Runnable									syntaxUpdater;
+	private Thread										syntaxUpdater;
 
 	private LineStyleListener							lineNumbers, lineSpaces, syntaxHighlighting;
 	
@@ -313,7 +313,14 @@ public class CodeField extends StyledText
 		setBounds(new Rectangle(0, 0, 100, 100));
 	    setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true, 1, 1));
 	    
-	    Font f = FileUtils.loadMonospacedFont(Display.getDefault(), "courier new", "res/fonts/CECOUR.ttf", 10, SWT.NORMAL);
+	    int fontSize = 10;
+	    
+	    if (PROPERTIES.get("os.name").equals("macosx"))
+	    {
+	    	fontSize = 15;
+	    }
+	    
+	    Font f = FileUtils.loadMonospacedFont(Display.getDefault(), "courier new", "res/fonts/CECOUR.ttf", fontSize, SWT.NORMAL);
 	    setFont(f);
 	    
 	    GC g = new GC(this);
@@ -330,13 +337,53 @@ public class CodeField extends StyledText
 	    
 	    redrawReady = true;
 	    
-	    syntaxUpdater = new Runnable()
+	    syntaxUpdater = new Thread()
 		{
 			public void run()
 			{
-				highlightSyntax();
+				while (true)
+				{
+					synchronized (this)
+					{
+						try
+						{
+							wait();
+						}
+						catch (InterruptedException e)
+						{
+							e.printStackTrace();
+						}
+					}
+						
+					if (language > 0)
+					{
+						createSyntaxStyles();
+						createSyntaxStyles();
+					}
+					else
+					{
+						identifierLists.clear();
+						methodLists.clear();
+						identifierWords.clear();
+						methodWords.clear();
+						
+						setStyles(new StyleRange[0]);
+					}
+					
+					clearErrors();
+						
+					Display.getDefault().syncExec(new Runnable()
+					{
+						public void run()
+						{
+							thisField.redraw();//Range(0, thisField.getText().length(), true);
+						}
+					});
+				}
 			}
 		};
+		
+		syntaxUpdater.start();
 	    
 	    identifierSelectorListener = new Listener()
 	    {
@@ -579,32 +626,12 @@ public class CodeField extends StyledText
 		}
 	}
 	
-	public synchronized void highlightSyntax()
+	public void highlightSyntax()
 	{
-		if (language <= 0)
+		synchronized (syntaxUpdater)
 		{
-			identifierLists.clear();
-			methodLists.clear();
-			identifierWords.clear();
-			methodWords.clear();
-			
-			setStyles(new StyleRange[0]);
-			
-			return;
+			syntaxUpdater.notify();
 		}
-		
-		createSyntaxStyles();
-		createSyntaxStyles();
-		
-		Display.getDefault().syncExec(new Runnable()
-		{
-			public void run()
-			{
-				thisField.redraw();//Range(0, thisField.getText().length(), true);
-			}
-		});
-		
-		clearErrors();
 	}
 	
 	public void createSyntaxStyles()
@@ -1372,7 +1399,7 @@ public class CodeField extends StyledText
 			contentListeners.get(i).contentChanged(event);
 		}
 		
-		new Thread(syntaxUpdater).start();
+		highlightSyntax();
 	}
 	
 	public void addError(int startIndex, int endIndex)
@@ -1494,7 +1521,7 @@ public class CodeField extends StyledText
 		
 //		if (language > 0)
 //		{
-			new Thread(syntaxUpdater).start();
+			highlightSyntax();
 //		}
 	}
 	

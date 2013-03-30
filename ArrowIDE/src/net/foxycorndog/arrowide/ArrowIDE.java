@@ -290,26 +290,33 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	{
 		int bitness = 32;
 		
-		ProcessBuilder b = new ProcessBuilder(new String[] { "res/bitness" });
-		
-		try
+		if (PROPERTIES.get("os.name").equals("macosx"))
 		{
-			Process p = b.start();
-			
-			InputStream in = p.getInputStream();
-			
-			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-			
-			String line = null;
-			
-			while ((line = reader.readLine()) != null)
-			{
-				bitness = Integer.valueOf(line);
-			}
+			bitness = 64;
 		}
-		catch (IOException e)
+		else
 		{
-			e.printStackTrace();
+			ProcessBuilder b = new ProcessBuilder(new String[] { "res/bitness" });
+			
+			try
+			{
+				Process p = b.start();
+				
+				InputStream in = p.getInputStream();
+				
+				BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+				
+				String line = null;
+				
+				while ((line = reader.readLine()) != null)
+				{
+					bitness = Integer.valueOf(line);
+				}
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 		}
 		
 		PROPERTIES.put("os.arch", bitness);
@@ -1858,6 +1865,8 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		{
 			codeField.setLanguage(Language.getLanguage(location));
 		}
+			
+		codeField.highlightSyntax();
 		
 		codeField.setFocus();
 	}
@@ -2708,6 +2717,18 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 			
 			programs.remove(program);
 			
+			int newId = consoleTabs.getSelected();
+			
+			if (newId <= 0 || newId == tabId)
+			{
+				mainProgram = null;
+				setMainProgram(0);
+			}
+			else
+			{
+				setMainProgram(newId);
+			}
+			
 			updateLayout();
 		}
 		
@@ -2757,9 +2778,16 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 	
 	private void setMainProgram(int tabId)
 	{
-		mainProgram = consoleTabPrograms.get(tabId);
-		
-		consoleField.setText(mainProgram.getText());
+		if (consoleTabPrograms.containsKey(tabId))
+		{
+			mainProgram = consoleTabPrograms.get(tabId);
+			
+			consoleField.setText(mainProgram.getText());
+		}
+		else
+		{
+			consoleField.setText("");
+		}
 	}
 	
 	/**

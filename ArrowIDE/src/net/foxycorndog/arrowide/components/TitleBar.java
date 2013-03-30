@@ -398,15 +398,15 @@ public class TitleBar
 				
 				offset += getHeight() + 1;
 			}
-			if (restoreButton != null && restoreButton.isVisible())
-			{
-				restoreButton.setLocation(offset, 0);
-				
-				offset += getHeight() + 1;
-			}
 			if (minimizeButton != null && minimizeButton.isVisible())
 			{
 				minimizeButton.setLocation(offset, 0);
+				
+				offset += getHeight() + 1;
+			}
+			if (restoreButton != null && restoreButton.isVisible())
+			{
+				restoreButton.setLocation(offset, 0);
 				
 				offset += getHeight() + 1;
 			}

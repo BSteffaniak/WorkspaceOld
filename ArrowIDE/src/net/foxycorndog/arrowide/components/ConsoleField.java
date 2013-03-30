@@ -25,8 +25,15 @@ public class ConsoleField extends StyledText
 		super(parent, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | (Integer)PROPERTIES.get("composite.modifiers"));
 		
 //		appendQueue           = new ArrayList<String>();
+	    
+		int fontSize = 10;
 		
-		Font f = FileUtils.loadMonospacedFont(Display.getDefault(), "courier new", "res/fonts/CECOUR.ttf", 10, SWT.NORMAL);
+	    if (PROPERTIES.get("os.name").equals("macosx"))
+	    {
+	    	fontSize = 15;
+	    }
+		
+		Font f = FileUtils.loadMonospacedFont(Display.getDefault(), "courier new", "res/fonts/CECOUR.ttf", fontSize, SWT.NORMAL);
 	    setFont(f);
 		
 		addPaintListener(new PaintListener()

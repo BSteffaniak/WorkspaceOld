@@ -21,6 +21,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tracker;
 
+import static net.foxycorndog.arrowide.ArrowIDE.PROPERTIES;
+
 public class Window
 {
 	private boolean						dragging, maximized, fullscreen;
@@ -531,7 +533,7 @@ public class Window
 				java.awt.Rectangle useableSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 				
 				shell.setSize(screenSize.width, useableSize.height);
-				shell.setLocation(0, 0);
+				shell.setLocation(useableSize.x, useableSize.y);
 			}
 			else
 			{

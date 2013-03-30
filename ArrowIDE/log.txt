@@ -1,0 +1,54 @@
+Error on line 7: string:///Game.java:7: package net.foxycorndog.jfoxylib does not existError on line 8: string:///Game.java:8: package net.foxycorndog.jfoxylib does not existError on line 9: string:///Game.java:9: package net.foxycorndog.jfoxylib.bundle does not existError on line 10: string:///Game.java:10: package net.foxycorndog.jfoxylib.components does not existError on line 11: string:///Game.java:11: package net.foxycorndog.jfoxylib.font does not existError on line 12: string:///Game.java:12: package net.foxycorndog.jfoxylib.graphics does not existError on line 13: string:///Game.java:13: package net.foxycorndog.jfoxylib.graphics.opengl does not existError on line 23: string:///Game.java:23: cannot find symbol
+symbol: class GameStarterError on line 32: string:///Game.java:32: cannot find symbol
+symbol  : class Font
+location: class GameError on line 34: string:///Game.java:34: cannot find symbol
+symbol  : class Texture
+location: class GameError on line 36: string:///Game.java:36: cannot find symbol
+symbol  : class Bundle
+location: class GameError on line 47: string:///Game.java:47: cannot find symbol
+symbol  : variable Frame
+location: class GameError on line 48: string:///Game.java:48: cannot find symbol
+symbol  : variable Frame
+location: class GameError on line 49: string:///Game.java:49: cannot find symbol
+symbol  : variable Frame
+location: class GameError on line 51: string:///Game.java:51: cannot find symbol
+symbol  : method start()
+location: class GameError on line 72: string:///Game.java:72: cannot find symbol
+symbol  : class Texture
+location: class GameError on line 74: string:///Game.java:74: cannot find symbol
+symbol  : class Bundle
+location: class GameError on line 78: string:///Game.java:78: cannot find symbol
+symbol  : variable GL
+location: class GameError on line 97: string:///Game.java:97: cannot find symbol
+symbol  : class Font
+location: class GameError on line 106: string:///Game.java:106: cannot find symbol
+symbol  : variable GL
+location: class GameError on line 124: string:///Game.java:124: cannot find symbol
+symbol  : variable Frame
+location: class GameError on line 124: string:///Game.java:124: cannot find symbol
+symbol  : variable Frame
+location: class GameError on line 124: string:///Game.java:124: cannot find symbol
+symbol  : variable GL
+location: class GameError on line 130: string:///Game.java:130: cannot find symbol
+symbol  : variable GL
+location: class GameError on line 131: string:///Game.java:131: cannot find symbol
+symbol  : variable GL
+location: class GameError on line 135: string:///Game.java:135: cannot find symbol
+symbol  : variable GL
+location: class GameError on line 136: string:///Game.java:136: cannot find symbol
+symbol  : variable GL
+location: class GameError on line 139: string:///Game.java:139: cannot find symbol
+symbol  : variable GL
+location: class GameError on line 151: string:///Game.java:151: cannot find symbol
+symbol  : variable GL
+location: class GameError on line 160: string:///Game.java:160: cannot find symbol
+symbol  : variable Font
+location: class GameError on line 160: string:///Game.java:160: cannot find symbol
+symbol  : variable Font
+location: class GameError on line 171: string:///Game.java:171: cannot find symbol
+symbol  : variable Frame
+location: class GameError on line 173: string:///Game.java:173: cannot find symbol
+symbol  : variable Frame
+location: class GameError on line 175: string:///Game.java:175: cannot find symbol
+symbol  : variable Frame
+location: class Game
