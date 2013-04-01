@@ -17,7 +17,6 @@ import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 import net.foxycorndog.jfoxylib.web.ConnectionException;
 import net.foxycorndog.jfoxylib.web.WebPage;
 import net.foxycorndog.jfoxylib.util.FileUtils;
-import net.foxycorndog.thedigginggame.GameInterface;
 import net.foxycorndog.thedigginggame.launcher.events.DialogMenuEvent;
 import net.foxycorndog.thedigginggame.launcher.events.DialogMenuListener;
 import net.foxycorndog.thedigginggame.launcher.menu.MainMenu;

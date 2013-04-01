@@ -42,7 +42,7 @@ import net.foxycorndog.thedigginggame.tile.Tile;
  * @version Feb 22, 2013 at 4:23:04 AM
  * @version	v0.1
  */
-public class TheDiggingGame implements GameInterface
+public class TheDiggingGame
 {
 	private boolean			online;
 	
