@@ -484,6 +484,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		codeField.addContentListener(this);
 		codeField.addCodeFieldListener(this);
 		codeField.setBackground(FOCUS_COLOR);
+		codeField.setAutoUpdate(true);
 		
 		int contentWidth  = (int)(contentPanel.getSize().x / 100f * 80);
 		int conHeight     = (int)(contentPanel.getSize().y / 100f * 20);
@@ -1247,10 +1248,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		menubar.setSize(contentPanel.getSize().x, menubar.getHeight());
 		menubar.setLocation(0, titleBarHeight);
 		
-		int propCodeWidth  = codeField.getWidth() * 1;
-		int propCodeHeight = codeField.getHeight() * 1;
-		
-		codeField.setSize(propCodeWidth, propCodeHeight);
+//		codeField.setSize(propCodeWidth, propCodeHeight);
 		codeField.setLocation(contentPanel.getSize().x - codeField.getWidth(), fileTabs.getHeight() + fileTabs.getY());
 		
 		toolbar.setSize(toolbar.getWidth(), 25);
@@ -1259,7 +1257,7 @@ public class ArrowIDE implements ContentListener, CodeFieldListener, TabMenuList
 		boolean cTabs = programs.size() > 0;
 		int cOffset   = cTabs ? consoleTabs.getHeight() : 0;
 		
-		consoleField.setSize(propCodeHeight, window.getClientArea().height - 5 - cOffset - propCodeHeight);
+		consoleField.setSize(codeField.getWidth(), window.getClientArea().height - 5 - cOffset - codeField.getHeight());
 		consoleField.setLocation(codeField.getBounds().x, codeField.getHeight() + codeField.getBounds().y + 5 + cOffset);
 		
 //		tabs.setWidth(codeField.getWidth() + 2);

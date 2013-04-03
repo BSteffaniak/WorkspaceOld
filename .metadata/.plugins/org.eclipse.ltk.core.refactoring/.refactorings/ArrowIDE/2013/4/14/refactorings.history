@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename method &apos;net.foxycorndog.arrowide.components.CodeField.updateSize()&apos; to &apos;updatePercent&apos;&#x0D;&#x0A;- Original project: &apos;ArrowIDE&apos;&#x0D;&#x0A;- Original element: &apos;net.foxycorndog.arrowide.components.CodeField.updateSize()&apos;&#x0D;&#x0A;- Renamed element: &apos;net.foxycorndog.arrowide.components.CodeField.updatePercent()&apos;&#x0D;&#x0A;- Update references to refactored element" delegate="false" deprecate="false" description="Rename method &apos;updateSize&apos;" flags="589826" id="org.eclipse.jdt.ui.rename.method" input="/src&lt;net.foxycorndog.arrowide.components{CodeField.java[CodeField~updateSize" name="updatePercent" references="true" stamp="1364953932616" version="1.0"/>
+</session>

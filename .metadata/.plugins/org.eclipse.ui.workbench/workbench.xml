@@ -35,13 +35,14 @@
 <part id="0"/>
 <part id="1"/>
 <part id="2"/>
+<part id="3"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
 <editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ArrowIDE.java" partName="ArrowIDE.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java" title="ArrowIDE.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="37540" selectionTopPixel="16820"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="38306" selectionTopPixel="16778"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TheDiggingGame.java" partName="TheDiggingGame.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/TheDiggingGame/src/net/foxycorndog/thedigginggame/TheDiggingGame.java" title="TheDiggingGame.java" tooltip="TheDiggingGame/src/net/foxycorndog/thedigginggame/TheDiggingGame.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/TheDiggingGame.java"/>
@@ -51,10 +52,17 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/Launcher.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="697" selectionTopPixel="0"/>
 </editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CodeField.java" partName="CodeField.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java" title="CodeField.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="10413" selectionTopPixel="4650"/>
+</editor>
 </editors>
 <views>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
+<expanded>
+<category IMemento.internal.id="Warnings (100 of 619 items)"/>
+</expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
@@ -241,6 +249,8 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/TheDiggingGame.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/Launcher.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/ArrowIDE.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/TheDiggingGame/src/net/foxycorndog/thedigginggame/TheDiggingGame.java"/>
 </editors>
 <item historyLabel="ArrowIDE.java" index="0">
 <position info="not_deleted" x="0" y="0"/>
@@ -254,8 +264,44 @@
 <item historyLabel="TheDiggingGame.java" index="1">
 <position info="not_deleted" x="1983" y="0"/>
 </item>
-<item active="true" historyLabel="ArrowIDE.java" index="3">
+<item historyLabel="ArrowIDE.java" index="3">
 <position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="4">
+<position info="not_deleted" x="18727" y="4"/>
+</item>
+<item historyLabel="ArrowIDE.java" index="3">
+<position/>
+</item>
+<item historyLabel="CodeField.java" index="4">
+<position info="not_deleted" x="18727" y="4"/>
+</item>
+<item historyLabel="CodeField.java" index="4">
+<position info="not_deleted" x="42356" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="4">
+<position info="not_deleted" x="42455" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="4">
+<position info="not_deleted" x="10621" y="0"/>
+</item>
+<item historyLabel="ArrowIDE.java" index="3">
+<position/>
+</item>
+<item historyLabel="ArrowIDE.java" index="3">
+<position info="not_deleted" x="26768" y="0"/>
+</item>
+<item historyLabel="CodeField.java" index="4">
+<position info="not_deleted" x="10413" y="0"/>
+</item>
+<item historyLabel="ArrowIDE.java" index="3">
+<position info="not_deleted" x="26768" y="0"/>
+</item>
+<item historyLabel="TheDiggingGame.java" index="5">
+<position info="not_deleted" x="5186" y="0"/>
+</item>
+<item active="true" historyLabel="ArrowIDE.java" index="3">
+<position info="not_deleted" x="26768" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -279,6 +325,9 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CodeField.java" tooltip="ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java">
+<persistable path="/ArrowIDE/src/net/foxycorndog/arrowide/components/CodeField.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Launcher.java" tooltip="TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/Launcher.java">
 <persistable path="/TheDiggingGameLauncher/src/net/foxycorndog/thedigginggame/launcher/Launcher.java"/>
 </file>
