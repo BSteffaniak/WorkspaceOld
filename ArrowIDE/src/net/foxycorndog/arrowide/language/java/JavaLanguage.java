@@ -386,7 +386,7 @@ public class JavaLanguage
 		return JavaLanguage.compiler;
 	}
 	
-	public static synchronized void compile(String fileLocation, String code, String outputLocation, final PrintStream stream, ArrayList<CompilerListener> compilerListeners)
+	public static void compile(String fileLocation, String code, String outputLocation, final PrintStream stream, ArrayList<CompilerListener> compilerListeners)
 	{
 		if (!CONFIG_DATA.containsKey("jdk.location") || !(new File(CONFIG_DATA.get("jdk.location")).isDirectory()))
 		{

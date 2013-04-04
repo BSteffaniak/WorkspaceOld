@@ -1,0 +1,20 @@
+package net.foxycorndog.arrowide.event;
+
+/**
+ * Class used for events that are passed to Listeners.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Apr 3, 2013 at 10:04:55 PM
+ * @since	Apr 3, 2013 at 10:04:55 PM
+ * @version	Apr 3, 2013 at 10:04:55 PM
+ * @version	Apr 3, 2013 at 10:04:55 PM
+ */
+public class Event
+{
+	private long when;
+	
+	public Event()
+	{
+		this.when = System.currentTimeMillis();
+	}
+}

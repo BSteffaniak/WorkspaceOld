@@ -96,6 +96,8 @@ public class CppLanguage
 //			g++ hello.C -o hello
 			String text = "\"" + CONFIG_DATA.get("g++.location") + "/g++\" \"" + fileLocation + "\" -o \"" + outputLocation + (outputLocation.equals("") ? "" : "/") + FileUtils.getFileNameWithoutExtension(fileLocation) + "\"";
 			
+			System.out.println(text);
+			
 			Command command = new Command(Display.getDefault(), text, null);
 			
 			String outputFile = outputLocation + FileUtils.getFileName(fileLocation);
