@@ -37,10 +37,11 @@ import net.foxycorndog.arrowide.Program;
 import net.foxycorndog.arrowide.command.Command;
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
+import net.foxycorndog.arrowide.event.CompilerEvent;
+import net.foxycorndog.arrowide.event.CompilerListener;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CommentProperties;
 import net.foxycorndog.arrowide.language.CompileOutput;
-import net.foxycorndog.arrowide.language.CompilerListener;
 import net.foxycorndog.arrowide.language.IdentifierProperties;
 import net.foxycorndog.arrowide.language.MethodProperties;
 import net.foxycorndog.arrowide.xml.XMLItem;
@@ -550,7 +551,9 @@ public class JavaLanguage
 		
 		for (int i = compilerListeners.size() - 1; i >= 0; i--)
 		{
-			compilerListeners.get(i).compiled(outputFiles, outputs, stream, fileLocation);
+			CompilerEvent event = new CompilerEvent(outputFiles, outputs, stream, fileLocation);
+			
+			compilerListeners.get(i).compiled(event);
 		}
 		
 		try

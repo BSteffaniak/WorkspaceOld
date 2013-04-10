@@ -14,6 +14,7 @@ import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.Program;
 import net.foxycorndog.arrowide.console.ConsoleStream;
 import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
+import net.foxycorndog.arrowide.event.CompilerListener;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.assembly.AssemblyLanguage;
 import net.foxycorndog.arrowide.language.cpp.CppLanguage;

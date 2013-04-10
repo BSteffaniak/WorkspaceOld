@@ -5,9 +5,9 @@ package net.foxycorndog.arrowide.event;
  * 
  * @author	Braden Steffaniak
  * @since	Apr 3, 2013 at 10:04:55 PM
- * @since	v0.1
+ * @since	v0.2
  * @version	Apr 3, 2013 at 10:04:55 PM
- * @version	v0.1
+ * @version	v0.2
  */
 public class Event
 {

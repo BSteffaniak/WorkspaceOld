@@ -100,13 +100,13 @@ public class Command
 						{
 							public void run()
 							{
+								int result = 0;
+								
 								try
 								{
 									LogStreamReader lsr = new LogStreamReader(display, process.getInputStream(), program, CONFIG_DATA.get("workspace.location") + "/");
 									Thread thread = new Thread(lsr, "LogStreamReader");
 									thread.start();
-									
-									boolean failed = false;
 									
 									BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 									
@@ -114,26 +114,12 @@ public class Command
 									{
 										while ((line = reader.readLine()) != null)
 										{
-											if (!failed)
+											result = 1;
+											
+				    						if (program != null)
 											{
-												for (int i = listeners.size() - 1; i >= 0; i --)
-												{
-													listeners.get(i).resultReceived(1);
-												}
+				    							program.append(line + "\n");
 											}
-											
-											failed = true;
-											
-//											display.syncExec(new Runnable()
-//											{
-//												public void run()
-//												{
-						    						if (program != null)
-													{
-						    							program.append(line + "\n");
-													}
-//												}
-//											});
 											
 											if (!reader.ready())
 											{
@@ -143,27 +129,21 @@ public class Command
 									}
 									catch (IOException e)
 									{
-										failed = true;
+										result = 1;
 										
 										e.printStackTrace();
 									}
 									
 									line = null;
 									
-									if (!failed)
+									for (int i = listeners.size() - 1; i >= 0; i --)
 									{
-										display.syncExec(new Runnable()
-										{
-											public void run()
-											{
-												for (int i = listeners.size() - 1; i >= 0; i --)
-												{
-													listeners.get(i).resultReceived(0);
-												}
-											}
-										});
-										
-										int result = process.waitFor();
+										listeners.get(i).resultReceived(result);
+									}
+									
+									if (result == 0)
+									{
+										result = process.waitFor();
 									
 										thread.join();
 										reader.close();

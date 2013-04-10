@@ -27,10 +27,11 @@ import org.eclipse.swt.widgets.Display;
 
 import net.foxycorndog.arrowide.ArrowIDE;
 import net.foxycorndog.arrowide.console.ConsoleStream;
+import net.foxycorndog.arrowide.event.CompilerEvent;
+import net.foxycorndog.arrowide.event.CompilerListener;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CommentProperties;
 import net.foxycorndog.arrowide.language.CompileOutput;
-import net.foxycorndog.arrowide.language.CompilerListener;
 import net.foxycorndog.arrowide.language.IdentifierProperties;
 import net.foxycorndog.arrowide.language.MethodProperties;
 
@@ -91,7 +92,9 @@ public class GLSLLanguage
 		
 		for (int i = compilerListeners.size() - 1; i >= 0; i--)
 		{
-			compilerListeners.get(i).compiled(outputFiles, outputs, stream, fileLocation);
+			CompilerEvent event = new CompilerEvent(outputFiles, outputs, stream, fileLocation);
+			
+			compilerListeners.get(i).compiled(event);
 		}
 	}
 	
@@ -125,7 +128,9 @@ public class GLSLLanguage
 		
 		for (int i = compilerListeners.size() - 1; i >= 0; i--)
 		{
-			compilerListeners.get(i).compiled(outputFiles, outputs, stream, fileLocation);
+			CompilerEvent event = new CompilerEvent(outputFiles, outputs, stream, fileLocation);
+			
+			compilerListeners.get(i).compiled(event);
 		}
 	}
 	

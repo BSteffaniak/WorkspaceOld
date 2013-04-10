@@ -1,0 +1,10 @@
+package net.foxycorndog.arrowide.event;
+
+import java.io.PrintStream;
+
+import net.foxycorndog.arrowide.language.CompileOutput;
+
+public interface CompilerListener
+{
+	public void compiled(String files[], CompileOutput outputs[], PrintStream stream, String fileName);
+}

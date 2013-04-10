@@ -2,4 +2,5 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.ControlListener"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="net.foxycorndog.arrowide.event.CompilerEvent"/>
 </qualifiedTypeNameHistroy>

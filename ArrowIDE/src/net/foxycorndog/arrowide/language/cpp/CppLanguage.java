@@ -12,10 +12,11 @@ import net.foxycorndog.arrowide.Program;
 import net.foxycorndog.arrowide.command.Command;
 import net.foxycorndog.arrowide.command.CommandListener;
 import net.foxycorndog.arrowide.dialog.FileBrowseDialog;
+import net.foxycorndog.arrowide.event.CompilerEvent;
+import net.foxycorndog.arrowide.event.CompilerListener;
 import net.foxycorndog.arrowide.file.FileUtils;
 import net.foxycorndog.arrowide.language.CommentProperties;
 import net.foxycorndog.arrowide.language.CompileOutput;
-import net.foxycorndog.arrowide.language.CompilerListener;
 import net.foxycorndog.arrowide.language.IdentifierProperties;
 import net.foxycorndog.arrowide.language.MethodProperties;
 
@@ -96,7 +97,7 @@ public class CppLanguage
 //			g++ hello.C -o hello
 			String text = "\"" + CONFIG_DATA.get("g++.location") + "/g++\" \"" + fileLocation + "\" -o \"" + outputLocation + (outputLocation.equals("") ? "" : "/") + FileUtils.getFileNameWithoutExtension(fileLocation) + "\"";
 			
-			Command command = new Command(Display.getDefault(), text, null);
+			final Command command = new Command(Display.getDefault(), text, null);
 			
 			String outputFile = outputLocation + FileUtils.getFileName(fileLocation);
 			
@@ -110,9 +111,13 @@ public class CppLanguage
 					
 					outputs[0] = new CompileOutput(0, 0, 0, result, "ASDF");
 					
+					System.out.println(command.getProgram().getText() + "!");
+					
 					for (int i = compilerListeners.size() - 1; i >= 0; i--)
 					{
-						compilerListeners.get(i).compiled(outputFiles, outputs, stream, fileLocation);
+						CompilerEvent event = new CompilerEvent(outputFiles, outputs, stream, fileLocation);
+						
+						compilerListeners.get(i).compiled(event);
 					}
 				}
 				
