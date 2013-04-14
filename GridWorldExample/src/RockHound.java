@@ -8,8 +8,8 @@ import info.gridworld.actor.Critter;
  * Author:        Braden Steffaniak
  * Programming:   APCS
  * Last Modified: 11Jan2013
- * Description:   A rock hound class that extends critter
- * and eats rocks in its way.
+ * Description:   A rock hound class that extends Critter
+ * 	and eats rocks in its way.
  */
 public class RockHound extends Critter
 {
@@ -30,7 +30,9 @@ public class RockHound extends Critter
         for (Actor a : actors)
         {
             if (!(a instanceof Critter))
+            {
                 a.removeSelfFromGrid();
+            }
         }
     }
 }
