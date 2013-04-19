@@ -1,0 +1,6 @@
+import net.foxycorndog.jfoxylib.GameStarter;
+
+public class Tetris extends GameStarter
+{
+	
+}

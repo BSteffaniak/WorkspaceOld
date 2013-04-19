@@ -74,7 +74,7 @@ public class GL
 	private static boolean inited;
 	
 	private static float zClose, zFar;
-	private static float FOV;
+	private static float fov;
 	
 	public static final int	POINTS = GL11.GL_POINTS, LINES = GL11.GL_LINES, TRIANGLES = GL11.GL_TRIANGLES, QUADS = GL11.GL_QUADS;
 	
@@ -82,107 +82,6 @@ public class GL
 			LIGHTING_BIT = GL_LIGHTING_BIT, LINE_BIT = GL_LINE_BIT, POINT_BIT = GL_POINT_BIT,
 			POLYGON_BIT = GL_POLYGON_BIT, TEXTURE_BIT = GL_TEXTURE_BIT,
 			COLOR_BUFFER_BIT = GL_COLOR_BUFFER_BIT, CURRENT_BIT = GL_CURRENT_BIT;
-	
-	public static void init()
-	{
-		if (inited)
-		{
-			return;
-		}
-		
-		inited = true;
-		
-		String paths[] = System.getProperty("java.class.path").split(";");
-		
-		String nativeLocation = null;
-		
-		File binFile = null;
-		
-		try
-		{
-			String classLoc = GL.class.getResource("GL.class").toString();
-			
-			boolean jar = classLoc.startsWith("jar:") || classLoc.startsWith("rsrc:");
-			
-			
-			
-//			if (jar)
-//			{
-//				resLoc = new File(new File(System.getProperty("java.class.path")).getCanonicalPath()).getParentFile().getCanonicalPath();
-//			}
-			
-			String os = System.getProperty("os.name").toLowerCase();
-			
-			if (os.startsWith("win"))
-			{
-				os = "windows";
-			}
-			else if (os.startsWith("mac"))
-			{
-				os = "macosx";
-			}
-			else if (os.startsWith("lin"))
-			{
-				os = "linux";
-			}
-			else if (os.startsWith("sol"))
-			{
-				os = "solaris";
-			}
-			else
-			{
-				throw new RuntimeException("Unknown operating system!");
-			}
-			
-			if (jar)
-			{
-//				String workingDirectory = System.getProperty("user.dir").replace('\\', '/');
-				
-				String workingDirectory = null;
-				
-				try
-				{
-					workingDirectory = new File(new File(System.getProperty("java.class.path")).getCanonicalPath()).getParentFile().getCanonicalPath();
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-				
-				nativeLocation = workingDirectory + "/native/" + os;
-				
-				System.out.println("asdf");
-			}
-			else
-			{
-				File f = new File(GL.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-			
-				File parent = f.getParentFile();
-				
-				String resLoc = null;
-				
-				try
-				{
-					resLoc = parent.getCanonicalPath();
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
-			
-				nativeLocation = resLoc.replace('\\', '/') + "/native/" + os;
-			}
-		}
-		catch (URISyntaxException e)
-		{
-			e.printStackTrace();
-		}
-		
-//		System.setProperty("java.library.path", System.getProperty("java.library.path") + ";" + nativeLocation + ";");
-		System.setProperty("org.lwjgl.librarypath", nativeLocation);
-		
-		FOV = 55.0f;
-	}
 	
 	public static void initOrtho(int width, int height)
 	{
@@ -213,6 +112,8 @@ public class GL
 	
 	public static void initPerspective(int width, int height, float zClose, float zFar)
 	{
+		fov = 55.0f;
+		
 		glEnable(GL_TEXTURE_2D);
 		
 //		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -234,7 +135,7 @@ public class GL
 		glLoadIdentity(); // Reset The Projection Matrix
 
 		// Calculate The Aspect Ratio Of The Window
-		gluPerspective(FOV, (float)width / height, zClose, zFar);
+		gluPerspective(fov, (float)width / height, zClose, zFar);
 //		glOrtho(1, 1, 1, 1, -1, 1);
 		glMatrixMode(GL_MODELVIEW); // Select The Modelview Matrix
 
@@ -364,12 +265,12 @@ public class GL
 	
 	public static float getFOV()
 	{
-		return FOV;
+		return fov;
 	}
 	
 	public static void setFOV(float FOV)
 	{
-		GL.FOV = FOV;
+		GL.fov = FOV;
 	}
 	
 	public static float[] genRectVerts(float x, float y, float width, float height)

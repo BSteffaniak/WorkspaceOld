@@ -1,8 +1,13 @@
 package net.foxycorndog.jfoxylibpixel.components;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import net.foxycorndog.jfoxylibpixel.util.Dimension;
 
@@ -15,32 +20,44 @@ import net.foxycorndog.jfoxylibpixel.util.Dimension;
  * @version Feb 27, 2013 at 5:18:39 PM
  * @version	v0.1
  */
-public class Frame extends Panel
+public class Frame extends PixelPanel
 {
-	private JFrame	frame;
+	private boolean		custom;
 	
-	private Panel	contentPanel;
+	private JFrame		frame;
 	
+	private JPanel		contentPanel;
+	private BufferedImage img;
 	/**
 	 * Constructs a plain Frame.
 	 */
 	public Frame()
 	{
-		super(null);
+		img = new BufferedImage(100, 100, BufferedImage.BITMASK);
+		Graphics2D g = img.createGraphics();
+		g.fillRect(0, 0, 10, 100);
+		g.dispose();
 		
-		frame = new JFrame()
+		frame = new JFrame();
+		
+		contentPanel = new JPanel()
 		{
-			public void paint(Graphics g)
+			public void paintComponent(Graphics g)
 			{
-				System.out.println("pant");
+				super.paintComponent(g);
+				
+				g.setColor(Color.BLACK);
+				render(g);
+//				g.drawImage(img, 0, 0, null);
+//				g.drawString("test", 10, 60);
 			}
 		};
 		
+		frame.add(contentPanel);
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setUndecorated(true);
-		
-		contentPanel = new Panel(this);
+//		frame.setUndecorated(true);
 	}
 	
 	/**
@@ -124,6 +141,27 @@ public class Frame extends Panel
 //	}
 	
 	/**
+	 * Whether the Frame has a custom border and title-bar.
+	 * 
+	 * @return Whether the Frame has a custom border and title-bar.
+	 */
+	public boolean isCustom()
+	{
+		return custom;
+	}
+	
+	/**
+	 * Set whether the Frame should have a custom border and title-bar.
+	 * 
+	 * @param custom Whether the Frame should have a custom border
+	 * 		and title-bar.
+	 */
+	public void setCustom(boolean custom)
+	{
+		this.custom = custom;
+	}
+	
+	/**
 	 * @return The actual JFrame that is used as the Frame.
 	 */
 	public JFrame getJFrame()
@@ -165,7 +203,28 @@ public class Frame extends Panel
 	public void setVisible(boolean visible)
 	{
 		frame.setVisible(visible);
+		
+		if (visible)
+		{
+			Insets insets = frame.getInsets();
+			
+			int actualWidth  = frame.getWidth() - insets.left - insets.right;
+			int actualHeight = frame.getHeight() - insets.top - insets.bottom;
+			
+			contentPanel.setSize(actualWidth, actualHeight);
+		}
 	}
+	
+//	/**
+//	 * Get the content panel of the Frame. It is an instance of a JPanel
+//	 * that covers the whole content area in the Frame.
+//	 * 
+//	 * @return The instance of the JPanel.
+//	 */
+//	public JPanel getContentPanel()
+//	{
+//		return contentPanel;
+//	}
 
 	/**
 	 * Sets the horizontal and vertical size of this Frame.
@@ -177,7 +236,11 @@ public class Frame extends Panel
 	{
 		super.setSize(width, height);
 		
-		frame.setSize(getWidth(), getHeight());
+		JFrame temp = new JFrame();
+		temp.pack();
+		Insets insets = temp.getInsets();
+		temp = null;
+		frame.setSize(getWidth() + insets.left + insets.right, getHeight() + insets.top + insets.bottom);
 	}
 
 	/**
@@ -186,6 +249,6 @@ public class Frame extends Panel
 	 */
 	public void render()
 	{
-		
+		frame.repaint();
 	}
 }

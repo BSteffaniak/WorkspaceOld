@@ -1,0 +1,38 @@
+import java.awt.Graphics2D;
+
+import net.foxycorndog.jfoxylibpixel.GameStarter;
+import net.foxycorndog.jfoxylibpixel.components.Frame;
+import net.foxycorndog.jfoxylibpixel.components.PixelPanel;
+
+public class Tetris
+{
+	private PixelPanel	panel;
+	
+	private Frame		frame;
+	
+	public Tetris()
+	{
+		frame = new Frame();
+		frame.setSize(800, 600);
+		frame.center();
+		
+		panel = new PixelPanel();
+		panel.setSize(frame.getWidth(), frame.getHeight());
+		
+		frame.setVisible(true);
+	}
+	
+	public static void main(String args[])
+	{
+		Tetris t = new Tetris();
+		
+		t.loadMainMenu();
+		
+		System.out.println("done.");
+	}
+	
+	public void loadMainMenu()
+	{
+		panel.fillRect(0, 0, 100, 100, 0x000000);
+	}
+}

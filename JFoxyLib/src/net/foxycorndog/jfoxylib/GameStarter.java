@@ -41,7 +41,7 @@ public abstract class GameStarter
 	 */
 	public GameStarter()
 	{
-		GL.init();
+		
 	}
 	
 	/**
@@ -51,14 +51,17 @@ public abstract class GameStarter
 	 */
 	public void start()
 	{
+		if (!Frame.wasCreated())
+		{
+			throw new RuntimeException("The Frame must be created before you start.");
+		}
+		
 		running  = true;
 		
 		int fps  = 0;
 		int dfps = 0;
 		
 		int pred = 0;
-		
-		GL.init();
 		
 		init();
 		

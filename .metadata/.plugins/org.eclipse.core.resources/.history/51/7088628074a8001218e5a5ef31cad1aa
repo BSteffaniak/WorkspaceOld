@@ -1,0 +1,25 @@
+import java.awt.Graphics2D;
+
+import net.foxycorndog.jfoxylibpixel.GameStarter;
+import net.foxycorndog.jfoxylibpixel.components.Frame;
+
+public class Tetris
+{
+	public Tetris()
+	{
+		
+	}
+	
+	public static void main(String args[])
+	{
+//		Main m = new Main();
+		
+		Frame f = new Frame();
+		f.setSize(800, 600);
+		f.center();
+		
+		f.setVisible(true);
+		
+//		m.start(60);
+	}
+}

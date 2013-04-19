@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;FOV&apos; in &apos;net.foxycorndog.jfoxylib.graphics.opengl.GL&apos; to &apos;fov&apos;&#x0D;&#x0A;- Original project: &apos;JFoxyLib&apos;&#x0D;&#x0A;- Original element: &apos;net.foxycorndog.jfoxylib.graphics.opengl.GL.FOV&apos;&#x0D;&#x0A;- Renamed element: &apos;net.foxycorndog.jfoxylib.graphics.opengl.GL.fov&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="false" description="Rename field &apos;FOV&apos;" flags="589826" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/src&lt;net.foxycorndog.jfoxylib.graphics.opengl{GL.java[GL^FOV" name="fov" references="true" setter="false" stamp="1366333934071" textual="false" version="1.0"/>
+</session>

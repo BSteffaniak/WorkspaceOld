@@ -1,0 +1,34 @@
+package net.foxycorndog.tetris;
+
+import net.foxycorndog.jfoxylib.Frame;
+import net.foxycorndog.jfoxylib.GameStarter;
+
+public class Tetris extends GameStarter
+{
+	public static void main(String args[])
+	{
+		Frame.create(800, 600);
+		
+		new Tetris().start();
+	}
+	
+	public void init()
+	{
+		
+	}
+
+	public void render2D()
+	{
+		
+	}
+
+	public void render3D()
+	{
+		
+	}
+
+	public void loop()
+	{
+		
+	}
+}

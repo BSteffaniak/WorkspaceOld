@@ -1,0 +1,584 @@
+package net.foxycorndog.thedigginggame;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import net.foxycorndog.presto2d.graphics.PixelPanel;
+import net.foxycorndog.presto2d.util.Ticker;
+import net.foxycorndog.presto2d.util.TickerTask;
+import net.foxycorndog.thedigginggame.actors.Player;
+import net.foxycorndog.thedigginggame.entities.Cursor;
+import net.foxycorndog.thedigginggame.handlers.ComponentHandler;
+import net.foxycorndog.thedigginggame.handlers.KeyHandler;
+import net.foxycorndog.thedigginggame.handlers.MouseHandler;
+import net.foxycorndog.thedigginggame.handlers.MouseMotionHandler;
+import net.foxycorndog.thedigginggame.handlers.WindowFocusHandler;
+import net.foxycorndog.thedigginggame.handlers.WindowHandler;
+import net.foxycorndog.thedigginggame.handlers.WindowStateHandler;
+import net.foxycorndog.thedigginggame.map.Map;
+import net.foxycorndog.thedigginggame.tiles.Tile;
+
+public class Display extends JPanel
+{
+	private JFrame        frame;
+	private int           originalWidth, originalHeight;
+	private PixelPanel    terrainPanel, pixelPanel;//,
+						 // terrainBuffer, pixelBuffer;
+	private boolean       ready, readyFps;
+	private int           actorCounter;
+	private int           sleeptime, actorSleeptime;
+	private int           fps, targetFps, dfps;
+	private int           yOffset;
+	private int           mainTicks, actorTicks, actorTickOffset, mainTickOffset;
+	private long          newTime;
+	private long          mainOldTime, actorOldTime;
+	
+	private int           mouseX, mouseY;
+	private int           mouseButtonPressed;
+	
+	private BufferedImage buffer;
+	private Graphics      backg;
+	
+	private Cursor        gameCursor;
+	
+	private WindowHandler      windowHandler;
+	private WindowFocusHandler windowFocusHandler;
+	private WindowStateHandler windowStateHandler;
+	
+	private ComponentHandler   componentHandler;
+	
+	private MouseHandler       mouseButtonHandler;
+	private MouseMotionHandler mouseMotionHandler;
+	
+	private KeyHandler keyHandler;
+	
+	private TheDiggingGame tdg;
+	
+	private Ticker mainThread, actorThread;
+	
+	private int blockSize, blockShowSize, scale;
+	
+	private boolean applet;
+	
+	private static final long	serialVersionUID	= 2150369890492382875L;
+	
+	public static final int Y_OFFSET = -25;
+	
+	public Display(int width, int height, boolean applet, TheDiggingGame tdg)
+	{
+		this.applet = applet;
+		
+		this.tdg = tdg;
+		
+		ready = false;
+		TheDiggingGame.applet = applet;
+		
+		this.setSize(width, height);
+		
+		if (!applet)
+		{
+			frame = new JFrame(TheDiggingGame.GAME_TITLE);
+			frame.setSize(width, height);
+			frame.setLocationRelativeTo(null);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setResizable(true);
+			
+			frame.setContentPane(this);
+			
+			frame.setVisible(true);
+		}
+		
+		pixelPanel         = new PixelPanel(width, height);
+		terrainPanel       = new PixelPanel(width, height);
+		//pixelBuffer        = new PixelPanel(width, height);
+		//terrainBuffer      = new PixelPanel(width, height);
+		
+		originalWidth      = width;
+		originalHeight     = height;
+		
+		targetFps          = 60;
+		
+		mouseButtonPressed = -1;
+	}
+	
+	public void init()
+	{
+		buffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.BITMASK);
+		backg  = buffer.createGraphics();
+		
+		windowHandler      = new WindowHandler();
+		windowFocusHandler = new WindowFocusHandler();
+		windowStateHandler = new WindowStateHandler();
+		
+		componentHandler   = new ComponentHandler(this);
+		
+		mouseButtonHandler = new MouseHandler(tdg);
+		mouseMotionHandler = new MouseMotionHandler(tdg);
+		
+		keyHandler         = new KeyHandler(tdg);
+		
+		blockSize          = 8;
+		blockShowSize      = 32;
+		
+		scale              = blockShowSize / blockSize;
+		
+		terrainPanel.setSize(terrainPanel.getWidth() / scale, terrainPanel.getHeight() / scale);
+		//terrainBuffer.setSize(terrainPanel.getWidth(), terrainPanel.getHeight());
+		
+		new Tile(blockSize);
+		
+		tdg.setMap(new Map(200, 100, 0, 0, tdg));
+		tdg.setPlayer(new Player(80, 0, (scale / 2), tdg));
+		
+		Map    map = tdg.getMap();
+		Player player = tdg.getPlayer();
+		
+		map.setTiles(0, 4, 1, 1, Tile.SAND);
+		map.setTiles(10, 3, 2, 2, Tile.GRAVEL);
+		map.setTiles(0, 5, map.getWidth(), map.getHeight(), Tile.GRASS);
+		map.setTiles(0, 6, 200, 2, Tile.DIRT);
+		map.setTiles(0, 8, 200, 97, Tile.STONE);
+		
+		sleeptime      = 1000 / targetFps;
+		actorSleeptime = 2;
+		
+		mainTicks = 60;
+		fps   = 60;
+		
+		gameCursor = new Cursor(blockShowSize - 1, blockShowSize - 1, 0xff000000, map);
+		
+		if (!applet)
+		{
+			yOffset = -25;
+			
+			frame.addWindowListener(windowHandler);
+			frame.addWindowFocusListener(windowFocusHandler);
+			frame.addWindowStateListener(windowStateHandler);
+			
+			frame.addComponentListener(componentHandler);
+			
+			frame.addMouseListener(mouseButtonHandler);
+			frame.addMouseMotionListener(mouseMotionHandler);
+			
+			frame.addKeyListener(keyHandler);
+		}
+		else
+		{
+			this.addMouseListener(mouseButtonHandler);
+			this.addMouseMotionListener(mouseMotionHandler);
+			
+			this.addKeyListener(keyHandler);
+		}
+		
+		mainThread = new Ticker();
+		
+		mainThread.start(sleeptime,
+				new TickerTask()
+				{
+					@Override
+					public void run()
+					{
+						long ts[]        = tick(55, 60, 65, mainTicks, mainTickOffset, mainOldTime, mainThread);
+						mainTicks       = (int)ts[0];
+						mainTickOffset  = (int)ts[1];
+						mainOldTime     =      ts[2];
+						fps             = (int)ts[3];
+					}
+				}
+		);
+		
+		actorThread = new Ticker();
+		
+		actorThread.start(actorSleeptime,
+				new TickerTask()
+				{
+					public void run()
+					{
+//						long ts[]        = tick(333, 500, 1000, actorTicks, actorTickOffset, actorOldTime, actorThread);
+//						actorTicks      = (int)ts[0];
+//						actorTickOffset = (int)ts[1];
+//						actorOldTime    =      ts[2];
+						
+						actorCounter ++;
+						if (actorCounter % 3 == 0)
+						{
+							tdg.getPlayer().move();
+						}
+						if (!tdg.getPlayer().getJumping())
+						{
+							tdg.getPlayer().move(0, 1);
+						}
+						else if (tdg.getPlayer().getJumping())
+						{
+							tdg.getPlayer().jump();
+						}
+						
+						if (actorCounter == 199)
+						{
+							actorCounter = 0;
+						}
+					}
+				}
+		);
+		
+		ready = true;
+	}
+	
+	public void render()
+	{
+		repaint();
+	}
+	
+	@Override
+	public void paint(Graphics g)
+	{
+		super.paint(g);
+		if (ready)//backg != null && tdg != null && tdg.getMap() != null)
+		{
+			backg.setColor(Color.BLACK);
+			
+			backg.fillRect(0, 0, getWidth(), getHeight());
+			
+			updateScreen();
+			
+			backg.drawImage(terrainPanel.getBufferedImage(), 0, 0, pixelPanel.getWidth(), pixelPanel.getHeight(), null);
+			backg.drawImage(pixelPanel.getBufferedImage()  , 0, 0, null);
+			
+			backg.setColor(Color.WHITE);
+			
+			backg.drawString("Fps: " + fps, 5, 15);
+			
+			g.drawImage(buffer, 0, 0, null);
+			
+			dfps ++;
+		}
+	}
+	
+	@Override
+	public void update(Graphics g)
+	{
+		paint(g);
+	}
+	
+	public void updateScreen()
+	{
+		tdg.getMap().clear(terrainPanel);
+		tdg.getMap().render(this);
+		
+		gameCursor.clear(pixelPanel);
+		gameCursor.render(pixelPanel);
+		
+		tdg.getPlayer().clear(pixelPanel);
+		tdg.getPlayer().render(pixelPanel);
+	}
+	
+	public void setDisplaySize(int width, int height)
+	{
+		ready = false;
+		
+		buffer = new BufferedImage(getWidth(), getHeight(), BufferedImage.BITMASK);
+		
+		backg = buffer.createGraphics();
+		
+		pixelPanel.setSize(getWidth(), getHeight());
+		
+		//pixelBuffer.setSize(getWidth(), getHeight());
+		
+		terrainPanel.setSize(getWidth() / scale, getHeight() / scale);
+		
+		//terrainBuffer.setSize(getWidth() / scale, getHeight() / scale);
+		
+		setSize(getWidth(), getHeight());
+		
+		ready = true;
+		
+		tdg.getMap().setRendered(false);
+	}
+	
+	public long[] tick(int low, int target, int high, int ticks, int tickOffset, long oldTime, Ticker t)
+	{
+		ticks ++;
+		
+		int f = 0;
+		
+		long newTime = System.currentTimeMillis();
+		
+		if (newTime >= oldTime + 1000)
+		{
+			oldTime = System.currentTimeMillis();
+			
+			tickOffset = ticks < low ? tickOffset + 1 : tickOffset;
+			
+			tickOffset = ticks > high ? tickOffset - 1 : tickOffset;
+		
+			tickOffset = tickOffset <= 0 ? 1 : tickOffset;
+			
+			t.setDelay(1000 / (target + tickOffset));
+			
+			f     = ticks;
+			
+			ticks = 0;
+		}
+		else
+		{
+			f = fps;
+		}
+		
+		return new long[] { ticks, tickOffset, oldTime, f };
+	}
+	
+	public void saveImage()
+	{
+		try
+		{
+			ImageIO.write(buffer, "png", new File("ScreenshotAt" + System.currentTimeMillis() + ".png"));
+		}
+		catch (IOException ex)
+		{
+			
+		}
+	}
+	
+//	public void setBufferBufferedImage(BufferedImage b)
+//	{
+//		buffer.setBufferedImage(b);
+//	}
+	
+	public JFrame getFrame()
+	{
+		return frame;
+	}
+	
+	public int getOriginalWidth()
+	{
+		return originalWidth;
+	}
+	
+	public int getOriginalHeight()
+	{
+		return originalHeight;
+	}
+	
+	public WindowHandler getWindowHandler()
+	{
+		return windowHandler;
+	}
+	
+	public int getBlockSize()
+	{
+		return blockSize;
+	}
+	
+	public int getBlockShowSize()
+	{
+		return blockShowSize;
+	}
+	
+	public PixelPanel getPixelPanel()
+	{
+		return pixelPanel;
+	}
+	
+	public PixelPanel getTerrainPanel()
+	{
+		return terrainPanel;
+	}
+	
+	public JPanel getPanel()
+	{
+		return this;
+	}
+	
+	public boolean getReady()
+	{
+		return ready;
+	}
+	
+	public void setReady(boolean r)
+	{
+		ready = r;
+	}
+	
+	public int getScale()
+	{
+		return scale;
+	}
+	
+	public int getSleeptime()
+	{
+		return sleeptime;
+	}
+	
+	public int getActorSleeptime()
+	{
+		return actorSleeptime;
+	}
+	
+	public int getMouseX()
+	{
+		return mouseX;
+	}
+	
+	public int getMouseY()
+	{
+		return mouseY;
+	}
+	
+	public void setMouseX(int m)
+	{
+		mouseX = m;
+
+		int x2 = 0;
+		x2 = (int)(((m / blockShowSize) * blockShowSize) + (((((int)tdg.getMap().getX()) / scale)) % blockSize) * scale);
+		x2 = (m < x2 ? x2 - blockShowSize : (m > x2 + blockShowSize ? x2 + blockShowSize : x2));
+		
+		gameCursor.setX(x2);
+	}
+	
+	public void setMouseY(int m)
+	{
+		mouseY = m;
+		
+		int y2 = 0;
+		y2 = (int)(((m / blockShowSize) * blockShowSize) + (((((int)tdg.getMap().getY()) / scale)) % blockSize) * scale);
+		y2 = (m < y2 ? y2 - blockShowSize : (m > y2 + blockShowSize ? y2 + blockShowSize : y2));
+		
+		gameCursor.setY(y2);
+	}
+	
+	public int getMouseButtonPressed()
+	{
+		return mouseButtonPressed;
+	}
+	
+	public void setMouseButtonPressed(int m)
+	{
+		mouseButtonPressed = m;
+	}
+	
+	public void setYOffset(int y)
+	{
+		yOffset = y;
+	}
+	
+	public int getYOffset()
+	{
+		return yOffset;
+	}
+	
+	/**
+	 * @return the windowFocusHandler
+	 */
+	public WindowFocusHandler getWindowFocusHandler()
+	{
+		return windowFocusHandler;
+	}
+
+	/**
+	 * @param windowFocusHandler the windowFocusHandler to set
+	 */
+	public void setWindowFocusHandler(WindowFocusHandler windowFocusHandler)
+	{
+		this.windowFocusHandler = windowFocusHandler;
+	}
+
+	/**
+	 * @return the windowStateHandler
+	 */
+	public WindowStateHandler getWindowStateHandler()
+	{
+		return windowStateHandler;
+	}
+
+	/**
+	 * @param windowStateHandler the windowStateHandler to set
+	 */
+	public void setWindowStateHandler(WindowStateHandler windowStateHandler)
+	{
+		this.windowStateHandler = windowStateHandler;
+	}
+
+	/**
+	 * @return the componentHandler
+	 */
+	public ComponentHandler getComponentHandler()
+	{
+		return componentHandler;
+	}
+
+	/**
+	 * @param componentHandler the componentHandler to set
+	 */
+	public void setComponentHandler(ComponentHandler componentHandler)
+	{
+		this.componentHandler = componentHandler;
+	}
+
+	/**
+	 * @return the mouseButtonHandler
+	 */
+	public MouseHandler getMouseButtonHandler()
+	{
+		return mouseButtonHandler;
+	}
+
+	/**
+	 * @param mouseButtonHandler the mouseButtonHandler to set
+	 */
+	public void setMouseButtonHandler(MouseHandler mouseButtonHandler)
+	{
+		this.mouseButtonHandler = mouseButtonHandler;
+	}
+
+	/**
+	 * @return the mouseMotionHandler
+	 */
+	public MouseMotionHandler getMouseMotionHandler()
+	{
+		return mouseMotionHandler;
+	}
+
+	/**
+	 * @param mouseMotionHandler the mouseMotionHandler to set
+	 */
+	public void setMouseMotionHandler(MouseMotionHandler mouseMotionHandler)
+	{
+		this.mouseMotionHandler = mouseMotionHandler;
+	}
+
+	/**
+	 * @param windowHandler the windowHandler to set
+	 */
+	public void setWindowHandler(WindowHandler windowHandler)
+	{
+		this.windowHandler = windowHandler;
+	}
+	
+	/**
+	 * @return the keyHandler
+	 */
+	public KeyHandler getKeyHandler()
+	{
+		return keyHandler;
+	}
+
+	/**
+	 * @param keyHandler the mouseMotionHandler to set
+	 */
+	public void setKeyHandler(KeyHandler keyHandler)
+	{
+		this.keyHandler = keyHandler;
+	}
+	
+	public Cursor getGameCursor()
+	{
+		return gameCursor;
+	}
+}

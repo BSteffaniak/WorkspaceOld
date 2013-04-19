@@ -1,0 +1,26 @@
+package net.foxycorndog.tetris;
+
+import net.foxycorndog.jfoxylib.GameStarter;
+
+public class Tetris extends GameStarter
+{
+	public void init()
+	{
+		
+	}
+
+	public void render2D()
+	{
+		
+	}
+
+	public void render3D()
+	{
+		
+	}
+
+	public void loop()
+	{
+		
+	}
+}

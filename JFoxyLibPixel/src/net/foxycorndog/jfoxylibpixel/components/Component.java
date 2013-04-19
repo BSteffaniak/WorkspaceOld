@@ -17,16 +17,14 @@ public abstract class Component
 	private int		x, y;
 	private int		width, height;
 	
-	private Panel	parent;
-	
 	/**
 	 * Create a new Component with the specified parent.
 	 * 
 	 * @param parent The Panel that contains this Component.
 	 */
-	public Component(Panel parent)
+	public Component()
 	{
-		this.parent = parent;
+		
 	}
 	
 	/**
@@ -125,27 +123,9 @@ public abstract class Component
 		this.height = height;
 	}
 	
-	/**
-	 * @return The parent Panel of this Component.
-	 */
-	public Panel getParent()
-	{
-		return parent;
-	}
-	
-	/**
-	 * Method to set the parent Panel of this Component.
-	 * 
-	 * @param parent The parent Panel to set.
-	 */
-	public void setParent(Panel parent)
-	{
-		this.parent = parent;
-	}
-	
-	/**
-	 * Method that is called each time it is needed to be rendered.
-	 * All of the drawing should be done in this method.
-	 */
-	public abstract void render();
+//	/**
+//	 * Method that is called each time it is needed to be rendered.
+//	 * All of the drawing should be done in this method.
+//	 */
+//	public abstract void render();
 }

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move element &apos;Tetris.java&apos; to &apos;Tetris/src/net.foxycorndog.tetris&apos;&#x0D;&#x0A;- Original project: &apos;Tetris&apos;&#x0D;&#x0A;- Destination element: &apos;Tetris/src/net.foxycorndog.tetris&apos;&#x0D;&#x0A;- Original element: &apos;Tetris.java&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move compilation unit" destination="/src&lt;net.foxycorndog.tetris" element1="/src&lt;{Tetris.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1366333458292" units="1" version="1.0"/>
+</session>

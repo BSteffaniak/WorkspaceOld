@@ -1,0 +1,130 @@
+package net.foxycorndog.jfoxylibpixel.components;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+
+import net.foxycorndog.jfoxylibpixel.GL;
+import net.foxycorndog.jfoxylibpixel.util.Bounds;
+
+/**
+ * Class that is used to paint and edit pixels of an image easily.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Feb 27, 2013 at 6:12:19 PM
+ * @since	v0.1
+ * @version Feb 27, 2013 at 6:12:19 PM
+ * @version	v0.1
+ */
+public class PixelPanel extends Panel
+{
+	private int				pixelSize;
+	
+	private BufferedImage	image, bufferImage;
+	
+	private Graphics		bufferGraphics;
+	
+	private int				pixels[];
+	
+	/**
+	 * Construct a Panel in which an image will be held.
+	 * 
+	 * @param parent The parent Panel to this PixelPanel.
+	 */
+	public PixelPanel()
+	{
+		
+	}
+	
+	/**
+	 * Method that instantiates the image field with the given size.
+	 * 
+	 * @param width The horizontal size of the new BufferedImage.
+	 * @param height The vertical size of the new BufferedImage.
+	 */
+	private void create(int width, int height)
+	{
+		image  = new BufferedImage(width, height, BufferedImage.BITMASK);
+		pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+		
+		bufferImage    = new BufferedImage(width, height, BufferedImage.BITMASK);
+		bufferGraphics = bufferImage.createGraphics();
+	}
+	
+	/**
+	 * @return The integer pixel array for the color data of this
+	 * 		PixelPanel.
+	 */
+	public int[] getPixels()
+	{
+		return pixels;
+	}
+	
+	/**
+	 * Method that fills the integer pixel array with a rectangle at the
+	 * specified location with the specified size and color.
+	 * 
+	 * @param x The x location to fill the rectangle.
+	 * @param y The y location to fill the rectangle.
+	 * @param width The width of the rectangle.
+	 * @param height The height of the rectangle.
+	 * @param color The color of the rectangle.
+	 */
+	public void fillRect(int x, int y, int width, int height, int color)
+	{
+		checkFlags();
+		
+		GL.fillRect(x, y, width, height, color, pixels, image.getWidth());
+	}
+	
+	/**
+	 * Get the BufferedImage displaying the pixels.
+	 * 
+	 * @return The BufferedImage displaying the pixels.
+	 */
+	public BufferedImage getBufferedImage()
+	{
+		return image;
+	}
+
+	/**
+	 * Sets the horizontal and vertical size of this PixelPanel.
+	 * 
+	 * @param width The horizontal size.
+	 * @param height The vertical size.
+	 */
+	public void setSize(int width, int height)
+	{
+		super.setSize(width, height);
+		
+		create(width, height);
+	}
+	
+	/**
+	 * Check whether all of the required elements have been instantiated.
+	 */
+	private void checkFlags()
+	{
+		if (image == null)
+		{
+			throw new RuntimeException("You must set the size of the PixelPanel.");
+		}
+	}
+	
+	/**
+	 * Render the PixelPanel with the specified Graphics instance.
+	 * 
+	 * @param g The Graphics instance to render to.
+	 */
+	public void render(Graphics g)
+	{
+//		bufferGraphics.drawImage(image, 0, 0, null);
+		bufferGraphics.setColor(Color.BLACK);
+//		bufferGraphics.fillRect(0, 50, 100, 100);
+		bufferGraphics.drawString("asdfasdfasdfasdfasdfasdfasdfasdfasdf", 0, 0);
+		
+		g.drawImage(bufferImage, 0, 0, null);
+	}
+}

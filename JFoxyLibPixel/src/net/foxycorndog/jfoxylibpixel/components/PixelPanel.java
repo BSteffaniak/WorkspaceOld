@@ -1,8 +1,13 @@
 package net.foxycorndog.jfoxylibpixel.components;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+
+import javax.swing.JFrame;
 
 import net.foxycorndog.jfoxylibpixel.GL;
 import net.foxycorndog.jfoxylibpixel.util.Bounds;
@@ -20,7 +25,9 @@ public class PixelPanel extends Panel
 {
 	private int				pixelSize;
 	
-	private BufferedImage	image;
+	private BufferedImage	image, bufferImage;
+	
+	private Graphics		bufferGraphics;
 	
 	private int				pixels[];
 	
@@ -29,9 +36,9 @@ public class PixelPanel extends Panel
 	 * 
 	 * @param parent The parent Panel to this PixelPanel.
 	 */
-	public PixelPanel(Panel parent)
+	public PixelPanel()
 	{
-		super(parent);
+		
 	}
 	
 	/**
@@ -42,9 +49,17 @@ public class PixelPanel extends Panel
 	 */
 	private void create(int width, int height)
 	{
-		image = new BufferedImage(width, height, BufferedImage.BITMASK);
+		image  = new BufferedImage(width, height, BufferedImage.BITMASK);
+		
+		Graphics2D g = image.createGraphics();
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, width, height);
+		g.dispose();
 		
 		pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+		
+		bufferImage    = new BufferedImage(width, height, BufferedImage.BITMASK);
+		bufferGraphics = bufferImage.createGraphics();
 	}
 	
 	/**
@@ -68,7 +83,19 @@ public class PixelPanel extends Panel
 	 */
 	public void fillRect(int x, int y, int width, int height, int color)
 	{
+		checkFlags();
+		
 		GL.fillRect(x, y, width, height, color, pixels, image.getWidth());
+	}
+	
+	/**
+	 * Get the BufferedImage displaying the pixels.
+	 * 
+	 * @return The BufferedImage displaying the pixels.
+	 */
+	public BufferedImage getBufferedImage()
+	{
+		return image;
 	}
 
 	/**
@@ -82,5 +109,28 @@ public class PixelPanel extends Panel
 		super.setSize(width, height);
 		
 		create(width, height);
+	}
+	
+	/**
+	 * Check whether all of the required elements have been instantiated.
+	 */
+	private void checkFlags()
+	{
+		if (image == null)
+		{
+			throw new RuntimeException("You must set the size of the PixelPanel.");
+		}
+	}
+	
+	/**
+	 * Render the PixelPanel with the specified Graphics instance.
+	 * 
+	 * @param g The Graphics instance to render to.
+	 */
+	public void render(Graphics g)
+	{
+		bufferGraphics.drawImage(image, 0, 0, null);
+		
+		g.drawImage(bufferImage, 0, 0, null);
 	}
 }

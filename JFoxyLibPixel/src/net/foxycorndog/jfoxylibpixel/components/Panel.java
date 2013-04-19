@@ -1,5 +1,7 @@
 package net.foxycorndog.jfoxylibpixel.components;
 
+import java.util.ArrayList;
+
 /**
  * Class that is used to hold other Components. Must have a parent
  * Panel.
@@ -12,22 +14,55 @@ package net.foxycorndog.jfoxylibpixel.components;
  */
 public class Panel extends Component
 {
+	private ArrayList<Component>	children;
+	
 	/**
 	 * Create a new Panel with the specified parent.
 	 * 
 	 * @param parent The Panel that contains this Panel.
 	 */
-	public Panel(Panel parent)
+	public Panel()
 	{
-		super(parent);
+		children = new ArrayList<Component>();
 	}
 
+//	/**
+//	 * Method that is called each time it is needed to be rendered.
+//	 * All of the drawing should be done in this method.
+//	 */
+//	public void render()
+//	{
+//		for (Component child : children)
+//		{
+//			child.render();
+//		}
+//	}
+	
 	/**
-	 * Method that is called each time it is needed to be rendered.
-	 * All of the drawing should be done in this method.
+	 * Get the child Components that belong to this Panel.
+	 * 
+	 * @return The child Components that belong to this Panel.
 	 */
-	public void render()
+	public ArrayList<Component> getChildren()
 	{
+		return children;
+	}
+	
+	/**
+	 * Add a Component as a child to this Panel.
+	 * 
+	 * @param child The Component to add as a child to this Panel.
+	 * @return Whether or not the Component was successfully added.
+	 */
+	public boolean add(Component child)
+	{
+		if (children.contains(child))
+		{
+			return false;
+		}
 		
+		children.add(child);
+		
+		return true;
 	}
 }

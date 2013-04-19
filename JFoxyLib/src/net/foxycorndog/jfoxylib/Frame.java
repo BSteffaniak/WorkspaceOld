@@ -2,9 +2,11 @@ package net.foxycorndog.jfoxylib;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +38,7 @@ import org.lwjgl.opengl.DisplayMode;
  */
 public class Frame
 {
+	private static boolean					created;
 	private static boolean					vSync;
 	
 	private static int						fps, targetFPS;
@@ -45,6 +48,108 @@ public class Frame
 	
 	private static ArrayList<Component>		components;
 	private static ArrayList<FrameListener>	frameListeners;
+	
+	private static void locateNatives()
+	{
+		String paths[] = System.getProperty("java.class.path").split(";");
+		
+		String nativeLocation = null;
+		
+		File binFile = null;
+		
+		try
+		{
+			String classLoc = GL.class.getResource("GL.class").toString();
+			
+			boolean jar = classLoc.startsWith("jar:") || classLoc.startsWith("rsrc:");
+			
+			
+			
+//			if (jar)
+//			{
+//				resLoc = new File(new File(System.getProperty("java.class.path")).getCanonicalPath()).getParentFile().getCanonicalPath();
+//			}
+			
+			String os = System.getProperty("os.name").toLowerCase();
+			
+			if (os.startsWith("win"))
+			{
+				os = "windows";
+			}
+			else if (os.startsWith("mac"))
+			{
+				os = "macosx";
+			}
+			else if (os.startsWith("lin"))
+			{
+				os = "linux";
+			}
+			else if (os.startsWith("sol"))
+			{
+				os = "solaris";
+			}
+			else
+			{
+				throw new RuntimeException("Unknown operating system!");
+			}
+			
+			if (jar)
+			{
+//				String workingDirectory = System.getProperty("user.dir").replace('\\', '/');
+				
+				String workingDirectory = null;
+				
+				try
+				{
+					workingDirectory = new File(new File(System.getProperty("java.class.path")).getCanonicalPath()).getParentFile().getCanonicalPath();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+				
+				nativeLocation = workingDirectory + "/native/" + os;
+				
+				System.out.println("asdf");
+			}
+			else
+			{
+				File f = new File(GL.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+			
+				File parent = f.getParentFile();
+				
+				String resLoc = null;
+				
+				try
+				{
+					resLoc = parent.getCanonicalPath();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			
+				nativeLocation = resLoc.replace('\\', '/') + "/native/" + os;
+			}
+		}
+		catch (URISyntaxException e)
+		{
+			e.printStackTrace();
+		}
+		
+//		System.setProperty("java.library.path", System.getProperty("java.library.path") + ";" + nativeLocation + ";");
+		System.setProperty("org.lwjgl.librarypath", nativeLocation);
+	}
+	
+	/**
+	 * Returns whether or not the Frame has been created.
+	 * 
+	 * @return Whether or not the Frame has been created.
+	 */
+	public static boolean wasCreated()
+	{
+		return created;
+	}
 	
 	/**
 	 * Method to create a default Frame 7/10's the width and height of
@@ -67,6 +172,8 @@ public class Frame
 		{
 			throw new IllegalArgumentException("The width and height of the Frame must both be > 0");
 		}
+		
+		locateNatives();
 		
 		try
 		{
@@ -247,6 +354,8 @@ public class Frame
 				}
 			}
 		});
+		
+		created = true;
 	}
 	
 	private static boolean intersectsMouse(Component comp)
