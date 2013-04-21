@@ -344,6 +344,9 @@ public class Launcher extends GameStarter
 	 */
 	public void init()
 	{
+		GL.setTextureScaleMinMethod(GL.LINEAR);
+		GL.setTextureScaleMagMethod(GL.NEAREST);
+		
 		font = new Font("res/images/fonts/font.png", 26, 4,
 				new char[]
 				{

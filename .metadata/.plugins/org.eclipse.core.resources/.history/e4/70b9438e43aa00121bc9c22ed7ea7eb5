@@ -1,0 +1,70 @@
+package net.foxycorndog.tetris.pieces;
+
+import net.foxycorndog.jfoxylib.bundle.Bundle;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Apr 20, 2013 at 11:17:15 PM
+ * @since	v0.1
+ * @version	Apr 20, 2013 at 11:17:15 PM
+ * @version	v0.1
+ */
+public class Piece
+{
+	private int		rotation;
+	
+	private Bundle	bundle;
+	
+	/**
+	 * 
+	 * @param matrix
+	 * @param width
+	 */
+	public Piece(float matrix[], int width)
+	{
+		bundle = new Bundle(1, 2, true, false);
+		
+		int height = matrix.length / width;
+		
+		for (int x = 0; x < width; x++)
+		{
+			for (int y = 0; y < height; y++)
+			{
+				if (matrix[x + y * width] >= 0)
+				{
+					
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	public void render()
+	{
+		
+	}
+	
+	/**
+	 * 
+	 */
+	public void rotateClockwise()
+	{
+		rotation += 45;
+		
+		rotation %= 360;
+	}
+	
+	/**
+	 * 
+	 */
+	public void rotateCounterClockwise()
+	{
+		rotateClockwise();
+		rotateClockwise();
+		rotateClockwise();
+	}
+}

@@ -3,4 +3,10 @@
 <fullyQualifiedTypeName name="org.eclipse.swt.events.ControlListener"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.event.CompilerEvent"/>
+<fullyQualifiedTypeName name="net.foxycorndog.tetris.pieces.Piece"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.bundle.Bundle"/>
+<fullyQualifiedTypeName name="net.foxycorndog.tetris.menu.MainMenu"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.Frame"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.Texture"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.opengl.GL"/>
 </qualifiedTypeNameHistroy>

@@ -135,8 +135,8 @@ public class Texture
 	    
 //	    GL11.glTexImage2D(GL11.GL_TEXTURE_2D, level, internalformat, id, id, border, format, type, pixels);
 	    
-	    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
-	    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+//	    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
+//	    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
 	    
 //	    // Generate, and load up all of the mipmaps:
 //	    for(int level=0, height = bmp.getHeight(), width = bmp.getWidth(); true; level++) {
@@ -155,8 +155,6 @@ public class Texture
 //	        bmp.recycle();
 //	        bmp = bmp2;
 //	    }
-	    
-	    GL11.glEnable(GL11.GL_TEXTURE_2D);
 	    
 	    genTexDimensions();
 	    

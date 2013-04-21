@@ -3,45 +3,87 @@ package net.foxycorndog.tetris;
 import net.foxycorndog.jfoxylib.Frame;
 import net.foxycorndog.jfoxylib.GameStarter;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+import net.foxycorndog.tetris.menu.MainMenu;
+import net.foxycorndog.tetris.pieces.Piece;
 
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Apr 20, 2013 at 11:17:19 PM
+ * @since	v0.1
+ * @version	Apr 20, 2013 at 11:17:19 PM
+ * @version	v0.1
+ */
 public class Tetris extends GameStarter
 {
-	private float bgColor;
+	private float		bgColor;
 	
+	private Piece		longPiece;
+	
+	private MainMenu	mainMenu;
+	
+	/**
+	 * 
+	 * 
+	 * @param args
+	 */
 	public static void main(String args[])
 	{
-		Frame.create(800, 600);
+		Frame.create((int)(390 * 1.4), (int)(510 * 1.4));
 		
-		new Tetris().start();
+		Tetris game = new Tetris();
+		
+		game.start();
 	}
 	
+	/**
+	 * 
+	 */
 	public void init()
 	{
+		Frame.setTitle("Tetris");
+		Frame.setTargetFPS(60);
+		Frame.setResizable(true);
+		
 		bgColor = 0;
+		
+		float longPieceMatrix[] = new float[]
+		{
+			.5f,
+			.5f,
+			.5f,
+			.5f
+		};
+		
+		longPiece = new Piece(longPieceMatrix, 1);
+		
+		mainMenu  = new MainMenu();
 	}
 
+	/**
+	 * 
+	 */
 	public void render2D()
 	{
-		
+		mainMenu.render();
+		GL.translate(10, 10, 10);
+		longPiece.render();
 	}
 
+	/**
+	 * 
+	 */
 	public void render3D()
 	{
 		
 	}
 
+	/**
+	 * 
+	 */
 	public void loop()
 	{
-		if (bgColor < 1)
-		{
-			bgColor += 0.0001f;
-			
-			if (bgColor >= 1)
-			{
-				bgColor = 1;
-			}
-		}
-		
-		GL.setClearColor(bgColor, bgColor, bgColor, 1);
+		mainMenu.loop();
 	}
 }

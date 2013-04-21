@@ -56,14 +56,20 @@ public abstract class GameStarter
 			throw new RuntimeException("The Frame must be created before you start.");
 		}
 		
+		GL.setTextureScaleMinMethod(GL.LINEAR);
+		GL.setTextureScaleMagMethod(GL.LINEAR);
+		
+		GL.setTextureWrapSMethod(GL.REPEAT);
+		GL.setTextureWrapTMethod(GL.REPEAT);
+		
+		init();
+		
 		running  = true;
 		
 		int fps  = 0;
 		int dfps = 0;
 		
 		int pred = 0;
-		
-		init();
 		
 		long startTime  = System.currentTimeMillis();
 		long newOldTime = System.nanoTime();

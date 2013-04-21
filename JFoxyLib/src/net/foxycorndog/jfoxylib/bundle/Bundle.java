@@ -344,11 +344,11 @@ public class Bundle
 	
 	private void beginTexturesDraw()
 	{
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		GL.setTextureWrapSMethod(GL.getTextureWrapSMethod());
+		GL.setTextureWrapTMethod(GL.getTextureWrapTMethod());
 		
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		GL.setTextureScaleMinMethod(GL.getTextureScaleMinMethod());
+		GL.setTextureScaleMagMethod(GL.getTextureScaleMagMethod());
 		
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		
@@ -360,8 +360,6 @@ public class Bundle
 	private void endTexturesDraw()
 	{
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	}
 	
 	private void beginColorsDraw()

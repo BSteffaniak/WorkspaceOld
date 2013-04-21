@@ -71,10 +71,12 @@ import org.lwjgl.opengl.GL11;
  */
 public class GL
 {
-	private static boolean inited;
+	private static boolean	inited;
 	
-	private static float zClose, zFar;
-	private static float fov;
+	private static float	zClose, zFar;
+	private static float	fov;
+	
+	private static int		textureScaleMinMethod, textureScaleMagMethod, textureWrapSMethod, textureWrapTMethod;
 	
 	public static final int	POINTS = GL11.GL_POINTS, LINES = GL11.GL_LINES, TRIANGLES = GL11.GL_TRIANGLES, QUADS = GL11.GL_QUADS;
 	
@@ -83,17 +85,18 @@ public class GL
 			POLYGON_BIT = GL_POLYGON_BIT, TEXTURE_BIT = GL_TEXTURE_BIT,
 			COLOR_BUFFER_BIT = GL_COLOR_BUFFER_BIT, CURRENT_BIT = GL_CURRENT_BIT;
 	
+	public static final int LINEAR = GL11.GL_LINEAR, NEAREST = GL11.GL_NEAREST, REPEAT = GL11.GL_REPEAT, CLAMP = GL11.GL_CLAMP;
+	
 	public static void initOrtho(int width, int height)
 	{
 		glEnable(GL_TEXTURE_2D);
 		
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		
 		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//		GL11.glDisable(GL_BLEND);
+//		GL11.glDepthMask(true);
 		
 		glEnable(GL_ALPHA_TEST);
 		glAlphaFunc(GL_GREATER, 0.1f); 
@@ -108,6 +111,9 @@ public class GL
 		// Calculate The Aspect Ratio Of The Window
 		glOrtho(0, width, 0, height, -99999, 99999);
 		glMatrixMode(GL_MODELVIEW); // Select The Modelview Matrix
+	    
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	}
 	
 	public static void initPerspective(int width, int height, float zClose, float zFar)
@@ -143,6 +149,54 @@ public class GL
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);//GL_DECAL);
+	}
+	
+	public static int getTextureScaleMinMethod()
+	{
+		return textureScaleMinMethod;
+	}
+	
+	public static int getTextureScaleMagMethod()
+	{
+		return textureScaleMagMethod;
+	}
+	
+	public static void setTextureScaleMinMethod(int method)
+	{
+		GL.textureScaleMinMethod = method;
+		
+	    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, method);
+	}
+	
+	public static void setTextureScaleMagMethod(int method)
+	{
+		GL.textureScaleMagMethod = method;
+		
+	    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, method);
+	}
+	
+	public static int getTextureWrapSMethod()
+	{
+		return textureWrapSMethod;
+	}
+	
+	public static int getTextureWrapTMethod()
+	{
+		return textureWrapTMethod;
+	}
+	
+	public static void setTextureWrapSMethod(int method)
+	{
+		GL.textureWrapSMethod = method;
+		
+	    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, method);
+	}
+	
+	public static void setTextureWrapTMethod(int method)
+	{
+		GL.textureWrapTMethod = method;
+		
+	    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, method);
 	}
 	
 	public static String getVersion()

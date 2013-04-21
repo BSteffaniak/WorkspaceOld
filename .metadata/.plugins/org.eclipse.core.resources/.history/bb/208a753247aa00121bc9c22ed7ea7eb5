@@ -1,0 +1,83 @@
+package net.foxycorndog.tetris.menu;
+
+import java.io.IOException;
+
+import net.foxycorndog.jfoxylib.Frame;
+import net.foxycorndog.jfoxylib.bundle.Bundle;
+import net.foxycorndog.jfoxylib.graphics.Texture;
+import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Apr 21, 2013 at 12:10:55 AM
+ * @since	v0.1
+ * @version	Apr 21, 2013 at 12:10:55 AM
+ * @version	v0.1
+ */
+public class MainMenu extends Menu
+{
+	private Texture	titleScreenTexture, menuBoxTexture;
+	
+	private Bundle	bundle;
+	
+	/**
+	 * 
+	 */
+	public MainMenu()
+	{
+		bundle = new Bundle(4 * 2, 2, true, false);
+				
+		try
+		{
+			titleScreenTexture = new Texture("res/images/titlescreen.png");
+			menuBoxTexture     = new Texture("res/images/menu.png");
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		bundle.beginEditingVertices();
+		{
+			bundle.addVertices(GL.genRectVerts(0, 0, titleScreenTexture.getWidth(), titleScreenTexture.getHeight()));
+			bundle.addVertices(GL.genRectVerts(0, 0, menuBoxTexture.getWidth(), menuBoxTexture.getHeight()));
+		}
+		bundle.endEditingVertices();
+		
+		bundle.beginEditingTextures();
+		{
+			bundle.addTextures(GL.genRectTextures(titleScreenTexture.getImageOffsets()));
+			bundle.addTextures(GL.genRectTextures(menuBoxTexture.getImageOffsets()));
+		}
+		bundle.endEditingTextures();
+	}
+	
+	/**
+	 * 
+	 */
+	public void render()
+	{
+		float width  = (float)titleScreenTexture.getWidth();
+		float height = (float)titleScreenTexture.getHeight();
+		
+		float scaleX = Frame.getWidth()  / width;
+		float scaleY = Frame.getHeight() / height;
+		
+		float min    = scaleX < scaleY ? scaleX : scaleY;
+		
+		float xOff   = (Frame.getWidth()  - (width  * min)) / 2f;
+		float yOff   = (Frame.getHeight() - (height * min)) / 2f;
+		
+		GL.pushMatrix();
+		{
+			GL.translate(xOff + getX(), yOff + getY(), 0);
+			GL.scale(min, min, 1);
+			
+			bundle.render(GL.QUADS, 0, 1, titleScreenTexture);
+//			bundle.render(GL.QUADS, 1, 1, menuBoxTexture);
+		}
+		GL.popMatrix();
+	}
+}
