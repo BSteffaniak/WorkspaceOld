@@ -105,15 +105,24 @@ public class MainMenu extends Menu
 		
 		GL.pushMatrix();
 		{
-			GL.translate(xOff + getX(), yOff + getY(), 0);
-			GL.scale(min, min, 1);
-			
-			GL.setColor(r / 255f, g / 255f, b / 255f, 1);
-			bundle.render(GL.QUADS, 0, 4, titleScreenTexture);
-			
-			bundle.render(GL.QUADS, 4, 4, menuBoxTexture);
-			
-			renderButtons();
+			GL.pushAttrib(GL.TEXTURE_BIT);
+			{
+				GL.setTextureScaleMinMethod(GL.LINEAR);
+				GL.setTextureScaleMagMethod(GL.LINEAR);
+				
+				GL.translate(xOff + getX(), yOff + getY(), 0);
+				GL.scale(min, min, 1);
+				
+				GL.setColor(r / 255f, g / 255f, b / 255f, 1);
+				bundle.render(GL.QUADS, 0, 4, titleScreenTexture);
+				
+				bundle.render(GL.QUADS, 4, 4, menuBoxTexture);
+				
+				renderButtons();
+				
+				Texture.unbind();
+			}
+			GL.popAttrib();
 		}
 		GL.popMatrix();
 	}

@@ -75,9 +75,9 @@ public class Piece
 				}
 			}
 		}
-		bundle.endEditingTextures();
+		bundle.endEditingVertices();
 		
-		bundle.beginEditingVertices();
+		bundle.beginEditingTextures();
 		{
 			for (int x = 0; x < width; x++)
 			{
@@ -98,6 +98,9 @@ public class Piece
 	 */
 	public void render()
 	{
+		GL.setTextureScaleMinMethod(GL.NEAREST);
+		GL.setTextureScaleMagMethod(GL.NEAREST);
+		
 		bundle.render(GL.QUADS, square);
 	}
 	

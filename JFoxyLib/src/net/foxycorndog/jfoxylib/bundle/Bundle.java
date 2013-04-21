@@ -320,6 +320,8 @@ public class Bundle
 		endColorsDraw();
 		endTexturesDraw();
 		endVerticesDraw();
+		
+//		Texture.unbind();
 	}
 	
 	private void beginVerticesDraw()
@@ -359,7 +361,15 @@ public class Bundle
 	
 	private void endTexturesDraw()
 	{
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+		
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		
+		GL.setTextureScaleMinMethod(GL.getTextureScaleMinMethod());
+		GL.setTextureScaleMagMethod(GL.getTextureScaleMagMethod());
+		
+		GL.setTextureWrapSMethod(GL.getTextureWrapSMethod());
+		GL.setTextureWrapTMethod(GL.getTextureWrapTMethod());
 	}
 	
 	private void beginColorsDraw()

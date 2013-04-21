@@ -211,4 +211,9 @@ public class Texture
 	{
 		return height;
 	}
+	
+	public static void unbind()
+	{
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+	}
 }

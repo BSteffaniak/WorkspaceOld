@@ -66,9 +66,16 @@ public class Tetris extends GameStarter
 	 */
 	public void render2D()
 	{
+		GL.pushMatrix();
+		{
+			GL.translate(93, 93, 10);
+			GL.scale(3, 3, 1);
+			
+			longPiece.render();
+		}
+		GL.popMatrix();
+		
 		mainMenu.render();
-		GL.translate(10, 10, 10);
-		longPiece.render();
 	}
 
 	/**
