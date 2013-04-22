@@ -7,19 +7,21 @@ import net.foxycorndog.jfoxylib.graphics.Texture;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
 
 /**
- * 
+ * Class used to hold information for each Piece in the Tetris
+ * game. There are also methods to manipulate the data and
+ * render the data to the screen.
  * 
  * @author	Braden Steffaniak
  * @since	Apr 20, 2013 at 11:17:15 PM
  * @since	v0.1
- * @version	Apr 20, 2013 at 11:17:15 PM
+ * @version	Apr 22, 2013 at 11:17:15 PM
  * @version	v0.1
  */
 public class Piece
 {
-	private int				rotation;
+	private 		int		rotation;
 	
-	private Bundle			bundle;
+	private 		Bundle	bundle;
 	
 	private	static	Texture	square;
 	
@@ -36,7 +38,19 @@ public class Piece
 	}
 	
 	/**
+	 * Create a Tetris Piece given the specified matrix, and
+	 * matrix width. The matrix is described with values
+	 * that correspond to the rgb of the square located at the
+	 * index.
 	 * 
+	 * eg:
+	 * Color c = new
+	 *         net.foxycorndog.tetris.piece.Color(200, 0, 0);
+	 * 
+	 * new Piece([ c, c,
+	 *             c, c ], 2);
+	 * 
+	 * would cre
 	 * 
 	 * @param matrix
 	 * @param width

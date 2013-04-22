@@ -7,12 +7,12 @@ import net.foxycorndog.tetris.menu.MainMenu;
 import net.foxycorndog.tetris.pieces.Piece;
 
 /**
- * 
+ * Main class and entry point for the Tetris game.
  * 
  * @author	Braden Steffaniak
  * @since	Apr 20, 2013 at 11:17:19 PM
  * @since	v0.1
- * @version	Apr 20, 2013 at 11:17:19 PM
+ * @version	Apr 22, 2013 at 11:17:19 PM
  * @version	v0.1
  */
 public class Tetris extends GameStarter
@@ -24,9 +24,10 @@ public class Tetris extends GameStarter
 	private MainMenu	mainMenu;
 	
 	/**
+	 * Main method that creates a Frame and starts up the Tetris
+	 * game.
 	 * 
-	 * 
-	 * @param args
+	 * @param args The unused command line arguments.
 	 */
 	public static void main(String args[])
 	{
@@ -38,7 +39,7 @@ public class Tetris extends GameStarter
 	}
 	
 	/**
-	 * 
+	 * The method to do the game's OpenGL initialization.
 	 */
 	public void init()
 	{
@@ -62,7 +63,7 @@ public class Tetris extends GameStarter
 	}
 
 	/**
-	 * 
+	 * Method used to render the 2D shapes to the screen each frame.
 	 */
 	public void render2D()
 	{
@@ -74,7 +75,7 @@ public class Tetris extends GameStarter
 	}
 
 	/**
-	 * 
+	 * Method to render the 3D shapes to the screen each frame.
 	 */
 	public void render3D()
 	{
@@ -82,7 +83,7 @@ public class Tetris extends GameStarter
 	}
 
 	/**
-	 * 
+	 * Method to calculate logic each frame.
 	 */
 	public void loop()
 	{
