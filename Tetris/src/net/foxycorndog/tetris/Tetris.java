@@ -3,8 +3,8 @@ package net.foxycorndog.tetris;
 import net.foxycorndog.jfoxylib.Frame;
 import net.foxycorndog.jfoxylib.GameStarter;
 import net.foxycorndog.jfoxylib.graphics.opengl.GL;
+import net.foxycorndog.tetris.board.Piece;
 import net.foxycorndog.tetris.menu.MainMenu;
-import net.foxycorndog.tetris.pieces.Piece;
 
 /**
  * Main class and entry point for the Tetris game.
@@ -67,11 +67,10 @@ public class Tetris extends GameStarter
 	 */
 	public void render2D()
 	{
-		
 		mainMenu.render();
-			GL.scale(3, 3, 1);
+//			GL.scale(3, 3, 1);
 			
-			longPiece.render();
+//			longPiece.render();
 	}
 
 	/**
