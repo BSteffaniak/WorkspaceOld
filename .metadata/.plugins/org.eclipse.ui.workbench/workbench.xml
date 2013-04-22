@@ -114,9 +114,9 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ArrowIDE/src/net/foxycorndog/arrowide/command/Command.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2966" selectionTopPixel="1125"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Tetris.java" partName="Tetris.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Tetris/src/net/foxycorndog/tetris/Tetris.java" title="Tetris.java" tooltip="Tetris/src/net/foxycorndog/tetris/Tetris.java" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Tetris.java" partName="Tetris.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Tetris/src/net/foxycorndog/tetris/Tetris.java" title="Tetris.java" tooltip="Tetris/src/net/foxycorndog/tetris/Tetris.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Tetris/src/net/foxycorndog/tetris/Tetris.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1244" selectionTopPixel="386"/>
+<editorState selectionHorizontalPixel="0" selectionLength="52" selectionOffset="1170" selectionTopPixel="386"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Piece.java" partName="Piece.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Tetris/src/net/foxycorndog/tetris/pieces/Piece.java" title="Piece.java" tooltip="Tetris/src/net/foxycorndog/tetris/pieces/Piece.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Tetris/src/net/foxycorndog/tetris/pieces/Piece.java"/>
@@ -126,7 +126,7 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Tetris/src/net/foxycorndog/tetris/menu/Menu.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="865" selectionTopPixel="86"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MainMenu.java" partName="MainMenu.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Tetris/src/net/foxycorndog/tetris/menu/MainMenu.java" title="MainMenu.java" tooltip="Tetris/src/net/foxycorndog/tetris/menu/MainMenu.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MainMenu.java" partName="MainMenu.java" path="C:/Users/Braden Steffaniak/Documents/GitHub/Workspace/Tetris/src/net/foxycorndog/tetris/menu/MainMenu.java" title="MainMenu.java" tooltip="Tetris/src/net/foxycorndog/tetris/menu/MainMenu.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Tetris/src/net/foxycorndog/tetris/menu/MainMenu.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3914" selectionTopPixel="1691"/>
 </editor>
@@ -362,10 +362,8 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/bundle/Bundle.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Tetris/src/net/foxycorndog/tetris/menu/MainMenu.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/JFoxyLib/src/net/foxycorndog/jfoxylib/graphics/Texture.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Tetris/src/net/foxycorndog/tetris/Tetris.java"/>
 </editors>
-<item historyLabel="Piece.java" index="1">
-<position info="not_deleted" x="1797" y="0"/>
-</item>
 <item historyLabel="Tetris.java" index="0">
 <position info="not_deleted" x="779" y="0"/>
 </item>
@@ -510,8 +508,11 @@
 <item historyLabel="Bundle.java" index="5">
 <position info="not_deleted" x="8804" y="0"/>
 </item>
-<item active="true" historyLabel="MainMenu.java" index="6">
+<item historyLabel="MainMenu.java" index="6">
 <position info="not_deleted" x="3822" y="29"/>
+</item>
+<item active="true" historyLabel="Tetris.java" index="8">
+<position/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
