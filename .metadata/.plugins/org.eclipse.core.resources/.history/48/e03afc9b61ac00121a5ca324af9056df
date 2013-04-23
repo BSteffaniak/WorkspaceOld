@@ -1,0 +1,92 @@
+package net.foxycorndog.tetris.board;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import net.foxycorndog.jfoxylib.Frame;
+import net.foxycorndog.jfoxylib.components.Image;
+import net.foxycorndog.jfoxylib.graphics.Texture;
+
+/**
+ * Class that holds the information for the Pieces in the Tetris game,
+ * as well as demonstrating the interactions of the Pieces.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Apr 23, 2013 at 3:39:45 PM
+ * @since	v0.1
+ * @version	Apr 23, 2013 at 3:39:45 PM
+ * @version	v0.1
+ */
+public class Board
+{
+	private float 				counter;
+	
+	private	Image				boardImage;
+	
+	private ArrayList<Piece>	pieces;
+	
+	/**
+	 * Instantiate the image for the Board as well as other
+	 * instantiations.
+	 */
+	public Board()
+	{
+		boardImage = new Image(null);
+		
+		try
+		{
+			boardImage.setImage(new Texture("res/images/board.png"));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		boardImage.setLocation(0, 0);
+		
+		pieces = new ArrayList<Piece>();
+	}
+	
+	/**
+	 * Render the Board's background image as well as all of the Pieces
+	 * to the screen.
+	 */
+	public void render()
+	{
+		// Render the board image to the screen.
+		boardImage.render();
+		
+		// A for each loop that renders all of the Pieces to the screen.
+		for (Piece piece : pieces)
+		{
+			piece.render();
+		}
+	}
+	
+	/**
+	 * The loop that is called each frame. Most of the game logic and
+	 * movement will be done in this method.
+	 */
+	public void loop()
+	{
+		// Variable created in order to keep the tempo of the game
+		// constant despite any variations  in FPS (Frames per second)
+		float delta = Frame.getFPS() / 60f;
+		
+		// Update the counter each frame.
+		counter += delta;
+		
+		// The amount of 'ticks' it takes to do a loop.
+		int tickTime = 30;
+		
+		if (counter >= tickTime)
+		{
+			// Do all of the game movement and stuff here.
+			
+			System.out.println("tick");
+			
+			// Keep the leftover time too...
+			counter %= tickTime;
+		}
+	}
+}

@@ -1,0 +1,72 @@
+package net.foxycorndog.tetris.board;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import net.foxycorndog.jfoxylib.Frame;
+import net.foxycorndog.jfoxylib.components.Image;
+import net.foxycorndog.jfoxylib.graphics.Texture;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Apr 23, 2013 at 3:39:45 PM
+ * @since	v0.1
+ * @version	Apr 23, 2013 at 3:39:45 PM
+ * @version	v0.1
+ */
+public class Board
+{
+	private float 				counter;
+	
+	private	Image				boardImage;
+	
+	private ArrayList<Piece>	pieces;
+	
+	public Board()
+	{
+		boardImage = new Image(null);
+		
+		try
+		{
+			boardImage.setImage(new Texture("res/images/board.png"));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void render()
+	{
+		// Render the board image to the screen.
+		boardImage.render();
+		
+		// A for each loop that renders all of the Pieces to the screen.
+		for (Piece piece : pieces)
+		{
+			piece.render();
+		}
+	}
+	
+	public void loop()
+	{
+		float delta = Frame.getFPS() / 60f;
+		
+		counter += delta;
+		
+		// The amount of 'ticks' it takes to do a loop.
+		int tickTime = 60;
+		
+		if (counter >= tickTime)
+		{
+			// Do all of the game movement and stuff here.
+			
+			
+			
+			// Keep the leftover time too...
+			counter %= tickTime;
+		}
+	}
+}

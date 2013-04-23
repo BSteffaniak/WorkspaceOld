@@ -1,0 +1,81 @@
+package net.foxycorndog.tetris.board;
+
+/**
+ * Class that holds information for a color. Each color has a red,
+ * green, and blue component. These components can range from 0-255.
+ * 0 would represent black and 255 would represent the specific color.
+ * This class also has methods to manipulate the data if needed.
+ * 
+ * @author	Braden Steffaniak
+ * @since	Apr 23, 2013 at 6:59:15 AM
+ * @since	v0.1
+ * @version	Apr 23, 2013 at 6:59:15 AM
+ * @version	v0.1
+ */
+public class Color
+{
+	private	int	red, green, blue;
+	
+	/**
+	 * Create a color with the specified red, green, and blue values.
+	 * 
+	 * @param r The red component for the Color.
+	 * @param g The green component for the Color.
+	 * @param b The blue component for the Color.
+	 */
+	public Color(int r, int g, int b)
+	{
+		this.red   = r;
+		this.green = g;
+		this.blue  = b;
+	}
+	
+	public int getRed()
+	{
+		return red;
+	}
+	
+	public int getGreen()
+	{
+		return green;
+	}
+	
+	public int getBlue()
+	{
+		return blue;
+	}
+	
+	public float getRedf()
+	{
+		return red / 255f;
+	}
+	
+	public float getGreenf()
+	{
+		return green / 255f;
+	}
+	
+	public float getBluef()
+	{
+		return blue / 255f;
+	}
+	
+	public void setData(int r, int g, int b)
+	{
+		this.red   = r;
+		this.green = g;
+		this.blue  = b;
+	}
+	
+	public void brighten(int r, int g, int b)
+	{
+		this.red   += r;
+		this.green += g;
+		this.blue  += b;
+	}
+	
+	public void darken(int r, int g, int b)
+	{
+		brighten(-r, -g, -b);
+	}
+}

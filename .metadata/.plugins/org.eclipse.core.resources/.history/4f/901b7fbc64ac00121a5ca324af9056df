@@ -1,0 +1,52 @@
+package net.foxycorndog.tetris.board;
+
+/**
+ * 
+ * 
+ * @author	Braden Steffaniak
+ * @since	Apr 23, 2013 at 6:59:15 AM
+ * @since	v0.1
+ * @version	Apr 23, 2013 at 6:59:15 AM
+ * @version	v0.1
+ */
+public class Color
+{
+	private	int	red, green, blue;
+	
+	public Color(int r, int g, int b)
+	{
+		this.red   = r;
+		this.green = g;
+		this.blue  = b;
+	}
+	
+	public int getRed()
+	{
+		return red;
+	}
+	
+	public int getGreen()
+	{
+		return green;
+	}
+	
+	public int getBlue()
+	{
+		return blue;
+	}
+	
+	public float getRedf()
+	{
+		return red;
+	}
+	
+	public float getGreenf()
+	{
+		return green;
+	}
+	
+	public float getBluef()
+	{
+		return blue;
+	}
+}

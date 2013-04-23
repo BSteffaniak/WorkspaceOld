@@ -1,0 +1,6 @@
+package net.foxycorndog.tetris.sidebar;
+
+public class Scoreboard
+{
+	
+}

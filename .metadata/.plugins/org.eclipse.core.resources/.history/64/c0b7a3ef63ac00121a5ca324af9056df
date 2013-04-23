@@ -1,0 +1,15 @@
+package net.foxycorndog.tetris.menu;
+
+public class CreditsMenu extends Menu
+{
+	public void loop()
+	{
+		
+	}
+
+	public void render()
+	{
+		
+	}
+	
+}
