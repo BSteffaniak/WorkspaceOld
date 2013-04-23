@@ -27,7 +27,7 @@ public class Button extends Image
 	
 	private Font						font;
 	
-	private BufferedImage				normalImage, hoverImage;
+	private Texture						normalTexture, hoverTexture;
 	
 	private ArrayList<ButtonListener>	buttonListeners;
 	
@@ -48,9 +48,9 @@ public class Button extends Image
 		{
 			public void buttonUnHovered(ButtonEvent event)
 			{
-				if (hoverImage != null)
+				if (hoverTexture != null)
 				{
-					setImage(normalImage);
+					setImage(normalTexture);
 				}
 				
 				hovered = false;
@@ -68,9 +68,9 @@ public class Button extends Image
 			
 			public void buttonHovered(ButtonEvent event)
 			{
-				if (hoverImage != null)
+				if (hoverTexture != null)
 				{
-					setImage(hoverImage, false);
+					setImage(hoverTexture, false);
 				}
 				
 				hovered = true;
@@ -89,6 +89,16 @@ public class Button extends Image
 	}
 	
 	/**
+	 * Set the Texture of this Button Component.
+	 * 
+	 * @param image The new Texture of this Button Component.
+	 */
+	public void setImage(Texture image)
+	{
+		setImage(image, true);
+	}
+	
+	/**
 	 * Set the Image of this Button Component.
 	 * 
 	 * @param image The new Image of this Button Component.
@@ -101,7 +111,24 @@ public class Button extends Image
 		
 		if (set)
 		{
-			normalImage = image;
+			normalTexture = new Texture(image);
+		}
+	}
+	
+	/**
+	 * Set the Texture of this Button Component.
+	 * 
+	 * @param image The new Texture of this Button Component.
+	 * @param set Whether or not to set the local variable of the normal
+	 * 		Image.
+	 */
+	private void setImage(Texture image, boolean set)
+	{
+		super.setImage(image);
+		
+		if (set)
+		{
+			normalTexture = image;
 		}
 	}
 	
@@ -114,7 +141,7 @@ public class Button extends Image
 	 */
 	public void setHoverImage(BufferedImage image)
 	{
-		hoverImage = image;
+		hoverTexture = new Texture(image);
 	}
 	
 	/**

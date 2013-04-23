@@ -5,8 +5,12 @@
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.event.CompilerEvent"/>
 <fullyQualifiedTypeName name="net.foxycorndog.tetris.pieces.Piece"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.bundle.Bundle"/>
-<fullyQualifiedTypeName name="net.foxycorndog.tetris.menu.MainMenu"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.Frame"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.Texture"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.opengl.GL"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.components.Button"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.Texture"/>
+<fullyQualifiedTypeName name="net.foxycorndog.tetris.menu.MainMenu"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.events.ButtonListener"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxyutil.Queue"/>
 </qualifiedTypeNameHistroy>

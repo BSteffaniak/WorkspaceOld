@@ -44,6 +44,16 @@ public class Image extends Component
 	}
 	
 	/**
+	 * Set the Texture of this Image Component.
+	 * 
+	 * @param image The new Texture of this Image Component.
+	 */
+	public void setImage(Texture image)
+	{
+		setImage(image, 1, 1);
+	}
+	
+	/**
 	 * Set the Image of this Image Component.
 	 * 
 	 * @param image The new Image of this Image Component.
@@ -53,6 +63,29 @@ public class Image extends Component
 	public void setImage(BufferedImage image, int rx, int ry)
 	{
 		texture = new Texture(image);
+		
+		int width  = image.getWidth() * rx;
+		int height = image.getHeight() * ry;
+		
+		setSize(width, height);
+		
+		bundle.beginEditingTextures();
+		{
+			bundle.setTextures(0, GL.genRectTextures(texture.getImageOffsets(), rx, ry));
+		}
+		bundle.endEditingTextures();
+	}
+	
+	/**
+	 * Set the Texture of this Image Component.
+	 * 
+	 * @param image The new Texture of this Image Component.
+	 * @param rx The amount of times to repeat the Texture horizontally.
+	 * @param ry The amount of times to repeat the Texture vertically.
+	 */
+	public void setImage(Texture image, int rx, int ry)
+	{
+		texture = image;
 		
 		int width  = image.getWidth() * rx;
 		int height = image.getHeight() * ry;

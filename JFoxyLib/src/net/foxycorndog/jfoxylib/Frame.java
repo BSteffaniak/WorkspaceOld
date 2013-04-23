@@ -254,7 +254,7 @@ public class Frame
 					{
 						Button button = (Button)comp;
 						
-						if (intersects)
+						if (intersects && button.isHovered())
 						{
 							ArrayList<ButtonListener> buttonListeners = button.getButtonListeners();
 							
@@ -298,11 +298,11 @@ public class Frame
 							
 							ButtonEvent buttonEvent = new ButtonEvent(button, buttons);
 							
-							if (intersects)
+							if (intersects && !button.isHovered())
 							{
 								listener.buttonHovered(buttonEvent);
 							}
-							else if (button.isHovered())
+							else if (!intersects && button.isHovered())
 							{
 								listener.buttonUnHovered(buttonEvent);
 							}
@@ -340,15 +340,18 @@ public class Frame
 					{
 						Button button = (Button)comp;
 						
-						ArrayList<ButtonListener> buttonListeners = button.getButtonListeners();
-						
-						for (int n = buttonListeners.size() - 1; n >= 0; n--)
+						if (button.isHovered())
 						{
-							ButtonListener listener = buttonListeners.get(n);
+							ArrayList<ButtonListener> buttonListeners = button.getButtonListeners();
 							
-							ButtonEvent buttonEvent = new ButtonEvent(button, buttons);
-							
-							listener.buttonUnHovered(buttonEvent);
+							for (int n = buttonListeners.size() - 1; n >= 0; n--)
+							{
+								ButtonListener listener = buttonListeners.get(n);
+								
+								ButtonEvent buttonEvent = new ButtonEvent(button, buttons);
+								
+								listener.buttonUnHovered(buttonEvent);
+							}
 						}
 					}
 				}

@@ -45,7 +45,7 @@ public class Piece
 	 * 
 	 * eg:
 	 * Color c = new
-	 *         net.foxycorndog.tetris.piece.Color(200, 0, 0);
+	 *         net.foxycorndog.tetris.board.Color(200, 0, 0);
 	 * 
 	 * new Piece([ c, c,
 	 *             c, c ], 2);
