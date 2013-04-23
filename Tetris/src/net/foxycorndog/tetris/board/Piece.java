@@ -50,10 +50,17 @@ public class Piece
 	 * new Piece([ c, c,
 	 *             c, c ], 2);
 	 * 
-	 * would cre
+	 * would create a red square Piece, and;
 	 * 
-	 * @param matrix
-	 * @param width
+	 * new Piece([ c,
+	 * 			   c,
+	 *             c,
+	 * 			   c ], 1);
+	 * 
+	 * would create a red long Piece.
+	 * 
+	 * @param matrix The array of Colors describing the Piece.
+	 * @param width The width of the Piece.
 	 */
 	public Piece(float matrix[], int width)
 	{
@@ -112,7 +119,6 @@ public class Piece
 	 */
 	public void render()
 	{
-		GL.setTextureScaleMinMethod(GL.NEAREST);
 		GL.setTextureScaleMagMethod(GL.NEAREST);
 		
 		bundle.render(GL.QUADS, square);
@@ -123,7 +129,7 @@ public class Piece
 	 */
 	public void rotateClockwise()
 	{
-		rotation += 45;
+		rotation += 90;
 		
 		rotation %= 360;
 	}
