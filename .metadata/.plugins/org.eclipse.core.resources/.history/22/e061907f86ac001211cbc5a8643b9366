@@ -1,0 +1,17 @@
+package net.foxycorndog.tetris.board;
+
+import java.util.ArrayList;
+
+import net.foxycorndog.jfoxylib.bundle.Bundle;
+
+public class BorderFactory
+{
+	public static Piece[] createBorder(int borderSize)
+	{
+		ArrayList<Piece> pieces = new ArrayList<Piece>();
+		
+		
+		
+		return pieces.toArray(new Piece[0]);
+	}
+}

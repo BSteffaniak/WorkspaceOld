@@ -4,7 +4,6 @@
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="net.foxycorndog.arrowide.event.CompilerEvent"/>
 <fullyQualifiedTypeName name="net.foxycorndog.tetris.pieces.Piece"/>
-<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.bundle.Bundle"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.components.Button"/>
 <fullyQualifiedTypeName name="net.foxycorndog.tetris.menu.MainMenu"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.events.ButtonListener"/>
@@ -13,6 +12,11 @@
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.components.Image"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.Texture"/>
 <fullyQualifiedTypeName name="net.foxycorndog.tetris.board.Board"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.opengl.GL"/>
+<fullyQualifiedTypeName name="net.foxycorndog.tetris.Tetris"/>
+<fullyQualifiedTypeName name="java.awt.Color"/>
+<fullyQualifiedTypeName name="net.foxycorndog.tetris.board.Color"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.bundle.Bundle"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="net.foxycorndog.tetris.board.Piece"/>
 </qualifiedTypeNameHistroy>
