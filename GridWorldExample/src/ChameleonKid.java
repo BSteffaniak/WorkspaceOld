@@ -1,3 +1,10 @@
+import info.gridworld.actor.Actor;
+import info.gridworld.grid.Grid;
+import info.gridworld.grid.Location;
+
+import java.awt.Color;
+import java.util.ArrayList;
+
 /**
  * Description:		A ChameleonKid changes color to the color of one of the actors
  * 	immediately in front or behind. If there is no actor in either of
@@ -6,13 +13,15 @@
  */
 public class ChameleonKid extends ChameleonCritter
 {
-	public void makeMove()
+	public void makeMove(Location loc)
 	{
-		super.makeMove()
+		super.makeMove(loc);
 		
-		Grid grid = getGrid();
+		loc = getLocation();
 		
-		ArrayList<Location> occupied = grid.getOccupiedAdjacentLocations();
+		Grid<Actor> grid = getGrid();
+		
+		ArrayList<Location> occupied = grid.getOccupiedAdjacentLocations(loc);
 		
 		if (occupied.size() > 0)
 		{
@@ -22,9 +31,9 @@ public class ChameleonKid extends ChameleonCritter
 		{
 			Color col = getColor();
 			
-			int r = col.getR();
-			int g = col.getG();
-			int b = col.getB();
+			int r = col.getRed();
+			int g = col.getGreen();
+			int b = col.getBlue();
 			
 			int amount = 5;
 			
@@ -41,7 +50,7 @@ public class ChameleonKid extends ChameleonCritter
 			if (b < 0)
 				b = 0;
 			
-			Color newCol = newColor(r, g, b);
+			Color newCol = new Color(r, g, b);
 			
 			setColor(newCol);
 		}

@@ -14,9 +14,13 @@
 <fullyQualifiedTypeName name="net.foxycorndog.tetris.board.Board"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.graphics.opengl.GL"/>
 <fullyQualifiedTypeName name="net.foxycorndog.tetris.Tetris"/>
-<fullyQualifiedTypeName name="java.awt.Color"/>
 <fullyQualifiedTypeName name="net.foxycorndog.tetris.board.Color"/>
 <fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.bundle.Bundle"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="net.foxycorndog.tetris.board.Piece"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="info.gridworld.grid.Location"/>
+<fullyQualifiedTypeName name="info.gridworld.grid.Grid"/>
+<fullyQualifiedTypeName name="info.gridworld.actor.Actor"/>
+<fullyQualifiedTypeName name="java.awt.Color"/>
+<fullyQualifiedTypeName name="net.foxycorndog.jfoxylib.input.Keyboard"/>
 </qualifiedTypeNameHistroy>

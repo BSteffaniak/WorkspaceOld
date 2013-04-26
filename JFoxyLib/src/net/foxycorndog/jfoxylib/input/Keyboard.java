@@ -129,7 +129,7 @@ public class Keyboard
 	
 	static
 	{
-		length = 100;
+		length = keyboard.KEYBOARD_SIZE;
 		
 		keys = new boolean[length];
 		next = new boolean[length];

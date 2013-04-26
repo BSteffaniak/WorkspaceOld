@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -63,8 +64,6 @@ public class Frame
 			
 			boolean jar = classLoc.startsWith("jar:") || classLoc.startsWith("rsrc:");
 			
-			
-			
 //			if (jar)
 //			{
 //				resLoc = new File(new File(System.getProperty("java.class.path")).getCanonicalPath()).getParentFile().getCanonicalPath();
@@ -95,22 +94,21 @@ public class Frame
 			
 			if (jar)
 			{
-//				String workingDirectory = System.getProperty("user.dir").replace('\\', '/');
-				
 				String workingDirectory = null;
 				
+				// Maybe use canonical path instead.
+				workingDirectory = new File(classLoc.substring(9, classLoc.lastIndexOf('!'))).getParentFile().getAbsolutePath();
+					
 				try
 				{
-					workingDirectory = new File(new File(System.getProperty("java.class.path")).getCanonicalPath()).getParentFile().getCanonicalPath();
+					workingDirectory = java.net.URLDecoder.decode(workingDirectory, "UTF-8");
 				}
-				catch (IOException e)
+				catch (UnsupportedEncodingException e)
 				{
 					e.printStackTrace();
 				}
 				
 				nativeLocation = workingDirectory + "/native/" + os;
-				
-				System.out.println("asdf");
 			}
 			else
 			{
